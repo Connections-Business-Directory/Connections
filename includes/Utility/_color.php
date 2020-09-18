@@ -2,6 +2,8 @@
 
 namespace Connections_Directory\Utility;
 
+use cnSanitize;
+
 /**
  * Class _color
  *
@@ -161,6 +163,29 @@ final class _color {
 		'whitesmoke'           => array( 'red' => 0xF5, 'green' => 0xF5, 'blue' => 0xF5 ),
 		'yellowgreen'          => array( 'red' => 0x9A, 'green' => 0xCD, 'blue' => 0x32 ),
 	);
+
+	/**
+	 * Ensures that any hex color is properly hashed.
+	 * Otherwise, returns value unaltered.
+	 *
+	 * This function is borrowed from the class_wp_customize_manager.php
+	 * file in WordPress core.
+	 *
+	 * @since 8.1
+	 *
+	 * @param string $color
+	 *
+	 * @return string
+	 */
+	public static function maybeHashHEXColor( $color ) {
+
+		if ( $unhashed = cnSanitize::hexColorNoHash( $color ) ) {
+
+			return '#' . $unhashed;
+		}
+
+		return $color;
+	}
 
 	/**
 	 * Convert named color to RGB.

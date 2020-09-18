@@ -2,6 +2,7 @@
 
 namespace Connections_Directory\Utility;
 
+use cnQuery;
 use cnSanitize;
 
 /**
@@ -17,43 +18,20 @@ final class _format {
 	 *
 	 * @TODO: Finish the code needed to support the $permittedTags array.
 	 *
+	 * @since unknown
+	 * @deprecated 9.11
+	 *
 	 * @param string $string
-	 * @param bool $allowHTML [optional]
-	 * @param array $permittedTags [optional]
+	 * @param bool $allowHTML
+	 * @param array $permittedTags
+	 *
 	 * @return string
 	 */
 	public function sanitizeString( $string, $allowHTML = FALSE, $permittedTags = array() ) {
-		// Strip all tags except the permitted.
-		if ( ! $allowHTML ) {
-			// Ensure all tags are closed. Uses WordPress method balanceTags().
-			$balancedText = balanceTags( $string, TRUE );
 
-			$strippedText = strip_tags( $balancedText );
+		_deprecated_function( __METHOD__, '9.11', 'cnSanitize::sanitizeString()' );
 
-			// Strip all script and style tags.
-			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $strippedText );
-
-			// Escape text using the WordPress method and then strip slashes.
-			$escapedText = stripslashes( esc_attr( $strippedText ) );
-
-			// Remove line breaks and trim white space.
-			$escapedText = preg_replace( '/[\r\n\t ]+/', ' ', $escapedText );
-
-			return trim( $escapedText );
-		} else {
-			// Strip all script and style tags.
-			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
-			$strippedText = preg_replace( '/&lt;(script|style).*?&gt;.*?&lt;\/\\1&gt;/si', '', stripslashes( $strippedText ) );
-
-			/*
-			 * Use WordPress method make_clickable() to make links clickable and
-			 * use kses for filtering.
-			 *
-			 * http://ottopress.com/2010/wp-quickie-kses/
-			 */
-			return wptexturize( wpautop( make_clickable( wp_kses_post( $strippedText ) ) ) );
-		}
-
+		return cnSanitize::sanitizeString( $string, $allowHTML, $permittedTags );
 	}
 
 	/**
@@ -63,26 +41,34 @@ final class _format {
 	 * Whitespace becomes a dash.
 	 *
 	 * @since unknown
+	 * @deprecated 9.11
 	 *
 	 * @param string $string
 	 *
 	 * @return string
 	 */
 	public static function sanitizeStringStrong( $string ) {
-		$string = str_ireplace( '%', '-', $string ); // Added this because sanitize_title_with_dashes will still allow % to passthru.
-		$string = sanitize_title_with_dashes( $string );
-		return $string;
+
+		_deprecated_function( __METHOD__, '9.11', '_string::toKebabCase()' );
+
+		return _string::toKebabCase( $string );
 	}
 
 	/**
 	 * Strips all numeric characters from the supplied string and returns the string.
 	 *
+	 * @since unknown
+	 * @deprecated 9.11
+	 *
 	 * @param string $string
+	 *
 	 * @return string
 	 */
 	public static function stripNonNumeric( $string ) {
 
-		return preg_replace( '/[^0-9]/', '', $string );
+		_deprecated_function( __METHOD__, '9.11', '_::maybeJSONencode()' );
+
+		return _string::stripNonNumeric( $string );
 	}
 
 	/**
@@ -176,22 +162,18 @@ final class _format {
 	 * This function is borrowed from the class_wp_customize_manager.php
 	 * file in WordPress core.
 	 *
-	 * @access public
 	 * @since  8.1
-	 * @static
+	 * @deprecated 9.11
 	 *
-	 * @param  string $color
+	 * @param string $color
 	 *
 	 * @return string
 	 */
 	public static function maybeHashHEXColor( $color ) {
 
-		if ( $unhashed = cnSanitize::hexColorNoHash( $color ) ) {
+		_deprecated_function( __METHOD__, '9.11', '_color::maybeHashHEXColor' );
 
-			return '#' . $unhashed;
-		}
-
-		return $color;
+		return _color::maybeHashHEXColor( $color );
 	}
 
 	/**
@@ -226,9 +208,8 @@ final class _format {
 	/**
 	 * Prepare the placeholders to be used in a IN query clause using @see wpdb::prepare().
 	 *
-	 * @access public
-	 * @since  8.1.5
-	 * @static
+	 * @since 8.1.5
+	 * @deprecated 9.11
 	 *
 	 * @param array  $items The array of items to be used in the IN query clause.
 	 * @param string $type  The type of placeholder to be used.
@@ -239,9 +220,9 @@ final class _format {
 	 */
 	public static function prepareINPlaceholders( $items, $type = '%s' ) {
 
-		$placeholders = array_fill( 0, count( $items ), $type );
+		_deprecated_function( __METHOD__, '9.11', '_string::toCamelCase()' );
 
-		return implode( ', ', $placeholders );
+		return cnQuery::prepareINPlaceholders( $items, $type );
 	}
 
 	/**

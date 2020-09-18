@@ -133,6 +133,59 @@ class cnSanitize {
 	}
 
 	/**
+	 * Sanitize the input string. HTML tags can be permitted.
+	 * The permitted tags can be supplied in an array.
+	 *
+	 * @TODO: Finish the code needed to support the $permittedTags array.
+	 *
+	 * @since unknown
+	 * @deprecated 9.11
+	 *
+	 * @param string $string
+	 * @param bool $allowHTML
+	 * @param array $permittedTags
+	 *
+	 * @return string
+	 */
+	public static function sanitizeString( $string, $allowHTML = false, $permittedTags = array() ) {
+
+		// Strip all tags except the permitted.
+		if ( ! $allowHTML ) {
+
+			// Ensure all tags are closed. Uses WordPress method balanceTags().
+			$balancedText = balanceTags( $string, true );
+
+			$strippedText = strip_tags( $balancedText );
+
+			// Strip all script and style tags.
+			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $strippedText );
+
+			// Escape text using the WordPress method and then strip slashes.
+			$escapedText = stripslashes( esc_attr( $strippedText ) );
+
+			// Remove line breaks and trim white space.
+			$escapedText = preg_replace( '/[\r\n\t ]+/', ' ', $escapedText );
+
+			return trim( $escapedText );
+
+		} else {
+
+			// Strip all script and style tags.
+			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+			$strippedText = preg_replace( '/&lt;(script|style).*?&gt;.*?&lt;\/\\1&gt;/si', '', stripslashes( $strippedText ) );
+
+			/*
+			 * Use WordPress method make_clickable() to make links clickable and
+			 * use kses for filtering.
+			 *
+			 * http://ottopress.com/2010/wp-quickie-kses/
+			 */
+			return wptexturize( wpautop( make_clickable( wp_kses_post( $strippedText ) ) ) );
+		}
+
+	}
+
+	/**
 	 * NOTE: This method is not complete an still under development, it should not be used.
 	 *
 	 * This is basically a Connections equivalent of @see sanitize_post_field().

@@ -657,6 +657,20 @@ final class _string {
 	}
 
 	/**
+	 * Strips all numeric characters from the supplied string and returns the string.
+	 *
+	 * @since 9.11
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public static function stripNonNumeric( $string ) {
+
+		return preg_replace( '/[^0-9]/', '', $string );
+	}
+
+	/**
 	 * Generate a more truly "random" alpha-numeric string.
 	 *
 	 * NOTE:  If @see openssl_random_pseudo_bytes() does not exist, this will silently fallback to

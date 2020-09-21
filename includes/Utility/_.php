@@ -2,6 +2,7 @@
 
 namespace Connections_Directory\Utility;
 
+use cnHTML;
 use WP_Error;
 
 /**
@@ -199,48 +200,9 @@ final class _ {
 	 */
 	public static function escAttributeDeep( $attr, $glue = ' ' ) {
 
-		if ( is_array( $attr ) ) {
+		_deprecated_function( __METHOD__, '9.11', 'cnHTML::escapeAttributes()' );
 
-			// Ensure all IDs are positive integers.
-			$attr = array_map( 'esc_attr', $attr );
-
-			// Remove any empty array values.
-			$attr = array_filter( $attr );
-
-			$attr = implode( $glue, $attr );
-
-		} else {
-
-			$attr = esc_attr( $attr );
-		}
-
-		return $attr;
-	}
-
-	/**
-	 * Return a number only hash.
-	 *
-	 * @link https://stackoverflow.com/a/23679870/175071
-	 *
-	 * @since 9.8
-	 *
-	 * @param string   $str
-	 * @param int|null $len
-	 *
-	 * @return string
-	 */
-	public static function numHash( $str, $len = null ) {
-
-		$binhash = md5( $str, true );
-		$numhash = unpack( 'N2', $binhash );
-		$hash    = $numhash[1] . $numhash[2];
-
-		if ( $len !== null && is_int( $len ) ) {
-
-			$hash = substr( $hash, 0, $len );
-		}
-
-		return $hash;
+		return cnHTML::escapeAttributes( $attr, $glue );
 	}
 
 	/**

@@ -1,6 +1,7 @@
 <?php
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_string;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -25,9 +26,9 @@ class cnUtility {
 	 */
 	public static function numHash( $str, $len = null ) {
 
-		_deprecated_function( __METHOD__, '9.11', '_::numHash()' );
+		_deprecated_function( __METHOD__, '9.11', '_string::toNumericHash()' );
 
-		return _::numHash( $str, $len );
+		return _string::toNumericHash( $str, $len );
 	}
 
 	/**

@@ -56,6 +56,32 @@ final class _string {
 	}
 
 	/**
+	 * Return a numeric only hash from string.
+	 *
+	 * @link https://stackoverflow.com/q/3379471/5351316
+	 *
+	 * @since 9.8
+	 *
+	 * @param string   $string
+	 * @param int|null $length
+	 *
+	 * @return string
+	 */
+	public static function toNumericHash( $string, $length = null ) {
+
+		$binhash = md5( $string, true );
+		$numhash = unpack( 'N2', $binhash );
+		$hash    = $numhash[1] . $numhash[2];
+
+		if ( $length !== null && is_int( $length ) ) {
+
+			$hash = substr( $hash, 0, $length );
+		}
+
+		return $hash;
+	}
+
+	/**
 	 * Transform supplied string to snake-case.
 	 *
 	 * NOTE: Limits the output to alphanumeric characters.

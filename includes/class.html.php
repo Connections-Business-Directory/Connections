@@ -21,6 +21,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 class cnHTML {
 
 	/**
+	 * Escapes HTML attribute value or array of attribute values.
+	 *
+	 * @since 9.11
+	 *
+	 * @param array|string $values
+	 * @param string       $delimiter
+	 *
+	 * @return string
+	 */
+	public static function escapeAttributes( $values, $delimiter = ' ' ) {
+
+		if ( ! is_array( $values ) ) {
+
+			$values = explode( $delimiter, $values );
+		}
+
+		$escaped = array_map( 'esc_attr', $values );
+
+		// Remove any empty array values.
+		$escaped = array_filter( $escaped );
+		$escaped = array_unique( $escaped );
+
+		return implode( ' ', $escaped );
+	}
+
+	/**
+	 * Sanitize HTML class name or array of class names.
+	 *
+	 * @since 9.11
+	 *
+	 * @param array|string $classNames
+	 * @param string       $delimiter
+	 *
+	 * @return string
+	 */
+	public static function escapeClassnames( $classNames, $delimiter = ' ' ) {
+
+		if ( ! is_array( $classNames ) ) {
+
+			$classNames = explode( $delimiter, $classNames );
+		}
+
+		$classNames = array_map( 'sanitize_html_class', $classNames );
+		$escaped    = array_map( 'esc_attr', $classNames );
+
+		// Remove any empty array values.
+		$escaped = array_filter( $escaped );
+		$escaped = array_unique( $escaped );
+
+		return implode( ' ', $escaped );
+	}
+
+	/**
 	 * Helper method that can be used within loops to
 	 * dynamically call the correct field type to render.
 	 *

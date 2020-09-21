@@ -623,19 +623,8 @@ class cnSanitize {
 	 */
 	public static function htmlClass( $name ) {
 
-		if ( is_array( $name ) ) {
+		_deprecated_function( __METHOD__, '9.11', 'cnHTML::escapeClassnames()' );
 
-			// Ensure all IDs are positive integers.
-			$name = array_map( 'sanitize_html_class', $name );
-
-			// Remove any empty array values.
-			$name = array_filter( $name );
-
-		} else {
-
-			$name = sanitize_html_class( $name );
-		}
-
-		return $name;
+		return cnHTML::escapeClassnames( $name );
 	}
 }

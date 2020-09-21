@@ -167,6 +167,54 @@ final class _array {
 	}
 
 	/**
+	 * Recursively implode a multi-dimensional array.
+	 *
+	 * @since 8.2
+	 *
+	 * @param string $glue
+	 * @param array  $pieces
+	 *
+	 * @return string
+	 */
+	public static function implodeDeep( $glue, $pieces ) {
+
+		$implode = array();
+
+		if ( ! is_array( $pieces ) ) {
+
+			$pieces = array( $pieces );
+		}
+
+		foreach ( $pieces as $piece ) {
+
+			if ( is_array( $piece ) ) {
+
+				$implode[] = self::implodeDeep( $glue, $piece );
+
+			} else {
+
+				$implode[] = $piece;
+			}
+		}
+
+		return implode( $glue, $implode );
+	}
+
+	/**
+	 * Determine if supplied array is a multidimensional array or not.
+	 *
+	 * @since 8.5.19
+	 *
+	 * @param array $value
+	 *
+	 * @return bool
+	 */
+	public static function isDimensional( array $value ) {
+
+		return ! ( count( $value ) === count( $value, COUNT_RECURSIVE ) );
+	}
+
+	/**
 	 * Return the last element in an array passing a given truth test.
 	 *
 	 * @param array         $array

@@ -169,11 +169,13 @@ class cnDependency {
 		return array(
 
 			// Utility
+			'Connections_Directory\Utility\_'       => 'includes/Utility/_.php',
 			'Connections_Directory\Utility\_array'  => 'includes/Utility/_array.php',
-			//'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
-			//'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
-			//'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
-			//'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
+			'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
+			'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
+			'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
+			'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
+			'Connections_Directory\Utility\_url'    => 'includes/Utility/_url.php',
 
 			// Localization
 			'cnText_Domain'            => 'includes/class.text-domain.php',
@@ -264,15 +266,17 @@ class cnDependency {
 			'cnMeta_Query'             => 'includes/class.meta.php',
 
 			// Utility methods.
-			'cnColor'                  => 'includes/class.utility.php',
-			'cnFormatting'             => 'includes/class.utility.php',
-			'cnFunction'               => 'includes/class.utility.php',
-			'cnSiteShot'               => 'includes/class.utility.php',
-			'cnString'                 => 'includes/class.utility.php',
-			'cnURL'                    => 'includes/class.utility.php',
+			//'cnColor'                  => 'includes/class.utility.php',
+			//'cnFormatting'             => 'includes/class.utility.php',
+			//'cnFunction'               => 'includes/class.utility.php',
+			//'cnSiteShot'               => 'includes/class.utility.php',
+			//'cnString'                 => 'includes/class.utility.php',
+			//'cnURL'                    => 'includes/class.utility.php',
 			'cnUtility'                => 'includes/class.utility.php',
-			'cnValidate'               => 'includes/class.utility.php',
+			'cnValidate'               => 'includes/class.validate.php',
 			'cnSanitize'               => 'includes/class.sanitize.php',
+
+			'Connections_Directory\SiteShot' => 'includes/SiteShot.php',
 
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',

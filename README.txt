@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 5.0
 Tested up to: 5.5
 Requires PHP: 5.6.20
-Stable tag: 9.10
+Stable tag: 9.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,9 +29,9 @@ Connections Business Directory is one of the [best business directory plugins av
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * A growing selection of Content Blocks:
-    * Related Entries:: [Display related Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-8-related-content-blocks/)
-    * Nearby Entries:: [Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-9-nearby-entries-content-block/)
-    * Recently Viewed:: [A list a directory Entries the user has recently viewed](https://connections-pro.com/connections-9-10-recently-viewed-entries-content-blocks/).
+    * [Related Entries](https://connections-pro.com/connections-9-8-related-content-blocks/):: Display related Entries in a mobile responsive carousel.
+    * [Nearby Entries](https://connections-pro.com/connections-9-9-nearby-entries-content-block/):: Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.
+    * [Recently Viewed](https://connections-pro.com/connections-9-10-recently-viewed-entries-content-blocks/):: A list a directory Entries the user has recently viewed.
     * Last Viewed:: The last directory Entry the user viewed.
     * Frontend Entry Management:: Management options include a quick link to edit the Entry and a Delete option.
     * Entry Meta:: Display details such as when the Entry was added nad last modified and by whom.
@@ -246,6 +246,29 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.11 09/21/2020 =
+* NEW: Introduce `_string::toKebabCase()`.
+* NEW: Introduce the `Connections_Directory/Content_Block/Entry/Categories/Attributes` filter.
+* DEV: Move the color utility class to its own namespaced file.
+* DEV: Move the dateutility class to its own namespaced file.
+* DEV: The `_date` class should be final.
+* DEV: Move the string utility class to its own namespaced file.
+* DEV: Move the formatting utility class to its own namespaced file.
+* DEV: `cnSanitize::currency()` should be static.
+* DEV: Remove unnecessary break statement.
+* DEV: Add `_deprecated_file()` calls to a couple deprecated files.
+* DEV: Add `_deprecated_function()` to a couple deprecated methods.
+* DEV: phpDoc updates.
+* DEV: Move the siteshot utility class to its own namespaced file.
+* DEV: Remove unused `cnFunction::var_dump_error_log()` method.
+* DEV: Move the utility  functions class to its own namespaced file.
+* DEV: Move the URL utility class to its own namespaced file.
+* DEV: Add `_deprecated_function()` to the `cnValidate::attributesArray()` method.
+* DEV: Move the validate utility class to its own file.
+* DEV: Deprecate methods in the cnUtility class nad move code  to the `_` class to consolidate utility methods under a shortcode classname.
+* DEV: Moved several methods to be in the proper utility class and deprecated the existing methods.
+* DEV: Deprecate and pair on unused methods in cnValidate.
 
 = 9.10 09/10/2020 =
 * FEATURE: Introduce the Recently Viewed and Last Viewed Content Blocks.
@@ -646,4 +669,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.10 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.11 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

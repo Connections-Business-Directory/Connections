@@ -133,6 +133,59 @@ class cnSanitize {
 	}
 
 	/**
+	 * Sanitize the input string. HTML tags can be permitted.
+	 * The permitted tags can be supplied in an array.
+	 *
+	 * @TODO: Finish the code needed to support the $permittedTags array.
+	 *
+	 * @since unknown
+	 * @deprecated 9.11
+	 *
+	 * @param string $string
+	 * @param bool $allowHTML
+	 * @param array $permittedTags
+	 *
+	 * @return string
+	 */
+	public static function sanitizeString( $string, $allowHTML = false, $permittedTags = array() ) {
+
+		// Strip all tags except the permitted.
+		if ( ! $allowHTML ) {
+
+			// Ensure all tags are closed. Uses WordPress method balanceTags().
+			$balancedText = balanceTags( $string, true );
+
+			$strippedText = strip_tags( $balancedText );
+
+			// Strip all script and style tags.
+			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $strippedText );
+
+			// Escape text using the WordPress method and then strip slashes.
+			$escapedText = stripslashes( esc_attr( $strippedText ) );
+
+			// Remove line breaks and trim white space.
+			$escapedText = preg_replace( '/[\r\n\t ]+/', ' ', $escapedText );
+
+			return trim( $escapedText );
+
+		} else {
+
+			// Strip all script and style tags.
+			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+			$strippedText = preg_replace( '/&lt;(script|style).*?&gt;.*?&lt;\/\\1&gt;/si', '', stripslashes( $strippedText ) );
+
+			/*
+			 * Use WordPress method make_clickable() to make links clickable and
+			 * use kses for filtering.
+			 *
+			 * http://ottopress.com/2010/wp-quickie-kses/
+			 */
+			return wptexturize( wpautop( make_clickable( wp_kses_post( $strippedText ) ) ) );
+		}
+
+	}
+
+	/**
 	 * NOTE: This method is not complete an still under development, it should not be used.
 	 *
 	 * This is basically a Connections equivalent of @see sanitize_post_field().
@@ -187,7 +240,6 @@ class cnSanitize {
 					case 'excerpt':
 
 						return self::string( 'textarea', $value );
-						break;
 
 					case 'name':
 					case 'street':
@@ -440,14 +492,11 @@ class cnSanitize {
 	/**
 	 * Sanitizes an array of IDs numbers or an ID number.
 	 *
-	 * @access protected
 	 * @since  8.2.6
 	 *
-	 * @uses   absint()
+	 * @param int|int[] $id
 	 *
-	 * @param $id
-	 *
-	 * @return array|int
+	 * @return int|int[]
 	 */
 	public static function id( $id ) {
 
@@ -492,7 +541,7 @@ class cnSanitize {
 	 *
 	 * @return string Returns the $valid string after sanitization.
 	 */
-	public function currency( $input ) {
+	public static function currency( $input ) {
 
 		if ( is_numeric( $input ) ) {
 
@@ -574,19 +623,8 @@ class cnSanitize {
 	 */
 	public static function htmlClass( $name ) {
 
-		if ( is_array( $name ) ) {
+		_deprecated_function( __METHOD__, '9.11', 'cnHTML::escapeClassnames()' );
 
-			// Ensure all IDs are positive integers.
-			$name = array_map( 'sanitize_html_class', $name );
-
-			// Remove any empty array values.
-			$name = array_filter( $name );
-
-		} else {
-
-			$name = sanitize_html_class( $name );
-		}
-
-		return $name;
+		return cnHTML::escapeClassnames( $name );
 	}
 }

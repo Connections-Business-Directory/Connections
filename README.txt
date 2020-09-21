@@ -247,6 +247,29 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.11 09/21/2020 =
+* NEW: Introduce `_string::toKebabCase()`.
+* NEW: Introduce the `Connections_Directory/Content_Block/Entry/Categories/Attributes` filter.
+* DEV: Move the color utility class to its own namespaced file.
+* DEV: Move the dateutility class to its own namespaced file.
+* DEV: The `_date` class should be final.
+* DEV: Move the string utility class to its own namespaced file.
+* DEV: Move the formatting utility class to its own namespaced file.
+* DEV: `cnSanitize::currency()` should be static.
+* DEV: Remove unnecessary break statement.
+* DEV: Add `_deprecated_file()` calls to a couple deprecated files.
+* DEV: Add `_deprecated_function()` to a couple deprecated methods.
+* DEV: phpDoc updates.
+* DEV: Move the siteshot utility class to its own namespaced file.
+* DEV: Remove unused `cnFunction::var_dump_error_log()` method.
+* DEV: Move the utility  functions class to its own namespaced file.
+* DEV: Move the URL utility class to its own namespaced file.
+* DEV: Add `_deprecated_function()` to the `cnValidate::attributesArray()` method.
+* DEV: Move the validate utility class to its own file.
+* DEV: Deprecate methods in the cnUtility class nad move code  to the `_` class to consolidate utility methods under a shortcode classname.
+* DEV: Moved several methods to be in the proper utility class and deprecated the existing methods.
+* DEV: Deprecate and pair on unused methods in cnValidate.
+
 = 9.10 09/10/2020 =
 * FEATURE: Introduce the Recently Viewed and Last Viewed Content Blocks.
 * NEW: Introduce the `Connections_Directory/Block/Carouse/Query_Parameters` filter.
@@ -646,4 +669,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.10 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.11 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

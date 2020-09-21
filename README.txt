@@ -29,9 +29,9 @@ Connections Business Directory is one of the [best business directory plugins av
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * A growing selection of Content Blocks:
-    * Related Entries:: [Display related Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-8-related-content-blocks/)
-    * Nearby Entries:: [Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-9-nearby-entries-content-block/)
-    * Recently Viewed:: [A list a directory Entries the user has recently viewed](https://connections-pro.com/connections-9-10-recently-viewed-entries-content-blocks/).
+    * [Related Entries](https://connections-pro.com/connections-9-8-related-content-blocks/):: Display related Entries in a mobile responsive carousel.
+    * [Nearby Entries](https://connections-pro.com/connections-9-9-nearby-entries-content-block/):: Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.
+    * [Recently Viewed](https://connections-pro.com/connections-9-10-recently-viewed-entries-content-blocks/):: A list a directory Entries the user has recently viewed.
     * Last Viewed:: The last directory Entry the user viewed.
     * Frontend Entry Management:: Management options include a quick link to edit the Entry and a Delete option.
     * Entry Meta:: Display details such as when the Entry was added nad last modified and by whom.

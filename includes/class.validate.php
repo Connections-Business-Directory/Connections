@@ -37,6 +37,7 @@ class cnValidate {
 	 * @link http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
 	 *
 	 * @since unknown
+	 * @deprecated 9.11
 	 *
 	 * @param string $url
 	 * @param bool   $check_exists [optional]
@@ -44,6 +45,8 @@ class cnValidate {
 	 * @return int
 	 */
 	public function url( $url, $check_exists = TRUE ) {
+
+		_deprecated_function( __METHOD__, '9.11', null );
 
 		/**********************************************************************
 		 * Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
@@ -216,6 +219,7 @@ class cnValidate {
 	 * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
 	 *
 	 * @since unknown
+	 * @deprecated 9.11
 	 *
 	 * @param string $email
 	 * @param bool   $check_mx [optional]
@@ -223,6 +227,8 @@ class cnValidate {
 	 * @return int
 	 */
 	public function email( $email, $check_mx = TRUE ) {
+
+		_deprecated_function( __METHOD__, '9.11', null );
 
 		/**********************************************************************
 		 * Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)

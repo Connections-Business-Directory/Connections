@@ -52,8 +52,12 @@ class cnSEO {
 		// Update the post dates to reflect the dates of the entry.
 		add_action( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
 
-		// Add the page meta description.
-		add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 10 );
+		/*
+		 * Add the page meta description.
+		 * @since 9.12 Change priority to `1` to match core WP _wp_render_title_tag() priority so the meta description
+		 * renders close to the page title tag.
+		 */
+		add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 1 );
 
 		// These filters are a hack. Used to add/remove the permalink/title filters so they do not not affect the nav menu.
 		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );

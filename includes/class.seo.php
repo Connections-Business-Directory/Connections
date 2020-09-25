@@ -428,7 +428,7 @@ class cnSEO {
 	 *
 	 * @return string
 	 */
-	private static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
+	public static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
 
 		// Whether or not to filter the page meta title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {

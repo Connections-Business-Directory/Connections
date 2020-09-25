@@ -416,8 +416,7 @@ class cnSEO {
 	/**
 	 * Add the the current Connections directory location/query to the page meta title.
 	 *
-	 * @access private
-	 * @since  8.5.29
+	 * @since 8.5.29
 	 *
 	 * @param string $title       The browser tab/window title.
 	 * @param string $separator
@@ -672,11 +671,8 @@ class cnSEO {
 	 *
 	 * @access private
 	 * @since  0.7.8
-	 * @static
 	 *
-	 * @uses   cnQuery::getVar()
-	 * @uses   esc_attr()
-	 * @uses   strip_shortcodes()
+	 * @return string|void
 	 */
 	public static function metaDesc() {
 

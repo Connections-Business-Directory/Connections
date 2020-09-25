@@ -735,7 +735,17 @@ class cnSEO {
 
 		if ( 0 == strlen( $description ) ) return;
 
-		echo '<meta name="description" content="' . esc_attr( trim( strip_shortcodes( strip_tags( stripslashes( $description ) ) ) ) ) . '"/>' . "\n";
+		if ( strlen( utf8_decode( $description ) ) <= 156 ) {
+
+			return $description;
+		}
+
+		$description = wp_html_excerpt( $description, 156 );
+
+		// Trim the auto-generated string to a word boundary.
+		$description = substr( $description, 0, strrpos( $description, ' ' ) );
+
+		echo '<meta name="description" content="' . $description . '"/>' . "\n";
 	}
 
 	/**

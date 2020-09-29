@@ -476,6 +476,9 @@ class cnDependency {
 			'Connections_Directory\Blocks\Team'      => 'includes/blocks/team/class.block.php',
 			'Connections_Directory\Blocks\Upcoming'  => 'includes/blocks/upcoming/class.block.php',
 
+			// Integrations
+			'Connections_Directory\Integration\SEO\Yoast_SEO'  => 'includes/Integration/SEO/Yoast_SEO.php',
+
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
 			//'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',

@@ -395,6 +395,9 @@ final class Connections_Directory {
 
 		// Geocode the address using Google Geocoding API.
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
+
+		// Integrations
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ) );
 	}
 
 	/**

@@ -78,6 +78,24 @@ class cnSEO {
 		 */
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
+		/*
+		 * Issue #526625 Display Configuration etc. submitted by Richard M.
+		 * Short circuit this filter to prevent both Divi and Rank Math from processing post title.
+		 *
+		 * Will break the Divi SEO settings and custom page title options.
+		 * When I say break, I mean they will not have an effect.
+		 *
+		 * Disables the Rank Math page title features such as forced capitalization and custom per page/post meta titles.
+		 *
+		 * @todo Enable filter, but ensure it only runs on a Connections Entry detail page.
+		 */
+		//add_action(
+		//	'init',
+		//	function() {
+		//		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
+		//	}
+		//);
+
 		// Filter the meta title to reflect the current Connections filter.
 		// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
 		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 20, 3 );

@@ -572,7 +572,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 			header( 'Content-Description: File Transfer' );
 			header( 'Content-Type: application/octet-stream' );
 			header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
-			header( 'Content-Length: ' . strlen( $data ) );
+			//header( 'Content-Length: ' . strlen( $data ) );
 			header( 'Pragma: public' );
 			header( "Pragma: no-cache" );
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );

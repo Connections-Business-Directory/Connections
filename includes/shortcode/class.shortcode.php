@@ -72,6 +72,7 @@ class cnShortcode {
 			add_shortcode( 'cn-entry', array( 'Connections_Directory\Shortcode\Entry', 'shortcode' ) );
 
 			add_shortcode( 'cn-mapblock', array( 'Connections_Directory\Shortcode\mapBlock', 'shortcode' ) );
+			add_shortcode( 'cn-content', array( 'Connections_Directory\Shortcode\Conditional_Content', 'shortcode' ) );
 
 			add_shortcode( 'connections_vcard', '_connections_vcard' ); /* Experimental. Do NOT use. */
 			add_shortcode( 'connections_qtip', '_connections_qtip' ); /* Experimental. Do NOT use. */

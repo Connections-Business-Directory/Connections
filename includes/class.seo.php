@@ -52,8 +52,12 @@ class cnSEO {
 		// Update the post dates to reflect the dates of the entry.
 		add_action( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
 
-		// Add the page meta description.
-		add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 10 );
+		/*
+		 * Add the page meta description.
+		 * @since 9.12 Change priority to `1` to match core WP _wp_render_title_tag() priority so the meta description
+		 * renders close to the page title tag.
+		 */
+		add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 1 );
 
 		// These filters are a hack. Used to add/remove the permalink/title filters so they do not not affect the nav menu.
 		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
@@ -74,12 +78,27 @@ class cnSEO {
 		 */
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
+		/*
+		 * Issue #526625 Display Configuration etc. submitted by Richard M.
+		 * Short circuit this filter to prevent both Divi and Rank Math from processing post title.
+		 *
+		 * Will break the Divi SEO settings and custom page title options.
+		 * When I say break, I mean they will not have an effect.
+		 *
+		 * Disables the Rank Math page title features such as forced capitalization and custom per page/post meta titles.
+		 *
+		 * @todo Enable filter, but ensure it only runs on a Connections Entry detail page.
+		 */
+		//add_action(
+		//	'init',
+		//	function() {
+		//		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
+		//	}
+		//);
+
 		// Filter the meta title to reflect the current Connections filter.
 		// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
 		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 20, 3 );
-		// Required for WP >= 4.4 and Yoast SEO.
-		// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
-		add_filter( 'wpseo_title', array( __CLASS__, 'filterMetaTitle' ), 20 );
 
 		// Filter the page title to reflect the current Connection filter.
 		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
@@ -205,24 +224,38 @@ class cnSEO {
 	/**
 	 * Add the Connections URL segments to the page permalink.
 	 *
-	 * @access private
 	 * @since  0.7.8
-	 * @static
 	 *
-	 * @param  string $link   The permalink.
-	 * @param  int    $ID     Page ID.
-	 * @param  bool   $sample Is it a sample permalink.
+	 * @param string $link   The permalink.
+	 * @param int    $ID     Page ID.
+	 * @param bool   $sample Is it a sample permalink.
 	 *
 	 * @return string
 	 */
 	public static function filterPermalink( $link, $ID, /** @noinspection PhpUnusedParameterInspection */ $sample ) {
 
-		/** @var WP_rewrite $wp_rewrite */
-		global $wp_rewrite, $post;
+		global $post;
 
 		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
 		// Same for the links in the nav, do not change those.
-		if ( ( isset( $post->ID ) &&  $post->ID != $ID ) || ! self::$filterPermalink ) return $link;
+		if ( ( isset( $post->ID ) &&  $post->ID != $ID ) || ! self::$filterPermalink ) {
+			return $link;
+		}
+
+		return static::maybeTransformPermalink( $link, $ID );
+	}
+
+	/**
+	 * @since 9.12
+	 *
+	 * @param string $link
+	 * @param int    $pageID
+	 *
+	 * @return string
+	 */
+	public static function maybeTransformPermalink( $link, $pageID ) {
+
+		global $wp_rewrite;
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
@@ -262,7 +295,7 @@ class cnSEO {
 			if ( cnQuery::getVar( 'cn-entry-slug' ) )
 				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) ) );
 
-			if ( 'page' == get_option( 'show_on_front' ) && $ID == get_option( 'page_on_front' ) ) {
+			if ( 'page' == get_option( 'show_on_front' ) && $pageID == get_option( 'page_on_front' ) ) {
 
 				$link = trailingslashit( $link );
 
@@ -414,26 +447,13 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections directory location/query to the page meta title.
+	 * @since 9.12
 	 *
-	 * @access private
-	 * @since  8.5.29
+	 * @param string $title
 	 *
-	 * @param string $title       The browser tab/window title.
-	 * @param string $separator
-	 * @param string $seplocation
-	 *
-	 * @return string
+	 * @return array
 	 */
-	private static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
-
-		// Whether or not to filter the page meta title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
-
-			return $title;
-		}
-
-		$original = $title;
+	public static function maybeTransformTitle( $title ) {
 
 		$pieces = array( $title );
 
@@ -458,143 +478,8 @@ class cnSEO {
 
 			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) {
 
-				return $title;
+				return $pieces;
 			}
-
-			$categoryID = cnQuery::getVar( 'cn-cat' );
-
-			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
-
-			$category = new cnCategory( $term );
-
-			$pieces = array_merge( array( 'term-category-name' => $category->getName() ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-country' ) ) {
-
-			$pieces = array_merge( array( 'country' => urldecode( cnQuery::getVar( 'cn-country' ) ) ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-postal-code' ) ) {
-
-			$pieces = array_merge( array( 'postal-code' => urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-region' ) ) {
-
-			$pieces = array_merge( array( 'region' => urldecode( cnQuery::getVar( 'cn-region' ) ) ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-locality' ) ) {
-
-			$pieces = array_merge( array( 'locality' => urldecode( cnQuery::getVar( 'cn-locality' ) ) ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-organization' ) ) {
-
-			$pieces = array_merge( array( 'organization' => urldecode( cnQuery::getVar( 'cn-organization' ) ) ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-department' ) ) {
-
-			$pieces = array_merge( array( 'department' => urldecode( cnQuery::getVar( 'cn-department' ) ) ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
-
-			// Grab an instance of the Connections object.
-			$instance = Connections_Directory();
-			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
-
-			if ( empty( $result ) ) {
-
-				return apply_filters( 'cn_meta_title', implode( " $separator ", $pieces ), $pieces, $original, $separator, $seplocation );
-			}
-
-			$entry  = new cnEntry( $result[0] );
-			$pieces = array_merge( array( 'name' => $entry->getName() ), $pieces );
-		}
-
-		/**
-		 * Filter the parts of the page title.
-		 *
-		 * @since 8.5.15
-		 *
-		 * @param string $title       The page title.
-		 * @param array  $pieces      The pieces of the title.
-		 * @param string $original    The original title. May have been altered by other filters hooked into the `the_title` filter.
-		 * @param string $separator   The title separator.
-		 * @param string $seplocation Location of the separator (left or right).
-		 */
-		return apply_filters( 'cn_page_meta_title', implode( " $separator ", $pieces ), $pieces, $original, $separator, $seplocation );
-	}
-
-	/**
-	 * Add the the current Connections directory location/query to the page title.
-	 *
-	 * NOTE: $id really isn't optional, some plugins fail to use the `the_title` filter correctly,
-	 * ie. "Display Posts Shortcode", causes Connections to crash an burn if not supplied.
-	 *
-	 * @access private
-	 * @since  0.7.8
-	 * @static
-	 *
-	 * @uses   cnQuery::getVar()
-	 *
-	 * @param  string $title The browser tab/window title.
-	 * @param  int    $id    The page/post ID.
-	 *
-	 * @return string
-	 */
-	public static function filterPostTitle( $title, $id = 0 ) {
-		global $wp_query, $post;
-
-		$original = $title;
-
-		/**
-		 * Filter to allow the page title separator to be changed.
-		 *
-		 * @since 8.5.15
-		 *
-		 * @param string $separator The title separator.
-		 */
-		$separator = apply_filters( 'cn_page_title_separator', '&raquo;' );
-
-		// Whether or not to filter the page title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'seo', 'page_title' ) ) {
-
-			return $title;
-		}
-
-		if ( ! is_object( $post ) ||
-		     ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
-		     ! self::$filterPermalink ) {
-
-			return $title;
-		}
-
-		$pieces = array( $title );
-
-		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
-
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
-
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) {
-
-				$categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
-			}
-
-			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
-
-			$category = new cnCategory( $term );
-
-			$pieces = array_merge( array( 'term-category-name' => $category->getName() ), $pieces );
-		}
-
-		if ( cnQuery::getVar( 'cn-cat' ) ) {
-
-			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return implode( '', $pieces );
 
 			$categoryID = cnQuery::getVar( 'cn-cat' );
 
@@ -642,14 +527,96 @@ class cnSEO {
 			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
 
 			// Make sure an entry is returned and if not, return $title unaltered.
-			if ( empty( $result ) ) {
+			if ( ! empty( $result ) ) {
 
-				return apply_filters( 'cn_page_title', implode( " $separator ", $pieces ), $pieces, $separator, $original, $id );
+				$entry  = new cnEntry( $result[0] );
+				$pieces = array_merge( array( 'name' => $entry->getName() ), $pieces );
 			}
 
-			$entry  = new cnEntry( $result[0] );
-			$pieces = array_merge( array( 'name' => $entry->getName() ), $pieces );
 		}
+
+		return $pieces;
+	}
+
+	/**
+	 * Add the the current Connections directory location/query to the page meta title.
+	 *
+	 * @since 8.5.29
+	 *
+	 * @param string $title       The browser tab/window title.
+	 * @param string $separator
+	 * @param string $seplocation
+	 *
+	 * @return string
+	 */
+	public static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
+
+		// Whether or not to filter the page meta title with the current directory location.
+		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
+
+			return $title;
+		}
+
+		$original = $title;
+		$pieces   = static::maybeTransformTitle( $title );
+
+		/**
+		 * Filter the parts of the page title.
+		 *
+		 * @since 8.5.15
+		 *
+		 * @param string $title       The page title.
+		 * @param array  $pieces      The pieces of the title.
+		 * @param string $original    The original title. May have been altered by other filters hooked into the `the_title` filter.
+		 * @param string $separator   The title separator.
+		 * @param string $seplocation Location of the separator (left or right).
+		 */
+		$title = apply_filters( 'cn_meta_title', implode( " $separator ", $pieces ), $pieces, $original, $separator, $seplocation );
+
+		return $title;
+	}
+
+	/**
+	 * Add the the current Connections directory location/query to the page title.
+	 *
+	 * NOTE: $id really isn't optional, some plugins fail to use the `the_title` filter correctly,
+	 * ie. "Display Posts Shortcode", causes Connections to crash an burn if not supplied.
+	 *
+	 * @since  0.7.8
+	 *
+	 * @param string $title The browser tab/window title.
+	 * @param int    $id    The page/post ID.
+	 *
+	 * @return string
+	 */
+	public static function filterPostTitle( $title, $id = 0 ) {
+
+		global $wp_query, $post;
+
+		if ( ! is_object( $post ) ||
+		     ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
+		     ! self::$filterPermalink ) {
+
+			return $title;
+		}
+
+		// Whether or not to filter the page title with the current directory location.
+		if ( ! cnSettingsAPI::get( 'connections', 'seo', 'page_title' ) ) {
+
+			return $title;
+		}
+
+		/**
+		 * Filter to allow the page title separator to be changed.
+		 *
+		 * @since 8.5.15
+		 *
+		 * @param string $separator The title separator.
+		 */
+		$separator = apply_filters( 'cn_page_title_separator', '&raquo;' );
+
+		$original = $title;
+		$pieces   = static::maybeTransformTitle( $title );
 
 		/**
 		 * Filter the parts of the page title.
@@ -668,23 +635,11 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections category description or entry bio excerpt as the page meta description.
+	 * @since 9.12
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 * @static
-	 *
-	 * @uses   cnQuery::getVar()
-	 * @uses   esc_attr()
-	 * @uses   strip_shortcodes()
+	 * @return string
 	 */
-	public static function metaDesc() {
-
-		// Whether or not to filter the page title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_desc' ) ) {
-
-			return;
-		}
+	public static function getMetaDescription() {
 
 		$description = '';
 
@@ -707,7 +662,7 @@ class cnSEO {
 
 		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return;
+			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return '';
 
 			$categoryID = cnQuery::getVar( 'cn-cat' );
 
@@ -733,9 +688,43 @@ class cnSEO {
 			}
 		}
 
-		if ( 0 == strlen( $description ) ) return;
+		if ( 0 === strlen( $description ) ) return '';
 
-		echo '<meta name="description" content="' . esc_attr( trim( strip_shortcodes( strip_tags( stripslashes( $description ) ) ) ) ) . '"/>' . "\n";
+		$description = wp_html_excerpt( $description, 156 );
+
+		if ( strlen( utf8_decode( $description ) ) <= 156 ) {
+
+			return $description;
+		}
+
+		// Trim the auto-generated string to a word boundary.
+		return substr( $description, 0, strrpos( $description, ' ' ) );
+	}
+
+	/**
+	 * Add the the current Connections category description or entry bio excerpt as the page meta description.
+	 *
+	 * @access private
+	 * @since  0.7.8
+	 *
+	 * @return string|void
+	 */
+	public static function metaDesc() {
+
+		// Whether or not to filter the page title with the current directory location.
+		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_desc' ) ) {
+
+			return;
+		}
+
+		$description = self::getMetaDescription();
+
+		if ( 0 === strlen( $description ) ) {
+
+			return;
+		}
+
+		echo '<meta name="description" content="' . self::getMetaDescription() . '" />' . "\n";
 	}
 
 	/**

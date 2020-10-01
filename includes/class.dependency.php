@@ -285,12 +285,13 @@ class cnDependency {
 			'cnImage'                  => 'includes/image/class.image.php',
 
 			// Shortcodes.
-			'cnShortcode'                              => 'includes/shortcode/class.shortcode.php',
-			'cnShortcode_Connections'                  => 'includes/shortcode/class.shortcode-connections.php',
-			'Connections_Directory\Shortcode\mapBlock' => 'includes/shortcode/class.shortcode-mapblock.php',
-			'Connections_Directory\Shortcode\Entry'    => 'includes/shortcode/class.shortcode-entry.php',
-			'cnThumb'                                  => 'includes/shortcode/class.shortcode-thumbnail.php',
-			'cnThumb_Responsive'                       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
+			'cnShortcode'                                         => 'includes/shortcode/class.shortcode.php',
+			'cnShortcode_Connections'                             => 'includes/shortcode/class.shortcode-connections.php',
+			'Connections_Directory\Shortcode\mapBlock'            => 'includes/shortcode/class.shortcode-mapblock.php',
+			'Connections_Directory\Shortcode\Entry'               => 'includes/shortcode/class.shortcode-entry.php',
+			'Connections_Directory\Shortcode\Conditional_Content' => 'includes/shortcode/Conditional_Content.php',
+			'cnThumb'                                             => 'includes/shortcode/class.shortcode-thumbnail.php',
+			'cnThumb_Responsive'                                  => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 
 			// Register the query vars, rewrite URL/s and canonical redirects.
 			'cnRewrite'                => 'includes/class.rewrite.php',
@@ -475,6 +476,9 @@ class cnDependency {
 			'Connections_Directory\Blocks\Directory' => 'includes/blocks/directory/class.block.php',
 			'Connections_Directory\Blocks\Team'      => 'includes/blocks/team/class.block.php',
 			'Connections_Directory\Blocks\Upcoming'  => 'includes/blocks/upcoming/class.block.php',
+
+			// Integrations
+			'Connections_Directory\Integration\SEO\Yoast_SEO'  => 'includes/Integration/SEO/Yoast_SEO.php',
 
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

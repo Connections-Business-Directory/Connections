@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 5.0
 Tested up to: 5.5
 Requires PHP: 5.6.20
-Stable tag: 9.11
+Stable tag: 9.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -246,6 +246,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.12 10/01/2020 =
+* NEW: Improve Yoast SEO integration.
+* NEW: Introduce the `Connections_Directory/Content_Block/Content/{$id}` action.
+* TWEAK: Change priority of the `cnSEO::metaDesc()` action callback to `1`.
+* TWEAK: Declare `cnSEO::metaTitle()` as public.
+* TWEAK: Limit meta description to 155 characters.
+* TWEAK: Remove the `Content-Length` header when downloading vCard to deal with some web hosts which seem to add BOM to downloads corrupting the vCard.
+* DEV: Correct phpDoc and add missing deprecated file call.
+* DEV: phpDoc updates in `cnSEO`.
+* DEV: Add @todo for Rank Math compatibility.
+* DEV: Lay foundation for the new Conditional Content shortcode.
 
 = 9.11 09/21/2020 =
 * NEW: Introduce `_string::toKebabCase()`.
@@ -585,15 +597,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Remove the TSL logo from the assets.
 * DEV: phpDoc correction.
 
-= 9.2 08/16/2019 =
-* NEW: Register settings with the WordPress REST API.
-* TWEAK: Remove the featured partners metabox from the Dashboard.
-* TWEAK: Remove the Featured partners section from the Connections group on the Add New Plugins admin page.
-* BUG: Fix the results displayed on the Connections group on the Add New Plugin admin page.
-* REST API: Add schema properties to all core settings options so they will be registered with the core WordPress REST API.
-* I18N: Update POT file.
-* I18N:Update MO files.
-
 == Upgrade Notice ==
 
 = 9.2 =
@@ -672,4 +675,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.11 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.12 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

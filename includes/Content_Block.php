@@ -319,7 +319,16 @@ class Content_Block {
 	 */
 	protected function content() {
 
-		printf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
+		$hook = "Connections_Directory/Content_Block/Content/{$this->getID()}";
+
+		if ( has_action( $hook ) ) {
+
+			do_action( $hook, $this );
+
+		} else {
+
+			printf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
+		}
 	}
 
 	/**

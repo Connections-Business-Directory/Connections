@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '9.11';
+	const VERSION = '9.12';
 
 	/**
 	 * Stores the instance of this class.
@@ -395,6 +395,9 @@ final class Connections_Directory {
 
 		// Geocode the address using Google Geocoding API.
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
+
+		// Integrations
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ) );
 	}
 
 	/**

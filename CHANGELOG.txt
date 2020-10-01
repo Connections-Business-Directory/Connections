@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 9.12 10/01/2020 =
+* NEW: Improve Yoast SEO integration.
+* NEW: Introduce the `Connections_Directory/Content_Block/Content/{$id}` action.
+* TWEAK: Change priority of the `cnSEO::metaDesc()` action callback to `1`.
+* TWEAK: Declare `cnSEO::metaTitle()` as public.
+* TWEAK: Limit meta description to 155 characters.
+* TWEAK: Remove the `Content-Length` header when downloading vCard to deal with some web hosts which seem to add BOM to downloads corrupting the vCard.
+* DEV: Correct phpDoc and add missing deprecated file call.
+* DEV: phpDoc updates in `cnSEO`.
+* DEV: Add @todo for Rank Math compatibility.
+* DEV: Lay foundation for the new Conditional Content shortcode.
+
 = 9.11 09/21/2020 =
 * NEW: Introduce `_string::toKebabCase()`.
 * NEW: Introduce the `Connections_Directory/Content_Block/Entry/Categories/Attributes` filter.

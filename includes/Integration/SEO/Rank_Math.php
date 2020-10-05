@@ -50,7 +50,7 @@ final class Rank_Math {
 			$self->hooks();
 		}
 
-		return static::$instance;
+		return self::$instance;
 	}
 
 	/**

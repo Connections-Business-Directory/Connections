@@ -42,7 +42,7 @@ final class Yoast_SEO {
 			$self->hooks();
 		}
 
-		return static::$instance;
+		return self::$instance;
 	}
 
 	/**

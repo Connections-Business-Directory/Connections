@@ -109,7 +109,7 @@ final class Rank_Math {
 	 *
 	 * @param bool $disable
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	public static function maybeDisableAdjacentURL( $disable ) {
 

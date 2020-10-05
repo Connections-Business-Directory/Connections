@@ -271,7 +271,7 @@ final class Yoast_SEO {
 	 */
 	public static function addImage( $container ) {
 
-		if ( is_array( $meta = self::getImageMeta() ) ) {
+		if ( is_array( $meta = cnSEO::getImageMeta() ) ) {
 
 			$image = array(
 				'url'    => _array::get( $meta, 'url', '' ),
@@ -302,7 +302,7 @@ final class Yoast_SEO {
 	 */
 	public static function transformImage( $url, $presentation ) {
 
-		if ( is_array( $meta = self::getImageMeta() ) ) {
+		if ( is_array( $meta = cnSEO::getImageMeta() ) ) {
 
 			$url = _array::get( $meta, 'url', '' );
 		}

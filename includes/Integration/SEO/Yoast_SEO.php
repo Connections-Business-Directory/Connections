@@ -212,10 +212,13 @@ final class Yoast_SEO {
 
 	/**
 	 * @since 9.12
+	 * @deprecated 9.13
 	 *
 	 * @return array|string
 	 */
 	private static function getImageMeta() {
+
+		_deprecated_function( __METHOD__, '9.13', 'cnSEO::getImageMeta()' );
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 

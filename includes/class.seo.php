@@ -744,6 +744,49 @@ class cnSEO {
 	}
 
 	/**
+	 * Get the current Entry image meta, by type.
+	 *
+	 * @since 9.13
+	 *
+	 * @return array|false
+	 */
+	public static function getImageMeta() {
+
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entry( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) );
+
+			// Make sure an entry is returned and then echo the meta desc.
+			if ( false !== $result ) {
+
+				$entry           = new cnEntry( $result );
+				$imageProperties = apply_filters(
+					'Connections_Directory/SEO/Image_Properties',
+					array(
+						'type'      => 'organization' === $entry->getEntryType() ? 'logo' : 'photo',
+						'size'      => 'custom',
+						'width'     => 1200,
+						'height'    => 800,
+						'crop_mode' => 3,
+					),
+					$entry
+				);
+
+				$meta = $entry->getImageMeta( $imageProperties );
+
+				if ( is_array( $meta ) ) {
+
+					return $meta;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * This method is run during the wp_nav_menu_args filter.
 	 * The only purpose is to set self::doFilterPermalink to FALSE.
 	 * This is set to ensure the permalinks and titles in the nav are

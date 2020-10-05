@@ -12,6 +12,9 @@
  */
 
 // Exit if accessed directly
+use Connections_Directory\Entry\Functions as Entry_Helper;
+use Connections_Directory\Model\Format\Address\As_String;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -684,7 +687,20 @@ class cnSEO {
 
 				$entry = new cnEntry( $result[0] );
 
+				// Get the excerpt field which will truncate the bio field if empty.
 				$description = $entry->getExcerpt( array( 'length' => 160 ) );
+
+				// If both the excerpt and bio field are empty, get the address and format it as a string to be used as the description.
+				if ( 0 === strlen( $description ) ) {
+
+					$address = Entry_Helper::getAddress( $entry );
+
+					if ( $address instanceof cnAddress ) {
+
+						$description = As_String::format( $address );
+					}
+
+				}
 			}
 		}
 

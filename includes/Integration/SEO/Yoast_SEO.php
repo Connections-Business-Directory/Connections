@@ -35,7 +35,7 @@ final class Yoast_SEO {
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) && function_exists( 'wpseo_init' )) {
 
 			self::$instance = $self = new static();
 

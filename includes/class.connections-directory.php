@@ -398,6 +398,7 @@ final class Connections_Directory {
 
 		// Integrations
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ), 15 );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Rank_Math', 'init' ), 15 );
 	}
 
 	/**

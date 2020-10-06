@@ -102,7 +102,7 @@ class As_String {
 			self::LINE_4      => $address->getLineFour(),
 			self::LOCALITY    => $address->getLocality(),
 			self::DISTRICT    => $address->getDistrict(),
-			self::COUNTY      => $address->getDistrict(),
+			self::COUNTY      => $address->getCounty(),
 			self::REGION      => $address->getRegion(),
 			self::POSTAL_CODE => $address->getPostalCode(),
 			self::COUNTRY     => $address->getCountry(),

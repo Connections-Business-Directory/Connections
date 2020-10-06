@@ -35,14 +35,14 @@ final class Yoast_SEO {
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) && function_exists( 'wpseo_init' )) {
 
 			self::$instance = $self = new static();
 
 			$self->hooks();
 		}
 
-		return static::$instance;
+		return self::$instance;
 	}
 
 	/**
@@ -212,10 +212,13 @@ final class Yoast_SEO {
 
 	/**
 	 * @since 9.12
+	 * @deprecated 9.13
 	 *
 	 * @return array|string
 	 */
 	private static function getImageMeta() {
+
+		_deprecated_function( __METHOD__, '9.13', 'cnSEO::getImageMeta()' );
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
@@ -268,7 +271,7 @@ final class Yoast_SEO {
 	 */
 	public static function addImage( $container ) {
 
-		if ( is_array( $meta = self::getImageMeta() ) ) {
+		if ( is_array( $meta = cnSEO::getImageMeta() ) ) {
 
 			$image = array(
 				'url'    => _array::get( $meta, 'url', '' ),
@@ -299,7 +302,7 @@ final class Yoast_SEO {
 	 */
 	public static function transformImage( $url, $presentation ) {
 
-		if ( is_array( $meta = self::getImageMeta() ) ) {
+		if ( is_array( $meta = cnSEO::getImageMeta() ) ) {
 
 			$url = _array::get( $meta, 'url', '' );
 		}

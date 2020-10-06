@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '9.12';
+	const VERSION = '9.13';
 
 	/**
 	 * Stores the instance of this class.
@@ -397,7 +397,8 @@ final class Connections_Directory {
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
 
 		// Integrations
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ), 15 );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Rank_Math', 'init' ), 15 );
 	}
 
 	/**

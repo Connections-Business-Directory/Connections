@@ -12,6 +12,9 @@
  */
 
 // Exit if accessed directly
+use Connections_Directory\Entry\Functions as Entry_Helper;
+use Connections_Directory\Model\Format\Address\As_String;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -641,7 +644,9 @@ class cnSEO {
 	 */
 	public static function getMetaDescription() {
 
+		$context     = '';
 		$description = '';
+		$object      = null;
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
@@ -655,9 +660,10 @@ class cnSEO {
 
 			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
-			$category = new cnCategory( $term );
+			$object  = new cnCategory( $term );
+			$context = 'taxonomy';
 
-			$description = $category->getExcerpt( array( 'length' => 160 ) );
+			$description = $object->getExcerpt( array( 'length' => 160 ) );
 		}
 
 		if ( cnQuery::getVar( 'cn-cat' ) ) {
@@ -668,37 +674,93 @@ class cnSEO {
 
 			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
-			$category = new cnCategory( $term );
+			$object  = new cnCategory( $term );
+			$context = 'taxonomy';
 
-			$description = $category->getExcerpt( array( 'length' => 160 ) );
+			$description = $object->getExcerpt( array( 'length' => 160 ) );
 		}
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
-			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
+			$result   = $instance->retrieve->entry( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) );
 
 			// Make sure an entry is returned and then echo the meta desc.
-			if ( ! empty( $result ) ) {
+			if ( false !== $result ) {
 
-				$entry = new cnEntry( $result[0] );
+				$object  = new cnEntry( $result );
+				$context = 'entry';
 
-				$description = $entry->getExcerpt( array( 'length' => 160 ) );
+				// Get the excerpt field which will truncate the bio field if empty.
+				$description = $object->getExcerpt( array( 'length' => 160 ) );
+
+				// If both the excerpt and bio field are empty, get the address and format it as a string to be used as the description.
+				if ( 0 === strlen( $description ) ) {
+
+					if ( 'organization' === $object->getEntryType() ) {
+
+						$address = Entry_Helper::getAddress( $object );
+
+						if ( $address instanceof cnAddress ) {
+
+							$street = array_filter(
+								array(
+									'line_1' => $address->getLineOne(),
+									'line_2' => $address->getLineTwo(),
+									'line_3' => $address->getLineThree(),
+									'line_4' => $address->getLineFour(),
+								)
+							);
+
+							$region = array_filter(
+								array(
+									'locality' => $address->getLocality(),
+									'region'   => $address->getRegion(),
+								)
+							);
+
+							$pieces = array_filter(
+								array(
+									'street'  => implode( ', ', $street ),
+									'region'  => implode( ' ',  array( implode( ', ', $region ),  $address->getPostalCode() ) ),
+									'country' => $address->getCountry(),
+								)
+							);
+
+							//$description = As_String::format( $address );
+							$description = implode( ' | ', $pieces );
+						}
+
+					} elseif ( 'individual' === $object->getEntryType() ) {
+
+						$pieces = array_filter(
+							array(
+								'title'        => $object->getTitle(),
+								'department'   => $object->getDepartment(),
+								'organization' => $object->getOrganization(),
+							)
+						);
+
+						$description = implode( ' | ', $pieces );
+					}
+
+				}
 			}
 		}
 
-		if ( 0 === strlen( $description ) ) return '';
+		if ( 0 < strlen( $description ) ) {
 
-		$description = wp_html_excerpt( $description, 156 );
+			$description = wp_html_excerpt( $description, 156 );
 
-		if ( strlen( utf8_decode( $description ) ) <= 156 ) {
+			if ( 156 <= strlen( utf8_decode( $description ) ) ) {
 
-			return $description;
+				// Trim the auto-generated string to a word boundary.
+				$description = substr( $description, 0, strrpos( $description, ' ' ) );
+			}
 		}
 
-		// Trim the auto-generated string to a word boundary.
-		return substr( $description, 0, strrpos( $description, ' ' ) );
+		return apply_filters( 'Connections_Directory/SEO/Description', $description, $context, $object );
 	}
 
 	/**
@@ -725,6 +787,49 @@ class cnSEO {
 		}
 
 		echo '<meta name="description" content="' . self::getMetaDescription() . '" />' . "\n";
+	}
+
+	/**
+	 * Get the current Entry image meta, by type.
+	 *
+	 * @since 9.13
+	 *
+	 * @return array|false
+	 */
+	public static function getImageMeta() {
+
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entry( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) );
+
+			// Make sure an entry is returned and then echo the meta desc.
+			if ( false !== $result ) {
+
+				$entry           = new cnEntry( $result );
+				$imageProperties = apply_filters(
+					'Connections_Directory/SEO/Image_Properties',
+					array(
+						'type'      => 'organization' === $entry->getEntryType() ? 'logo' : 'photo',
+						'size'      => 'custom',
+						'width'     => 1200,
+						'height'    => 800,
+						'crop_mode' => 3,
+					),
+					$entry
+				);
+
+				$meta = $entry->getImageMeta( $imageProperties );
+
+				if ( is_array( $meta ) ) {
+
+					return $meta;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

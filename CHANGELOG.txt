@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 9.13 10/06/2020 =
+* NEW: Introduce Rank Math integration.
+* NEW: Introduce `cnSEO::getImageMeta()`.
+* TWEAK: If both the Entry excerpt and bio are empty, fallback to the Entry address for the Entry meta description.
+* TWEAK: Add additional check to see if Yoast SEO is active or not before setting up integration.
+* TWEAK: Set Yoast SEO integration to run at priority 15, after Yoast SEO sets itself up.
+* TWEAK: Use `cnSEO::getImageMeta()` within the Yoast SEO integration. Providing common logic which is shared with the other SEO integrations.
+* TWEAK: Use `self` instead of `static`.
+* TWEAK: Tweak the fallback meta description to include address (for organization) and title|department|organization (for individuals).
+* BUG: Correct bug in address to string helper where district would output instead on county.
+* OTHER: Deprecate `Yoast_SEO::getImageMeta()`
+* DEV: phpDoc correction.
+
 = 9.12 10/01/2020 =
 * NEW: Improve Yoast SEO integration.
 * NEW: Introduce the `Connections_Directory/Content_Block/Content/{$id}` action.

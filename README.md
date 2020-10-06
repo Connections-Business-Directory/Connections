@@ -247,6 +247,19 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.13 10/06/2020 =
+* NEW: Introduce Rank Math integration.
+* NEW: Introduce `cnSEO::getImageMeta()`.
+* TWEAK: If both the Entry excerpt and bio are empty, fallback to the Entry address for the Entry meta description.
+* TWEAK: Add additional check to see if Yoast SEO is active or not before setting up integration.
+* TWEAK: Set Yoast SEO integration to run at priority 15, after Yoast SEO sets itself up.
+* TWEAK: Use `cnSEO::getImageMeta()` within the Yoast SEO integration. Providing common logic which is shared with the other SEO integrations.
+* TWEAK: Use `self` instead of `static`.
+* TWEAK: Tweak the fallback meta description to include address (for organization) and title|department|organization (for individuals).
+* BUG: Correct bug in address to string helper where district would output instead on county.
+* OTHER: Deprecate `Yoast_SEO::getImageMeta()`
+* DEV: phpDoc correction.
+
 = 9.12 10/01/2020 =
 * NEW: Improve Yoast SEO integration.
 * NEW: Introduce the `Connections_Directory/Content_Block/Content/{$id}` action.
@@ -587,14 +600,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Add a check if var is an array and the key exists exists before using it.
 * BUG: Change target selector for jQuery UI Resizable for the Category metabox so the drag handle does not scroll when scrolling thru the list of categories.
 * DEV: Update dist files.
-
-= 9.3 08/23/2019 =
-* TWEAK: Add an info box on the Connections Dashboard admin page to improve discoverability of the free addons.
-* REST API: Introduce the `../wp-json/cn-api/v1/settings/` REST API endpoint.
-* REST API: Introduce `cnSettingsAPI::getRegisteredRESTOptionProperties()`.
-* REST API: Update the schema for all registered settings checkbox fields for better validation and sanitization for the Settings REST API endpoint.
-* REST API: Couple minor tweaks to the Entry REST endpoint.
-* OTHER: Remove the TSL logo from the assets.
-* DEV: phpDoc correction.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

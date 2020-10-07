@@ -61,7 +61,7 @@ class cnEntryMetabox {
 		// Set the "Visibility" options that can be set by the current user.
 		if ( is_user_logged_in() ) self::$visibility = $instance->options->getVisibilityOptions();
 
-		// Hide the "Custom Fields" metabox by default for users.
+		// Hide the "Custom Metadata Fields" metabox by default for users.
 		add_filter( 'cn_admin_default_metabox_page_hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
 	}
 
@@ -281,10 +281,10 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-meta',
-			'title'    => __( 'Custom Fields', 'connections' ),
+			'title'    => __( 'Custom Metadata Fields', 'connections' ),
 			'pages'    => $pages,
 			'name'     => 'Meta',
-			'desc'     => __( 'Custom fields can be used to add extra metadata to an entry that you can use in your template.', 'connections' ),
+			'desc'     => __( 'Custom Metadata Fields can be used to add extra metadata to an entry that you can use in your template.', 'connections' ),
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'meta' ),
@@ -294,7 +294,7 @@ class cnEntryMetabox {
 	/**
 	 * Callback for the `default_hidden_meta_boxes` filter.
 	 *
-	 * Hide the "Custom Fields" metabox by default.
+	 * Hide the "Custom Metadata Fields" metabox by default.
 	 *
 	 * @since 8.40
 	 *
@@ -325,7 +325,7 @@ class cnEntryMetabox {
 	 *
 	 * @since 8.40
 	 *
-	 * Add the filter which will hide the "Custom Fields" metabox.
+	 * Add the filter which will hide the "Custom Metadata Fields" metabox.
 	 */
 	public static function addHideCustomFieldsFilter() {
 
@@ -336,7 +336,7 @@ class cnEntryMetabox {
 	 * Callback for the `cn_admin_default_metabox_page_hooks` filter.
 	 *
 	 * Adds the `load-{$page_hook}` action for each of the Connections admin page
-	 * which will hide the "Custom Fields" metabox.
+	 * which will hide the "Custom Metadata Fields" metabox.
 	 *
 	 * @since 8.40
 	 *
@@ -2801,7 +2801,7 @@ class cnEntryMetabox {
 	}
 
 	/**
-	 * Callback to render the "Custom Fields" metabox.
+	 * Callback to render the "Custom Metadata Fields" metabox.
 	 *
 	 * @access private
 	 * @since  0.8
@@ -2906,7 +2906,7 @@ class cnEntryMetabox {
 
 			?>
 
-			<!-- This is the row that will be cloned via JS when adding a new Custom Field. -->
+			<!-- This is the row that will be cloned via JS when adding a new Custom Metadata Field. -->
 			<tr style="display: none;">
 
 				<td class="left">
@@ -2928,7 +2928,7 @@ class cnEntryMetabox {
 			</tbody>
 		</table>
 
-		<p><strong><?php _e( 'Add New Custom Field:', 'connections' ); ?></strong></p>
+		<p><strong><?php _e( 'Add New Custom Metadata Field:', 'connections' ); ?></strong></p>
 
 		<table id="newmeta">
 			<thead>
@@ -2961,7 +2961,7 @@ class cnEntryMetabox {
 			<tfoot>
 				<td colspan="2">
 					<div class="submit">
-						<input type="submit" name="addmeta" id="newmeta-submit" class="button" value="<?php _e( 'Add Custom Field', 'connections' ); ?>" />
+						<input type="submit" name="addmeta" id="newmeta-submit" class="button" value="<?php _e( 'Add Custom Metadata Field', 'connections' ); ?>" />
 					</div>
 					<!-- <input type="hidden" id="_ajax_nonce-add-meta" name="_ajax_nonce-add-meta" value="a7f70d2878" /> -->
 				</td>

@@ -760,6 +760,13 @@ class cnSEO {
 			}
 		}
 
+		/**
+		 * @since 9.13
+		 *
+		 * @param string $description The page meta description.
+		 * @param string $context     The current context, or view, of the directory.
+		 * @param cnEntry|cnCategory  The current object being viewed.
+		 */
 		return apply_filters( 'Connections_Directory/SEO/Description', $description, $context, $object );
 	}
 

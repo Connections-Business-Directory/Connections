@@ -28,7 +28,7 @@ class Meta extends Content_Block {
 	public function __construct( $id ) {
 
 		$atts = array(
-			'name'                => __( 'Entry Meta', 'connections' ),
+			'name'                => __( 'Entry Metadata', 'connections' ),
 			'permission_callback' => array( $this, 'permission' ),
 		);
 

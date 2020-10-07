@@ -10,6 +10,8 @@
  * @since       unknown
  */
 
+use Connections_Directory\Utility\_;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -387,7 +389,7 @@ class cnEntry {
 			if ( isset( $entry->options ) ) {
 
 				$this->options = maybe_unserialize( $entry->options );
-				$this->options = cnFormatting::maybeJSONdecode( $this->options );
+				$this->options = _::maybeJSONdecode( $this->options );
 
 				if ( isset( $this->options['image'] ) ) {
 

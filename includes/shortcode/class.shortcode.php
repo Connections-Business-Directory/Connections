@@ -79,6 +79,7 @@ class cnShortcode {
 			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
 
 			Connections_Directory\Shortcode\Entry::add();
+			Connections_Directory\Shortcode\Conditional_Content::add();
 		}
 	}
 

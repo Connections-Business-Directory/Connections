@@ -2,9 +2,14 @@
 namespace Connections_Directory\Shortcode;
 
 use cnQuery;
+use cnRetrieve;
 use cnRewrite;
+use cnSettingsAPI;
 use cnShortcode;
+use cnTerm;
+use cnTerm_Object;
 use WP_Post;
+use WP_User;
 
 /**
  * Class Conditional_content
@@ -14,9 +19,16 @@ use WP_Post;
 class Conditional_Content extends cnShortcode {
 
 	/**
+	 * @since 9.14
 	 * @var array
 	 */
 	private $atts;
+
+	/**
+	 * @since 9.14
+	 * @var string
+	 */
+	private $content;
 
 	/**
 	 * @since 9.12
@@ -28,10 +40,12 @@ class Conditional_Content extends cnShortcode {
 	 * @since 9.12
 	 * @var string
 	 */
-	private $tag = '';
+	private static $tag = 'cn-content';
 
 	/**
 	 * @since 9.12
+	 *
+	 * @noinspection PhpUnusedParameterInspection
 	 *
 	 * @param array  $atts
 	 * @param string $content
@@ -39,18 +53,31 @@ class Conditional_Content extends cnShortcode {
 	 */
 	public function __construct( $atts, $content, $tag ) {
 
-		$this->atts = $this->parseAtts( $atts );
-		$this->tag  = $tag;
+		$this->parseAtts( $atts );
 
-		// Ensure ID is a numeric value.
-		if ( is_numeric( $this->atts['id'] ) ) {
+		$this->content = $content;
+
+		if ( $this->isCondition() ) {
 
 			$this->render();
+			$this->maybeAddAction();
 		}
 	}
 
 	/**
+	 * Register the shortcode.
+	 *
+	 * @since 9.14
+	 */
+	public static function add() {
+
+		add_shortcode( static::$tag, array( __CLASS__, 'shortcode' ) );
+	}
+
+	/**
 	 * Callback for `add_shortcode()`
+	 *
+	 * @see Conditional_Content::add()
 	 *
 	 * @since 9.12
 	 *
@@ -66,7 +93,7 @@ class Conditional_Content extends cnShortcode {
 	}
 
 	/**
-	 * The shortcode defaults.
+	 * The shortcode default attributes.
 	 *
 	 * @since 9.12
 	 *
@@ -74,51 +101,58 @@ class Conditional_Content extends cnShortcode {
 	 */
 	private function getDefaults() {
 
-		$defaults = array(
+		return array(
 			'id'        => false,
 			'block'     => 'content',
-			'condition' => 'is_main_query',
-			'parameter' => '',
+			'condition' => 'is_front_page',
+			'parameter' => null,
+			'insert'    => null,
 		);
-
-		return $defaults;
 	}
 
 	/**
-	 * Parse the user supplied atts.
+	 * Parse the user supplied attributes.
 	 *
 	 * @since 9.12
 	 *
-	 * @param array  $atts
-	 *
-	 * @return array
+	 * @param array $atts
 	 */
-	public function parseAtts( $atts ) {
+	private function parseAtts( $atts ) {
 
 		$defaults = $this->getDefaults();
-		$atts     = shortcode_atts( $defaults, $atts, $this->tag );
+		$atts     = shortcode_atts( $defaults, $atts, static::$tag );
 
-		// Sanitize supplied atts.
-		$atts['id'] = intval( $atts['id'] );
+		if ( is_numeric( $atts['id'] ) ) {
 
-		if ( 0 === $atts['id'] ) {
+			$atts['id'] = absint( $atts['id'] );
 
-			$atts['id'] = -1;
+		} else {
+
+			$atts['id'] = false;
 		}
 
-		return $atts;
+		if ( is_numeric( $atts['parameter'] ) ) {
+
+			$atts['parameter'] = absint( $atts['parameter'] );
+		}
+
+		$this->atts = $atts;
 	}
 
 	/**
+	 * Set the shortcode HTML.
+	 *
 	 * @since 9.12
 	 */
 	public function render() {
 
-		if ( ! $this->isCondition() ) {
+		if ( 0 < strlen( $this->content ) ) {
+
+			$this->html = do_shortcode( $this->content );
 			return;
 		}
 
-		$post = get_post( $this->atts['id'] );
+		$post = WP_Post::get_instance( $this->atts['id'] );
 
 		if ( ! $post instanceof WP_Post ) {
 			return;
@@ -140,37 +174,325 @@ class Conditional_Content extends cnShortcode {
 	}
 
 	/**
+	 * Return the action hook handle.
+	 *
+	 * @since 9.14
+	 *
+	 * @return string
+	 */
+	private function actionHandle() {
+
+		switch ( $this->atts['insert'] ) {
+
+			case 'head':
+				$handle = 'cn_action_list_before';
+				break;
+
+			case 'foot':
+				$handle = 'cn_action_list_after';
+				break;
+
+			default:
+				$handle = $this->atts['insert'];
+		}
+
+		return $handle;
+	}
+
+	/**
+	 * Whether or not to register the action hook.
+	 *
+	 * @since 9.14
+	 */
+	private function maybeAddAction() {
+
+		// No actions to add if there is not content.
+		if ( 0 === strlen( $this->html ) && is_null( $this->atts['insert'] ) ) {
+
+			return;
+		}
+
+		add_action(
+			$this->actionHandle(),
+			function() {
+				echo $this->html;
+			}
+		);
+
+	}
+
+	/**
+	 * Whether or not the defined condition is met.
+	 *
 	 * @since 9.12
 	 *
 	 * @return bool
 	 */
 	private function isCondition() {
 
-		global $wp_query;
-
 		switch ( $this->atts['condition'] ) {
 
-			case 'is_main_query':
+			case 'current_user_can':
 
-				// Remove the cn-image query vars.
-				$wp_query_vars = array_diff_key( (array) $wp_query->query_vars, array_flip( array( 'src', 'w', 'h', 'q', 'a', 'zc', 'f', 's', 'o', 'cc', 'ct' ) ) );
+				$condition = $this->currentUserCan( $this->atts['parameter'] );
+				break;
 
-				// Grab the array containing all query vars registered by Connections.
-				$registeredQueryVars = cnRewrite::queryVars( array() );
-				$condition = ! (bool) array_intersect( $registeredQueryVars, array_keys( $wp_query_vars ) );
+			case 'current_user_has_role':
+
+				$condition = $this->currentUserHasRole( $this->atts['parameter'] );
+				break;
+
+			case 'in_category':
+				$condition = $this->inCategory( $this->atts['parameter'] );
+				break;
+
+			case 'is_category':
+				$condition = $this->isCategory( $this->atts['parameter'] );
+				break;
+
+			case 'is_front_page':
+
+				$condition = $this->isFrontPage();
+				break;
+
+			case 'is_home':
+				$condition = $this->isHome();
 				break;
 
 			case 'is_search':
-				$condition = cnQuery::getVar( 'cn-s' ) ? true : false;
+				$condition = $this->isSearch();
 				break;
 
 			case 'is_single':
 
-				$condition = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
+				$condition = $this->isSingle( $this->atts['parameter'] );
+				break;
+
+			case 'is_user_logged_in':
+
+				$condition = is_user_logged_in();
 				break;
 
 			default:
-				$condition = false;
+				$condition = apply_filters(
+					"Connections_directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}",
+					false
+				);
+		}
+
+		return $condition;
+	}
+
+	/**
+	 * Whether or not the current user can do capability.
+	 *
+	 * The `$parameter` is validated against the registered capabilities.
+	 *
+	 * @since 9.14
+	 *
+	 * @param int|null|string $parameter
+	 *
+	 * @return bool
+	 */
+	private function currentUserCan( $parameter ) {
+
+		global $wp_roles;
+
+		$condition    = false;
+		$roles        = $wp_roles->roles;
+		$capabilities = [];
+
+		foreach ( $roles as $role ) {
+
+			$capabilities = array_merge( $capabilities, array_keys( (array) $role['capabilities'] ) );
+		}
+
+		$capabilities = array_unique( $capabilities );
+
+		if ( in_array( $parameter, $capabilities ) ) {
+
+			$condition = current_user_can( $parameter );
+		}
+
+		return $condition;
+	}
+
+	/**
+	 * Whether or not the current user is attached to role.
+	 *
+	 * @since 9.14
+	 *
+	 * @param int|null|string $parameter
+	 *
+	 * @return bool
+	 */
+	private function currentUserHasRole( $parameter ) {
+
+		$condition = false;
+		$user      = wp_get_current_user();
+
+		if ( $user instanceof WP_User && in_array( $parameter, (array) $user->roles ) ) {
+
+			$condition = true;
+		}
+
+		return $condition;
+	}
+
+	/**
+	 * Whether or no if the current Entry is attached to a certain category, parameter is required.
+	 *
+	 * @since 9.14
+	 *
+	 * @param int|null|string $parameter
+	 *
+	 * @return bool
+	 */
+	private function inCategory( $parameter ) {
+
+		$condition  = false;
+		$queryValue = cnQuery::getVar( 'cn-entry-slug', false );
+
+		if ( ! is_null( $parameter ) && $queryValue ) {
+
+			$result = Connections_Directory()->retrieve->entry( urldecode( $queryValue ) );
+
+			if ( false !== $result ) {
+
+				$terms = cnRetrieve::entryTerms( $result->id, 'category' );
+
+				if ( is_array( $terms ) ) {
+
+					$term_ids   = wp_list_pluck( $terms, 'term_id' );
+					$term_slugs = wp_list_pluck( $terms, 'slug' );
+
+					if ( in_array( $parameter, $term_ids ) || in_array( $parameter, $term_slugs ) ) {
+
+						$condition = true;
+					}
+				}
+			}
+		}
+
+		return $condition;
+	}
+
+	/**
+	 * Whether or not if the current query is filtering by category if no parameter is used.
+	 * When parameter is used, will check the current query matches the parameter.
+	 *
+	 * @since 9.14
+	 *
+	 * @param int|null|string $parameter
+	 *
+	 * @return bool
+	 */
+	private function isCategory( $parameter ) {
+
+		$condition  = false;
+		$queryValue = cnQuery::getVar( 'cn-cat', cnQuery::getVar( 'cn-cat-slug', false ) );
+
+		if ( is_null( $parameter ) && $queryValue ) {
+
+			$condition = true;
+
+		} elseif ( ! is_null( $parameter ) && $queryValue ) {
+
+			$field  = is_numeric( $parameter ) ? 'id' : 'slug';
+			$result = cnTerm::getBy( $field, $queryValue );
+
+			if ( $result instanceof cnTerm_Object ) {
+
+				if ( (int) $result->term_id === $parameter || $result->slug === $parameter ) {
+
+					$condition = true;
+				}
+			}
+		}
+
+		return $condition;
+	}
+
+	/**
+	 * Whether or not this the main query, not filtered by HTTP query variables.
+	 *
+	 * @since 9.14
+	 *
+	 * @return bool
+	 */
+	private function isFrontPage() {
+
+		global $wp_query;
+
+		// Remove the cn-image query vars.
+		$wp_query_vars = array_diff_key( (array) $wp_query->query_vars, array_flip( array( 'src', 'w', 'h', 'q', 'a', 'zc', 'f', 's', 'o', 'cc', 'ct' ) ) );
+
+		// Grab the array containing all query vars registered by Connections.
+		$registeredQueryVars = cnRewrite::queryVars( array() );
+		return ! (bool) array_intersect( $registeredQueryVars, array_keys( $wp_query_vars ) );
+	}
+
+	/**
+	 * Whether or not the current page is the page set as the Directory Homepage.
+	 *
+	 * @since 9.14
+	 *
+	 * @return bool
+	 */
+	private function isHome() {
+
+		$condition = false;
+		$home      = (int) cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' );
+
+		if ( $this->isFrontPage() && ( $home === get_the_ID() || $home === get_queried_object_id() ) ) {
+
+			$condition = true;
+		}
+
+		return $condition;
+	}
+
+	/**
+	 * Whether or not search is being performed.
+	 *
+	 * @since 9.14
+	 *
+	 * @return bool
+	 */
+	private function isSearch() {
+
+		return cnQuery::getVar( 'cn-s' ) ? true : false;
+	}
+
+	/**
+	 * Whether or not the current view is the Entry detail/profile view based on HTTP query variable.
+	 *
+	 * @since 9.14
+	 *
+	 * @param int|null|string $parameter
+	 *
+	 * @return bool
+	 */
+	private function isSingle( $parameter = null ) {
+
+		$condition  = false;
+		$queryValue = cnQuery::getVar( 'cn-entry-slug', false );
+
+		if ( is_null( $parameter ) && $queryValue ) {
+
+			$condition = true;
+
+		} elseif ( ! is_null( $parameter ) && $queryValue ) {
+
+			$result = Connections_Directory()->retrieve->entry( urldecode( $queryValue ) );
+
+			if ( false !== $result ) {
+
+				if ( (int) $result->id === $parameter || $result->slug === $parameter ) {
+
+					$condition = true;
+				}
+			}
 		}
 
 		return $condition;
@@ -183,6 +505,6 @@ class Conditional_Content extends cnShortcode {
 	 */
 	public function __toString() {
 
-		return $this->html;
+		return is_null( $this->atts['insert'] ) ? $this->html : '';
 	}
 }

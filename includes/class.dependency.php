@@ -266,12 +266,6 @@ class cnDependency {
 			'cnMeta_Query'             => 'includes/class.meta.php',
 
 			// Utility methods.
-			//'cnColor'                  => 'includes/class.utility.php',
-			//'cnFormatting'             => 'includes/class.utility.php',
-			//'cnFunction'               => 'includes/class.utility.php',
-			//'cnSiteShot'               => 'includes/class.utility.php',
-			//'cnString'                 => 'includes/class.utility.php',
-			//'cnURL'                    => 'includes/class.utility.php',
 			'cnUtility'                => 'includes/class.utility.php',
 			'cnValidate'               => 'includes/class.validate.php',
 			'cnSanitize'               => 'includes/class.sanitize.php',

@@ -595,7 +595,7 @@ class cnTemplatePart {
 
 		if ( $currentLetter !== $previousLetter ) {
 
-			if ( $atts['show_alphaindex'] ) {
+			if ( ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) || $atts['show_alphahead'] ) {
 
 				printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
 			}
@@ -612,7 +612,7 @@ class cnTemplatePart {
 				printf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
 			}
 
-			if ( $atts['show_alphaindex'] ) {
+			if ( ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) || $atts['show_alphahead'] ) {
 
 				echo '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
 			}

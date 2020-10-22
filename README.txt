@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 5.0
 Tested up to: 5.5
 Requires PHP: 5.6.20
-Stable tag: 9.13
+Stable tag: 9.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -246,6 +246,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.14 10/22/2020 =
+* NEW: Introduce the `[cn-content]` shortcode.
+* TWEAK: Rename "Custom Fields" metablock and Content Block to "Custom Metadata Fields" to help reduce confusion between "Custom Fields" and "custom fields".
+* TWEAK: Rename the "Entry Meta" Content Block to "Entry Metadata" for uniformity.
+* TWEAK: Minor tweak to ensure the section head di is not rendered if both the current character and repeat character index are disabled.
+* TWEAK: Add version check for Yoast SEO. Minimum supported version is 14.0.
+* TWEAK: Minor tweaks to the `[cn-entry]` shortcode initialization.
+* OTHER: CSS tweak, change double-quote to single-quote to match style.
+* DEV: Add phpDoc to filter.
+* DEV: Remove use of a couple deprecated methods.
+* DEV: Update dist files.
 
 = 9.13 10/06/2020 =
 * NEW: Introduce Rank Math integration.
@@ -592,19 +604,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update package-lock file.
 * DEV: Update dist files.
 
-= 9.3.1 10/02/2019 =
-* TWEAK: Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
-* TWEAK: Add timestamp to admin JS version so Chrome will load changes.
-* TWEAK: Set max height of category div to 100% to allow variable height.
-* BUG: Fix addon plugin install link for multisite.
-* BUG: Add a check if var is an array and the key exists exists before using it.
-* BUG: Change target selector for jQuery UI Resizable for the Category metabox so the drag handle does not scroll when scrolling thru the list of categories.
-* DEV: Update dist files.
-
 == Upgrade Notice ==
-
-= 9.3.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.3.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
@@ -679,4 +679,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.13 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.14 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

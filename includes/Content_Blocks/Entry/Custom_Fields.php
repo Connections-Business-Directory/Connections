@@ -29,7 +29,7 @@ class Custom_Fields extends Content_Block {
 	public function __construct( $id ) {
 
 		$atts = array(
-			'name'                => __( 'Custom Fields', 'connections' ),
+			'name'                => __( 'Custom Metadata Fields', 'connections' ),
 			'slug'                => 'custom-fields',
 			'permission_callback' => array( $this, 'permission' ),
 		);
@@ -48,7 +48,7 @@ class Custom_Fields extends Content_Block {
 	}
 
 	/**
-	 * Renders the Custom Fields attached to the entry.
+	 * Renders the Custom Metadata Fields attached to the entry.
 	 *
 	 * @since 9.6
 	 */
@@ -85,7 +85,7 @@ class Custom_Fields extends Content_Block {
 	}
 
 	/**
-	 * Renders the data saved in the "Custom Fields" entry metabox.
+	 * Renders the data saved in the "Custom Metadata Fields" entry metabox.
 	 * This should not be confused with the fields registered with
 	 * cnMetaboxAPI. Those fields should be output using a registered
 	 * action: `"cn_entry_output_content-$id"`.

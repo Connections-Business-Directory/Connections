@@ -39,7 +39,10 @@ final class Yoast_SEO {
 
 			self::$instance = $self = new static();
 
-			$self->hooks();
+			if ( defined( 'WPSEO_VERSION') && version_compare( WPSEO_VERSION, '14.0', '>=' ) ) {
+
+				$self->hooks();
+			}
 		}
 
 		return self::$instance;

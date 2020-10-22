@@ -10,6 +10,8 @@
  * @since       8.1
  */
 
+use Connections_Directory\Utility\_color;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -762,7 +764,7 @@ class cnImage {
 		}
 
 		// If $canvas_color is a HEX color, ensure it is hashed.
-		$canvas_color = cnFormatting::maybeHashHEXColor( $canvas_color );
+		$canvas_color = _color::maybeHashHEXColor( $canvas_color );
 
 		// Check to see if $canvas_color is a valid HEX color.
 		if ( ! cnSanitize::hexColor( $canvas_color ) ) {

@@ -79,7 +79,7 @@ class Management extends Content_Block {
 	}
 
 	/**
-	 * Renders the Custom Fields attached to the entry.
+	 * Renders the Custom Metadata Fields attached to the entry.
 	 *
 	 * @since 9.6
 	 */

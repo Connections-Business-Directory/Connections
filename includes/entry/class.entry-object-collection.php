@@ -1,4 +1,7 @@
 <?php
+
+use Connections_Directory\Utility\_;
+
 /**
  * Class cnEntry_Object_Collection
  *
@@ -509,7 +512,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		if ( is_string( $data ) ) {
 
 			$data = maybe_unserialize( $data );
-			$data = cnFormatting::maybeJSONdecode( $data );
+			$data = _::maybeJSONdecode( $data );
 		}
 
 		return $data;

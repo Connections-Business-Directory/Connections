@@ -266,12 +266,6 @@ class cnDependency {
 			'cnMeta_Query'             => 'includes/class.meta.php',
 
 			// Utility methods.
-			//'cnColor'                  => 'includes/class.utility.php',
-			//'cnFormatting'             => 'includes/class.utility.php',
-			//'cnFunction'               => 'includes/class.utility.php',
-			//'cnSiteShot'               => 'includes/class.utility.php',
-			//'cnString'                 => 'includes/class.utility.php',
-			//'cnURL'                    => 'includes/class.utility.php',
 			'cnUtility'                => 'includes/class.utility.php',
 			'cnValidate'               => 'includes/class.validate.php',
 			'cnSanitize'               => 'includes/class.sanitize.php',
@@ -288,7 +282,7 @@ class cnDependency {
 			'cnShortcode'                                         => 'includes/shortcode/class.shortcode.php',
 			'cnShortcode_Connections'                             => 'includes/shortcode/class.shortcode-connections.php',
 			'Connections_Directory\Shortcode\mapBlock'            => 'includes/shortcode/class.shortcode-mapblock.php',
-			'Connections_Directory\Shortcode\Entry'               => 'includes/shortcode/class.shortcode-entry.php',
+			'Connections_Directory\Shortcode\Entry'               => 'includes/shortcode/Entry.php',
 			'Connections_Directory\Shortcode\Conditional_Content' => 'includes/shortcode/Conditional_Content.php',
 			'cnThumb'                                             => 'includes/shortcode/class.shortcode-thumbnail.php',
 			'cnThumb_Responsive'                                  => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',

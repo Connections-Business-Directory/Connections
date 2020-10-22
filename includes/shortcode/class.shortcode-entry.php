@@ -23,6 +23,12 @@ class Entry extends cnShortcode {
 	private $html = '';
 
 	/**
+	 * @since 9.12
+	 * @var string
+	 */
+	private static $tag = 'cn-entry';
+
+	/**
 	 *
 	 * @param array  $atts
 	 * @param string $content
@@ -108,6 +114,32 @@ class Entry extends cnShortcode {
 	}
 
 	/**
+	 * Register the shortcode.
+	 *
+	 * @since 9.14
+	 */
+	public static function add() {
+
+		add_shortcode( static::$tag, array( __CLASS__, 'shortcode' ) );
+	}
+
+	/**
+	 * Callback for `add_shortcode()`
+	 *
+	 * @see Entry::add()
+	 *
+	 * @param array  $atts
+	 * @param string $content
+	 * @param string $tag
+	 *
+	 * @return static
+	 */
+	public static function shortcode( $atts, $content, $tag ) {
+
+		return new static( $atts, $content, $tag );
+	}
+
+	/**
 	 * The shortcode defaults.
 	 *
 	 * @param Template $template
@@ -162,20 +194,6 @@ class Entry extends cnShortcode {
 		}
 
 		return $atts;
-	}
-
-	/**
-	 * Callback for `add_shortcode()`
-	 *
-	 * @param array  $atts
-	 * @param string $content
-	 * @param string $tag
-	 *
-	 * @return self
-	 */
-	public static function shortcode( $atts, $content = '', $tag = 'cn-entry' ) {
-
-		return new static( $atts, $content, $tag );
 	}
 
 	/**

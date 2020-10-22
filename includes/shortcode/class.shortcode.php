@@ -69,8 +69,6 @@ class cnShortcode {
 			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
 			add_shortcode( 'upcoming_list', '_upcoming_list' );
 
-			add_shortcode( 'cn-entry', array( 'Connections_Directory\Shortcode\Entry', 'shortcode' ) );
-
 			add_shortcode( 'cn-mapblock', array( 'Connections_Directory\Shortcode\mapBlock', 'shortcode' ) );
 			add_shortcode( 'cn-content', array( 'Connections_Directory\Shortcode\Conditional_Content', 'shortcode' ) );
 
@@ -79,6 +77,8 @@ class cnShortcode {
 
 			add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
 			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
+
+			Connections_Directory\Shortcode\Entry::add();
 		}
 	}
 

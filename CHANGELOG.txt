@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 9.14 10/22/2020 =
+* NEW: Introduce the `[cn-content]` shortcode.
+* TWEAK: Rename "Custom Fields" metablock and Content Block to "Custom Metadata Fields" to help reduce confusion between "Custom Fields" and "custom fields".
+* TWEAK: Rename the "Entry Meta" Content Block to "Entry Metadata" for uniformity.
+* TWEAK: Minor tweak to ensure the section head di is not rendered if both the current character and repeat character index are disabled.
+* TWEAK: Add version check for Yoast SEO. Minimum supported version is 14.0.
+* TWEAK: Minor tweaks to the `[cn-entry]` shortcode initialization.
+* OTHER: CSS tweak, change double-quote to single-quote to match style.
+* DEV: Add phpDoc to filter.
+* DEV: Remove use of a couple deprecated methods.
+* DEV: Update dist files.
+
 = 9.13 10/06/2020 =
 * NEW: Introduce Rank Math integration.
 * NEW: Introduce `cnSEO::getImageMeta()`.

@@ -275,8 +275,10 @@ class Conditional_Content extends cnShortcode {
 
 			default:
 				$condition = apply_filters(
-					"Connections_directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}",
-					false
+					"Connections_Directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}",
+					false,
+					$this->atts['parameter'],
+					$this
 				);
 		}
 

@@ -40,7 +40,7 @@ class Conditional_Content extends cnShortcode {
 	 * @since 9.12
 	 * @var string
 	 */
-	private static $tag = 'cn-content';
+	protected static $tag = 'cn-content';
 
 	/**
 	 * @since 9.12

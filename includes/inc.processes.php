@@ -13,6 +13,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+_deprecated_file( basename( __FILE__ ), '9.15' );
+
 /**
  * Add / Edit / Update / Copy an entry.
  *
@@ -23,6 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return (bool)
  */
 function processEntry( $data, $action ) {
+
+	_deprecated_function( __METHOD__, '9.15' );
 
 	// If copying/editing an entry, the entry data is loaded into the class
 	// properties and then properties are overwritten by the POST data as needed.

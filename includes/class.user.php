@@ -256,6 +256,8 @@ class cnUser {
 	 */
 	public function getFilterPage( $pageName ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnUser::getScreenOption()' );
+
 		$meta = $this->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 
 		return (object) $meta;
@@ -272,6 +274,8 @@ class cnUser {
 	 * @return bool|int
 	 */
 	public function setFilterPage( $page ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnUser::setScreenOption()' );
 
 		// If the page name has not been supplied, no need to process further.
 		if ( ! isset( $page->name ) ) {
@@ -480,6 +484,8 @@ class cnUser {
 	 * @deprecated 0.7.6
 	 */
 	public function resetMessages() {
+
+		_deprecated_function( __METHOD__, '9.15' );
 
 		cnMessage::reset();
 	}

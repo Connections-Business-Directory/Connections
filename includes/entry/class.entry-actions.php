@@ -1158,12 +1158,9 @@ class cnEntry_Action {
 		/**
 		 * Action fired after entry related caches are cleared.
 		 *
-		 * The `cn_process_cache-entry` action is deprecated since 8.2.5 and should not be used.
-		 *
 		 * @since 8.2.5
 		 */
 		do_action( 'cn_clean_entry_cache' );
-		do_action( 'cn_process_cache-entry' );
 	}
 
 	/**

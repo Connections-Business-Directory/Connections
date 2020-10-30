@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 5.0
 Tested up to: 5.5
 Requires PHP: 5.6.20
-Stable tag: 9.14
+Stable tag: 9.15
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -246,6 +246,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.15 10/30/2020 =
+* TWEAK: Pass additional parameters to the `Connections_Directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}` filter.
+* DEV: Change class variable from private to protected.
+* DEV: Add deprecated notices throughout so usages can be removed and old code cleaned up.
 
 = 9.14 10/22/2020 =
 * NEW: Introduce the `[cn-content]` shortcode.
@@ -682,4 +687,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.14 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.15 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

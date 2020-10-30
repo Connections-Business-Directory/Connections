@@ -2998,6 +2998,9 @@ class cnRetrieve {
 	 * @return array of objects
 	 */
 	private function orderBy( &$entries, $orderBy, $suppliedIDs = NULL ) {
+
+		_deprecated_function( __METHOD__, '9.15' );
+
 		if ( empty( $entries ) || empty( $orderBy ) ) return $entries;
 
 		$orderFields = array(

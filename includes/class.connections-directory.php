@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '9.14';
+	const VERSION = '9.15';
 
 	/**
 	 * Stores the instance of this class.
@@ -568,7 +568,10 @@ final class Connections_Directory {
 	 * @deprecated 0.7.5
 	 * @return void
 	 */
-	public function displayMessages() { /* Do nothing here */ }
+	public function displayMessages() {
+
+		_deprecated_function( __METHOD__, '9.15' );
+	}
 
 	/**
 	 * Set a runtime action/error message.
@@ -584,6 +587,9 @@ final class Connections_Directory {
 	 * @return void
 	 */
 	public function setRuntimeMessage( $type, $message ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnMessage::runtime()' );
+
 		cnMessage::runtime( $type, $message );
 	}
 
@@ -600,6 +606,9 @@ final class Connections_Directory {
 	 * @return void
 	 */
 	public function setErrorMessage( $code ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnMessage::set()' );
+
 		cnMessage::set( 'error', $code );
 	}
 
@@ -616,6 +625,9 @@ final class Connections_Directory {
 	 * @return void
 	 */
 	public function setSuccessMessage( $code ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnMessage::set()' );
+
 		cnMessage::set( 'success', $code );
 	}
 

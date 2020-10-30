@@ -166,6 +166,8 @@ class cnFormObjects {
 	 */
 	public function buildSelect( $name, $options, $value = '', $class = '', $id = '' ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnHTML::field()' );
+
 		$select = cnHTML::field(
 			array(
 				'type'     => 'select',
@@ -199,6 +201,8 @@ class cnFormObjects {
 	 */
 	public function buildRadio( $name, $id, $options, $value = '' ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnHTML::field()' );
+
 		$radio = cnHTML::field(
 			array(
 				'type'     => 'radio',
@@ -230,6 +234,8 @@ class cnFormObjects {
 	 */
 	public function registerEditMetaboxes( $pageHook ) {
 
+		_deprecated_function( __METHOD__, '9.15' );
+
 		// Retrieve all metabox registered with cnMetaboxAPI.
 		$metaboxes = cnMetaboxAPI::get();
 
@@ -254,6 +260,8 @@ class cnFormObjects {
 	 * @param object   $entry An instance of the cnEntry object.
 	 */
 	public function metaboxName( $entry ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntryMetabox::name()' );
 
 		cnEntryMetabox::name( $entry, $metabox = array() );
 	}

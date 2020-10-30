@@ -1073,6 +1073,8 @@ class cnEntry {
 	 */
 	public function getFullFirstLastName( $context = 'display' ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getName()' );
+
 		return $this->getName( array( 'format' => '%first% %middle% %last%' ), $context );
 	}
 
@@ -1089,6 +1091,8 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getFullLastFirstName( $context = 'display' ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getName()' );
 
 		return $this->getName( array( 'format' => '%last%, %first% %middle%' ), $context );
 	}
@@ -1894,6 +1898,8 @@ class cnEntry {
 	 */
 	public function getWebsites( $atts = array(), $cached = TRUE ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getLinks()' );
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -2077,6 +2083,8 @@ class cnEntry {
 	 */
 	public function getAnniversary( $format = 'F jS' ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getDates()' );
+
 		if ( empty( $this->anniversary ) ) {
 
 			$anniversaries = $this->getDates( array( 'type' => 'anniversary' ) );
@@ -2107,6 +2115,8 @@ class cnEntry {
 	 */
 	public function setAnniversary( $day, $month ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getDates()' );
+
 		//Create the anniversary with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
 		$this->anniversary = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1972 ) : '';
 	}
@@ -2128,6 +2138,8 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getBirthday( $format = 'F jS' ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getDates()' );
 
 		if ( empty( $this->birthday ) ) {
 
@@ -2158,6 +2170,8 @@ class cnEntry {
 	 * @param int $month
 	 */
 	public function setBirthday( $day, $month ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getDates()' );
 
 		//Create the birthday with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
 		$this->birthday = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1972 ) : '';
@@ -2617,6 +2631,8 @@ class cnEntry {
 	 */
 	public function getImageNameCard() {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getImageMeta()' );
+
 		if ( empty( $this->options['image']['name']['entry'] ) ) {
 			return '';
 		}
@@ -2637,6 +2653,8 @@ class cnEntry {
 	 */
 	public function getImageNameProfile() {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getImageMeta()' );
+
 		if ( empty( $this->options['image']['name']['profile'] ) ) {
 			return '';
 		}
@@ -2656,6 +2674,8 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getImageNameThumbnail() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getImageMeta()' );
 
 		if ( empty( $this->options['image']['name']['thumbnail'] ) ) {
 			return '';

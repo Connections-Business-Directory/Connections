@@ -26,7 +26,7 @@ class Entry extends cnShortcode {
 	 * @since 9.12
 	 * @var string
 	 */
-	private static $tag = 'cn-entry';
+	protected static $tag = 'cn-entry';
 
 	/**
 	 *

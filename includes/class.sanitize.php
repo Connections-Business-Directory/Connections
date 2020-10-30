@@ -149,6 +149,8 @@ class cnSanitize {
 	 */
 	public static function sanitizeString( $string, $allowHTML = false, $permittedTags = array() ) {
 
+		_deprecated_function( __METHOD__, '9.15' );
+
 		// Strip all tags except the permitted.
 		if ( ! $allowHTML ) {
 

@@ -33,6 +33,8 @@ class cnText_Domain {
 	 */
 	public static function create( $domain, $basename = '' ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnText_Domain::register()' );
+
 		return new self( $domain, $basename );
 	}
 

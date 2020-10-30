@@ -1634,6 +1634,9 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function characterIndex( $atts = array() ) {
+
+		_deprecated_function( __METHOD__, '9.11', 'cnTemplatePart::index()' );
+
 		static $out = '';
 		$links = array();
 		$alphaindex = range( "A", "Z" );

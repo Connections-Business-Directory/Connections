@@ -50,6 +50,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getCardImage() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
+
 		$this->getImage();
 	}
 
@@ -59,6 +62,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getProfileImage() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
+
 		$this->getImage( array( 'image' => 'photo' , 'preset' => 'profile' ) );
 	}
 
@@ -68,6 +74,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getThumbnailImage() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
+
 		$this->getImage( array( 'image' => 'photo' , 'preset' => 'thumbnail' ) );
 	}
 
@@ -77,6 +86,8 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getLogoImage() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
 
 		$this->getImage( array( 'image' => 'logo' ) );
 	}
@@ -767,6 +778,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @return string
 	 */
 	public function getFullFirstLastNameBlock() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getNameBlock()' );
+
 		return $this->getNameBlock( array( 'format' => '%prefix% %first% %middle% %last% %suffix%', 'return' => TRUE ) );
 	}
 
@@ -780,6 +794,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @return string
 	 */
 	public function getFullLastFirstNameBlock() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getNameBlock()' );
+
 		return $this->getNameBlock( array( 'format' => '%last%, %first% %middle%', 'return' => TRUE ) );
 	}
 
@@ -789,6 +806,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated since 0.7.1.0
 	 */
 	public function getConnectionGroupBlock() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getFamilyMemberBlock()' );
+
 		$this->getFamilyMemberBlock();
 	}
 
@@ -1067,6 +1087,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getOrganizationBlock() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getOrgUnitBlock()' );
+
 		return $this->getOrgUnitBlock( array( 'return' => TRUE ) );
 	}
 
@@ -1076,6 +1099,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getDepartmentBlock() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getOrgUnitBlock()' );
+
 		return $this->getOrgUnitBlock( array( 'return' => TRUE ) );
 	}
 
@@ -1858,6 +1884,8 @@ class cnEntry_HTML extends cnEntry {
 	 */
 	public function getWebsiteBlock() {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getLinkBlock()' );
+
 		/*
 		 * Set some defaults so the result resembles how the previous rendered.
 		 */
@@ -2055,6 +2083,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @return string
 	 */
 	public function getBirthdayBlock( $format = '', $atts = array() ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getDateBlock()' );
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -2135,6 +2166,9 @@ class cnEntry_HTML extends cnEntry {
 	 * @return string
 	 */
 	public function getAnniversaryBlock( $format = '', $atts = array() ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getDateBlock()' );
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -2647,6 +2681,8 @@ class cnEntry_HTML extends cnEntry {
 	 * @deprecated
 	 */
 	public function returnToTopAnchor() {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnTemplatePart::returnToTop()' );
 
 		cnTemplatePart::returnToTop();
 	}

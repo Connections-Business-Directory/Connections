@@ -135,3 +135,17 @@ add_action(
 	10,
 	3
 );
+
+add_action(
+	'cn_clean_entry_cache',
+	function() {
+		do_action_deprecated(
+			'cn_process_cache-entry',
+			array(),
+			'9.15',
+			'cn_clean_entry_cache'
+		);
+	},
+	10,
+	3
+);

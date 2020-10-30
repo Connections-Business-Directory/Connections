@@ -148,6 +148,8 @@ final class cnCountry {
 	 */
 	public function getCode() {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnCountry::getIsoAlpha2()' );
+
 		return $this->getIsoAlpha2();
 	}
 

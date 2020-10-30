@@ -35,6 +35,8 @@ class cnTerms {
 	 */
 	public function getTerms( $taxonomies, $atts = array() ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::tree()' );
+
 		return cnTerm::tree( $taxonomies, $atts );
 	}
 
@@ -48,6 +50,8 @@ class cnTerms {
 	 * @return array|null|cnTerm_Object|WP_Error
 	 */
 	public function getTerm($id, $taxonomy) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::get()' );
 
 		return cnTerm::get( $id, $taxonomy );
 	}
@@ -66,6 +70,8 @@ class cnTerms {
 	 */
 	public function getTermBy( $field, $value, $taxonomy ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::getBy()' );
+
 		return cnTerm::getBy( $field, $value, $taxonomy );
 	}
 
@@ -81,6 +87,8 @@ class cnTerms {
 	 * @return array
 	 */
 	public function getTermChildrenIDs( $id, $taxonomy ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::children()' );
 
 		return cnTerm::children( $id, $taxonomy );
 	}
@@ -174,6 +182,8 @@ class cnTerms {
 	 */
 	public function addTerm( $term, $taxonomy, $attributes ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::insert()' );
+
 		$result = cnTerm::insert( $term, $taxonomy, $attributes );
 
 		return $result;
@@ -200,6 +210,8 @@ class cnTerms {
 	 */
 	public function updateTerm( $termID, $taxonomy, $attributes ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::update()' );
+
 		$result = cnTerm::update( $termID, $taxonomy, $attributes );
 
 		return $result;
@@ -222,6 +234,8 @@ class cnTerms {
 	 */
 	public function deleteTerm( $id, $parent, $taxonomy ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::delete()' );
+
 		$result = cnTerm::delete( $id, $taxonomy );
 
 		return $result;
@@ -243,6 +257,8 @@ class cnTerms {
 	 * @return array|WP_Error
 	 */
 	public function setTermRelationships( $entryID, $termIDs, $taxonomy ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::setRelationships()' );
 
 		if ( ! is_array( $termIDs ) ) {
 
@@ -273,6 +289,8 @@ class cnTerms {
 	 */
 	public function getTermRelationships( $entryID ) {
 
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::getRelationships()' );
+
 		return cnTerm::getRelationships( $entryID, 'category', array( 'fields' => 'ids' ) );
 	}
 
@@ -287,6 +305,8 @@ class cnTerms {
 	 * @return bool|WP_Error
 	 */
 	public function deleteTermRelationships( $entryID ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::deleteRelationships()' );
 
 		$terms  = cnTerm::getRelationships( $entryID, 'category', array( 'fields' => 'ids' ) );
 		$result = cnTerm::deleteRelationships( $entryID, $terms, 'category' );
@@ -2644,6 +2664,8 @@ class cnTerm {
 	 * @return array Empty if $taxonomy isn't hierarchical or returns children as Term IDs.
 	 */
 	public static function get_hierarchy( $taxonomy ) {
+
+		_deprecated_function( __METHOD__, '9.15', 'cnTerm::childrenIDs' );
 
 		return self::childrenIDs( $taxonomy );
 	}

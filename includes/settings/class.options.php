@@ -203,6 +203,8 @@ class cnOptions {
 		/** @var connectionsLoad $connections */
 		global $connections;
 
+		_deprecated_function( __METHOD__, '9.11' );
+
 		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_public_override' ) ? TRUE : FALSE;
 	}
 
@@ -217,6 +219,8 @@ class cnOptions {
 
 		/** @var connectionsLoad $connections */
 		global $connections;
+
+		_deprecated_function( __METHOD__, '9.11' );
 
 		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_private_override' ) ? TRUE : FALSE;
 	}
@@ -558,6 +562,8 @@ class cnOptions {
 	 */
 	public function getDefaultAddressValues() {
 
+		_deprecated_function( __METHOD__, '9.11', 'cnOptions::getAddressTypeOptions()' );
+
 		return self::getAddressTypeOptions();
 	}
 
@@ -701,6 +707,8 @@ class cnOptions {
 	 */
 	public function getDefaultPhoneNumberValues() {
 
+		_deprecated_function( __METHOD__, '9.11', 'cnOptions::getPhoneTypeOptions()' );
+
 		return self::getPhoneTypeOptions();
 	}
 
@@ -840,6 +848,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultEmailValues() {
+
+		_deprecated_function( __METHOD__, '9.11', 'cnOptions::getEmailTypeOptions()' );
 
 		return self::getEmailTypeOptions();
 	}
@@ -1010,6 +1020,8 @@ class cnOptions {
 	 */
 	public function getDefaultSocialMediaValues() {
 
+		_deprecated_function( __METHOD__, '9.11', 'cnOptions::getSocialNetworkTypeOptions()' );
+
 		return self::getSocialNetworkTypeOptions();
 	}
 
@@ -1150,6 +1162,8 @@ class cnOptions {
 	 */
 	public function getDefaultIMValues() {
 
+		_deprecated_function( __METHOD__, '9.11', 'cnOptions::getMessengerTypeOptions()' );
+
 		return self::getMessengerTypeOptions();
 	}
 
@@ -1289,6 +1303,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultLinkValues() {
+
+		_deprecated_function( __METHOD__, '9.11', 'cnOptions::getLinkTypeOptions()' );
 
 		return self::getLinkTypeOptions();
 	}
@@ -1438,6 +1454,8 @@ class cnOptions {
 	 */
 	public function getDateOptions() {
 
+		_deprecated_function( __METHOD__, '9.11', 'cnOptions::getDateTypeOptions()' );
+
 		return self::getDateTypeOptions();
 	}
 
@@ -1506,6 +1524,8 @@ class cnOptions {
 	public function getDebug() {
 		global $connections;
 
+		_deprecated_function( __METHOD__, '9.15' );
+
 		return $connections->settings->get( 'connections', 'connections_debug', 'debug_messages' );
 	}
 
@@ -1516,6 +1536,8 @@ class cnOptions {
 	 * @return true
 	 */
 	public function getGoogleMapsAPI() {
+
+		_deprecated_function( __METHOD__, '9.15' );
 
 		return TRUE;
 	}
@@ -1528,6 +1550,8 @@ class cnOptions {
 	 */
 	public function getJavaScriptFooter() {
 
+		_deprecated_function( __METHOD__, '9.15' );
+
 		return TRUE;
 	}
 
@@ -1539,6 +1563,8 @@ class cnOptions {
 	 */
 	public function getSearchFields() {
 		global $connections;
+
+		_deprecated_function( __METHOD__, '9.15' );
 
 		return $connections->settings->get( 'connections', 'connections_search', 'fields' );
 	}

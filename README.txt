@@ -247,6 +247,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.15 10/30/2020 =
+* TWEAK: Pass additional parameters to the `Connections_Directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}` filter.
+* DEV: Change class variable from private to protected.
+* DEV: Add deprecated notices throughout so usages can be removed and old code cleaned up.
+
 = 9.14 10/22/2020 =
 * NEW: Introduce the `[cn-content]` shortcode.
 * TWEAK: Rename "Custom Fields" metablock and Content Block to "Custom Metadata Fields" to help reduce confusion between "Custom Fields" and "custom fields".
@@ -682,4 +687,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.14 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.15 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

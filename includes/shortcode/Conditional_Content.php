@@ -161,16 +161,32 @@ class Conditional_Content extends cnShortcode {
 		switch ( $this->atts['block'] ) {
 
 			case 'content':
-				// No recursive loops!
-				$this->html = ( $this->atts['id'] === get_the_ID() || $this->atts['id'] === get_queried_object_id() )
-					        ? ''
-					        : apply_filters( 'the_content', $post->post_content );
+				$this->html = $this->getPostContent( $post );
 				break;
 
 			case 'title':
 				$this->html = $post->post_title;
 				break;
 		}
+	}
+
+	/**
+	 * Get post content, applying filters.
+	 *
+	 * @since 9.16
+	 *
+	 * @param WP_Post $post
+	 *
+	 * @return string
+	 */
+	private function getPostContent( $post ) {
+
+		// No recursive loops!
+		$html = ( $this->atts['id'] === get_the_ID() || $this->atts['id'] === get_queried_object_id() )
+			  ? ''
+			  : apply_filters( 'the_content', $post->post_content );
+
+		return apply_filters( 'Connections_Directory/Shortcode/Conditional_Content/Post_Content', $html, $post );
 	}
 
 	/**

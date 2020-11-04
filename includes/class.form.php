@@ -31,7 +31,7 @@ class cnFormObjects {
 		 * Create the visibility option array based on the current user capability.
 		 */
 		foreach ( $this->visibiltyOptions as $key => $option ) {
-			if ( ! $this->validate->userPermitted( $option ) ) unset( $this->visibiltyOptions[$key] );
+			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) unset( $this->visibiltyOptions[$key] );
 		}
 	}
 

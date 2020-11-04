@@ -702,7 +702,7 @@ class cnRetrieve {
 		}
 
 		// Get registered date types.
-		$dateTypes = array_keys( $instance->options->getDateOptions() );
+		$dateTypes = array_keys( cnOptions::getDateTypeOptions() );
 
 		// Add the registered activate date types as valid order_by field options.
 		$orderFields = array_merge( $orderFields, $dateTypes );

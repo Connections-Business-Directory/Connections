@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -366,7 +367,7 @@ class cnHTML {
 				 * @link http://stackoverflow.com/a/22753630/5351316
 				 * @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset
 				 */
-				if ( cnFunction::isDimensionalArray( $value ) ) {
+				if ( _array::isDimensional( $value ) ) {
 
 					foreach ( $value as $_value ) {
 

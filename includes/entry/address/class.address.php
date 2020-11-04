@@ -360,7 +360,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		$self->country     = new cnCountry(
 			array(
 				'name'              => cnSanitize::field( 'country', $self->country->getName(), $context ),
-				'iso_3166_1_alpha2' => cnSanitize::field( 'attribute', $self->country->getCode(), $context ),
+				'iso_3166_1_alpha2' => cnSanitize::field( 'attribute', $self->country->getIsoAlpha2(), $context ),
 			)
 		);
 

@@ -270,7 +270,7 @@ function connectionsShowViewPage( $action = NULL ) {
 		default:
 			$form = new cnFormObjects();
 
-			$page = $instance->currentUser->getFilterPage( 'manage' );
+			$page = (object) $instance->currentUser->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 			$offset = ( $page->current - 1 ) * $page->limit;
 
 			echo '<h1>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h1>';
@@ -406,7 +406,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							 * Grab the pagination data again in case a filter reset the values
 							 * or the user input an invalid number which the retrieve query would have reset.
 							 */
-							$page = $instance->currentUser->getFilterPage( 'manage' );
+							$page = (object) $instance->currentUser->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 
 							$pageCount = ceil( $instance->resultCountNoLimit / $page->limit );
 

@@ -2892,7 +2892,7 @@ class cnEntryMetabox {
 
 						<td>
 							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
-							<textarea name='meta[<?php echo $meta['meta_id']; ?>][value]' id='meta[<?php echo $meta['meta_id']; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( cnFormatting::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
+							<textarea name='meta[<?php echo $meta['meta_id']; ?>][value]' id='meta[<?php echo $meta['meta_id']; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( _::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
 						</td>
 
 					</tr>

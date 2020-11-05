@@ -13,6 +13,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_;
+
 /**
  * Class cnEntryMetabox
  */
@@ -831,7 +833,7 @@ class cnEntryMetabox {
 
 				foreach ( $relations as $relationData ) {
 
-					$token = str_replace( '-', '', cnUtility::getUUID() );
+					$token = str_replace( '-', '', _::getUUID() );
 
 					if ( array_key_exists( $relationData['entry_id'], $individuals ) ) {
 
@@ -1082,7 +1084,7 @@ class cnEntryMetabox {
 
 			foreach ( $addresses as $address ) {
 
-				$token = str_replace( '-', '', cnUtility::getUUID() );
+				$token = str_replace( '-', '', _::getUUID() );
 
 				echo '<div class="widget address" id="address-row-'  . $token . '">' , PHP_EOL;
 
@@ -1507,7 +1509,7 @@ class cnEntryMetabox {
 
 			foreach ( $phoneNumbers as $phone ) {
 
-				$token = str_replace( '-', '', cnUtility::getUUID() );
+				$token = str_replace( '-', '', _::getUUID() );
 
 				echo '<div class="widget phone" id="phone-row-' . $token . '">' , PHP_EOL;
 
@@ -1721,7 +1723,7 @@ class cnEntryMetabox {
 
 			foreach ( $emailAddresses as $email ) {
 
-				$token = str_replace( '-', '', cnUtility::getUUID() );
+				$token = str_replace( '-', '', _::getUUID() );
 
 				echo '<div class="widget email" id="email-row-' . $token . '">' , PHP_EOL;
 
@@ -1936,7 +1938,7 @@ class cnEntryMetabox {
 
 			foreach ( $imIDs as $network ) {
 
-				$token = str_replace( '-', '', cnUtility::getUUID() );
+				$token = str_replace( '-', '', _::getUUID() );
 
 				echo '<div class="widget im" id="im-row-'  . $token . '">' , PHP_EOL;
 
@@ -2148,7 +2150,7 @@ class cnEntryMetabox {
 
 			foreach ( $socialNetworks as $network ) {
 
-				$token = str_replace( '-', '', cnUtility::getUUID() );
+				$token = str_replace( '-', '', _::getUUID() );
 
 				echo '<div class="widget social-media" id="social-row-'  . $token . '">' , PHP_EOL;
 
@@ -2362,7 +2364,7 @@ class cnEntryMetabox {
 
 			foreach ( $links as $link ) {
 
-				$token = str_replace( '-', '', cnUtility::getUUID() );
+				$token = str_replace( '-', '', _::getUUID() );
 
 				echo '<div class="widget link" id="link-row-' . $token . '">' , PHP_EOL;
 
@@ -2660,7 +2662,7 @@ class cnEntryMetabox {
 
 			foreach ( $dates as $date ) {
 
-				$token = str_replace( '-', '', cnUtility::getUUID() );
+				$token = str_replace( '-', '', _::getUUID() );
 
 				echo '<div class="widget date" id="date-row-'  . $token . '">' , PHP_EOL;
 

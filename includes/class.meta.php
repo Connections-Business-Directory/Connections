@@ -15,6 +15,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_;
+
 /**
  * Class cnMeta
  */
@@ -101,7 +103,7 @@ class cnMeta {
 
 			if ( $single ) {
 
-				return cnFormatting::maybeJSONdecode( $meta_cache[ $key ][0] );
+				return _::maybeJSONdecode( $meta_cache[ $key ][0] );
 
 			} else {
 

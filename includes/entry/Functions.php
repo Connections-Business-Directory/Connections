@@ -6,6 +6,7 @@ use cnEntry;
 use cnOutput;
 use cnSanitize;
 use cnUtility;
+use Connections_Directory\Utility\_string;
 
 /**
  * Class Functions
@@ -133,7 +134,7 @@ class Functions {
 			 * This will make a collision in the seed highly likely, per IP address but that should be acceptable
 			 * in this use case.
 			 */
-			$hash = cnUtility::numHash( json_encode( $atts ), 1 );
+			$hash = _string::toNumericHash( json_encode( $atts ), 1 );
 
 			return $seed . $hash;
 		};
@@ -223,7 +224,7 @@ class Functions {
 			 * This will make a collision in the seed highly likely, per IP address but that should be acceptable
 			 * in this use case.
 			 */
-			$hash = cnUtility::numHash( json_encode( $atts ), 1 );
+			$hash = _string::toNumericHash( json_encode( $atts ), 1 );
 
 			return $seed . $hash;
 		};

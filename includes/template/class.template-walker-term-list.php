@@ -141,9 +141,9 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array $atts  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_list_class', array( 'cn-cat-tree' ), $terms, $atts );
-		$class = cnSanitize::htmlClass( $class );
+		$class = cnHTML::escapeClassnames( $class );
 
-		$out .= '<ul class="' . cnFunction::escAttributeDeep( $class ) . '">' . PHP_EOL;
+		$out .= '<ul class="' . $class . '">' . PHP_EOL;
 
 		if ( empty( $terms ) ) {
 

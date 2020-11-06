@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_string;
+
 class cnRetrieve {
 	/**
 	 * The result count from the query with no limit.
@@ -702,7 +705,7 @@ class cnRetrieve {
 		}
 
 		// Get registered date types.
-		$dateTypes = array_keys( $instance->options->getDateOptions() );
+		$dateTypes = array_keys( cnOptions::getDateTypeOptions() );
 
 		// Add the registered activate date types as valid order_by field options.
 		$orderFields = array_merge( $orderFields, $dateTypes );
@@ -896,7 +899,7 @@ class cnRetrieve {
 
 		if ( $random ) {
 
-			$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
+			$seed = _string::stripNonNumeric( _::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
 
 			$seed = apply_filters( 'cn_entry_query_random_seed', $seed, $atts );
 
@@ -1309,9 +1312,7 @@ class cnRetrieve {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		$instance = Connections_Directory();
-
-		$permitted = array_keys( $instance->options->getDateOptions() );
+		$permitted = array_keys( cnOptions::getDateTypeOptions() );
 		$where     = array();
 		$results   = array();
 

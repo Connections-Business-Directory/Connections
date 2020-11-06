@@ -247,6 +247,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.16 11/06/2020 =
+* TWEAK: Add filter to the `[cn-content]` shortcode to support the Page Builder plugin by SiteOrigin.
+* OTHER: Remove the legacy social network icons to reduce plugin package size.
+* DEV: Code alignment.
+* DEV: Correct the replacement method for a deprecated method debug message.
+* DEV: Remove use of deprecated method `cnValidate::userPermitted()`.
+* DEV: Remove use of deprecated method `cnCountry::getCode()`.
+* DEV: Remove use of deprecated method `cnOptions::getDateOptions()`.
+* DEV: Remove use of deprecated method `cnFormatting::toCamelCase()`.
+* DEV: Remove use of deprecated method `cnFunction::isDimensionalArray()`.
+* DEV: Remove use of deprecated method `cnEntry::getFullFirstLastName()`.
+* DEV: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
+* DEV: Remove use of deprecated method `cnUser::getFilterPage()`.
+* DEV: Remove use of deprecated method `cnUtility::getUUID()`.
+* DEV: Remove use of deprecated method `cnFormatting::maybeJSONencode()`.
+* DEV: Remove use of deprecated method `cnFormatting::maybeJSONdecode()`.
+* DEV: Remove use of deprecated method `cnUtility::toNumericHash()`.
+* DEV: Remove use of deprecated method in `cnRetrieve`.
+
 = 9.15 10/30/2020 =
 * TWEAK: Pass additional parameters to the `Connections_Directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}` filter.
 * DEV: Change class variable from private to protected.
@@ -593,20 +612,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Code cleanup of the carousel block.
 * DEV: Fix display of image when set as circle in carousel block on mobile device.
 * DEV: Break blocks JavaScript into two files, one for public and for editor.
-
-= 9.3.2 10/28/2019 =
-* NEW: Add support for limit and category REST API parameters.
-* TWEAK: More user friendly error message when license status check fails.
-* TWEAK: Change Google Maps URLs from `http` to `https`.
-* TWEAK: Ensure the Log post type is excluded from WP search results.
-* OTHER: Lay foundation for the Entry store for the new block editor.
-* OTHER: Initial work on the new carousel/slider block to display directory entries.
-* DEV: Update NPM.
-* DEV: Update Babel Core.
-* DEV: Update WordPress Style Lint Config.
-* DEV: Add spacing to webpack.config.js.
-* DEV: Add rules for processing CSS and fonts to webpack.config.js.
-* DEV: Update package-lock file.
-* DEV: Update dist files.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

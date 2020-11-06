@@ -305,3 +305,34 @@ function cn_ao_override_css_exclude( $exclude ) {
 
 	return $exclude . ", leaflet{$min}.css";
 }
+
+/**
+ * Compatibility with the SiteOrigin Page Builder plugin.
+ *
+ * @since 9.16
+ */
+add_filter(
+	'Connections_Directory/Shortcode/Conditional_Content/Post_Content',
+	/**
+	 * Apply the SiteOrigin renderer if the Page Builder plugin is active.
+	 *
+	 * @since 9.16
+	 *
+	 * @param string  $html
+	 * @param WP_Post $post
+	 *
+	 * @return string
+	 */
+	function( $html, $post ) {
+
+		if ( is_callable( [ 'SiteOrigin_Panels', 'renderer' ] ) ) {
+
+			/** @noinspection PhpUndefinedClassInspection */
+			$html = SiteOrigin_Panels::renderer()->render( $post->ID );
+		}
+
+		return $html;
+	},
+	10,
+	2
+);

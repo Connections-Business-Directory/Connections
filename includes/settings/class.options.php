@@ -292,7 +292,7 @@ class cnOptions {
 
 		foreach ( $options as $key => $option ) {
 
-			if ( ! cnValidate::userPermitted( $key ) ) {
+			if ( ! Connections_Directory()->currentUser->canViewVisibility( $key ) ) {
 
 				unset( $options[ $key ] );
 			}

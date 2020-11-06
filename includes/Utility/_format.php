@@ -66,7 +66,7 @@ final class _format {
 	 */
 	public static function stripNonNumeric( $string ) {
 
-		_deprecated_function( __METHOD__, '9.11', '_::maybeJSONencode()' );
+		_deprecated_function( __METHOD__, '9.11', '_string::stripNonNumeric()' );
 
 		return _string::stripNonNumeric( $string );
 	}

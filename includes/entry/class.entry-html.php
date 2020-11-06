@@ -1745,9 +1745,7 @@ class cnEntry_HTML extends cnEntry {
 	 *    %url%
 	 *    %icon%
 	 *    %separator%
-	 *  style (string) The icon style to be used.
-	 *   Permitted Styles:
-	 *    wpzoom
+	 *  size (int)
 	 *   Permitted Sizes:
 	 *    16
 	 *    24
@@ -1779,7 +1777,7 @@ class cnEntry_HTML extends cnEntry {
 			'preferred' => NULL,
 			'type'      => NULL,
 			'format'    => '',
-			'style'     => 'wpzoom',
+			//'style'     => 'wpzoom',
 			'size'      => 32,
 			'separator' => ':',
 			'before'    => '',

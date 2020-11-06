@@ -347,9 +347,9 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array         $args  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_list_item_class', $class, $term, $depth, $args );
-		$class = cnSanitize::htmlClass( $class );
+		$class = cnHTML::escapeClassnames( $class );
 
-		$output .= "$indent<li" . ' class="' . cnFunction::escAttributeDeep( $class ) . '"' . ">$html"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
+		$output .= "$indent<li" . ' class="' . $class . '"' . ">$html"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
 	}
 
 	/**

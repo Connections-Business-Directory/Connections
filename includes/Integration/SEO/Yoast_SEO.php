@@ -157,6 +157,11 @@ final class Yoast_SEO {
 	 */
 	public static function transformTitle( $title, $presentation ) {
 
+		if ( is_admin() ) {
+
+			return $title;
+		}
+
 		/** @noinspection PhpFullyQualifiedNameUsageInspection */
 		$separator = \WPSEO_Utils::get_title_separator();
 		$title     = cnSEO::metaTitle( $title, $separator );

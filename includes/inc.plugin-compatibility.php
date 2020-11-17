@@ -49,25 +49,25 @@ function cn_upload_size_limit( $bytes ) {
 }
 add_filter( 'upload_size_limit', 'cn_upload_size_limit' );
 
-/**
- * Ensure WPSEO header items are not added to internal Connections pages.
- * @todo Should add Connections related header items to mimic WPSEO.
- *
- * @access private
- * @since  8.1.1
- * @return void
- */
-function cn_remove_wpseo_head() {
-
-	if ( cnQuery::getVar( 'cn-entry-slug' ) ||
-		 cnQuery::getVar( 'cn-cat-slug' ) ||
-		 cnQuery::getVar( 'cn-cat' ) ) {
-
-		if ( isset( $GLOBALS['wpseo_front'] ) ) remove_action( 'wp_head', array( $GLOBALS['wpseo_front'], 'head' ), 1 );
-	}
-
-}
-add_action( 'parse_query', 'cn_remove_wpseo_head' );
+///**
+// * Ensure WPSEO header items are not added to internal Connections pages.
+// * @todo Should add Connections related header items to mimic WPSEO.
+// *
+// * @access private
+// * @since  8.1.1
+// * @return void
+// */
+//function cn_remove_wpseo_head() {
+//
+//	if ( cnQuery::getVar( 'cn-entry-slug' ) ||
+//		 cnQuery::getVar( 'cn-cat-slug' ) ||
+//		 cnQuery::getVar( 'cn-cat' ) ) {
+//
+//		if ( isset( $GLOBALS['wpseo_front'] ) ) remove_action( 'wp_head', array( $GLOBALS['wpseo_front'], 'head' ), 1 );
+//	}
+//
+//}
+//add_action( 'parse_query', 'cn_remove_wpseo_head' );
 
 /**
  * Prevent s2member re-setting custom capabilities on re-activation.

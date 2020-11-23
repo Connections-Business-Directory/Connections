@@ -877,7 +877,7 @@ class cnEntry_HTML extends cnEntry {
 				if ( $relation->set( $relationData['entry_id'] ) ) {
 
 					// Ensure the use can only see relationships based on relations status and visibility.
-					if ( 'approved' != $relation->getStatus() || ! cnValidate::userPermitted( $relation->getVisibility() ) ) {
+					if ( 'approved' != $relation->getStatus() || ! Connections_Directory()->currentUser->canViewVisibility( $relation->getVisibility() ) ) {
 
 						continue;
 					}

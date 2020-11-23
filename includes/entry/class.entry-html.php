@@ -839,7 +839,7 @@ class cnEntry_HTML extends cnEntry {
 		$defaults = array(
 			'container_tag' => 'ul',
 			'item_tag'      => 'li',
-			'item_format'   => '<%1$s class="cn-relation"><span class="cn-relation-label">%relation%</span>%separator% <span class="cn-relation-name notranslate">%name%</span></%1$s>', // The `notranslate` class is added to prevent Google Translate from translating the text.
+			'item_format'   => '<%1$s class="cn-relation"><span class="cn-relation-label">%relation%</span><span class="cn-separator">%separator% </span><span class="cn-relation-name notranslate">%name%</span></%1$s>', // The `notranslate` class is added to prevent Google Translate from translating the text.
 			'name_format'   => '',
 			'separator'     => ':',
 			'before'        => '',

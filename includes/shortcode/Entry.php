@@ -6,6 +6,7 @@ use cnShortcode;
 use cnTemplate as Template;
 use cnTemplateFactory;
 use cnTemplatePart;
+use Connections_Directory\Utility\_format;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -153,6 +154,7 @@ class Entry extends cnShortcode {
 			'id'         => NULL,
 			'template'   => NULL,
 			'force_home' => FALSE,
+			'random'     => FALSE,
 			'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 		);
 
@@ -188,12 +190,19 @@ class Entry extends cnShortcode {
 		$atts['show_alphahead']  = FALSE;
 		$atts['limit']           = 1;
 
-		// Sanitize supplied atts.
-		$atts['id'] = intval( $atts['id'] );
+		_format::toBoolean( $atts['random'] );
 
-		if ( 0 === $atts['id'] ) {
+		// If `id` is not numeric, set it to a string which will be evaluated to a `0` (zero) in `cnRetrieve::entries()` and return no results.
+		if ( ! is_numeric( $atts['id'] ) ) {
 
-			$atts['id'] = -1;
+			$atts['id'] = 'none';
+		}
+
+		if ( true === $atts['random'] ) {
+
+			// If random is set, set `id` to `null`.
+			$atts['id']       = null;
+			$atts['order_by'] = 'id|RANDOM';
 		}
 
 		return $atts;

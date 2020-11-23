@@ -108,7 +108,7 @@ class Entry extends cnShortcode {
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
-		cnShortcode::clearFilterRegistry();
+		self::clearFilterRegistry();
 
 		// @todo This should be run via a filter.
 		$this->html = self::removeEOL( $this->html );

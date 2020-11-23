@@ -59,6 +59,7 @@ class Entry extends cnShortcode {
 
 		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
 		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
+		self::addFilterRegistry( 'cn_list_retrieve_atts-' . $template->getSlug() );
 
 		$results = Connections_Directory()->retrieve->entries( $atts );
 
@@ -157,6 +158,7 @@ class Entry extends cnShortcode {
 
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
 		$defaults = apply_filters( "cn_list_atts_permitted-{$template->getSlug()}", $defaults );
+		self::addFilterRegistry( 'cn_list_atts_permitted-' . $template->getSlug() );
 
 		return $defaults;
 	}
@@ -177,6 +179,7 @@ class Entry extends cnShortcode {
 
 		$atts = apply_filters( 'cn_list_atts', $atts );
 		$atts = apply_filters( "cn_list_atts-{$template->getSlug()}", $atts );
+		self::addFilterRegistry( 'cn_list_atts-' . $template->getSlug() );
 
 		// Force some specific defaults.
 		$atts['content']         = '';

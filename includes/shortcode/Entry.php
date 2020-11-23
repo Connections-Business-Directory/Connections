@@ -190,6 +190,7 @@ class Entry extends cnShortcode {
 		$atts['show_alphahead']  = FALSE;
 		$atts['limit']           = 1;
 
+		_format::toBoolean( $atts['force_home'] );
 		_format::toBoolean( $atts['random'] );
 
 		// If `id` is not numeric, set it to a string which will be evaluated to a `0` (zero) in `cnRetrieve::entries()` and return no results.

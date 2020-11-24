@@ -1,5 +1,26 @@
 == Changelog ==
 
+= 9.17 11/24/2020 =
+* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
+* TWEAK: Remove use of deprecated method `cnValidate::userPermitted()`.
+* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
+* TWEAK: Do not apply the `wpseo_title` filter in the admin.
+* TWEAK: Comment out code legacy Yoast SEO compatibility code.
+* TWEAK: Do not apply `array_filter()` to shortcode `$atts` when viewing the single Entry detail/profile page.
+* TWEAK: Apply clear float fix to the form.
+* TWEAK: Use the `get_cananical_url` filter instead of the `page_link` filter to set the canonical page URL.
+* TWEAK: Relation separator should be within a span tag.
+* TWEAK: Add a few filters which should be reset between shortcode instances.
+* TWEAK: Use self when referencing method.
+* TWEAK: Add random support to the `[cn-entry]` shortcode.
+* TWEAK: Ensure the `force_home` option for the `[cn-entry]` shortcode is a boolean.
+* OTHER: Update readme.txt support link.
+* OTHER: Update fontawesome from 5.13.0 to 5.15.1.
+* DEV: Correct code formatting.
+* DEV: Update package.json dependencies.
+* DEV: Update webpack.config.js.
+* DEV: Update dist files.
+
 = 9.16 11/06/2020 =
 * TWEAK: Add filter to the `[cn-content]` shortcode to support the Page Builder plugin by SiteOrigin.
 * OTHER: Remove the legacy social network icons to reduce plugin package size.

@@ -247,6 +247,27 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.17 11/24/2020 =
+* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
+* TWEAK: Remove use of deprecated method `cnValidate::userPermitted()`.
+* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
+* TWEAK: Do not apply the `wpseo_title` filter in the admin.
+* TWEAK: Comment out code legacy Yoast SEO compatibility code.
+* TWEAK: Do not apply `array_filter()` to shortcode `$atts` when viewing the single Entry detail/profile page.
+* TWEAK: Apply clear float fix to the form.
+* TWEAK: Use the `get_cananical_url` filter instead of the `page_link` filter to set the canonical page URL.
+* TWEAK: Relation separator should be within a span tag.
+* TWEAK: Add a few filters which should be reset between shortcode instances.
+* TWEAK: Use self when referencing method.
+* TWEAK: Add random support to the `[cn-entry]` shortcode.
+* TWEAK: Ensure the `force_home` option for the `[cn-entry]` shortcode is a boolean.
+* OTHER: Update readme.txt support link.
+* OTHER: Update fontawesome from 5.13.0 to 5.15.1.
+* DEV: Correct code formatting.
+* DEV: Update package.json dependencies.
+* DEV: Update webpack.config.js.
+* DEV: Update dist files.
+
 = 9.16 11/06/2020 =
 * TWEAK: Add filter to the `[cn-content]` shortcode to support the Page Builder plugin by SiteOrigin.
 * OTHER: Remove the legacy social network icons to reduce plugin package size.
@@ -505,112 +526,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 = 9.5 04/20/2020 =
 * NEW: Introduce the `[cn-entry]` shortcode.
 * TWEAK: Do not render the character section heads if the character index has been disabled.
-
-= 9.4.8 04/08/2020 =
-* BUG: Add missing image type parameter to the team block template files.
-
-= 9.4.7 03/30/2020 =
-* NEW: Introduce the `cn_output_default_content_block_atts` filter.
-* NEW: Introduce the `cn_metabox_rte_show_media_button` filter.
-* OTHER: Bump tested up to 5.4.
-
-= 9.4.6 03/09/2020 =
-* BUG: Fix scenario where a default map would display if no geocoded addresses existed. Now no map will display as intended.
-* DEV: Update dist files.
-
-= 9.4.5 02/17/2020 =
-* TWEAK: Change the default map tile provider from Wikimedia to OSM for the address geocoding in the admin.
-
-= 9.4.4 02/07/2020 =
-* TWEAK: Set OpenStreetMap Tile Server URL to https.
-* TWEAK: Set Wikimedia OpenStreetMap Tile Server URL to https.
-* TWEAK: Limit OpenStreetMap min/max zoom to levels with acceptable loading times.
-* TWEAK: Switch default map tile server from Wikimedia to Nominatim as the Wikimedia map tiles seem to be failing to load.
-* DEV: Update LeafletJS to 1.6.0.
-* DEV: Update LeafletJS Control.Geocoder to 1.11.
-* DEV: Update LeafletJS GoogleMutant to version 0.8.0.
-* DEV: Include LeafletJS Layer Headers plugin as a vendor library.
-* DEV: Add additional check for photo path when creating a vCard.
-* DEV: Update dist files.
-
-= 9.4.3 01/31/2020 =
-* TWEAK: Improve loading speed of the Carousel block.
-* TWEAK: When querying by `cn-char`, pass thru `wp_unslash()` and use only first character if more than one are passed thru query var.
-* DEV: Update node and npm.
-* DEV: Run npm update.
-* DEV: Update dist files.
-
-= 9.4.1 01/20/2020 =
-* TWEAK: Style tweaks to the Carousel Block to improve its display presentation.
-* BUG: Check that array is returned for carousels in post meta.
-
-= 9.4.2 01/22/2020 =
-* BUG: Check to ensure `slug` not found warning is not generated when displaying entry social network icons.
-
-= 9.4 01/17/2020 =
-* FEATURE: Introducing the Carousel block.
-* NEW: Introduce the `cn_pagination_links_args` filter.
-* NEW: Introduce support for the `categories_in` and `categories_exclude` parameters for the REST API.
-* NEW: Add entry image types and sizes to REST API response.
-* NEW: Add entry phone numbers to the REST response.
-* NEW: Add entry email addresses to the REST response.
-* NEW: Add entry social networks to REST response.
-* NEW: Add entry excerpt to the REST response.
-* NEW: Add parameters to the entry REST API controller to limit excerpt length to support the carousel block.
-* TWEAK: CSS tweaks to the Team block for improved display.
-* TWEAK: Update the hierarchical term checklist control to use the CheckboxControl.
-* TWEAK: Tweak image meta default for quality to match WP core.
-* TWEAK: Minor CSS tweak to the admin add/edit entry form for better display in WordPress 5.3.
-* TWEAK: The entry REST response data should only include the `raw` data in the `edit` context.
-* TWEAK: Add `lazyload` parameter to the `getImage` method.
-* TWEAK: Remove `!important` flag from a few CSS styles for pagination.
-* TWEAK: Add another couple styles tp keep themes from breaking links in maps.
-* TWEAK: Add OSM copyright to the Wikimedia map tile service provider.
-* TWEAK: Add `original` as preset image size option when getting entry photo for display.
-* TWEAK: Add the `scaled` and `preset` preset option for resting and entry logo.
-* TWEAK: Ensure the `$atts` variable passed by WordPress for the shortcode callback is always an array.
-* TWEAK: Make CSS selectors for social network icons less specific to allow usage in other locations in Connections.
-* BUG: Add `toggle-indicator` class so WP styles the toggle correctly.
-* COMPATIBILITY: The EasyTimetable plugin seems to be globally setting image visibility to hidden instead of using a selector to affect only itself. Add CSS to help ensure Connections images visibility is set to visible.
-* OTHER: Update the jQuery Validate library to version 1.19.1.
-* OTHER: Update FontAwesome dependencies.
-* DEV: Second pass at the carousel block.
-* DEV: Update dist files.
-* DEV: Another pass at the carousel block.
-* DEV: Bump test to version 5.3.
-* DEV: Add trailing semicolon.
-* DEV: Introduce the EntryName and EntryImage Block Editor components.
-* DEV: Remove trailing space.
-* DEV: Update the `css-loader` and `cssnano` webpack dev dependencies.
-* DEV: Remove unused code from entry REST endpoint.
-* DEV: Rename method that prepares images for REST response.
-* DEV: phpDoc corrections.
-* DEV: Remove extra spaces.
-* DEV: Update package dependencies and dev dependencies.
-* DEV: Add drop shadow support to the carousel block.
-* DEV: CSS tweaks for mobile display of the carousel block.
-* DEV: Correct color indicator labels in the style section.
-* DEV: Add slider border color, radius and width options to carousel block options.
-* DEV: Add support to carousel block to control excerpt length.
-* DEV: Move the `isNumber` function from the edit method in the carousel block to its own utility function.
-* DEV: CSS selector change to match CSS selector used on frontend so arrows will have the assigned background color.
-* DEV: Add noinspection flag.
-* DEV: Add template parameters default values and filter to allow other plugins to hook into.
-* DEV: Rename utility JavaScript file.
-* DEV: Add support for image border color, width and radius options to the carousel block.
-* DEV: Default border width and radius to 0 for the carousel slide.
-* DEV: Fix fatal error when adding a new carousel block.
-* DEV: Minor CSS tweaks to the carousel block.
-* DEV: Add support to allow user to choose either the entry photo or logo.
-* DEV: Correct misspelling in a phpDoc comment.
-* DEV: Refactor the REST response for entry images to allow response to be altered with passed query parameters.
-* DEV: When rendering on site frontend the drop shadow should default to false.
-* DEV: Correct overflow display issue in the block editor.
-* DEV: Add support to the carousel block to change the image shape from square to circle.
-* DEV: Correct bug preventing a new carousel from being placed in a post.
-* DEV: Add support for setting the image crop mode in the carousel block.
-* DEV: Code cleanup of the carousel block.
-* DEV: Fix display of image when set as circle in carousel block on mobile device.
-* DEV: Break blocks JavaScript into two files, one for public and for editor.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

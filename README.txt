@@ -13,7 +13,7 @@ An easy to use directory plugin to create an addressbook, business directory, me
 
 == Description ==
 
-[Showcase](https://connections-pro.com/showcase/) | [Documentation](https://connections-pro.com/documentation/contents/) | [Support](https://connections-pro.com/support/) | [Templates](https://connections-pro.com/templates/) | [Extensions](https://connections-pro.com/extensions/)
+[Showcase](https://connections-pro.com/showcase/) | [Documentation](https://connections-pro.com/documentation/contents/) | [Support](https://wordpress.org/support/plugin/connections/) | [Templates](https://connections-pro.com/templates/) | [Extensions](https://connections-pro.com/extensions/)
 
 Connections Business Directory is one of the [best business directory plugins available](https://wordpress.org/support/plugin/connections/reviews/?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
 

@@ -79,7 +79,8 @@ class cnSEO {
 		 * That would eliminate issues like this:
 		 * @link https://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
 		 */
-		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
+		//add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
+		add_filter( 'get_canonical_url', array( __CLASS__, 'transformCanonical' ), 10, 2 );
 
 		/*
 		 * Issue #526625 Display Configuration etc. submitted by Richard M.
@@ -222,6 +223,21 @@ class cnSEO {
 	public static function doFilterPermalink( $do = TRUE ) {
 
 		self::$filterPermalink = $do;
+	}
+
+	/**
+	 * Callback for the `get_canonical_url` filter.
+	 *
+	 * @since 9.17
+	 *
+	 * @param string  $url  The post's canonical URL.
+	 * @param WP_Post $post Post object.
+	 *
+	 * @return string
+	 */
+	public static function transformCanonical( $url, $post ) {
+
+		return static::maybeTransformPermalink( $url, $post->ID );
 	}
 
 	/**
@@ -598,7 +614,8 @@ class cnSEO {
 
 		if ( ! is_object( $post ) ||
 		     ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
-		     ! self::$filterPermalink ) {
+		     ! self::$filterPermalink
+		) {
 
 			return $title;
 		}

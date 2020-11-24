@@ -6,6 +6,7 @@ use cnShortcode;
 use cnTemplate as Template;
 use cnTemplateFactory;
 use cnTemplatePart;
+use Connections_Directory\Utility\_format;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -59,6 +60,7 @@ class Entry extends cnShortcode {
 
 		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
 		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
+		self::addFilterRegistry( 'cn_list_retrieve_atts-' . $template->getSlug() );
 
 		$results = Connections_Directory()->retrieve->entries( $atts );
 
@@ -107,7 +109,7 @@ class Entry extends cnShortcode {
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
-		cnShortcode::clearFilterRegistry();
+		self::clearFilterRegistry();
 
 		// @todo This should be run via a filter.
 		$this->html = self::removeEOL( $this->html );
@@ -152,11 +154,13 @@ class Entry extends cnShortcode {
 			'id'         => NULL,
 			'template'   => NULL,
 			'force_home' => FALSE,
+			'random'     => FALSE,
 			'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 		);
 
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
 		$defaults = apply_filters( "cn_list_atts_permitted-{$template->getSlug()}", $defaults );
+		self::addFilterRegistry( 'cn_list_atts_permitted-' . $template->getSlug() );
 
 		return $defaults;
 	}
@@ -177,6 +181,7 @@ class Entry extends cnShortcode {
 
 		$atts = apply_filters( 'cn_list_atts', $atts );
 		$atts = apply_filters( "cn_list_atts-{$template->getSlug()}", $atts );
+		self::addFilterRegistry( 'cn_list_atts-' . $template->getSlug() );
 
 		// Force some specific defaults.
 		$atts['content']         = '';
@@ -185,12 +190,20 @@ class Entry extends cnShortcode {
 		$atts['show_alphahead']  = FALSE;
 		$atts['limit']           = 1;
 
-		// Sanitize supplied atts.
-		$atts['id'] = intval( $atts['id'] );
+		_format::toBoolean( $atts['force_home'] );
+		_format::toBoolean( $atts['random'] );
 
-		if ( 0 === $atts['id'] ) {
+		// If `id` is not numeric, set it to a string which will be evaluated to a `0` (zero) in `cnRetrieve::entries()` and return no results.
+		if ( ! is_numeric( $atts['id'] ) ) {
 
-			$atts['id'] = -1;
+			$atts['id'] = 'none';
+		}
+
+		if ( true === $atts['random'] ) {
+
+			// If random is set, set `id` to `null`.
+			$atts['id']       = null;
+			$atts['order_by'] = 'id|RANDOM';
 		}
 
 		return $atts;

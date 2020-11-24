@@ -171,52 +171,61 @@ const config = {
 		} ),
 
 		// Copy vendor files to ensure 3rd party plugins relying on a script handle to exist continue to be enqueued.
-		new CopyWebpackPlugin( [
-				{
-					context: './node_modules/chosen-js/',
-					from:    '**',
-					to:      path.resolve( __dirname, './assets/vendor/chosen/' ),
-					ignore:  [
-						'chosen.proto*.js'
-					]
-				},
-				{
-					context: './node_modules/@fortawesome/fontawesome-free/css/',
-					from:    'all*.css',
-					to:      path.resolve( __dirname, './assets/vendor/fontawesome/css/' ),
-				},
-				{
-					context: './node_modules/@fortawesome/fontawesome-free/webfonts/',
-					from:    '*',
-					to:      path.resolve( __dirname, './assets/vendor/fontawesome/webfonts/' ),
-				},
-				{
-					context: './node_modules/@fonticonpicker/fonticonpicker/dist/',
-					from:    '**',
-					to:      path.resolve( __dirname, './assets/vendor/fonticonpicker/' ),
-				},
-				{
-					context: './node_modules/picturefill/dist/',
-					from:    '**',
-					to:      path.resolve( __dirname, './assets/vendor/picturefill/' ),
-					ignore:  [
-						'plugins/**/*'
-					]
-				},
-				{
-					context: './node_modules/js-cookie/src/',
-					from:    '**',
-					to:      path.resolve( __dirname, './assets/vendor/js-cookie/' ),
-					ignore:  [
-						'plugins/**/*'
-					]
-				},
-				// {
-				// 	context: './node_modules/leaflet/dist/',
-				// 	from:    'leaflet.*',
-				// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
-				// },
-			]
+		new CopyWebpackPlugin(
+			{
+				patterns: [
+					{
+						context:     './node_modules/chosen-js/',
+						from:        '*',
+						to:          path.resolve( __dirname, './assets/vendor/chosen/' ),
+						globOptions: {
+							ignore: [
+								'**/chosen.proto*.js'
+							]
+						}
+					},
+					{
+						context: './node_modules/@fortawesome/fontawesome-free/css/',
+						from:    'all*.css',
+						to:      path.resolve( __dirname, './assets/vendor/fontawesome/css/' ),
+					},
+					{
+						context: './node_modules/@fortawesome/fontawesome-free/webfonts/',
+						from:    '*',
+						to:      path.resolve( __dirname, './assets/vendor/fontawesome/webfonts/' ),
+					},
+					{
+						context: './node_modules/@fonticonpicker/fonticonpicker/dist/',
+						from:    '**',
+						to:      path.resolve( __dirname, './assets/vendor/fonticonpicker/' ),
+					},
+					{
+						context:     './node_modules/picturefill/dist/',
+						from:        '**',
+						to:          path.resolve( __dirname, './assets/vendor/picturefill/' ),
+						globOptions: {
+							ignore: [
+								'**/plugins/**/*'
+							]
+						}
+					},
+					{
+						context:     './node_modules/js-cookie/src/',
+						from:        '**',
+						to:          path.resolve( __dirname, './assets/vendor/js-cookie/' ),
+						globOptions: {
+							ignore: [
+								'**/plugins/**/*'
+							]
+						}
+					},
+					// {
+					// 	context: './node_modules/leaflet/dist/',
+					// 	from:    'leaflet.*',
+					// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
+					// },
+				]
+			}
 		),
 
 		// Create RTL CSS.

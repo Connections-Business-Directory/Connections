@@ -447,7 +447,8 @@ class cnShortcode {
 
 					cnArray::set( $atts, 'slug', sanitize_title( $slug ) );
 
-					$atts = array_filter( $atts );
+					// Do not apply `array_filter()` on the `$atts` because it will remove necessary options from the shortcode.
+					//$atts = array_filter( $atts );
 
 					$shortcode = cnShortcode::write( 'connections', $atts );
 

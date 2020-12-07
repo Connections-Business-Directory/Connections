@@ -381,6 +381,9 @@ final class Connections_Directory {
 		cnTemplatePart::hooks();
 		cnTemplate_Compatibility::hooks();
 
+		// Init sitemaps. Priority must be `11` because the shortcode are registered on `init` at priority `10`.
+		add_action( 'init', 'Connections_Directory\Sitemaps\init', 11 );
+
 		// Register email log type.
 		add_filter( 'cn_email_log_types', array( 'cnSystem_Info', 'registerEmailLogType' ) );
 

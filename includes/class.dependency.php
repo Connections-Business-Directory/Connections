@@ -80,6 +80,8 @@ class cnDependency {
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 		require_once CN_PATH . 'includes/inc.theme-compatibility.php';
 
+		require_once CN_PATH . 'includes/Sitemaps/Sitemaps.php';
+
 		// Include the autoloader for the Pear IMC classes.
 		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';
 
@@ -470,6 +472,10 @@ class cnDependency {
 			'Connections_Directory\Blocks\Directory' => 'includes/blocks/directory/class.block.php',
 			'Connections_Directory\Blocks\Team'      => 'includes/blocks/team/class.block.php',
 			'Connections_Directory\Blocks\Upcoming'  => 'includes/blocks/upcoming/class.block.php',
+
+			// Sitemaps
+			'Connections_Directory\Sitemaps\Registry' => 'includes/Sitemaps/Registry.php',
+			'Connections_Directory\Sitemaps\Provider' => 'includes/Sitemaps/Provider.php',
 
 			// Integrations
 			'Connections_Directory\Integration\SEO\Yoast_SEO' => 'includes/Integration/SEO/Yoast_SEO.php',

@@ -19,10 +19,10 @@ use WP_Post;
  */
 function isEnabled() {
 
-	$loginOptions  = get_option( 'connections_login' );
+	$loginOptions  = get_option( 'connections_login', array() );
 	$loginRequired = _array::get( $loginOptions, 'required', false );
 
-	$permalinkOptions = get_option( 'connections_link' );
+	$permalinkOptions = get_option( 'connections_link', array() );
 	$permalinkEnabled = _array::get( $permalinkOptions, 'name', false );
 
 	_format::toBoolean( $loginRequired );
@@ -200,7 +200,7 @@ function registerProvider( $name, $provider ) {
  */
 function registerDirectoryHomepage() {
 
-	$options  = get_option( 'connections_home_page' );
+	$options  = get_option( 'connections_home_page', array() );
 	$id       = (int) _array::get( $options, 'page_id', false );
 
 	if ( false === $id ) {

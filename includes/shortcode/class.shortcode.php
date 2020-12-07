@@ -103,7 +103,7 @@ class cnShortcode {
 		global $shortcode_tags;
 
 		// Exit early if the shortcode does not exist in content.
-		if ( FALSE === strpos( $content, "[$tag" ) && ! isset( $shortcode_tags[ $tag ] ) ) {
+		if ( FALSE === strpos( $content, "[$tag" ) || ! array_key_exists( $tag, $shortcode_tags ) ) {
 
 			return FALSE;
 		}

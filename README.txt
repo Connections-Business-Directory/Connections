@@ -248,6 +248,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.0 12/08/2020 =
+* FEATURE: Support for WordPress sitemaps.
+* TWEAK: Ensure the persistent log posts do not display in the WP sitemaps if the site is in debug mode.
+* TWEAK: Use `rawurlencode()` when encoding the permalink for department, organization, district, county,  locality, region, and country.
+* BUG: Correct find shortcode logic.
+* OTHER: Update readme.txt to make mention of the support of the native sitemaps support introduced in WordPress 5.5.
+
 = 9.17 11/24/2020 =
 * TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
 * TWEAK: Remove use of deprecated method `cnValidate::userPermitted()`.
@@ -585,4 +592,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.17 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.0 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

@@ -319,6 +319,13 @@ final class _url {
 		if ( ! empty( $atts['rel'] ) ) $piece['rel']           = 'rel="' . $atts['rel'] .'"';
 		if ( ! empty( $atts['on_click'] ) ) $piece['on_click'] = 'onClick="' . $atts['on_click'] .'"';
 
+		/*
+		 * NOTE: Use `rawurlencode()` when encoding the permalink for department, organization, district, county,
+		 *       locality, region, and country. This is because `urlencode()` will encode a space as a `+` sign
+		 *       which is not appropriate for a URL path. It is fine for a query string. So, when permalinks are
+		 *       not enabled, `urlencode()` will be used.
+		 */
+
 		switch ( $atts['type'] ) {
 
 			case 'home':
@@ -405,7 +412,7 @@ final class _url {
 			case 'department':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-department', urlencode( $atts['slug'] ) , $permalink );
 				}
@@ -415,7 +422,7 @@ final class _url {
 			case 'organization':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-organization', urlencode( $atts['slug'] ) , $permalink );
 				}
@@ -435,7 +442,7 @@ final class _url {
 			case 'district':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['district_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['district_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-district', urlencode( $atts['slug'] ) , $permalink );
 				}
@@ -445,7 +452,7 @@ final class _url {
 			case 'county':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['county_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['county_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-county', urlencode( $atts['slug'] ) , $permalink );
 				}
@@ -455,7 +462,7 @@ final class _url {
 			case 'locality':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-locality', urlencode( $atts['slug'] ) , $permalink );
 				}
@@ -465,7 +472,7 @@ final class _url {
 			case 'region':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-region', urlencode( $atts['slug'] ) , $permalink );
 				}
@@ -475,7 +482,7 @@ final class _url {
 			case 'postal_code':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-postal-code', urlencode( $atts['slug'] ) , $permalink );
 				}
@@ -485,7 +492,7 @@ final class _url {
 			case 'country':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
 					$permalink = add_query_arg( 'cn-country', urlencode( $atts['slug'] ) , $permalink );
 				}

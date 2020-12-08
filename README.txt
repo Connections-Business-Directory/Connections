@@ -3,9 +3,9 @@ Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, directory, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 5.0
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 9.17
+Stable tag: 10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * **[Role capability support](https://connections-pro.com/documentation/roles/)**.
 * [Displaying your business directory on the frontend is as simple as putting a shortcode on a page.](https://connections-pro.com/documentation/install/#Step_4_Displaying_your_Directory) Don't let this simplicity fool you. The shortcode provides a large array of options that are just too numerous to list. To learn more, [go here](https://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
+    * [Supports the native sitemaps](https://connections-pro.com/connections-10-0-seo-sitemaps/) feature available in WordPress versions 5.5 and newer.
 * **[Extensible](https://connections-pro.com/extensions/)** and developer friendly.
 * Robust **templating support** with the [Template Customizer](https://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with you business directory with many more [premium templates available](https://connections-pro.com/templates/) to really make your business directory shine.
 
@@ -246,6 +247,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.0 12/08/2020 =
+* FEATURE: Support for WordPress sitemaps.
+* TWEAK: Ensure the persistent log posts do not display in the WP sitemaps if the site is in debug mode.
+* TWEAK: Use `rawurlencode()` when encoding the permalink for department, organization, district, county,  locality, region, and country.
+* BUG: Correct find shortcode logic.
+* OTHER: Update readme.txt to make mention of the support of the native sitemaps support introduced in WordPress 5.5.
 
 = 9.17 11/24/2020 =
 * TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
@@ -584,4 +592,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.17 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.0 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

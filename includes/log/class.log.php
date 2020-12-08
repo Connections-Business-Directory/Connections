@@ -303,6 +303,32 @@ final class cnLog {
 
 			// Register a metabox for debugging purposes.
 			add_action( 'add_meta_boxes', array( __CLASS__, 'registerMetabox' ) );
+
+			add_filter(
+				'wp_sitemaps_post_types',
+				function( $post_types ) {
+
+					if ( array_key_exists( self::POST_TYPE, $post_types ) ) {
+
+						unset( $post_types[ self::POST_TYPE ] );
+					}
+
+					return $post_types;
+				}
+			);
+
+			add_filter(
+				'wp_sitemaps_taxonomies',
+				function( $taxonomies ) {
+
+					if ( array_key_exists( self::TAXONOMY, $taxonomies ) ) {
+
+						unset( $taxonomies[ self::TAXONOMY ] );
+					}
+
+					return $taxonomies;
+				}
+			);
 		}
 
 		return self::$instance;

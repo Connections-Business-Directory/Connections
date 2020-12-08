@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '9.17';
+	const VERSION = '10.0';
 
 	/**
 	 * Stores the instance of this class.
@@ -380,6 +380,9 @@ final class Connections_Directory {
 		// Register the Template Parts API hooks.
 		cnTemplatePart::hooks();
 		cnTemplate_Compatibility::hooks();
+
+		// Init sitemaps. Priority must be `11` because the shortcode are registered on `init` at priority `10`.
+		add_action( 'init', 'Connections_Directory\Sitemaps\init', 11 );
 
 		// Register email log type.
 		add_filter( 'cn_email_log_types', array( 'cnSystem_Info', 'registerEmailLogType' ) );

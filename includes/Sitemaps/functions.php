@@ -13,9 +13,11 @@ use function Connections_Directory\Sitemaps\registerProvider;
  *
  * @param int    $id   The post ID to create providers for.
  * @param string $name Unique name for the sitemap provider.
+ *
+ * @return bool
  */
 function cn_register_sitemap_provider( $id, $name ) {
 
 	$provider = createProvider( $id, $name );
-	registerProvider( $name, $provider );
+	return registerProvider( $name, $provider );
 }

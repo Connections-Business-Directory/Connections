@@ -400,6 +400,7 @@ final class Connections_Directory {
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
 
 		// Integrations
+		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ), 15 );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Rank_Math', 'init' ), 15 );
 	}

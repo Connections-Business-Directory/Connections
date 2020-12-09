@@ -29,6 +29,8 @@ final class Yoast_SEO {
 	public function __constructor() {  /* Do nothing here */ }
 
 	/**
+	 * Callback for the `plugins_loaded` action. Action is run at priority 15 because Yoast SEO inits at priority 14.
+	 *
 	 * @since 9.12
 	 *
 	 * @return static

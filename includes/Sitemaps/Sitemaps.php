@@ -135,6 +135,28 @@ function createProvider( $id, $name ) {
 
 	$provider = new Provider( $name );
 
+	// Create an array of supported post types.
+	$supportedPostTypes  = array( 'page' );
+	$CPTOptions          = get_option( 'connections_cpt', array() );
+	$supportedCPTTypes   = _array::get( $CPTOptions, 'supported', array() );
+	$supportedPostTypes  = array_merge( $supportedPostTypes, $supportedCPTTypes );
+
+	// If the current post is a supported post type, use the post ID.
+	// If is is not, use the post ID of the page set as the Directory Homepage.
+	if ( in_array( $post->post_type, $supportedPostTypes ) ) {
+
+		$postID = $post->ID;
+
+	} else {
+
+		$options = get_option( 'connections_home_page', array() );
+		$postID  = (int) _array::get( $options, 'page_id', false );
+
+		if ( false === $postID ) {
+			return new WP_Error( 'directory_homepage_not_set', 'Directory Homepage not set.', $options );
+		}
+	}
+
 	foreach ( $instances as $index => $instance ) {
 
 		// Ensure instance is an array.
@@ -142,8 +164,9 @@ function createProvider( $id, $name ) {
 			$instance = array();
 		}
 
-		$instance['force_home'] = _array::get( $instance, 'force_home', false );
-		$instance['home_id']    = _array::get( $instance, 'home_id', $post->ID );
+		// Ensure the `home_id` and `force_home` indexes are set so the URLs are created with the correct permalink.
+		_array::set( $instance, 'force_home', _array::get( $instance, 'force_home', false ) );
+		_array::set( $instance, 'home_id', $postID );
 
 		/**
 		 * Filters the sitemap entry for an individual post.

@@ -203,6 +203,32 @@ final class Provider extends WP_Sitemaps_Provider {
 	}
 
 	/**
+	 * Get provider instance by ID.
+	 *
+	 * @since 10.1
+	 *
+	 * @param $id
+	 *
+	 * @return array
+	 */
+	public function getInstance( $id ) {
+
+		return $this->instances[ $id ];
+	}
+
+	/**
+	 * Get all provider instances.
+	 *
+	 * @since 10.1
+	 *
+	 * @return array
+	 */
+	public function getInstances() {
+
+		return $this->instances;
+	}
+
+	/**
 	 * The provider name supplied when creating a new instance of Provider.
 	 *
 	 * @since 10.0
@@ -214,6 +240,16 @@ final class Provider extends WP_Sitemaps_Provider {
 	public function getName() {
 
 		return $this->name;
+	}
+
+	/**
+	 * @since 10.1
+	 *
+	 * @return string
+	 */
+	public function getObjectType() {
+
+		return $this->object_type;
 	}
 
 	/**

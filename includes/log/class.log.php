@@ -349,6 +349,7 @@ final class cnLog {
 
 		$atts = array(
 			'public'              => defined( 'WP_DEBUG' ) && WP_DEBUG,
+			'publicly_queryable'  => FALSE,
 			'exclude_from_search' => TRUE,
 			'labels'              => array(
 				'name'               => _x( 'Logs', 'post type general name', 'connections' ),
@@ -407,8 +408,9 @@ final class cnLog {
 			self::TAXONOMY,
 			self::POST_TYPE,
 			array(
-				'public'            => defined( 'WP_DEBUG' ) && WP_DEBUG,
-				'labels'            => array(
+				'public'              => defined( 'WP_DEBUG' ) && WP_DEBUG,
+				'publicly_queryable'  => FALSE,
+				'labels'              => array(
 					'name'                       => _x( 'Log Types', 'taxonomy general name', 'connections' ),
 					'singular_name'              => _x( 'Type', 'taxonomy singular name', 'connections' ),
 					'search_items'               => __( 'Search Log Types', 'connections' ),
@@ -424,9 +426,9 @@ final class cnLog {
 					'choose_from_most_used'      => __( 'Choose from the most used log types.', 'connections' ),
 					'not_found'                  => __( 'No log types found.', 'connections' ),
 				),
-				'show_tagcloud'     => FALSE,
-				'show_admin_column' => TRUE,
-				'capabilities'      => array(
+				'show_tagcloud'       => FALSE,
+				'show_admin_column'   => TRUE,
+				'capabilities'        => array(
 					'manage_terms' => 'activate_plugins',
 					'edit_terms'   => 'activate_plugins',
 					'delete_terms' => 'activate_plugins',

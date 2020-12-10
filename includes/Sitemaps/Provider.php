@@ -223,7 +223,7 @@ final class Provider extends WP_Sitemaps_Provider {
 	 *
 	 * @return array
 	 */
-	protected function getQueryArgs( $instanceID ) {
+	public function getQueryArgs( $instanceID ) {
 
 		$defaults = array(
 			'limit'             => wp_sitemaps_get_max_urls( $this->object_type ),

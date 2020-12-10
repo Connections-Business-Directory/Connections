@@ -112,7 +112,7 @@ final class Provider extends WP_Sitemaps_Provider {
 
 			$sitemap_entry = array(
 				//'changefreq' => '',
-				'lastmod'    => $lastModified->format( DATE_ATOM ),
+				'lastmod'    => $lastModified->format( DATE_W3C ),
 				'loc'        => _url::permalink(
 					array(
 						'data'       => 'url',

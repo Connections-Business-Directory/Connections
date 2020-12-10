@@ -136,7 +136,6 @@ final class Yoast_SEO {
 		if ( method_exists( 'WPSEO_Utils', 'get_title_separator' ) ) {
 
 			/** @noinspection PhpFullyQualifiedNameUsageInspection */
-			/** @noinspection PhpUndefinedClassInspection */
 			$separator = \WPSEO_Utils::get_title_separator();
 		}
 

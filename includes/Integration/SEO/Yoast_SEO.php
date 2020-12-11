@@ -5,6 +5,8 @@ namespace Connections_Directory\Integration\SEO;
 use cnEntry;
 use cnQuery;
 use cnSEO;
+use Connections_Directory\Integration\SEO\Yoast_SEO\Provider;
+use Connections_Directory\Sitemaps\Registry;
 use Connections_Directory\Utility\_array;
 
 /**
@@ -34,6 +36,7 @@ final class Yoast_SEO {
 	 * @since 9.12
 	 *
 	 * @return static
+	 * @noinspection PhpFullyQualifiedNameUsageInspection
 	 */
 	public static function init() {
 
@@ -54,6 +57,21 @@ final class Yoast_SEO {
 	 * @since 9.12
 	 */
 	public function hooks() {
+
+		// If the site is in debug mode, do not cache the sitemaps.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			add_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_false' );
+		}
+
+		// Do not init the core WordPress sitemaps integration.
+		//remove_action( 'init', 'Connections_Directory\Sitemaps\init', 11 );
+
+		// Sitemaps
+		add_filter( 'init', array( __CLASS__, 'registerSitemapProviders' ), 12 );
+		add_filter( 'wp_sitemaps_max_urls', array( __CLASS__, 'maxURLs' ) );
+		add_filter( 'Connections_Directory/Sitemaps/Provider/Sitemap_Entry', array( __CLASS__, 'sitemapEntry' ) );
+
+		// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports.
 
 		add_action( 'wp_head', array( __CLASS__, 'maybeRemoveCoreMetaDescription' ), 0 );
 
@@ -77,6 +95,109 @@ final class Yoast_SEO {
 		add_filter( 'wpseo_twitter_image', array( __CLASS__, 'transformImage'), 10, 2 );
 
 		add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
+
+		// Remove the persistent logs from sitemaps.
+		add_filter(
+			'option_wpseo_titles',
+			function( $options ) {
+
+				_array::set( $options, 'noindex-cn_log', true );
+				_array::set( $options, 'display-metabox-pt-cn_log', false );
+				_array::set( $options, 'noindex-tax-cn_log_type', true );
+				_array::set( $options, 'display-metabox-tax-cn_log_type', false );
+
+				return $options;
+			}
+		);
+	}
+
+	/**
+	 * Callback for the `init` action.
+	 *
+	 * Run at priority 12 because the core Connections sitemaps providers are registered on the `init` action at priority 11.
+	 *
+	 * Register the sitemaps providers with Yoast SEO.
+	 *
+	 * NOTE: The `wpseo_sitemaps_providers` is not being used because Yoast SEO registers its sitemaps providers on
+	 * the `after_setup_theme` action hook. This is too early for Connections since they are registered on
+	 * the `init` action hook. So we'll push them into the `providers` property in the WPSEO_Sitemaps object
+	 * since it is public.
+	 *
+	 * @since 10.1
+	 */
+	public static function registerSitemapProviders() {
+
+		/**
+		 * @var \WPSEO_Sitemaps $wpseo_sitemaps
+		 * @noinspection PhpFullyQualifiedNameUsageInspection
+		 */
+		$wpseo_sitemaps = $GLOBALS['wpseo_sitemaps'];
+
+		$registry  = Registry::get();
+		$providers = $registry->getProviders();
+
+		if ( is_array( $providers ) ) {
+
+			foreach ( $providers as $provider ) {
+
+				array_push( $wpseo_sitemaps->providers, new Provider( $provider ) );
+			}
+		}
+	}
+
+	/**
+	 * Callback for the `wp_sitemaps_max_urls` filter.
+	 *
+	 * Return the max URLs per sitemap from Yoast SEO.
+	 *
+	 * NOTE: The WPSEO_Sitemaps::get_entries_per_page() method is protected.
+	 *       Apply the `wpseo_sitemap_entries_per_page` filter.
+	 *
+	 * @since 10.1
+	 *
+	 * @param int $maxURLs
+	 *
+	 * @return int
+	 * @noinspection PhpUnusedParameterInspection
+	 */
+	public static function maxURLs( $maxURLs ) {
+
+		/**
+		 * Filter the maximum number of entries per XML sitemap.
+		 *
+		 * After changing the output of the filter, make sure that you disable and enable the
+		 * sitemaps to make sure the value is picked up for the sitemap cache.
+		 *
+		 * @since 10.1
+		 *
+		 * @param int $entries The maximum number of entries per XML sitemap.
+		 */
+		$maxURLs = (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
+
+		return $maxURLs;
+	}
+
+	/**
+	 * Callback for the `Connections_Directory/Sitemaps/Provider/Sitemap_Entry` filter.
+	 *
+	 * Yoast SEO expects the `mod` key for the `lastmod` date.
+	 *
+	 * @since 10.1
+	 *
+	 * @param array $entry
+	 *
+	 * @return array
+	 */
+	public static function sitemapEntry( $entry ) {
+
+		$modifiedDate = _array::get( $entry, 'lastmod', null );
+
+		if ( ! is_null( $modifiedDate ) ) {
+
+			_array::set( $entry, 'mod', $modifiedDate );
+		}
+
+		return $entry;
 	}
 
 	/**

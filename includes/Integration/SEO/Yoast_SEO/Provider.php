@@ -15,7 +15,7 @@ use WPSEO_Sitemaps_Router;
 final class Provider implements WPSEO_Sitemap_Provider {
 
 	/**
-	 * @since 10.0
+	 * @since 10.1
 	 * @var \Connections_Directory\Sitemaps\Provider
 	 */
 	protected $provider;
@@ -33,7 +33,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Check if provider supports given item type.
 	 *
-	 * @since 10.0
+	 * @since 10.1
 	 *
 	 * @param string $type Type string to check for.
 	 *
@@ -57,7 +57,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get set of sitemaps index link data.
 	 *
-	 * @since 10.0
+	 * @since 10.1
 	 *
 	 * @param int $max_entries Entries per sitemap.
 	 *
@@ -117,7 +117,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get set of sitemap link data.
 	 *
-	 * @since 10.0
+	 * @since 10.1
 	 *
 	 * @param string $type         Sitemap type.
 	 * @param int    $max_entries  Entries per sitemap.

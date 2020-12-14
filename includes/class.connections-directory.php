@@ -367,7 +367,7 @@ final class Connections_Directory {
 		 * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
 		 *       which do not hook into `set-screen-option` properly from breaking Connections.
 		 */
-		add_filter( 'set-screen-option', array( 'cnAdminFunction', 'setManageScreenOptions' ), 99, 3 );
+		add_filter( 'set_screen_option_connections', array( 'cnAdminFunction', 'setManageScreenOptions' ), 99, 3 );
 
 		// Init the class.
 		add_action( 'init', array( 'cnSEO', 'hooks' ) );

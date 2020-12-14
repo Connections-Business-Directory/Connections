@@ -4,6 +4,8 @@ namespace Connections_Directory\Integration\SEO;
 
 use cnQuery;
 use cnSEO;
+use Connections_Directory\Integration\SEO\Rank_Math\Provider;
+use Connections_Directory\Sitemaps\Registry;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
 
@@ -58,6 +60,16 @@ final class Rank_Math {
 	 */
 	public function hooks() {
 
+		// If the site is in debug mode, do not cache the sitemaps.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			add_filter( 'rank_math/sitemap/enable_caching', '__return_false' );
+		}
+
+		// Sitemaps
+		add_filter( 'rank_math/sitemap/providers', array( __CLASS__, 'registerSitemapProviders' ) );
+		add_filter( 'wp_sitemaps_max_urls', array( __CLASS__, 'maxURLs' ) );
+		add_filter( 'Connections_Directory/Sitemaps/Provider/Sitemap_Entry', array( __CLASS__, 'sitemapEntry' ) );
+
 		add_action( 'wp_head', array( __CLASS__, 'maybeRemoveCoreMetaDescription' ), 0 );
 		add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
 
@@ -78,6 +90,84 @@ final class Rank_Math {
 		add_filter( 'rank_math/opengraph/twitter/image', array( __CLASS__, 'imageURL' ) );
 
 		add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
+	}
+
+	/**
+	 * Callback for the `rank_math/sitemap/providers` filter.
+	 *
+	 * Register the sitemaps providers with Rank Math.
+	 *
+	 * @since 10.1
+	 *
+	 * @param \RankMath\Sitemap\Providers\Provider[] $externalProviders
+	 *
+	 * @return mixed
+	 */
+	public static function registerSitemapProviders( $externalProviders ) {
+
+		$registry  = Registry::get();
+		$providers = $registry->getProviders();
+
+		if ( is_array( $providers ) ) {
+
+			foreach ( $providers as $provider ) {
+
+				array_push( $externalProviders, new Provider( $provider ) );
+			}
+		}
+
+		return $externalProviders;
+	}
+
+	/**
+	 * Callback for the `wp_sitemaps_max_urls` filter.
+	 *
+	 * @since 10.1
+	 *
+	 * @param int $maxURLs
+	 *
+	 * @return int
+	 * @noinspection PhpUnusedParameterInspection
+	 * @noinspection PhpFullyQualifiedNameUsageInspection
+	 */
+	public static function maxURLs( $maxURLs ) {
+
+		/**
+		 * Filter the maximum number of entries per XML sitemap.
+		 *
+		 * After changing the output of the filter, make sure that you disable and enable the
+		 * sitemaps to make sure the value is picked up for the sitemap cache.
+		 *
+		 * @since 10.1
+		 *
+		 * @param int $entries The maximum number of entries per XML sitemap.
+		 */
+		$maxURLs = absint( \RankMath\Helper::get_settings( 'sitemap.items_per_page', 100 ) );
+
+		return $maxURLs;
+	}
+
+	/**
+	 * Callback for the `Connections_Directory/Sitemaps/Provider/Sitemap_Entry` filter.
+	 *
+	 * Rank Math expects the `mod` key for the `lastmod` date.
+	 *
+	 * @since 10.1
+	 *
+	 * @param array $entry
+	 *
+	 * @return array
+	 */
+	public static function sitemapEntry( $entry ) {
+
+		$modifiedDate = _array::get( $entry, 'lastmod', null );
+
+		if ( ! is_null( $modifiedDate ) ) {
+
+			_array::set( $entry, 'mod', $modifiedDate );
+		}
+
+		return $entry;
 	}
 
 	/**
@@ -136,8 +226,6 @@ final class Rank_Math {
 
 		if ( method_exists( 'RankMath\Helper', 'get_settings' ) ) {
 
-			/** @noinspection PhpUndefinedClassInspection */
-			/** @noinspection PhpUndefinedNamespaceInspection */
 			/** @noinspection PhpFullyQualifiedNameUsageInspection */
 			$separator = \RankMath\Helper::get_settings( 'titles.title_separator' );
 		}
@@ -158,8 +246,6 @@ final class Rank_Math {
 
 		if ( method_exists( 'RankMath\Helper', 'get_settings' ) ) {
 
-			/** @noinspection PhpUndefinedClassInspection */
-			/** @noinspection PhpUndefinedNamespaceInspection */
 			/** @noinspection PhpFullyQualifiedNameUsageInspection */
 			$separator = \RankMath\Helper::get_settings( 'titles.title_separator' );
 			$title     = cnSEO::metaTitle( $title, $separator );

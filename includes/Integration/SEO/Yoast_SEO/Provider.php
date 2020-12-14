@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection DuplicatedCode */
+
 namespace Connections_Directory\Integration\SEO\Yoast_SEO;
 
 use DateTime;

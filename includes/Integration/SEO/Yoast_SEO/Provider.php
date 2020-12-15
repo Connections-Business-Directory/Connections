@@ -50,6 +50,8 @@ final class Provider implements WPSEO_Sitemap_Provider {
 
 			if ( $type === "{$name}-{$instanceID}" ) {
 				return true;
+			} elseif ( $type === $name) {
+				return true;
 			}
 		}
 
@@ -72,6 +74,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 		$instances = $this->provider->getInstances();
 		$maxURLs   = wp_sitemaps_get_max_urls( $this->provider->getObjectType() );
 		$name      = $this->provider->getName();
+		$count     = count( $instances );
 
 		foreach ( $instances as $instanceID => $instance ) {
 
@@ -103,10 +106,12 @@ final class Provider implements WPSEO_Sitemap_Provider {
 				$currentPage  = ( $maxPages > 1 ) ? ( $pageCounter + 1 ) : '';
 				$lastModified = new DateTime( $data->ts );
 
+				$loc = 1 < $count ? "{$name}-{$instanceID}-sitemap{$currentPage}.xml" : "{$name}-sitemap{$currentPage}.xml";
+
 				array_push(
 					$index,
 					array(
-						'loc'     => WPSEO_Sitemaps_Router::get_base_url( "{$name}-{$instanceID}-sitemap{$currentPage}.xml" ),
+						'loc'     => WPSEO_Sitemaps_Router::get_base_url( $loc ),
 						'lastmod' => $lastModified->format( DATE_W3C ),
 					)
 				);
@@ -130,8 +135,10 @@ final class Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
+		$instances  = $this->provider->getInstances();
 		$name       = $this->provider->getName();
-		$instanceID = str_replace( "{$name}-", '', $type );
+		$count      = count( $instances );
+		$instanceID = 1 < $count ? str_replace( "{$name}-", '', $type ) : key( $instances );
 
 		return $this->provider->get_url_list( $current_page, $instanceID );
 	}

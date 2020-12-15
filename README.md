@@ -247,6 +247,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.1 12/15/2020 =
+* FEATURE: Support for Yoast SEO sitemaps.
+* FEATURE: Support for Rank Math sitemaps.
+* TWEAK: Change the date format used in the sitemaps from DATE_ATOM to DATE_W3C.
+* TWEAK: Change `Provider::getQueryArgs()` from protected to public so it can be used in integrations.
+* TWEAK: Add several public methods to `Provider` so the protect/private properties can be accessed for integrations.
+* TWEAK: The persistent logs should not be public queryable.
+* TWEAK: Only supported custom types should be used when defining a Directory Homepage ID.
+* TWEAK: Use the `set_screen_option_connections` instead of the `set-screen-option` filter hook needed for the Screen Options tab settings to be saved appropriately.
+* TWEAK: If only a single instance of Connections is on a page, no need to add the instance ID to he sitemap index links.
+* DEV: phpDoc updates.
+* DEV: Inline code comment.
+* DEV: Remove no inspection tag.
+
 = 10.0 12/08/2020 =
 * FEATURE: Support for WordPress sitemaps.
 * TWEAK: Ensure the persistent log posts do not display in the WP sitemaps if the site is in debug mode.

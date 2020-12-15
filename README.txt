@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 5.0
 Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 10.0
+Stable tag: 10.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * [Displaying your business directory on the frontend is as simple as putting a shortcode on a page.](https://connections-pro.com/documentation/install/#Step_4_Displaying_your_Directory) Don't let this simplicity fool you. The shortcode provides a large array of options that are just too numerous to list. To learn more, [go here](https://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
     * [Supports the native sitemaps](https://connections-pro.com/connections-10-0-seo-sitemaps/) feature available in WordPress versions 5.5 and newer.
+    * [Yoast SEO and Rank Math sitemaps integration.](https://connections-pro.com/connections-10-1-seo-sitemaps-integrations/)
 * **[Extensible](https://connections-pro.com/extensions/)** and developer friendly.
 * Robust **templating support** with the [Template Customizer](https://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with you business directory with many more [premium templates available](https://connections-pro.com/templates/) to really make your business directory shine.
 
@@ -247,6 +248,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.1 12/15/2020 =
+* FEATURE: Support for Yoast SEO sitemaps.
+* FEATURE: Support for Rank Math sitemaps.
+* TWEAK: Change the date format used in the sitemaps from DATE_ATOM to DATE_W3C.
+* TWEAK: Change `Provider::getQueryArgs()` from protected to public so it can be used in integrations.
+* TWEAK: Add several public methods to `Provider` so the protect/private properties can be accessed for integrations.
+* TWEAK: The persistent logs should not be public queryable.
+* TWEAK: Only supported custom types should be used when defining a Directory Homepage ID.
+* TWEAK: Use the `set_screen_option_connections` instead of the `set-screen-option` filter hook needed for the Screen Options tab settings to be saved appropriately.
+* TWEAK: If only a single instance of Connections is on a page, no need to add the instance ID to he sitemap index links.
+* DEV: phpDoc updates.
+* DEV: Inline code comment.
+* DEV: Remove no inspection tag.
 
 = 10.0 12/08/2020 =
 * FEATURE: Support for WordPress sitemaps.
@@ -595,4 +610,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.0 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.1 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

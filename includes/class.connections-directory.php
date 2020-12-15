@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.0';
+	const VERSION = '10.1';
 
 	/**
 	 * Stores the instance of this class.
@@ -367,7 +367,7 @@ final class Connections_Directory {
 		 * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
 		 *       which do not hook into `set-screen-option` properly from breaking Connections.
 		 */
-		add_filter( 'set-screen-option', array( 'cnAdminFunction', 'setManageScreenOptions' ), 99, 3 );
+		add_filter( 'set_screen_option_connections', array( 'cnAdminFunction', 'setManageScreenOptions' ), 99, 3 );
 
 		// Init the class.
 		add_action( 'init', array( 'cnSEO', 'hooks' ) );
@@ -400,6 +400,7 @@ final class Connections_Directory {
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
 
 		// Integrations
+		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ), 15 );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Rank_Math', 'init' ), 15 );
 	}

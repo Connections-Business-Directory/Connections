@@ -49,6 +49,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * [Displaying your business directory on the frontend is as simple as putting a shortcode on a page.](https://connections-pro.com/documentation/install/#Step_4_Displaying_your_Directory) Don't let this simplicity fool you. The shortcode provides a large array of options that are just too numerous to list. To learn more, [go here](https://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
     * [Supports the native sitemaps](https://connections-pro.com/connections-10-0-seo-sitemaps/) feature available in WordPress versions 5.5 and newer.
+    * [Yoast SEO and Rank Math sitemaps integration.](https://connections-pro.com/connections-10-1-seo-sitemaps-integrations/)
 * **[Extensible](https://connections-pro.com/extensions/)** and developer friendly.
 * Robust **templating support** with the [Template Customizer](https://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with you business directory with many more [premium templates available](https://connections-pro.com/templates/) to really make your business directory shine.
 

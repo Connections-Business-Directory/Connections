@@ -19,7 +19,7 @@ final class Registry {
 	/**
 	 * Registered sitemap providers.
 	 *
-	 * @since 5.5.0
+	 * @since 10.0
 	 *
 	 * @var Provider[]
 	 */

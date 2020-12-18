@@ -71,7 +71,7 @@ final class Yoast_SEO {
 		add_filter( 'wp_sitemaps_max_urls', array( __CLASS__, 'maxURLs' ) );
 		add_filter( 'Connections_Directory/Sitemaps/Provider/Sitemap_Entry', array( __CLASS__, 'sitemapEntry' ) );
 
-		// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports.
+		// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports and bulk operations.
 
 		add_action( 'wp_head', array( __CLASS__, 'maybeRemoveCoreMetaDescription' ), 0 );
 

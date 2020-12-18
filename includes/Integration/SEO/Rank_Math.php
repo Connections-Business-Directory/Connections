@@ -73,6 +73,8 @@ final class Rank_Math {
 		add_action( 'wp_head', array( __CLASS__, 'maybeRemoveCoreMetaDescription' ), 0 );
 		add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
 
+		// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports and bulk operations.
+
 		/*
 		 * @todo Add the prev/next relative URLs for pagination.
 		 */

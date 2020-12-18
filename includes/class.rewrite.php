@@ -393,7 +393,6 @@ class cnRewrite {
 		// Add the Connections rewrite rules to before the default page rewrite rules.
 		$root_rewrite = array_merge( $root_rewrite, $rule );
 
-		// var_dump($page_rewrite);
 		return $root_rewrite;
 	}
 
@@ -628,7 +627,6 @@ class cnRewrite {
 		// Add the Connections rewrite rules to before the default page rewrite rules.
 		$page_rewrite = array_merge( $rule, $page_rewrite );
 
-		//var_dump($page_rewrite);
 		return $page_rewrite;
 	}
 

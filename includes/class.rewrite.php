@@ -397,6 +397,8 @@ class cnRewrite {
 	}
 
 	/**
+	 * Callback the for the `page_rewrite_rules` filter.
+	 *
 	 * Add the page rewrite rules.
 	 *
 	 * NOTE: Using a filter so I can add the rules right before the default page rules.
@@ -631,6 +633,8 @@ class cnRewrite {
 	}
 
 	/**
+	 * Callback for the `{$permastructname}_rewrite_rules` filter.
+	 *
 	 * @access private
 	 * @since  8.5.14
 	 *

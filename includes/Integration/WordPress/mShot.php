@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory;
+namespace Connections_Directory\Integration\WordPress;
 
 use cnSanitize;
 use cnString;
@@ -12,7 +12,7 @@ use WP_Error;
  *
  * @package Connections_Directory
  */
-class SiteShot {
+final class mShot {
 
 	/**
 	 * The provider API URL.

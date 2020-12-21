@@ -274,8 +274,6 @@ class cnDependency {
 			'cnValidate'               => 'includes/class.validate.php',
 			'cnSanitize'               => 'includes/class.sanitize.php',
 
-			'Connections_Directory\SiteShot' => 'includes/SiteShot.php',
-
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',
 
@@ -484,6 +482,7 @@ class cnDependency {
 			'Connections_Directory\Integration\SEO\Yoast_SEO\Provider' => 'includes/Integration/SEO/Yoast_SEO/Provider.php',
 			'Connections_Directory\Integration\SEO\Rank_Math'          => 'includes/Integration/SEO/Rank_Math.php',
 			'Connections_Directory\Integration\SEO\Rank_Math\Provider' => 'includes/Integration/SEO/Rank_Math/Provider.php',
+			'Connections_Directory\Integration\WordPress\mShot'        => 'includes/Integration/WordPress/mShot.php',
 
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

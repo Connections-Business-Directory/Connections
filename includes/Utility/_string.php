@@ -12,6 +12,22 @@ use WP_Error;
 final class _string {
 
 	/**
+	 * Insert a string at a specified position.
+	 *
+	 * @since 10.2
+	 *
+	 * @param string $string
+	 * @param string $insert
+	 * @param int    $position
+	 *
+	 * @return string
+	 */
+	public static function insert( $string, $insert, $position ) {
+
+		return substr( $string, 0, $position ) . $insert . substr( $string, $position );
+	}
+
+	/**
 	 * Transform supplied string to camelCase.
 	 *
 	 * NOTE: Limits the output to alphanumeric characters.

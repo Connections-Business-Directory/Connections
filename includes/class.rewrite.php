@@ -687,8 +687,8 @@ class cnRewrite {
 		 *
 		 * @since 8.5.17
 		 *
-		 * @param array $rule The root page rewrite rules.
-		 * @param int   $slug The CPT slug.
+		 * @param array  $rule The root page rewrite rules.
+		 * @param string $slug The CPT slug.
 		 */
 		$rule = apply_filters( 'cn_cpt_rewrite_rule-landing', $rule, $slug );
 

@@ -790,9 +790,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					$postTypes = get_post_types(
 						array(
-							'public'       => TRUE,
-							'show_in_menu' => TRUE,
-							'_builtin'     => FALSE,
+							'public'             => true,
+							'publicly_queryable' => true,
+							'rewrite'            => true,
+							'show_in_menu'       => true,
+							'_builtin'           => false,
 						),
 						'objects'
 					);

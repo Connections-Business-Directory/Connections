@@ -142,9 +142,9 @@ function createProvider( $id, $name ) {
 
 	// The `$supportedCPTTypes` should always be an array, but had at least one user where this was not the case.
 	// To prevent PHP error notice, do an array check.
-	if ( ! is_array( $supportedCPTTypes ) ) {
+	if ( is_array( $supportedCPTTypes ) ) {
 
-		$supportedPostTypes  = array_merge( $supportedPostTypes, $supportedCPTTypes );
+		$supportedPostTypes = array_merge( $supportedPostTypes, $supportedCPTTypes );
 	}
 
 	// If the current post is a supported post type, use the post ID.

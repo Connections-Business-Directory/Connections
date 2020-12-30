@@ -828,7 +828,7 @@ class cnShortcode {
 	}
 
 	/**
-	 * Attemps to intelligently remove <p> and <br> tags added around
+	 * Attempts to intelligently remove <p> and <br> tags added around
 	 * the shortcodes by wpautop().
 	 *
 	 * @access public

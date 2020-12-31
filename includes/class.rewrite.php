@@ -25,7 +25,7 @@ class cnRewrite {
 
 		// Remove the canonical redirect -- for testing.
 		// remove_filter('template_redirect', 'redirect_canonical');
-		add_filter( 'redirect_canonical', array( __CLASS__ , 'frontPageCanonicalRedirect') , 10, 2 );
+		add_filter( 'redirect_canonical', array( __CLASS__, 'frontPageCanonicalRedirect' ), 10, 2 );
 
 		add_filter( 'query_vars', array( __CLASS__ , 'queryVars' ) );
 		add_filter( 'root_rewrite_rules', array( __CLASS__ , 'addRootRewriteRules' ) );

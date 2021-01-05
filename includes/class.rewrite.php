@@ -635,10 +635,11 @@ class cnRewrite {
 	/**
 	 * Callback for the `{$permastructname}_rewrite_rules` filter.
 	 *
+	 * @noinspection PhpUnused
 	 * @access private
 	 * @since  8.5.14
 	 *
-	 * @param array  $rules The rewrite rules array.
+	 * @param array $rules The rewrite rules array.
 	 *
 	 * @return array
 	 */

@@ -17,6 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnRewrite {
 
 	/**
+	 * The rewrite tag namespace.
+	 *
+	 * @since 10.2
+	 * @var string
+	 */
+	static $namespace = 'ConnectionsDirectory';
+
+	/**
 	 * Initialization
 	 *
 	 * @return void
@@ -43,6 +51,7 @@ class cnRewrite {
 			}
 		}
 
+		add_action( 'wp_loaded', array( __CLASS__, 'registerRewriteTags' ) );
 		add_action( 'init', array( __CLASS__, 'addEndPoints') );
 		add_filter( 'request', array( __CLASS__, 'setImageEndpointQueryVar' ) );
 	}
@@ -148,6 +157,54 @@ class cnRewrite {
 		}
 
 		return $var;
+	}
+
+	/**
+	 * Callback for the `wp_loaded` action.
+	 *
+	 * NOTE: This should run on the `wp_loaded` action because rules are generated right before the `parse_request` action.
+	 *       Running on the `wp_loaded` action is as late as possible to allow CPT's to be registered.
+	 *
+	 * Register the rewrites tags to be used generate the rewrite rules.
+	 *
+	 * @since 10.2
+	 */
+	public static function registerRewriteTags() {
+
+		$namespace = self::$namespace;
+
+		foreach ( get_post_types( array( '_builtin' => false, 'publicly_queryable' => true, 'rewrite' => true ), 'objects' ) as $postType ) {
+			//var_dump( $postType );
+
+			$postTypeToken = "%{$namespace}CPT_{$postType->name}%";
+
+			if ( $postType->hierarchical ) {
+
+				$regex = '(.+?)';
+				$query = $postType->query_var ? "{$postType->query_var}=" : "post_type={$postType->name}&pagename=";
+
+			} else {
+
+				$regex = '([^/]+)';
+				$query = $postType->query_var ? "{$postType->query_var}=" : "post_type={$postType->name}&name=";
+			}
+
+			add_rewrite_tag( $postTypeToken, $regex, $query );
+		}
+
+		// The extra .? at the beginning prevents clashes with other regular expressions in the rules array.
+		add_rewrite_tag( "%{$namespace}_pagename%", '(.?.+?)', 'pagename=' );
+		add_rewrite_tag( "%{$namespace}_page%", '?([0-9]{1,})', 'cn-pg=' );
+		add_rewrite_tag( "%{$namespace}_country%", '([^/]*)', 'cn-country=' );
+		add_rewrite_tag( "%{$namespace}_region%", '([^/]*)', 'cn-region=' );
+		add_rewrite_tag( "%{$namespace}_locality%", '([^/]*)', 'cn-locality=' );
+		add_rewrite_tag( "%{$namespace}_postal_code%", '([^/]*)', 'cn-postal-code=' );
+		add_rewrite_tag( "%{$namespace}_district%", '([^/]*)', 'cn-district=' );
+		add_rewrite_tag( "%{$namespace}_county%", '([^/]*)', 'cn-county=' );
+		add_rewrite_tag( "%{$namespace}_organization%", '([^/]*)', 'cn-organization=' );
+		add_rewrite_tag( "%{$namespace}_department%", '([^/]*)', 'cn-department=' );
+		add_rewrite_tag( "%{$namespace}_character%", '([^/]*)', 'cn-char=' );
+		add_rewrite_tag( "%{$namespace}_name%", '([^/]*)', 'cn-entry-slug=' );
 	}
 
 	/**

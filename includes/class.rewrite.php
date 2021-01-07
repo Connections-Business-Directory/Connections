@@ -14,7 +14,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_string;
 
 class cnRewrite {
 
@@ -248,6 +250,101 @@ class cnRewrite {
 		 * @param array $slugs The permalink slugs.
 		 */
 		return apply_filters( 'Connections_Directory/Rewrite/Permalink_Slugs', $slugs );
+	}
+
+	/**
+	 * Generates rewrite rules from a permalink structure.
+	 *
+	 * This is the Connections equivalent of @see WP_Rewrite::generate_rewrite_rules()
+	 *
+	 * @since 10.2
+	 *
+	 * @param string $structure The permalink structure.
+	 * @param array  $args      {
+	 *     @see WP_Rewrite::generate_rewrite_rules()
+	 *     @type int    $ep_mask             Optional. Endpoint mask defining what endpoints are added to the structure.
+	 *                                       Accepts `EP_NONE`, `EP_PERMALINK`, `EP_ATTACHMENT`, `EP_DATE`, `EP_YEAR`,
+	 *                                       `EP_MONTH`, `EP_DAY`, `EP_ROOT`, `EP_COMMENTS`, `EP_SEARCH`, `EP_CATEGORIES`,
+	 *                                       `EP_TAGS`, `EP_AUTHORS`, `EP_PAGES`, `EP_ALL_ARCHIVES`, and `EP_ALL`.
+	 *                                       Default `EP_NONE`.
+	 *     @type bool   $paged               Optional. Whether archive pagination rules should be added for the structure.
+	 *                                       Default true.
+	 *     @type bool   $feed                Optional Whether feed rewrite rules should be added for the structure.
+	 *                                       Default true.
+	 *     @type bool   $forcomments         Optional. Whether the feed rules should be a query for a comments feed.
+	 *                                       Default false.
+	 *     @type bool   $walk_dirs           Optional. Whether the 'directories' making up the structure should be walked
+	 *                                       over and rewrite rules built for each in-turn. Default true.
+	 *     @type bool   $endpoints           Optional. Whether endpoints should be applied to the generated rewrite rules.
+	 *                                       Default true.
+	 * }
+	 * @param array  $addQuery  Query args to append to the rewrite query.
+	 * @param bool   $isRoot
+	 *
+	 * @return string[]
+	 */
+	public static function generateRule( $structure, $args = array(), $addQuery = array(), $isRoot = false ) {
+
+		global $wp_rewrite;
+
+		$namespace = self::$namespace;
+		$pageID    = get_option( 'page_on_front' );
+		$slugs     = self::getPermalinkSlugs();
+
+		// The taxonomy rewrite tags are dealt with in the Taxonomy API.
+		$taxonomies = Registry::get()->getTaxonomies();
+
+		foreach ( $taxonomies as $taxonomy ) {
+
+			_array::forget( $slugs, $taxonomy->getSlug() );
+		}
+
+		// Replace the `%pagename%` and `%page%` tokens with the namespaced versions so they do not conflict with the core WP rewrite tags.
+		$structure = str_ireplace(
+			array( '%pagename%', '%page%' ),
+			array( "%{$namespace}_pagename%", "%{$namespace}_page%" ),
+			$structure
+		);
+
+		// Replace the rewrite tag tokens with registered namespaced rewrite tag tokens.
+		foreach ( $slugs as $key => $slug ) {
+
+			$structure = str_ireplace(
+				"%{$key}%",
+				"{$slug}/%{$namespace}_{$key}%",
+				$structure
+			);
+		}
+
+		$rules = $wp_rewrite->generate_rewrite_rules(
+			$structure,
+			_array::get( $args, 'ep_mask', EP_NONE ),
+			_array::get( $args, 'paged', true ),
+			_array::get( $args, 'feed', true ),
+			_array::get( $args, 'forcomments', false ),
+			_array::get( $args, 'walk_dirs', true ),
+			_array::get( $args, 'endpoints', true )
+		);
+
+		// Connections utilizes additional query args to determine the view state, if supplied, append to the rewrite query.
+		foreach ( $rules as $regex => &$query ) {
+
+			/*
+			 * Need to `urldecode()` as `add_query_arg()` passes URL through `urlencode_deep()`.
+			 * Rewrite query URLs are not encoded.
+			 */
+			$query = urldecode( add_query_arg( $addQuery, $query ) );
+
+			/*
+			 * If writing the root rewrite rules and a page is set to front, add the `page_id` query to the front of the query request.
+			 */
+			if ( $isRoot && get_option( 'page_on_front' ) ) {
+
+				$query = _string::insert( $query, "page_id={$pageID}&", strpos( $query, '?' ) + 1 );
+			}
+		}
+
+		return $rules;
 	}
 
 	/**

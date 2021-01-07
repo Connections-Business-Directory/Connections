@@ -14,6 +14,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_array;
+
 class cnRewrite {
 
 	/**
@@ -205,6 +207,47 @@ class cnRewrite {
 		add_rewrite_tag( "%{$namespace}_department%", '([^/]*)', 'cn-department=' );
 		add_rewrite_tag( "%{$namespace}_character%", '([^/]*)', 'cn-char=' );
 		add_rewrite_tag( "%{$namespace}_name%", '([^/]*)', 'cn-entry-slug=' );
+	}
+
+	/**
+	 * Retrieve the user defined permalink slugs from the settings.
+	 *
+	 * NOTE: After the `setup_theme` action hook, this will also return the registered taxonomy slugs.
+	 *
+	 * NOTE: The array keys will be utilized as the tokens when generating rewrite rules.
+	 * @see cnRewrite::generateRule()
+	 *
+	 * @since 10.2
+	 *
+	 * @return array
+	 */
+	public static function getPermalinkSlugs() {
+
+		/*
+		 * Get the settings for the base of each data type to be used in the URL.
+		 *
+		 * NOTE: The base permalink slugs can not conflict with core WordPress permalinks slugs such as `category` and `tag`.
+		 */
+		$base  = get_option( 'connections_permalink', array() );
+		$slugs = array();
+
+		$slugs['character']    = _array::get( $base, 'character_base', 'char' );
+		$slugs['country']      = _array::get( $base, 'country_base', 'country' );
+		$slugs['region']       = _array::get( $base, 'region_base', 'region' );
+		$slugs['locality']     = _array::get( $base, 'locality_base', 'locality' );
+		$slugs['postal_code']  = _array::get( $base, 'postal_code_base', 'postal_code' );
+		$slugs['district']     = _array::get( $base, 'district_base', 'district' );
+		$slugs['county']       = _array::get( $base, 'county_base', 'county' );
+		$slugs['organization'] = _array::get( $base, 'organization_base', 'organization' );
+		$slugs['department']   = _array::get( $base, 'department_base', 'department' );
+		$slugs['name']         = _array::get( $base, 'name_base', 'name' );
+
+		/**
+		 * @since 10.2
+		 *
+		 * @param array $slugs The permalink slugs.
+		 */
+		return apply_filters( 'Connections_Directory/Rewrite/Permalink_Slugs', $slugs );
 	}
 
 	/**

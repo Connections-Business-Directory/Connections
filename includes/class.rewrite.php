@@ -1076,16 +1076,8 @@ class cnRewrite {
 	 *
 	 * @access private
 	 * @since 0.7.3.2
-	 * @uses is_page()
-	 * @uses is_404()
-	 * @uses is_ssl()
-	 * @uses cnQuery::getVar()
-	 * @uses get_option()
-	 * @uses remove_query_arg()
-	 * @uses user_trailingslashit()
-	 * @uses add_query_arg()
-	 * @uses wp_redirect()
-	 * @return void
+	 *
+	 * @return false|void
 	 */
 	public function canonicalRedirectAction() {
 		global $wp_rewrite, $connections;

@@ -344,7 +344,7 @@ class cnHTML {
 						}
 					);
 
-					return $value ? implode( $value, ' ' ): '';
+					return $value ? implode( ' ', $value ) : '';
 				}
 
 				return '';

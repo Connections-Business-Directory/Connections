@@ -411,7 +411,7 @@ class cnHTML {
 
 					array_walk( $value, 'esc_attr' );
 
-					return $value ? ' ' . esc_attr( $type ) . '="' . implode( $value, ' ' ) . '" ' : '';
+					return $value ? ' ' . esc_attr( $type ) . '="' . implode( ' ', $value ) . '" ' : '';
 
 				} elseif ( ! empty( $value ) ) {
 

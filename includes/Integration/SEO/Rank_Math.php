@@ -69,6 +69,9 @@ final class Rank_Math {
 		add_filter( 'rank_math/sitemap/providers', array( __CLASS__, 'registerSitemapProviders' ) );
 		add_filter( 'wp_sitemaps_max_urls', array( __CLASS__, 'maxURLs' ) );
 		add_filter( 'Connections_Directory/Sitemaps/Provider/Sitemap_Entry', array( __CLASS__, 'sitemapEntry' ) );
+		add_action( 'cn_saved-entry', array( __CLASS__, 'clearCache' ) );
+		add_action( 'cn_updated-entry', array( __CLASS__, 'clearCache' ) );
+		add_action( 'cn_deleted-entry', array( __CLASS__, 'clearCache' ) );
 
 		add_action( 'wp_head', array( __CLASS__, 'maybeRemoveCoreMetaDescription' ), 0 );
 		add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
@@ -401,5 +404,37 @@ final class Rank_Math {
 		}
 
 		return $type;
+	}
+
+	/**
+	 * Clear the sitemaps from the cache.
+	 *
+	 * @since 10.2
+	 */
+	public static function clearCache() {
+
+		$registry  = Registry::get();
+		$providers = $registry->getProviders();
+
+		if ( is_array( $providers ) ) {
+
+			foreach ( $providers as $provider ) {
+
+				$instances = $provider->getInstances();
+				$name      = $provider->getName();
+				$count     = count( $instances );
+
+				foreach ( $instances as $instanceID => $instance ) {
+
+					$type = 1 < $count ? "{$name}-{$instanceID}" : $name;
+
+					\RankMath\Sitemap\Cache::invalidate_storage( $type );
+				}
+
+			}
+
+			// Delete the sitemap index.
+			\RankMath\Sitemap\Cache::invalidate_storage( '1' );
+		}
 	}
 }

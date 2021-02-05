@@ -41,7 +41,7 @@ function isEnabled() {
 }
 
 /**
- * Callback for the `wp_sitemaps_init` action.
+ * Callback for the `init` action.
  *
  * Initialize the sitemaps.
  *

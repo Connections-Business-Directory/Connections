@@ -802,6 +802,27 @@ class cnShortcode {
 	}
 
 	/**
+	 * Get the Directory Homepage ID based on context.
+	 *
+	 * @since 10.2
+	 * @private
+	 *
+	 * @return int
+	 */
+	public static function getHomeID() {
+
+		$homeID = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );
+		$post   = get_queried_object();
+
+		if ( in_the_loop() && ( is_page() || self::isSupportedPostType( $post ) ) ) {
+
+			$homeID = get_the_ID();
+		}
+
+		return (int) $homeID;
+	}
+
+	/**
 	 * The core `connections` shortcode can be used multiple times on a page.
 	 * Because of this we need to keep track of the filters that are added
 	 * during execution of the shortcode so the filters can be cleared and

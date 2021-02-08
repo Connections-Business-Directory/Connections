@@ -1,6 +1,8 @@
 <?php
 
 // Exit if accessed directly
+use Connections_Directory\Utility\_array;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 
@@ -759,6 +761,44 @@ class cnShortcode {
 		}
 
 		return cnShortcode_Connections::shortcode( $atts, $content );
+	}
+
+	/**
+	 * Whether or not the supplied WP_Post is of a supported post type.
+	 *
+	 * @since 10.2
+	 *
+	 * @param WP_Post $post
+	 *
+	 * @return bool
+	 */
+	public static function isSupportedPostType( $post ) {
+
+		$supported = false;
+
+		if ( ! $post instanceof WP_Post ) {
+
+			return $supported;
+		}
+
+		// Create an array of supported post types.
+		$supportedPostTypes  = array( 'page' );
+		$CPTOptions          = get_option( 'connections_cpt', array() );
+		$supportedCPTTypes   = _array::get( $CPTOptions, 'supported', array() );
+
+		// The `$supportedCPTTypes` should always be an array, but had at least one user where this was not the case.
+		// To prevent PHP error notice, do an array check.
+		if ( is_array( $supportedCPTTypes ) ) {
+
+			$supportedPostTypes = array_merge( $supportedPostTypes, $supportedCPTTypes );
+		}
+
+		if ( in_array( $post->post_type, $supportedPostTypes ) ) {
+
+			$supported = true;
+		}
+
+		return $supported;
 	}
 
 	/**

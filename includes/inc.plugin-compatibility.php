@@ -88,9 +88,9 @@ add_action( 'plugins_loaded', 'cn_WPML_add_email_filter' );
 
 function cn_WPML_add_email_filter() {
 
-	global $WPML_Plugin;
+	if ( method_exists( 'WPML_Plugin', 'log_email' ) ) {
 
-	if ( method_exists( $WPML_Plugin, 'log_email' ) ) {
+		global $WPML_Plugin;
 
 		add_filter( 'cn_email', array( $WPML_Plugin, 'log_email' ) );
 	}
@@ -109,9 +109,9 @@ add_action( 'init', 'cn_email_log_add_email_filter', 11 );
 
 function cn_email_log_add_email_filter() {
 
-	global $EmailLog;
+	if ( method_exists( 'EmailLog', 'log_email' ) ) {
 
-	if ( method_exists( $EmailLog, 'log_email' ) ) {
+		global $EmailLog;
 
 		add_filter( 'cn_email', array( $EmailLog, 'log_email' ) );
 	}

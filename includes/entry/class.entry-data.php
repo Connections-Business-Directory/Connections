@@ -2040,10 +2040,15 @@ class cnEntry {
 			/** @var cnEntry_Date $anniversary */
 			$anniversary = $anniversaries->first();
 
-			$this->setAnniversary(
-				(int) $anniversary->getDate()->format( 'j' ),
-				(int) $anniversary->getDate()->format( 'n' )
-			);
+			$date = $anniversary->getDate();
+
+			if ( $date instanceof DateTime ) {
+
+				$this->setAnniversary(
+					(int) $anniversary->getDate()->format( 'j' ),
+					(int) $anniversary->getDate()->format( 'n' )
+				);
+			}
 		}
 
 		$birthdays = $this->dates->filterBy( 'type', 'birthday' )
@@ -2057,10 +2062,16 @@ class cnEntry {
 			/** @var cnEntry_Date $birthday */
 			$birthday = $birthdays->first();
 
-			$this->setBirthday(
-				(int) $birthday->getDate()->format( 'j' ),
-				(int) $birthday->getDate()->format( 'n' )
-			);
+			$date = $birthday->getDate();
+
+			if ( $date instanceof DateTime ) {
+
+				$this->setBirthday(
+					(int) $date->format( 'j' ),
+					(int) $date->format( 'n' )
+				);
+			}
+
 		}
 
 	}

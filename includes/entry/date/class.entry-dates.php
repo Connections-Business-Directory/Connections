@@ -529,9 +529,15 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			$date = apply_filters( 'cn_date-pre_setup', $date );
 
 			//$this->add( cnEntry_Date::create( $date ) );
-			$this->items->push( cnEntry_Date::create( $date ) );
 
-			$order++;
+			$item = cnEntry_Date::create( $date );
+
+			if ( $item->getDate() instanceof DateTime ) {
+
+				$this->items->push( $item );
+
+				$order++;
+			}
 		}
 
 		// Sync the filtered and unfiltered collections.

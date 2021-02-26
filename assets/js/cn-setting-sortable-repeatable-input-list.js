@@ -50,7 +50,8 @@
 			}
 
 			// Unhide the cloned object.
-			clone.toggle();
+			// clone.toggle();
+			clone.show();
 
 			return clone;
 		},

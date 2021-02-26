@@ -721,15 +721,15 @@ jQuery(document).ready( function($) {
 
 	CN_Form.init();
 
-	$('a.detailsbutton').click( function () {
+	$( 'a.detailsbutton' ).on( 'click', function() {
 
 		var $this = $( this );
 
-		$this.text( $this.text() == cn_string.showDetails ? cn_string.hideDetails : cn_string.showDetails ).attr( 'title', $this.attr('title') == cn_string.showDetailsTitle ? cn_string.hideDetailsTitle : cn_string.showDetailsTitle  );
+		$this.text( $this.text() == cn_string.showDetails ? cn_string.hideDetails : cn_string.showDetails ).attr( 'title', $this.attr( 'title' ) == cn_string.showDetailsTitle ? cn_string.hideDetailsTitle : cn_string.showDetailsTitle );
 
 		$( '.child-' + this.id ).each( function( i, elem ) {
 
-			$(elem).toggle();
+			$( elem ).toggle();
 		});
 	});
 

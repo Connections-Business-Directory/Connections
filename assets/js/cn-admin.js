@@ -231,7 +231,7 @@ jQuery(document).ready( function($) {
 			// Check full File API support.
 			if (window.FileReader && window.File && window.FileList && window.Blob) {
 
-				$('input[name="original_image"], input[name="original_logo"]').bind('change', function () {
+				$('input[name="original_image"], input[name="original_logo"]').on('change', function () {
 
 					//this.files[0].size gets the size of your file.
 					var imageField = $('input[name="original_image"]');

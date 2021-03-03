@@ -333,7 +333,7 @@ class cnMeta {
 			array(
 				$column      => $id,
 				'meta_key'   => $key,
-				'meta_value' => cnFormatting::maybeJSONencode( $value ) )
+				'meta_value' => _::maybeJSONencode( $value ) )
 		);
 
 		if ( ! $result ) {
@@ -383,7 +383,7 @@ class cnMeta {
 	 * @uses   wpdb::prepare()
 	 * @uses   wpdb::get_col()
 	 * @uses   cnMeta::add()
-	 * @uses   cnFormatting::maybeJSONencode()
+	 * @uses   _::maybeJSONencode()
 	 * @uses   do_action()
 	 * @uses   wpdb::update()
 	 * @uses   wp_cache_delete()
@@ -392,7 +392,7 @@ class cnMeta {
 	 * @param int    $id         ID of the object metadata is for
 	 * @param string $key        Metadata key
 	 * @param mixed  $value      Metadata value. Must be able to be JSON encoded if non-scalar.
-	 *                           Use @see cnFormatting::maybeJSONencode().
+	 *                           Use @see _::maybeJSONencode().
 	 * @param mixed  $prev_value Optional. If specified, only update existing metadata entries with
 	 *                           the specified value. Otherwise, update all entries.
 	 *
@@ -433,7 +433,7 @@ class cnMeta {
 		 * @param int       $id         Object ID.
 		 * @param string    $key        Meta key.
 		 * @param mixed     $value      Meta value. Must be able to be JSON encoded if non-scalar.
-		 *                              Use @see cnFormatting::maybeJSONencode().
+		 *                              Use @see _::maybeJSONencode().
 		 * @param mixed     $prev_value Optional. If specified, only update existing
 		 *                              metadata entries with the specified value.
 		 *                              Otherwise, update all entries.
@@ -474,14 +474,14 @@ class cnMeta {
 		}
 
 		$_meta_value = $value;
-		$value       = cnFormatting::maybeJSONencode( $value );
+		$value       = _::maybeJSONencode( $value );
 
 		$data  = array( 'meta_value' => $value );
 		$where = array( $column => $id, 'meta_key' => $key );
 
 		if ( ! empty( $prev_value ) ) {
 
-			$prev_value          = cnFormatting::maybeJSONencode( $prev_value );
+			$prev_value          = _::maybeJSONencode( $prev_value );
 			$where['meta_value'] = $prev_value;
 		}
 
@@ -542,7 +542,7 @@ class cnMeta {
 	 * @uses   cnMeta::tableName()
 	 * @uses   sanitize_key()
 	 * @uses   wp_unslash()
-	 * @uses   cnFormatting::maybeJSONencode()
+	 * @uses   _::maybeJSONencode()
 	 * @uses   wpdb::prepare()
 	 * @uses   wpdb::get_col()
 	 * @uses   do_action()
@@ -595,7 +595,7 @@ class cnMeta {
 		 * @param int       $id         Object ID.
 		 * @param string    $key        Meta key.
 		 * @param mixed     $value      Meta value. Must be able to be JSON encoded if non-scalar.
-		 *                              Use @see cnFormatting::maybeJSONencode().
+		 *                              Use @see _::maybeJSONencode().
 		 * @param bool $delete_all      Whether to delete the matching metadata entries for all objects,
 		 *                              ignoring the specified $id.
 		 *                              Default FALSE.
@@ -606,7 +606,7 @@ class cnMeta {
 		}
 
 		$_meta_value = $value;
-		$value       = cnFormatting::maybeJSONencode( $value );
+		$value       = _::maybeJSONencode( $value );
 
 		$query = $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s", $key );
 
@@ -746,7 +746,7 @@ class cnMeta {
 	 * @uses   cnMeta::tableName()
 	 * @uses   cnMeta::getByID()
 	 * @uses   sanitize_meta()
-	 * @uses   cnFormatting::maybeJSONencode()
+	 * @uses   _::maybeJSONencode()
 	 * @uses   do_action()
 	 * @uses   wpdb::update()
 	 * @uses   wp_cache_delete()
@@ -799,7 +799,7 @@ class cnMeta {
 			$_meta_value = $value;
 			$value       = wp_unslash( $value );
 			$value       = sanitize_meta( $key, $value, 'cn_' . $type );
-			$value       = cnFormatting::maybeJSONencode( $value );
+			$value       = _::maybeJSONencode( $value );
 
 			// Format the data query arguments.
 			$data = array(

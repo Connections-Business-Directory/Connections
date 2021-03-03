@@ -291,8 +291,8 @@ class cnMeta {
 		 * @param null|bool $check  Whether to allow adding metadata for the given type.
 		 * @param int       $id     Object ID.
 		 * @param string    $key    Meta key.
-		 * @param mixed $value      Meta value. Must be able to be json encoded if non-scalar.
-		 *                          Use @see cnFormatting::maybeJSONencode().
+		 * @param mixed     $value  Meta value. Must be able to be json encoded if non-scalar.
+		 *                          Use @see _::maybeJSONencode().
 		 * @param bool      $unique Whether the specified meta key should be unique
 		 *                          for the object. Optional. Default false.
 		 */

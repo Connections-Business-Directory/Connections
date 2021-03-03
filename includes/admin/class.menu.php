@@ -88,7 +88,7 @@ class cnAdminMenu {
 
 		$submenu = apply_filters( 'cn_submenu', $submenu );
 
-		ksort( $submenu );
+		uksort( $submenu, 'strnatcasecmp' );
 
 		foreach ( $submenu as $menu ) {
 

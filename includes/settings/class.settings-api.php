@@ -12,6 +12,8 @@
 /// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_array;
+
 if ( ! class_exists('cnSettingsAPI') ) {
 
 	/**
@@ -857,7 +859,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'text':
-					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
+					$size  = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
+					$value = ! is_null( $value ) ? $value : _array::get( $field, 'default', '' );
 
 					$out .= sprintf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );

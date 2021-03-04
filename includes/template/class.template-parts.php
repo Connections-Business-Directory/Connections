@@ -13,6 +13,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_array;
+
 /**
  * Class cnTemplatePart
  */
@@ -1007,10 +1009,12 @@ class cnTemplatePart {
 	public static function listAction_ViewAll( $atts ) {
 
 		$defaults = array(
-			'type'   => 'all',
-			'text'   => __( 'View All', 'connections' ),
-			'rel'    => 'canonical',
-			'return' => FALSE,
+			'type'       => 'all',
+			'text'       => __( 'View All', 'connections' ),
+			'rel'        => 'canonical',
+			'home_id'    => _array::get( $atts, 'home_id', cnShortcode::getHomeID() ),
+			'force_home' => _array::get( $atts, 'force_home', false ),
+			'return'     => false,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1827,8 +1831,8 @@ class cnTemplatePart {
 					'title'      => $char,
 					'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
 					'text'       => $char,
-					'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-					'force_home' => FALSE,
+					'home_id'    => _array::get( $atts, 'home_id', cnShortcode::getHomeID() ),
+					'force_home' => _array::get( $atts, 'force_home', false ),
 					'return'     => TRUE,
 					)
 				);

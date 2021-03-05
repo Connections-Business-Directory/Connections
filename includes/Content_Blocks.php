@@ -112,6 +112,8 @@ class Content_Blocks {
 	}
 
 	/**
+	 * Callback for the `init` action hook.
+	 *
 	 * Register the Content Block with the Settings API.
 	 *
 	 * @since 9.6

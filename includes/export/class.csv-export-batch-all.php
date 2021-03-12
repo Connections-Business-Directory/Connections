@@ -161,6 +161,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *     'table'    => CN_TERMS_TABLE,
 		 *     'types'    => NULL,
 		 * );
+		 * </code>
 		 */
 
 		$fields = array(

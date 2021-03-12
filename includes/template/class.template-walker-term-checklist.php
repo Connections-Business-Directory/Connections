@@ -112,7 +112,7 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		if ( ! empty( $terms ) ) {
 
-			$out .= '<ul id="' . esc_attr( $atts['taxonomy'] ) . 'checklist" class="' . esc_attr( $walker->tree_type ) . 'checklist form-no-clear">';
+			$out .= '<ul id="' . esc_attr( $atts['taxonomy'] ) . 'checklist" class="categorychecklist form-no-clear">';
 
 				$out .= $walker->walk( $terms, $atts['depth'], $atts );
 

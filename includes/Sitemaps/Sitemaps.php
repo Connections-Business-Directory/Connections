@@ -68,7 +68,7 @@ function init() {
 	$registry = Registry::get();
 
 	/**
-	 * Fires when initializing the Registry object.
+	 * Fires after initializing the Registry object.
 	 *
 	 * Additional sitemaps providers should be registered on this hook.
 	 *

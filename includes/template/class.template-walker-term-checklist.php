@@ -69,6 +69,8 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *                                 Default: 0
 	 * @type bool   $return            Whether or not to return or echo the resulting HTML.
 	 *                                 Default: FALSE
+	 * @type bool   $echo              Whether or not to echo the HTML.
+	 *                                 Default: true
 	 * }
 	 *
 	 * @return string
@@ -80,13 +82,14 @@ class CN_Walker_Term_Check_List extends Walker {
 		$defaults = array(
 			'orderby'           => 'name',
 			'order'             => 'ASC',
-			'show_count'        => FALSE,
-			'hide_empty'        => FALSE,
+			'show_count'        => false,
+			'hide_empty'        => false,
 			'name'              => 'entry_category',
 			'depth'             => 0,
 			'taxonomy'          => 'category',
 			'selected'          => 0,
-			'return'            => FALSE,
+			'return'            => false,
+			'echo'              => true,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -116,12 +119,12 @@ class CN_Walker_Term_Check_List extends Walker {
 			$out .= '</ul>';
 		}
 
-		if ( $atts['return'] ) {
+		if ( true === $atts['echo'] ) {
 
-			return $out;
+			echo $out;
 		}
 
-		echo $out;
+		return $out;
 	}
 
 	/**

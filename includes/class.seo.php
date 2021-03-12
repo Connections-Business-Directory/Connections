@@ -592,7 +592,9 @@ class cnSEO {
 		 */
 		$title = apply_filters( 'cn_meta_title', implode( " $separator ", $pieces ), $pieces, $original, $separator, $seplocation );
 
-		return $title;
+		$separator = html_entity_decode( $separator );
+
+		return trim( $title, " \t\n\r\0\x0B{$separator}");
 	}
 
 	/**

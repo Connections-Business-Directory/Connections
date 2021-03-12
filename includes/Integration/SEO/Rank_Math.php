@@ -254,7 +254,6 @@ final class Rank_Math {
 			/** @noinspection PhpFullyQualifiedNameUsageInspection */
 			$separator = \RankMath\Helper::get_settings( 'titles.title_separator' );
 			$title     = cnSEO::metaTitle( $title, $separator );
-			$title     = trim( $title, " \t\n\r\0\x0B$separator");
 		}
 
 		return $title;

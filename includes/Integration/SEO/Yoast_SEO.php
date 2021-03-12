@@ -288,7 +288,7 @@ final class Yoast_SEO {
 		$separator = \WPSEO_Utils::get_title_separator();
 		$title     = cnSEO::metaTitle( $title, $separator );
 
-		return trim( $title, " \t\n\r\0\x0B$separator");
+		return $title;
 	}
 
 	/**

@@ -2824,12 +2824,11 @@ class cnTerm {
 	 *        Passes: (array) $pieces, (array) $taxonomies, (array) $atts
 	 *        Return: $pieces
 	 *
-	 * @access public
 	 * @since  8.1
 	 * @since  8.5.10 Introduced 'name' and 'childless' parameters.
 	 *                Introduced the 'meta_query' and 'update_meta_cache' parameters.
 	 *                Converted to return a list of cnTerm_Object objects.
-	 * @static
+	 * @since  10.2   Introduced 'object_ids' parameter.
 	 *
 	 * @global wpdb $wpdb
 	 *
@@ -2840,6 +2839,8 @@ class cnTerm {
 	 *     @type string       $get                    Whether to return terms regardless of ancestry or whether the terms are empty.
 	 *                                                Accepts: 'all' | ''
 	 *                                                Default: ''
+	 *     @type int|array    $object_ids             Optional. Object ID, or array of object IDs. Results will be
+	 *                                                limited to terms associated with these objects.
 	 *     @type array|string $orderby                Field(s) to order terms by.
 	 *                                                Use 'include' to match the 'order' of the $include param, or 'none' to skip ORDER BY.
 	 *                                                Accepts: term_id | name | slug | term_group | parent | count | include | none
@@ -2943,6 +2944,7 @@ class cnTerm {
 
 		$defaults = array(
 			'get'               => '',
+			'object_ids'        => null,
 			'orderby'           => 'name',
 			'order'             => 'ASC',
 			'hide_empty'        => TRUE,
@@ -3343,6 +3345,28 @@ class cnTerm {
 			$where[] = $wpdb->prepare( " AND tt.description LIKE %s", '%' . $wpdb->esc_like( $atts['description__like'] ) . '%' );
 		}
 
+		if ( ! empty( $atts['object_ids'] ) ) {
+
+			$object_ids = $atts['object_ids'];
+
+			if ( ! is_array( $object_ids ) ) {
+
+				$object_ids = array( $object_ids );
+			}
+
+			$object_ids = implode( ', ', array_map( 'intval', $object_ids ) );
+			$where[]    = "AND tr.entry_id IN ($object_ids)";
+		}
+
+		/*
+		 * When querying for object relationships, the 'count > 0' check
+		 * added by 'hide_empty' is superfluous.
+		 */
+		if ( ! empty( $args['object_ids'] ) ) {
+
+			$args['hide_empty'] = false;
+		}
+
 		if ( '' !== $atts['parent'] ) {
 
 			$where[] = $wpdb->prepare( 'AND tt.parent = %d', $atts['parent'] );
@@ -3402,7 +3426,14 @@ class cnTerm {
 		switch ( $atts['fields'] ) {
 
 			case 'all':
+			case 'all_with_object_id':
+			case 'tt_ids':
+			case 'slugs':
 				$select = array( 't.*', 'tt.*' );
+
+				if ( 'all_with_object_id' === $atts['fields'] && ! empty( $atts['object_ids'] ) ) {
+					$select = array( 'tr.entry_id' );
+				}
 				break;
 
 			case 'ids':
@@ -3441,6 +3472,10 @@ class cnTerm {
 		$fields = implode( ', ', apply_filters( 'cn_get_terms_fields', $select, $atts, $taxonomies ) );
 
 		$join  .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
+
+		if ( ! empty( $atts['object_ids'] ) ) {
+			$join .= ' INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
+		}
 
 		$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderBy', 'order', 'limit' );
 
@@ -3552,6 +3587,31 @@ class cnTerm {
 					unset( $terms[ $k ] );
 				}
 			}
+		}
+
+		/*
+		 * When querying for terms connected to objects, we may get
+		 * duplicate results. The duplicates should be preserved if
+		 * `$fields` is 'all_with_object_id', but should otherwise be
+		 * removed.
+		 */
+		if ( ! empty( $args['object_ids'] ) && 'all_with_object_id' !== $atts['fields'] ) {
+
+			$_tt_ids = array();
+			$_terms  = array();
+
+			foreach ( $terms as $term ) {
+
+				if ( isset( $_tt_ids[ $term->term_id ] ) ) {
+
+					continue;
+				}
+
+				$_tt_ids[ $term->term_id ] = 1;
+				$_terms[]                  = $term;
+			}
+
+			$terms = $_terms;
 		}
 
 		$_terms = array();

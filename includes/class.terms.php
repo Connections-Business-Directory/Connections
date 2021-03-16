@@ -4037,16 +4037,10 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see _get_term_children() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
+	 * @since 8.1
 	 *
-	 * @uses   cnTerm::descendants()
-	 * @uses   cnTerm::childrenIDs()
-	 * @uses   cnTerm::filter()
-	 *
-	 * @param  int    $term_id The ancestor term: all returned terms should be descendants of $term_id.
-	 * @param  array  $terms The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
+	 * @param  int    $term_id  The ancestor term: all returned terms should be descendants of $term_id.
+	 * @param  array  $terms    The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
 	 * @param  string $taxonomy The taxonomy which determines the hierarchy of the terms.
 	 * @param  array  $ancestors Optional. Term ancestors that have already been identified. Passed by reference, to keep
 	 *                           track of found terms when recursing the hierarchy. The array of located ancestors is used

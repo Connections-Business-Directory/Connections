@@ -4111,7 +4111,9 @@ class cnTerm {
 
 				$ancestors[ $term->term_id ] = 1;
 
-				if ( $children = self::descendants( $term->term_id, $terms, $taxonomy, $ancestors ) ) {
+				$children = self::descendants( $term->term_id, $terms, $taxonomy, $ancestors );
+
+				if ( $children ) {
 
 					$term_list = array_merge( $term_list, $children );
 				}

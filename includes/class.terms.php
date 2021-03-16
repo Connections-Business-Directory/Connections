@@ -2904,20 +2904,6 @@ class cnTerm {
 	 *                                                Default: array()
 	 * }
 	 *
-	 * @uses   apply_filters()
-	 * @uses   wp_parse_args()
-	 * @uses   wp_parse_id_list()
-	 * @uses   sanitize_title()
-	 * @uses   wpdb::prepare()
-	 * @uses   $wpdb::esc_like()
-	 * @uses   absint()
-	 * @uses   wpdb::get_results()
-	 * @uses   cnTerm::filter()
-	 * @uses   cnTerm::descendants()
-	 * @uses   cnTerm::childrenIDs()
-	 * @uses   cnTerm::padCounts()
-	 * @uses   cnTerm::children()
-	 *
 	 * @return array|int|WP_Error Indexed array of cnTerm_Object objects. Will return WP_Error, if any of $taxonomies do not exist.*
 	 */
 	public static function getTaxonomyTerms( $taxonomies = array( 'category' ), $atts = array() ) {

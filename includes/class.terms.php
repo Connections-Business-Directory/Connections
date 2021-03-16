@@ -4056,10 +4056,11 @@ class cnTerm {
 			return array();
 		}
 
+		$term_id      = (int) $term_id;
 		$term_list    = array();
 		$has_children = self::childrenIDs( $taxonomy );
 
-		if  ( ( 0 != $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
+		if  ( ( 0 !== $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
 
 			return array();
 		}
@@ -4092,7 +4093,7 @@ class cnTerm {
 				continue;
 			}
 
-			if ( $term->parent == $term_id ) {
+			if ( (int) $term->parent === $term_id ) {
 
 				if ( $use_id ) {
 

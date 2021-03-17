@@ -2425,6 +2425,7 @@ class cnEntry {
 
 		if ( ! empty( $id ) ) {
 
+			// Query all terms attached to an entry.
 			$terms = cnRetrieve::entryTerms( $id, 'category' );
 
 			if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
@@ -2435,13 +2436,27 @@ class cnEntry {
 
 					if ( ! empty( $term_ids ) ) {
 
-						$terms = cnTerm::getTaxonomyTerms(
+						// Query all descendant terms of the `child_of` parameter.
+						$children = cnTerm::getTaxonomyTerms(
 							'category',
 							array(
-								'child_of' => $atts['child_of'],
-								'include'  => $term_ids,
+								'child_of'   => $atts['child_of'],
+								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more then one level deep are not returned.
+								//'object_ids' => $id,
+								//'include'    => $term_ids,
 							)
 						);
+
+						$children_term_ids = wp_list_pluck( $children, 'term_id' );
+
+						// Remove all attached terms if they are not a descendent of the `child_of` parameter.
+						foreach ( $terms as $key => $term ) {
+
+							if ( ! in_array( $term->term_id, $children_term_ids, true ) ) {
+								unset( $terms[ $key ] );
+							}
+						}
+
 					}
 				}
 

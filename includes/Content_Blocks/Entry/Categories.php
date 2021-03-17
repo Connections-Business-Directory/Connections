@@ -284,5 +284,8 @@ class Categories extends Content_Block {
 			$entry,
 			$items
 		);
+
+		// Restore default parameters.
+		$this->setProperties( $this->defaults() );
 	}
 }

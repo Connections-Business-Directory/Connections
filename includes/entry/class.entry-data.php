@@ -2409,11 +2409,6 @@ class cnEntry {
 	/**
 	 * Returns the categories assigned to the entry.
 	 *
-	 * @access public
-	 * @since  unknown
-	 *
-	 * @see    cnEntry::$category
-	 *
 	 * @param array $atts
 	 *
 	 * @return array

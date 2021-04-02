@@ -77,7 +77,7 @@ class cnTemplatePart {
 	 *
 	 * @return string|bool The template part file path, if one is located.
 	 */
-	public static function get( $base, $name = NULL, $params, $load = TRUE, $buffer = TRUE, $require_once = TRUE ) {
+	public static function get( $base, $name = NULL, $params = array(), $load = TRUE, $buffer = TRUE, $require_once = TRUE ) {
 
 		$files = cnLocate::fileNames( $base, $name );
 
@@ -1037,7 +1037,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	public static function entryActions( $atts = array(), $entry ) {
+	public static function entryActions( $atts, $entry ) {
 
 		$out = '';
 

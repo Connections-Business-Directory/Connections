@@ -31,7 +31,7 @@ final class Actions {
 	 */
 	public static function addTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', false ) );
+		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
 		$taxonomy = Registry::get()->getTaxonomy( $slug );
 
 		self::doLegacyTermActions( 'add', $slug );
@@ -87,7 +87,7 @@ final class Actions {
 	 */
 	public static function updateTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', false ) );
+		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
 		$taxonomy = Registry::get()->getTaxonomy( $slug );
 
 		self::doLegacyTermActions( 'update', $slug );
@@ -156,7 +156,7 @@ final class Actions {
 	 */
 	public static function deleteTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', false ) );
+		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
 		$taxonomy = Registry::get()->getTaxonomy( $slug );
 
 		self::doLegacyTermActions( 'delete', $slug );
@@ -204,7 +204,7 @@ final class Actions {
 	 */
 	public static function bulkTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', false ) );
+		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
 		$taxonomy = Registry::get()->getTaxonomy( $slug );
 
 		self::doLegacyTermActions( 'bulk', $slug );

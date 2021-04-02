@@ -336,3 +336,30 @@ add_filter(
 	10,
 	2
 );
+
+/**
+ * Compatibility with the Post Categories by User for WordPress plugin.
+ *
+ * Prevent this plugin from hiding the categories on the Connections admin pages.
+ *
+ * @link https://codecanyon.net/item/post-categories-by-user-for-wordpress/9958036
+ * @since 10.2
+ */
+add_action(
+	'current_screen',
+	function( $screen ) {
+
+		global $pcu_plugin;
+
+		/** @noinspection PhpUndefinedClassInspection */
+		if ( ! array_key_exists( 'pcu_plugin', $GLOBALS ) || ! $pcu_plugin instanceof plugin_pcu ) {
+			return;
+		}
+
+		$pages = array( 'connections_page_connections_add', 'connections_page_connections_manage' );
+
+		if ( in_array( $screen->id, $pages ) ) {
+			$pcu_plugin->options['hide_terms'] = 0;
+		}
+	}
+);

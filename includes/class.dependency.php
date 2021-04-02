@@ -75,6 +75,7 @@ class cnDependency {
 
 		// Deprecated Actions/Filters
 		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
+		require_once CN_PATH . 'includes/inc.deprecated-filters.php';
 
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
@@ -83,6 +84,10 @@ class cnDependency {
 		// Sitemaps
 		require_once CN_PATH . 'includes/Sitemaps/Sitemaps.php';
 		require_once CN_PATH . 'includes/Sitemaps/functions.php';
+
+		// Taxonomy
+		require_once CN_PATH . 'includes/Taxonomy/Register.php';
+		require_once CN_PATH . 'includes/Taxonomy/functions.php';
 
 		// Include the autoloader for the Pear IMC classes.
 		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';
@@ -187,6 +192,12 @@ class cnDependency {
 			// Current User
 			'cnUser'                   => 'includes/class.user.php',
 
+			// Taxonomy API.
+			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',
+			'Connections_Directory\Taxonomy\Registry'           => 'includes/Taxonomy/Registry.php',
+			'Connections_Directory\Taxonomy\Widget'             => 'includes/Taxonomy/Widget.php',
+			'Connections_Directory\Taxonomy\Term\Admin\Actions' => 'includes/Taxonomy/Term/Admin/Actions.php',
+
 			// Terms Objects
 			'cnTerm'                   => 'includes/class.terms.php',
 			'cnTerms'                  => 'includes/class.terms.php',
@@ -255,6 +266,7 @@ class cnDependency {
 			'Connections_Directory\Content_Blocks\Entry\Related\Organization' => 'includes/Content_Blocks/Entry/Related/Organization.php',
 			'Connections_Directory\Content_Blocks\Entry\Related\Title'        => 'includes/Content_Blocks/Entry/Related/Title.php',
 			'Connections_Directory\Content_Blocks\Entry\Related\Last_Name'    => 'includes/Content_Blocks/Entry/Related/Last_Name.php',
+			'Connections_Directory\Content_Blocks\Entry\Taxonomy'             => 'includes/Content_Blocks/Entry/Taxonomy.php',
 
 			// Entry vCard.
 			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',
@@ -483,6 +495,7 @@ class cnDependency {
 			'Connections_Directory\Integration\SEO\Rank_Math'          => 'includes/Integration/SEO/Rank_Math.php',
 			'Connections_Directory\Integration\SEO\Rank_Math\Provider' => 'includes/Integration/SEO/Rank_Math/Provider.php',
 			'Connections_Directory\Integration\WordPress\mShot'        => 'includes/Integration/WordPress/mShot.php',
+			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
 
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

@@ -374,7 +374,7 @@ class cnRewrite {
 		$base = get_option( 'connections_permalink' );
 
 		$character    = isset( $base['character_base'] ) && $base['character_base'] ? $base['character_base'] : 'char';
-		$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
+		//$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
 		$country      = isset( $base['country_base'] ) && $base['country_base'] ? $base['country_base'] : 'country';
 		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
 		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
@@ -411,46 +411,7 @@ class cnRewrite {
 		 */
 		$rule = apply_filters( 'cn_root_rewrite_rule-landing', $rule, $pageID );
 
-		// Category root rewrite rules.
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-pg=$matches[5]&cn-view=card';
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-pg=$matches[5]&cn-view=card';
-
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-locality=$matches[4]&cn-pg=$matches[5]&cn-view=card';
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-locality=$matches[4]&cn-view=card';
-
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-view=card';
-
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-view=card';
-
-		$rule[ $category . '/(.+?)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-region=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $category . '/(.+?)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-region=$matches[2]&cn-view=card';
-
-		$rule[ $category . '/(.+?)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-locality=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $category . '/(.+?)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-locality=$matches[2]&cn-view=card';
-
-		$rule[ $category . '/(.+?)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-postal-code=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $category . '/(.+?)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-postal-code=$matches[2]&cn-view=card';
-
-		$rule[ $category . '/(.+?)/pg/?([0-9]{1,})/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-pg=$matches[2]&cn-view=card';
-		$rule[ $category . '/(.+?)?/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-view=card';
+		$rule = apply_filters( 'Connections_Directory/Rewrite/Root_Rules/Taxonomy', $rule, $pageID );
 
 		// Country root rewrite rules.
 		$rule[ $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
@@ -616,7 +577,7 @@ class cnRewrite {
 		$base = get_option( 'connections_permalink' );
 
 		$character    = isset( $base['character_base'] ) && $base['character_base'] ? $base['character_base'] : 'char';
-		$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
+		//$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
 		$country      = isset( $base['country_base'] ) && $base['country_base'] ? $base['country_base'] : 'country';
 		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
 		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
@@ -652,46 +613,7 @@ class cnRewrite {
 		 */
 		$rule = apply_filters( 'cn_page_rewrite_rule-landing', $rule );
 
-		// Category root rewrite rules.
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-postal-code=$matches[5]&cn-pg=$matches[6]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-postal-code=$matches[5]&cn-pg=$matches[6]&cn-view=card';
-
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-locality=$matches[5]&cn-pg=$matches[6]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-locality=$matches[5]&cn-view=card';
-
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-pg=$matches[5]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-view=card';
-
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-view=card';
-
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-region=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-region=$matches[3]&cn-view=card';
-
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-locality=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-locality=$matches[3]&cn-view=card';
-
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-postal-code=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-postal-code=$matches[3]&cn-view=card';
-
-		$rule['(.?.+?)/' . $category . '/(.+?)/pg/?([0-9]{1,})/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule['(.?.+?)/' . $category . '/(.+?)?/?$']
-			= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-view=card';
+		$rule = apply_filters( 'Connections_Directory/Rewrite/Page_Rules/Taxonomy', $rule );
 
 		// Country root rewrite rules.
 		$rule['(.?.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
@@ -846,224 +768,144 @@ class cnRewrite {
 		 * The filter `$permastructname . '_rewrite_rules'` does not pass the CPT permalink structure name.
 		 * Lets grab it by parsing the current filter name.
 		 */
-		$slug = preg_replace( '/_rewrite_rules$/', '', current_filter() );
-		$rule = array();
+		$postType = preg_replace( '/_rewrite_rules$/', '', current_filter() );
+		$post     = get_post_type_object( $postType );
 
-		// Get the settings for the base of each data type to be used in the URL.
-		$base = get_option( 'connections_permalink' );
+		$namespace = cnRewrite::$namespace;
 
-		$character    = isset( $base['character_base'] ) && $base['character_base'] ? $base['character_base'] : 'char';
-		$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
-		$country      = isset( $base['country_base'] ) && $base['country_base'] ? $base['country_base'] : 'country';
-		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
-		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
-		$postal       = isset( $base['postal_code_base'] ) && $base['postal_code_base'] ? $base['postal_code_base'] : 'postal_code';
-		$district     = isset( $base['district_base'] ) && $base['district_base'] ? $base['district_base'] : 'district';
-		$county       = isset( $base['county_base'] ) && $base['county_base'] ? $base['county_base'] : 'county';
-		$organization = isset( $base['organization_base'] ) && $base['organization_base'] ? $base['organization_base'] : 'organization';
-		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
-		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
+		$postSlug  = $post->rewrite['slug'];
+		$postToken = "%{$namespace}CPT_{$post->name}%";
 
-		// Submit entry page.
-		$rule[ $slug . '/(.+?)/submit/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-view=submit';
+		$rewriteArgs =  array(
+			'with_front'   => false,
+			'hierarchical' => false,
+			'ep_mask'      => EP_NONE,
+			'paged'       => false,
+			'feed'        => false,
+			'forcomments' => false,
+			'walk_dirs'   => false,
+			'endpoints'   => false,
+		);
 
-		// Landing page.
-		$rule[ $slug . '/(.+?)/landing/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-view=landing';
-
-		// Search page.
-		$rule[ $slug . '/(.+?)/search/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-view=search';
-
-		// Search results page.
-		$rule[ $slug . '/(.+?)/results/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-view=results';
+		$landingRules = array_merge(
+			// Submit entry page.
+			self::generateRule( "{$postSlug}/{$postToken}/submit", $rewriteArgs, array( 'cn-view' => 'submit' ) ),
+			// Landing page.
+			self::generateRule( "{$postSlug}/{$postToken}/landing", $rewriteArgs, array( 'cn-view' => 'landing' ) ),
+			// Search page.
+			self::generateRule( "{$postSlug}/{$postToken}/search", $rewriteArgs, array( 'cn-view' => 'search' ) ),
+			// Search results page.
+			self::generateRule( "{$postSlug}/{$postToken}/results", $rewriteArgs, array( 'cn-view' => 'results' ) )
+		);
 
 		/**
-		 * Allows extensions to insert custom landing pages.
+		 * @since 10.2
 		 *
-		 * @since 8.5.17
-		 *
-		 * @param array  $rule The root page rewrite rules.
-		 * @param string $slug The CPT slug.
+		 * @param array        $taxonomyRules The taxonomy rewrite rules.
+		 * @param WP_Post_Type $post          A WP Post object.
 		 */
-		$rule = apply_filters( 'cn_cpt_rewrite_rule-landing', $rule, $slug );
+		$landingRules = apply_filters( 'Connections_Directory/Rewrite/CPT_Rules/Landing', $landingRules, $post );
 
-		// Category root rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-postal-code=$matches[5]&cn-pg=$matches[6]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-postal-code=$matches[5]&cn-pg=$matches[6]&cn-view=card';
+		/**
+		 * @since 10.2
+		 *
+		 * @param array        $taxonomyRules The taxonomy rewrite rules.
+		 * @param WP_Post_Type $post          A WP Post object.
+		 */
+		$taxonomyRules = apply_filters( 'Connections_Directory/Rewrite/CPT_Rules/Taxonomy', array(), $post );
 
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-locality=$matches[5]&cn-pg=$matches[6]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-locality=$matches[5]&cn-view=card';
+		$regionRules = array_merge(
+			// Country + region + postal code rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%region%/%postal_code%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%region%/%postal_code%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Country + region + locality rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%region%/%locality%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%region%/%locality%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Country + region rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%region%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%region%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Country rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%country%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Country + postal code rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%postal_code%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%postal_code%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Country + locality rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%locality%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%country%/%locality%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Region + postal code rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%region%/%postal_code%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%region%/%postal_code%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Region + locality rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%region%/%locality%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%region%/%locality%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Region rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%region%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%region%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Postal code rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%postal_code%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%postal_code%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Locality rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%locality%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%locality%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// District rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%district%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%district%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Organization rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%county%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%county%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// County rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%organization%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%organization%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Department rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%department%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%department%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			// Character rewrite rules.
+			self::generateRule( "{$postSlug}/{$postToken}/%character%/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) ),
+			self::generateRule( "{$postSlug}/{$postToken}/%character%", $rewriteArgs, array( 'cn-view' => 'card' ) )
+		);
 
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-pg=$matches[5]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-region=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-region=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-locality=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-locality=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-postal-code=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-postal-code=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-view=card';
-
-		// Country root rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-pg=$matches[5]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-locality=$matches[4]&cn-pg=$matches[5]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-locality=$matches[4]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-view=card';
-
-		// Country root w/o region [state/province] rules.
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-postal-code=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-postal-code=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-locality=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $country . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-country=$matches[2]&cn-locality=$matches[3]&cn-view=card';
-
-		// Region root rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-region=$matches[2]&cn-postal-code=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-region=$matches[2]&cn-postal-code=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-region=$matches[2]&cn-locality=$matches[3]&cn-pg=$matches[4]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-region=$matches[2]&cn-locality=$matches[3]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-region=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $region . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-region=$matches[2]&cn-view=card';
-
-		// Locality and postal code rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-postal-code=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $postal . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-postal-code=$matches[2]&cn-view=card';
-
-		$rule[ $slug . '/(.+?)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-locality=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $locality . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-locality=$matches[2]&cn-view=card';
-
-		// District rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $district . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-district=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $district . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-district=$matches[2]&cn-view=card';
-
-		// County rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $county . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-county=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $county . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-county=$matches[2]&cn-view=card';
-
-		// Organization rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $organization . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-organization=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $organization . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-organization=$matches[2]&cn-view=card';
-
-		// Department rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $department . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-department=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $department . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-department=$matches[2]&cn-view=card';
-
-		// Initial character rewrite rules.
-		$rule[ $slug . '/(.+?)/' . $character . '/([^/]*)/pg/?([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-char=$matches[2]&cn-pg=$matches[3]&cn-view=card';
-		$rule[ $slug . '/(.+?)/' . $character . '/([^/]*)?/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-char=$matches[2]&cn-view=card';
-
-		// Edit entry.
-		$rule[ $slug . '/(.+?)/' . $name . '/([^/]*)/edit/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail&cn-process=edit';
-
-		// Moderate entry.
-		$rule[ $slug . '/(.+?)/' . $name . '/([^/]*)/moderate/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-entry-slug=$matches[2]&cn-process=moderate';
-
-		// Delete entry.
-		$rule[ $slug . '/(.+?)/' . $name . '/([^/]*)/delete/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-entry-slug=$matches[2]&cn-process=delete';
-
-		// View entry detail / profile / bio.
-		$rule[ $slug . '/(.+?)/' . $name . '/([^/]*)/detail/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail';
-
-		// Download the vCard.
-		$rule[ $slug . '/(.+?)/' . $name . '/([^/]*)/vcard/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-entry-slug=$matches[2]&cn-process=vcard';
-
-		// Single entry.
-		$rule[ $slug . '/(.+?)/' . $name . '/([^/]*)/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail';
+		// Entry and entry actions rules.
+		$entryRules = array_merge(
+			// Edit entry.
+			self::generateRule( "{$postSlug}/{$postToken}/%name%/edit", $rewriteArgs, array( 'cn-view' => 'detail', 'cn-process' => 'edit' ) ),
+			// Moderate entry.
+			self::generateRule( "{$postSlug}/{$postToken}/%name%/moderate", $rewriteArgs, array( 'cn-process' => 'moderate' ) ),
+			// Delete entry.
+			self::generateRule( "{$postSlug}/{$postToken}/%name%/delete", $rewriteArgs, array( 'cn-process' => 'delete' ) ),
+			// View entry detail / profile / bio.
+			self::generateRule( "{$postSlug}/{$postToken}/%name%/detail", $rewriteArgs, array( 'cn-view' => 'detail' ) ),
+			// Download the vCard.
+			self::generateRule( "{$postSlug}/{$postToken}/%name%/vcard", $rewriteArgs, array( 'cn-process' => 'vcard' ) ),
+			// Single entry.
+			self::generateRule( "{$postSlug}/{$postToken}/%name%", $rewriteArgs, array( 'cn-view' => 'detail' ) )
+		);
 
 		// View all entries.
-		$rule[ $slug . '/(.+?)/view/all/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-view=all';
+		$viewRules = self::generateRule( "{$postSlug}/{$postToken}/view/all", $rewriteArgs, array( 'cn-view' => 'all' ) );
 
 		/**
-		 * Allows extensions to insert custom view pages.
+		 * @since 10.2
 		 *
-		 * @since 8.5.17
-		 *
-		 * @param array $rule The root page rewrite rules.
-		 * @param int   $slug The CPT slug.
+		 * @param array        $taxonomyRules The taxonomy rewrite rules.
+		 * @param WP_Post_Type $post          A WP Post object.
 		 */
-		$rule = apply_filters( 'cn_cpt_rewrite_rule-view', $rule, $slug );
+		$viewRules = apply_filters( 'Connections_Directory/Rewrite/CPT_Rules/View', $viewRules, $post );
 
-		// Base Pagination.
-		$rule[ $slug . '/(.+?)/pg/([0-9]{1,})/?$']
-			= 'index.php?' . $slug . '=$matches[1]&cn-pg=$matches[2]&cn-view=card';
+		// Pagination rules.
+		$paginationRules = self::generateRule( "{$postSlug}/{$postToken}/pg/%page%", $rewriteArgs, array( 'cn-view' => 'card' ) );
 
-		// Add the Connections rewrite rules to before the default CPT rewrite rules.
-		$rules = array_merge( $rule, $rules );
+		$allRules = array_merge(
+			$landingRules,
+			$taxonomyRules,
+			$regionRules,
+			$entryRules,
+			$viewRules,
+			$paginationRules
+		);
+
+		// Add the Connections rewrite rules before the default CPT rewrite rules.
+		$rules = array_merge( $allRules, $rules );
 
 		return $rules;
 	}

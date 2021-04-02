@@ -3415,24 +3415,6 @@ class cnRegisterSettings {
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
-			'id'        => 'category_base',
-			'position'  => 10,
-			'page_hook' => $settings,
-			'tab'       => 'advanced',
-			'section'   => 'connections_permalink',
-			'title'     => __( 'Category Base', 'connections' ),
-			'desc'      => __( 'Enter a custom structure for the category in the URL.', 'connections' ),
-			'help'      => '',
-			'type'      => 'text',
-			'size'      => 'regular',
-			'default'   => 'cat',
-			'schema'    => array(
-				'type' => 'string',
-			),
-		);
-
-		$fields[] = array(
-			'plugin_id' => 'connections',
 			'id'        => 'country_base',
 			'position'  => 20,
 			'page_hook' => $settings,

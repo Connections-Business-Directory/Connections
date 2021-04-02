@@ -11,6 +11,8 @@
  */
 
 // Exit if accessed directly
+use Connections_Directory\Taxonomy\Registry;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -106,6 +108,13 @@ class CN_Walker_Term_Check_List extends Walker {
 		$walker = new self;
 
 		$walker->tree_type = $atts['taxonomy'];
+
+		$taxonomy = Registry::get()->getTaxonomy( $atts['taxonomy'] );
+
+		if ( false !== $taxonomy ) {
+
+			$atts['disabled'] = ! current_user_can( $taxonomy->getCapabilities()->assign_terms );
+		}
 
 		// Reset the name attribute so the results from cnTerm::getTaxonomyTerms() are not limited by the select attribute name.
 		$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], array_merge( $atts, array( 'name' => '' ) ) );

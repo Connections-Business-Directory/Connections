@@ -149,3 +149,22 @@ add_action(
 	10,
 	3
 );
+
+add_action(
+	'Connections_Directory/Taxonomy/category/Attach_Terms',
+	/**
+	 * @param cnEntry $entry
+	 * @param array   $terms
+	 * @param string  $action
+	 */
+	function( $entry, $terms, $action ) {
+		do_action_deprecated(
+			'cn_process_taxonomy-category',
+			array( $action, $entry->getId() ),
+			'10.2',
+			'Connections_Directory/Taxonomy/{taxonomy_slug}/Attach_Terms'
+		);
+	},
+	10,
+	3
+);

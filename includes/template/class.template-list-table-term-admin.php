@@ -3,6 +3,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Taxonomy;
+use Connections_Directory\Taxonomy\Registry;
+
 /**
  * Terms List Table class.
  *
@@ -594,7 +597,13 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . __( 'Delete', 'connections' ) . "</a>";
 		}
 
-		$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
+		$homeID   = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );
+		$taxonomy = Registry::get()->getTaxonomy( $this->taxonomy );
+
+		if ( $homeID && $taxonomy instanceof Taxonomy && $taxonomy->isPublic() ) {
+
+			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
+		}
 
 		/**
 		 * Filter the action links displayed for each term in the terms list table.

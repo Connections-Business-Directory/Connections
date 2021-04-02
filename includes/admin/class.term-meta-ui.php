@@ -94,7 +94,8 @@ class cnTerm_Meta_UI {
 		add_action( 'cn_created_category', array( $this, 'save' ), 10, 2 );
 		add_action( 'cn_edited_category', array( $this, 'save' ), 10, 2 );
 
-		add_action( 'load-connections_page_connections_categories', array( $this, 'init' ) );
+		//add_action( 'load-connections_page_connections_categories', array( $this, 'init' ) );
+		add_action( 'load-connections_page_connections_manage_category_terms', array( $this, 'init' ) );
 	}
 
 	/**

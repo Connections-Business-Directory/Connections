@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Taxonomy;
+use Connections_Directory\Taxonomy\Registry;
+
 /**
  * Class cnTerms
  */
@@ -252,11 +255,11 @@ class cnTerms {
 	 *
 	 * @param int    $entryID
 	 * @param array  $termIDs
-	 * @param string $taxonomy
+	 * @param string $taxonomySlug
 	 *
 	 * @return array|WP_Error
 	 */
-	public function setTermRelationships( $entryID, $termIDs, $taxonomy ) {
+	public function setTermRelationships( $entryID, $termIDs, $taxonomySlug ) {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnTerm::setRelationships()' );
 
@@ -265,14 +268,35 @@ class cnTerms {
 			$termIDs = array( $termIDs );
 		}
 
-		$termIDs = array_map( 'intval', $termIDs );
-		$result  = cnTerm::setRelationships( $entryID, $termIDs, $taxonomy );
+		$taxonomy = Registry::get()->getTaxonomy( $taxonomySlug );
 
-		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
-			cnTerm::updateCount( $result, $taxonomy );
+		if ( $taxonomy instanceof Taxonomy ) {
+
+			/*
+			 * Hierarchical taxonomies must always pass IDs rather than names so that
+			 * children with the same names but different parents aren't confused.
+			 */
+			if ( $taxonomy->isHierarchical() ) {
+
+				$termIDs = array_unique( array_map( 'intval', $termIDs ) );
+			}
+
+		} else {
+
+			/*
+			 * If the taxonomy is not a registered with the API, assume it is a "legacy" taxonomy
+			 * and ensure term ID are all integers as done in all version prior to 10.2.
+			 */
+			$termIDs = array_unique( array_map( 'intval', $termIDs ) );
 		}
 
-		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+		$result = cnTerm::setRelationships( $entryID, $termIDs, $taxonomySlug );
+
+		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
+			cnTerm::updateCount( $result, $taxonomySlug );
+		}
+
+		cnCache::clear( TRUE, 'transient', "cn_{$taxonomySlug}" );
 
 		return $result;
 	}
@@ -4450,7 +4474,7 @@ class cnTerm {
 
 				$link = cnURL::permalink(
 					array(
-						'type'       => 'category',
+						'type'       => "{$taxonomy}-taxonomy-term",
 						'slug'       => implode( '/', $slugs ),
 						'title'      => $term->name,
 						'text'       => $term->name,

@@ -429,15 +429,15 @@ final class _url {
 
 				break;
 
-			case 'category':
-
-				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . $atts['slug'] );
-				} else {
-					$permalink = add_query_arg( 'cn-cat-slug', $atts['slug'] , $permalink );
-				}
-
-				break;
+			//case 'category':
+			//
+			//	if ( $wp_rewrite->using_permalinks() ) {
+			//		$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . $atts['slug'] );
+			//	} else {
+			//		$permalink = add_query_arg( 'cn-cat-slug', $atts['slug'] , $permalink );
+			//	}
+			//
+			//	break;
 
 			case 'district':
 
@@ -506,6 +506,18 @@ final class _url {
 				} else {
 					$permalink = add_query_arg( array( 'cn-char' => urlencode( $atts['slug'] ) ), $permalink );
 				}
+
+				break;
+
+			case _string::endsWith( '-taxonomy-term', $atts['type'] ):
+
+				$taxonomy = _string::replaceLast( '-taxonomy-term', '', $atts['type'] );
+
+				$permalink = apply_filters(
+					"Connections_Directory/Taxonomy/{$taxonomy}/Term/Permalink",
+					$permalink,
+					$atts
+				);
 
 				break;
 

@@ -124,15 +124,6 @@ class cnEntryMetabox {
 		);
 
 		self::$metaboxes[] = array(
-			'id'       => 'categorydiv',
-			'title'    => __( 'Categories', 'connections' ),
-			'pages'    => $pages,
-			'context'  => 'side',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'category' ),
-		);
-
-		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connections' ),
 			'pages'    => $pages,
@@ -499,30 +490,15 @@ class cnEntryMetabox {
 	 */
 	public static function category( $entry, $metabox ) {
 
-		$defaults = array(
-			'taxonomy' => 'category',
-		);
+		_deprecated_function( __METHOD__, '10.2', '\Connections_Directory\Taxonomy::renderMetabox()' );
 
-		$atts = wp_parse_args( $metabox['args'], $defaults );
+		$taxonomies = \Connections_Directory\Taxonomy\Registry::get();
+		$category   = $taxonomies->getTaxonomy( 'category' );
 
-		$atts['selected'] = cnTerm::getRelationships(
-			$entry->getID(),
-			$atts['taxonomy'],
-			array(
-				'fields' => 'ids',
-			)
-		);
+		if ( $category instanceof \Connections_Directory\Taxonomy ) {
 
-		echo '<div class="categorydiv" id="taxonomy-category">';
-		echo '<div id="category-all" class="tabs-panel">';
-
-		cnTemplatePart::walker(
-			'term-checklist',
-			$atts
-		);
-
-		echo '</div>';
-		echo '</div>';
+			$category->renderMetabox( $entry, $metabox );
+		}
 	}
 
 	/**

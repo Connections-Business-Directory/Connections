@@ -656,7 +656,7 @@ class cnMetabox_Render {
 	 * @param  array  $atts   The attributes array.
 	 * @param  object $object An instance the the cnEntry object.
 	 */
-	public static function metaboxes( array $atts = array(), $object ) {
+	public static function metaboxes( array $atts, $object ) {
 
 		$metaboxes = array();
 

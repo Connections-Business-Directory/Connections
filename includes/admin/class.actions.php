@@ -1999,7 +1999,6 @@ class cnAdminActions {
 	 */
 	public static function activateTemplate() {
 
-		/** @var $connections connectionsLoad */
 		global $connections;
 
 		/*

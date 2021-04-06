@@ -69,8 +69,6 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *                                 Accepts: Any registered taxonomy.
 	 * @type mixed  $selected          The selected term ID(s) the term ID or array of term ID/s that are selected.
 	 *                                 Default: 0
-	 * @type bool   $return            Whether or not to return or echo the resulting HTML.
-	 *                                 Default: FALSE
 	 * @type bool   $echo              Whether or not to echo the HTML.
 	 *                                 Default: true
 	 * }
@@ -81,6 +79,15 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		$out = '';
 
+		/*
+		 * The `return` parameter was removed. It was a poor parameter to have in the first place.
+		 * This "converts" it to the `echo` parameter which was what the `return` parameter was intended to be.
+		 */
+		if ( array_key_exists( 'return', $atts ) ) {
+
+			$atts['echo'] = ! (bool) $atts['return'];
+		}
+
 		$defaults = array(
 			'orderby'           => 'name',
 			'order'             => 'ASC',
@@ -90,7 +97,6 @@ class CN_Walker_Term_Check_List extends Walker {
 			'depth'             => 0,
 			'taxonomy'          => 'category',
 			'selected'          => 0,
-			'return'            => false,
 			'echo'              => true,
 		);
 

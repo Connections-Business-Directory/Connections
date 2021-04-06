@@ -210,6 +210,7 @@ class cnMetaboxAPI {
 		 * meta_box_prefs function.
 		 */
 
+		// @todo Can this be replaced with `cnMetaboxAPI::defaultPageHooks()`?
 		if ( is_admin() ) {
 
 			$pageHooks = apply_filters( 'cn_admin_default_metabox_page_hooks', array( 'connections_page_connections_add', 'connections_page_connections_manage' ) );

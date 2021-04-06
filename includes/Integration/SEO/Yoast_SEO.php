@@ -67,7 +67,7 @@ final class Yoast_SEO {
 		//remove_action( 'init', 'Connections_Directory\Sitemaps\init', 11 );
 
 		// Sitemaps
-		add_filter( 'init', array( __CLASS__, 'registerSitemapProviders' ), 12 );
+		add_action( 'init', array( __CLASS__, 'registerSitemapProviders' ), 12 );
 		add_filter( 'wp_sitemaps_max_urls', array( __CLASS__, 'maxURLs' ) );
 		add_filter( 'Connections_Directory/Sitemaps/Provider/Sitemap_Entry', array( __CLASS__, 'sitemapEntry' ) );
 

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @todo Clear the sitemaps cache if it exists.
+ * @link https://connections-pro.com/ticket/540240/
+ */
+
 namespace Connections_Directory\Integration\SEO;
 
 use cnQuery;

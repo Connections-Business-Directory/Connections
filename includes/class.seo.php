@@ -52,76 +52,101 @@ class cnSEO {
 			return;
 		}
 
-		// Update the post dates to reflect the dates of the entry.
-		add_action( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
+		add_action( 'wp', array( __CLASS__, 'maybeAddFilters' ), 0 );
+	}
 
-		/*
-		 * Add the page meta description.
-		 * @since 9.12 Change priority to `1` to match core WP _wp_render_title_tag() priority so the meta description
-		 * renders close to the page title tag.
-		 */
-		add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 1 );
+	/**
+	 * Callback for the `wp_head` action.
+	 *
+	 * Maybe add the filters.
+	 *
+	 * @internal
+	 * @since 10.2
+	 */
+	public static function maybeAddFilters() {
 
-		// These filters are a hack. Used to add/remove the permalink/title filters so they do not not affect the nav menu.
-		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
-		add_filter( 'wp_page_menu', array( __CLASS__, 'endNav' ), 10, 2 );
-		add_filter( 'wp_nav_menu', array( __CLASS__, 'endNav' ), 10, 2 );
+		$object = get_queried_object();
 
-		add_filter( 'wp_list_pages_excludes', array( __CLASS__, 'startNav' ) );
-		add_filter( 'wp_list_pages', array( __CLASS__, 'endNav' ), 10, 2 );
+		if ( ! $object instanceof \WP_Post ) {
 
-		// This could cause problems since the filter is not re-enabled.
-		// add_filter( 'widget_posts_args', array( __CLASS__, 'startNav' ) );
+			return;
+		}
 
-		// Filter the get_permalink() function to append the Connections related items to the URL.
-		/**
-		 * @todo Perhaps this filter should only be applied while in the page head so on the meta canonical link if affected.
-		 * That would eliminate issues like this:
-		 * @link https://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
-		 */
-		//add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
-		add_filter( 'get_canonical_url', array( __CLASS__, 'transformCanonical' ), 10, 2 );
+		if ( has_shortcode( $object->post_content, 'connections' ) ||
+		     has_block( 'connections-directory/shortcode-connections', $object )
+		) {
 
-		/*
-		 * Issue #526625 Display Configuration etc. submitted by Richard M.
-		 * Short circuit this filter to prevent both Divi and Rank Math from processing post title.
-		 *
-		 * Will break the Divi SEO settings and custom page title options.
-		 * When I say break, I mean they will not have an effect.
-		 *
-		 * Disables the Rank Math page title features such as forced capitalization and custom per page/post meta titles.
-		 *
-		 * @todo Enable filter, but ensure it only runs on a Connections Entry detail page.
-		 */
-		//add_action(
-		//	'init',
-		//	function() {
-		//		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
-		//	}
-		//);
+			// Update the post dates to reflect the dates of the entry.
+			add_filter( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
 
-		// Filter the meta title to reflect the current Connections filter.
-		// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
-		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 20, 3 );
+			/*
+			 * Add the page meta description.
+			 * @since 9.12 Change priority to `1` to match core WP _wp_render_title_tag() priority so the meta description
+			 * renders close to the page title tag.
+			 */
+			add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 1 );
 
-		// Filter the page title to reflect the current Connection filter.
-		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
-		add_filter( 'document_title_parts', array( __CLASS__, 'filterDocumentTitle' ), 10 );
+			// These filters are a hack. Used to add/remove the permalink/title filters so they do not not affect the nav menu.
+			add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
+			add_filter( 'wp_page_menu', array( __CLASS__, 'endNav' ), 10, 2 );
+			add_filter( 'wp_nav_menu', array( __CLASS__, 'endNav' ), 10, 2 );
 
-		// Remove the page/post specific comments feed w/ registered query vars.
-		add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
+			add_filter( 'wp_list_pages_excludes', array( __CLASS__, 'startNav' ) );
+			add_filter( 'wp_list_pages', array( __CLASS__, 'endNav' ), 10, 2 );
 
-		// Trigger 404 if entry is not found.
-		//add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_noShortcode' ) );
-		add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_entryNotFound' ) );
+			// This could cause problems since the filter is not re-enabled.
+			// add_filter( 'widget_posts_args', array( __CLASS__, 'startNav' ) );
 
-		// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
-		// remove_action( 'wp_head', 'parent_post_rel_link'); // Removes the prev link
-		// remove_action( 'wp_head', 'start_post_rel_link'); // Removes the start link
-		// remove_action( 'wp_head', 'adjacent_posts_rel_link'); // Removes the relational links for the posts adjacent to the current post.
-		// remove_action( 'wp_head', 'rel_canonical'); // Remove the canonical link
-		// remove_action( 'wp_head', 'feed_links', 2 ); // Remove the feed links.
-		// remove_action( 'wp_head', 'feed_links_extra', 3 ); // Remove page/post specific comments feed.
+			// Filter the get_permalink() function to append the Connections related items to the URL.
+			/**
+			 * @todo Perhaps this filter should only be applied while in the page head so on the meta canonical link if affected.
+			 * That would eliminate issues like this:
+			 * @link https://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
+			 */
+			//add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
+			add_filter( 'get_canonical_url', array( __CLASS__, 'transformCanonical' ), 10, 2 );
+
+			/*
+			 * Issue #526625 Display Configuration etc. submitted by Richard M.
+			 * Short circuit this filter to prevent both Divi and Rank Math from processing post title.
+			 *
+			 * Will break the Divi SEO settings and custom page title options.
+			 * When I say break, I mean they will not have an effect.
+			 *
+			 * Disables the Rank Math page title features such as forced capitalization and custom per page/post meta titles.
+			 *
+			 * @todo Enable filter, but ensure it only runs on a Connections Entry detail page.
+			 */
+			//add_action(
+			//	'init',
+			//	function() {
+			//		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
+			//	}
+			//);
+
+			// Filter the meta title to reflect the current Connections filter.
+			// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
+			add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 20, 3 );
+
+			// Filter the page title to reflect the current Connection filter.
+			add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
+			add_filter( 'document_title_parts', array( __CLASS__, 'filterDocumentTitle' ), 10 );
+
+			// Remove the page/post specific comments feed w/ registered query vars.
+			add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
+
+			// Trigger 404 if entry is not found.
+			//add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_noShortcode' ) );
+			add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_entryNotFound' ) );
+
+			// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
+			// remove_action( 'wp_head', 'parent_post_rel_link'); // Removes the prev link
+			// remove_action( 'wp_head', 'start_post_rel_link'); // Removes the start link
+			// remove_action( 'wp_head', 'adjacent_posts_rel_link'); // Removes the relational links for the posts adjacent to the current post.
+			// remove_action( 'wp_head', 'rel_canonical'); // Remove the canonical link
+			// remove_action( 'wp_head', 'feed_links', 2 ); // Remove the feed links.
+			// remove_action( 'wp_head', 'feed_links_extra', 3 ); // Remove page/post specific comments feed.
+		}
 	}
 
 	/**

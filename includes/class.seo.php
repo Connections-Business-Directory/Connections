@@ -369,18 +369,15 @@ class cnSEO {
 	}
 
 	/**
+	 * Callback for the `the_posts` filter.
+	 *
 	 * Update the post date and post modified date to reflect the current entry being viewed.
 	 *
-	 * @access private
+	 * @internal
 	 * @since  8.1
-	 * @static
 	 *
-	 * @uses   is_main_query()
-	 * @uses   cnQuery::getVar()
-	 * @uses   get_gmt_from_date()
-	 *
-	 * @param  array  $posts    An array of WP_Post objects.
-	 * @param  object $wp_query A reference to the WP_Query object
+	 * @param array    $posts    An array of WP_Post objects.
+	 * @param WP_Query $wp_query A reference to the WP_Query object
 	 *
 	 * @return array
 	 */

@@ -1085,6 +1085,7 @@ class cnRewrite {
 			array_keys( $registeredQueryVars ),
 			array_keys( (array) $wp_query->query_vars )
 		);
+		$post                = get_queried_object();
 
 		// Solution implement by another plugin.
 		//if ( $main_page_id = wpbdp_get_page_id( 'main' ) ) {
@@ -1102,6 +1103,10 @@ class cnRewrite {
 		) {
 
 			return $requestedURL;
+
+		} elseif ( is_home() && cnShortcode::isSupportedPostType( $post ) ) {
+
+			return  $requestedURL;
 		}
 
 		return $redirectURL;

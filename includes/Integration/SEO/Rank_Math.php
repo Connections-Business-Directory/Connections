@@ -45,9 +45,9 @@ final class Rank_Math {
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) && class_exists( 'RankMath' ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && class_exists( 'RankMath' ) ) {
 
-			self::$instance = $self = new static();
+			self::$instance = $self = new self();
 
 			$self->hooks();
 		}

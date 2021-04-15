@@ -36,13 +36,12 @@ final class Yoast_SEO {
 	 * @since 9.12
 	 *
 	 * @return static
-	 * @noinspection PhpFullyQualifiedNameUsageInspection
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) && function_exists( 'wpseo_init' )) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && function_exists( 'wpseo_init' )) {
 
-			self::$instance = $self = new static();
+			self::$instance = $self = new self();
 
 			if ( defined( 'WPSEO_VERSION') && version_compare( WPSEO_VERSION, '14.1', '>=' ) ) {
 

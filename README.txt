@@ -249,6 +249,65 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.2 04/15/2021 =
+* FEATURE: First pass at adding custom taxonomy API.
+* NEW: Introduce `_string::insert()`.
+* NEW: Introduce `cnRewrite::getPermalinkSlugs()`.
+* NEW: Introduce `cnRewrite::generateRule()`.
+* NEW: Introduce `cnShortcode::isSupportedPostType()` helper method.
+* NEW: Introduce `cnShortcode::getHomeID()` helper method.
+* NEW: Introduce `cnMetaboxAPI::defaultPageHooks()`.
+* NEW: Introduce 'object_ids' parameter in `cnTerm::getTaxonomyTerms()`.
+* NEW: Introduce the `Connections_Directory/Content_Blocks/Register` filter.
+* TWEAK: Do array check be attempting to marge array to prevent potential PHP notice in some scenarios.
+* TWEAK: Move the WordPress mShot integration class to the integration folder and adjust the namespace accordingly.
+* TWEAK: Remove use of deprecated class `cnFormatting` in `cnCategory`.
+* TWEAK: Enable the transform URL in the Rank Math integration.
+* TWEAK: Register the namespaced rewrite tags which will be used to generate the rewrite rules.
+* TWEAK: Add `noreferrer` and `nofollow` attributes to the social media network links.
+* TWEAK: Ensure date is instance of DateTime before adding to date to Entry Dates.
+* TWEAK: Ensure date is instance of DateTime before setting the date format when adding backwards support for the anniversary and birthday date fields.
+* TWEAK: Update `[connections]` shortcode defaults to use the `cnShortcode::getHomeID()` helper method for the `home_id` shortcode attribute.
+* TWEAK: Ensure cloned fields are shown.
+* TWEAK: Remove use of deprecated `click` jQuery function.
+* TWEAK: Remove use of deprecated `bind` jQuery function.
+* TWEAK: Remove use of deprecated method `cnFormatting::maybeJSONdecode()` in `cnMeta`.
+* TWEAK: Use `strnatcasecmp` when sorting the admin menu array key index.
+* TWEAK: Add `class` parameter to form tag.
+* TWEAK: Add support for a default value for the text field input in the Settings API.
+* TWEAK: Utilize `cnShortcode::getHomeID()` and set the `force_home` attribute default to false in the callbacks for the view all list action and the character index.
+* TWEAK: Add `echo` attribute to the term list walker renderer.
+* TWEAK: Add `categorychecklist` class to the term list walker so it inherits the proper styles from WP.
+* TWEAK: Utilize `cnMetaboxAPI::defaultPageHooks()` when registering core default entry metaboxes.
+* TWEAK: Use strict comparison in `cnTerm::descendants()`.
+* TWEAK: Do not set variable in comparison in `cnTerm::descendants()`.
+* TWEAK: Eliminate the possibility of a trailing comma in the entry categories list when using the Split Categories addon.
+* TWEAK: Reset the Entry category block properties to their defaults after rendering.
+* TWEAK: Remove the locality, region, and postal code from the request query vars.
+* TWEAK: Use `self` instead of `static` when initiating SEO integration classes since they are final classes.
+* TWEAK: Only add the SEO filters if the `[connections` shortcode or Directory block is used on the queried post.
+* TWEAK: Check if the query post object is a support post type in the canonical redirect when on the front page.
+* BUG: The persistent log taxonomy should not have rewrite rules generated.
+* BUG: Only custom post types that are publicly queryable and have rewrite rules should be valid options when choosing to enable custom post type support.
+* BUG: Correct `implode()` usage. Array must be 2nd parameter.
+* BUG: Prevent characters from being removed from the beginning/end of post titles.
+* BUG: Refactor `cnEntry::getCategory()` to display attached children categories no matter the descendent depth.
+* BUG: Correct hook registration.
+* BUG: Add the missing schema for the bio and notes fields to the REST API endpoint.
+* COMPATIBILITY: Invalidate the Rank Math sitemaps cache when adding/deleting/updating and Entry.
+* COMPATIBILITY: Update plugin compatibility checks for WP Mail Logging and Email Log Plugin to be PHP 8.0 compliant.
+* COMPATIBILITY: Compatibility with the Post Categories by User for WordPress plugin by preventing this plugin from hiding the categories on the Connections admin pages.
+* OTHER: Update max WordPress version in compatibility check.
+* OTHER: Correct misspelling.
+* OTHER: Correct code formatting.
+* DEV: Remove commented out code.
+* DEV: Add a couple of todo's.
+* DEV: phpDoc corrections.
+* DEV: Add deprecated SiteShot file for loading via legacy code. Reorder the class alias to prevent a PHP warning message.
+* DEV: Remove curly bracket array access from CSV library.
+* DEV: Update min/max PHP and WP requirements.
+* DEV: Correct PHP8 optional parameter before required parameter notice.
+
 = 10.1 12/15/2020 =
 * FEATURE: Support for Yoast SEO sitemaps.
 * FEATURE: Support for Rank Math sitemaps.
@@ -520,46 +579,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update `dist` files.
 * DEV: phpDoc update.
 
-= 9.6 05/20/2020 =
-* NEW: Introduce `cnEntry::getDeletePermalink()` and `cnOutput::deletePermalink()`.
-* NEW: Add `delete` to supported permalink types in `cnURL::permalink()`.
-* NEW: Introduce the Content Blocks API.
-* NEW: Introduce the Custom Fields, Entry Meta and Entry Management Content Blocks.
-* TWEAK: Correct `implode()` parameter usage for PHP 7.4 so it does not generate a warning.
-* TWEAK: Check for array key to prevent PHP warning.
-* TWEAK: Use `is_file()` instead of `file_exists()` to test if image exists.
-* TWEAK: Set `font-style` of brand icons to `normal` to help prevent theme's from making them bold and/or italic.
-* TWEAK: Further improve the REST API by better defining the schema, support the `_fields` parameter to reduce response size while improving response time and adding support for the `DELETE` request to delete an Entry.
-* TWEAK: Improve the Carousel block by querying the REST for only the required fields.
-* TWEAK: Refactor `cnOutput::getContentBlock()` to utilize the Content Block API.
-* TWEAK: Remove the hardcoded "Custom Fields" so it can be refactored using the Content Block API.
-* BUG: Pass expected parameters for the `setted_transient` and `set_transient_{$key}` actions.
-* BUG: Define variable before use.
-* OTHER: Correct typo.
-* OTHER: Correct misspelling.
-* DEV: Update npm and dev dependencies.
-* DEV: phpDoc corrections.
-
-= 9.5.1 04/28/2020 =
-* NEW: Introduce the `getEditPermalink()` and the `editPermalink()` functions.
-* TWEAK: Add permalink root to attributes in the `cn_permalink` filter.
-* BUG: Fix instances where "Sorry, you are not allowed to access this page." error message would display when attempting to edit a category on the Connections Categories admin page.
-* DEV: phpDoc updates.
-
-= 9.5 04/20/2020 =
-* NEW: Introduce the `[cn-entry]` shortcode.
-* TWEAK: Do not render the character section heads if the character index has been disabled.
-
 == Upgrade Notice ==
-
-= 9.5 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 9.5.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 9.6 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.7 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
@@ -614,3 +634,6 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 
 = 10.1 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.2 =
+It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

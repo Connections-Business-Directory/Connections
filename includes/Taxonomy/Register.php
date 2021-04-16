@@ -60,31 +60,31 @@ function init() {
 		)
 	);
 
-	$taxonomies->register(
-		'tag',
-		array(
-			'hierarchical'          => false,
-			'query_var'             => 'cn-tag-slug',
-			'rewrite'               => array(
-				'hierarchical' => false,
-				'slug'         => $tag,
-				'with_front'   => ! $tag || $wp_rewrite->using_index_permalinks(),
-			),
-			'public'                => true,
-			'show_ui'               => true,
-			'show_admin_column'     => true,
-			'_builtin'              => true,
-			//'capabilities'          => array(
-			//	'manage_terms' => 'connections_manage_tags',
-			//	'edit_terms'   => 'connections_edit_tags',
-			//	'delete_terms' => 'connections_delete_tags',
-			//	'assign_terms' => 'connections_assign_tags',
-			//),
-			'show_in_rest'          => true,
-			'rest_base'             => 'tags',
-			'rest_controller_class' => 'WP_REST_Terms_Controller',
-		)
-	);
+	//$taxonomies->register(
+	//	'tag',
+	//	array(
+	//		'hierarchical'          => false,
+	//		'query_var'             => 'cn-tag-slug',
+	//		'rewrite'               => array(
+	//			'hierarchical' => false,
+	//			'slug'         => $tag,
+	//			'with_front'   => ! $tag || $wp_rewrite->using_index_permalinks(),
+	//		),
+	//		'public'                => true,
+	//		'show_ui'               => true,
+	//		'show_admin_column'     => true,
+	//		'_builtin'              => true,
+	//		//'capabilities'          => array(
+	//		//	'manage_terms' => 'connections_manage_tags',
+	//		//	'edit_terms'   => 'connections_edit_tags',
+	//		//	'delete_terms' => 'connections_delete_tags',
+	//		//	'assign_terms' => 'connections_assign_tags',
+	//		//),
+	//		'show_in_rest'          => true,
+	//		'rest_base'             => 'tags',
+	//		'rest_controller_class' => 'WP_REST_Terms_Controller',
+	//	)
+	//);
 
 	/**
 	 * Fires after initializing the Registry object.

@@ -53,29 +53,29 @@ class Taxonomy extends Content_Block {
 	 * @return array {
 	 * Optional. An array of arguments.
 	 *
-	 *     @type string $container_tag    The HTML tag to be used for the container element.
+	 *     @type string $container_tag    The HTML tag to be used for the Content Block container.
 	 *                                    Default: div
-	 *     @type string $label_tag        The HTML tag to be used for the category label element.
+	 *     @type string $label_tag        The HTML tag to be used for the taxonomy term label element.
 	 *                                    Default: span
-	 *     @type string $item_tag         The HTML tag to be used for the category element.
+	 *     @type string $item_tag         The HTML tag to be used for the taxonomy term element.
 	 *                                    Default: span
-	 *     @type string $type             The display type to be used to display the categories.
+	 *     @type string $type             The display type to be used to display the taxonomy terms.
 	 *                                    Accepts: block|list
 	 *                                    Default: block
 	 *     @type string $list             If the $type is list, which type?
 	 *                                    Accepts: ordered|unordered
 	 *                                    Default: unordered
-	 *     @type string $label            The label to be displayed before the categories.
+	 *     @type string $label            The label to be displayed before the taxonomy terms.
 	 *                                    Default: Categories:
-	 *     @type string $separator        The category separator used when separating categories when $type == list
+	 *     @type string $separator        The taxonomy term separator used when separating taxonomy terms when $type == list
 	 *                                    Default: ', '
-	 *     @type string $parent_separator The separator to be used when displaying the category's hierarchy.
+	 *     @type string $parent_separator The separator to be used when displaying the taxonomy term's hierarchy.
 	 *                                    Default: ' &raquo; '
-	 *     @type bool   $link             Whether or not render the categories as permalinks.
+	 *     @type bool   $link             Whether or not render the taxonomy terms as permalinks.
 	 *                                    Default: false
-	 *     @type bool   $parents          Whether or not to display the category hierarchy.
+	 *     @type bool   $parents          Whether or not to display the taxonomy term hierarchy.
 	 *                                    Default: false
-	 *     @type int    $child_of         Term ID to retrieve child terms of.
+	 *     @type int    $child_of         The taxonomy term ID to retrieve child terms of.
 	 *                                    If multiple taxonomies are passed, $child_of is ignored.
 	 *                                    Default: 0
 	 * }

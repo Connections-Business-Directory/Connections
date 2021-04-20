@@ -412,11 +412,11 @@ final class Taxonomy {
 					'with_front'   => false,
 					'hierarchical' => false,
 					'ep_mask'      => EP_NONE,
-					'paged'       => false,
-					'feed'        => false,
-					'forcomments' => false,
-					'walk_dirs'   => false,
-					'endpoints'   => false,
+					'paged'        => false,
+					'feed'         => false,
+					'forcomments'  => false,
+					'walk_dirs'    => false,
+					'endpoints'    => false,
 				)
 			);
 

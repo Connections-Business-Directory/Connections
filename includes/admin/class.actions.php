@@ -13,6 +13,12 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
+use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\categoryManagement;
+use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\deleteCategory;
+use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\processEntryCategory;
+use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\updateCategory;
+
 /**
  * Class cnAdminActions
  */
@@ -89,8 +95,8 @@ class cnAdminActions {
 		add_action( 'cn_delete_entry', array( __CLASS__, 'deleteEntry' ) );
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
 
-		// Process entry categories.
-		add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
+		// Process entry categories. - Deprecated since 10.2, no longer used.
+		//add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
 
 		// Entry Meta Action
 		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
@@ -102,24 +108,24 @@ class cnAdminActions {
 		// Role Actions
 		add_action( 'cn_update_role_capabilities', array( __CLASS__, 'updateRoleCapabilities' ) );
 
-		// Category Actions
-		add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
-		add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
-		add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
-		add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
+		// Category Actions - Deprecated since 10.2, no longer used.
+		//add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
+		//add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
+		//add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
+		//add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
 
 		// Term Actions
-		add_action( 'cn_add-term', array( __CLASS__, 'addTerm' ) );
-		add_action( 'cn_update-term', array( __CLASS__, 'updateTerm' ) );
-		add_action( 'cn_delete-term', array( __CLASS__, 'deleteTerm' ) );
-		add_action( 'cn_bulk-term-action', array( __CLASS__, 'bulkTerm' ) );
+		add_action( 'cn_add-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'addTerm' ) );
+		add_action( 'cn_update-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'updateTerm' ) );
+		add_action( 'cn_delete-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTerm' ) );
+		add_action( 'cn_bulk-term-action', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'bulkTerm' ) );
+
+		// Term Meta Actions
+		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
 
 		// Template Actions
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
 		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
-
-		// Term Meta Actions
-		add_action( 'cn_delete_term', array( __CLASS__, 'deleteTermMeta' ), 10, 4 );
 
 		// Actions that deal with the system info.
 		add_action( 'wp_ajax_download_system_info', array( __CLASS__, 'downloadSystemInfo' ) );
@@ -1410,35 +1416,28 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_process_taxonomy-category` action.
+	 *
 	 * Add, update or delete the entry categories.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @param  string $action The action to being performed to an entry.
-	 * @param  int    $id     The entry ID.
+	 * @internal
+	 * @since 0.8
+	 * @deprecated 10.2 Use the `Connections_Directory/Attach/Taxonomy/{$taxonomySlug}` action hook.
+	 * @see \Connections_Directory\Taxonomy::attachTerms()
 	 *
-	 * @return void
+	 * @param string $action The action to being performed to an entry.
+	 * @param int    $id     The entry ID.
+	 *
+	 * @noinspection PhpDeprecationInspection
+	 * @noinspection PhpUnused
 	 */
 	public static function processEntryCategory( $action, $id ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		_deprecated_function( __METHOD__, '10.2' );
 
-		/*
-		 * Save the entry category(ies). If none were checked, send an empty array
-		 * which will add the entry to the default category.
-		 */
-		if ( isset( $_POST['entry_category'] ) && ! empty( $_POST['entry_category'] ) ) {
+		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
-			$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
-
-		} else {
-
-			$default = get_option( 'cn_default_category' );
-
-			$instance->term->setTermRelationships( $id, $default, 'category' );
-		}
-
+		ProcessEntryCategory( $action, $id );
 	}
 
 	/**
@@ -1901,445 +1900,87 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Add a term.
+	 * Callback for the `cn_add_category` action.
 	 *
-	 * @access public
-	 * @since  8.6.12
-	 */
-	public static function addTerm() {
-
-		/*
-		 * Check whether user can edit terms.
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
-
-			$form = new cnFormObjects();
-
-			check_admin_referer( $form->getNonce( 'add-term' ), '_cn_wpnonce' );
-
-			$result = cnTerm::insert(
-				$_POST['term_name'],
-				$_POST['taxonomy'],
-				array(
-					'slug'        => $_POST['term_slug'],
-					'parent'      => $_POST['term_parent'],
-					'description' => $_POST['term_description'],
-				)
-			);
-
-			if ( is_wp_error( $result ) ) {
-
-				cnMessage::set( 'error', $result->get_error_message() );
-
-			} else {
-
-				cnMessage::set( 'success', 'term_added' );
-			}
-
-			wp_safe_redirect( wp_get_raw_referer() );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-
-	}
-
-	/**
-	 * Update a category.
-	 *
-	 * @access public
-	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return void
-	 */
-	public static function updateTerm() {
-		$form = new cnFormObjects();
-
-		/*
-		 * Check whether user can edit Settings
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
-
-			check_admin_referer( $form->getNonce( 'update-term' ), '_cn_wpnonce' );
-
-			// Make sure the category isn't being set to itself as a parent.
-			if ( $_POST['term_id'] === $_POST['term_parent'] ) {
-
-				cnMessage::set( 'error', 'category_self_parent' );
-			}
-
-			remove_filter( 'pre_term_description', 'wp_filter_kses' );
-
-			$result = cnTerm::update(
-				$_POST['term_id'],
-				$_POST['taxonomy'],
-				array(
-					'name'        => $_POST['term_name'],
-					'slug'        => $_POST['term_slug'],
-					'parent'      => $_POST['term_parent'],
-					'description' => $_POST['term_description'],
-				)
-			);
-
-			if ( is_wp_error( $result ) ) {
-
-				cnMessage::set( 'error', $result->get_error_message() );
-
-			} else {
-
-				cnMessage::set( 'success', 'term_updated' );
-			}
-
-			wp_safe_redirect( wp_get_raw_referer() );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-
-	}
-
-	public static function deleteTerm() {
-
-		// Use legacy action callback when deleting categories, for now.
-		if ( 'category' == $_REQUEST['taxonomy'] ) {
-
-			self::deleteCategory();
-		}
-
-		/*
-		 * Check whether user can edit terms.
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
-
-			$id = esc_attr( $_REQUEST['id'] );
-			check_admin_referer( 'term_delete_' . $id );
-
-			$result = cnTerm::delete( $id, $_REQUEST['taxonomy'] );
-
-			if ( is_wp_error( $result ) ) {
-
-				cnMessage::set( 'error', $result->get_error_message() );
-
-			} else {
-
-				cnMessage::set( 'success', 'term_deleted' );
-			}
-
-			wp_safe_redirect( wp_get_raw_referer() );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-	}
-
-	/**
-	 * Bulk term actions.
-	 *
-	 * @access public
-	 * @since  8.6.12
-	 */
-	public static function bulkTerm() {
-
-		$action   = '';
-
-		if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
-
-			$action = $_REQUEST['action'];
-
-		} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
-
-			$action = $_REQUEST['action2'];
-		}
-
-		/*
-		 * Check whether user can edit terms.
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
-
-			check_admin_referer( 'bulk-terms' );
-
-			switch ( $action ) {
-
-				case 'delete':
-
-					foreach ( (array) $_REQUEST[ $_REQUEST['taxonomy'] ] as $id ) {
-
-						$result = cnTerm::delete( $id, $_REQUEST['taxonomy'] );
-
-						if ( is_wp_error( $result ) ) {
-
-							cnMessage::set( 'error', $result->get_error_message() );
-
-						} else {
-
-							cnMessage::set( 'success', 'term_deleted' );
-						}
-					}
-
-					break;
-
-				default:
-
-					do_action( "bulk_term_action-{$_REQUEST['taxonomy']}-{$action}" );
-			}
-
-			$url = wp_get_raw_referer();
-
-			if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
-
-				$page = absint( $_REQUEST['paged'] );
-
-				$url = add_query_arg( array( 'paged' => $page ) , $url);
-			}
-
-			wp_redirect( $url );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-
-	}
-
-	/**
 	 * Add a category.
 	 *
-	 * @access public
+	 * @internal
 	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return void
+	 * @deprecated 10.2
+	 *
+	 * @noinspection PhpDeprecationInspection
+	 * @noinspection PhpUnused
 	 */
 	public static function addCategory() {
-		$form = new cnFormObjects();
 
-		/*
-		 * Check whether user can edit Settings
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
+		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::addTerm()' );
 
-			check_admin_referer( $form->getNonce( 'add_category' ), '_cn_wpnonce' );
+		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
-			$category = new cnCategory();
-			$format   = new cnFormatting();
-
-			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
-			$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
-			$category->setParent( $format->sanitizeString( $_POST['category_parent'] ) );
-			$category->setDescription( $format->sanitizeString( $_POST['category_description'], TRUE ) );
-
-			$category->save();
-
-			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-
+		addCategory();
 	}
 
 	/**
+	 * Callback for the `cn_update_category` action.
+	 *
 	 * Update a category.
 	 *
-	 * @access public
+	 * @internal
 	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return void
+	 * @deprecated 10.2
+	 *
+	 * @noinspection PhpDeprecationInspection
+	 * @noinspection PhpUnused
 	 */
 	public static function updateCategory() {
-		$form = new cnFormObjects();
 
-		/*
-		 * Check whether user can edit Settings
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
+		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::updateTerm()' );
 
-			check_admin_referer( $form->getNonce( 'update_category' ), '_cn_wpnonce' );
+		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
-			$category = new cnCategory();
-			$format   = new cnFormatting();
-
-			$category->setID( $format->sanitizeString( $_POST['category_id'] ) );
-			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
-			$category->setParent( $format->sanitizeString( $_POST['category_parent'] ) );
-			$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
-			$category->setDescription( $format->sanitizeString( $_POST['category_description'], TRUE ) );
-
-			$category->update();
-
-			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-
+		updateCategory();
 	}
 
 	/**
+	 * Callback for the `cn_delete_category` action.
+	 *
 	 * Delete a category.
 	 *
-	 * @access public
+	 * @internal
 	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return void
+	 * @deprecated 10.2
+	 *
+	 * @noinspection PhpDeprecationInspection
+	 * @noinspection PhpUnused
 	 */
 	public static function deleteCategory() {
-		global $connections;
 
-		/*
-		 * Check whether user can edit Settings
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
+		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::deleteTerm()' );
 
-			$id = esc_attr( $_GET['id'] );
-			check_admin_referer( 'term_delete_' . $id );
+		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
-			$result = $connections->retrieve->category( $id );
-			$category = new cnCategory( $result );
-			$category->delete();
-
-			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-
+		deleteCategory();
 	}
 
 	/**
-	 * Callback to delete the term meta when when a term is deleted.
+	 * Callback for the `cn_category_bulk_actions` action.
 	 *
-	 * @access private
-	 * @since  8.2
-	 * @static
-	 *
-	 * @param int    $term          Term ID.
-	 * @param int    $tt_id         Term taxonomy ID.
-	 * @param string $taxonomy      Taxonomy slug.
-	 * @param mixed  $deleted_term  Copy of the already-deleted term, in the form specified
-	 *                              by the parent function. WP_Error otherwise.
-	 */
-	public static function deleteTermMeta( $term, $tt_id, $taxonomy, $deleted_term ) {
-
-		if ( ! is_wp_error( $deleted_term ) ) {
-
-			$meta = cnMeta::get( 'term', $term );
-
-			if ( ! empty( $meta ) ) {
-
-				foreach ( $meta as $key => $value ) {
-
-					cnMeta::delete( 'term', $term, $key );
-				}
-			}
-		}
-	}
-
-	/**
 	 * Bulk category actions.
 	 *
-	 * @access public
+	 * @internal
 	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return void
+	 * @deprecated 10.2
+	 *
+	 * @noinspection PhpDeprecationInspection
+	 * @noinspection PhpUnused
 	 */
 	public static function categoryManagement() {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-		$action   = '';
+		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::bulkTerm()' );
 
-		if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
+		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
-			$action = $_REQUEST['action'];
-
-		} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
-
-			$action = $_REQUEST['action2'];
-		}
-
-		/*
-		 * Check whether user can edit Settings
-		 */
-		if ( current_user_can( 'connections_edit_categories' ) ) {
-
-			switch ( $action ) {
-
-				case 'delete':
-
-					check_admin_referer( 'bulk-terms' );
-
-					foreach ( (array) $_POST['category'] as $id ) {
-
-						$result = $instance->retrieve->category( absint( $id ) );
-						$category = new cnCategory( $result );
-						$category->delete();
-					}
-
-					break;
-
-				default:
-
-					do_action( "bulk_term_action-category-{$action}" );
-				}
-
-			$url = get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' );
-
-			if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
-
-				$page = absint( $_REQUEST['paged'] );
-
-				$url = add_query_arg( array( 'paged' => $page ) , $url);
-			}
-
-			wp_redirect( $url );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_categories' );
-		}
-
+		categoryManagement();
 	}
 
 	/**
@@ -2358,7 +1999,6 @@ class cnAdminActions {
 	 */
 	public static function activateTemplate() {
 
-		/** @var $connections connectionsLoad */
 		global $connections;
 
 		/*

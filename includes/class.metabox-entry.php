@@ -77,18 +77,7 @@ class cnEntryMetabox {
 	 */
 	private static function register() {
 
-		if ( is_admin() ) {
-
-			$pageHooks = apply_filters( 'cn_admin_default_metabox_page_hooks', array( 'connections_page_connections_add', 'connections_page_connections_manage' ) );
-
-			// Define the core pages and use them by default if no page where defined.
-			// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
-			$pages = defined('DOING_AJAX') && DOING_AJAX ? array() : $pageHooks;
-
-		} else {
-
-			$pages = array( 'public' );
-		}
+		$pages = cnMetaboxAPI::defaultPageHooks();
 
 		/*
 		 * Now we're going to have to keep track of which TinyMCE plugins
@@ -132,15 +121,6 @@ class cnEntryMetabox {
 			'context'  => 'side',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'publish' ),
-		);
-
-		self::$metaboxes[] = array(
-			'id'       => 'categorydiv',
-			'title'    => __( 'Categories', 'connections' ),
-			'pages'    => $pages,
-			'context'  => 'side',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'category' ),
 		);
 
 		self::$metaboxes[] = array(
@@ -510,30 +490,15 @@ class cnEntryMetabox {
 	 */
 	public static function category( $entry, $metabox ) {
 
-		$defaults = array(
-			'taxonomy' => 'category',
-		);
+		_deprecated_function( __METHOD__, '10.2', '\Connections_Directory\Taxonomy::renderMetabox()' );
 
-		$atts = wp_parse_args( $metabox['args'], $defaults );
+		$taxonomies = \Connections_Directory\Taxonomy\Registry::get();
+		$category   = $taxonomies->getTaxonomy( 'category' );
 
-		$atts['selected'] = cnTerm::getRelationships(
-			$entry->getID(),
-			$atts['taxonomy'],
-			array(
-				'fields' => 'ids',
-			)
-		);
+		if ( $category instanceof \Connections_Directory\Taxonomy ) {
 
-		echo '<div class="categorydiv" id="taxonomy-category">';
-		echo '<div id="category-all" class="tabs-panel">';
-
-		cnTemplatePart::walker(
-			'term-checklist',
-			$atts
-		);
-
-		echo '</div>';
-		echo '</div>';
+			$category->renderMetabox( $entry, $metabox );
+		}
 	}
 
 	/**

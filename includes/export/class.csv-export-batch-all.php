@@ -161,6 +161,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *     'table'    => CN_TERMS_TABLE,
 		 *     'types'    => NULL,
 		 * );
+		 * </code>
 		 */
 
 		$fields = array(
@@ -762,7 +763,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		$offset = $this->limit * ( $this->step - 1 );
 
-		//if ( 2 <= $this->step ) return FALSE;
+		//if ( 6 <= $this->step ) return FALSE;
 
 		$sql = $wpdb->prepare(
 			'SELECT SQL_CALC_FOUND_ROWS *

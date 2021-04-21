@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Taxonomy;
+use Connections_Directory\Taxonomy\Registry;
+
 /**
  * Class cnTerms
  */
@@ -252,11 +255,11 @@ class cnTerms {
 	 *
 	 * @param int    $entryID
 	 * @param array  $termIDs
-	 * @param string $taxonomy
+	 * @param string $taxonomySlug
 	 *
 	 * @return array|WP_Error
 	 */
-	public function setTermRelationships( $entryID, $termIDs, $taxonomy ) {
+	public function setTermRelationships( $entryID, $termIDs, $taxonomySlug ) {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnTerm::setRelationships()' );
 
@@ -265,14 +268,35 @@ class cnTerms {
 			$termIDs = array( $termIDs );
 		}
 
-		$termIDs = array_map( 'intval', $termIDs );
-		$result  = cnTerm::setRelationships( $entryID, $termIDs, $taxonomy );
+		$taxonomy = Registry::get()->getTaxonomy( $taxonomySlug );
 
-		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
-			cnTerm::updateCount( $result, $taxonomy );
+		if ( $taxonomy instanceof Taxonomy ) {
+
+			/*
+			 * Hierarchical taxonomies must always pass IDs rather than names so that
+			 * children with the same names but different parents aren't confused.
+			 */
+			if ( $taxonomy->isHierarchical() ) {
+
+				$termIDs = array_unique( array_map( 'intval', $termIDs ) );
+			}
+
+		} else {
+
+			/*
+			 * If the taxonomy is not a registered with the API, assume it is a "legacy" taxonomy
+			 * and ensure term ID are all integers as done in all version prior to 10.2.
+			 */
+			$termIDs = array_unique( array_map( 'intval', $termIDs ) );
 		}
 
-		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+		$result = cnTerm::setRelationships( $entryID, $termIDs, $taxonomySlug );
+
+		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
+			cnTerm::updateCount( $result, $taxonomySlug );
+		}
+
+		cnCache::clear( TRUE, 'transient', "cn_{$taxonomySlug}" );
 
 		return $result;
 	}
@@ -2824,12 +2848,11 @@ class cnTerm {
 	 *        Passes: (array) $pieces, (array) $taxonomies, (array) $atts
 	 *        Return: $pieces
 	 *
-	 * @access public
 	 * @since  8.1
 	 * @since  8.5.10 Introduced 'name' and 'childless' parameters.
 	 *                Introduced the 'meta_query' and 'update_meta_cache' parameters.
 	 *                Converted to return a list of cnTerm_Object objects.
-	 * @static
+	 * @since  10.2   Introduced 'object_ids' parameter.
 	 *
 	 * @global wpdb $wpdb
 	 *
@@ -2840,6 +2863,8 @@ class cnTerm {
 	 *     @type string       $get                    Whether to return terms regardless of ancestry or whether the terms are empty.
 	 *                                                Accepts: 'all' | ''
 	 *                                                Default: ''
+	 *     @type int|array    $object_ids             Optional. Object ID, or array of object IDs. Results will be
+	 *                                                limited to terms associated with these objects.
 	 *     @type array|string $orderby                Field(s) to order terms by.
 	 *                                                Use 'include' to match the 'order' of the $include param, or 'none' to skip ORDER BY.
 	 *                                                Accepts: term_id | name | slug | term_group | parent | count | include | none
@@ -2903,20 +2928,6 @@ class cnTerm {
 	 *                                                Default: array()
 	 * }
 	 *
-	 * @uses   apply_filters()
-	 * @uses   wp_parse_args()
-	 * @uses   wp_parse_id_list()
-	 * @uses   sanitize_title()
-	 * @uses   wpdb::prepare()
-	 * @uses   $wpdb::esc_like()
-	 * @uses   absint()
-	 * @uses   wpdb::get_results()
-	 * @uses   cnTerm::filter()
-	 * @uses   cnTerm::descendants()
-	 * @uses   cnTerm::childrenIDs()
-	 * @uses   cnTerm::padCounts()
-	 * @uses   cnTerm::children()
-	 *
 	 * @return array|int|WP_Error Indexed array of cnTerm_Object objects. Will return WP_Error, if any of $taxonomies do not exist.*
 	 */
 	public static function getTaxonomyTerms( $taxonomies = array( 'category' ), $atts = array() ) {
@@ -2943,6 +2954,7 @@ class cnTerm {
 
 		$defaults = array(
 			'get'               => '',
+			'object_ids'        => null,
 			'orderby'           => 'name',
 			'order'             => 'ASC',
 			'hide_empty'        => TRUE,
@@ -3343,6 +3355,28 @@ class cnTerm {
 			$where[] = $wpdb->prepare( " AND tt.description LIKE %s", '%' . $wpdb->esc_like( $atts['description__like'] ) . '%' );
 		}
 
+		if ( ! empty( $atts['object_ids'] ) ) {
+
+			$object_ids = $atts['object_ids'];
+
+			if ( ! is_array( $object_ids ) ) {
+
+				$object_ids = array( $object_ids );
+			}
+
+			$object_ids = implode( ', ', array_map( 'intval', $object_ids ) );
+			$where[]    = "AND tr.entry_id IN ($object_ids)";
+		}
+
+		/*
+		 * When querying for object relationships, the 'count > 0' check
+		 * added by 'hide_empty' is superfluous.
+		 */
+		if ( ! empty( $args['object_ids'] ) ) {
+
+			$args['hide_empty'] = false;
+		}
+
 		if ( '' !== $atts['parent'] ) {
 
 			$where[] = $wpdb->prepare( 'AND tt.parent = %d', $atts['parent'] );
@@ -3402,7 +3436,14 @@ class cnTerm {
 		switch ( $atts['fields'] ) {
 
 			case 'all':
+			case 'all_with_object_id':
+			case 'tt_ids':
+			case 'slugs':
 				$select = array( 't.*', 'tt.*' );
+
+				if ( 'all_with_object_id' === $atts['fields'] && ! empty( $atts['object_ids'] ) ) {
+					$select = array( 'tr.entry_id' );
+				}
 				break;
 
 			case 'ids':
@@ -3441,6 +3482,10 @@ class cnTerm {
 		$fields = implode( ', ', apply_filters( 'cn_get_terms_fields', $select, $atts, $taxonomies ) );
 
 		$join  .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
+
+		if ( ! empty( $atts['object_ids'] ) ) {
+			$join .= ' INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
+		}
 
 		$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderBy', 'order', 'limit' );
 
@@ -3552,6 +3597,31 @@ class cnTerm {
 					unset( $terms[ $k ] );
 				}
 			}
+		}
+
+		/*
+		 * When querying for terms connected to objects, we may get
+		 * duplicate results. The duplicates should be preserved if
+		 * `$fields` is 'all_with_object_id', but should otherwise be
+		 * removed.
+		 */
+		if ( ! empty( $args['object_ids'] ) && 'all_with_object_id' !== $atts['fields'] ) {
+
+			$_tt_ids = array();
+			$_terms  = array();
+
+			foreach ( $terms as $term ) {
+
+				if ( isset( $_tt_ids[ $term->term_id ] ) ) {
+
+					continue;
+				}
+
+				$_tt_ids[ $term->term_id ] = 1;
+				$_terms[]                  = $term;
+			}
+
+			$terms = $_terms;
 		}
 
 		$_terms = array();
@@ -4037,16 +4107,10 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see _get_term_children() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
+	 * @since 8.1
 	 *
-	 * @uses   cnTerm::descendants()
-	 * @uses   cnTerm::childrenIDs()
-	 * @uses   cnTerm::filter()
-	 *
-	 * @param  int    $term_id The ancestor term: all returned terms should be descendants of $term_id.
-	 * @param  array  $terms The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
+	 * @param  int    $term_id  The ancestor term: all returned terms should be descendants of $term_id.
+	 * @param  array  $terms    The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
 	 * @param  string $taxonomy The taxonomy which determines the hierarchy of the terms.
 	 * @param  array  $ancestors Optional. Term ancestors that have already been identified. Passed by reference, to keep
 	 *                           track of found terms when recursing the hierarchy. The array of located ancestors is used
@@ -4062,10 +4126,11 @@ class cnTerm {
 			return array();
 		}
 
+		$term_id      = (int) $term_id;
 		$term_list    = array();
 		$has_children = self::childrenIDs( $taxonomy );
 
-		if  ( ( 0 != $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
+		if  ( ( 0 !== $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
 
 			return array();
 		}
@@ -4098,7 +4163,7 @@ class cnTerm {
 				continue;
 			}
 
-			if ( $term->parent == $term_id ) {
+			if ( (int) $term->parent === $term_id ) {
 
 				if ( $use_id ) {
 
@@ -4116,7 +4181,9 @@ class cnTerm {
 
 				$ancestors[ $term->term_id ] = 1;
 
-				if ( $children = self::descendants( $term->term_id, $terms, $taxonomy, $ancestors ) ) {
+				$children = self::descendants( $term->term_id, $terms, $taxonomy, $ancestors );
+
+				if ( $children ) {
 
 					$term_list = array_merge( $term_list, $children );
 				}
@@ -4407,7 +4474,7 @@ class cnTerm {
 
 				$link = cnURL::permalink(
 					array(
-						'type'       => 'category',
+						'type'       => "{$taxonomy}-taxonomy-term",
 						'slug'       => implode( '/', $slugs ),
 						'title'      => $term->name,
 						'text'       => $term->name,

@@ -1,6 +1,8 @@
 <?php
 
 // Exit if accessed directly
+use Connections_Directory\Utility\_array;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 
@@ -762,6 +764,65 @@ class cnShortcode {
 	}
 
 	/**
+	 * Whether or not the supplied WP_Post is of a supported post type.
+	 *
+	 * @since 10.2
+	 *
+	 * @param WP_Post $post
+	 *
+	 * @return bool
+	 */
+	public static function isSupportedPostType( $post ) {
+
+		$supported = false;
+
+		if ( ! $post instanceof WP_Post ) {
+
+			return $supported;
+		}
+
+		// Create an array of supported post types.
+		$supportedPostTypes  = array( 'page' );
+		$CPTOptions          = get_option( 'connections_cpt', array() );
+		$supportedCPTTypes   = _array::get( $CPTOptions, 'supported', array() );
+
+		// The `$supportedCPTTypes` should always be an array, but had at least one user where this was not the case.
+		// To prevent PHP error notice, do an array check.
+		if ( is_array( $supportedCPTTypes ) ) {
+
+			$supportedPostTypes = array_merge( $supportedPostTypes, $supportedCPTTypes );
+		}
+
+		if ( in_array( $post->post_type, $supportedPostTypes ) ) {
+
+			$supported = true;
+		}
+
+		return $supported;
+	}
+
+	/**
+	 * Get the Directory Homepage ID based on context.
+	 *
+	 * @since 10.2
+	 * @private
+	 *
+	 * @return int
+	 */
+	public static function getHomeID() {
+
+		$homeID = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );
+		$post   = get_queried_object();
+
+		if ( in_the_loop() && ( is_page() || self::isSupportedPostType( $post ) ) ) {
+
+			$homeID = get_the_ID();
+		}
+
+		return (int) $homeID;
+	}
+
+	/**
 	 * The core `connections` shortcode can be used multiple times on a page.
 	 * Because of this we need to keep track of the filters that are added
 	 * during execution of the shortcode so the filters can be cleared and
@@ -828,7 +889,7 @@ class cnShortcode {
 	}
 
 	/**
-	 * Attemps to intelligently remove <p> and <br> tags added around
+	 * Attempts to intelligently remove <p> and <br> tags added around
 	 * the shortcodes by wpautop().
 	 *
 	 * @access public

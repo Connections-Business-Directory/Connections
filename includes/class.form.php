@@ -44,6 +44,7 @@ class cnFormObjects {
 	 */
 	public function open( $attr ) {
 
+		if ( isset( $attr['class'] ) ) $attr['class'] = 'class="' . esc_attr( $attr['class'] ) . '" ';
 		if ( isset( $attr['id'] ) ) $attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
 		if ( isset( $attr['name'] ) ) $attr['name'] = 'name="' . esc_attr( $attr['name'] ) . '" ';
 		if ( isset( $attr['action'] ) ) $attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';

@@ -54,16 +54,16 @@ class CN_parseCSV extends parseCSV {
 
 		// force the parser to process end of data as a character (false) when
 		// data does not end with a line feed or carriage return character.
-		$lch = $data{$strlen - 1};
+		$lch = $data[ $strlen - 1 ];
 		if ($lch != "\n" && $lch != "\r") {
 			$strlen++;
 		}
 
 		// walk through each character
 		for ($i = 0; $i < $strlen; $i++) {
-			$ch = (isset($data{$i})) ? $data{$i} : false;
-			$nch = (isset($data{$i + 1})) ? $data{$i + 1} : false;
-			$pch = (isset($data{$i - 1})) ? $data{$i - 1} : false;
+			$ch = (isset( $data[ $i ] )) ? $data[ $i ] : false;
+			$nch = (isset( $data[ $i + 1 ] )) ? $data[ $i + 1 ] : false;
+			$pch = (isset( $data[ $i - 1 ] )) ? $data[ $i - 1 ] : false;
 
 			// open/close quotes, and inline quotes
 			if ($ch == $this->enclosure) {
@@ -91,8 +91,8 @@ class CN_parseCSV extends parseCSV {
 					$current .= $ch;
 					$i++;
 				} elseif ($nch != $this->delimiter && $nch != "\r" && $nch != "\n") {
-					for ($x = ($i + 1);isset($data{$x}) && ltrim($data{$x}, $white_spaces) == ''; $x++) {}
-					if ($data{$x} == $this->delimiter) {
+					for ($x = ($i + 1); isset( $data[ $x ] ) && ltrim( $data[ $x ], $white_spaces) == ''; $x++) {}
+					if ( $data[ $x ] == $this->delimiter) {
 						$enclosed = false;
 						$i = $x;
 					} else {

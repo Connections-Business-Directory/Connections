@@ -146,6 +146,40 @@ class cnMetaboxAPI {
 	}
 
 	/**
+	 * The default page hooks that a metabox should render on. The `public` page hook is the site's frontend.
+	 *
+	 * These are admin page hooks returned by @see add_submenu_page() when registering the admin pages.
+	 * @see cnAdminMenu::menu()
+	 *
+	 * @since 10.2
+	 *
+	 * @return array
+	 */
+	public static function defaultPageHooks() {
+
+		if ( is_admin() ) {
+
+			$pageHooks = apply_filters(
+				'cn_admin_default_metabox_page_hooks',
+				array(
+					'connections_page_connections_add',
+					'connections_page_connections_manage',
+				)
+			);
+
+			// Define the core pages and use them by default if no page where defined.
+			// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
+			$pages = defined('DOING_AJAX') && DOING_AJAX ? array() : $pageHooks;
+
+		} else {
+
+			$pages = array( 'public' );
+		}
+
+		return $pages;
+	}
+
+	/**
 	 * Public method to add metaboxes.
 	 *
 	 * Accepted option for the $atts property are:
@@ -176,6 +210,7 @@ class cnMetaboxAPI {
 		 * meta_box_prefs function.
 		 */
 
+		// @todo Can this be replaced with `cnMetaboxAPI::defaultPageHooks()`?
 		if ( is_admin() ) {
 
 			$pageHooks = apply_filters( 'cn_admin_default_metabox_page_hooks', array( 'connections_page_connections_add', 'connections_page_connections_manage' ) );
@@ -622,7 +657,7 @@ class cnMetabox_Render {
 	 * @param  array  $atts   The attributes array.
 	 * @param  object $object An instance the the cnEntry object.
 	 */
-	public static function metaboxes( array $atts = array(), $object ) {
+	public static function metaboxes( array $atts, $object ) {
 
 		$metaboxes = array();
 

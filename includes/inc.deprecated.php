@@ -1,4 +1,5 @@
 <?php
+class_alias( Connections_Directory\Integration\WordPress\mShot::class, Connections_Directory\SiteShot::class );
 class_alias( Connections_Directory\SiteShot::class, cnSiteShot::class );
 class_alias( Connections_Directory\Utility\_::class, cnFunction::class );
 class_alias( Connections_Directory\Utility\_array::class, cnArray::class );

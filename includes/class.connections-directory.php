@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.1';
+	const VERSION = '10.2';
 
 	/**
 	 * Stores the instance of this class.
@@ -399,10 +399,15 @@ final class Connections_Directory {
 		// Geocode the address using Google Geocoding API.
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
 
+		// Init the taxonomies. The `setup_theme` action is the action run closest after initializing of the $wp_rewrite global variable.
+		add_action( 'setup_theme', 'Connections_Directory\Taxonomy\init' );
+
 		// Integrations
 		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ), 15 );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Rank_Math', 'init' ), 15 );
+		// Priority 11 because Gravity Forms addon init on priority 10 on the plugins_loaded action.
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\Gravity_Forms', 'init' ), 11 );
 	}
 
 	/**

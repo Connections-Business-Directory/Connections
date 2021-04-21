@@ -25,12 +25,6 @@ class cnCategory {
 	private $children;
 
 	/**
-	 * The cnFormatting class.
-	 * @var cnFormatting
-	 */
-	private $format;
-
-	/**
 	 * The cnValidate class.
 	 * @var cnValidate
 	 */
@@ -51,9 +45,6 @@ class cnCategory {
 
 		// Load the validation class.
 		$this->validate = new cnValidate();
-
-		// Load the formatting class for sanitizing the get methods.
-		$this->format = new cnFormatting();
 	}
 
 	/**
@@ -100,7 +91,7 @@ class cnCategory {
 	 * @see cnCategory::$description
 	 */
 	public function getDescription() {
-		return $this->format->sanitizeString( $this->description, TRUE );
+		return cnSanitize::sanitizeString( $this->description, TRUE );
 	}
 
 	/**

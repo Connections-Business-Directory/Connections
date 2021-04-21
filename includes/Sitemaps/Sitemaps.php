@@ -41,7 +41,7 @@ function isEnabled() {
 }
 
 /**
- * Callback for the `wp_sitemaps_init` action.
+ * Callback for the `init` action.
  *
  * Initialize the sitemaps.
  *
@@ -68,7 +68,7 @@ function init() {
 	$registry = Registry::get();
 
 	/**
-	 * Fires when initializing the Registry object.
+	 * Fires after initializing the Registry object.
 	 *
 	 * Additional sitemaps providers should be registered on this hook.
 	 *
@@ -139,7 +139,13 @@ function createProvider( $id, $name ) {
 	$supportedPostTypes  = array( 'page' );
 	$CPTOptions          = get_option( 'connections_cpt', array() );
 	$supportedCPTTypes   = _array::get( $CPTOptions, 'supported', array() );
-	$supportedPostTypes  = array_merge( $supportedPostTypes, $supportedCPTTypes );
+
+	// The `$supportedCPTTypes` should always be an array, but had at least one user where this was not the case.
+	// To prevent PHP error notice, do an array check.
+	if ( is_array( $supportedCPTTypes ) ) {
+
+		$supportedPostTypes = array_merge( $supportedPostTypes, $supportedCPTTypes );
+	}
 
 	// If the current post is a supported post type, use the post ID.
 	// If is is not, use the post ID of the page set as the Directory Homepage.

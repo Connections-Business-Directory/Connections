@@ -112,6 +112,8 @@ class Content_Blocks {
 	}
 
 	/**
+	 * Callback for the `init` action hook.
+	 *
 	 * Register the Content Block with the Settings API.
 	 *
 	 * @since 9.6
@@ -119,6 +121,15 @@ class Content_Blocks {
 	public static function register() {
 
 		$instance = self::instance();
+
+		/**
+		 * Use this action to register new Content Blocks.
+		 *
+		 * @since 10.2
+		 *
+		 * @param self $instance
+		 */
+		do_action( 'Connections_Directory/Content_Blocks/Register', $instance );
 
 		$blocks = $instance->blocks;
 

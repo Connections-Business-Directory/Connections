@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @todo Clear the sitemaps cache if it exists.
+ * @link https://connections-pro.com/ticket/540240/
+ */
+
 namespace Connections_Directory\Integration\SEO;
 
 use cnEntry;
@@ -36,13 +41,12 @@ final class Yoast_SEO {
 	 * @since 9.12
 	 *
 	 * @return static
-	 * @noinspection PhpFullyQualifiedNameUsageInspection
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) && function_exists( 'wpseo_init' )) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && function_exists( 'wpseo_init' )) {
 
-			self::$instance = $self = new static();
+			self::$instance = $self = new self();
 
 			if ( defined( 'WPSEO_VERSION') && version_compare( WPSEO_VERSION, '14.1', '>=' ) ) {
 
@@ -67,34 +71,14 @@ final class Yoast_SEO {
 		//remove_action( 'init', 'Connections_Directory\Sitemaps\init', 11 );
 
 		// Sitemaps
-		add_filter( 'init', array( __CLASS__, 'registerSitemapProviders' ), 12 );
+		add_action( 'init', array( __CLASS__, 'registerSitemapProviders' ), 12 );
 		add_filter( 'wp_sitemaps_max_urls', array( __CLASS__, 'maxURLs' ) );
 		add_filter( 'Connections_Directory/Sitemaps/Provider/Sitemap_Entry', array( __CLASS__, 'sitemapEntry' ) );
 
-		// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports.
+		// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports and bulk operations.
 
+		add_action( 'wp_head', array( __CLASS__, 'maybeAddFilters' ), 0 );
 		add_action( 'wp_head', array( __CLASS__, 'maybeRemoveCoreMetaDescription' ), 0 );
-
-		/*
-		 * @todo Should hook into this filter and add the prev/next relative URLs for pagination.
-		 */
-		add_filter( 'wpseo_adjacent_rel_url', array( __CLASS__, 'maybeDisplayAdjacentURL' ) );
-
-		add_filter( 'wpseo_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
-		add_filter( 'wpseo_metadesc', array( __CLASS__, 'transformDescription' ), 10, 2 );
-		add_filter( 'wpseo_canonical', array( __CLASS__, 'transformURL' ), 10, 2 );
-
-		add_filter( 'wpseo_opengraph_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
-		add_filter( 'wpseo_opengraph_desc', array( __CLASS__, 'transformDescription' ), 10, 2 );
-		add_filter( 'wpseo_opengraph_url', array( __CLASS__, 'transformURL' ), 10, 2 );
-		add_filter( 'wpseo_add_opengraph_images', array( __CLASS__, 'addImage' ) );
-		//add_filter( 'wpseo_opengraph_image', array( __CLASS__, 'transformImage'), 10, 2 );
-
-		add_filter( 'wpseo_twitter_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
-		add_filter( 'wpseo_twitter_description', array( __CLASS__, 'transformDescription' ), 10, 2 );
-		add_filter( 'wpseo_twitter_image', array( __CLASS__, 'transformImage'), 10, 2 );
-
-		add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
 
 		// Remove the persistent logs from sitemaps.
 		add_filter(
@@ -109,6 +93,54 @@ final class Yoast_SEO {
 				return $options;
 			}
 		);
+	}
+
+	/**
+	 * Callback for the `wp_head` action.
+	 *
+	 * Maybe add the filters.
+	 *
+	 * @todo SEO filters should not run if the [connections] shortcode is not in the content.
+	 * @link https://wordpress.org/support/topic/name-path-in-url/
+	 *
+	 * @internal
+	 * @since 10.2
+	 */
+	public static function maybeAddFilters() {
+
+		$object = get_queried_object();
+
+		if ( ! $object instanceof \WP_Post ) {
+
+			return;
+		}
+
+		if ( has_shortcode( $object->post_content, 'connections' ) ||
+		     has_block( 'connections-directory/shortcode-connections', $object )
+		) {
+
+			/*
+			 * @todo Should hook into this filter and add the prev/next relative URLs for pagination.
+			 */
+			add_filter( 'wpseo_adjacent_rel_url', array( __CLASS__, 'maybeDisplayAdjacentURL' ) );
+
+			add_filter( 'wpseo_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
+			add_filter( 'wpseo_metadesc', array( __CLASS__, 'transformDescription' ), 10, 2 );
+			add_filter( 'wpseo_canonical', array( __CLASS__, 'transformURL' ), 10, 2 );
+
+			add_filter( 'wpseo_opengraph_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
+			add_filter( 'wpseo_opengraph_desc', array( __CLASS__, 'transformDescription' ), 10, 2 );
+			add_filter( 'wpseo_opengraph_url', array( __CLASS__, 'transformURL' ), 10, 2 );
+			add_filter( 'wpseo_add_opengraph_images', array( __CLASS__, 'addImage' ) );
+			//add_filter( 'wpseo_opengraph_image', array( __CLASS__, 'transformImage'), 10, 2 );
+
+			add_filter( 'wpseo_twitter_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
+			add_filter( 'wpseo_twitter_description', array( __CLASS__, 'transformDescription' ), 10, 2 );
+			add_filter( 'wpseo_twitter_image', array( __CLASS__, 'transformImage'), 10, 2 );
+
+			add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
+		}
+
 	}
 
 	/**
@@ -288,7 +320,7 @@ final class Yoast_SEO {
 		$separator = \WPSEO_Utils::get_title_separator();
 		$title     = cnSEO::metaTitle( $title, $separator );
 
-		return trim( $title, " \t\n\r\0\x0B$separator");
+		return $title;
 	}
 
 	/**

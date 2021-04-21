@@ -13,6 +13,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_array;
+
 /**
  * Class cnTemplatePart
  */
@@ -75,7 +77,7 @@ class cnTemplatePart {
 	 *
 	 * @return string|bool The template part file path, if one is located.
 	 */
-	public static function get( $base, $name = NULL, $params, $load = TRUE, $buffer = TRUE, $require_once = TRUE ) {
+	public static function get( $base, $name = NULL, $params = array(), $load = TRUE, $buffer = TRUE, $require_once = TRUE ) {
 
 		$files = cnLocate::fileNames( $base, $name );
 
@@ -1007,10 +1009,12 @@ class cnTemplatePart {
 	public static function listAction_ViewAll( $atts ) {
 
 		$defaults = array(
-			'type'   => 'all',
-			'text'   => __( 'View All', 'connections' ),
-			'rel'    => 'canonical',
-			'return' => FALSE,
+			'type'       => 'all',
+			'text'       => __( 'View All', 'connections' ),
+			'rel'        => 'canonical',
+			'home_id'    => _array::get( $atts, 'home_id', cnShortcode::getHomeID() ),
+			'force_home' => _array::get( $atts, 'force_home', false ),
+			'return'     => false,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1033,7 +1037,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	public static function entryActions( $atts = array(), $entry ) {
+	public static function entryActions( $atts, $entry ) {
 
 		$out = '';
 
@@ -1827,8 +1831,8 @@ class cnTemplatePart {
 					'title'      => $char,
 					'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
 					'text'       => $char,
-					'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-					'force_home' => FALSE,
+					'home_id'    => _array::get( $atts, 'home_id', cnShortcode::getHomeID() ),
+					'force_home' => _array::get( $atts, 'force_home', false ),
 					'return'     => TRUE,
 					)
 				);
@@ -2007,7 +2011,7 @@ class cnTemplatePart {
 			/*
 			 * Create the page permalinks. If on a post or custom post type, use query vars.
 			 */
-			if ( is_page() && $wp_rewrite->using_permalinks() ) {
+			if ( cnShortcode::isSupportedPostType( get_queried_object() ) && $wp_rewrite->using_permalinks() ) {
 
 				// Add the category base and path if paging thru a category.
 				if ( cnQuery::getVar('cn-cat-slug') ) $permalink = trailingslashit( $permalink . $base['category_base'] . '/' . cnQuery::getVar('cn-cat-slug') );
@@ -2019,13 +2023,25 @@ class cnTemplatePart {
 				if ( cnQuery::getVar('cn-department') ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar('cn-department') );
 
 				// Add the locality base and path if paging thru a locality.
-				if ( cnQuery::getVar('cn-locality') ) $permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar('cn-locality') );
+				if ( cnQuery::getVar('cn-locality') ) {
+
+					_array::forget( $queryVars, 'cn-locality' );
+					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar('cn-locality') );
+				}
 
 				// Add the region base and path if paging thru a region.
-				if ( cnQuery::getVar('cn-region') ) $permalink = trailingslashit( $permalink . $base['region_base'] . '/' . cnQuery::getVar('cn-region') );
+				if ( cnQuery::getVar('cn-region') ) {
+
+					_array::forget( $queryVars, 'cn-region' );
+					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . cnQuery::getVar('cn-region') );
+				}
 
 				// Add the postal code base and path if paging thru a postal code.
-				if ( cnQuery::getVar('cn-postal-code') ) $permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . cnQuery::getVar('cn-postal-code') );
+				if ( cnQuery::getVar('cn-postal-code') ) {
+
+					_array::forget( $queryVars, 'cn-postal-code' );
+					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . cnQuery::getVar('cn-postal-code') );
+				}
 
 				// Add the country base and path if paging thru a country.
 				if ( cnQuery::getVar('cn-country') ) $permalink = trailingslashit( $permalink . $base['country_base'] . '/' . cnQuery::getVar('cn-country') );

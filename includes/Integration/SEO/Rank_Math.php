@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @todo Clear the sitemaps cache if it exists.
+ * @link https://connections-pro.com/ticket/540240/
+ */
+
 namespace Connections_Directory\Integration\SEO;
 
 use cnQuery;
@@ -45,9 +50,9 @@ final class Rank_Math {
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof static ) && class_exists( 'RankMath' ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && class_exists( 'RankMath' ) ) {
 
-			self::$instance = $self = new static();
+			self::$instance = $self = new self();
 
 			$self->hooks();
 		}
@@ -69,27 +74,61 @@ final class Rank_Math {
 		add_filter( 'rank_math/sitemap/providers', array( __CLASS__, 'registerSitemapProviders' ) );
 		add_filter( 'wp_sitemaps_max_urls', array( __CLASS__, 'maxURLs' ) );
 		add_filter( 'Connections_Directory/Sitemaps/Provider/Sitemap_Entry', array( __CLASS__, 'sitemapEntry' ) );
+		add_action( 'cn_saved-entry', array( __CLASS__, 'clearCache' ) );
+		add_action( 'cn_updated-entry', array( __CLASS__, 'clearCache' ) );
+		add_action( 'cn_deleted-entry', array( __CLASS__, 'clearCache' ) );
 
+		add_action( 'wp', array( __CLASS__, 'maybeAddFilters' ), 0 );
 		add_action( 'wp_head', array( __CLASS__, 'maybeRemoveCoreMetaDescription' ), 0 );
-		add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
+	}
 
-		/*
-		 * @todo Add the prev/next relative URLs for pagination.
-		 */
-		add_filter( 'rank_math/frontend/disable_adjacent_rel_links', array( __CLASS__, 'maybeDisableAdjacentURL' ) );
+	/**
+	 * Callback for the `wp` action.
+	 *
+	 * Maybe add the filters.
+	 *
+	 * @todo SEO filters should not run if the [connections] shortcode is not in the content.
+	 * @link https://wordpress.org/support/topic/name-path-in-url/
+	 *
+	 * @internal
+	 * @since 10.2
+	 */
+	public static function maybeAddFilters() {
 
-		add_filter( 'rank_math/frontend/title', array( __CLASS__, 'transformTitle' ), 10 );
-		add_filter( 'rank_math/frontend/description', array( __CLASS__, 'transformDescription' ), 10 );
-		//add_filter( 'rank_math/frontend/canonical', array( __CLASS__, 'transformURL' ), 10 );
-		add_filter( 'rank_math/opengraph/facebook/og_image', array( __CLASS__, 'imageURL' ) );
-		add_filter( 'rank_math/opengraph/facebook/og_image_secure_url', array( __CLASS__, 'imageSecureURL' ) );
-		add_filter( 'rank_math/opengraph/facebook/og_image_width', array( __CLASS__, 'imageWidth' ) );
-		add_filter( 'rank_math/opengraph/facebook/og_image_height', array( __CLASS__, 'imageHeight' ) );
-		add_filter( 'rank_math/opengraph/facebook/og_image_type', array( __CLASS__, 'imageType' ) );
+		$object = get_queried_object();
 
-		add_filter( 'rank_math/opengraph/twitter/image', array( __CLASS__, 'imageURL' ) );
+		if ( ! $object instanceof \WP_Post ) {
 
-		add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
+			return;
+		}
+
+		if ( has_shortcode( $object->post_content, 'connections' ) ||
+		     has_block( 'connections-directory/shortcode-connections', $object )
+		) {
+
+			add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
+
+			// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports and bulk operations.
+
+			/*
+			 * @todo Add the prev/next relative URLs for pagination.
+			 */
+			add_filter( 'rank_math/frontend/disable_adjacent_rel_links', array( __CLASS__, 'maybeDisableAdjacentURL' ) );
+
+			add_filter( 'rank_math/frontend/title', array( __CLASS__, 'transformTitle' ), 10 );
+			add_filter( 'rank_math/frontend/description', array( __CLASS__, 'transformDescription' ), 10 );
+			add_filter( 'rank_math/frontend/canonical', array( __CLASS__, 'transformURL' ), 10 );
+			add_filter( 'rank_math/opengraph/facebook/og_updated_time', array( __CLASS__, 'updatedTime' ) );
+			add_filter( 'rank_math/opengraph/facebook/og_image', array( __CLASS__, 'imageURL' ) );
+			add_filter( 'rank_math/opengraph/facebook/og_image_secure_url', array( __CLASS__, 'imageSecureURL' ) );
+			add_filter( 'rank_math/opengraph/facebook/og_image_width', array( __CLASS__, 'imageWidth' ) );
+			add_filter( 'rank_math/opengraph/facebook/og_image_height', array( __CLASS__, 'imageHeight' ) );
+			add_filter( 'rank_math/opengraph/facebook/og_image_type', array( __CLASS__, 'imageType' ) );
+
+			add_filter( 'rank_math/opengraph/twitter/image', array( __CLASS__, 'imageURL' ) );
+
+			add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
+		}
 	}
 
 	/**
@@ -249,7 +288,6 @@ final class Rank_Math {
 			/** @noinspection PhpFullyQualifiedNameUsageInspection */
 			$separator = \RankMath\Helper::get_settings( 'titles.title_separator' );
 			$title     = cnSEO::metaTitle( $title, $separator );
-			$title     = trim( $title, " \t\n\r\0\x0B$separator");
 		}
 
 		return $title;
@@ -276,6 +314,44 @@ final class Rank_Math {
 		}
 
 		return $description;
+	}
+
+	/**
+	 * Callback for the `rank_math/opengraph/facebook/updated_time` filter.
+	 *
+	 * Dynamically set the last modified date of the post to the Entry last modified date time.
+	 *
+	 * @internal
+	 * @since 10.2
+	 *
+	 * @param $date
+	 *
+	 * @return string
+	 */
+	public static function updatedTime( $date ) {
+
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+
+			$result = Connections_Directory()->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
+
+			// Make sure an entry is returned and if not, return $posts unaltered.
+			if ( empty( $result ) ) {
+
+				return $date;
+			}
+
+			$published = $result[0]->date_added ? date( 'Y-m-d H:i:s', $result[0]->date_added ) : $result[0]->ts;
+			$modified  = $result[0]->ts;
+
+			$published = mysql2date( DATE_W3C, $published, false );
+			$modified  = mysql2date( DATE_W3C, $modified, false );
+
+			if ( $modified !== $published ) {
+				$date = $modified;
+			}
+		}
+
+		return $date;
 	}
 
 	/**
@@ -399,5 +475,37 @@ final class Rank_Math {
 		}
 
 		return $type;
+	}
+
+	/**
+	 * Clear the sitemaps from the cache.
+	 *
+	 * @since 10.2
+	 */
+	public static function clearCache() {
+
+		$registry  = Registry::get();
+		$providers = $registry->getProviders();
+
+		if ( is_array( $providers ) ) {
+
+			foreach ( $providers as $provider ) {
+
+				$instances = $provider->getInstances();
+				$name      = $provider->getName();
+				$count     = count( $instances );
+
+				foreach ( $instances as $instanceID => $instance ) {
+
+					$type = 1 < $count ? "{$name}-{$instanceID}" : $name;
+
+					\RankMath\Sitemap\Cache::invalidate_storage( $type );
+				}
+
+			}
+
+			// Delete the sitemap index.
+			\RankMath\Sitemap\Cache::invalidate_storage( '1' );
+		}
 	}
 }

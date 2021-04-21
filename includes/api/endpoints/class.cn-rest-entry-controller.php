@@ -1601,6 +1601,24 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 						),
 					),
 				),
+				'bio' => array(
+					'description' => __( 'The biography for the entry.', 'connections' ),
+					'type'        => 'object',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'properties'  => array(
+						'raw'       => array(
+							'description' => __( 'Biography for the entry, as it exists in the database.' ),
+							'type'        => 'string',
+							'context'     => array( 'edit' ),
+						),
+						'rendered'  => array(
+							'description' => __( 'HTML biography for the entry, transformed for display.' ),
+							'type'        => 'string',
+							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
+						),
+					),
+				),
 				'excerpt' => array(
 					'description' => __( 'The excerpt for the entry.', 'connections' ),
 					'type'        => 'object',
@@ -1613,6 +1631,24 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 						),
 						'rendered'  => array(
 							'description' => __( 'HTML excerpt for the entry, transformed for display.' ),
+							'type'        => 'string',
+							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
+						),
+					),
+				),
+				'notes' => array(
+					'description' => __( 'The notes for the entry.', 'connections' ),
+					'type'        => 'object',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'properties'  => array(
+						'raw'       => array(
+							'description' => __( 'Notes for the entry, as it exists in the database.' ),
+							'type'        => 'string',
+							'context'     => array( 'edit' ),
+						),
+						'rendered'  => array(
+							'description' => __( 'HTML notes for the entry, transformed for display.' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,

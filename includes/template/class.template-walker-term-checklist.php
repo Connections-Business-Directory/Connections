@@ -11,6 +11,8 @@
  */
 
 // Exit if accessed directly
+use Connections_Directory\Taxonomy\Registry;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -67,8 +69,8 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *                                 Accepts: Any registered taxonomy.
 	 * @type mixed  $selected          The selected term ID(s) the term ID or array of term ID/s that are selected.
 	 *                                 Default: 0
-	 * @type bool   $return            Whether or not to return or echo the resulting HTML.
-	 *                                 Default: FALSE
+	 * @type bool   $echo              Whether or not to echo the HTML.
+	 *                                 Default: true
 	 * }
 	 *
 	 * @return string
@@ -77,16 +79,25 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		$out = '';
 
+		/*
+		 * The `return` parameter was removed. It was a poor parameter to have in the first place.
+		 * This "converts" it to the `echo` parameter which was what the `return` parameter was intended to be.
+		 */
+		if ( array_key_exists( 'return', $atts ) ) {
+
+			$atts['echo'] = ! (bool) $atts['return'];
+		}
+
 		$defaults = array(
 			'orderby'           => 'name',
 			'order'             => 'ASC',
-			'show_count'        => FALSE,
-			'hide_empty'        => FALSE,
+			'show_count'        => false,
+			'hide_empty'        => false,
 			'name'              => 'entry_category',
 			'depth'             => 0,
 			'taxonomy'          => 'category',
 			'selected'          => 0,
-			'return'            => FALSE,
+			'echo'              => true,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -104,24 +115,31 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		$walker->tree_type = $atts['taxonomy'];
 
+		$taxonomy = Registry::get()->getTaxonomy( $atts['taxonomy'] );
+
+		if ( false !== $taxonomy ) {
+
+			$atts['disabled'] = ! current_user_can( $taxonomy->getCapabilities()->assign_terms );
+		}
+
 		// Reset the name attribute so the results from cnTerm::getTaxonomyTerms() are not limited by the select attribute name.
 		$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], array_merge( $atts, array( 'name' => '' ) ) );
 
 		if ( ! empty( $terms ) ) {
 
-			$out .= '<ul id="' . esc_attr( $atts['taxonomy'] ) . 'checklist" class="' . esc_attr( $walker->tree_type ) . 'checklist form-no-clear">';
+			$out .= '<ul id="' . esc_attr( $atts['taxonomy'] ) . 'checklist" class="categorychecklist form-no-clear">';
 
 				$out .= $walker->walk( $terms, $atts['depth'], $atts );
 
 			$out .= '</ul>';
 		}
 
-		if ( $atts['return'] ) {
+		if ( true === $atts['echo'] ) {
 
-			return $out;
+			echo $out;
 		}
 
-		echo $out;
+		return $out;
 	}
 
 	/**

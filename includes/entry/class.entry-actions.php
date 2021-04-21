@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Taxonomy\Registry;
+use Connections_Directory\Utility\_array;
+
 class cnEntry_Action {
 
 	/**
@@ -799,17 +802,42 @@ class cnEntry_Action {
 				break;
 		}
 
-		do_action( 'cn_process_taxonomy-category', $action, $entryID );
-		do_action( 'cn_process_meta-entry', $action, $entryID );
+		if ( isset( $entryID ) && false !== $entryID ) {
 
-		// Refresh the cnEntry object with any updated taxonomy or meta data
-		// that may have been added/updated via actions.
-		$entry->set( $entryID );
+			$taxonomies = Registry::get()->getTaxonomies();
 
-		// Run any registered post process actions.
-		do_action( "cn_post_process_$action-entry", $entry );
+			foreach ( $taxonomies as $taxonomy ) {
 
-		return $entryID;
+				$taxonomySlug = $taxonomy->getSlug();
+
+				if ( 'category' === $taxonomySlug ) {
+
+					$terms = _array::get( $data, 'entry_category', array() );
+
+				} else {
+
+					$terms = _array::get( $data, "taxonomy_terms.{$taxonomySlug}", array() );
+				}
+
+				//$terms = $taxonomy->sanitizeTerms( $terms );
+				$terms = apply_filters( "Connections_Directory/Taxonomy/{$taxonomySlug}/Sanitize_Terms", $terms );
+
+				do_action( "Connections_Directory/Taxonomy/{$taxonomySlug}/Attach_Terms", $entry, $terms, $action );
+			}
+
+			do_action( 'cn_process_meta-entry', $action, $entryID );
+
+			// Refresh the cnEntry object with any updated taxonomy or meta data
+			// that may have been added/updated via actions.
+			$entry->set( $entryID );
+
+			// Run any registered post process actions.
+			do_action( "cn_post_process_$action-entry", $entry );
+
+			return $entryID;
+		}
+
+		return false;
 	}
 
 	/**

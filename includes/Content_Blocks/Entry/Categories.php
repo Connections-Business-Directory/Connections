@@ -221,11 +221,10 @@ class Categories extends Content_Block {
 			$items[] = apply_filters(
 				'cn_entry_output_category_item',
 				sprintf(
-					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
+					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
 					$this->get( 'item_tag' ),
 					$category->term_id,
-					$text,
-					$count > $i && 'list' !== $this->get( 'type' ) ? esc_html( $this->get( 'separator' ) ) : ''
+					$text
 				),
 				$category,
 				$count,
@@ -259,7 +258,9 @@ class Categories extends Content_Block {
 
 		} else {
 
-			$html .= implode( '', $items );
+			$separator = '<span class="cn-category-separator">' . esc_html( $this->get( 'separator' ) ) . '</span>';
+
+			$html .= implode( $separator, $items );
 		}
 
 		do_action(
@@ -283,5 +284,8 @@ class Categories extends Content_Block {
 			$entry,
 			$items
 		);
+
+		// Restore default parameters.
+		$this->setProperties( $this->defaults() );
 	}
 }

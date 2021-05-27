@@ -1234,6 +1234,8 @@ class cnTemplatePart {
 		$queryVars['cn-cat']          = cnQuery::getVar('cn-cat') ? cnQuery::getVar('cn-cat') : FALSE;
 		$queryVars['cn-organization'] = cnQuery::getVar('cn-organization') ? esc_html( urldecode( cnQuery::getVar('cn-organization') ) ) : FALSE;
 		$queryVars['cn-department']   = cnQuery::getVar('cn-department') ? esc_html( urldecode( cnQuery::getVar('cn-department') ) ) : FALSE;
+		$queryVars['cn-district']     = cnQuery::getVar('cn-district') ? esc_html( urldecode( cnQuery::getVar('cn-district') ) ) : FALSE;
+		$queryVars['cn-county']       = cnQuery::getVar('cn-county') ? esc_html( urldecode( cnQuery::getVar('cn-county') ) ) : FALSE;
 		$queryVars['cn-locality']     = cnQuery::getVar('cn-locality') ? esc_html( urldecode( cnQuery::getVar('cn-locality') ) ) : FALSE;
 		$queryVars['cn-region']       = cnQuery::getVar('cn-region') ? esc_html( urldecode( cnQuery::getVar('cn-region') ) ) : FALSE;
 		$queryVars['cn-postal-code']  = cnQuery::getVar('cn-postal-code') ? esc_html( urldecode( cnQuery::getVar('cn-postal-code') ) ) :  FALSE;
@@ -1309,6 +1311,22 @@ class cnTemplatePart {
 			$messages['cn-department'] = sprintf(
 				__( 'The results are being filtered by the department: %s', 'connections' ),
 				$queryVars['cn-department']
+			);
+		}
+
+		if ( $queryVars['cn-district'] ) {
+
+			$messages['cn-district'] = sprintf(
+				__( 'The results are being filtered by the district: %s', 'connections' ),
+				$queryVars['cn-district']
+			);
+		}
+
+		if ( $queryVars['cn-county'] ) {
+
+			$messages['cn-county'] = sprintf(
+				__( 'The results are being filtered by the county: %s', 'connections' ),
+				$queryVars['cn-county']
 			);
 		}
 

@@ -14,6 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
 
 class cnRetrieve {
@@ -126,7 +127,7 @@ class cnRetrieve {
 		$defaults['radius']                = 10;
 		$defaults['unit']                  = 'mi';
 
-		$defaults['lock']                  = FALSE;
+		$defaults['parse_request']         = _array::get( $atts, 'lock', false );
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
@@ -139,7 +140,7 @@ class cnRetrieve {
 		 * // START -- Process the query vars. \\
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
-		if ( ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['lock'] ) {
+		if ( ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['parse_request'] ) {
 
 			// Category slug
 			$queryCategorySlug = cnQuery::getVar( 'cn-cat-slug' );

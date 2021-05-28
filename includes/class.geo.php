@@ -115,7 +115,7 @@ class cnGeo {
 	 */
 	static public function convert( $atts ) {
 
-		_deprecated_function( __METHOD__, '10.3', 'cnSEO::getImageMeta()' );
+		_deprecated_function( __METHOD__, '10.3', 'Connections_Directory\Utility\Convert\_length()' );
 
 		$defaults = array(
 			'value'         => 0,

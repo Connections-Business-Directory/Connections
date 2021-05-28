@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
+use Connections_Directory\Utility\Convert\_length;
 
 class cnRetrieve {
 	/**
@@ -616,7 +617,7 @@ class cnRetrieve {
 			$earthRadius = 6371;  // Earth's radius in (SI) km.
 
 			// Convert the supplied radius from the supplied unit to (SI) km.
-			$atts['radius'] = \Connections_Directory\Utility\Convert\_length::convert( $atts['radius'], $atts['unit'] )->to( 'km' );
+			$atts['radius'] = _length::convert( $atts['radius'], $atts['unit'] )->to( 'km' );
 
 			// Limiting bounding box (in degrees).
 			$minLat = $atts['latitude'] - rad2deg( $atts['radius']/$earthRadius );

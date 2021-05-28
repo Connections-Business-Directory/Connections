@@ -116,7 +116,7 @@ final class _length {
 
 		$parts = explode( $this->decimal, $this->value );
 
-		return number_format( $parts[0], 0, $decimal, $delimiter ) . "{$decimal}{$parts[1]} {$this->unit}";
+		return number_format( (float) $parts[0], 0, $decimal, $delimiter ) . "{$decimal}{$parts[1]} {$this->unit}";
 	}
 
 	/**

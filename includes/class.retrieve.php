@@ -312,7 +312,7 @@ class cnRetrieve {
 
 			$categorySlugs = array();
 
-			cnFunction::parseStringList( $atts['category_slug'], ',' );
+			_::parseStringList( $atts['category_slug'], ',' );
 
 			foreach ( $atts['category_slug'] as $categorySlug ) {
 

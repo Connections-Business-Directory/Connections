@@ -616,7 +616,7 @@ class cnRetrieve {
 			$earthRadius = 6371;  // Earth's radius in (SI) km.
 
 			// Convert the supplied radius from the supplied unit to (SI) km.
-			$atts['radius'] = cnGeo::convert( array( 'value' => $atts['radius'] , 'from' => $atts['unit'] , 'to' => 'km' , 'format' => FALSE , 'return' => TRUE ) );
+			$atts['radius'] = \Connections_Directory\Utility\Convert\_length::convert( $atts['radius'], $atts['unit'] )->to( 'km' );
 
 			// Limiting bounding box (in degrees).
 			$minLat = $atts['latitude'] - rad2deg( $atts['radius']/$earthRadius );

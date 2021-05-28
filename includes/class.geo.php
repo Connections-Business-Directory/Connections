@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\Convert\_length;
+
 /**
  * This Geocoding API is still a work in progress.
  * It is not recommended to be used in production
@@ -104,75 +107,45 @@ class cnGeo {
 	 *  thousands_sep (string) The char to be used for the thousands separator
 	 *  return (bool) Return or echo the string. Default is to echo.
 	 *
-	 * @access public
 	 * @since 0.7.3
-	 * @version 1.0
-	 * @uses wp_parse_args()
+	 *
 	 * @param array  $atts
-	 * @return mixed [int, float, string]
+	 *
+	 * @return float|int|string
 	 */
 	static public function convert( $atts ) {
-		$result = 0;
-		$meters = 0;
+
+		_deprecated_function( __METHOD__, '10.3', 'cnSEO::getImageMeta()' );
 
 		$defaults = array(
-			'value' => 0,
-			'from' => 'km',
-			'to' => 'mi',
-			'format' => TRUE,
-			'suffix' => TRUE,
-			'decimals' => 2,
-			'dec_point' => '.',
+			'value'         => 0,
+			'from'          => 'km',
+			'to'            => 'mi',
+			'format'        => true,
+			//'suffix'        => true,
+			'decimals'      => 2,
+			'dec_point'     => '.',
 			'thousands_sep' => ',',
-			'return' => FALSE
+			'echo'          => ! _array::get( $atts, 'return', true ),
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$ratio = array(
-			'mm' => 1000, // (si) millimeters
-			'cm' => 100, // (si) centimeters
-			'dm' => 10,  // (si) decimeters
-			'm' => 1,  // (si) meters
-			'dam' => .1, // (si) decameters
-			'hm' => .01, // (si) hectometers
-			'km' => .001, // (si) kilometers
-			'in' => 39.37007874016,
-			'feet' => 3.280839895013,
-			'yd' => 1.093613298338,
-			'mi' => 0.0006213711922373,
-			'li' => 4.9709695378987, // US survey -- link
-			'sft' => 3.2808334366796, // US survey -- survey foot
-			'rd' => 0.198838781516,  // US survey -- rod
-			'ch' => 0.04970969537899, // US survey -- chain
-			'fur' => 0.004970969537899, // US survey -- furlong
-			'smi' => 0.00062136994937697, // US survey -- survey mile
-			'lea' => 0.0002071237307458, // US survey -- league
-			'nmi' => 0.000539956803456,  // Nautical Mile
-		);
-
-		// If the supplied units to convert from and to are not in the $ratio array, return FALSE.
-		if ( ! array_key_exists( $atts['to'], $ratio ) && ! array_key_exists( $atts['from'], $ratio ) ) return FALSE;
-
-		// If no value was supplied, return 0.
-		if ( $atts['value'] == 0 ) return 0;
-
-		// Convert to si (m)
-		$meters = $atts['value'] * ( 1 / $ratio[$atts['from']] );;
-
-		// Convert to desired unit
-		$result = $meters * $ratio[$atts['to']];
+		$length = new _length( $atts['value'], $atts['from'] );
+		$value  = $length->to( $atts['to'] );
 
 		// Format the number.
 		if ( $atts['format'] ) {
-			$result = number_format( $result, $atts['decimals'], $atts['dec_point'], $atts['thousands_sep'] );
 
-			// Add the unit suffix.
-			if ( $atts['suffix'] ) $result = $result . $atts['to'];
+			$value = $length->format( $atts['dec_point'], $atts['thousands_sep'], $atts['decimals'] );
 		}
 
-		if ( $atts['return'] ) return $result;
-		echo $result;
+		if ( $atts['echo'] ) {
+
+			echo $value;
+		}
+
+		return $value;
 	}
 
 	/**

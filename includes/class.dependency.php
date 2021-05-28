@@ -185,6 +185,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
 			'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
 			'Connections_Directory\Utility\_url'    => 'includes/Utility/_url.php',
+			'Connections_Directory\Utility\Convert\_length' => 'includes/Utility/Convert/_length.php',
 
 			// Localization
 			'cnText_Domain'            => 'includes/class.text-domain.php',

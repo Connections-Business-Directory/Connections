@@ -98,10 +98,10 @@ final class _length {
 	 *
 	 * @since 10.3
 	 *
-	 * @param string $decimal
-	 * @param string $delimiter
-	 * @param null   $precision
-	 * @param bool   $round
+	 * @param string   $decimal
+	 * @param string   $delimiter
+	 * @param int|null $precision
+	 * @param bool     $round
 	 *
 	 * @return string
 	 */
@@ -136,9 +136,9 @@ final class _length {
 	/**
 	 * The unit of length to convert to.
 	 *
-	 * @param string $unit
-	 * @param null   $precision
-	 * @param bool   $round
+	 * @param string   $unit
+	 * @param int|null $precision
+	 * @param bool     $round
 	 *
 	 * @return float|int
 	 */

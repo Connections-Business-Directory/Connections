@@ -99,7 +99,7 @@
     "expose-loader": "^3.0.0",
     "file-loader": "^6.2.0",
     "grunt": "^1.4.1",
-    "grunt-autoprefixer": "^3.0.4",
+    "grunt-autoprefixer": "^0.4.2",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-compress": "^2.0.0",
@@ -124,8 +124,6 @@
     "sass-loader": "^11.1.1",
     "slick-carousel": "^1.8.1",
     "style-loader": "^2.0.0",
-    "stylelint": "^13.13.1",
-
     "terser-webpack-plugin": "^5.1.2",
     "uglify-es": "3.3.9",
     "url-loader": "^4.1.1",

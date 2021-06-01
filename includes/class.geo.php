@@ -148,87 +148,87 @@ class cnGeo {
 		return $value;
 	}
 
-	/**
-	 * Find the n closest locations
-	 *
-	 * @author https://github.com/luckymushroom/ci_haversine/blob/develop/haversine.php
-	 * @param float   $lat latitude of the point of interest
-	 * @param float   $lng longitude of the point of interest
-	 * @return array
-	 */
-	public function closest( $lat, $lng, $max_distance = 25, $max_locations = 10, $units = 'mi', $fields = false ) {
-		/*
-         *  Allow for changing of units of measurement
-         */
-		switch ( $units ) {
-		case 'mi':
-			//radius of the great circle in miles
-			$gr_circle_radius = 3959;
-			break;
-		case 'km':
-			//radius of the great circle in kilometers
-			$gr_circle_radius = 6371;
-			break;
-		}
-
-		/*
-         *  Support the selection of certain fields
-         */
-		if ( ! $fields ) {
-			$this->db->select( '*' );
-		}
-		else {
-			foreach ( $fields as $field ) {
-				$this->db->select( $field );
-			}
-		}
-
-		/*
-         *  Generate the select field for disctance
-         */
-		$disctance_select = sprintf(
-			"( %d * acos( cos( radians(%s) ) " .
-			" * cos( radians( lat ) ) " .
-			" * cos( radians( lng ) - radians(%s) ) " .
-			" + sin( radians(%s) ) * sin( radians( lat ) ) " .
-			") " .
-			") " .
-			"AS distance",
-			$gr_circle_radius,
-			$lat,
-			$lng,
-			$lat
-		);
-
-		/*
-         *  Add distance field
-         */
-		$this->db->select( $disctance_select, false );
-
-		/*
-         *  Make sure the results are within the search criteria
-         */
-		$this->db->having( 'distance <', $max_distance, false );
-
-		/*
-         *  Limit the number of results that the search will return
-         */
-		$this->db->limit( $max_locations );
-
-		/*
-         *  Return the results by the closest locations first
-         */
-		$this->db->order_by( 'distance', 'ASC' );
-
-		/*
-         *  Define the table that we are querying
-         */
-		$this->db->from( $this->table_name );
-
-		$query = $this->db->get();
-
-		return $query->result();
-	}
+	///**
+	// * Find the n closest locations
+	// *
+	// * @author https://github.com/luckymushroom/ci_haversine/blob/develop/haversine.php
+	// * @param float   $lat latitude of the point of interest
+	// * @param float   $lng longitude of the point of interest
+	// * @return array
+	// */
+	//public function closest( $lat, $lng, $max_distance = 25, $max_locations = 10, $units = 'mi', $fields = false ) {
+	//	/*
+    //     *  Allow for changing of units of measurement
+    //     */
+	//	switch ( $units ) {
+	//	case 'mi':
+	//		//radius of the great circle in miles
+	//		$gr_circle_radius = 3959;
+	//		break;
+	//	case 'km':
+	//		//radius of the great circle in kilometers
+	//		$gr_circle_radius = 6371;
+	//		break;
+	//	}
+	//
+	//	/*
+    //     *  Support the selection of certain fields
+    //     */
+	//	if ( ! $fields ) {
+	//		$this->db->select( '*' );
+	//	}
+	//	else {
+	//		foreach ( $fields as $field ) {
+	//			$this->db->select( $field );
+	//		}
+	//	}
+	//
+	//	/*
+    //     *  Generate the select field for disctance
+    //     */
+	//	$disctance_select = sprintf(
+	//		"( %d * acos( cos( radians(%s) ) " .
+	//		" * cos( radians( lat ) ) " .
+	//		" * cos( radians( lng ) - radians(%s) ) " .
+	//		" + sin( radians(%s) ) * sin( radians( lat ) ) " .
+	//		") " .
+	//		") " .
+	//		"AS distance",
+	//		$gr_circle_radius,
+	//		$lat,
+	//		$lng,
+	//		$lat
+	//	);
+	//
+	//	/*
+    //     *  Add distance field
+    //     */
+	//	$this->db->select( $disctance_select, false );
+	//
+	//	/*
+    //     *  Make sure the results are within the search criteria
+    //     */
+	//	$this->db->having( 'distance <', $max_distance, false );
+	//
+	//	/*
+    //     *  Limit the number of results that the search will return
+    //     */
+	//	$this->db->limit( $max_locations );
+	//
+	//	/*
+    //     *  Return the results by the closest locations first
+    //     */
+	//	$this->db->order_by( 'distance', 'ASC' );
+	//
+	//	/*
+    //     *  Define the table that we are querying
+    //     */
+	//	$this->db->from( $this->table_name );
+	//
+	//	$query = $this->db->get();
+	//
+	//	return $query->result();
+	//}
 
 	/**
 	 * Retrieve country name based on the country code.

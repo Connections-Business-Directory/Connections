@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 const inProduction = ( 'production' === process.env.NODE_ENV );
 // const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 // const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
-const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
+const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 // const UglifyJsPlugin = require( "uglifyjs-webpack-plugin" );
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
@@ -135,7 +135,7 @@ const config = {
 						loader:  'sass-loader',
 						options: {
 							sourceMap:   true,
-							outputStyle: ( inProduction ? 'compressed' : 'nested' )
+							// outputStyle: ( inProduction ? 'compressed' : 'nested' )
 						},
 					}
 				]
@@ -237,7 +237,7 @@ const config = {
 			// 	sourceMap: true
 			// } )
 			new TerserPlugin( {
-				sourceMap: true,
+				// sourceMap: true,
 				test: /\.js(\?.*)?$/i,
 			} )
 		]

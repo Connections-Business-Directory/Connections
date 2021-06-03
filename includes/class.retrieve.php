@@ -94,7 +94,7 @@ class cnRetrieve {
 		$defaults['exclude_category']      = NULL;
 		$defaults['category_name']         = NULL;
 		$defaults['category_slug']         = NULL;
-		$defaults['wp_current_category']   = FALSE;
+		//$defaults['wp_current_category']   = FALSE;
 		$defaults['char']                  = '';
 		$defaults['id']                    = NULL;
 		$defaults['id__not_in']            = NULL;
@@ -251,7 +251,7 @@ class cnRetrieve {
 			$atts['category']            = NULL;
 			$atts['category_in']         = NULL;
 			$atts['category_exclude']    = NULL;
-			$atts['wp_current_category'] = NULL;
+			//$atts['wp_current_category'] = NULL;
 		}
 
 		if ( ! empty( $atts['slug'] ) ) {
@@ -267,20 +267,20 @@ class cnRetrieve {
 		 * // END -- Reset.
 		 */
 
-		/*
-		 * If in a post get the category names assigned to the post.
-		 */
-		if ( $atts['wp_current_category'] && ! is_page() ) {
-
-			// Get the current post categories.
-			$wpCategories = get_the_category();
-
-			// Build an array of the post categories.
-			foreach ( $wpCategories as $wpCategory ) {
-
-				$categoryNames[] = $wpdb->prepare( '%s', $wpCategory->cat_name );
-			}
-		}
+		///*
+		// * If in a post get the category names assigned to the post.
+		// */
+		//if ( $atts['wp_current_category'] && ! is_page() ) {
+		//
+		//	// Get the current post categories.
+		//	$wpCategories = get_the_category();
+		//
+		//	// Build an array of the post categories.
+		//	foreach ( $wpCategories as $wpCategory ) {
+		//
+		//		$categoryNames[] = $wpdb->prepare( '%s', $wpCategory->cat_name );
+		//	}
+		//}
 
 		/*
 		 * Build and array of the supplied category names and their children.

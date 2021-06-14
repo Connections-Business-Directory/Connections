@@ -119,7 +119,8 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		if ( false !== $taxonomy ) {
 
-			$atts['disabled'] = ! current_user_can( $taxonomy->getCapabilities()->assign_terms );
+			// @todo The is_admin() check feel like a hack, revisit this. This should be set when calling the walker, not when rendering it.
+			$atts['disabled'] = is_admin() && ! current_user_can( $taxonomy->getCapabilities()->assign_terms );
 		}
 
 		// Reset the name attribute so the results from cnTerm::getTaxonomyTerms() are not limited by the select attribute name.

@@ -170,6 +170,8 @@ final class _ {
 	/**
 	 * Maybe json_decode the supplied value.
 	 *
+	 * @link https://stackoverflow.com/a/45241792/5351316
+	 *
 	 * @since 0.8
 	 *
 	 * @param mixed   $value The value to decode.
@@ -179,26 +181,48 @@ final class _ {
 	 */
 	public static function maybeJSONdecode( $value, $array = true ) {
 
-		if ( ! is_string( $value ) || 0 == strlen( $value ) ) {
+		if ( ! is_string( $value ) ) {
+			return $value;
+		}
+
+		if ( is_numeric( $value ) ) {
+			return 0 + $value;
+		}
+
+		if ( 2 > strlen( $value ) ) {
+			return $value;
+		}
+
+		if ( 'null' === $value ) {
+			return null;
+		}
+
+		if ( 'true' === $value ) {
+			return true;
+		}
+
+		if ( 'false' === $value ) {
+			return false;
+		}
+
+		if ( '{' !== $value[0] && '[' !== $value[0] && '"' !== $value[0] ) {
+			return $value;
+		}
+
+		//// A JSON encoded string will start and end with either a square bracket of curly bracket.
+		//if ( ( $value[0] === '[' && $value[ strlen( $value ) - 1 ] === ']' ) || ( $value[0] === '{' && $value[ strlen( $value ) - 1 ] === '}' ) ) {
+		//
+		//	$value = json_decode( $value, $array );
+		//}
+
+		$result = self::decodeJSON( $value, $array );
+
+		if ( is_wp_error( $result ) ) {
 
 			return $value;
 		}
 
-		// A JSON encoded string will start and end with either a square bracket of curly bracket.
-		if ( ( $value[0] == '[' && $value[ strlen( $value ) - 1 ] == ']' ) || ( $value[0] == '{' && $value[ strlen( $value ) - 1 ] == '}' ) ) {
-
-			// @todo, this should be refactored to utilize self::decodeJSON()
-			$value = json_decode( $value, $array );
-		}
-
-		if ( is_null( $value ) ) {
-
-			return '';
-
-		} else {
-
-			return $value;
-		}
+		return $result;
 	}
 
 	/**

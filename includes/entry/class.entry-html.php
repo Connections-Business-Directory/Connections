@@ -1031,7 +1031,7 @@ class cnEntry_HTML extends cnEntry {
 
 					$organization = cnURL::permalink( array(
 							'type'       => 'organization',
-							'slug'       => $org,
+							'slug'       => $this->getOrganization( 'raw' ),
 							'title'      => $org,
 							'text'       => $org,
 							'home_id'    => $this->directoryHome['page_id'],
@@ -1055,7 +1055,7 @@ class cnEntry_HTML extends cnEntry {
 
 					$department = cnURL::permalink( array(
 							'type'       => 'department',
-							'slug'       => $dept,
+							'slug'       => $this->getDepartment( 'raw' ),
 							'title'      => $dept,
 							'text'       => $dept,
 							'home_id'    => $this->directoryHome['page_id'],

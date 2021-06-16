@@ -1,5 +1,11 @@
 <?php
 
+use function Connections_Directory\Utility\_deprecated\_applyFilters as apply_filters_deprecated;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 add_filter(
 	'Connections_Directory/Rewrite/CPT_Rules/Landing',
 	/**

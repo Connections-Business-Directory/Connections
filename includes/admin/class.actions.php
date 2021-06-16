@@ -1435,7 +1435,7 @@ class cnAdminActions {
 
 		_deprecated_function( __METHOD__, '10.2' );
 
-		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
+		require_once CN_PATH . 'includes/Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
 		ProcessEntryCategory( $action, $id );
 	}
@@ -1915,7 +1915,7 @@ class cnAdminActions {
 
 		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::addTerm()' );
 
-		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
+		require_once CN_PATH . 'includes/Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
 		addCategory();
 	}
@@ -1936,7 +1936,7 @@ class cnAdminActions {
 
 		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::updateTerm()' );
 
-		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
+		require_once CN_PATH . 'includes/Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
 		updateCategory();
 	}
@@ -1957,7 +1957,7 @@ class cnAdminActions {
 
 		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::deleteTerm()' );
 
-		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
+		require_once CN_PATH . 'includes/Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
 		deleteCategory();
 	}
@@ -1978,7 +1978,7 @@ class cnAdminActions {
 
 		_deprecated_function( __METHOD__, '10.2', 'cnAdminActions::bulkTerm()' );
 
-		require_once '../Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
+		require_once CN_PATH . 'includes/Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
 		categoryManagement();
 	}

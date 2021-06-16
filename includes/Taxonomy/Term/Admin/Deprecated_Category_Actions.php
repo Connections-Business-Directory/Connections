@@ -163,7 +163,7 @@ function categoryManagement() {
 
 				foreach ( (array) $_POST['category'] as $id ) {
 
-					$result = $instance->retrieve->category( absint( $id ) );
+					$result   = $instance->retrieve->category( absint( $id ) );
 					$category = new cnCategory( $result );
 					$category->delete();
 				}
@@ -181,7 +181,7 @@ function categoryManagement() {
 
 			$page = absint( $_REQUEST['paged'] );
 
-			$url = add_query_arg( array( 'paged' => $page ) , $url);
+			$url = add_query_arg( array( 'paged' => $page ), $url );
 		}
 
 		wp_redirect( $url );
@@ -192,39 +192,39 @@ function categoryManagement() {
 
 		cnMessage::set( 'error', 'capability_categories' );
 	}
+}
 
-	/**
-	 * Callback for the `cn_process_taxonomy-category` action.
-	 *
-	 * Add, update or delete the entry categories.
-	 *
-	 * @internal
-	 * @since 0.8
-	 * @deprecated 10.2 Use the `Connections_Directory/Attach/Taxonomy/{$taxonomySlug}` action hook.
-	 * @see \Connections_Directory\Taxonomy::attachTerms()
-	 *
-	 * @param string $action The action to being performed to an entry.
-	 * @param int    $id     The entry ID.
+/**
+ * Callback for the `cn_process_taxonomy-category` action.
+ *
+ * Add, update or delete the entry categories.
+ *
+ * @internal
+ * @since 0.8
+ * @deprecated 10.2 Use the `Connections_Directory/Attach/Taxonomy/{$taxonomySlug}` action hook.
+ * @see \Connections_Directory\Taxonomy::attachTerms()
+ *
+ * @param string $action The action to being performed to an entry.
+ * @param int    $id     The entry ID.
+ */
+function processEntryCategory( $action, $id ) {
+
+	// Grab an instance of the Connections object.
+	$instance = Connections_Directory();
+
+	/*
+	 * Save the entry category(ies). If none were checked, send an empty array
+	 * which will add the entry to the default category.
 	 */
-	function processEntryCategory( $action, $id ) {
+	if ( isset( $_POST['entry_category'] ) && ! empty( $_POST['entry_category'] ) ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
 
-		/*
-		 * Save the entry category(ies). If none were checked, send an empty array
-		 * which will add the entry to the default category.
-		 */
-		if ( isset( $_POST['entry_category'] ) && ! empty( $_POST['entry_category'] ) ) {
+	} else {
 
-			$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
+		$default = get_option( 'cn_default_category' );
 
-		} else {
-
-			$default = get_option( 'cn_default_category' );
-
-			$instance->term->setTermRelationships( $id, $default, 'category' );
-		}
-
+		$instance->term->setTermRelationships( $id, $default, 'category' );
 	}
+
 }

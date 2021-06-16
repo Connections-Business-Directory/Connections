@@ -73,6 +73,9 @@ class cnDependency {
 			file_exists( CN_TEMPLATE_PATH . $path ) AND include_once CN_TEMPLATE_PATH . $path;
 		}
 
+		// Deprecated utility functions.
+		require_once CN_PATH . 'includes/Utility/_deprecated.php';
+
 		// Deprecated Actions/Filters
 		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
 		require_once CN_PATH . 'includes/inc.deprecated-filters.php';

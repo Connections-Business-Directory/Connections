@@ -1192,6 +1192,18 @@ final class Taxonomy {
 	}
 
 	/**
+	 * Get the query var string for this taxonomy.
+	 *
+	 * @since 10.3
+	 *
+	 * @return false|string
+	 */
+	public function getQueryVar() {
+
+		return $this->query_var;
+	}
+
+	/**
 	 * Whether or not the taxonomy is a "core" builtin taxonomy.
 	 *
 	 * @since 10.2
@@ -1236,6 +1248,18 @@ final class Taxonomy {
 	public function isPublic() {
 
 		return $this->public;
+	}
+
+	/**
+	 * Whether or not the taxonomy is publicly queryable.
+	 *
+	 * @since 10.3
+	 *
+	 * @return bool
+	 */
+	public function isPublicQueryable() {
+
+		return $this->publicly_queryable;
 	}
 
 	/**

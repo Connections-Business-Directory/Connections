@@ -61,17 +61,15 @@ class cnRewrite {
 	}
 
 	/**
-	 * Register the valid query variables.
+	 * The registered query vars.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
-	 * @static
-	 *
-	 * @param array $var Provide information about a function parameter.
+	 * @since 10.3
 	 *
 	 * @return array
 	 */
-	public static function queryVars( $var ) {
+	public static function getRegisteredQueryVars() {
+
+		$var = array();
 
 		$var[] = 'cn-cat';   // category id
 		$var[] = 'cn-cat-slug';  // category slug
@@ -101,6 +99,7 @@ class cnRewrite {
 		$var[] = 'cn-unit';   // unit of distance
 
 		// Query vars for cnImage.
+		// @todo this should be added using a filter in the cnImage class.
 		$var[] = 'src';
 		$var[] = 'w';
 		$var[] = 'h';
@@ -113,8 +112,26 @@ class cnRewrite {
 		$var[] = 'cc';
 		$var[] = 'ct';
 
-		// var_dump( $var ); exit();
-		return $var;
+		// @todo Should this return the custom taxonomy query vars?
+
+		return apply_filters( 'Connections_Directory/Rewrite/Query_Vars', $var );
+	}
+
+	/**
+	 * Callback for the `query_vars` filter.
+	 *
+	 * Register the valid query variables.
+	 *
+	 * @internal
+	 * @since  0.7.3.2
+	 *
+	 * @param array $vars Provide information about a function parameter.
+	 *
+	 * @return array
+	 */
+	public static function queryVars( $vars ) {
+
+		return array_merge( $vars, self::getRegisteredQueryVars() );
 	}
 
 	/**

@@ -196,6 +196,9 @@ class cnDependency {
 			// Current User
 			'cnUser'                   => 'includes/class.user.php',
 
+			// Request API.
+			'Connections_Directory\Request'                     => 'includes/Request.php',
+
 			// Taxonomy API.
 			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',
 			'Connections_Directory\Taxonomy\Registry'           => 'includes/Taxonomy/Registry.php',

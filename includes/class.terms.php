@@ -778,6 +778,7 @@ class cnTerm {
 
 		$object_id = (int) $object_id;
 
+		// @todo Add check.
 		//if ( ! taxonomy_exists($taxonomy) )
 		//	return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
@@ -2736,6 +2737,7 @@ class cnTerm {
 			return new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
 		 }
 
+		// @todo Add check.
 		// if ( ! taxonomy_exists( $taxonomy ) ) {
 
 		//	return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));

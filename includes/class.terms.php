@@ -4927,7 +4927,6 @@ final class cnTerm_Object {
 				}
 
 				return sanitize_term( $data, 'cn_' . $data->taxonomy, 'raw' );
-				break;
 		}
 	}
 }

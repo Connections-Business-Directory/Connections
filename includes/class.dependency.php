@@ -86,11 +86,13 @@ class cnDependency {
 
 		// Sitemaps
 		require_once CN_PATH . 'includes/Sitemaps/Sitemaps.php';
-		require_once CN_PATH . 'includes/Sitemaps/functions.php';
 
 		// Taxonomy
+		require_once CN_PATH . 'includes/Taxonomy/Taxonomy.php';
 		require_once CN_PATH . 'includes/Taxonomy/Register.php';
-		require_once CN_PATH . 'includes/Taxonomy/functions.php';
+
+		// Global functions.
+		require_once CN_PATH . 'includes/functions.php';
 
 		// Include the autoloader for the Pear IMC classes.
 		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';

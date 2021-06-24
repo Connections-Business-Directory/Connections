@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
+use function Connections_Directory\Taxonomy\_getTermChildren;
+use function Connections_Directory\Taxonomy\_getTermHierarchy;
+use function Connections_Directory\Taxonomy\_padTermCounts;
 
 /**
  * Class cnTerms
@@ -4059,46 +4062,19 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see _get_term_hierarchy() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access public
 	 * @since  8.1
 	 * @since  8.5.10 Define method as public.
-	 * @static
+	 * @deprecated 10.3
 	 *
-	 * @uses   get_option()
-	 * @uses   cnTerm::getTaxonomyTerms()
-	 * @uses   update_option()
-	 *
-	 * @param  string $taxonomy Taxonomy name.
+	 * @param string $taxonomy Taxonomy name.
 	 *
 	 * @return array  Empty if $taxonomy isn't hierarchical or returns children as term IDs.
 	 */
 	public static function childrenIDs( $taxonomy ) {
 
-		// if ( !is_taxonomy_hierarchical($taxonomy) )
-		// 	return array();
+		_deprecated_function( __METHOD__, '10.3', '\Connections_Directory\Taxonomy\_getTermHierarchy' );
 
-		$children = get_option( "cn_{$taxonomy}_children" );
-
-		if ( is_array( $children ) ) {
-
-			return $children;
-		}
-
-		$children = array();
-		$terms    = self::getTaxonomyTerms( $taxonomy, array( 'get' => 'all', 'orderby' => 'id', 'fields' => 'id=>parent') );
-
-		foreach ( $terms as $term_id => $parent ) {
-
-			if ( $parent > 0 ){
-
-				$children[ $parent ][] = $term_id;
-			}
-
-		}
-
-		 update_option ( "cn_{$taxonomy}_children", $children );
-
-		return $children;
+		return _getTermHierarchy( $taxonomy );
 	}
 
 	/**
@@ -4110,6 +4086,7 @@ class cnTerm {
 	 * NOTE: This is the Connections equivalent of @see _get_term_children() in WordPress core ../wp-includes/taxonomy.php
 	 *
 	 * @since 8.1
+	 * @deprecated 10.3
 	 *
 	 * @param  int    $term_id  The ancestor term: all returned terms should be descendants of $term_id.
 	 * @param  array  $terms    The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
@@ -4123,77 +4100,9 @@ class cnTerm {
 	 */
 	private static function descendants( $term_id, $terms, $taxonomy, &$ancestors = array() ) {
 
-		if ( empty( $terms ) ) {
+		_deprecated_function( __METHOD__, '10.3', '\Connections_Directory\Taxonomy\_getTermChildren' );
 
-			return array();
-		}
-
-		$term_id      = (int) $term_id;
-		$term_list    = array();
-		$has_children = self::childrenIDs( $taxonomy );
-
-		if  ( ( 0 !== $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
-
-			return array();
-		}
-
-		// Include the term itself in the ancestors array, so we can properly detect when a loop has occurred.
-		if ( empty( $ancestors ) ) {
-
-			$ancestors[ $term_id ] = 1;
-		}
-
-		foreach ( (array) $terms as $term ) {
-
-			$use_id = FALSE;
-
-			if ( ! is_object( $term ) ) {
-
-				$term = self::get( $term, $taxonomy );
-
-				 if ( is_wp_error( $term ) ) {
-
-					 return $term;
-				 }
-
-				$use_id = TRUE;
-			}
-
-			// Don't recurse if we've already identified the term as a child - this indicates a loop.
-			if ( isset( $ancestors[ $term->term_id ] ) ) {
-
-				continue;
-			}
-
-			if ( (int) $term->parent === $term_id ) {
-
-				if ( $use_id ) {
-
-					$term_list[] = $term->term_id;
-
-				} else {
-
-					$term_list[] = $term;
-				}
-
-				if ( ! isset( $has_children[ $term->term_id ]) ) {
-
-					continue;
-				}
-
-				$ancestors[ $term->term_id ] = 1;
-
-				$children = self::descendants( $term->term_id, $terms, $taxonomy, $ancestors );
-
-				if ( $children ) {
-
-					$term_list = array_merge( $term_list, $children );
-				}
-
-			}
-		}
-
-		return $term_list;
+		return _getTermChildren( $term_id, $terms, $taxonomy, $ancestors );
 	}
 
 	/**
@@ -4258,119 +4167,18 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see _pad_term_counts() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
-	 *
-	 * @global wpdb $wpdb
-	 *
-	 * @uses   childrenIDs()
-	 * @uses   is_user_logged_in()
-	 * @uses   current_user_can()
-	 * @uses   wpdb::get_results()
+	 * @internal
+	 * @since 8.1
+	 * @deprecated 10.3
 	 *
 	 * @param  array $terms List of Term IDs
 	 * @param  string $taxonomy Term Context
-	 *
-	 * @return null Will break from function if conditions are not met.
 	 */
 	private static function padCounts( &$terms, $taxonomy ) {
 
-		global $wpdb;
+		_deprecated_function( __METHOD__, '10.3', '\Connections_Directory\Taxonomy\_padTermCounts' );
 
-		$term_ids   = array();
-		$visibility = array();
-
-		// Grab an instance of the Connections object.
-		/** @var connectionsLoad $instance */
-		$instance = Connections_Directory();
-
-		// This function only works for hierarchical taxonomies like post categories.
-		// if ( !is_taxonomy_hierarchical( $taxonomy ) )
-		// 	return;
-
-		$term_hier = self::childrenIDs( $taxonomy );
-
-		if ( empty( $term_hier ) ) {
-
-			return;
-		}
-
-		$term_items = array();
-
-		foreach ( (array) $terms as $key => $term ) {
-
-			$terms_by_id[ $term->term_id ]       = &$terms[ $key ];
-			$term_ids[ $term->term_taxonomy_id ] = $term->term_id;
-		}
-
-		/*
-		 * // START --> Set up the query to only return the entries based on user permissions.
-		 */
-		if ( is_user_logged_in() ) {
-
-			if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
-			if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
-			if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-
-		} else {
-
-			// Display the 'public' entries if the user is not required to be logged in.
-			$visibility[] = $instance->options->getAllowPublic() ? 'public' : '';
-		}
-		/*
-		 * // END --> Set up the query to only return the entries based on user permissions.
-		 */
-
-		// Get the object and term ids and stick them in a lookup table
-		// $tax_obj      = get_taxonomy( $taxonomy );
-		$entry_types = array( 'individual', 'organization', 'family' );
-		$results     = $wpdb->get_results("SELECT entry_id, term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " INNER JOIN " . CN_ENTRY_TABLE . " ON entry_id = id WHERE term_taxonomy_id IN (" . implode(',', array_keys( $term_ids ) ) . ") AND entry_type IN ('" . implode( "', '", $entry_types ) . "') AND visibility IN ('" . implode( "', '", (array) $visibility ) . "')");
-
-		foreach ( $results as $row ) {
-
-			$id = $term_ids[ $row->term_taxonomy_id ];
-
-			$term_items[ $id ][ $row->entry_id ] = isset( $term_items[ $id ][ $row->entry_id ] ) ? ++$term_items[ $id ][ $row->entry_id ] : 1;
-		}
-
-		// Touch every ancestor's lookup row for each post in each term
-		foreach ( $term_ids as $term_id ) {
-
-			$child     = $term_id;
-			$ancestors = array();
-
-			while ( ! empty( $terms_by_id[ $child ] ) && $parent = $terms_by_id[ $child ]->parent ) {
-
-				$ancestors[] = $child;
-
-				if ( ! empty( $term_items[ $term_id ] ) ) {
-
-					foreach ( $term_items[ $term_id ] as $item_id => $touches ) {
-
-						$term_items[ $parent ][ $item_id ] = isset( $term_items[ $parent ][ $item_id ] ) ? ++$term_items[ $parent ][ $item_id ]: 1;
-					}
-				}
-
-				$child = $parent;
-
-				if ( in_array( $parent, $ancestors ) ) {
-
-					break;
-				}
-			}
-		}
-
-		// Transfer the touched cells
-		foreach ( (array) $term_items as $id => $items ) {
-
-			if ( isset( $terms_by_id[ $id ] ) ) {
-
-				$terms_by_id[ $id ]->count = count( $items );
-			}
-
-		}
-
+		_padTermCounts( $terms, $taxonomy );
 	}
 
 	/**

@@ -88,7 +88,7 @@ class cnDependency {
 		require_once CN_PATH . 'includes/Sitemaps/Sitemaps.php';
 
 		// Taxonomy
-		require_once CN_PATH . 'includes/Taxonomy/Taxonomy.php';
+		require_once CN_PATH . 'includes/Taxonomy/functions.php';
 		require_once CN_PATH . 'includes/Taxonomy/Register.php';
 
 		// Global functions.

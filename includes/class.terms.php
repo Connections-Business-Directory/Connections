@@ -2602,7 +2602,7 @@ class cnTerm {
 				delete_option( "cn_{$taxonomy}_children" );
 
 				// Regenerate {$taxonomy}_children
-				self::childrenIDs( $taxonomy );
+				_getTermHierarchy( $taxonomy );
 			}
 
 			/**
@@ -2695,7 +2695,7 @@ class cnTerm {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnTerm::childrenIDs' );
 
-		return self::childrenIDs( $taxonomy );
+		return _getTermHierarchy( $taxonomy );
 	}
 
 	/**
@@ -3022,7 +3022,7 @@ class cnTerm {
 
 		if ( $atts['child_of'] ) {
 
-			$hierarchy = self::childrenIDs( reset( $taxonomies ) );
+			$hierarchy = _getTermHierarchy( reset( $taxonomies ) );
 
 			if ( ! isset( $hierarchy[ $atts['child_of'] ] ) ) {
 
@@ -3032,7 +3032,7 @@ class cnTerm {
 
 		if ( $atts['parent'] ) {
 
-			$hierarchy = self::childrenIDs( reset( $taxonomies ) );
+			$hierarchy = _getTermHierarchy( reset( $taxonomies ) );
 
 			if ( ! isset( $hierarchy[ $atts['parent'] ] ) ) {
 
@@ -3293,7 +3293,7 @@ class cnTerm {
 
 			foreach ( $taxonomies as $_tax ) {
 
-				$term_hierarchy = self::childrenIDs( $_tax );
+				$term_hierarchy = _getTermHierarchy( $_tax );
 				$exclusions = array_merge( array_keys( $term_hierarchy ), $exclusions );
 			}
 		}
@@ -3555,11 +3555,11 @@ class cnTerm {
 
 		if ( $atts['child_of'] ) {
 
-			$children = self::childrenIDs( reset( $taxonomies ) );
+			$children = _getTermHierarchy( reset( $taxonomies ) );
 
 			if ( ! empty( $children ) ) {
 
-				$terms = self::descendants( $atts['child_of'], $terms, reset( $taxonomies ) );
+				$terms = _getTermChildren( $atts['child_of'], $terms, reset( $taxonomies ) );
 			}
 		}
 
@@ -3572,7 +3572,7 @@ class cnTerm {
 
 			foreach ( $taxonomies as $_tax ) {
 
-				self::padCounts( $terms, $_tax );
+				_padTermCounts( $terms, $_tax );
 			}
 		}
 
@@ -4133,7 +4133,7 @@ class cnTerm {
 
 		$term_id = intval( $term_id );
 
-		$terms = self::childrenIDs( $taxonomy );
+		$terms = _getTermHierarchy( $taxonomy );
 
 		if ( ! isset( $terms[ $term_id ] ) ) {
 

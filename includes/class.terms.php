@@ -10,15 +10,17 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
 use function Connections_Directory\Taxonomy\_getTermChildren;
 use function Connections_Directory\Taxonomy\_getTermHierarchy;
 use function Connections_Directory\Taxonomy\_padTermCounts;
 use function Connections_Directory\Taxonomy\exists as taxonomy_exists;
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnTerms

@@ -322,6 +322,8 @@ function updateTermMetaCache( $term_ids ) {
 /**
  * Updates Terms to Taxonomy in cache.
  *
+ * NOTE: This is the Connections equivalent of @see update_term_cache() in WordPress core ../wp-includes/taxonomy.php
+ *
  * @since 10.3
  *
  * @param cnTerm_Object[] $terms    Array of term objects to change.

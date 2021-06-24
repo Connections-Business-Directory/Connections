@@ -18,6 +18,7 @@ use Connections_Directory\Taxonomy\Registry;
 use function Connections_Directory\Taxonomy\_getTermChildren;
 use function Connections_Directory\Taxonomy\_getTermHierarchy;
 use function Connections_Directory\Taxonomy\_padTermCounts;
+use function Connections_Directory\Taxonomy\exists as taxonomy_exists;
 
 /**
  * Class cnTerms
@@ -3858,11 +3859,11 @@ class cnTerm {
 			return new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
 		}
 
-		// @todo Implement taxonomy check.
-		//if ( ! taxonomy_exists( $taxonomy ) ) {
+		// @todo Add check.
+		// if ( $taxonomy && ! taxonomy_exists( $taxonomy ) ) {
 		//
-		//	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
-		//}
+		// 	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy', 'connections' ) );
+		// }
 
 		if ( $term instanceof cnTerm_Object ) {
 
@@ -4128,8 +4129,11 @@ class cnTerm {
 	 */
 	public static function children( $term_id, $taxonomy ) {
 
-		// if ( ! taxonomy_exists($taxonomy) )
-		// 	return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
+		// @todo Add check.
+		// if ( ! taxonomy_exists( $taxonomy ) ) {
+		//
+		// 	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy', 'connections' ) );
+		// }
 
 		$term_id = intval( $term_id );
 
@@ -4618,10 +4622,11 @@ final class cnTerm_Object {
 				// If the term is shared only with invalid taxonomies, return the one valid term.
 				foreach ( $terms as $t ) {
 
-					if ( ! taxonomy_exists( $t->taxonomy ) ) {
-
-						continue;
-					}
+					// @todo Add check.
+					// if ( ! taxonomy_exists( $t->taxonomy ) ) {
+					//
+					// 	continue;
+					// }
 
 					// Only hit if we've already identified a term in a valid taxonomy.
 					if ( $_term ) {
@@ -4640,9 +4645,9 @@ final class cnTerm_Object {
 
 			// @todo Add check.
 			// Don't return terms from invalid taxonomies.
-			//if ( ! taxonomy_exists( $_term->taxonomy ) ) {
-			//	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
-			//}
+			// if ( ! taxonomy_exists( $_term->taxonomy ) ) {
+			// 	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy', 'connections' ) );
+			// }
 
 			$_term = sanitize_term( $_term, 'cn_' . $_term->taxonomy, 'raw' );
 

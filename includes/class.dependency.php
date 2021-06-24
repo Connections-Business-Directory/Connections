@@ -219,6 +219,10 @@ class cnDependency {
 			'cnQuery'                  => 'includes/class.query.php',
 			'cnRetrieve'               => 'includes/class.retrieve.php',
 
+			// Query APIs.
+			'Connections_Directory\Query\Taxonomy' => 'includes/Query/Taxonomy.php',
+			'Connections_Directory\Query\Term'     => 'includes/Query/Term.php',
+
 			// HTML form elements.
 			'cnFormObjects'            => 'includes/class.form.php',
 

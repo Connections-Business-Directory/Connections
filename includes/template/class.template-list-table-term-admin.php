@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
+use function Connections_Directory\Taxonomy\_getTermHierarchy as _get_term_hierarchy;
 
 /**
  * Terms List Table class.
@@ -401,7 +402,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 			} else {
 
-				$children = cnTerm::get_hierarchy( $this->taxonomy );
+				$children = _get_term_hierarchy( $this->taxonomy );
 			}
 
 			// Some funky recursion to get the job done( Paging & parents mainly ) is contained within,

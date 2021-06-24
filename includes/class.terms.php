@@ -16,6 +16,7 @@ use function Connections_Directory\Taxonomy\_getTermChildren;
 use function Connections_Directory\Taxonomy\_getTermHierarchy;
 use function Connections_Directory\Taxonomy\_padTermCounts;
 use function Connections_Directory\Taxonomy\exists as taxonomy_exists;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {

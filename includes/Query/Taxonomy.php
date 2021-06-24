@@ -3,7 +3,6 @@
 namespace Connections_Directory\Query;
 
 use cnTerm;
-use Connections_Directory\Taxonomy\Registry;
 use WP_Error;
 use WP_Tax_Query;
 use wpdb;

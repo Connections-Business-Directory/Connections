@@ -21,8 +21,8 @@ final class Taxonomy extends WP_Tax_Query {
 	/**
 	 * Standard response when the query should not return any rows.
 	 *
-	 * @since 3.2.0
-	 * @var string
+	 * @since 10.3
+	 * @var array
 	 */
 	private static $no_results = array(
 		'join'  => array( '' ),

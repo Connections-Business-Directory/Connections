@@ -204,13 +204,13 @@ class cnDependency {
 			// Taxonomy API.
 			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',
 			'Connections_Directory\Taxonomy\Registry'           => 'includes/Taxonomy/Registry.php',
+			'Connections_Directory\Taxonomy\Term'               => 'includes/Taxonomy/Term.php',
 			'Connections_Directory\Taxonomy\Widget'             => 'includes/Taxonomy/Widget.php',
 			'Connections_Directory\Taxonomy\Term\Admin\Actions' => 'includes/Taxonomy/Term/Admin/Actions.php',
 
 			// Terms Objects
 			'cnTerm'                   => 'includes/class.terms.php',
 			'cnTerms'                  => 'includes/class.terms.php',
-			'cnTerm_Object'            => 'includes/class.terms.php',
 
 			// Category Objects
 			'cnCategory'               => 'includes/class.category.php',

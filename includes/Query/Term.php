@@ -4,7 +4,7 @@ namespace Connections_Directory\Query;
 
 use cnMeta_Query;
 use cnTerm;
-use cnTerm_Object;
+use Connections_Directory\Taxonomy\Term as Taxonomy_Term;
 use wpdb;
 use function Connections_Directory\Taxonomy\_getTermChildren as _get_term_children;
 use function Connections_Directory\Taxonomy\_getTermHierarchy as _get_term_hierarchy;
@@ -299,8 +299,8 @@ final class Term {
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
 	 *
-	 * @return cnTerm_Object[]|int[]|string[]|string Array of terms, or number of terms as numeric string
-	 *                                         when 'count' is passed as a query var.
+	 * @return Taxonomy_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
+	 *                                               when 'count' is passed as a query var.
 	 */
 	public function query( $query ) {
 
@@ -343,8 +343,8 @@ final class Term {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return cnTerm_Object[]|int[]|string[]|string Array of terms, or number of terms as numeric string
-	 *                                         when 'count' is passed as a query var.
+	 * @return Taxonomy_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
+	 *                                               when 'count' is passed as a query var.
 	 */
 	public function get_terms() {
 
@@ -1114,7 +1114,7 @@ final class Term {
 
 		foreach ( $term_ids as $key => $term_id ) {
 			$term = cnTerm::get( $term_id );
-			if ( $term instanceof cnTerm_Object ) {
+			if ( $term instanceof Taxonomy_Term ) {
 				$terms[ $key ] = $term;
 			}
 		}

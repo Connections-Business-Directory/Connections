@@ -4,7 +4,7 @@ namespace Connections_Directory\Taxonomy;
 
 use cnMeta;
 use cnTerm;
-use cnTerm_Object;
+use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Taxonomy;
 use connectionsLoad;
 use WP_Error;
@@ -326,7 +326,7 @@ function updateTermMetaCache( $term_ids ) {
  *
  * @since 10.3
  *
- * @param cnTerm_Object[] $terms    Array of term objects to change.
+ * @param Term[] $terms    Array of term objects to change.
  */
 function updateTermCache( $terms ) {
 

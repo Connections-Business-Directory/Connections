@@ -13,6 +13,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
@@ -3275,7 +3276,7 @@ class cnRetrieve {
 	 * Returns category by ID.
 	 *
 	 * @param integer $id
-	 * @return cnTerm_Object|WP_Error
+	 * @return Term|WP_Error
 	 */
 	public function category( $id ) {
 

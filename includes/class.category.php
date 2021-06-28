@@ -10,8 +10,12 @@
  * @since       unknown
  */
 
+use Connections_Directory\Taxonomy\Term;
+
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnCategory {
 	private $id;
@@ -399,7 +403,7 @@ class cnCategory {
 	 * @since  8.5.18
 	 * @static
 	 *
-	 * @return false|cnTerm_Object
+	 * @return false|Term
 	 */
 	public static function getCurrent() {
 
@@ -443,7 +447,7 @@ class cnCategory {
 			$current = cnTerm::getBy( $field, $current, 'category' );
 
 			// cnTerm::getBy() can return NULL || an instance of WP_Error, so, lets check for that.
-			if ( ! $current instanceof cnTerm_Object ) {
+			if ( ! $current instanceof Term ) {
 
 				$current = FALSE;
 			}

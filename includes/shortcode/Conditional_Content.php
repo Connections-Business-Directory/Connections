@@ -1,13 +1,13 @@
 <?php
 namespace Connections_Directory\Shortcode;
 
+use Connections_Directory\Taxonomy\Term;
 use cnQuery;
 use cnRetrieve;
 use cnRewrite;
 use cnSettingsAPI;
 use cnShortcode;
 use cnTerm;
-use cnTerm_Object;
 use WP_Post;
 use WP_User;
 
@@ -419,7 +419,7 @@ class Conditional_Content extends cnShortcode {
 			$field  = is_numeric( $parameter ) ? 'id' : 'slug';
 			$result = cnTerm::getBy( $field, $queryValue );
 
-			if ( $result instanceof cnTerm_Object ) {
+			if ( $result instanceof Term ) {
 
 				if ( (int) $result->term_id === $parameter || $result->slug === $parameter ) {
 

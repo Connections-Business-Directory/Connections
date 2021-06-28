@@ -7,7 +7,7 @@ use cnEntry;
 use cnMetaboxAPI;
 use cnRewrite;
 use cnTerm;
-use cnTerm_Object;
+use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Taxonomy\Widget;
 use Connections_Directory\Utility\_array;
 use WP;
@@ -1798,7 +1798,7 @@ final class Taxonomy {
 				$term = cnTerm::getBy( 'name', $name, $taxonomy );
 
 				// Existing term.
-				if ( $term instanceof cnTerm_Object ) {
+				if ( $term instanceof Term ) {
 
 					$termIDs[] = $term->term_id;
 

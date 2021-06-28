@@ -28,12 +28,6 @@ class cnCategory {
 	private $count;
 	private $children;
 
-	/**
-	 * The cnValidate class.
-	 * @var cnValidate
-	 */
-	private $validate;
-
 	function __construct( $data = NULL ) {
 		if ( isset( $data ) ) {
 			if ( isset( $data->term_id ) ) $this->id = $data->term_id;
@@ -46,9 +40,6 @@ class cnCategory {
 			if ( isset( $data->count ) ) $this->count = $data->count;
 			if ( isset( $data->children ) ) $this->children = $data->children;
 		}
-
-		// Load the validation class.
-		$this->validate = new cnValidate();
 	}
 
 	/**
@@ -139,7 +130,7 @@ class cnCategory {
 
 		$defaults = apply_filters( 'cn_output_default_atts_cat_desc' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		$out = $wp_embed->run_shortcode( $this->getDescription() );
 
@@ -177,7 +168,7 @@ class cnCategory {
 			'more'   => apply_filters( 'cn_cat_excerpt_more', '&hellip;' )
 		);
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		$text = cnString::excerpt( empty( $text ) ? $this->getDescription() : $text, $atts );
 

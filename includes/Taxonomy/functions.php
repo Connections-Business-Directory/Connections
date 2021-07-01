@@ -297,7 +297,7 @@ function isHierarchical( $slug ) {
 
 	if ( $taxonomy instanceof Taxonomy ) {
 
-		return true;
+		return $taxonomy->isHierarchical();
 	}
 
 	return false;

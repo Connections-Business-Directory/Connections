@@ -2034,17 +2034,11 @@ class cnTemplatePart {
 				// Add the category base and path if paging thru a category.
 				if ( cnQuery::getVar('cn-cat-slug') ) $permalink = trailingslashit( $permalink . $base['category_base'] . '/' . cnQuery::getVar('cn-cat-slug') );
 
-				// Add the organization base and path if paging thru a organization.
-				if ( cnQuery::getVar('cn-organization') ) $permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . cnQuery::getVar('cn-organization') );
+				// Add the country base and path if paging thru a country.
+				if ( cnQuery::getVar( 'cn-country' ) ) {
 
-				// Add the department base and path if paging thru a department.
-				if ( cnQuery::getVar('cn-department') ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar('cn-department') );
-
-				// Add the locality base and path if paging thru a locality.
-				if ( cnQuery::getVar('cn-locality') ) {
-
-					_array::forget( $queryVars, 'cn-locality' );
-					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar('cn-locality') );
+					_array::forget( $queryVars, 'cn-country' );
+					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . cnQuery::getVar( 'cn-country' ) );
 				}
 
 				// Add the region base and path if paging thru a region.
@@ -2061,8 +2055,18 @@ class cnTemplatePart {
 					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . cnQuery::getVar('cn-postal-code') );
 				}
 
-				// Add the country base and path if paging thru a country.
-				if ( cnQuery::getVar('cn-country') ) $permalink = trailingslashit( $permalink . $base['country_base'] . '/' . cnQuery::getVar('cn-country') );
+				// Add the locality base and path if paging thru a locality.
+				if ( cnQuery::getVar('cn-locality') ) {
+
+					_array::forget( $queryVars, 'cn-locality' );
+					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar('cn-locality') );
+				}
+
+				// Add the organization base and path if paging thru a organization.
+				if ( cnQuery::getVar('cn-organization') ) $permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . cnQuery::getVar('cn-organization') );
+
+				// Add the department base and path if paging thru a department.
+				if ( cnQuery::getVar('cn-department') ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar('cn-department') );
 
 				$args = array(
 					'base'               => $permalink . '%_%',

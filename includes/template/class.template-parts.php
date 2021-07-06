@@ -2086,10 +2086,6 @@ class cnTemplatePart {
 					'after_page_number'  => $atts['after_page_number'],
 					);
 
-				$args = apply_filters( 'cn_pagination_links_args', $args );
-
-				$links = paginate_links( $args );
-
 			} else {
 
 				if ( $wp_rewrite->using_permalinks() ) {
@@ -2128,15 +2124,14 @@ class cnTemplatePart {
 					'after_page_number'  => $atts['after_page_number'],
 					);
 
-				$args = apply_filters( 'cn_pagination_links_args', $args );
-
-				$links = paginate_links( $args );
 			}
+
+			$args  = apply_filters( 'cn_pagination_links_args', $args );
+			$links = paginate_links( $args );
 
 			$out .= '<span class="cn-page-nav" id="cn-page-nav">';
 			$out .= join( PHP_EOL, $links );
 			$out .= '</span>';
-
 		}
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter

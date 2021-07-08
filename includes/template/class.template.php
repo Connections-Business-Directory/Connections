@@ -1152,8 +1152,9 @@ class cnTemplate {
 		if ( isset( $this->parts['css-custom-url'] ) ) {
 
 			$customURL = cnURL::makeProtocolRelative( $this->parts['css-custom-url'] );
+			$timestamp = filemtime( $this->parts['css-custom-path'] );
 
-			wp_enqueue_style( "cnt-{$this->slug}-custom", $customURL, array( "cnt-{$this->slug}" ), $this->version );
+			wp_enqueue_style( "cnt-{$this->slug}-custom", $customURL, array( "cnt-{$this->slug}" ), "{$this->version}-{$timestamp}" );
 		}
 
 		/**

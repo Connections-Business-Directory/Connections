@@ -646,13 +646,13 @@ class cnTemplatePart {
 		/*
 		 * @todo
 		 * All templates need updated to remove use of the .cn-entry and .cn-entry-single classes
-		 * and use .cn-list-item and .cn-list-item.cn-is-single instead.
+		 * and use .cn-list-item and .cn-list-item.cn-list-item-is-single instead.
 		 */
 		array_push( $class, 'cn-list-item' );
 
 		if ( $isSingle ) {
 
-			array_push( $class, 'cn-is-single' );
+			array_push( $class, 'cn-list-item-is-single' );
 		}
 
 		array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( TRUE ) );

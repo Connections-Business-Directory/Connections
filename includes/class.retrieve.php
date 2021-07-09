@@ -702,7 +702,7 @@ class cnRetrieve {
 	 * @internal
 	 * @since 10.3
 	 *
-	 * @param array atts
+	 * @param array $atts
 	 *
 	 * @return array
 	 */

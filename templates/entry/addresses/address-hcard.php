@@ -52,7 +52,7 @@ foreach ( $addresses as $address ) {
 			$district = cnURL::permalink(
 				array(
 					'type'       => 'district',
-					'slug'       => $address->district,
+					'slug'       => $address->url['district'],
 					'title'      => $address->district,
 					'text'       => $address->district,
 					'home_id'    => $entry->directoryHome['page_id'],
@@ -81,7 +81,7 @@ foreach ( $addresses as $address ) {
 			$county = cnURL::permalink(
 				array(
 					'type'       => 'county',
-					'slug'       => $address->county,
+					'slug'       => $address->url['county'],
 					'title'      => $address->county,
 					'text'       => $address->county,
 					'home_id'    => $entry->directoryHome['page_id'],
@@ -110,7 +110,7 @@ foreach ( $addresses as $address ) {
 			$locality = cnURL::permalink(
 				array(
 					'type'       => 'locality',
-					'slug'       => $address->city,
+					'slug'       => $address->url['locality'],
 					'title'      => $address->city,
 					'text'       => $address->city,
 					'home_id'    => $entry->directoryHome['page_id'],
@@ -139,7 +139,7 @@ foreach ( $addresses as $address ) {
 			$region = cnURL::permalink(
 				array(
 					'type'       => 'region',
-					'slug'       => $address->state,
+					'slug'       => $address->url['region'],
 					'title'      => $address->state,
 					'text'       => $address->state,
 					'home_id'    => $entry->directoryHome['page_id'],
@@ -168,7 +168,7 @@ foreach ( $addresses as $address ) {
 			$postal = cnURL::permalink(
 				array(
 					'type'       => 'postal_code',
-					'slug'       => $address->zipcode,
+					'slug'       => $address->url['postal_code'],
 					'title'      => $address->zipcode,
 					'text'       => $address->zipcode,
 					'home_id'    => $entry->directoryHome['page_id'],
@@ -197,7 +197,7 @@ foreach ( $addresses as $address ) {
 			$country = cnURL::permalink(
 				array(
 					'type'       => 'country',
-					'slug'       => $address->country,
+					'slug'       => $address->url['country'],
 					'title'      => $address->country,
 					'text'       => $address->country,
 					'home_id'    => $entry->directoryHome['page_id'],

@@ -13,8 +13,14 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Query\Taxonomy as Taxonomy_Query;
+use Connections_Directory\Request;
+use Connections_Directory\Taxonomy\Registry as Taxonomy_Registry;
+use Connections_Directory\Taxonomy\Term as Taxonomy_Term;
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
+use Connections_Directory\Utility\Convert\_length;
 
 class cnRetrieve {
 	/**
@@ -73,6 +79,7 @@ class cnRetrieve {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
+		$request  = Request::get();
 
 		$select[]             = CN_ENTRY_TABLE . '.*';
 		$from[]               = CN_ENTRY_TABLE;
@@ -88,11 +95,12 @@ class cnRetrieve {
 		 */
 		$defaults['list_type']             = NULL;
 		$defaults['category']              = NULL;
-		$defaults['category_in']           = NULL;
-		$defaults['exclude_category']      = NULL;
-		$defaults['category_name']         = NULL;
-		$defaults['category_slug']         = NULL;
-		$defaults['wp_current_category']   = FALSE;
+		// Map category attributes to new attribute names and set defaults.
+		$defaults['category__and']         = _array::get( $atts, 'category_in', array() );
+		$defaults['category__not_in']      = _array::get( $atts, 'exclude_category', array() );
+		$defaults['category_name__in']     = _array::get( $atts, 'category_name', array() );
+		$defaults['category_slug__in']     = _array::get( $atts, 'category_slug', array() );
+		//$defaults['wp_current_category']   = FALSE;
 		$defaults['char']                  = '';
 		$defaults['id']                    = NULL;
 		$defaults['id__not_in']            = NULL;
@@ -126,7 +134,7 @@ class cnRetrieve {
 		$defaults['radius']                = 10;
 		$defaults['unit']                  = 'mi';
 
-		$defaults['lock']                  = FALSE;
+		$defaults['parse_request']         = _array::get( $atts, 'lock', false );
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
@@ -136,105 +144,16 @@ class cnRetrieve {
 		 */
 
 		/*
-		 * // START -- Process the query vars. \\
+		 * Process the query vars.
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
-		if ( ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['lock'] ) {
+		if ( ( $request->isAjax() || ! is_admin() ) && ! $atts['parse_request'] ) {
 
-			// Category slug
-			$queryCategorySlug = cnQuery::getVar( 'cn-cat-slug' );
-
-			if ( ! empty( $queryCategorySlug ) ) {
-
-				// If the category slug is a descendant, use the last slug from the URL for the query.
-				$queryCategorySlug = explode( '/' , $queryCategorySlug );
-
-				if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $atts['category_slug'] = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
-			}
-
-			// Category ID
-			$queryCategoryID = cnQuery::getVar( 'cn-cat' );
-			if ( ! empty( $queryCategoryID ) ) $atts['category'] = $queryCategoryID;
-
-			// Category in
-			$queryCategoryIn = cnQuery::getVar( 'cn-cat-in' );
-			if ( ! empty( $queryCategoryIn ) ) {
-
-				$atts['category_in'] = cnQuery::getVar( 'cn-cat-in' );
-			}
-
-			// Country
-			$queryCountry = cnQuery::getVar( 'cn-country' );
-			if ( ! empty( $queryCountry ) ) $atts['country'] = urldecode( $queryCountry );
-
-			// Postal Code
-			$queryPostalCode = cnQuery::getVar( 'cn-postal-code' );
-			if ( ! empty( $queryPostalCode ) ) $atts['zip_code'] = urldecode( $queryPostalCode );
-
-			// Region [State]
-			$queryRegion = cnQuery::getVar( 'cn-region' );
-			if ( ! empty( $queryRegion ) ) $atts['state'] = urldecode( $queryRegion );
-
-			// Locality [City]
-			$queryLocality = cnQuery::getVar( 'cn-locality' );
-			if ( ! empty( $queryLocality ) ) $atts['city'] = urldecode( $queryLocality );
-
-			// County
-			$queryCounty = cnQuery::getVar( 'cn-county' );
-			if ( ! empty( $queryCounty ) ) $atts['county'] = urldecode( $queryCounty );
-
-			// District
-			$queryDistrict = cnQuery::getVar( 'cn-district' );
-			if ( ! empty( $queryDistrict ) ) $atts['district'] = urldecode( $queryDistrict );
-
-			// Organization
-			$queryOrganization = cnQuery::getVar( 'cn-organization' );
-			if ( ! empty( $queryOrganization ) ) $atts['organization'] = urldecode( $queryOrganization );
-
-			// Department
-			$queryDeparment = cnQuery::getVar( 'cn-department' );
-			if ( ! empty( $queryDeparment ) ) $atts['department'] = urldecode( $queryDeparment );
-
-			// Entry slug
-			// NOTE: The entry slug is saved in the DB URL encoded, so there's no need to urldecode().
-			$queryEntrySlug = cnQuery::getVar( 'cn-entry-slug' );
-			if ( ! empty( $queryEntrySlug ) ) $atts['slug'] = $queryEntrySlug;
-
-			// Initial character.
-			$queryInitialChar = cnQuery::getVar( 'cn-char' );
-			if ( ! empty( $queryInitialChar ) ) $atts['char'] = wp_unslash( urldecode( $queryInitialChar ) );
-
-			// Pagination
-			$queryPage = cnQuery::getVar( 'cn-pg' );
-			$atts['offset'] = ( ! empty( $queryPage ) ) ? ( $queryPage - 1 ) * $atts['limit'] : $atts['offset'];
-			$atts['offset'] = ( $atts['offset'] > 0 ) ? $atts['offset'] : NULL;
-
-			// Search terms
-			$searchTerms = cnQuery::getVar( 'cn-s' );
-			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = wp_unslash( $searchTerms );
-
-			// Geo-location
-			$queryCoord = cnQuery::getVar( 'cn-near-coord' );
-
-			if ( ! empty( $queryCoord ) ) {
-
-				$queryCoord        = explode( ',', $queryCoord );
-				$atts['latitude']  = $wpdb->prepare( '%f', $queryCoord[0] );
-				$atts['longitude'] = $wpdb->prepare( '%f', $queryCoord[1] );
-
-				// Get the radius, otherwise the default of 10.
-				if ( cnQuery::getVar( 'cn-radius' ) ) $atts['radius'] = $wpdb->prepare( '%d', cnQuery::getVar( 'cn-radius' ) );
-
-				// Sanitize and set the unit.
-				$atts['unit'] = cnQuery::getVar( 'cn-unit' ) ? sanitize_key( cnQuery::getVar( 'cn-unit' ) ) : sanitize_key( $atts['unit'] );
-			}
+			$this->parseRequest( $atts );
 		}
-		/*
-		 * // END -- Process the query vars. \\
-		 */
 
 		/*
-		 * // START -- Reset some of the $atts based if category_slug or entry slug
+		 * // START -- Reset some of the $atts based if category_slug__in or entry slug
 		 * is being used. This is done to prevent query conflicts. This should be safe because
 		 * if a specific entry or category is being queried the other $atts can be discarded.
 		 * This has to be done in order to reconcile values passed via the shortcode and the
@@ -243,13 +162,14 @@ class cnRetrieve {
 		 * @TODO I know there are more scenarios to consider ... but this is all I can think of at the moment.
 		 * Thought --- maybe resetting to the default $atts should be done --- something to consider.
 		 */
-		if ( ! empty( $atts['slug'] ) || ! empty( $atts['category_slug'] ) ) {
+		if ( ! empty( $atts['slug'] ) || ! empty( $atts['category_slug__in'] ) ) {
 
 			$atts['list_type']           = NULL;
 			$atts['category']            = NULL;
-			$atts['category_in']         = NULL;
-			$atts['category_exclude']    = NULL;
-			$atts['wp_current_category'] = NULL;
+			$atts['category__and']       = null;
+			$atts['category__not_in']    = null;
+			$atts['category__and']       = null;
+			//$atts['wp_current_category'] = NULL;
 		}
 
 		if ( ! empty( $atts['slug'] ) ) {
@@ -265,213 +185,12 @@ class cnRetrieve {
 		 * // END -- Reset.
 		 */
 
-		/*
-		 * If in a post get the category names assigned to the post.
-		 */
-		if ( $atts['wp_current_category'] && ! is_page() ) {
-
-			// Get the current post categories.
-			$wpCategories = get_the_category();
-
-			// Build an array of the post categories.
-			foreach ( $wpCategories as $wpCategory ) {
-
-				$categoryNames[] = $wpdb->prepare( '%s', $wpCategory->cat_name );
-			}
-		}
-
-		/*
-		 * Build and array of the supplied category names and their children.
-		 */
-		if ( ! empty( $atts['category_name'] ) ) {
-
-			cnFunction::parseStringList( $atts['category_name'], ',' );
-
-			foreach ( $atts['category_name'] as $categoryName ) {
-
-				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
-				$categoryNames[] = $wpdb->prepare( '%s', htmlspecialchars( $categoryName ) );
-
-				// Retrieve the children categories
-				$results = $this->categoryChildren( 'name', $categoryName );
-
-				foreach ( (array) $results as $term ) {
-
-					// Only add the name if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categoryNames ) ) $categoryNames[] = $wpdb->prepare( '%s', $term->name );
-				}
-			}
-		}
-
-		/*
-		 * Build and array of the supplied category slugs and their children.
-		 */
-		if ( ! empty( $atts['category_slug'] ) ) {
-
-			$categorySlugs = array();
-
-			cnFunction::parseStringList( $atts['category_slug'], ',' );
-
-			foreach ( $atts['category_slug'] as $categorySlug ) {
-
-				// Add the parent category to the array and remove any whitespace from the beginning/end of the name in case the user added it when using the shortcode.
-				$categorySlugs[] = sanitize_title( $categorySlug );
-
-				// Retrieve the children categories.
-				$results = $this->categoryChildren( 'slug', $categorySlug );
-
-				foreach ( (array) $results as $term ) {
-
-					// Only add the slug if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categorySlugs ) ) $categorySlugs[] = sanitize_title( $term->slug );
-				}
-			}
-		}
-
-		/*
-		 * Build an array of all the categories and their children based on the supplied category IDs.
-		 */
-		if ( ! empty( $atts['category'] ) ) {
-
-			$categoryIDs = array();
-
-			$atts['category'] = wp_parse_id_list( $atts['category'] );
-
-			foreach ( $atts['category'] as $categoryID ) {
-
-				// Add the parent category ID to the array.
-				$categoryIDs[] = absint( $categoryID );
-
-				// Retrieve the children categories
-				$termChildren = cnTerm::children( $categoryID, 'category' );
-
-				if ( ! $termChildren instanceof WP_Error && ! empty( $termChildren ) ) {
-
-					$categoryIDs = array_merge( $categoryIDs, $termChildren );
-				}
-			}
-		}
-
-		/*
-		 * Exclude the specified categories by ID.
-		 */
-		if ( ! empty( $atts['exclude_category'] ) ) {
-
-			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
-			$categoryExcludeIDs = array();
-
-			$atts['exclude_category'] = wp_parse_id_list( $atts['exclude_category'] );
-
-			$categoryIDs = array_diff( $categoryIDs, $atts['exclude_category'] );
-
-			foreach ( $atts['exclude_category'] as $categoryID ) {
-
-				// Add the parent category ID to the array.
-				$categoryExcludeIDs[] = absint( $categoryID );
-
-				// Retrieve the children categories
-				$termChildren = cnTerm::children( $categoryID, 'category' );
-
-				if ( ! $termChildren instanceof WP_Error && ! empty( $termChildren ) ) {
-
-					$categoryExcludeIDs = array_merge( $categoryExcludeIDs, $termChildren );
-				}
-			}
-
-			$atts['exclude_category'] = array_unique( $categoryExcludeIDs );
-
-			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
-					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['exclude_category'] ) . ')';
-
-			// Store the entryIDs that are to be excluded.
-			$results = $wpdb->get_col( $sql );
-			//print_r($results);
-
-			if ( ! empty( $results ) ) {
-
-				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ", ", $results ) . ')';
-			}
-		}
-
-		// Convert the supplied category IDs $atts['category_in'] to an array.
-		if ( ! empty( $atts['category_in'] ) ) {
-
-			$atts['category_in'] = wp_parse_id_list( $atts['category_in'] );
-
-			// Remove empty values from the array.
-			$atts['category_in'] = array_filter( $atts['category_in'] );
-
-			// Ensure there is something to query after filtering the array.
-			if ( ! empty( $atts['category_in'] ) ) {
-
-				// Exclude any category IDs that may have been set.
-				$atts['category_in'] = array_diff( $atts['category_in'], (array) $atts['exclude_category'] );
-
-				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
-				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
-						INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-						WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category_in'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category_in'] ) . ' ORDER BY tr.entry_id';
-
-				// Store the entryIDs that exist on all of the supplied category IDs
-				$results = $wpdb->get_col( $sql );
-				//print_r($results);
-
-				if ( ! empty( $results ) ) {
-					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
-				} else {
-					$where[] = 'AND 1=2';
-				}
-
-			}
-
-			/*
-			 * This is the query to use to return entry IDs that are in the same categories. The COUNT value
-			 * should equal the number of category IDs in the IN() statement.
-
-			   SELECT DISTINCT tr.entry_id FROM `wp_connections_term_relationships` AS tr
-			   INNER JOIN `wp_connections_term_taxonomy` AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-			   WHERE 1=1 AND tt.term_id IN ('51','73','76') GROUP BY tr.entry_id HAVING COUNT(*) = 3 ORDER BY tr.entry_id
-			 */
-		}
-
-		if ( ! empty( $categoryIDs ) || ! empty( $categoryExcludeIDs ) || ! empty( $categoryNames ) || ! empty( $categorySlugs ) ) {
-			// Set the query string to INNER JOIN the term relationship and taxonomy tables.
-			$join[] = 'INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_TERM_RELATIONSHIP_TABLE . '.entry_id )';
-			$join[] = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' ON ( ' . CN_TERM_RELATIONSHIP_TABLE . '.term_taxonomy_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_taxonomy_id )';
-			$join[] = 'INNER JOIN ' . CN_TERMS_TABLE . ' ON ( ' . CN_TERMS_TABLE . '.term_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_id )';
-
-			// Set the query string to return entries within the category taxonomy.
-			$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.taxonomy = \'category\'';
-
-			if ( ! empty( $categoryIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ", ", $categoryIDs ) . ')';
-
-				unset( $categoryIDs );
-			}
-
-			if ( ! empty( $categoryExcludeIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ", ", $categoryExcludeIDs ) . ')';
-
-				unset( $categoryExcludeIDs );
-			}
-
-			if ( ! empty( $categoryNames ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ", ", (array) $categoryNames ) . ')';
-
-				unset( $categoryNames );
-			}
-
-			if ( ! empty( $categorySlugs ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.slug IN (\'' . implode( "', '", (array) $categorySlugs ) . '\')';
-
-				unset( $categorySlugs );
-			}
-		}
+		// $this->parseTaxonomyQueryLegacy( $atts, $join, $where );
+		$this->parseTaxonomyQuery( $atts, $join, $where );
 
 		/*
 		 * // START --> Set up the query to only return the entries that match the supplied IDs.
-		 *    NOTE: This includes the entry IDs returned for category_in.
+		 *    NOTE: This includes the entry IDs returned for category__and.
 		 */
 		if ( ! empty( $atts['id'] ) ) {
 
@@ -615,7 +334,7 @@ class cnRetrieve {
 			$earthRadius = 6371;  // Earth's radius in (SI) km.
 
 			// Convert the supplied radius from the supplied unit to (SI) km.
-			$atts['radius'] = cnGeo::convert( array( 'value' => $atts['radius'] , 'from' => $atts['unit'] , 'to' => 'km' , 'format' => FALSE , 'return' => TRUE ) );
+			$atts['radius'] = _length::convert( $atts['radius'], $atts['unit'] )->to( 'km' );
 
 			// Limiting bounding box (in degrees).
 			$minLat = $atts['latitude'] - rad2deg( $atts['radius']/$earthRadius );
@@ -975,6 +694,619 @@ class cnRetrieve {
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Process the request query.
+	 *
+	 * @internal
+	 * @since 10.3
+	 *
+	 * @param array $atts
+	 *
+	 * @return array
+	 */
+	private function parseRequest( &$atts ) {
+
+		/** @var $wpdb wpdb */
+		global $wpdb;
+
+		$request = Request::get();
+
+		foreach ( $request->getQueryVars() as $queryKey => $queryVar ) {
+
+			switch ( $queryKey ) {
+
+				case 'cn-cat':
+					$atts['category'] = $queryVar;
+					break;
+
+				case 'cn-cat-in':
+					$atts['category__and'] = $queryVar;
+					break;
+
+				case 'cn-cat-slug':
+					$atts['category_slug__in'] = wp_basename( $queryVar );
+					break;
+
+				case 'cn-tag':
+					$atts['tag'] = $queryVar;
+					break;
+
+				case 'cn-country':
+					$atts['country'] = $queryVar;
+					break;
+
+				case 'cn-postal-code':
+					$atts['zip_code'] = $queryVar;
+					break;
+
+				case 'cn-region':
+					$atts['state'] = $queryVar;
+					break;
+
+				case 'cn-locality':
+					$atts['city'] = $queryVar;
+					break;
+
+				case 'cn-county':
+					$atts['county'] = $queryVar;
+					break;
+
+				case 'cn-district':
+					$atts['district'] = $queryVar;
+					break;
+
+				case 'cn-organization':
+					$atts['organization'] = $queryVar;
+					break;
+
+				case 'cn-department':
+					$atts['department'] = $queryVar;
+					break;
+
+				case 'cn-char':
+					$atts['char'] = $queryVar;
+					break;
+
+				case 'cn-s':
+					$atts['search_terms'] = $queryVar;
+					break;
+
+				case 'cn-pg':
+					$atts['offset'] = ( ! empty( $queryVar ) ) ? ( $queryVar - 1 ) * $atts['limit'] : $atts['offset'];
+					$atts['offset'] = ( $atts['offset'] > 0 ) ? $atts['offset'] : NULL;
+					break;
+
+				case 'cn-entry-slug':
+					// NOTE: The entry slug is saved in the DB URL encoded, so there's no need to urldecode().
+					$atts['slug'] = $queryVar;
+					break;
+
+				case 'cn-near-coord':
+					if ( ! empty( $queryVar ) ) {
+
+						$queryCoord        = explode( ',', $queryVar );
+						$atts['latitude']  = $wpdb->prepare( '%f', $queryCoord[0] );
+						$atts['longitude'] = $wpdb->prepare( '%f', $queryCoord[1] );
+
+						// Get the radius, otherwise the default of 10.
+						$atts['radius'] = $wpdb->prepare( '%f', $request->getVar( 'cn-radius', _array::get( $atts, 'radius', 10 ) ) );
+
+						// Sanitize and set the unit.
+						$atts['unit'] = sanitize_key( $request->getVar( 'cn-unit', _array::get( $atts, 'unit', 'mi' ) ) );
+					}
+					break;
+
+				default:
+					// Set additional request query key/values pairs.
+					_array::set( $atts, "request.{$queryKey}", $queryVar );
+			}
+		}
+
+		return $atts;
+	}
+
+	/**
+	 * @internal
+	 * @since 10.3
+	 *
+	 * @param array $atts
+	 * @param array $join
+	 * @param array $where
+	 */
+	private function parseTaxonomyQueryLegacy( $atts, &$join, &$where ) {
+
+		global $wpdb;
+
+		///*
+		// * If in a post get the category names assigned to the post.
+		// */
+		//if ( $atts['wp_current_category'] && ! is_page() ) {
+		//
+		//	// Get the current post categories.
+		//	$wpCategories = get_the_category();
+		//
+		//	// Build an array of the post categories.
+		//	foreach ( $wpCategories as $wpCategory ) {
+		//
+		//		$categoryNames[] = $wpdb->prepare( '%s', $wpCategory->cat_name );
+		//	}
+		//}
+
+		/*
+		 * Build and array of the supplied category names and their children.
+		 */
+		if ( ! empty( $atts['category_name__in'] ) ) {
+
+			_::parseStringList( $atts['category_name__in'], ',' );
+
+			foreach ( $atts['category_name__in'] as $categoryName ) {
+
+				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
+				$categoryNames[] = $wpdb->prepare( '%s', htmlspecialchars( $categoryName ) );
+
+				// Retrieve the children categories
+				$results = $this->categoryChildren( 'name', $categoryName );
+
+				foreach ( (array) $results as $term ) {
+
+					// Only add the name if it doesn't already exist. If it doesn't sanitize and add to the array.
+					if ( ! in_array( $term->name, $categoryNames ) ) $categoryNames[] = $wpdb->prepare( '%s', $term->name );
+				}
+			}
+		}
+
+		/*
+		 * Build and array of the supplied category slugs and their children.
+		 */
+		if ( ! empty( $atts['category_slug__in'] ) ) {
+
+			$categorySlugs = array();
+
+			_::parseStringList( $atts['category_slug__in'], ',' );
+
+			foreach ( $atts['category_slug__in'] as $categorySlug ) {
+
+				// Add the parent category to the array and remove any whitespace from the beginning/end of the name in case the user added it when using the shortcode.
+				$categorySlugs[] = sanitize_title( $categorySlug );
+
+				// Retrieve the children categories.
+				$results = $this->categoryChildren( 'slug', $categorySlug );
+
+				foreach ( (array) $results as $term ) {
+
+					// Only add the slug if it doesn't already exist. If it doesn't sanitize and add to the array.
+					if ( ! in_array( $term->name, $categorySlugs ) ) $categorySlugs[] = sanitize_title( $term->slug );
+				}
+			}
+		}
+
+		/*
+		 * Build an array of all the categories and their children based on the supplied category IDs.
+		 */
+		if ( ! empty( $atts['category'] ) ) {
+
+			$categoryIDs = array();
+
+			$atts['category'] = wp_parse_id_list( $atts['category'] );
+
+			foreach ( $atts['category'] as $categoryID ) {
+
+				// Add the parent category ID to the array.
+				$categoryIDs[] = absint( $categoryID );
+
+				// Retrieve the children categories
+				$termChildren = cnTerm::children( $categoryID, 'category' );
+
+				if ( ! $termChildren instanceof WP_Error && ! empty( $termChildren ) ) {
+
+					$categoryIDs = array_merge( $categoryIDs, $termChildren );
+				}
+			}
+		}
+
+		/*
+		 * Exclude the specified categories by ID.
+		 */
+		if ( ! empty( $atts['category__not_in'] ) ) {
+
+			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+			$categoryExcludeIDs = array();
+
+			$atts['category__not_in'] = wp_parse_id_list( $atts['category__not_in'] );
+
+			$categoryIDs = array_diff( $categoryIDs, $atts['category__not_in'] );
+
+			foreach ( $atts['category__not_in'] as $categoryID ) {
+
+				// Add the parent category ID to the array.
+				$categoryExcludeIDs[] = absint( $categoryID );
+
+				// Retrieve the children categories
+				$termChildren = cnTerm::children( $categoryID, 'category' );
+
+				if ( ! $termChildren instanceof WP_Error && ! empty( $termChildren ) ) {
+
+					$categoryExcludeIDs = array_merge( $categoryExcludeIDs, $termChildren );
+				}
+			}
+
+			$atts['category__not_in'] = array_unique( $categoryExcludeIDs );
+
+			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
+					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
+					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category__not_in'] ) . ')';
+
+			// Store the entryIDs that are to be excluded.
+			$results = $wpdb->get_col( $sql );
+			//print_r($results);
+
+			if ( ! empty( $results ) ) {
+
+				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ", ", $results ) . ')';
+			}
+		}
+
+		// Convert the supplied category IDs $atts['category__and'] to an array.
+		if ( ! empty( $atts['category__and'] ) ) {
+
+			$atts['category__and'] = wp_parse_id_list( $atts['category__and'] );
+
+			// Remove empty values from the array.
+			$atts['category__and'] = array_filter( $atts['category__and'] );
+
+			// Ensure there is something to query after filtering the array.
+			if ( ! empty( $atts['category__and'] ) ) {
+
+				// Exclude any category IDs that may have been set.
+				$atts['category__and'] = array_diff( $atts['category__and'], (array) $atts['category__not_in'] );
+
+				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
+				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
+						INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
+						WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category__and'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category__and'] ) . ' ORDER BY tr.entry_id';
+
+				// Store the entryIDs that exist on all of the supplied category IDs
+				$results = $wpdb->get_col( $sql );
+				//print_r($results);
+
+				if ( ! empty( $results ) ) {
+					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
+				} else {
+					$where[] = 'AND 1=2';
+				}
+
+			}
+
+			/*
+			 * This is the query to use to return entry IDs that are in the same categories. The COUNT value
+			 * should equal the number of category IDs in the IN() statement.
+
+			   SELECT DISTINCT tr.entry_id FROM `wp_connections_term_relationships` AS tr
+			   INNER JOIN `wp_connections_term_taxonomy` AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
+			   WHERE 1=1 AND tt.term_id IN ('51','73','76') GROUP BY tr.entry_id HAVING COUNT(*) = 3 ORDER BY tr.entry_id
+			 */
+		}
+
+		if ( ! empty( $categoryIDs ) || ! empty( $categoryExcludeIDs ) || ! empty( $categoryNames ) || ! empty( $categorySlugs ) ) {
+			// Set the query string to INNER JOIN the term relationship and taxonomy tables.
+			$join[] = 'INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_TERM_RELATIONSHIP_TABLE . '.entry_id )';
+			$join[] = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' ON ( ' . CN_TERM_RELATIONSHIP_TABLE . '.term_taxonomy_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_taxonomy_id )';
+			$join[] = 'INNER JOIN ' . CN_TERMS_TABLE . ' ON ( ' . CN_TERMS_TABLE . '.term_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_id )';
+
+			// Set the query string to return entries within the category taxonomy.
+			$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.taxonomy = \'category\'';
+
+			if ( ! empty( $categoryIDs ) ) {
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ", ", $categoryIDs ) . ')';
+
+				unset( $categoryIDs );
+			}
+
+			if ( ! empty( $categoryExcludeIDs ) ) {
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ", ", $categoryExcludeIDs ) . ')';
+
+				unset( $categoryExcludeIDs );
+			}
+
+			if ( ! empty( $categoryNames ) ) {
+				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ", ", (array) $categoryNames ) . ')';
+
+				unset( $categoryNames );
+			}
+
+			if ( ! empty( $categorySlugs ) ) {
+				$where[] = 'AND ' . CN_TERMS_TABLE . '.slug IN (\'' . implode( "', '", (array) $categorySlugs ) . '\')';
+
+				unset( $categorySlugs );
+			}
+		}
+	}
+
+	/**
+	 * NOTE: This is the Connections equivalent of parse_tax_query() found in ../wp-includes/class-wp-query.php
+	 * @see WP_Query::parse_tax_query()
+	 *
+	 * @internal
+	 * @since 10.3
+	 *
+	 * @param array $atts
+	 * @param array $join
+	 * @param array $where
+	 */
+	private function parseTaxonomyQuery( $atts, &$join, &$where ) {
+
+		// $request   = Request::get();
+		$tax_query = array();
+		$q         = array();
+
+		$q['cat']               = _array::get( $atts, 'category', '' );
+		$q['category__and']     = wp_parse_id_list( _array::get( $atts, 'category__and', array() ) );
+		$q['category__in']      = _array::get( $atts, 'category__in', array() );
+		$q['category__not_in']  = _array::get( $atts, 'category__not_in', array() );
+		$q['category_name__in'] = _array::get( $atts, 'category_name__in', array() );
+		$q['category_slug__in'] = _array::get( $atts, 'category_slug__in', array() );
+		$q['tag']               = _array::get( $atts, 'tag', '' );
+		$q['tag_id']            = _array::get( $atts, 'tag_id', '' );
+		$q['tag__and']          = _array::get( $atts, 'tag__and', array() );
+		$q['tag__in']           = _array::get( $atts, 'tag__in', array() );
+		$q['tag__not_in']       = _array::get( $atts, 'tag__not_in', array() );
+		$q['tag_slug__and']     = _array::get( $atts, 'tag_slug__and', array() );
+		$q['tag_slug__in']      = _array::get( $atts, 'tag_slug__in', array() );
+		$q['taxonomy']          = _array::get( $atts, 'taxonomy', '' );
+		$q['term']              = _array::get( $atts, 'term', '' );
+
+		_::parseStringList( $q['category_name__in'], ',' );
+		_::parseStringList( $q['category_slug__in'], ',' );
+
+		if ( ! empty( $q['taxonomy'] ) && ! empty( $q['term'] ) ) {
+
+			$tax_query[] = array(
+				'taxonomy' => $q['taxonomy'],
+				'terms'    => array( $q['term'] ),
+				'field'    => 'slug',
+			);
+		}
+
+		foreach ( Taxonomy_Registry::get()->getTaxonomies() as $taxonomy ) {
+
+			if ( 'tag' === $taxonomy->getSlug() /*$taxonomy->isBuiltin()*/ ) {
+				continue; // Handled further down in the $q['tag'] block.
+			}
+
+			// $q[ $taxonomy->getQueryVar() ] = $request->getVar( $taxonomy->getQueryVar() );
+			$q[ $taxonomy->getQueryVar() ] = _array::get( $atts, "request.{$taxonomy->getQueryVar()}", '' );
+
+			if ( $taxonomy->getQueryVar() && ! empty( $q[ $taxonomy->getQueryVar() ] ) ) {
+
+				$tax_query_defaults = array(
+					'taxonomy' => $taxonomy->getSlug(),
+					'field'    => 'slug',
+				);
+
+				if ( $taxonomy->isHierarchical() ) {
+					$q[ $taxonomy->getQueryVar() ] = wp_basename( $q[ $taxonomy->getQueryVar() ] );
+				}
+
+				$term = $q[ $taxonomy->getQueryVar() ];
+
+				if ( is_array( $term ) ) {
+					$term = implode( ',', $term );
+				}
+
+				if ( strpos( $term, '+' ) !== false ) {
+					$terms = preg_split( '/[+]+/', $term );
+					foreach ( $terms as $term ) {
+						$tax_query[] = array_merge(
+							$tax_query_defaults,
+							array(
+								'terms' => array( $term ),
+							)
+						);
+					}
+				} else {
+					$tax_query[] = array_merge(
+						$tax_query_defaults,
+						array(
+							'terms' => preg_split( '/[,]+/', $term ),
+						)
+					);
+				}
+			}
+		}
+
+		// If query string 'cat' is an array, implode it.
+		if ( is_array( $q['cat'] ) ) {
+			$q['cat'] = implode( ',', $q['cat'] );
+		}
+
+		// Category stuff.
+// @todo Add isSingular() test to Request.
+		if ( ! empty( $q['cat'] ) /*&& ! $this->is_singular*/ ) {
+			$cat_in     = array();
+			$cat_not_in = array();
+
+			$cat_array = preg_split( '/[,\s]+/', urldecode( $q['cat'] ) );
+			$cat_array = array_map( 'intval', $cat_array );
+			$q['cat']  = implode( ',', $cat_array );
+
+			foreach ( $cat_array as $cat ) {
+				if ( $cat > 0 ) {
+					$cat_in[] = $cat;
+				} elseif ( $cat < 0 ) {
+					$cat_not_in[] = abs( $cat );
+				}
+			}
+
+			if ( ! empty( $cat_in ) ) {
+				$tax_query[] = array(
+					'taxonomy'         => 'category',
+					'terms'            => $cat_in,
+					'field'            => 'term_id',
+					'include_children' => true,
+				);
+			}
+
+			if ( ! empty( $cat_not_in ) ) {
+				$tax_query[] = array(
+					'taxonomy'         => 'category',
+					'terms'            => $cat_not_in,
+					'field'            => 'term_id',
+					'operator'         => 'NOT IN',
+					'include_children' => true,
+				);
+			}
+
+			unset( $cat_array, $cat_in, $cat_not_in );
+		}
+
+		if ( ! empty( $q['category__and'] ) && 1 === count( (array) $q['category__and'] ) ) {
+			$q['category__and'] = (array) $q['category__and'];
+			if ( ! isset( $q['category__in'] ) ) {
+				$q['category__in'] = array();
+			}
+			$q['category__in'][] = absint( reset( $q['category__and'] ) );
+			unset( $q['category__and'] );
+		}
+
+		if ( ! empty( $q['category__in'] ) ) {
+			$q['category__in'] = array_map( 'absint', array_unique( (array) $q['category__in'] ) );
+			$tax_query[]       = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category__in'],
+				'field'            => 'term_id',
+				'include_children' => false,
+			);
+		}
+
+		if ( ! empty( $q['category__not_in'] ) ) {
+			$q['category__not_in'] = array_map( 'absint', array_unique( (array) $q['category__not_in'] ) );
+			$tax_query[]           = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category__not_in'],
+				'operator'         => 'NOT IN',
+				'include_children' => true, // WP core defaults to `false`, to match legacy Connections, set default to `true`.
+			);
+		}
+
+		if ( ! empty( $q['category__and'] ) ) {
+			$q['category__and'] = array_map( 'absint', array_unique( (array) $q['category__and'] ) );
+			$tax_query[]        = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category__and'],
+				'field'            => 'term_id',
+				'operator'         => 'AND',
+				'include_children' => false,
+			);
+		}
+
+		if ( ! empty( $q['category_name__in'] ) ) {
+			$q['category_name__in'] = array_map( 'htmlspecialchars', array_unique( (array) $q['category_name__in'] ) );
+			$tax_query[]            = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category_name__in'],
+				'field'            => 'name',
+				'operator'         => 'IN',
+				'include_children' => true,
+			);
+		}
+
+		if ( ! empty( $q['category_slug__in'] ) ) {
+			$q['category_slug__in'] = array_map( 'sanitize_title', array_unique( (array) $q['category_slug__in'] ) );
+			$tax_query[]            = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category_slug__in'],
+				'field'            => 'slug',
+				'operator'         => 'IN',
+				'include_children' => true,
+			);
+		}
+
+		// If query string 'tag' is array, implode it.
+		if ( is_array( $q['tag'] ) ) {
+			$q['tag'] = implode( ',', $q['tag'] );
+		}
+
+		// Tag stuff.
+
+		if ( '' !== $q['tag'] /*&& ! $this->is_singular && $this->query_vars_changed*/ ) {
+			if ( strpos( $q['tag'], ',' ) !== false ) {
+				$tags = preg_split( '/[,\r\n\t ]+/', $q['tag'] );
+				foreach ( (array) $tags as $tag ) {
+					$tag                 = sanitize_term_field( 'slug', $tag, 0, 'tag', 'db' );
+					$q['tag_slug__in'][] = $tag;
+				}
+			} elseif ( preg_match( '/[+\r\n\t ]+/', $q['tag'] ) || ! empty( $q['cat'] ) ) {
+				$tags = preg_split( '/[+\r\n\t ]+/', $q['tag'] );
+				foreach ( (array) $tags as $tag ) {
+					$tag                  = sanitize_term_field( 'slug', $tag, 0, 'tag', 'db' );
+					$q['tag_slug__and'][] = $tag;
+				}
+			} else {
+				$q['tag']            = sanitize_term_field( 'slug', $q['tag'], 0, 'tag', 'db' );
+				$q['tag_slug__in'][] = $q['tag'];
+			}
+		}
+
+		if ( ! empty( $q['tag_id'] ) ) {
+			$q['tag_id'] = absint( $q['tag_id'] );
+			$tax_query[] = array(
+				'taxonomy' => 'tag',
+				'terms'    => $q['tag_id'],
+			);
+		}
+
+		if ( ! empty( $q['tag__in'] ) ) {
+			$q['tag__in'] = array_map( 'absint', array_unique( (array) $q['tag__in'] ) );
+			$tax_query[]  = array(
+				'taxonomy' => 'tag',
+				'terms'    => $q['tag__in'],
+			);
+		}
+
+		if ( ! empty( $q['tag__not_in'] ) ) {
+			$q['tag__not_in'] = array_map( 'absint', array_unique( (array) $q['tag__not_in'] ) );
+			$tax_query[]      = array(
+				'taxonomy' => 'tag',
+				'terms'    => $q['tag__not_in'],
+				'operator' => 'NOT IN',
+			);
+		}
+
+		if ( ! empty( $q['tag__and'] ) ) {
+			$q['tag__and'] = array_map( 'absint', array_unique( (array) $q['tag__and'] ) );
+			$tax_query[]   = array(
+				'taxonomy' => 'tag',
+				'terms'    => $q['tag__and'],
+				'operator' => 'AND',
+			);
+		}
+
+		if ( ! empty( $q['tag_slug__in'] ) ) {
+			$q['tag_slug__in'] = array_map( 'sanitize_title_for_query', array_unique( (array) $q['tag_slug__in'] ) );
+			$tax_query[]       = array(
+				'taxonomy' => 'tag',
+				'terms'    => $q['tag_slug__in'],
+				'field'    => 'slug',
+			);
+		}
+
+		if ( ! empty( $q['tag_slug__and'] ) ) {
+			$q['tag_slug__and'] = array_map( 'sanitize_title_for_query', array_unique( (array) $q['tag_slug__and'] ) );
+			$tax_query[]        = array(
+				'taxonomy' => 'tag',
+				'terms'    => $q['tag_slug__and'],
+				'field'    => 'slug',
+				'operator' => 'AND',
+			);
+		}
+
+		$query  = new Taxonomy_Query( $tax_query );
+		$clause = $query->get_sql( CN_ENTRY_TABLE, 'id' );
+
+		$join[]  = $clause['join'];
+		$where[] = $clause['where'];
 	}
 
 	/**
@@ -3273,7 +3605,7 @@ class cnRetrieve {
 	 * Returns category by ID.
 	 *
 	 * @param integer $id
-	 * @return cnTerm_Object|WP_Error
+	 * @return Taxonomy_Term|WP_Error
 	 */
 	public function category( $id ) {
 

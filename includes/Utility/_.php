@@ -3,6 +3,7 @@
 namespace Connections_Directory\Utility;
 
 use cnHTML;
+use Connections_Directory\Request;
 use WP_Error;
 
 /**
@@ -101,27 +102,39 @@ final class _ {
 				break;
 
 			case JSON_ERROR_DEPTH:
-				$result = new WP_Error( 'json_decode_error', __( 'Maximum stack depth exceeded.', 'connections' ) );
+				$result = new WP_Error( 'json_decode_error', 'Maximum stack depth exceeded.' );
 				break;
 
 			case JSON_ERROR_STATE_MISMATCH:
-				$result = new WP_Error( 'json_decode_error', __( 'Underflow or the modes mismatch.', 'connections' ) );
+				$result = new WP_Error( 'json_decode_error', 'Underflow or the modes mismatch.' );
 				break;
 
 			case JSON_ERROR_CTRL_CHAR:
-				$result = new WP_Error( 'json_decode_error', __( 'Unexpected control character found.', 'connections' ) );
+				$result = new WP_Error( 'json_decode_error', 'Unexpected control character found.' );
 				break;
 
 			case JSON_ERROR_SYNTAX:
-				$result = new WP_Error( 'json_decode_error', __( 'Syntax error, malformed JSON.', 'connections' ) );
+				$result = new WP_Error( 'json_decode_error', 'Syntax error, malformed JSON.' );
 				break;
 
 			case JSON_ERROR_UTF8:
-				$result = new WP_Error( 'json_decode_error', __( 'Malformed UTF-8 characters, possibly incorrectly encoded.', 'connections' ) );
+				$result = new WP_Error( 'json_decode_error','Malformed UTF-8 characters, possibly incorrectly encoded.' );
+				break;
+
+			case JSON_ERROR_RECURSION:
+				$result = new WP_Error( 'json_decode_error', 'One or more recursive references in the value to be encoded.' );
+				break;
+
+			case JSON_ERROR_INF_OR_NAN:
+				$result = new WP_Error( 'json_decode_error', 'One or more NAN or INF values in the value to be encoded.' );
+				break;
+
+			case JSON_ERROR_UNSUPPORTED_TYPE:
+				$result = new WP_Error( 'json_decode_error', 'A value of a type that cannot be encoded was given.' );
 				break;
 
 			default:
-				$result = new WP_Error( 'json_decode_error', __( 'Unknown error.', 'connections' ) );
+				$result = new WP_Error( 'json_decode_error', 'Unknown error.' );
 				break;
 		}
 
@@ -157,6 +170,8 @@ final class _ {
 	/**
 	 * Maybe json_decode the supplied value.
 	 *
+	 * @link https://stackoverflow.com/a/45241792/5351316
+	 *
 	 * @since 0.8
 	 *
 	 * @param mixed   $value The value to decode.
@@ -166,26 +181,48 @@ final class _ {
 	 */
 	public static function maybeJSONdecode( $value, $array = true ) {
 
-		if ( ! is_string( $value ) || 0 == strlen( $value ) ) {
+		if ( ! is_string( $value ) ) {
+			return $value;
+		}
+
+		if ( is_numeric( $value ) ) {
+			return 0 + $value;
+		}
+
+		if ( 2 > strlen( $value ) ) {
+			return $value;
+		}
+
+		if ( 'null' === $value ) {
+			return null;
+		}
+
+		if ( 'true' === $value ) {
+			return true;
+		}
+
+		if ( 'false' === $value ) {
+			return false;
+		}
+
+		if ( '{' !== $value[0] && '[' !== $value[0] && '"' !== $value[0] ) {
+			return $value;
+		}
+
+		//// A JSON encoded string will start and end with either a square bracket of curly bracket.
+		//if ( ( $value[0] === '[' && $value[ strlen( $value ) - 1 ] === ']' ) || ( $value[0] === '{' && $value[ strlen( $value ) - 1 ] === '}' ) ) {
+		//
+		//	$value = json_decode( $value, $array );
+		//}
+
+		$result = self::decodeJSON( $value, $array );
+
+		if ( is_wp_error( $result ) ) {
 
 			return $value;
 		}
 
-		// A JSON encoded string will start and end with either a square bracket of curly bracket.
-		if ( ( $value[0] == '[' && $value[ strlen( $value ) - 1 ] == ']' ) || ( $value[0] == '{' && $value[ strlen( $value ) - 1 ] == '}' ) ) {
-
-			// @todo, this should be refactored to utilize self::decodeJSON()
-			$value = json_decode( $value, $array );
-		}
-
-		if ( is_null( $value ) ) {
-
-			return '';
-
-		} else {
-
-			return $value;
-		}
+		return $result;
 	}
 
 	/**
@@ -349,4 +386,46 @@ final class _ {
 		return $result;
 	}
 
+	/**
+	 * If the current request is either AJAX or REST, write the var_dump() to the PHP error log instead of outputting.
+	 * The allows the use of var_dump() without corrupting the return results of an AJAX or REST request.
+	 *
+	 * @since 10.3
+	 *
+	 * @param mixed $value
+	 */
+	public static function var_dump( $value ) {
+
+		$request = Request::get();
+
+		if ( $request->isAjax() || $request->isRest() ) {
+
+			for ( $i = 0; $i < func_num_args(); ++$i ) {
+
+				//error_log( var_export( func_get_arg( $i ), true ) );
+
+				ob_start();
+
+				var_dump( func_get_arg( $i ) );
+
+				$buffer = ob_get_clean();
+
+				error_log( trim( $buffer ) );
+			}
+
+		} else {
+
+			if ( 1 === func_num_args() ) {
+
+				var_dump( $value );
+
+			} else {
+
+				for ( $i = 0; $i < func_num_args(); ++$i ) {
+
+					var_dump( func_get_arg( $i ) );
+				}
+			}
+		}
+	}
 }

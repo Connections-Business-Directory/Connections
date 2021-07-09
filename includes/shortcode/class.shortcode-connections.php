@@ -168,6 +168,14 @@ class cnShortcode_Connections extends cnShortcode {
 			self::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
 		}
 
+		$class    = array( 'cn-template', "cn-{$template->getSlug()}" );
+		$isSingle = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
+
+		if ( $isSingle ) {
+
+			array_push( $class, 'cn-template-is-single' );
+		}
+
 		ob_start();
 
 			// Prints the template's CSS file.
@@ -186,9 +194,11 @@ class cnShortcode_Connections extends cnShortcode {
 				empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
 		);
 
-		$html .= sprintf( '<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
-				$template->getSlug(),
-				$template->getVersion()
+		$html .= sprintf(
+			'<div class="%1$s" id="cn-%2$s" data-template-version="%3$s">',
+			implode( ' ', $class ),
+			$template->getSlug(),
+			$template->getVersion()
 		);
 
 		// The filter should check $content that content is not empty before processing $content.

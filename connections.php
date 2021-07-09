@@ -5,13 +5,13 @@
  * @author    Steven A. Zahm
  * @license   GPL-2.0+
  * @link      https://connections-pro.com
- * @copyright 2020 Steven A. Zahm
+ * @copyright 2021 Steven A. Zahm
  *
  * @wordpress-plugin
  * Plugin Name:       Connections Business Directory
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
- * Version:           10.2
+ * Version:           10.3
  * Author:            Steven A. Zahm
  * Author URI:        https://connections-pro.com/
  * License:           GPL-2.0+
@@ -48,7 +48,7 @@ $check = new cnRequirements_Check(
 			),
 			'wp'  => array(
 				'min' => '5.1', //4.7.12
-				'max' => '5.7',
+				'max' => '5.8',
 			),
 		),
 	)

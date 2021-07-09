@@ -73,6 +73,9 @@ class cnDependency {
 			file_exists( CN_TEMPLATE_PATH . $path ) AND include_once CN_TEMPLATE_PATH . $path;
 		}
 
+		// Deprecated utility functions.
+		require_once CN_PATH . 'includes/Utility/_deprecated.php';
+
 		// Deprecated Actions/Filters
 		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
 		require_once CN_PATH . 'includes/inc.deprecated-filters.php';
@@ -83,11 +86,13 @@ class cnDependency {
 
 		// Sitemaps
 		require_once CN_PATH . 'includes/Sitemaps/Sitemaps.php';
-		require_once CN_PATH . 'includes/Sitemaps/functions.php';
 
 		// Taxonomy
-		require_once CN_PATH . 'includes/Taxonomy/Register.php';
 		require_once CN_PATH . 'includes/Taxonomy/functions.php';
+		require_once CN_PATH . 'includes/Taxonomy/Register.php';
+
+		// Global functions.
+		require_once CN_PATH . 'includes/functions.php';
 
 		// Include the autoloader for the Pear IMC classes.
 		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';
@@ -185,6 +190,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
 			'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
 			'Connections_Directory\Utility\_url'    => 'includes/Utility/_url.php',
+			'Connections_Directory\Utility\Convert\_length' => 'includes/Utility/Convert/_length.php',
 
 			// Localization
 			'cnText_Domain'            => 'includes/class.text-domain.php',
@@ -192,16 +198,19 @@ class cnDependency {
 			// Current User
 			'cnUser'                   => 'includes/class.user.php',
 
+			// Request API.
+			'Connections_Directory\Request'                     => 'includes/Request.php',
+
 			// Taxonomy API.
 			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',
 			'Connections_Directory\Taxonomy\Registry'           => 'includes/Taxonomy/Registry.php',
+			'Connections_Directory\Taxonomy\Term'               => 'includes/Taxonomy/Term.php',
 			'Connections_Directory\Taxonomy\Widget'             => 'includes/Taxonomy/Widget.php',
 			'Connections_Directory\Taxonomy\Term\Admin\Actions' => 'includes/Taxonomy/Term/Admin/Actions.php',
 
 			// Terms Objects
 			'cnTerm'                   => 'includes/class.terms.php',
 			'cnTerms'                  => 'includes/class.terms.php',
-			'cnTerm_Object'            => 'includes/class.terms.php',
 
 			// Category Objects
 			'cnCategory'               => 'includes/class.category.php',
@@ -209,6 +218,10 @@ class cnDependency {
 			// Retrieve objects from the db.
 			'cnQuery'                  => 'includes/class.query.php',
 			'cnRetrieve'               => 'includes/class.retrieve.php',
+
+			// Query APIs.
+			'Connections_Directory\Query\Taxonomy' => 'includes/Query/Taxonomy.php',
+			'Connections_Directory\Query\Term'     => 'includes/Query/Term.php',
 
 			// HTML form elements.
 			'cnFormObjects'            => 'includes/class.form.php',

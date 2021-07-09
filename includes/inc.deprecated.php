@@ -1,6 +1,7 @@
 <?php
 class_alias( Connections_Directory\Integration\WordPress\mShot::class, Connections_Directory\SiteShot::class );
 class_alias( Connections_Directory\SiteShot::class, cnSiteShot::class );
+class_alias( Connections_Directory\Taxonomy\Term::class, cnTerm_Object::class );
 class_alias( Connections_Directory\Utility\_::class, cnFunction::class );
 class_alias( Connections_Directory\Utility\_array::class, cnArray::class );
 class_alias( Connections_Directory\Utility\_color::class, cnColor::class );

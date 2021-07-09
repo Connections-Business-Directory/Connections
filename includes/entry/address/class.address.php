@@ -86,6 +86,11 @@ final class cnAddress extends cnEntry_Collection_Item {
 	private $latitude = 0;
 
 	/**
+	 * @var array
+	 */
+	private $url;
+
+	/**
 	 * Hash map of the old array keys / object properties to cnAddress properties.
 	 *
 	 * Used in self::__isset()
@@ -114,6 +119,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		'latitude'   => 'latitude',
 		'longitude'  => 'longitude',
 	    'country'    => 'country',
+		'url'        => 'url',
 		// For forward compatibility.
 		'locality'    => 'locality',
 		'region'      => 'region',
@@ -155,6 +161,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		'country'    => 'getCountry',
 		'latitude'   => 'getLatitude',
 		'longitude'  => 'getLongitude',
+		'url'        => 'getURLSlugs',
 		// For forward compatibility.
 		'locality'    => 'getLocality',
 		'region'      => 'getRegion',
@@ -246,6 +253,15 @@ final class cnAddress extends cnEntry_Collection_Item {
 
 			$this->visibility = 'public';
 		}
+
+		$this->url = array(
+			'district'    => $this->district,
+			'county'      => $this->county,
+			'locality'    => $this->locality,
+			'region'      => $this->region,
+			'postal_code' => $this->postal_code,
+			'country'     => $this->country->getName(),
+		);
 	}
 
 	/**
@@ -634,6 +650,16 @@ final class cnAddress extends cnEntry_Collection_Item {
 	}
 
 	/**
+	 * @since 10.3
+	 *
+	 * @return array
+	 */
+	public function getURLSlugs() {
+
+		return $this->url;
+	}
+
+	/**
 	 * @access public
 	 * @since  8.6
 	 *
@@ -730,6 +756,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 			'country'     => $this->country->getName(),
 			'latitude'    => $this->coordinates->getLatitude(),
 			'longitude'   => $this->coordinates->getLongitude(),
+			'url'         => $this->url,
 		);
 
 		$address['name'] = $this->getName();

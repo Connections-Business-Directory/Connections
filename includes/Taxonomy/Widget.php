@@ -139,7 +139,7 @@ final class Widget extends WP_Widget {
 		$blockID      = 'category' === $taxonomySlug ? 'entry-categories' : "taxonomy-{$taxonomySlug}";
 
 		/**
-		 * This filter is documented in includes/Taxonomy/Taxonomy.php
+		 * This filter is documented in includes/Taxonomy.php
 		 * @see Taxonomy::registerContentBlock()
 		 */
 		$blockID = apply_filters( 'Connections_Directory/Taxonomy/Register/Content_Block/ID', $blockID );

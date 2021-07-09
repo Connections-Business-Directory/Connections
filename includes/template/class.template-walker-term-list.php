@@ -10,6 +10,8 @@
  * @since       8.1.6
  */
 
+use Connections_Directory\Taxonomy\Term;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -280,10 +282,10 @@ class CN_Walker_Term_List extends Walker {
 		 *
 		 * @since 8.5.18
 		 *
-		 * @param string        $html  The HTML.
-		 * @param cnTerm_Object $term  The current term.
-		 * @param int           $depth Depth of category. Used for tab indentation.
-		 * @param array         $args  The method attributes.
+		 * @param string $html  The HTML.
+		 * @param Term   $term  The current term.
+		 * @param int    $depth Depth of category. Used for tab indentation.
+		 * @param array  $args  The method attributes.
 		 */
 		$html = apply_filters( 'cn_term_list_item', $html, $term, $depth, $args );
 
@@ -341,10 +343,10 @@ class CN_Walker_Term_List extends Walker {
 		 *
 		 * @since 8.5.18
 		 *
-		 * @param array         $class The array of class names.
-		 * @param cnTerm_Object $term  The current term.
-		 * @param int           $depth Depth of category. Used for tab indentation.
-		 * @param array         $args  The method attributes.
+		 * @param array $class The array of class names.
+		 * @param Term  $term  The current term.
+		 * @param int   $depth Depth of category. Used for tab indentation.
+		 * @param array $args  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_list_item_class', $class, $term, $depth, $args );
 		$class = cnHTML::escapeClassnames( $class );

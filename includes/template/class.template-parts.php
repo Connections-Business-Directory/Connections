@@ -646,13 +646,13 @@ class cnTemplatePart {
 		/*
 		 * @todo
 		 * All templates need updated to remove use of the .cn-entry and .cn-entry-single classes
-		 * and use .cn-list-item and .cn-list-item.cn-is-single instead.
+		 * and use .cn-list-item and .cn-list-item.cn-list-item-is-single instead.
 		 */
 		array_push( $class, 'cn-list-item' );
 
 		if ( $isSingle ) {
 
-			array_push( $class, 'cn-is-single' );
+			array_push( $class, 'cn-list-item-is-single' );
 		}
 
 		array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( TRUE ) );
@@ -1234,6 +1234,8 @@ class cnTemplatePart {
 		$queryVars['cn-cat']          = cnQuery::getVar('cn-cat') ? cnQuery::getVar('cn-cat') : FALSE;
 		$queryVars['cn-organization'] = cnQuery::getVar('cn-organization') ? esc_html( urldecode( cnQuery::getVar('cn-organization') ) ) : FALSE;
 		$queryVars['cn-department']   = cnQuery::getVar('cn-department') ? esc_html( urldecode( cnQuery::getVar('cn-department') ) ) : FALSE;
+		$queryVars['cn-district']     = cnQuery::getVar('cn-district') ? esc_html( urldecode( cnQuery::getVar('cn-district') ) ) : FALSE;
+		$queryVars['cn-county']       = cnQuery::getVar('cn-county') ? esc_html( urldecode( cnQuery::getVar('cn-county') ) ) : FALSE;
 		$queryVars['cn-locality']     = cnQuery::getVar('cn-locality') ? esc_html( urldecode( cnQuery::getVar('cn-locality') ) ) : FALSE;
 		$queryVars['cn-region']       = cnQuery::getVar('cn-region') ? esc_html( urldecode( cnQuery::getVar('cn-region') ) ) : FALSE;
 		$queryVars['cn-postal-code']  = cnQuery::getVar('cn-postal-code') ? esc_html( urldecode( cnQuery::getVar('cn-postal-code') ) ) :  FALSE;
@@ -1309,6 +1311,22 @@ class cnTemplatePart {
 			$messages['cn-department'] = sprintf(
 				__( 'The results are being filtered by the department: %s', 'connections' ),
 				$queryVars['cn-department']
+			);
+		}
+
+		if ( $queryVars['cn-district'] ) {
+
+			$messages['cn-district'] = sprintf(
+				__( 'The results are being filtered by the district: %s', 'connections' ),
+				$queryVars['cn-district']
+			);
+		}
+
+		if ( $queryVars['cn-county'] ) {
+
+			$messages['cn-county'] = sprintf(
+				__( 'The results are being filtered by the county: %s', 'connections' ),
+				$queryVars['cn-county']
 			);
 		}
 
@@ -2016,17 +2034,11 @@ class cnTemplatePart {
 				// Add the category base and path if paging thru a category.
 				if ( cnQuery::getVar('cn-cat-slug') ) $permalink = trailingslashit( $permalink . $base['category_base'] . '/' . cnQuery::getVar('cn-cat-slug') );
 
-				// Add the organization base and path if paging thru a organization.
-				if ( cnQuery::getVar('cn-organization') ) $permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . cnQuery::getVar('cn-organization') );
+				// Add the country base and path if paging thru a country.
+				if ( cnQuery::getVar( 'cn-country' ) ) {
 
-				// Add the department base and path if paging thru a department.
-				if ( cnQuery::getVar('cn-department') ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar('cn-department') );
-
-				// Add the locality base and path if paging thru a locality.
-				if ( cnQuery::getVar('cn-locality') ) {
-
-					_array::forget( $queryVars, 'cn-locality' );
-					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar('cn-locality') );
+					_array::forget( $queryVars, 'cn-country' );
+					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . cnQuery::getVar( 'cn-country' ) );
 				}
 
 				// Add the region base and path if paging thru a region.
@@ -2043,8 +2055,18 @@ class cnTemplatePart {
 					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . cnQuery::getVar('cn-postal-code') );
 				}
 
-				// Add the country base and path if paging thru a country.
-				if ( cnQuery::getVar('cn-country') ) $permalink = trailingslashit( $permalink . $base['country_base'] . '/' . cnQuery::getVar('cn-country') );
+				// Add the locality base and path if paging thru a locality.
+				if ( cnQuery::getVar('cn-locality') ) {
+
+					_array::forget( $queryVars, 'cn-locality' );
+					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar('cn-locality') );
+				}
+
+				// Add the organization base and path if paging thru a organization.
+				if ( cnQuery::getVar('cn-organization') ) $permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . cnQuery::getVar('cn-organization') );
+
+				// Add the department base and path if paging thru a department.
+				if ( cnQuery::getVar('cn-department') ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar('cn-department') );
 
 				$args = array(
 					'base'               => $permalink . '%_%',
@@ -2063,10 +2085,6 @@ class cnTemplatePart {
 					'before_page_number' => $atts['before_page_number'],
 					'after_page_number'  => $atts['after_page_number'],
 					);
-
-				$args = apply_filters( 'cn_pagination_links_args', $args );
-
-				$links = paginate_links( $args );
 
 			} else {
 
@@ -2106,15 +2124,14 @@ class cnTemplatePart {
 					'after_page_number'  => $atts['after_page_number'],
 					);
 
-				$args = apply_filters( 'cn_pagination_links_args', $args );
-
-				$links = paginate_links( $args );
 			}
+
+			$args  = apply_filters( 'cn_pagination_links_args', $args );
+			$links = paginate_links( $args );
 
 			$out .= '<span class="cn-page-nav" id="cn-page-nav">';
 			$out .= join( PHP_EOL, $links );
 			$out .= '</span>';
-
 		}
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter

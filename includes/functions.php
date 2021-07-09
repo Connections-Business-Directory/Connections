@@ -1,7 +1,13 @@
 <?php
 
+use Connections_Directory\Taxonomy;
+use Connections_Directory\Taxonomy\Registry;
 use function Connections_Directory\Sitemaps\createProvider;
 use function Connections_Directory\Sitemaps\registerProvider;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Add a new sitemap provider.
@@ -19,5 +25,24 @@ use function Connections_Directory\Sitemaps\registerProvider;
 function cn_register_sitemap_provider( $id, $name ) {
 
 	$provider = createProvider( $id, $name );
+
 	return registerProvider( $name, $provider );
+}
+
+/**
+ * Register a taxonomy.
+ *
+ * @since 10.2
+ *
+ * @param string $taxonomy
+ * @param array  $args
+ *
+ * @return Taxonomy|WP_Error
+ */
+function cn_register_taxonomy( $taxonomy, $args = array() ) {
+
+	// Get the taxonomy registry.
+	$taxonomies = Registry::get();
+
+	return $taxonomies->register( $taxonomy, $args );
 }

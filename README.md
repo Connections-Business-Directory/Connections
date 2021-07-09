@@ -247,6 +247,55 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.3 07/10/2021 =
+* NEW: Introduce `_length()`, deprecate `cnGEO::convert()`, and refactor instances of `cnGEO::convert()` to utilize `_length()`.
+* NEW: Introduce `Taxonomy::getQueryVar()` and `Taxonomy::isPublicQueryable()` methods.
+* NEW: Introduce `cnRetrieve::getRegisteredQueryVars()`.
+* NEW: Introduce `Request`.
+* NEW: Introduce `Query\Taxonomy` and `Query\Term` classes.
+* NEW: Introduce the `cn-template-is-single` class to the shortcode markup.
+* TWEAK: Correct `allow_public_override` shortcode settings label and description.
+* TWEAK: Rename `lock` parameter in `cnRetrieve::entries()` to `parse_request`.
+* TWEAK: Replace qualifier with import.
+* TWEAK: Replace deprecated method with replacement method.
+* TWEAK: Correct replacement method for deprecated method.
+* TWEAK: Remove the legacy `wp_current_category` shortcode parameter.
+* TWEAK: Use absolute path to include deprecated category functions. The `processEntryCategory()` was not a global function as it should have been, it was local to another function.
+* TWEAK: Update `_::decodeJSON` to include additional error messages.
+* TWEAK: Refactor `_::maybeJSONdecode()` to be faster and more reliable.
+* TWEAK: Remove unnecessary `break`.
+* TWEAK: Combine global functions into a single file.
+* TWEAK: Extract helper functions from the cnTerm object. Introduce `_getTermChildren`, `_getTermHierarchy`, `_padTermCounts` and several more helper functions.
+* TWEAK: Update cnTerm to use new taxonomy helper functions.
+* TWEAK: Use the `_deprecated_function()` wrapper function in the cnTerm file.
+* TWEAK: Remove use of deprecated method.
+* TWEAK: Add deprecated filter hooks for backwards compatibility.
+* TWEAK: Replace legacy `cnTerm_Object`class with `Taxonomy\Term`.
+* TWEAK: Remove use of deprecated methods in the legacy `cnCategory` class.
+* TWEAK: The name suffix should have a comma between it and the surname.
+* TWEAK: The pagination template code had duplicate code in the if/else statement. Extract it.
+* TWEAK: Change the classname `cn-is-single` to `cn-list-item-is-single` for more accurate targeting.
+* TWEAK: Add timestamp to the template custom CSS file version string for cache busting.
+* TWEAK: When parsing query request variables; parse arrays, filter, decode, and unslash.
+* TWEAK: Refactor `cnRetrieve::entries()` to utilize both `Request` and `Query\Taxonomy` to remove code duplication and optimize query performance.
+* BUG: Add missing search results messages when filtering by district and county.
+* BUG: Cast string to float.
+* BUG: Do not disable the term checklist option when not displaying in the admin.
+* BUG: Pass raw Organization and Department fields to `cnURL::permalink()` slug attribute.
+* BUG: Correct return value `isHierarchical()`.
+* BUG: Correctly order the country/region permalinks in the pagination.
+* BUG: Pass raw names when creating permalinks for county, district, city, state, zipcode, and country permalinks.
+* DEV: phpDoc corrections.
+* DEV: Update `package.json` with latest dev dependencies and `webpack.config.js` configuration options.
+* DEV: Update dist files.
+* DEV: Update vendor files.
+* DEV: Comment out unused code, marked for removal at later date.
+* DEV: Update `package.json` dependencies.
+* DEV: Introduce `wp_get_environment_type()` for backwards compatibility.
+* DEV: Introduce action/filter deprecation hooks. During AJAX, REST or if WP Environment is set to "production", messages will be logged instead of output on screen.
+* DEV: Use new deprecated filter hook wrapper function in the deprecated filters files.
+* DEV: Use new deprecated action hook wrapper function in the deprecated action file.
+
 = 10.2 04/15/2021 =
 * FEATURE: First pass at adding custom taxonomy API.
 * NEW: Introduce `_string::insert()`.

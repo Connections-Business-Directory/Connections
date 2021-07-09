@@ -667,7 +667,7 @@ class cnEntry_HTML extends cnEntry {
 	public function getNameBlock( $atts = array() ) {
 
 		$defaults = array(
-			'format' => '%prefix% %first% %middle% %last% %suffix%',
+			'format' => '%prefix% %first% %middle% %last%%suffix%',
 			'link'   => cnSettingsAPI::get( 'connections', 'connections_link', 'name' ),
 			'target' => 'name',
 			'before' => '',
@@ -729,7 +729,7 @@ class cnEntry_HTML extends cnEntry {
 
 				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
 
-				$replace[] = 0 == strlen( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+				$replace[] = 0 == strlen( $honorificSuffix ) ? '' : '<span class="honorific-suffix">, ' . $honorificSuffix . '</span>';
 
 				$replace[] = 0 == strlen( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
 
@@ -1031,7 +1031,7 @@ class cnEntry_HTML extends cnEntry {
 
 					$organization = cnURL::permalink( array(
 							'type'       => 'organization',
-							'slug'       => $org,
+							'slug'       => $this->getOrganization( 'raw' ),
 							'title'      => $org,
 							'text'       => $org,
 							'home_id'    => $this->directoryHome['page_id'],
@@ -1055,7 +1055,7 @@ class cnEntry_HTML extends cnEntry {
 
 					$department = cnURL::permalink( array(
 							'type'       => 'department',
-							'slug'       => $dept,
+							'slug'       => $this->getDepartment( 'raw' ),
 							'title'      => $dept,
 							'text'       => $dept,
 							'home_id'    => $this->directoryHome['page_id'],

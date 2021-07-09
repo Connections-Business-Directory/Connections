@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.2';
+	const VERSION = '10.3';
 
 	/**
 	 * Stores the instance of this class.
@@ -398,6 +398,9 @@ final class Connections_Directory {
 
 		// Geocode the address using Google Geocoding API.
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
+
+		// Parse the request query variables.
+		add_action( 'parse_request', array( 'Connections_Directory\Request', 'parse' ) );
 
 		// Init the taxonomies. The `setup_theme` action is the action run closest after initializing of the $wp_rewrite global variable.
 		add_action( 'setup_theme', 'Connections_Directory\Taxonomy\init' );

@@ -7,7 +7,7 @@ use cnEntry;
 use cnMetaboxAPI;
 use cnRewrite;
 use cnTerm;
-use cnTerm_Object;
+use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Taxonomy\Widget;
 use Connections_Directory\Utility\_array;
 use WP;
@@ -1192,6 +1192,18 @@ final class Taxonomy {
 	}
 
 	/**
+	 * Get the query var string for this taxonomy.
+	 *
+	 * @since 10.3
+	 *
+	 * @return false|string
+	 */
+	public function getQueryVar() {
+
+		return $this->query_var;
+	}
+
+	/**
 	 * Whether or not the taxonomy is a "core" builtin taxonomy.
 	 *
 	 * @since 10.2
@@ -1236,6 +1248,18 @@ final class Taxonomy {
 	public function isPublic() {
 
 		return $this->public;
+	}
+
+	/**
+	 * Whether or not the taxonomy is publicly queryable.
+	 *
+	 * @since 10.3
+	 *
+	 * @return bool
+	 */
+	public function isPublicQueryable() {
+
+		return $this->publicly_queryable;
 	}
 
 	/**
@@ -1627,6 +1651,8 @@ final class Taxonomy {
 			$terms = array( (int) $default_term_id );
 		}
 
+		$terms = apply_filters( "Connections_Directory/Taxonomy/{$this->getSlug()}/Sanitize_Terms", $terms );
+
 		return Connections_Directory()->term->setTermRelationships( $entryID, $terms, $this->name );
 	}
 
@@ -1774,7 +1800,7 @@ final class Taxonomy {
 				$term = cnTerm::getBy( 'name', $name, $taxonomy );
 
 				// Existing term.
-				if ( $term instanceof cnTerm_Object ) {
+				if ( $term instanceof Term ) {
 
 					$termIDs[] = $term->term_id;
 

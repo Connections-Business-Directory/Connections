@@ -10,11 +10,18 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
+use function Connections_Directory\Taxonomy\_getTermChildren;
+use function Connections_Directory\Taxonomy\_getTermHierarchy;
+use function Connections_Directory\Taxonomy\_padTermCounts;
+use function Connections_Directory\Taxonomy\exists as taxonomy_exists;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnTerms
@@ -778,6 +785,7 @@ class cnTerm {
 
 		$object_id = (int) $object_id;
 
+		// @todo Add check.
 		//if ( ! taxonomy_exists($taxonomy) )
 		//	return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
@@ -2598,7 +2606,7 @@ class cnTerm {
 				delete_option( "cn_{$taxonomy}_children" );
 
 				// Regenerate {$taxonomy}_children
-				self::childrenIDs( $taxonomy );
+				_getTermHierarchy( $taxonomy );
 			}
 
 			/**
@@ -2691,7 +2699,7 @@ class cnTerm {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnTerm::childrenIDs' );
 
-		return self::childrenIDs( $taxonomy );
+		return _getTermHierarchy( $taxonomy );
 	}
 
 	/**
@@ -2736,6 +2744,7 @@ class cnTerm {
 			return new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
 		 }
 
+		// @todo Add check.
 		// if ( ! taxonomy_exists( $taxonomy ) ) {
 
 		//	return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
@@ -2822,6 +2831,9 @@ class cnTerm {
 	 * Retrieve the terms in a given taxonomy or list of taxonomies.
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_terms() in WordPress core ../wp-includes/taxonomy.php
+	 *
+	 * @todo refactor to utilize
+	 *       @see \Connections_Directory\Query\Term::get_terms()
 	 *
 	 * Filters:
 	 *    cn_get_terms_atts - The method variables.
@@ -3017,7 +3029,7 @@ class cnTerm {
 
 		if ( $atts['child_of'] ) {
 
-			$hierarchy = self::childrenIDs( reset( $taxonomies ) );
+			$hierarchy = _getTermHierarchy( reset( $taxonomies ) );
 
 			if ( ! isset( $hierarchy[ $atts['child_of'] ] ) ) {
 
@@ -3027,7 +3039,7 @@ class cnTerm {
 
 		if ( $atts['parent'] ) {
 
-			$hierarchy = self::childrenIDs( reset( $taxonomies ) );
+			$hierarchy = _getTermHierarchy( reset( $taxonomies ) );
 
 			if ( ! isset( $hierarchy[ $atts['parent'] ] ) ) {
 
@@ -3288,7 +3300,7 @@ class cnTerm {
 
 			foreach ( $taxonomies as $_tax ) {
 
-				$term_hierarchy = self::childrenIDs( $_tax );
+				$term_hierarchy = _getTermHierarchy( $_tax );
 				$exclusions = array_merge( array_keys( $term_hierarchy ), $exclusions );
 			}
 		}
@@ -3550,11 +3562,11 @@ class cnTerm {
 
 		if ( $atts['child_of'] ) {
 
-			$children = self::childrenIDs( reset( $taxonomies ) );
+			$children = _getTermHierarchy( reset( $taxonomies ) );
 
 			if ( ! empty( $children ) ) {
 
-				$terms = self::descendants( $atts['child_of'], $terms, reset( $taxonomies ) );
+				$terms = _getTermChildren( $atts['child_of'], $terms, reset( $taxonomies ) );
 			}
 		}
 
@@ -3567,7 +3579,7 @@ class cnTerm {
 
 			foreach ( $taxonomies as $_tax ) {
 
-				self::padCounts( $terms, $_tax );
+				_padTermCounts( $terms, $_tax );
 			}
 		}
 
@@ -3853,13 +3865,13 @@ class cnTerm {
 			return new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
 		}
 
-		// @todo Implement taxonomy check.
-		//if ( ! taxonomy_exists( $taxonomy ) ) {
+		// @todo Add check.
+		// if ( $taxonomy && ! taxonomy_exists( $taxonomy ) ) {
 		//
-		//	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
-		//}
+		// 	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy', 'connections' ) );
+		// }
 
-		if ( $term instanceof cnTerm_Object ) {
+		if ( $term instanceof Taxonomy\Term ) {
 
 			$_term = $term;
 
@@ -3868,16 +3880,16 @@ class cnTerm {
 			if ( empty( $term->filter ) || 'raw' === $term->filter ) {
 
 				$_term = sanitize_term( $term, 'cn_' . $taxonomy, 'raw' );
-				$_term = new cnTerm_Object( $_term );
+				$_term = new Taxonomy\Term( $_term );
 
 			} else {
 
-				$_term = cnTerm_Object::get( $term->term_id );
+				$_term = Taxonomy\Term::get( $term->term_id );
 			}
 
 		} else {
 
-			$_term = cnTerm_Object::get( $term, $taxonomy );
+			$_term = Taxonomy\Term::get( $term, $taxonomy );
 		}
 
 		if ( is_wp_error( $_term ) ) {
@@ -4057,46 +4069,19 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see _get_term_hierarchy() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access public
 	 * @since  8.1
 	 * @since  8.5.10 Define method as public.
-	 * @static
+	 * @deprecated 10.3
 	 *
-	 * @uses   get_option()
-	 * @uses   cnTerm::getTaxonomyTerms()
-	 * @uses   update_option()
-	 *
-	 * @param  string $taxonomy Taxonomy name.
+	 * @param string $taxonomy Taxonomy name.
 	 *
 	 * @return array  Empty if $taxonomy isn't hierarchical or returns children as term IDs.
 	 */
 	public static function childrenIDs( $taxonomy ) {
 
-		// if ( !is_taxonomy_hierarchical($taxonomy) )
-		// 	return array();
+		_deprecated_function( __METHOD__, '10.3', '\Connections_Directory\Taxonomy\_getTermHierarchy' );
 
-		$children = get_option( "cn_{$taxonomy}_children" );
-
-		if ( is_array( $children ) ) {
-
-			return $children;
-		}
-
-		$children = array();
-		$terms    = self::getTaxonomyTerms( $taxonomy, array( 'get' => 'all', 'orderby' => 'id', 'fields' => 'id=>parent') );
-
-		foreach ( $terms as $term_id => $parent ) {
-
-			if ( $parent > 0 ){
-
-				$children[ $parent ][] = $term_id;
-			}
-
-		}
-
-		 update_option ( "cn_{$taxonomy}_children", $children );
-
-		return $children;
+		return _getTermHierarchy( $taxonomy );
 	}
 
 	/**
@@ -4108,6 +4093,7 @@ class cnTerm {
 	 * NOTE: This is the Connections equivalent of @see _get_term_children() in WordPress core ../wp-includes/taxonomy.php
 	 *
 	 * @since 8.1
+	 * @deprecated 10.3
 	 *
 	 * @param  int    $term_id  The ancestor term: all returned terms should be descendants of $term_id.
 	 * @param  array  $terms    The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
@@ -4121,77 +4107,9 @@ class cnTerm {
 	 */
 	private static function descendants( $term_id, $terms, $taxonomy, &$ancestors = array() ) {
 
-		if ( empty( $terms ) ) {
+		_deprecated_function( __METHOD__, '10.3', '\Connections_Directory\Taxonomy\_getTermChildren' );
 
-			return array();
-		}
-
-		$term_id      = (int) $term_id;
-		$term_list    = array();
-		$has_children = self::childrenIDs( $taxonomy );
-
-		if  ( ( 0 !== $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
-
-			return array();
-		}
-
-		// Include the term itself in the ancestors array, so we can properly detect when a loop has occurred.
-		if ( empty( $ancestors ) ) {
-
-			$ancestors[ $term_id ] = 1;
-		}
-
-		foreach ( (array) $terms as $term ) {
-
-			$use_id = FALSE;
-
-			if ( ! is_object( $term ) ) {
-
-				$term = self::get( $term, $taxonomy );
-
-				 if ( is_wp_error( $term ) ) {
-
-					 return $term;
-				 }
-
-				$use_id = TRUE;
-			}
-
-			// Don't recurse if we've already identified the term as a child - this indicates a loop.
-			if ( isset( $ancestors[ $term->term_id ] ) ) {
-
-				continue;
-			}
-
-			if ( (int) $term->parent === $term_id ) {
-
-				if ( $use_id ) {
-
-					$term_list[] = $term->term_id;
-
-				} else {
-
-					$term_list[] = $term;
-				}
-
-				if ( ! isset( $has_children[ $term->term_id ]) ) {
-
-					continue;
-				}
-
-				$ancestors[ $term->term_id ] = 1;
-
-				$children = self::descendants( $term->term_id, $terms, $taxonomy, $ancestors );
-
-				if ( $children ) {
-
-					$term_list = array_merge( $term_list, $children );
-				}
-
-			}
-		}
-
-		return $term_list;
+		return _getTermChildren( $term_id, $terms, $taxonomy, $ancestors );
 	}
 
 	/**
@@ -4217,12 +4135,15 @@ class cnTerm {
 	 */
 	public static function children( $term_id, $taxonomy ) {
 
-		// if ( ! taxonomy_exists($taxonomy) )
-		// 	return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
+		// @todo Add check.
+		// if ( ! taxonomy_exists( $taxonomy ) ) {
+		//
+		// 	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy', 'connections' ) );
+		// }
 
 		$term_id = intval( $term_id );
 
-		$terms = self::childrenIDs( $taxonomy );
+		$terms = _getTermHierarchy( $taxonomy );
 
 		if ( ! isset( $terms[ $term_id ] ) ) {
 
@@ -4256,119 +4177,18 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see _pad_term_counts() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
-	 *
-	 * @global wpdb $wpdb
-	 *
-	 * @uses   childrenIDs()
-	 * @uses   is_user_logged_in()
-	 * @uses   current_user_can()
-	 * @uses   wpdb::get_results()
+	 * @internal
+	 * @since 8.1
+	 * @deprecated 10.3
 	 *
 	 * @param  array $terms List of Term IDs
 	 * @param  string $taxonomy Term Context
-	 *
-	 * @return null Will break from function if conditions are not met.
 	 */
 	private static function padCounts( &$terms, $taxonomy ) {
 
-		global $wpdb;
+		_deprecated_function( __METHOD__, '10.3', '\Connections_Directory\Taxonomy\_padTermCounts' );
 
-		$term_ids   = array();
-		$visibility = array();
-
-		// Grab an instance of the Connections object.
-		/** @var connectionsLoad $instance */
-		$instance = Connections_Directory();
-
-		// This function only works for hierarchical taxonomies like post categories.
-		// if ( !is_taxonomy_hierarchical( $taxonomy ) )
-		// 	return;
-
-		$term_hier = self::childrenIDs( $taxonomy );
-
-		if ( empty( $term_hier ) ) {
-
-			return;
-		}
-
-		$term_items = array();
-
-		foreach ( (array) $terms as $key => $term ) {
-
-			$terms_by_id[ $term->term_id ]       = &$terms[ $key ];
-			$term_ids[ $term->term_taxonomy_id ] = $term->term_id;
-		}
-
-		/*
-		 * // START --> Set up the query to only return the entries based on user permissions.
-		 */
-		if ( is_user_logged_in() ) {
-
-			if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
-			if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
-			if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-
-		} else {
-
-			// Display the 'public' entries if the user is not required to be logged in.
-			$visibility[] = $instance->options->getAllowPublic() ? 'public' : '';
-		}
-		/*
-		 * // END --> Set up the query to only return the entries based on user permissions.
-		 */
-
-		// Get the object and term ids and stick them in a lookup table
-		// $tax_obj      = get_taxonomy( $taxonomy );
-		$entry_types = array( 'individual', 'organization', 'family' );
-		$results     = $wpdb->get_results("SELECT entry_id, term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " INNER JOIN " . CN_ENTRY_TABLE . " ON entry_id = id WHERE term_taxonomy_id IN (" . implode(',', array_keys( $term_ids ) ) . ") AND entry_type IN ('" . implode( "', '", $entry_types ) . "') AND visibility IN ('" . implode( "', '", (array) $visibility ) . "')");
-
-		foreach ( $results as $row ) {
-
-			$id = $term_ids[ $row->term_taxonomy_id ];
-
-			$term_items[ $id ][ $row->entry_id ] = isset( $term_items[ $id ][ $row->entry_id ] ) ? ++$term_items[ $id ][ $row->entry_id ] : 1;
-		}
-
-		// Touch every ancestor's lookup row for each post in each term
-		foreach ( $term_ids as $term_id ) {
-
-			$child     = $term_id;
-			$ancestors = array();
-
-			while ( ! empty( $terms_by_id[ $child ] ) && $parent = $terms_by_id[ $child ]->parent ) {
-
-				$ancestors[] = $child;
-
-				if ( ! empty( $term_items[ $term_id ] ) ) {
-
-					foreach ( $term_items[ $term_id ] as $item_id => $touches ) {
-
-						$term_items[ $parent ][ $item_id ] = isset( $term_items[ $parent ][ $item_id ] ) ? ++$term_items[ $parent ][ $item_id ]: 1;
-					}
-				}
-
-				$child = $parent;
-
-				if ( in_array( $parent, $ancestors ) ) {
-
-					break;
-				}
-			}
-		}
-
-		// Transfer the touched cells
-		foreach ( (array) $term_items as $id => $items ) {
-
-			if ( isset( $terms_by_id[ $id ] ) ) {
-
-				$terms_by_id[ $id ]->count = count( $items );
-			}
-
-		}
-
+		_padTermCounts( $terms, $taxonomy );
 	}
 
 	/**
@@ -4632,300 +4452,3 @@ class cnTerm {
 
 // Make `meta_query` arguments work.
 //add_filter( 'cn_terms_clauses',  array( 'cnTerm', 'getTaxonomyTermsClauses'  ), 10, 3 );
-
-/**
- * Core class used to implement the cnTerm_Object object.
- *
- * NOTE: This is the Connections equivalent of WP_Term in WordPress core ../wp-includes/class-wp-term.php
- *
- * @since 8.5.10
- */
-final class cnTerm_Object {
-
-	/**
-	 * Term ID.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var int
-	 */
-	public $term_id;
-
-	/**
-	 * The term's name.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var string
-	 */
-	public $name = '';
-
-	/**
-	 * The term's slug.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var string
-	 */
-	public $slug = '';
-
-	/**
-	 * The term's term_group.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var string
-	 */
-	public $term_group = '';
-
-	/**
-	 * Term Taxonomy ID.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var int
-	 */
-	public $term_taxonomy_id = 0;
-
-	/**
-	 * The term's taxonomy name.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var string
-	 */
-	public $taxonomy = '';
-
-	/**
-	 * The term's description.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var string
-	 */
-	public $description = '';
-
-	/**
-	 * ID of a term's parent term.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var int
-	 */
-	public $parent = 0;
-
-	/**
-	 * Cached object count for this term.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var int
-	 */
-	public $count = 0;
-
-	/**
-	 * Stores the term object's sanitization level.
-	 *
-	 * Does not correspond to a database field.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @var string
-	 */
-	public $filter = 'raw';
-
-	/**
-	 * Retrieve cnTerm_Object instance.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 * @static
-	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
-	 * @param int         $term_id  Term ID.
-	 * @param null|string $taxonomy Optional. Limit matched terms to those matching `$taxonomy`.
-	 *                              Only used for disambiguating potentially shared terms.
-	 *
-	 * @return cnTerm_Object|WP_Error|false Term object, if found. WP_Error if `$term_id` is shared between taxonomies and
-	 *                                      there's insufficient data to distinguish which term is intended.
-	 *                                      False for other failures.
-	 */
-	public static function get( $term_id, $taxonomy = null ) {
-
-		global $wpdb;
-
-		$term_id = (int) $term_id;
-
-		if ( ! $term_id ) {
-
-			return FALSE;
-		}
-
-		$_term = wp_cache_get( $term_id, 'cn_terms' );
-
-		// If there isn't a cached version, hit the database.
-		if ( ! $_term || ( $taxonomy && $taxonomy !== $_term->taxonomy ) ) {
-
-			// Grab all matching terms, in case any are shared between taxonomies.
-			$terms = $wpdb->get_results( $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE t.term_id = %d", $term_id ) );
-
-			if ( ! $terms ) {
-
-				return FALSE;
-			}
-
-			// If a taxonomy was specified, find a match.
-			if ( ! is_null( $taxonomy ) && is_string( $taxonomy ) && ! empty( $taxonomy ) ) {
-
-				foreach ( $terms as $match ) {
-
-					if ( $taxonomy === $match->taxonomy ) {
-
-						$_term = $match;
-						break;
-					}
-				}
-
-				// If only one match was found, it's the one we want.
-			} elseif ( 1 === count( $terms ) ) {
-
-				$_term = reset( $terms );
-
-				// Otherwise, the term must be shared between taxonomies.
-			} else {
-
-				// If the term is shared only with invalid taxonomies, return the one valid term.
-				foreach ( $terms as $t ) {
-
-					if ( ! taxonomy_exists( $t->taxonomy ) ) {
-
-						continue;
-					}
-
-					// Only hit if we've already identified a term in a valid taxonomy.
-					if ( $_term ) {
-
-						return new WP_Error( 'ambiguous_term_id', __( 'Term ID is shared between multiple taxonomies', 'connections' ), $term_id );
-					}
-
-					$_term = $t;
-				}
-			}
-
-			if ( ! $_term ) {
-
-				return FALSE;
-			}
-
-			// @todo Add check.
-			// Don't return terms from invalid taxonomies.
-			//if ( ! taxonomy_exists( $_term->taxonomy ) ) {
-			//	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
-			//}
-
-			$_term = sanitize_term( $_term, 'cn_' . $_term->taxonomy, 'raw' );
-
-			// Don't cache terms that are shared between taxonomies.
-			if ( 1 === count( $terms ) ) {
-
-				wp_cache_add( $term_id, $_term, 'cn_terms' );
-			}
-		}
-
-		$term_obj = new cnTerm_Object( $_term );
-		$term_obj->filter( $term_obj->filter );
-
-		return $term_obj;
-	}
-
-	/**
-	 * Constructor.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @param cnTerm_Object|object $term Term object.
-	 */
-	public function __construct( $term ) {
-
-		foreach ( get_object_vars( $term ) as $key => $value ) {
-
-			$this->$key = $value;
-		}
-	}
-
-	/**
-	 * Sanitizes term fields, according to the filter type provided.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @param string $filter Filter context. Accepts 'edit', 'db', 'display', 'attribute', 'js', 'raw'.
-	 */
-	public function filter( $filter ) {
-
-		sanitize_term( $this, 'cn_' . $this->taxonomy, $filter );
-	}
-
-	/**
-	 * Converts an object to array.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @return array Object as array.
-	 */
-	public function to_array() {
-
-		return get_object_vars( $this );
-	}
-
-	/**
-	 * Getter.
-	 *
-	 * @access public
-	 * @since  8.5.10
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function __get( $key ) {
-
-		switch ( $key ) {
-
-			case 'data' :
-
-				$data    = new stdClass();
-				$columns = array(
-					'term_id',
-					'name',
-					'slug',
-					'term_group',
-					'term_taxonomy_id',
-					'taxonomy',
-					'description',
-					'parent',
-					'count',
-				);
-
-				foreach ( $columns as $column ) {
-					$data->{$column} = isset( $this->{$column} ) ? $this->{$column} : NULL;
-				}
-
-				return sanitize_term( $data, 'cn_' . $data->taxonomy, 'raw' );
-				break;
-		}
-	}
-}

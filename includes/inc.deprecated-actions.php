@@ -1,5 +1,11 @@
 <?php
 
+use function Connections_Directory\Utility\_deprecated\_doAction as do_action_deprecated;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 add_action(
 	'Connections_Directory/Render/Template/Entry/Before',
 	/**

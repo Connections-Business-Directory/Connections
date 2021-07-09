@@ -2832,6 +2832,9 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_terms() in WordPress core ../wp-includes/taxonomy.php
 	 *
+	 * @todo refactor to utilize
+	 *       @see \Connections_Directory\Query\Term::get_terms()
+	 *
 	 * Filters:
 	 *    cn_get_terms_atts - The method variables.
 	 *        Passes: (array) $atts, (array) $taxonomies

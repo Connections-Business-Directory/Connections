@@ -109,6 +109,35 @@ final class Request {
 			}
 		}
 
+		foreach ( $self->queryVars as $key => &$value ) {
+
+			switch ( $key ) {
+
+				case 'cn-cat-in':
+					$value = array_filter( wp_parse_list( $value ) );
+					break;
+
+				case 'cn-country':
+				case 'cn-postal-code':
+				case 'cn-region':
+				case 'cn-locality':
+				case 'cn-county':
+				case 'cn-district':
+				case 'cn-organization':
+				case 'cn-department':
+					$value = ! empty( $value ) ? urldecode( $value ) : '';
+					break;
+
+				case 'cn-char':
+					$value = ! empty( $value ) ? wp_unslash( urldecode( $value ) ): '';
+					break;
+
+				case 'cn-s':
+					$value = ! empty( $value ) ? wp_unslash( $value ) : '';
+					break;
+			}
+		}
+
 	}
 
 	/**

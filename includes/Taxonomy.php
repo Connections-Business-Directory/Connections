@@ -1651,6 +1651,8 @@ final class Taxonomy {
 			$terms = array( (int) $default_term_id );
 		}
 
+		$terms = apply_filters( "Connections_Directory/Taxonomy/{$this->getSlug()}/Sanitize_Terms", $terms );
+
 		return Connections_Directory()->term->setTermRelationships( $entryID, $terms, $this->name );
 	}
 

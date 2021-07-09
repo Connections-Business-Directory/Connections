@@ -819,8 +819,8 @@ class cnEntry_Action {
 					$terms = _array::get( $data, "taxonomy_terms.{$taxonomySlug}", array() );
 				}
 
-				//$terms = $taxonomy->sanitizeTerms( $terms );
-				$terms = apply_filters( "Connections_Directory/Taxonomy/{$taxonomySlug}/Sanitize_Terms", $terms );
+				// $terms = $taxonomy->sanitizeTerms( $terms );
+				// $terms = apply_filters( "Connections_Directory/Taxonomy/{$taxonomySlug}/Sanitize_Terms", $terms );
 
 				do_action( "Connections_Directory/Taxonomy/{$taxonomySlug}/Attach_Terms", $entry, $terms, $action );
 			}

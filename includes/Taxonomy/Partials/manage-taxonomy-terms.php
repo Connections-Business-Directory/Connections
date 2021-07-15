@@ -91,7 +91,7 @@ $table->prepare_items();
 					$form->open(
 						array(
 							'class'  => 'validate',
-							'id'     => 'add-term',
+							'id'     => 'addtag',
 							//'action' => '',
 							'method' => 'post',
 						)

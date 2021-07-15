@@ -5,8 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-use Connections_Directory\Utility\_array;
-
 /**
  * @since 10.2
  *

@@ -23,8 +23,8 @@ if ( ! current_user_can( $taxonomy->getCapabilities()->manage_terms ) ) {
 	);
 }
 
-// Grab an instance of the Connections object.
-$instance = Connections_Directory();
+// // Grab an instance of the Connections object.
+// $instance = Connections_Directory();
 $form     = new cnFormObjects();
 
 /**

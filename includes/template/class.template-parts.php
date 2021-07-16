@@ -14,6 +14,8 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 use Connections_Directory\Utility\_array;
+use function Connections_Directory\Taxonomy\Partial\getTermParents;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class cnTemplatePart
@@ -2219,9 +2221,8 @@ class cnTemplatePart {
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_category_parents() in WordPress core ../wp-includes/category-template.php
 	 *
-	 * @access public
-	 * @since  8.5.18
-	 * @static
+	 * @since 8.5.18
+	 * @deprecated 10.3.1
 	 *
 	 * @param int    $id        Category ID.
 	 * @param array  $atts      The attributes array. {
@@ -2242,51 +2243,9 @@ class cnTemplatePart {
 	 */
 	public static function getCategoryParents( $id, $atts = array() ) {
 
-		$defaults = array(
-			'link'       => FALSE,
-			'separator'  => '/',
-			'nicename'   => FALSE,
-			'visited'    => array(),
-			'force_home' => FALSE,
-			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-		);
+		_deprecated_function( __METHOD__, '10.3.1', '\Connections_Directory\Taxonomy\Partial\getTermParents()' );
 
-		$atts = cnSanitize::args( $atts, $defaults );
-
-		$chain  = '';
-		$parent = cnTerm::get( $id, 'category' );
-
-		if ( is_wp_error( $parent ) ) {
-
-			return $parent;
-		}
-
-		if ( $atts['nicename'] ) {
-
-			$name = $parent->slug;
-
-		} else {
-
-			$name = $parent->name;
-		}
-
-		if ( $parent->parent && ( $parent->parent != $parent->term_id ) && ! in_array( $parent->parent,  $atts['visited'] ) ) {
-
-			$atts['visited'][] = $parent->parent;
-
-			$chain .= self::getCategoryParents( $parent->parent, $atts );
-		}
-
-		if ( $atts['link'] ) {
-
-			$chain .= '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $parent->term_id ) . '">' . '<a href="' . esc_url( cnTerm::permalink( $parent->term_id, 'category', $atts ) ) . '">' . $name . '</a>' . $atts['separator'] . '</span>';
-
-		} else {
-
-			$chain .= $name . esc_html( $atts['separator'] );
-		}
-
-		return $chain;
+		return getTermParents( $id, 'category', $atts );
 	}
 
 	/**

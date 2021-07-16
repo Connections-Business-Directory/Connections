@@ -8,6 +8,7 @@ use cnSanitize;
 use cnTemplatePart;
 use cnTerm;
 use Connections_Directory\Content_Block;
+use function Connections_Directory\Taxonomy\Partial\getTermParents;
 
 /**
  * Class Entry_Categories
@@ -186,8 +187,9 @@ class Categories extends Content_Block {
 				// If the term is a root parent, skip.
 				if ( 0 !== $category->parent ) {
 
-					$text .= cnTemplatePart::getCategoryParents(
+					$text .= getTermParents(
 						$category->parent,
+						'category',
 						array(
 							'link'       => $this->get( 'link' ),
 							'separator'  => $this->get( 'parent_separator' ),

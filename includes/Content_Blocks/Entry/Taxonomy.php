@@ -6,9 +6,9 @@ use cnEntry;
 use cnFormatting;
 use cnRetrieve;
 use cnSanitize;
-use cnTemplatePart;
 use cnTerm;
 use Connections_Directory\Content_Block;
+use function Connections_Directory\Taxonomy\Partial\getTermParents;
 
 /**
  * Class Entry_Categories
@@ -219,8 +219,9 @@ class Taxonomy extends Content_Block {
 				// If the term is a root parent, skip.
 				if ( 0 !== $term->parent ) {
 
-					$text .= cnTemplatePart::getCategoryParents(
+					$text .= getTermParents(
 						$term->parent,
+						$this->taxonomy->getSlug(),
 						array(
 							'link'       => $this->get( 'link' ),
 							'separator'  => $this->get( 'parent_separator' ),

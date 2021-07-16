@@ -2191,8 +2191,9 @@ class cnTemplatePart {
 				)
 			);
 
-			$breadcrumb = cnTemplatePart::getCategoryParents(
+			$breadcrumb = getTermParents(
 				$current->parent,
+				'category',
 				array(
 					'link'       => $atts['link'],
 					'separator'  => $atts['separator'],

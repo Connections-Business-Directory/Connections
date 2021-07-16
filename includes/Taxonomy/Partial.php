@@ -77,12 +77,17 @@ function getTermParents( $id, $taxonomy, $atts = array() ) {
 
 	if ( true === $atts['permalink'] ) {
 
-		$class = 'cn-' . esc_attr( sanitize_html_class( $taxonomy ) ) . '-breadcrumb-item';
-		$id    = 'cn-' . esc_attr( $taxonomy ) . '-breadcrumb-item-' . esc_attr( $parent->term_id );
-		$href  = esc_url( cnTerm::permalink( $parent->term_id, $taxonomy, $atts ) );
-		$sep   = esc_html( $atts['separator'] );
+		$permalink = cnTerm::permalink( $parent->term_id, $taxonomy, $atts );
 
-		$chain .= '<span class="' . $class . '" id="' .  $id . '">' . '<a href="' . $href . '">' . $name . '</a>' . $sep . '</span>';
+		if ( is_string( $permalink ) ) {
+
+			$class = 'cn-' . esc_attr( sanitize_html_class( $taxonomy ) ) . '-breadcrumb-item';
+			$id    = 'cn-' . esc_attr( $taxonomy ) . '-breadcrumb-item-' . esc_attr( $parent->term_id );
+			$href  = esc_url( $permalink );
+			$sep   = esc_html( $atts['separator'] );
+
+			$chain .= '<span class="' . $class . '" id="' .  $id . '">' . '<a href="' . $href . '">' . $name . '</a>' . $sep . '</span>';
+		}
 
 	} else {
 

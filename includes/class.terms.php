@@ -150,7 +150,7 @@ class cnTerms {
 
 		$terms = $wpdb->get_results( $queryChildrenIDs );
 
-		if ( empty( $terms ) ) {
+		if ( empty( $terms ) || ! is_array( $terms ) ) {
 
 			return array();
 		}

@@ -265,18 +265,20 @@ class Content_Block {
 	 */
 	public function isPermitted() {
 
-		$permitted = call_user_func( $this->get( 'permission_callback' ) );
+		$callable  = $this->get( 'permission_callback' );
+		$permitted = false;
 
-		if ( $permitted instanceof WP_Error ) {
+		if ( is_callable( $callable ) ) {
 
-			return FALSE;
-
-		} elseif ( FALSE === $permitted || NULL === $permitted ) {
-
-			return FALSE;
+			$permitted = call_user_func( $callable );
 		}
 
-		return (bool) $permitted;
+		if ( ! is_bool( $permitted ) ) {
+
+			$permitted = false;
+		}
+
+		return $permitted;
 	}
 
 	/**

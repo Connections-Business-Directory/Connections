@@ -234,7 +234,7 @@ class Content_Block {
 	 * @param string $property
 	 * @param mixed  $default
 	 *
-	 * @return array|ArrayAccess|mixed|null
+	 * @return mixed
 	 */
 	public function get( $property, $default = null ) {
 

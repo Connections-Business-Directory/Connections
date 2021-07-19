@@ -249,6 +249,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.3.1 07/19/2021 =
+* NEW: Introduce `Taxonomy\Partial\getTermParents()`.
+* TWEAK: No need to import the core Connections Directory object on the term taxonomy admin pages since it is not utilized.
+* TWEAK: Deprecate `cnTemplatePart::getCategoryParents()` and refactor to utilize `Taxonomy\Partial\getTermParents()`.
+* TWEAK: Remove instances of `cnTemplatePart::getCategoryParents()` and refactor to utilize `Taxonomy\Partial\getTermParents()`.
+* TWEAK: Ensure Content Block callback is callable before registering the action callback.
+* TWEAK: Ensure taxonomy term permalink returns a string before escaping and rendering the permalink HTML.
+* TWEAK: Ensure term is an array and not empty before attempting to traverse the term results.
+* TWEAK: Minor refactor of `Content_Block::isPermitted()` to ensure callback is callable and if return value is not a bool, return `false`.
+* TWEAK: Set the default value in `Content_Block::heading()` to an empty string as the default to prevent a possible `null` as the return value.
+* TWEAK: Set the default value of `label` in `Content_Block\Entry\Taxonomy::content()` to an empty string as the default to prevent a possible `null` as the return value.
+* BUG: The `category__in` and `category__not_in` parameters should be parse as arrays.
+* BUG: Correct form ID name on the term taxonomy admin page to be consistent with WP core.
+* BUG: Ensure the `force_home` and `home_id` parameters are passed in the Taxonomy Term widget to prevent PHP notices about undefined indexes.
+* DEV: phpDoc corrections.
+* DEV: Remove unused import.
+* DEV: Updates to `.composer.json`.
+* DEV: Updates to `.gitignore`.
+
 = 10.3 07/10/2021 =
 * NEW: Introduce `_length()`, deprecate `cnGEO::convert()`, and refactor instances of `cnGEO::convert()` to utilize `_length()`.
 * NEW: Introduce `Taxonomy::getQueryVar()` and `Taxonomy::isPublicQueryable()` methods.
@@ -693,4 +712,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.3 =
+It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.3.1 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

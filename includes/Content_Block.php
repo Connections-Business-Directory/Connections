@@ -296,13 +296,13 @@ class Content_Block {
 			return '';
 		}
 
-		if ( 0 < strlen( $this->get( 'heading' ) ) ) {
+		if ( 0 < strlen( $this->get( 'heading', '' ) ) ) {
 
-			$heading = $this->get( 'heading' );
+			$heading = $this->get( 'heading', '' );
 
-		} elseif ( 0 < strlen( $this->get( 'name' ) ) ) {
+		} elseif ( 0 < strlen( $this->get( 'name', '' ) ) ) {
 
-			$heading = $this->get( 'name' );
+			$heading = $this->get( 'name', '' );
 
 		} else {
 

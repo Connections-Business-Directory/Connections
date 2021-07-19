@@ -201,12 +201,12 @@ class Taxonomy extends Content_Block {
 			$this->set( 'item_tag', 'li' );
 		}
 
-		if ( 0 < strlen( $this->get( 'label' ) ) ) {
+		if ( 0 < strlen( $this->get( 'label', '' ) ) ) {
 
 			$label = sprintf(
 				'<%1$s class="cn-term-label">%2$s</%1$s> ',
 				$this->get( 'label_tag' ),
-				esc_html( $this->get( 'label' ) )
+				esc_html( $this->get( 'label', '' ) )
 			);
 		}
 

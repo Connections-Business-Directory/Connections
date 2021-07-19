@@ -5,8 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-use Connections_Directory\Utility\_array;
-
 /**
  * @since 10.2
  *
@@ -27,7 +25,7 @@ $referer = remove_query_arg( array( 'cn-action', 'go-back', 'id', '_wpnonce' ) )
  * The dynamic portion of the hook name, `$taxonomy`, refers to
  * the taxonomy slug.
  *
- * @since 3.0.0
+ * @since 10.2
  *
  * @param object $tag      Current taxonomy term object.
  * @param string $taxonomy Current $taxonomy slug.
@@ -66,7 +64,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
-	 * @since 3.7.0
+	 * @since 10.2
 	 *
 	 * @param cnTerm $term         Current taxonomy term object.
 	 * @param string $taxonomySlug Current $taxonomy slug.
@@ -160,7 +158,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 		 * The dynamic portion of the hook name, `$taxonomy`, refers to
 		 * the taxonomy slug.
 		 *
-		 * @since 3.0.0
+		 * @since 10.2
 		 *
 		 * @param object $tag      Current taxonomy term object.
 		 * @param string $taxonomy Current taxonomy slug.
@@ -174,7 +172,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
-	 * @since 3.0.0
+	 * @since 10.2
 	 *
 	 * @param object $tag      Current taxonomy term object.
 	 * @param string $taxonomy Current taxonomy slug.

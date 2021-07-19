@@ -234,7 +234,7 @@ class Content_Block {
 	 * @param string $property
 	 * @param mixed  $default
 	 *
-	 * @return array|ArrayAccess|mixed|null
+	 * @return mixed
 	 */
 	public function get( $property, $default = null ) {
 
@@ -265,18 +265,20 @@ class Content_Block {
 	 */
 	public function isPermitted() {
 
-		$permitted = call_user_func( $this->get( 'permission_callback' ) );
+		$callable  = $this->get( 'permission_callback' );
+		$permitted = false;
 
-		if ( $permitted instanceof WP_Error ) {
+		if ( is_callable( $callable ) ) {
 
-			return FALSE;
-
-		} elseif ( FALSE === $permitted || NULL === $permitted ) {
-
-			return FALSE;
+			$permitted = call_user_func( $callable );
 		}
 
-		return (bool) $permitted;
+		if ( ! is_bool( $permitted ) ) {
+
+			$permitted = false;
+		}
+
+		return $permitted;
 	}
 
 	/**
@@ -294,13 +296,13 @@ class Content_Block {
 			return '';
 		}
 
-		if ( 0 < strlen( $this->get( 'heading' ) ) ) {
+		if ( 0 < strlen( $this->get( 'heading', '' ) ) ) {
 
-			$heading = $this->get( 'heading' );
+			$heading = $this->get( 'heading', '' );
 
-		} elseif ( 0 < strlen( $this->get( 'name' ) ) ) {
+		} elseif ( 0 < strlen( $this->get( 'name', '' ) ) ) {
 
-			$heading = $this->get( 'name' );
+			$heading = $this->get( 'name', '' );
 
 		} else {
 

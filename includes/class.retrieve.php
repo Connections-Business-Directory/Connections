@@ -1043,8 +1043,8 @@ class cnRetrieve {
 
 		$q['cat']               = _array::get( $atts, 'category', '' );
 		$q['category__and']     = wp_parse_id_list( _array::get( $atts, 'category__and', array() ) );
-		$q['category__in']      = _array::get( $atts, 'category__in', array() );
-		$q['category__not_in']  = _array::get( $atts, 'category__not_in', array() );
+		$q['category__in']      = wp_parse_id_list( _array::get( $atts, 'category__in', array() ) );
+		$q['category__not_in']  = wp_parse_id_list( _array::get( $atts, 'category__not_in', array() ) );
 		$q['category_name__in'] = _array::get( $atts, 'category_name__in', array() );
 		$q['category_slug__in'] = _array::get( $atts, 'category_slug__in', array() );
 		$q['tag']               = _array::get( $atts, 'tag', '' );

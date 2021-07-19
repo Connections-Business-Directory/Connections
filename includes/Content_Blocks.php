@@ -66,13 +66,18 @@ class Content_Blocks {
 	 */
 	public function add( $block ) {
 
-		add_action(
-			"Connections_Directory/Content_Block/Render/{$block->getID()}",
-			$block->get( 'render_callback' ),
-			$block->get( 'priority' )
-		);
+		$callable = $block->get( 'render_callback' );
 
-		$this->blocks[ $block->getID() ] = apply_filters( 'Connections_Directory/Content_Block/Add', $block );
+		if ( is_callable( $callable ) ) {
+
+			add_action(
+				"Connections_Directory/Content_Block/Render/{$block->getID()}",
+				$block->get( 'render_callback' ),
+				$block->get( 'priority' )
+			);
+
+			$this->blocks[ $block->getID() ] = apply_filters( 'Connections_Directory/Content_Block/Add', $block );
+		}
 	}
 
 	/**

@@ -4,9 +4,11 @@ namespace Connections_Directory\Taxonomy;
 
 use cnEntry;
 use cnQuery;
+use cnShortcode;
 use Connections_Directory\Content_Block;
 use Connections_Directory\Content_Blocks;
 use Connections_Directory\Taxonomy;
+use Connections_Directory\Utility\_format;
 use WP_Widget;
 
 /**
@@ -48,10 +50,16 @@ final class Widget extends WP_Widget {
 	private function defaults() {
 
 		$defaults = array(
-			'title' => $this->taxonomy->getLabels()->widget_name,
+			'force_home' => false,
+			'home_id'    => cnShortcode::getHomeID(),
+			'title'      => $this->taxonomy->getLabels()->widget_name,
 		);
 
-		return apply_filters( 'Connections_Directory/Taxonomy/Widget/Default_Options', $defaults, $this );
+		$defaults = apply_filters( 'Connections_Directory/Taxonomy/Widget/Default_Options', $defaults, $this );
+
+		_format::toBoolean( $defaults['force_home'] );
+
+		return$defaults;
 	}
 
 	/**
@@ -154,6 +162,14 @@ final class Widget extends WP_Widget {
 
 		// Setup the entry object
 		$entry = new cnEntry( $result );
+
+		// Configure the page where the entry link to.
+		$entry->directoryHome(
+			array(
+				'page_id'    => $instance['home_id'],
+				'force_home' => $instance['force_home'],
+			)
+		);
 
 		// Setup the taxonomy block.
 		$block->useObject( $entry );

@@ -23,8 +23,8 @@ if ( ! current_user_can( $taxonomy->getCapabilities()->manage_terms ) ) {
 	);
 }
 
-// Grab an instance of the Connections object.
-$instance = Connections_Directory();
+// // Grab an instance of the Connections object.
+// $instance = Connections_Directory();
 $form     = new cnFormObjects();
 
 /**
@@ -78,7 +78,7 @@ $table->prepare_items();
 				 *
 				 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 				 *
-				 * @since 3.0.0
+				 * @since 10.2
 				 *
 				 * @param string $taxonomy The taxonomy slug.
 				 */
@@ -91,7 +91,7 @@ $table->prepare_items();
 					$form->open(
 						array(
 							'class'  => 'validate',
-							'id'     => 'add-term',
+							'id'     => 'addtag',
 							//'action' => '',
 							'method' => 'post',
 						)
@@ -130,7 +130,7 @@ $table->prepare_items();
 							/**
 							 * Filter the taxonomy parent drop-down on the Edit Term page.
 							 *
-							 * @since 3.7.0
+							 * @since 10.2
 							 *
 							 * @param array   $dropdown_args    {
 							 *                                  An array of taxonomy parent drop-down arguments.
@@ -196,7 +196,7 @@ $table->prepare_items();
 					 *
 					 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 					 *
-					 * @since 3.0.0
+					 * @since 10.2
 					 *
 					 * @param string $taxonomySlug The taxonomy slug.
 					 */
@@ -212,7 +212,7 @@ $table->prepare_items();
 					 *
 					 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 					 *
-					 * @since 3.0.0
+					 * @since 10.2
 					 *
 					 * @param string $taxonomySlug The taxonomy slug.
 					 */
@@ -306,7 +306,7 @@ $table->prepare_items();
 				 *
 				 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 				 *
-				 * @since 3.0.0
+				 * @since 10.2
 				 *
 				 * @param string $taxonomy The taxonomy name.
 				 */

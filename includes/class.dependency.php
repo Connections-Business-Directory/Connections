@@ -90,6 +90,7 @@ class cnDependency {
 		// Taxonomy
 		require_once CN_PATH . 'includes/Taxonomy/functions.php';
 		require_once CN_PATH . 'includes/Taxonomy/Register.php';
+		require_once CN_PATH . 'includes/Taxonomy/Partial.php';
 
 		// Global functions.
 		require_once CN_PATH . 'includes/functions.php';

@@ -18,6 +18,7 @@ use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\ca
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\deleteCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\processEntryCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\updateCategory;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class cnAdminActions

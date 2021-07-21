@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\Convert\_length;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * This Geocoding API is still a work in progress.

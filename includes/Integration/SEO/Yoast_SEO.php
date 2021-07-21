@@ -13,6 +13,7 @@ use cnSEO;
 use Connections_Directory\Integration\SEO\Yoast_SEO\Provider;
 use Connections_Directory\Sitemaps\Registry;
 use Connections_Directory\Utility\_array;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class Yoast_SEO

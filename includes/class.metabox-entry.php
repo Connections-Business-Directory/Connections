@@ -14,6 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 use Connections_Directory\Utility\_;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class cnEntryMetabox

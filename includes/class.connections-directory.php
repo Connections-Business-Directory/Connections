@@ -1,4 +1,7 @@
 <?php
+
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
 /**
  * Class Connections
  */

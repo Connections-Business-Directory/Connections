@@ -96,7 +96,10 @@ final class Provider extends WP_Sitemaps_Provider {
 
 		$args = $this->getQueryArgs( $instanceID );
 
-		$args['offset'] = ( $pageNumber - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
+		if ( 0 < $pageNumber ) {
+
+			$args['offset'] = ( $pageNumber - 1 ) * wp_sitemaps_get_max_urls( $this->object_type );
+		}
 
 		$results = Connections_Directory()->retrieve->entries( $args );
 

@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 5.1
 Tested up to: 5.8
 Requires PHP: 5.6.20
-Stable tag: 10.3.1
+Stable tag: 10.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.3.2 07/23/2021 =
+* TWEAK: Use of the `_deprecated::_func()` rapper function for `_deprecated_function()` to ensure warnings are not triggered during AJAX or REST requests even if `WP_DEBUG` is enabled. Message will only trigger when environment type is set to development.
+* BUG: Do not set offset when querying Entry URLs while building the sitemap url index when the page number is 0 (zero).
 
 = 10.3.1 07/19/2021 =
 * NEW: Introduce `Taxonomy\Partial\getTermParents()`.
@@ -712,6 +716,9 @@ It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.3 =
+It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.3.1 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.3.1 =

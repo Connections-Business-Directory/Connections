@@ -5,6 +5,7 @@ namespace Connections_Directory\Utility;
 use cnHTML;
 use Connections_Directory\Request;
 use WP_Error;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class _

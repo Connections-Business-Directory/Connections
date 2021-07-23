@@ -12,6 +12,8 @@
  * @since       unknown
  */
 
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 

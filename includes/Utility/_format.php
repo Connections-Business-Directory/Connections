@@ -4,6 +4,7 @@ namespace Connections_Directory\Utility;
 
 use cnQuery;
 use cnSanitize;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class _format

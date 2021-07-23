@@ -1,4 +1,7 @@
 <?php
+
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
 /**
  * Class Connections
  */
@@ -8,7 +11,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.3.1';
+	const VERSION = '10.3.2';
 
 	/**
 	 * Stores the instance of this class.

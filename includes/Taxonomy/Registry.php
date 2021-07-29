@@ -34,7 +34,7 @@ final class Registry {
 	protected function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Initialize the Provider registry.
+	 * Initialize the Taxonomy Registry instance.
 	 *
 	 * @since 10.2
 	 */
@@ -93,7 +93,7 @@ final class Registry {
 	}
 
 	/**
-	 * Get all registered Providers.
+	 * Get all registered Taxonomies.
 	 *
 	 * @since 10.2
 	 *

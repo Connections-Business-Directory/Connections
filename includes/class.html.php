@@ -96,50 +96,34 @@ class cnHTML {
 
 				return self::text( $atts, $value );
 
-				break;
-
 			case 'checkbox':
 
 				return self::checkbox( $atts, $value );
-
-				break;
 
 			case 'checkbox_group':
 			case 'checkbox-group':
 
 				return self::checkboxGroup( $atts, $value );
 
-				break;
-
 			case 'radio':
 
 				return self::radio( $atts, $value );
-
-				break;
 
 			case 'select':
 
 				return self::select( $atts, $value );
 
-				break;
-
 			case 'submit':
 
 				return self::input( $atts, $value );
-
-				break;
 
 			case 'textarea':
 
 				return self::textarea( $atts, $value );
 
-				break;
-
 			case 'hidden':
 
 				return self::input( $atts, $value );
-
-				break;
 
 			default:
 				# todo Put action and or filter here.
@@ -298,8 +282,6 @@ class cnHTML {
 					return '';
 				}
 
-				break;
-
 			case 'id':
 
 				if ( ! empty( $value ) ) {
@@ -310,8 +292,6 @@ class cnHTML {
 
 					return '';
 				}
-
-				break;
 
 			case 'style':
 
@@ -330,8 +310,6 @@ class cnHTML {
 
 				return '';
 
-				break;
-
 			case 'data':
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
@@ -349,13 +327,9 @@ class cnHTML {
 
 				return '';
 
-				break;
-
 			case 'value':
 
 				return ' value="' . esc_attr( (string) $value ) . '" ';
-
-				break;
 
 			case 'data-array':
 
@@ -402,8 +376,6 @@ class cnHTML {
 				}
 
 				return '';
-
-				break;
 
 			default:
 

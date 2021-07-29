@@ -721,5 +721,5 @@ It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >
 = 10.3.1 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
-= 10.3.1 =
+= 10.3.2 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

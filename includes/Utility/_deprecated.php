@@ -19,9 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function _argument( $argument, $version, $message = '' ) {
 
+	if ( 'development' !== wp_get_environment_type() ) {
+
+		return;
+	}
+
 	$request = Request::get();
 
-	if ( $request->isAjax() || $request->isRest() || 'production' === wp_get_environment_type() ) {
+	if ( $request->isAjax() || $request->isRest() ) {
 
 		do_action( 'deprecated_argument_run', $argument, $message, $version );
 		error_log( "The {$argument} argument is deprecated since version {$version}. {$message}" );
@@ -86,9 +91,14 @@ function _doAction( $tag, $args, $version, $replacement = '', $message = '' ) {
  */
 function _func( $function, $version, $replacement = '' ) {
 
+	if ( 'development' !== wp_get_environment_type() ) {
+
+		return;
+	}
+
 	$request = Request::get();
 
-	if ( $request->isAjax() || $request->isRest() || 'production' === wp_get_environment_type() ) {
+	if ( $request->isAjax() || $request->isRest() ) {
 
 		do_action( 'deprecated_function_run', $function, $replacement, $version );
 
@@ -116,9 +126,14 @@ function _func( $function, $version, $replacement = '' ) {
  */
 function _hook( $hook, $version, $replacement = '', $message = '' ) {
 
+	if ( 'development' !== wp_get_environment_type() ) {
+
+		return;
+	}
+
 	$request = Request::get();
 
-	if ( $request->isAjax() || $request->isRest() || 'production' === wp_get_environment_type() ) {
+	if ( $request->isAjax() || $request->isRest() ) {
 
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 

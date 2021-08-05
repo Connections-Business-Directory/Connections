@@ -424,7 +424,7 @@ class cnHTML {
 	}
 
 	/**
-	 * Render a field lsbel.
+	 * Render a field label.
 	 *
 	 * @access public
 	 * @since  0.8

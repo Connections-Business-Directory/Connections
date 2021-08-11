@@ -865,12 +865,9 @@ class cnMetabox_Render {
 	 * 				step (int) The step the slider steps at.
 	 * 	default	(mixed) The default value to be used.
 	 *
-	 * @access private
 	 * @since 0.8
-	 * @global $wp_version
-	 * @param $fields	array 	An indexed array of fields to render..
 	 *
-	 * @return string
+	 * @param $fields	array 	An indexed array of fields to render.
 	 */
 	private function fields( $fields ) {
 

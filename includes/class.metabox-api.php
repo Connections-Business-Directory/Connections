@@ -873,7 +873,6 @@ class cnMetabox_Render {
 	 * @return string
 	 */
 	private function fields( $fields ) {
-		global $wp_version;
 
 		// do_action( 'cn_metabox_table_before', $entry, $meta, $this->metabox );
 

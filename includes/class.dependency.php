@@ -284,22 +284,22 @@ class cnDependency {
 			'Connections_Directory\Content_Blocks\Entry\Taxonomy'             => 'includes/Content_Blocks/Entry/Taxonomy.php',
 
 			// Entry vCard.
-			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',
+			'cnEntry_vCard' => 'includes/entry/class.entry-vcard.php',
 
 			// Entry actions.
-			'cnEntry_Action'           => 'includes/entry/class.entry-actions.php',
+			'cnEntry_Action' => 'includes/entry/class.entry-actions.php',
 
 			// HTML elements class.
 			'cnHTML'                   => 'includes/class.html.php',
 
 			// Entry Meta API.
-			'cnMeta'                   => 'includes/class.meta.php',
-			'cnMeta_Query'             => 'includes/class.meta.php',
+			'cnMeta'       => 'includes/class.meta.php',
+			'cnMeta_Query' => 'includes/class.meta.php',
 
 			// Utility methods.
-			'cnUtility'                => 'includes/class.utility.php',
-			'cnValidate'               => 'includes/class.validate.php',
-			'cnSanitize'               => 'includes/class.sanitize.php',
+			'cnUtility'  => 'includes/class.utility.php',
+			'cnValidate' => 'includes/class.validate.php',
+			'cnSanitize' => 'includes/class.sanitize.php',
 
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',

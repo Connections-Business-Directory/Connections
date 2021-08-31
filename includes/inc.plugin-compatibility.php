@@ -431,3 +431,19 @@ add_action(
 		}
 	}
 );
+
+/**
+ * Add overflow `x` and `y` to safe CSS attributes when filtering posts by kses.
+ *
+ * @since 10.4
+ */
+add_filter(
+	'safe_style_css',
+	function( $attributes ) {
+
+		$attributes[] = 'overflow-x';
+		$attributes[] = 'overflow-y';
+
+		return $attributes;
+	}
+);

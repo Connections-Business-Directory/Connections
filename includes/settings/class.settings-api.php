@@ -856,7 +856,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$out .= sprintf( '<label><input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s" %3$s/> %4$s</label><br />', $name, $key, $checked, $label );
 					}
 
-					$out .= "</span>";;
+					$out .= "</span>";
 
 					break;
 

@@ -127,7 +127,7 @@ class cnHTML {
 
 			default:
 				# todo Put action and or filter here.
-				break;
+				return '';
 		}
 	}
 

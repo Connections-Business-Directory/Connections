@@ -92,6 +92,9 @@ class cnDependency {
 		require_once CN_PATH . 'includes/Taxonomy/Register.php';
 		require_once CN_PATH . 'includes/Taxonomy/Partial.php';
 
+		// Form Field utility functions.
+		require_once CN_PATH . 'includes/Form/functions.php';
+
 		// Global functions.
 		require_once CN_PATH . 'includes/functions.php';
 
@@ -290,7 +293,36 @@ class cnDependency {
 			'cnEntry_Action' => 'includes/entry/class.entry-actions.php',
 
 			// HTML elements class.
-			'cnHTML'                   => 'includes/class.html.php',
+			'cnHTML'                                                  => 'includes/class.html.php',
+			'Connections_Directory\Form\Interfaces\Field'             => 'includes/Form/Interfaces/Field.php',
+			'Connections_Directory\Form\Field\Attributes'             => 'includes/Form/Field/Attributes.php',
+			'Connections_Directory\Form\Field\Attribute\Autocomplete' => 'includes/Form/Field/Attribute/Autocomplete.php',
+			'Connections_Directory\Form\Field\Attribute\Checked'      => 'includes/Form/Field/Attribute/Checked.php',
+			'Connections_Directory\Form\Field\Attribute\Data'         => 'includes/Form/Field/Attribute/Data.php',
+			'Connections_Directory\Form\Field\Attribute\Disabled'     => 'includes/Form/Field/Attribute/Disabled.php',
+			'Connections_Directory\Form\Field\Attribute\Classnames'   => 'includes/Form/Field/Attribute/Classnames.php',
+			'Connections_Directory\Form\Field\Attribute\Id'           => 'includes/Form/Field/Attribute/Id.php',
+			'Connections_Directory\Form\Field\Attribute\Label'        => 'includes/Form/Field/Attribute/Label.php',
+			'Connections_Directory\Form\Field\Attribute\Name'         => 'includes/Form/Field/Attribute/Name.php',
+			'Connections_Directory\Form\Field\Attribute\Prefix'       => 'includes/Form/Field/Attribute/Prefix.php',
+			'Connections_Directory\Form\Field\Attribute\Readonly'     => 'includes/Form/Field/Attribute/Readonly.php',
+			'Connections_Directory\Form\Field\Attribute\Required'     => 'includes/Form/Field/Attribute/Required.php',
+			'Connections_Directory\Form\Field\Attribute\Style'        => 'includes/Form/Field/Attribute/Style.php',
+			'Connections_Directory\Form\Field\Attribute\Value'        => 'includes/Form/Field/Attribute/Value.php',
+			'Connections_Directory\Form\Field'                        => 'includes/Form/Field.php',
+			'Connections_Directory\Form\Field\Checkbox'               => 'includes/Form/Field/Checkbox.php',
+			'Connections_Directory\Form\Field\Checkbox_Group'         => 'includes/Form/Field/Checkbox_Group.php',
+			'Connections_Directory\Form\Field\Description'            => 'includes/Form/Field/Description.php',
+			'Connections_Directory\Form\Field\Group'                  => 'includes/Form/Field/Group.php',
+			'Connections_Directory\Form\Field\Hidden'                 => 'includes/Form/Field/Hidden.php',
+			'Connections_Directory\Form\Field\Input'                  => 'includes/Form/Field/Input.php',
+			'Connections_Directory\Form\Field\Label'                  => 'includes/Form/Field/Label.php',
+			'Connections_Directory\Form\Field\Option'                 => 'includes/Form/Field/Option.php',
+			'Connections_Directory\Form\Field\Radio'                  => 'includes/Form/Field/Radio.php',
+			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',
+			'Connections_Directory\Form\Field\Select'                 => 'includes/Form/Field/Select.php',
+			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
+			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
 
 			// Entry Meta API.
 			'cnMeta'       => 'includes/class.meta.php',

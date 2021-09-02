@@ -371,6 +371,9 @@ class cnGeo {
 		// https://en.wikipedia.org/wiki/Languages_of_Israel#Official_language
 		$countries['IL'] = 'ישראל';
 
+		// Correct Italy. It seems the Germ is being returned instead of the Italian.
+		$countries['IT'] = 'Italia';
+
 		return apply_filters( 'cn_countries', $countries );
 	}
 

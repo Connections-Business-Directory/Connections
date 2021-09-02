@@ -118,6 +118,7 @@ final class Rank_Math {
 			add_filter( 'rank_math/frontend/title', array( __CLASS__, 'transformTitle' ), 10 );
 			add_filter( 'rank_math/frontend/description', array( __CLASS__, 'transformDescription' ), 10 );
 			add_filter( 'rank_math/frontend/canonical', array( __CLASS__, 'transformURL' ), 10 );
+			add_filter( 'rank_math/frontend/robots', array( __CLASS__, 'robots' ) );
 			add_filter( 'rank_math/opengraph/facebook/og_updated_time', array( __CLASS__, 'updatedTime' ) );
 			add_filter( 'rank_math/opengraph/facebook/og_image', array( __CLASS__, 'imageURL' ) );
 			add_filter( 'rank_math/opengraph/facebook/og_image_secure_url', array( __CLASS__, 'imageSecureURL' ) );
@@ -371,6 +372,30 @@ final class Rank_Math {
 		$url = cnSEO::maybeTransformPermalink( $url, $id );
 
 		return $url;
+	}
+
+	/**
+	 * Callback for the `rank_math/frontend/robots` filter.
+	 *
+	 * Do not index paginated results, follow links.
+	 *
+	 * @param array $robots
+	 *
+	 * @return array
+	 */
+	public static function robots( $robots ) {
+
+		$url = home_url( $_SERVER['REQUEST_URI'] );
+
+		if ( false !== strpos( $url, '/pg/' ) ) {
+
+			$robots['index']  = 'noindex';
+			$robots['follow'] = 'follow';
+
+			return $robots;
+		};
+
+		return $robots;
 	}
 
 	/**

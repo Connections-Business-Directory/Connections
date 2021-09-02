@@ -69,7 +69,10 @@ class Checkbox_Group extends Group {
 			$field->setRequired( $this->isRequired() );
 			$field->maybeIsChecked( $this->getValue() );
 
-			$field->label->setFor( $field->getId() );
+			if ( $field->label instanceof Label ) {
+
+				$field->label->setFor( $field->getId() );
+			}
 		}
 	}
 

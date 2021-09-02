@@ -15,7 +15,7 @@ trait Label {
 	 * Instance of Label.
 	 *
 	 * @since 10.4
-	 * @var Field_Label
+	 * @var Field_Label|null
 	 */
 	protected $label;
 

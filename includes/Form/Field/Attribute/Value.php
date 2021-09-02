@@ -44,7 +44,7 @@ trait Value {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $value
+	 * @param mixed $value
 	 *
 	 * @return static
 	 */
@@ -60,7 +60,7 @@ trait Value {
 	 *
 	 * @since 10.4
 	 *
-	 * @return mixed
+	 * @return mixed|null
 	 */
 	public function getValue() {
 
@@ -80,7 +80,7 @@ trait Value {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $value
+	 * @param mixed $value
 	 *
 	 * @return static
 	 */

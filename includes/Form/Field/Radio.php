@@ -45,6 +45,8 @@ class Radio extends Input {
 		$prefix     = 0 < strlen( $this->getPrefix() ) ? $this->getPrefix() . '-' : '';
 
 		$classNames = _string::applyPrefix( $prefix, $this->class );
+
+		/** @var string $id */
 		$id         = _string::applyPrefix( $prefix, $this->getId() );
 
 		_array::set( $attributes, 'type', _escape::attribute( $this->type ) );

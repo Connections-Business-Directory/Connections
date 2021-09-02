@@ -13,6 +13,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Form\Field;
+
 function connectionsShowViewPage( $action = NULL ) {
 
 	// Grab an instance of the Connections object.
@@ -361,33 +363,63 @@ function connectionsShowViewPage( $action = NULL ) {
 								)
 							);
 
-							echo $form->buildSelect(
-								'entry_type',
-								array(
-									'all' => __( 'Show All Entries', 'connections' ),
-									'individual' => __( 'Show Individuals', 'connections' ),
-									'organization' => __( 'Show Organizations', 'connections' ),
-									'family' => __( 'Show Families', 'connections' )
-								),
-								$instance->currentUser->getFilterEntryType()
-							);
+							Field\Select::create()
+										->setId( 'cn-entry_type' )
+										->setName( 'entry_type' )
+										->createOptionsFromArray(
+											array(
+												array(
+													'label' => __( 'Show All Entries', 'connections' ),
+													'value' => 'all',
+												),
+												array(
+													'label' => __( 'Show Individuals', 'connections' ),
+													'value' => 'individual',
+												),
+												array(
+													'label' => __( 'Show Organizations', 'connections' ),
+													'value' => 'organization',
+												),
+												array(
+													'label' => __( 'Show Families', 'connections' ),
+													'value' => 'family',
+												),
+											)
+										)
+										->setValue( $instance->currentUser->getFilterEntryType() )
+										->render();
 
 							/*
 							 * Builds the visibility select list base on current user capabilities.
 							 */
-							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) $visibilitySelect['public'] = __( 'Show Public', 'connections' );
-							if ( current_user_can( 'connections_view_private' ) ) $visibilitySelect['private'] = __( 'Show Private', 'connections' );
-							if ( current_user_can( 'connections_view_unlisted' ) ) $visibilitySelect['unlisted'] = __( 'Show Unlisted', 'connections' );
+							$visibilitySelect = array(
+								array(
+									'label' => __( 'Show All', 'connections' ),
+									'value' => 'all',
+								),
+							);
 
-							if ( isset( $visibilitySelect ) ) {
+							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) {
 
-								/*
-								 * Add the 'Show All' option and echo the list.
-								 */
-								$showAll['all'] = __( 'Show All', 'connections' );
-								$visibilitySelect = $showAll + $visibilitySelect;
-								echo $form->buildSelect( 'visibility_type', $visibilitySelect, $instance->currentUser->getFilterVisibility() );
+								$visibilitySelect[] = array( 'label' => __( 'Show Public', 'connections' ), 'value' => 'public' );
 							}
+
+							if ( current_user_can( 'connections_view_private' ) ) {
+
+								$visibilitySelect[] = array( 'label' => __( 'Show Private', 'connections' ), 'value' => 'private' );
+							}
+
+							if ( current_user_can( 'connections_view_unlisted' ) ) {
+
+								$visibilitySelect[] = array( 'label' => __( 'Show Unlisted', 'connections' ), 'value' => 'unlisted' );
+							}
+
+							Field\Select::create()
+										->setId( 'cn-visibility_type' )
+										->setName( 'visibility_type' )
+										->createOptionsFromArray( $visibilitySelect )
+										->setValue( $instance->currentUser->getFilterVisibility() )
+										->render();
 
 							?>
 

@@ -13,6 +13,8 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Connections_Directory\Form\Field;
+
 class cnAdminFunction {
 
 	/**
@@ -413,18 +415,27 @@ class cnAdminFunction {
 
 		$html = '';
 
-		$html .= cnHTML::radio(
+		$options = array(
 			array(
-				'id'      => 'wp_screen_options[image_thumbnail]',
-				'prefix'  => '',
-				'options' => array(
-					'logo'  => __( 'Logo', 'connections' ),
-					'photo' => __( 'Photo', 'connections' ),
-				),
-				'return' => TRUE,
+				'label' => __( 'Logo', 'connections' ),
+				'value' => 'logo',
 			),
-			Connections_Directory()->user->getScreenOption( 'manage', 'thumbnail', 'photo' )
+			array(
+				'label' => __( 'Photo', 'connections' ),
+				'value' => 'photo',
+			),
 		);
+
+		$value = Connections_Directory()->user->getScreenOption( 'manage', 'thumbnail', 'photo' );
+
+		$html .= Field\Radio_Group::create()
+		                          ->setId( 'wp_screen_options[image_thumbnail]' )
+		                          ->addClass( 'radio' )
+		                          ->setName( 'wp_screen_options[image_thumbnail]' )
+		                          ->createInputsFromArray( $options )
+		                          ->setValue( $value )
+		                          ->setContainer( 'span' )
+		                          ->getHTML();
 
 		$html .= '<input type="submit" name="screen-options-apply" id="entry-image-thumbnail-apply" class="button" value="Apply" />';
 

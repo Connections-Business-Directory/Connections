@@ -447,3 +447,22 @@ add_filter(
 		return $attributes;
 	}
 );
+
+/**
+ * Add support for the PageLayer plugin.
+ *
+ * For some reason PageLayer causes the `the_content` filter to remove the [connections] shortcode
+ * even though there is only a single instance of it on the page.
+ *
+ * @since 10.4
+ */
+add_action(
+	'plugins_loaded',
+	function() {
+
+		if ( class_exists( 'PageLayer' ) ) {
+
+			remove_filter( 'the_content', array( 'cnShortcode', 'single' ), 6 );
+		}
+	}
+);

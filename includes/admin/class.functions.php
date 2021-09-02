@@ -404,7 +404,7 @@ class cnAdminFunction {
 	/**
 	 * Add the option to the Screen Options tab to display either the entry logo or photo.
 	 *
-	 * NOTE: This relies on the the Screen Options class by Janis Elsts
+	 * NOTE: This relies on the Screen Options class by Janis Elsts
 	 *
 	 * @access private
 	 * @since  8.13

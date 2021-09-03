@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
+use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
@@ -101,22 +102,67 @@ class cnHTML {
 
 			case 'text':
 
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Text::create()`.',
+						$atts['type']
+					)
+				);
+
 				return self::text( $atts, $value );
 
 			case 'checkbox':
+
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
+						$atts['type']
+					)
+				);
 
 				return self::checkbox( $atts, $value );
 
 			case 'checkbox_group':
 			case 'checkbox-group':
 
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox_Group::create()`.',
+						$atts['type']
+					)
+				);
+
 				return self::checkboxGroup( $atts, $value );
 
 			case 'radio':
 
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Radio_Group::create()`.',
+						$atts['type']
+					)
+				);
+
 				return self::radio( $atts, $value );
 
 			case 'select':
+
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Select::create()`.',
+						$atts['type']
+					)
+				);
 
 				return self::select( $atts, $value );
 
@@ -126,9 +172,27 @@ class cnHTML {
 
 			case 'textarea':
 
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Textarea::create()`.',
+						$atts['type']
+					)
+				);
+
 				return self::textarea( $atts, $value );
 
 			case 'hidden':
+
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Hidden::create()`.',
+						$atts['type']
+					)
+				);
 
 				return self::input( $atts, $value );
 
@@ -508,6 +572,37 @@ class cnHTML {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		if ( in_array( $atts['type'], array( 'checkbox', 'hidden', 'radio', 'text' ), true ) ) {
+
+			$messages = array(
+				'checkbox' => 'Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
+				'hidden'   => 'Use `\Connections_Directory\Form\Field\Hidden::create()`.',
+				'radio'    => 'Use `\Connections_Directory\Form\Field\Radio::create()`.',
+				'text'     => 'Use `\Connections_Directory\Form\Field\Text::create()`.',
+			);
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported. %s',
+					$atts['type'],
+					$messages[ $atts['type'] ]
+				)
+			);
+
+		} else {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported.',
+					$atts['type']
+				)
+			);
+		}
+
 		// If no `id` was supplied, bail.
 		if ( empty( $atts['id'] ) ) {
 			return '';
@@ -674,6 +769,42 @@ class cnHTML {
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( 'checkbox' === $atts['type'] ) {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported. %s',
+					$atts['type'],
+					'\Connections_Directory\Form\Field\Checkbox_Group::create()'
+				)
+			);
+
+		} elseif ( 'radio' === $atts['type'] ) {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported. %s',
+					$atts['type'],
+					'\Connections_Directory\Form\Field\Radio_Group::create()'
+				)
+			);
+
+		} else {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported.',
+					$atts['type']
+				)
+			);
+		}
 
 		// If no `id` was supplied, bail.
 		if ( empty( $atts['id'] ) ) {

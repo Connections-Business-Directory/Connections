@@ -28,7 +28,7 @@ final class _format {
 	 *
 	 * @return string
 	 */
-	public function sanitizeString( $string, $allowHTML = FALSE, $permittedTags = array() ) {
+	public static function sanitizeString( $string, $allowHTML = FALSE, $permittedTags = array() ) {
 
 		_deprecated_function( __METHOD__, '9.11', 'cnSanitize::sanitizeString()' );
 

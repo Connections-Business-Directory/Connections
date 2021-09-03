@@ -50,6 +50,32 @@ final class _ {
 	}
 
 	/**
+	 * Returns true if the value provided is considered "empty". Allows `0`.
+	 *
+	 * @since 10.4
+	 *
+	 * @param mixed $value The value to check.
+	 *
+	 * @return bool
+	 */
+	public static function isEmpty( $value ) {
+		return ( ! $value && ! is_numeric( $value ) );
+	}
+
+	/**
+	 * Returns true if the value provided is considered "not empty". Allows `0`.
+	 *
+	 * @since 10.4
+	 *
+	 * @param mixed $value The value to check.
+	 *
+	 * @return bool
+	 */
+	public static function notEmpty( $value ) {
+		return ( $value || is_numeric( $value ) );
+	}
+
+	/**
 	 * Clean up an array, comma- or space-separated list of IDs.
 	 *
 	 * @since 8.2.9

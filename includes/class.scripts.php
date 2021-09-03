@@ -732,6 +732,25 @@ class cnScript {
 	}
 
 	/**
+	 * Whether to enqueue a registered CSS file.
+	 *
+	 * @since 10.4
+	 *
+	 * @return bool
+	 */
+	private static function maybeEnqueueStyle() {
+
+		$object = get_queried_object();
+
+		if ( ! $object instanceof \WP_Post ) {
+
+			return false;
+		}
+
+		return has_shortcode( $object->post_content, 'connections' ) || has_block( 'connections-directory/shortcode-connections', $object );
+	}
+
+	/**
 	 * Enqueues the Connections CSS on the frontend.
 	 *
 	 * @access private
@@ -747,7 +766,7 @@ class cnScript {
 
 		wp_enqueue_style( 'cn-public' );
 		wp_enqueue_style( 'cn-brandicons' );
-		wp_enqueue_style( 'leaflet-control-geocoder' );
+		if ( self::maybeEnqueueStyle() ) wp_enqueue_style( 'leaflet-control-geocoder' );
 
 		if ( is_rtl() ) {
 

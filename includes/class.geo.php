@@ -367,6 +367,13 @@ class cnGeo {
 		// Push a few select countries to the top of the list.
 		$countries = array_replace( array( 'US' => '', 'CA' => '', 'GB' => '' ), $countries );
 
+		// Official language of Israel is Hebrew not Arabic.
+		// https://en.wikipedia.org/wiki/Languages_of_Israel#Official_language
+		$countries['IL'] = 'ישראל';
+
+		// Correct Italy. It seems the Germ is being returned instead of the Italian.
+		$countries['IT'] = 'Italia';
+
 		return apply_filters( 'cn_countries', $countries );
 	}
 

@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
+use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class cnHTML
@@ -26,7 +28,8 @@ class cnHTML {
 	/**
 	 * Escapes HTML attribute value or array of attribute values.
 	 *
-	 * @since 9.11
+	 * @since      9.11
+	 * @deprecated 10.4
 	 *
 	 * @param array|string $values
 	 * @param string       $delimiter
@@ -34,6 +37,8 @@ class cnHTML {
 	 * @return string
 	 */
 	public static function escapeAttributes( $values, $delimiter = ' ' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_escape\attribute()' );
 
 		if ( ! is_array( $values ) ) {
 
@@ -52,7 +57,8 @@ class cnHTML {
 	/**
 	 * Sanitize HTML class name or array of class names.
 	 *
-	 * @since 9.11
+	 * @since      9.11
+	 * @deprecated 10.4
 	 *
 	 * @param array|string $classNames
 	 * @param string       $delimiter
@@ -60,6 +66,8 @@ class cnHTML {
 	 * @return string
 	 */
 	public static function escapeClassnames( $classNames, $delimiter = ' ' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_escape::classNames()' );
 
 		if ( ! is_array( $classNames ) ) {
 
@@ -80,11 +88,11 @@ class cnHTML {
 	 * Helper method that can be used within loops to
 	 * dynamically call the correct field type to render.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes array.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes array.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field.
 	 */
@@ -94,71 +102,120 @@ class cnHTML {
 
 			case 'text':
 
-				return self::text( $atts, $value );
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Text::create()`.',
+						$atts['type']
+					)
+				);
 
-				break;
+				return self::text( $atts, $value );
 
 			case 'checkbox':
 
-				return self::checkbox( $atts, $value );
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
+						$atts['type']
+					)
+				);
 
-				break;
+				return self::checkbox( $atts, $value );
 
 			case 'checkbox_group':
 			case 'checkbox-group':
 
-				return self::checkboxGroup( $atts, $value );
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox_Group::create()`.',
+						$atts['type']
+					)
+				);
 
-				break;
+				return self::checkboxGroup( $atts, $value );
 
 			case 'radio':
 
-				return self::radio( $atts, $value );
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Radio_Group::create()`.',
+						$atts['type']
+					)
+				);
 
-				break;
+				return self::radio( $atts, $value );
 
 			case 'select':
 
-				return self::select( $atts, $value );
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Select::create()`.',
+						$atts['type']
+					)
+				);
 
-				break;
+				return self::select( $atts, $value );
 
 			case 'submit':
 
 				return self::input( $atts, $value );
 
-				break;
-
 			case 'textarea':
+
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Textarea::create()`.',
+						$atts['type']
+					)
+				);
 
 				return self::textarea( $atts, $value );
 
-				break;
-
 			case 'hidden':
+
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf(
+						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Hidden::create()`.',
+						$atts['type']
+					)
+				);
 
 				return self::input( $atts, $value );
 
-				break;
-
 			default:
 				# todo Put action and or filter here.
-				break;
+				return '';
 		}
 	}
 
 	/**
 	 * Renders a text input field.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field.
 	 */
 	public static function text( $atts, $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Text::create()' );
 
 		$atts['type'] = 'text';
 
@@ -168,15 +225,17 @@ class cnHTML {
 	/**
 	 * Renders a checkbox field.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field.
 	 */
 	public static function checkbox( $atts, $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Checkbox::create()' );
 
 		$atts['type']    = 'checkbox';
 		$atts['layout']  = '%field%%label%';
@@ -188,17 +247,17 @@ class cnHTML {
 	/**
 	 * Renders a group of checkboxes.
 	 *
-	 * @todo   This has not been tested att all, will likely contain bugs or not work correctly at all.
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @access public
-	 * @since  0.8
-	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field group.
 	 */
 	public static function checkboxGroup( $atts, $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Checkbox_Group::create()' );
 
 		$atts['type'] = 'checkbox';
 
@@ -208,15 +267,17 @@ class cnHTML {
 	/**
 	 * Renders a radio group.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field group.
 	 */
 	public static function radio( $atts, $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Radio_Group::create()' );
 
 		$atts['type'] = 'radio';
 
@@ -226,17 +287,17 @@ class cnHTML {
 	/**
 	 * Prefixes the supplied string with the defined prefix.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
+	 * @param array|string $value The value to add the defined prefix to.
+	 * @param array        $atts  The attributes array.
 	 *
-	 * @param  mixed $value string | array  The value to add the defined prefix to.
-	 * @param  array $atts  The attrubutes array.
-	 *
-	 * @return mixed         string | array
+	 * @return array|string
 	 */
 	public static function prefix( $value, $atts = array() ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_string::applyPrefix()' );
 
 		if ( empty( $value ) ) {
 			return '';
@@ -266,14 +327,11 @@ class cnHTML {
 	/**
 	 * Renders a HTML tag attribute.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   sanitize_html_class()
-	 * @uses   esc_attr()
-	 *
-	 * @param  string       $type  The attribute name.
-	 * @param  array|string $value The attribute value.
+	 * @param string       $type  The attribute name.
+	 * @param array|string $value The attribute value.
 	 *
 	 * @return string        The rendered attribute.
 	 */
@@ -298,8 +356,6 @@ class cnHTML {
 					return '';
 				}
 
-				break;
-
 			case 'id':
 
 				if ( ! empty( $value ) ) {
@@ -310,8 +366,6 @@ class cnHTML {
 
 					return '';
 				}
-
-				break;
 
 			case 'style':
 
@@ -330,8 +384,6 @@ class cnHTML {
 
 				return '';
 
-				break;
-
 			case 'data':
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
@@ -349,13 +401,9 @@ class cnHTML {
 
 				return '';
 
-				break;
-
 			case 'value':
 
 				return ' value="' . esc_attr( (string) $value ) . '" ';
-
-				break;
 
 			case 'data-array':
 
@@ -403,8 +451,6 @@ class cnHTML {
 
 				return '';
 
-				break;
-
 			default:
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
@@ -429,8 +475,8 @@ class cnHTML {
 	/**
 	 * Echo or return the supplied string.
 	 *
-	 * @access private
-	 * @since  8.3.4
+	 * @since      8.3.4
+	 * @deprecated 10.4
 	 *
 	 * @param bool   $return
 	 * @param string $html
@@ -452,19 +498,18 @@ class cnHTML {
 	}
 
 	/**
-	 * Render a field lsbel.
+	 * Render a field label.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   esc_attr()
-	 *
-	 * @param  array $atts The label attributes.
+	 * @param array $atts The label attributes.
 	 *
 	 * @return string       The rendered label.
 	 */
 	public static function label( $atts ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Label::create()' );
 
 		$defaults = array(
 			'for'    => '',
@@ -494,15 +539,13 @@ class cnHTML {
 	/**
 	 * Renders an input field of the supplied type.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
-	 *
-	 * @return string        The rendered field.
+	 * @return string The rendered field.
 	 */
 	public static function input( $atts, $value = '' ) {
 
@@ -528,6 +571,37 @@ class cnHTML {
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( in_array( $atts['type'], array( 'checkbox', 'hidden', 'radio', 'text' ), true ) ) {
+
+			$messages = array(
+				'checkbox' => 'Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
+				'hidden'   => 'Use `\Connections_Directory\Form\Field\Hidden::create()`.',
+				'radio'    => 'Use `\Connections_Directory\Form\Field\Radio::create()`.',
+				'text'     => 'Use `\Connections_Directory\Form\Field\Text::create()`.',
+			);
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported. %s',
+					$atts['type'],
+					$messages[ $atts['type'] ]
+				)
+			);
+
+		} else {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported.',
+					$atts['type']
+				)
+			);
+		}
 
 		// If no `id` was supplied, bail.
 		if ( empty( $atts['id'] ) ) {
@@ -583,6 +657,8 @@ class cnHTML {
 	}
 
 	public static function textarea( $atts = array(), $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Textarea::create()' );
 
 		$defaults = array(
 			'type'        => 'text', // text | quicktag | rte
@@ -664,17 +740,13 @@ class cnHTML {
 	/**
 	 * Renders either a radio or checkbox group.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   esc_attr()
-	 * @uses   checked()
+	 * @param array  $atts  The group attributes.
+	 * @param string $value The group item that will be marked as "CHECKED".
 	 *
-	 * @param  array  $atts  The group attributes.
-	 * @param  string $value The group item that will be marked as "CHECKED".
-	 *
-	 * @return string        The rendered group.
+	 * @return string The rendered group.
 	 */
 	private static function group( $atts, $value = '' ) {
 
@@ -697,6 +769,42 @@ class cnHTML {
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( 'checkbox' === $atts['type'] ) {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported. %s',
+					$atts['type'],
+					'\Connections_Directory\Form\Field\Checkbox_Group::create()'
+				)
+			);
+
+		} elseif ( 'radio' === $atts['type'] ) {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported. %s',
+					$atts['type'],
+					'\Connections_Directory\Form\Field\Radio_Group::create()'
+				)
+			);
+
+		} else {
+
+			_deprecated_argument(
+				__METHOD__,
+				'10.4',
+				sprintf(
+					'The `%s` parameter is no loner supported.',
+					$atts['type']
+				)
+			);
+		}
 
 		// If no `id` was supplied, bail.
 		if ( empty( $atts['id'] ) ) {
@@ -768,20 +876,17 @@ class cnHTML {
 	/**
 	 * Renders a select field.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   esc_attr()
-	 * @uses   selected()
-	 * @uses   esc_html()
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The selected option.
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The selected option.
-	 *
-	 * @return string        The rendered field.
+	 * @return string The rendered field.
 	 */
 	public static function select( $atts, $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Select::create()' );
 
 		$defaults = array(
 			'prefix'   => 'cn-',

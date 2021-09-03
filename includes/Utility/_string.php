@@ -158,6 +158,45 @@ final class _string {
 	}
 
 	/**
+	 * Apply a prefix to a string or to an array of strings.
+	 *
+	 * @since 10.4
+	 *
+	 * @param string          $prefix
+	 * @param string|string[] $string
+	 *
+	 * @return string|string[]
+	 */
+	public static function applyPrefix( $prefix, $string ) {
+
+		if ( empty( $string ) || empty( $prefix ) ) {
+
+			return $string;
+		}
+
+		if ( is_array( $string ) ) {
+
+			foreach ( $string as $key => $value ) {
+
+				if ( ! _string::startsWith( $prefix, $value ) ) {
+
+					$string[ $key ] = $prefix . $value;
+				}
+			}
+
+		} elseif ( is_string( $string ) ) {
+
+			if ( ! _string::startsWith( $prefix, $string ) ) {
+
+				$string = $prefix . $string;
+			}
+
+		}
+
+		return $string;
+	}
+
+	/**
 	 * Remove prefix from string if it exists.
 	 *
 	 * @access public

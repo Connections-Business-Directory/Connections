@@ -247,6 +247,39 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4 09/03/2021 =
+
+* NEW: Introduce the `_::isEmpty()` and `_::notEmpty()` helper methods.
+* NEW: Introduce the `_string::applyPrefix()` helper method.
+* NEW: Introduce the Fields API.
+* NEW: Introduce the helper `_escape` class.
+* NEW: Introduce `cnScript::maybeEnqueueStyle()`.
+* TWEAK: Remove unreachable `break` statements in switches.
+* TWEAK: Ensure deprecated messages are shown only when the environment type is set to `development`.
+* TWEAK: Allow `overflow-x` and `overflow-y` as valid inline style attributes.
+* TWEAK: Check for instance of Label before calling a method.
+* TWEAK: Update deprecated method call with the updated replacement.
+* TWEAK: Remove use of deprecated form field methods used on the Manage admin page.
+* TWEAK: Conditionally enqueue the Leaflet library.
+* TWEAK: Replace one-off code of fields in the Metabox API with fields created using the Fields API.
+* TWEAK: Replace one-off code of fields in the Settings API with fields created using the Fields API.
+* TWEAK: Change the init priority of the Metabox API to `11`.
+* BUG: Correct translated country name.
+* BUG: Return empty string as default case in switch for HTML fields.
+* BUG: No need to assign the CPT field in the Settings API to the variable as it will be rendered in the recursive call.
+* OTHER: Readme.txt correction.
+* OTHER: Correct misspelling.
+* OTHER: Removed unused global variable.
+* OTHER: Remove extra semi-colon.
+* INTEGRATION: Update The Rank Math integration to change the robots meta to noindex the paginated directory results.
+* COMPATIBILITY: Remove the single shortcode filter if the PageLayer plugin is active.
+* DEV: phpDoc corrections.
+* DEV: Public function should be static.
+* DEV: Correct code formatting.
+* DEV: phpDoc updates to cnHTML; deprecating all methods.
+* DEV: Add `_deprecated_function()` calls to cnHTML methods.
+* DEV: Add `_deprecated_argument()` calls to cnHTML methods.
+
 = 10.3.2 07/23/2021 =
 * TWEAK: Use of the `_deprecated::_func()` rapper function for `_deprecated_function()` to ensure warnings are not triggered during AJAX or REST requests even if `WP_DEBUG` is enabled. Message will only trigger when environment type is set to development.
 * BUG: Do not set offset when querying Entry URLs while building the sitemap url index when the page number is 0 (zero).
@@ -613,40 +646,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Correct misspelling.
 * DEV: Add phpDoc.
 * DEV: Update rinvex/countries to version 7.0.1.
-
-= 9.7.2 06/24/2020 =
-* BUG: Correct Map Block permissions.
-* DEV: Standardize namespace and move files to correct folders.
-
-= 9.7.1 06/23/2020 =
-* TWEAK: Strict comparison checks.
-* TWEAK: Compute the size beforehand, and not on each iteration.
-* TWEAK: Ensure Google Maps API Key is a string before setting the key as class property.
-* TWEAK: Check to ensure `connections_options` is an array before setting class property.
-* TWEAK: Check to ensure email template is object.
-* OTHER: Remove use of unnecessary variable for return.
-* OTHER: Remove unused variable.
-* OTHER: Correct misspelling.
-* OTHER: Update URL to license.
-* DEV: phpDoc corrections.
-* DEV: Fix code format.
-* DEV: Suppress IDE HTML tag warnings.
-
-= 9.7 06/19/2020 =
-* NEW: Introduce the `cn_csv_export_suspicious_value_prefix` filter.
-* TWEAK: Fix for Team Block which in some scenarios would fail to display in the Block Editor.
-* TWEAK: Adjust the Settings API filters to `20`.
-* TWEAK: Refactor  the new Content Blocks API to tidy up the code making it more maintainable and extensible.
-* TWEAK: Refactor the Entry categories utilizing the Content Block API.
-* TWEAK: Refactor the static map and interactive map to utilize the Content Block API.
-* SECURITY: Add protection against CSV Injection, also known as Formula Injection. thx @rudSarkar for reporting!
-* BUG: Correct bug which could result in PHP error when all social network types are deselected.
-* BUG: For button for database upgrade start.
-* BUG: Correct include/exclude logic when displaying the Content Blocks.
-* OTHER: Correct typo.
-* DEV: Update ForceUTF8 to 2.0.4.
-* DEV: Add @todo.
-* DEV: Update `dist` files.
-* DEV: phpDoc update.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class cnHTML
@@ -35,6 +36,8 @@ class cnHTML {
 	 * @return string
 	 */
 	public static function escapeAttributes( $values, $delimiter = ' ' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_escape\attribute()' );
 
 		if ( ! is_array( $values ) ) {
 
@@ -62,6 +65,8 @@ class cnHTML {
 	 * @return string
 	 */
 	public static function escapeClassnames( $classNames, $delimiter = ' ' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_escape::classNames()' );
 
 		if ( ! is_array( $classNames ) ) {
 
@@ -146,6 +151,8 @@ class cnHTML {
 	 */
 	public static function text( $atts, $value = '' ) {
 
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Text::create()' );
+
 		$atts['type'] = 'text';
 
 		return self::input( $atts, $value );
@@ -163,6 +170,8 @@ class cnHTML {
 	 * @return string        The rendered field.
 	 */
 	public static function checkbox( $atts, $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Checkbox::create()' );
 
 		$atts['type']    = 'checkbox';
 		$atts['layout']  = '%field%%label%';
@@ -184,6 +193,8 @@ class cnHTML {
 	 */
 	public static function checkboxGroup( $atts, $value = '' ) {
 
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Checkbox_Group::create()' );
+
 		$atts['type'] = 'checkbox';
 
 		return self::group( $atts, $value );
@@ -202,6 +213,8 @@ class cnHTML {
 	 */
 	public static function radio( $atts, $value = '' ) {
 
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Radio_Group::create()' );
+
 		$atts['type'] = 'radio';
 
 		return self::group( $atts, $value );
@@ -219,6 +232,8 @@ class cnHTML {
 	 * @return array|string
 	 */
 	public static function prefix( $value, $atts = array() ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_string::applyPrefix()' );
 
 		if ( empty( $value ) ) {
 			return '';
@@ -430,6 +445,8 @@ class cnHTML {
 	 */
 	public static function label( $atts ) {
 
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Label::create()' );
+
 		$defaults = array(
 			'for'    => '',
 			'class'  => array(),
@@ -545,6 +562,8 @@ class cnHTML {
 	}
 
 	public static function textarea( $atts = array(), $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Textarea::create()' );
 
 		$defaults = array(
 			'type'        => 'text', // text | quicktag | rte
@@ -735,6 +754,8 @@ class cnHTML {
 	 * @return string The rendered field.
 	 */
 	public static function select( $atts, $value = '' ) {
+
+		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Select::create()' );
 
 		$defaults = array(
 			'prefix'   => 'cn-',

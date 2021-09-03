@@ -5,6 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Form\Field;
+use Connections_Directory\Utility\_array;
+use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
+
 /**
  * Class registering the metaboxes for add/edit an entry.
  *
@@ -1011,158 +1015,195 @@ class cnMetabox_Render {
 
 				case 'checkbox':
 
-					cnHTML::field(
-						array(
-							'type'    => 'checkbox',
-							'prefix'  => '',
-							'class'   => 'cn-checkbox',
-							'id'      => $field['id'],
-							'name'    => $field['id'],
-							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
-							'required' => isset( $field['required'] ) && TRUE === $field['required'] ? TRUE : FALSE,
-							'label'   => $field['desc'],
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
-						),
-						$value
-					);
+					Field\Checkbox::create()
+								  ->setId( $field['id'] )
+								  ->addClass( 'cn-checkbox' )
+								  ->setName( $field['id'] )
+								  ->setReadOnly(
+									  isset( $field['readonly'] ) && true === $field['readonly']
+								  )
+								  ->setRequired(
+									  isset( $field['required'] ) && true === $field['required']
+								  )
+								  ->maybeIsChecked( $value )
+								  ->addLabel(
+									  Field\Label::create()
+												 ->setFor( $field['id'] )
+												 ->text( $field['desc'] )
+								  )
+								  ->prepend( '<div' . $class . $id . $style . '>' )
+								  ->append( '</div>' )
+								  ->render();
 
 					break;
 
 				case 'checkboxgroup':
 				case 'checkbox-group':
 
-				self::fieldDescription( $field['desc'] );
+					remapFieldOptions( $field );
 
-					cnHTML::field(
-						array(
-							'type'    => 'checkbox-group',
-							'prefix'  => '',
-							'class'   => 'cn-checkbox',
-							'id'      => $field['id'],
-							'name'    => $field['id'] . '[]',
-							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
-							'display' => 'block',
-							'options' => $field['options'],
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
-						),
-						$value
-					);
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
+
+					Field\Checkbox_Group::create()
+										->setId( $field['id'] )
+										->addClass( 'cn-checkbox' )
+										->setName( $field['id'] )
+										->setReadOnly(
+											isset( $field['readonly'] ) && true === $field['readonly']
+										)
+										->createInputsFromArray( $field['options'] )
+										->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+										->setValue( $value )
+										->prepend( '<div' . $class . $id . $style . '>' )
+										->append( '</div>' )
+										->render();
 
 					break;
 
 				case 'radio':
 
-					self::fieldDescription( $field['desc'] );
+					remapFieldOptions( $field );
 
-					cnHTML::field(
-						array(
-							'type'    => 'radio',
-							'prefix'  => '',
-							'class'   => 'cn-radio-option',
-							'id'      => $field['id'],
-							'name'    => $field['id'],
-							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
-							'display' => 'block',
-							'options' => $field['options'],
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
-						),
-						$value
-					);
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
+
+					Field\Radio_Group::create()
+									 ->setId( $field['id'] )
+									 ->addClass( 'cn-radio-option' )
+									 ->setName( $field['id'] )
+									 ->setReadOnly(
+										 isset( $field['readonly'] ) && true === $field['readonly']
+									 )
+									 ->createInputsFromArray( $field['options'] )
+									 ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+									 ->setValue( $value )
+									 ->prepend( '<div' . $class . $id . $style . '>' )
+									 ->append( '</div>' )
+									 ->render();
 
 					break;
 
 				case 'radio_inline':
 				case 'radio-inline':
 
-					self::fieldDescription( $field['desc'] );
+					remapFieldOptions( $field );
 
-					cnHTML::field(
-						array(
-							'type'    => 'radio',
-							'prefix'  => '',
-							'class'   => 'cn-radio-option',
-							'id'      => $field['id'],
-							'name'    => $field['id'],
-							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
-							'display' => 'inline',
-							'options' => $field['options'],
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
-						),
-						$value
-					);
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
+
+					Field\Radio_Group::create()
+									 ->setId( $field['id'] )
+									 ->addClass( 'cn-radio-option' )
+									 ->setName( $field['id'] )
+									 ->setReadOnly(
+										 isset( $field['readonly'] ) && true === $field['readonly']
+									 )
+									 ->createInputsFromArray( $field['options'] )
+									 ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+									 ->setValue( $value )
+									 ->setContainer( 'span' )
+									 ->prepend( '<div' . $class . $id . $style . '>' )
+									 ->append( '</div>' )
+									 ->render();
 
 					break;
 
 				case 'select':
 
-					cnHTML::field(
-						array(
-							'type'    => 'select',
-							'prefix'  => '',
-							'class'   => 'cn-select',
-							'id'      => $field['id'],
-							'name'    => $field['id'],
-							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
-							'required' => isset( $field['required'] ) && TRUE === $field['required'] ? TRUE : FALSE,
-							'display' => 'inline',
-							'options' => $field['options'],
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
-						),
-						$value
-					);
+					remapFieldOptions( $field );
 
-					self::fieldDescription( $field['desc'] );
+					Field\Select::create()
+						->setId( $field['id'] )
+						->addClass( 'cn-select' )
+						->setName( $field['id'] )
+						->createOptionsFromArray( $field['options'] )
+						->setReadOnly(
+							isset( $field['readonly'] ) && true === $field['readonly']
+						)
+						->setRequired(
+							isset( $field['required'] ) && true === $field['required']
+						)
+						->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+						->setValue( $value )
+						->prepend( '<div' . $class . $id . $style . '>' )
+						->append( '</div>' )
+						// ->setEnhanced( true )
+						// ->addDefaultOption( Field\Option::create()->setText( 'Choose an Option' ) )
+						->render();
+
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
 					break;
 
 				case 'text':
 
 					$sizes = array( 'small', 'regular', 'large' );
+					$size  = _array::get( $field, 'size', 'large' );
 
-					cnHTML::field(
-						array(
-							'type'    => 'text',
-							'prefix'  => '',
-							'class'   => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'large-text',
-							'id'      => $field['id'],
-							'name'    => $field['id'],
-							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
-						),
-						$value
-					);
+					Field\Text::create()
+							  ->setId( $field['id'] )
+							  ->addClass(
+								  in_array( $size, $sizes ) ? "{$size}-text" : 'large-text'
+							  )
+							  ->setName( $field['id'] )
+							  ->setReadOnly(
+								  isset( $field['readonly'] ) && true === $field['readonly']
+							  )
+							  ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+							  ->setValue( $value )
+							  ->prepend( '<div' . $class . $id . $style . '>' )
+							  ->append( '</div>' )
+							  ->render();
 
-					self::fieldDescription( $field['desc'] );
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
 					break;
 
 				case 'textarea':
 
 					$sizes = array( 'small', 'large' );
+					$size  = _array::get( $field, 'size', 'small' );
 
-					self::fieldDescription( $field['desc'] );
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
-					cnHTML::field(
-						array(
-							'type'     => 'textarea',
-							'prefix'   => '',
-							'class'    => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'small-text',
-							'id'       => $field['id'],
-							'name'     => $field['id'],
-							'rows'     => 10,
-							'cols'     => 50,
-							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
-							'before'   => '<div' . $class . $id . $style . '>',
-							'after'    => '</div>',
-						),
-						$value = cnSanitize::string( 'textarea', $value )
-					);
+					Field\Textarea::create()
+								  ->setId( $field['id'] )
+								  ->addClass(
+									  in_array( $size, $sizes ) ? "{$size}-text" : 'small-text'
+								  )
+								  ->setName( $field['id'] )
+								  ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+								  ->addAttribute( 'rows', 10 )
+								  ->addAttribute( 'cols', 50 )
+								  ->setReadOnly(
+									  isset( $field['readonly'] ) && true === $field['readonly']
+								  )
+								  ->setValue( $value )
+								  ->prepend( '<div' . $class . $id . $style . '>' )
+								  ->append( '</div>' )
+								  ->render();
 
 					break;
 
@@ -1179,13 +1220,21 @@ class cnMetabox_Render {
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
 					add_action( 'wp_footer' , array( __CLASS__ , 'datepickerJS' ) );
 
-					self::fieldDescription( $field['desc'] );
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
 					break;
 
 				case 'colorpicker':
 
-					self::fieldDescription( $field['desc'] );
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
 					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
@@ -1256,7 +1305,11 @@ class cnMetabox_Render {
 						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
-					self::fieldDescription( $field['desc'] );
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
 					$field['options']['value'] = absint( $value );
 
@@ -1270,7 +1323,11 @@ class cnMetabox_Render {
 
 				case 'quicktag':
 
-					self::fieldDescription( $field['desc'] );
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
 					echo '<div class="wp-editor-container">';
 
@@ -1292,7 +1349,11 @@ class cnMetabox_Render {
 
 				case 'rte':
 
-					self::fieldDescription( $field['desc'] );
+					Field\Description::create()
+									 ->addClass( 'description' )
+									 ->setId( "{$field['id']}-description" )
+									 ->text( $field['desc'] )
+									 ->render();
 
 					// Set the rte defaults.
 					$defaults = array(
@@ -1371,22 +1432,6 @@ class cnMetabox_Render {
 		}
 
 		// do_action( 'cn_metabox_table_after', $entry, $meta, $this->metabox );
-	}
-
-	/**
-	 * Print the field description.
-	 *
-	 * @access private
-	 * @since  8.3.4
-	 *
-	 * @param string $desc
-	 */
-	private static function fieldDescription( $desc ) {
-
-		if ( ! empty( $desc ) ) {
-
-			printf( '<p class="description"> %1$s</p>', esc_html( $desc ) );
-		}
 	}
 
 	/**

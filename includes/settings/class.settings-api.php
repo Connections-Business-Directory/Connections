@@ -14,7 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Form\Field;
 use Connections_Directory\Utility\_array;
+use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
 
 if ( ! class_exists('cnSettingsAPI') ) {
 
@@ -752,24 +754,38 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			switch ( $field['type'] ) {
 
 				case 'checkbox':
-					$checked = isset( $value ) ? checked(1, $value, FALSE) : '';
 
-					$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s" name="%1$s" value="1" %2$s/>', $name, $checked );
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<label for="%1$s"> %2$s</label>', $name, $field['desc'] );
-
+					$out .= Field\Checkbox::create()
+										  ->setId( $name )
+										  ->addClass( 'checkbox' )
+										  ->setName( $name )
+										  ->maybeIsChecked( $value )
+										  ->addLabel(
+											  Field\Label::create()
+														 ->setFor( $name )
+														 ->text( $field['desc'] )
+										  )
+										  ->getHTML();
 					break;
 
 				case 'checkbox-group':
 				case 'multicheckbox':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 
-					foreach ( $field['options'] as $key => $label )
-					{
-						$checked = checked( TRUE , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , FALSE );
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$field['id']}-description" )
+											 ->text( $field['desc'] )
+											 ->getHTML();
 
-						$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>', $name, $key, $checked );
-						$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label><br />', $name, $key, $label );
-					}
+					remapFieldOptions( $field );
+					$out .= Field\Checkbox_Group::create()
+												->setId( $name )
+												->addClass( 'checkbox' )
+												->setName( $name )
+												->createInputsFromArray( $field['options'] )
+												// ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+												->setValue( $value )
+												->getHTML();
 
 					break;
 
@@ -818,29 +834,43 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'radio':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 
-					if ( is_null( $value ) ) $value = $field['default'];
+					remapFieldOptions( $field );
 
-					foreach ( $field['options'] as $key => $label )
-					{
-						$out .= sprintf( '<input type="radio" class="radio" id="%1$s[%2$s]" name="%1$s" value="%2$s" %3$s/>', $name, $key, checked( $value, $key, FALSE ) );
-						$out .= sprintf( '<label for="%1$s[%3$s]"> %2$s</label><br />', $name, $label, $key );
-					}
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$field['id']}-description" )
+											 ->text( $field['desc'] )
+											 ->getHTML();
+
+					$out .= Field\Radio_Group::create()
+											 ->setId( $name )
+											 ->addClass( 'radio' )
+											 ->setName( $name )
+											 ->createInputsFromArray( $field['options'] )
+											 // ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+											 ->setValue( $value )
+											 ->getHTML();
 
 					break;
 
 				case 'select':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%1$s</span><br />', $field['desc'] );
 
-					$out .= sprintf( '<select name="%1$s" id="%1$s">', $name );
+					remapFieldOptions( $field );
 
-					foreach ( $field['options'] as $key => $label )
-					{
-						$out .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', $key, selected( $value, $key, FALSE ), $label );
-					}
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$field['id']}-description" )
+											 ->text( $field['desc'] )
+											 ->getHTML();
 
-					$out .= '</select>';
+					$out .= Field\Select::create()
+										->setId( $name )
+										->setName( $name )
+										->createOptionsFromArray( $field['options'] )
+										// ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+										->setValue( $value )
+										->getHTML();
 
 					break;
 
@@ -861,18 +891,52 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'text':
-					$size  = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
-					$value = ! is_null( $value ) ? $value : _array::get( $field, 'default', '' );
 
-					$out .= sprintf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
+					$sizes = array( 'small', 'regular', 'large' );
+					$size  = _array::get( $field, 'size', 'regular' );
+
+					$out .= Field\Text::create()
+									  ->setId( $name )
+									  ->addClass(
+										  in_array( $size, $sizes ) ? "{$size}-text" : 'regular-text'
+									  )
+									  ->setName( $name )
+									  ->setDefaultValue( _array::get( $field, 'default', '' ) )
+									  ->setValue( $value )
+									  ->addAttribute( 'aria-describedby', "{$name}-description" )
+									  ->getHTML();
+
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$name}-description" )
+											 ->text( $field['desc'] )
+											 ->setTag( 'span' )
+											 ->getHTML();
 
 					break;
 
 				case 'textarea':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
-					$out .= sprintf( '<textarea rows="10" cols="50" class="%1$s-text" id="%2$s" name="%2$s">%3$s</textarea>', 'large', $name, $value );
 
+					$sizes = array( 'small', 'large' );
+					$size  = _array::get( $field, 'size', 'small' );
+
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$name}-description" )
+											 ->text( $field['desc'] )
+											 ->setTag( 'p' )
+											 ->getHTML();
+
+					$out .= Field\Textarea::create()
+										  ->setId( $name )
+										  ->addClass(
+											  in_array( $size, $sizes ) ? "{$size}-text" : 'small-text'
+										  )
+										  ->setName( $name )
+										  ->addAttribute( 'rows', 10 )
+										  ->addAttribute( 'cols', 50 )
+										  ->setValue( $value )
+										  ->getHTML();
 					break;
 
 				case 'quicktag':

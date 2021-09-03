@@ -829,7 +829,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					$field['type']    = 'checkbox-group';
 					$field['options'] = $postTypeOptions;
 
-					$out .= self::field( $field );
+					self::field( $field );
 
 					break;
 

@@ -766,7 +766,7 @@ class cnScript {
 
 		wp_enqueue_style( 'cn-public' );
 		wp_enqueue_style( 'cn-brandicons' );
-		wp_enqueue_style( 'leaflet-control-geocoder' );
+		if ( self::maybeEnqueueStyle() ) wp_enqueue_style( 'leaflet-control-geocoder' );
 
 		if ( is_rtl() ) {
 

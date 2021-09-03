@@ -53,7 +53,6 @@ class cnDashboardMetabox {
 	/**
 	 * Register the dashboard metaboxes.
 	 *
-	 * @access private
 	 * @since 0.8
 	 *
 	 * @return void
@@ -194,11 +193,11 @@ class cnDashboardMetabox {
 	/**
 	 * Dashboard widget to display a RSS feed.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.8
 	 *
-	 * @param  object $null    Generally a $post or $entry object. Not used in Connections core.
-	 * @param  array  $metabox The metabox options array from self::register().
+	 * @param object $null    Generally a $post or $entry object. Not used in Connections core.
+	 * @param array  $metabox The metabox options array from self::register().
 	 */
 	public static function feed( $null, $metabox ) {
 
@@ -283,11 +282,11 @@ class cnDashboardMetabox {
 	/**
 	 * The dashboard widget used to display the recently added/modified entries.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.8
-	 * @param  object $null    Generally a $post or $entry object. Not used in Connections core.
-	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The recently added/modifed entries.
+	 *
+	 * @param object $null    Generally a $post or $entry object. Not used in Connections core.
+	 * @param array  $metabox The metabox options array from self::register().
 	 */
 	public static function recent( $null, $metabox ) {
 
@@ -315,9 +314,11 @@ class cnDashboardMetabox {
 	/**
 	 * The dashboard widget used to display the upcoming anniversaries and birthdays.
 	 *
+	 * @access private
 	 * @since  0.8
-	 * @param  object $null    Generally a $post or $entry object. Not used in Connections core.
-	 * @param  array  $metabox The metabox options array from self::register().
+	 *
+	 * @param object $null    Generally a $post or $entry object. Not used in Connections core.
+	 * @param array  $metabox The metabox options array from self::register().
 	 */
 	public static function celebrate( $null, $metabox ) {
 
@@ -340,7 +341,7 @@ class cnDashboardMetabox {
 	/**
 	 * The dashboard widget used to display the QuickLink.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.8
 	 */
 	public static function links() {

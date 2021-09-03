@@ -26,7 +26,8 @@ class cnHTML {
 	/**
 	 * Escapes HTML attribute value or array of attribute values.
 	 *
-	 * @since 9.11
+	 * @since      9.11
+	 * @deprecated 10.4
 	 *
 	 * @param array|string $values
 	 * @param string       $delimiter
@@ -52,7 +53,8 @@ class cnHTML {
 	/**
 	 * Sanitize HTML class name or array of class names.
 	 *
-	 * @since 9.11
+	 * @since      9.11
+	 * @deprecated 10.4
 	 *
 	 * @param array|string $classNames
 	 * @param string       $delimiter
@@ -80,11 +82,11 @@ class cnHTML {
 	 * Helper method that can be used within loops to
 	 * dynamically call the correct field type to render.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes array.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes array.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field.
 	 */
@@ -134,11 +136,11 @@ class cnHTML {
 	/**
 	 * Renders a text input field.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field.
 	 */
@@ -152,11 +154,11 @@ class cnHTML {
 	/**
 	 * Renders a checkbox field.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field.
 	 */
@@ -172,13 +174,11 @@ class cnHTML {
 	/**
 	 * Renders a group of checkboxes.
 	 *
-	 * @todo   This has not been tested att all, will likely contain bugs or not work correctly at all.
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @access public
-	 * @since  0.8
-	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field group.
 	 */
@@ -192,11 +192,11 @@ class cnHTML {
 	/**
 	 * Renders a radio group.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
 	 * @return string        The rendered field group.
 	 */
@@ -210,15 +210,13 @@ class cnHTML {
 	/**
 	 * Prefixes the supplied string with the defined prefix.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
+	 * @param array|string $value The value to add the defined prefix to.
+	 * @param array        $atts  The attributes array.
 	 *
-	 * @param  mixed $value string | array  The value to add the defined prefix to.
-	 * @param  array $atts  The attrubutes array.
-	 *
-	 * @return mixed         string | array
+	 * @return array|string
 	 */
 	public static function prefix( $value, $atts = array() ) {
 
@@ -250,14 +248,11 @@ class cnHTML {
 	/**
 	 * Renders a HTML tag attribute.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   sanitize_html_class()
-	 * @uses   esc_attr()
-	 *
-	 * @param  string       $type  The attribute name.
-	 * @param  array|string $value The attribute value.
+	 * @param string       $type  The attribute name.
+	 * @param array|string $value The attribute value.
 	 *
 	 * @return string        The rendered attribute.
 	 */
@@ -401,8 +396,8 @@ class cnHTML {
 	/**
 	 * Echo or return the supplied string.
 	 *
-	 * @access private
-	 * @since  8.3.4
+	 * @since      8.3.4
+	 * @deprecated 10.4
 	 *
 	 * @param bool   $return
 	 * @param string $html
@@ -426,13 +421,10 @@ class cnHTML {
 	/**
 	 * Render a field label.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   esc_attr()
-	 *
-	 * @param  array $atts The label attributes.
+	 * @param array $atts The label attributes.
 	 *
 	 * @return string       The rendered label.
 	 */
@@ -466,15 +458,13 @@ class cnHTML {
 	/**
 	 * Renders an input field of the supplied type.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The field value.
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The field value.
-	 *
-	 * @return string        The rendered field.
+	 * @return string The rendered field.
 	 */
 	public static function input( $atts, $value = '' ) {
 
@@ -636,17 +626,13 @@ class cnHTML {
 	/**
 	 * Renders either a radio or checkbox group.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   esc_attr()
-	 * @uses   checked()
+	 * @param array  $atts  The group attributes.
+	 * @param string $value The group item that will be marked as "CHECKED".
 	 *
-	 * @param  array  $atts  The group attributes.
-	 * @param  string $value The group item that will be marked as "CHECKED".
-	 *
-	 * @return string        The rendered group.
+	 * @return string The rendered group.
 	 */
 	private static function group( $atts, $value = '' ) {
 
@@ -740,18 +726,13 @@ class cnHTML {
 	/**
 	 * Renders a select field.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since      0.8
+	 * @deprecated 10.4
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   esc_attr()
-	 * @uses   selected()
-	 * @uses   esc_html()
+	 * @param array  $atts  The field attributes.
+	 * @param string $value The selected option.
 	 *
-	 * @param  array  $atts  The field attributes.
-	 * @param  string $value The selected option.
-	 *
-	 * @return string        The rendered field.
+	 * @return string The rendered field.
 	 */
 	public static function select( $atts, $value = '' ) {
 

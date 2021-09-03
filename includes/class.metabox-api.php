@@ -133,7 +133,7 @@ class cnMetaboxAPI {
 
 			self::$instance = new self;
 
-			add_action( 'init', array( __CLASS__, 'process' ), 0 );
+			add_action( 'init', array( __CLASS__, 'process' ), 11 );
 
 		}
 	}

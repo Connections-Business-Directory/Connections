@@ -1,5 +1,37 @@
 == Changelog ==
 
+= 10.4 09/03/2021 =
+* NEW: Introduce the `_::isEmpty()` and `_::notEmpty()` helper methods.
+* NEW: Introduce the `_string::applyPrefix()` helper method.
+* NEW: Introduce the Fields API.
+* NEW: Introduce the helper `_escape` class.
+* NEW: Introduce `cnScript::maybeEnqueueStyle()`.
+* TWEAK: Remove unreachable `break` statements in switches.
+* TWEAK: Ensure deprecated messages are shown only when the environment type is set to `development`.
+* TWEAK: Allow `overflow-x` and `overflow-y` as valid inline style attributes.
+* TWEAK: Check for instance of Label before calling a method.
+* TWEAK: Update deprecated method call with the updated replacement.
+* TWEAK: Remove use of deprecated form field methods used on the Manage admin page.
+* TWEAK: Conditionally enqueue the Leaflet library.
+* TWEAK: Replace one-off code of fields in the Metabox API with fields created using the Fields API.
+* TWEAK: Replace one-off code of fields in the Settings API with fields created using the Fields API.
+* TWEAK: Change the init priority of the Metabox API to `11`.
+* BUG: Correct translated country name.
+* BUG: Return empty string as default case in switch for HTML fields.
+* BUG: No need to assign the CPT field in the Settings API to the variable as it will be rendered in the recursive call.
+* OTHER: Readme.txt correction.
+* OTHER: Correct misspelling.
+* OTHER: Removed unused global variable.
+* OTHER: Remove extra semi-colon.
+* INTEGRATION: Update The Rank Math integration to change the robots meta to noindex the paginated directory results.
+* COMPATIBILITY: Remove the single shortcode filter if the PageLayer plugin is active.
+* DEV: phpDoc corrections.
+* DEV: Public function should be static.
+* DEV: Correct code formatting.
+* DEV: phpDoc updates to cnHTML; deprecating all methods.
+* DEV: Add `_deprecated_function()` calls to cnHTML methods.
+* DEV: Add `_deprecated_argument()` calls to cnHTML methods.
+
 = 10.3.2 07/23/2021 =
 * TWEAK: Use of the `_deprecated::_func()` rapper function for `_deprecated_function()` to ensure warnings are not triggered during AJAX or REST requests even if `WP_DEBUG` is enabled. Message will only trigger when environment type is set to development.
 * BUG: Do not set offset when querying Entry URLs while building the sitemap url index when the page number is 0 (zero).

@@ -12,7 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.7.6
  */
-
 class cnTemplateFactory {
 
 	/**
@@ -52,9 +51,8 @@ class cnTemplateFactory {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class.
+	 * Set up the class.
 	 *
-	 * @access public
 	 * @since 0.7.6
 	 */
 	public static function init() {
@@ -103,6 +101,7 @@ class cnTemplateFactory {
 	 * Activate templates in REST requests so they are available for use in the Gutenberg post editor.
 	 *
 	 * @since 8.31
+	 * @deprecated 10.4.1
 	 */
 	public static function restInit() {
 
@@ -115,8 +114,8 @@ class cnTemplateFactory {
 	/**
 	 * Return an instance.
 	 *
-	 * @access public
 	 * @since 0.7.6
+	 *
 	 * @return object cnTemplateFactory
 	 */
 	public static function getInstance() {
@@ -148,11 +147,9 @@ class cnTemplateFactory {
 	 *  		js (string) [optional] The file name of the JS file.
 	 *  		card (string) [required] The file name of the PHP file used to render the entry content.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @uses sanitize_title_with_dashes()
-	 * @param  (array) $atts
-	 * @return void
+	 *
+	 * @param array $atts
 	 */
 	public static function register( $atts ) {
 
@@ -240,7 +237,6 @@ class cnTemplateFactory {
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @return void
 	 */
 	public static function activate() {
 
@@ -284,10 +280,8 @@ class cnTemplateFactory {
 	 * NOTE: A legacy template is a template that was developed before 0.7.6 and is not a plugin.
 	 *
 	 * @access private
-	 * @uses get_transient()
-	 * @uses set_transient()
+	 *
 	 * @since 0.7.6
-	 * @return void
 	 */
 	public static function registerLegacy() {
 
@@ -346,9 +340,7 @@ class cnTemplateFactory {
 	/**
 	 * Builds a catalog of all the available Legacy templates from the supplied and the custom template directories.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @return void
 	 */
 	private static function scan() {
 
@@ -436,9 +428,9 @@ class cnTemplateFactory {
 	/**
 	 * Returns the catalog of all registered templates by type.
 	 *
-	 * @access public
 	 * @since 0.7.6
 	 * @param string|array $types The template catalog to return by type.
+	 *
 	 * @return object
 	 */
 	public static function getCatalog( $types = array() ) {
@@ -543,10 +535,10 @@ class cnTemplateFactory {
 	/**
 	 * Return the requested template.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @param  string $type The template type.
-	 * @param  string $slug The template slug.
+	 *
+	 * @param string $type The template type.
+	 * @param string $slug The template slug.
 	 *
 	 * @return cnTemplate|FALSE If the template is found a cnTemplate object is returned, otherwise FALSE.
 	 */
@@ -613,9 +605,7 @@ class cnTemplateFactory {
 	 * Unless overridden by either the `template` or `list_type` shortcode
 	 * options.
 	 *
-	 * @access private
 	 * @since  0.8
-	 * @static
 	 *
 	 * @param  array $atts The shortcode atts array.
 	 *

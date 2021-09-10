@@ -20,7 +20,7 @@ class cnTemplateFactory {
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @var (object)
+	 * @var object
 	 */
 	public static $templates;
 
@@ -36,9 +36,8 @@ class cnTemplateFactory {
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (object)
+	 * @var static
 	*/
 	private static $instance;
 
@@ -406,7 +405,7 @@ class cnTemplateFactory {
 						if ( ! isset( $templates->{ $template->type } ) ) $templates->{ $template->type } = new stdClass();
 						if ( ! isset( $templates->{ $template->type }->{ $template->slug } ) ) $templates->{ $template->type }->{ $template->slug } = new stdClass();
 
-						// Load the template metadate from the meta.php file
+						// Load the template metadata from the meta.php file
 						$templates->{ $template->type }->{ $template->slug }->name        = $template->name;
 						$templates->{ $template->type }->{ $template->slug }->version     = $template->version;
 						$templates->{ $template->type }->{ $template->slug }->uri         = isset( $template->uri ) ? 'http://' . $template->uri : '';

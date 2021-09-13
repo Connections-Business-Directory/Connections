@@ -1825,9 +1825,10 @@ class cnRetrieve {
 
 					return $this->entries(
 						array(
-							'lock'     => TRUE,
-							'id'       => $ids,
-							'order_by' => 'id|SPECIFIED',
+							'id'               => $ids,
+							'order_by'         => 'id|SPECIFIED',
+							'parse_request'    => false,
+							'suppress_filters' => true,
 						)
 					);
 

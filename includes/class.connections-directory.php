@@ -175,7 +175,7 @@ final class Connections_Directory {
 	 */
 	public static function instance( $file = '' ) {
 
-		if ( ! empty( $file ) && ! isset( self::$instance ) && ! ( self::$instance instanceof Connections_Directory ) ) {
+		if ( ! empty( $file ) && ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
 
 			self::$instance = new self();
 

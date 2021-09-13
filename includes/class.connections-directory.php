@@ -177,7 +177,7 @@ final class Connections_Directory {
 
 		if ( ! empty( $file ) && ! isset( self::$instance ) && ! ( self::$instance instanceof Connections_Directory ) ) {
 
-			self::$instance = new Connections_Directory;
+			self::$instance = new self();
 
 			self::$file       = $file;
 			self::$pluginURL  = plugin_dir_url( $file );

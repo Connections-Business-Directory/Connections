@@ -59,7 +59,7 @@ class cnTemplateFactory {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance  = new self;
+			self::$instance  = new self();
 			self::$templates = new stdClass();
 
 			/*

@@ -565,7 +565,7 @@ class cnTemplateFactory {
 			// $t == the template type $s == template slug.
 			foreach ( self::$templates as $t => $s ) {
 
-				if ( isset( self::$templates->{ $t }->{ $slug } ) ) {
+				if ( isset( self::$templates->{ $t }->{ $slug } ) && isset( $instance->template->{$slug} ) ) {
 
 					$template = $instance->template->{ $slug };
 

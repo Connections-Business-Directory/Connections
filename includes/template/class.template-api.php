@@ -83,23 +83,15 @@ class cnTemplateFactory {
 			 */
 			if ( is_admin() ) {
 
-				// Add all the legacy templates found, including the default templates.
-				add_action( 'admin_init', array( __CLASS__, 'registerLegacy' ) );
-
-				// Initiate the active template classes.
-				add_action( 'admin_init', array( __CLASS__, 'activate' ), 100 );
+				add_action( 'admin_init', array( __CLASS__, 'maybeActivate' ), 100 );
 
 			} else {
 
-				// Add all the legacy templates found, including the default templates.
-				add_action( 'wp', array( __CLASS__, 'registerLegacy' ) );
-
-				// Initiate the active template classes.
-				add_action( 'wp', array( __CLASS__, 'activate' ), 100 );
+				add_action( 'wp', array( __CLASS__, 'maybeActivate' ), 100 );
 			}
 
 			// Ensure templates are activated for use in REST requests. Required for the Gutenberg post editor.
-			add_action( 'rest_api_init', array( __CLASS__, 'restInit' ) );
+			add_action( 'rest_api_init', array( __CLASS__, 'maybeActivate' ) );
 		}
 	}
 

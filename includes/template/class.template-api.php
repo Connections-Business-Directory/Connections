@@ -15,6 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnTemplateFactory {
 
 	/**
+	 * @since 10.4.1
+	 * @var bool
+	 */
+	protected static $didActivate = false;
+
+	/**
 	 * The template registry.
 	 *
 	 * @access private

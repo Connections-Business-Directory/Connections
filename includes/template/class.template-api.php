@@ -57,7 +57,7 @@ class cnTemplateFactory {
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
 
 			self::$instance  = new self();
 			self::$templates = new stdClass();

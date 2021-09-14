@@ -62,6 +62,9 @@ class cnTemplateFactory {
 			self::$instance  = new self();
 			self::$templates = new stdClass();
 
+			// Plugins can hook into this action to register templates.
+			do_action( 'cn_register_template', self::$instance );
+
 			/*
 			 * When init'ing in the admin, we must use the `admin_init` action hook
 			 * so the templates are registered in time to be used on the
@@ -88,9 +91,6 @@ class cnTemplateFactory {
 				// Initiate the active template classes.
 				add_action( 'wp', array( __CLASS__, 'activate' ), 100 );
 			}
-
-			// Plugins can hook into this action to register templates.
-			do_action( 'cn_register_template', self::$instance );
 
 			// Ensure templates are activated for use in REST requests. Required for the Gutenberg post editor.
 			add_action( 'rest_api_init', array( __CLASS__, 'restInit' ) );

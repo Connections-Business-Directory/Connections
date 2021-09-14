@@ -12,15 +12,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.7.6
  */
-
 class cnTemplateFactory {
+
+	/**
+	 * @since 10.4.1
+	 * @var bool
+	 */
+	protected static $didActivate = false;
 
 	/**
 	 * The template registry.
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @var (object)
+	 * @var object
 	 */
 	public static $templates;
 
@@ -36,9 +41,8 @@ class cnTemplateFactory {
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (object)
+	 * @var static
 	*/
 	private static $instance;
 
@@ -53,17 +57,19 @@ class cnTemplateFactory {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class.
+	 * Set up the class.
 	 *
-	 * @access public
 	 * @since 0.7.6
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
 
-			self::$instance  = new self;
+			self::$instance  = new self();
 			self::$templates = new stdClass();
+
+			// Plugins can hook into this action to register templates.
+			do_action( 'cn_register_template', self::$instance );
 
 			/*
 			 * When init'ing in the admin, we must use the `admin_init` action hook
@@ -72,38 +78,28 @@ class cnTemplateFactory {
 			 *
 			 * When init'ing in the frontend, we must use the `wp` action hook
 			 * so the registered query vars have been parsed and available for use
-			 * using the get_quer_var() function. Using this function too early will
+			 * using the get_query_var() function. Using this function too early will
 			 * result in an empty string being returned.
 			 */
 			if ( is_admin() ) {
 
-				// Add all the legacy templates found, including the default templates.
-				add_action( 'admin_init', array( __CLASS__, 'registerLegacy' ) );
-
-				// Initiate the active template classes.
-				add_action( 'admin_init', array( __CLASS__, 'activate' ), 100 );
+				add_action( 'admin_init', array( __CLASS__, 'maybeActivate' ), 100 );
 
 			} else {
 
-				// Add all the legacy templates found, including the default templates.
-				add_action( 'wp', array( __CLASS__, 'registerLegacy' ) );
-
-				// Initiate the active template classes.
-				add_action( 'wp', array( __CLASS__, 'activate' ), 100 );
+				add_action( 'wp', array( __CLASS__, 'maybeActivate' ), 100 );
 			}
 
-			// Plugins can hook into this action to register templates.
-			do_action( 'cn_register_template', self::$instance );
-
 			// Ensure templates are activated for use in REST requests. Required for the Gutenberg post editor.
-			add_action( 'rest_api_init', array( __CLASS__, 'restInit' ) );
+			add_action( 'rest_api_init', array( __CLASS__, 'maybeActivate' ) );
 		}
 	}
 
 	/**
-	 * Activate templates in REST requests so they are available for use in the Gutenberg post editor.
+	 * Activate templates in REST requests, so they are available for use in the Gutenberg post editor.
 	 *
 	 * @since 8.31
+	 * @deprecated 10.4.1
 	 */
 	public static function restInit() {
 
@@ -116,8 +112,8 @@ class cnTemplateFactory {
 	/**
 	 * Return an instance.
 	 *
-	 * @access public
 	 * @since 0.7.6
+	 *
 	 * @return object cnTemplateFactory
 	 */
 	public static function getInstance() {
@@ -129,7 +125,7 @@ class cnTemplateFactory {
 	 * Register a template.
 	 *
 	 * Accepted options for the $atts property are:
-	 *  class (string) [required] The name of the class o initialize which contains the templates methods and properties.
+	 *  class (string) [required] The name of the class to initialize which contains the templates methods and properties.
 	 *  name (string) [required] The template name.
 	 *  slug (string) [optional] The template slug.
 	 *  type (string) [required] The template type.
@@ -138,9 +134,9 @@ class cnTemplateFactory {
 	 *  authorURL (string) [optional] The author's website.
 	 *  description (string) [optional] Template description.
 	 *  custom (bool) Whether this is a custom template or not. [Definition of custom is a template not bundled with core.]
-	 *  legacy (bool) [optional|required] Whether or not the template being registered is a legacy template. NOTE: required only when registering legacy templates.
+	 *  legacy (bool) [optional|required] Whether the template being registered is a legacy template. NOTE: required only when registering legacy templates.
 	 *  path (string) [required] The base path to the template's folder.
-	 *  url (string) [required] The base URL to the templates's folder.
+	 *  url (string) [required] The base URL to the template's folder.
 	 *  thumbnail (string) [optional] The template's thumbnail file name.
 	 *  functions (string) [required] The name of the templates functions file. NOTE: required only when registering legacy templates.
 	 *  parts (array) [optional] The name of the template's CSS|JS|PHP file for rendering the entry info. NOTE: required only when registering legacy templates.
@@ -149,11 +145,9 @@ class cnTemplateFactory {
 	 *  		js (string) [optional] The file name of the JS file.
 	 *  		card (string) [required] The file name of the PHP file used to render the entry content.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @uses sanitize_title_with_dashes()
-	 * @param  (array) $atts
-	 * @return void
+	 *
+	 * @param array $atts
 	 */
 	public static function register( $atts ) {
 
@@ -237,11 +231,31 @@ class cnTemplateFactory {
 	}
 
 	/**
+	 * Callback for the `admin_init`, `rest_api_init`, and `wp` actions.
+	 *
+	 * Activate the registered templates.
+	 *
+	 * @since 10.4.1
+	 */
+	public static function maybeActivate() {
+
+		if ( ! self::$didActivate ) {
+
+			// Add all the legacy templates found, including the default templates.
+			self::registerLegacy();
+
+			// Initiate the active template classes.
+			self::activate();
+
+			self::$didActivate = true;
+		}
+	}
+
+	/**
 	 * Activate registered templates.
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @return void
 	 */
 	public static function activate() {
 
@@ -257,7 +271,7 @@ class cnTemplateFactory {
 					// Init an instance of the cnTemplate object with $template.
 					$t = new cnTemplate( $template );
 
-					// If the template has a core class, init it passing its instance of cnTemplate
+					// If the template has a core class, init it, passing its instance of cnTemplate,
 					// so it is easily accessible within its class.
 					$object  = new $template->class( $t );
 					$t->setMe( $object );
@@ -285,10 +299,8 @@ class cnTemplateFactory {
 	 * NOTE: A legacy template is a template that was developed before 0.7.6 and is not a plugin.
 	 *
 	 * @access private
-	 * @uses get_transient()
-	 * @uses set_transient()
+	 *
 	 * @since 0.7.6
-	 * @return void
 	 */
 	public static function registerLegacy() {
 
@@ -347,9 +359,7 @@ class cnTemplateFactory {
 	/**
 	 * Builds a catalog of all the available Legacy templates from the supplied and the custom template directories.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @return void
 	 */
 	private static function scan() {
 
@@ -406,7 +416,7 @@ class cnTemplateFactory {
 						if ( ! isset( $templates->{ $template->type } ) ) $templates->{ $template->type } = new stdClass();
 						if ( ! isset( $templates->{ $template->type }->{ $template->slug } ) ) $templates->{ $template->type }->{ $template->slug } = new stdClass();
 
-						// Load the template metadate from the meta.php file
+						// Load the template metadata from the meta.php file
 						$templates->{ $template->type }->{ $template->slug }->name        = $template->name;
 						$templates->{ $template->type }->{ $template->slug }->version     = $template->version;
 						$templates->{ $template->type }->{ $template->slug }->uri         = isset( $template->uri ) ? 'http://' . $template->uri : '';
@@ -437,9 +447,9 @@ class cnTemplateFactory {
 	/**
 	 * Returns the catalog of all registered templates by type.
 	 *
-	 * @access public
 	 * @since 0.7.6
 	 * @param string|array $types The template catalog to return by type.
+	 *
 	 * @return object
 	 */
 	public static function getCatalog( $types = array() ) {
@@ -544,16 +554,18 @@ class cnTemplateFactory {
 	/**
 	 * Return the requested template.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @param  string $type The template type.
-	 * @param  string $slug The template slug.
+	 *
+	 * @param string $type The template type.
+	 * @param string $slug The template slug.
 	 *
 	 * @return cnTemplate|FALSE If the template is found a cnTemplate object is returned, otherwise FALSE.
 	 */
 	public static function getTemplate( $slug, $type = '' ) {
 
 		/** @var $template cnTemplate */
+
+		self::maybeActivate();
 
 		/**
 		 * Filter the template to get based on its slug.
@@ -574,7 +586,7 @@ class cnTemplateFactory {
 			// $t == the template type $s == template slug.
 			foreach ( self::$templates as $t => $s ) {
 
-				if ( isset( self::$templates->{ $t }->{ $slug } ) ) {
+				if ( isset( self::$templates->{ $t }->{ $slug } ) && isset( $instance->template->{$slug} ) ) {
 
 					$template = $instance->template->{ $slug };
 
@@ -592,11 +604,11 @@ class cnTemplateFactory {
 		/*
 		 * If the template is a legacy template, lets check that the path is still valid before
 		 * returning it because it is possible the cached path no longer exists because the
-		 * WP install was moved; for example, a  server migration or a site migration.
+		 * WP install was moved; for example, a server migration or a site migration.
 		 */
 		if ( $template instanceof cnTemplate && $template->isLegacy() ) {
 
-			return isset( $template ) && ( is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
+			return is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ? $template : FALSE;
 
 		} elseif ( $template instanceof cnTemplate ) {
 
@@ -614,9 +626,7 @@ class cnTemplateFactory {
 	 * Unless overridden by either the `template` or `list_type` shortcode
 	 * options.
 	 *
-	 * @access private
 	 * @since  0.8
-	 * @static
 	 *
 	 * @param  array $atts The shortcode atts array.
 	 *
@@ -660,7 +670,7 @@ class cnTemplateFactory {
 
 		/*
 		 * If a list type was specified in the shortcode, load the template based on that type.
-		 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
+		 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified.
 		 */
 		if ( ! empty( $atts['template'] ) ) {
 

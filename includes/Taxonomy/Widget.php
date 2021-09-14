@@ -68,8 +68,6 @@ final class Widget extends WP_Widget {
 	 * @since 10.2
 	 *
 	 * @param array $instance
-	 *
-	 * @return string|void
 	 */
 	public function form( $instance ) {
 

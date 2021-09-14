@@ -11,7 +11,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.4';
+	const VERSION = '10.4.1';
 
 	/**
 	 * Stores the instance of this class.
@@ -175,9 +175,9 @@ final class Connections_Directory {
 	 */
 	public static function instance( $file = '' ) {
 
-		if ( ! empty( $file ) && ! isset( self::$instance ) && ! ( self::$instance instanceof Connections_Directory ) ) {
+		if ( ! empty( $file ) && ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
 
-			self::$instance = new Connections_Directory;
+			self::$instance = new self();
 
 			self::$file       = $file;
 			self::$pluginURL  = plugin_dir_url( $file );

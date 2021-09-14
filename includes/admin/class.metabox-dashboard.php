@@ -191,6 +191,28 @@ class cnDashboardMetabox {
 	}
 
 	/**
+	 * Callback for the `cn_list_retrieve_atts` filter.
+	 *
+	 * Utilize `suppress_filters` in the "recent" admin dashboard widgets.
+	 * required to ensure the Custom Entry Order does not reorder the query results.
+	 *
+	 * @see cnDashboardMetabox::recent()
+	 *
+	 * @since 10.4.1
+	 *
+	 * @param array $atts
+	 *
+	 * @return array
+	 */
+	public static function suppressFilters( $atts ) {
+
+		$atts['parse_request']    = false;
+		$atts['suppress_filters'] = true;
+
+		return $atts;
+	}
+
+	/**
 	 * Dashboard widget to display a RSS feed.
 	 *
 	 * @access private
@@ -294,6 +316,7 @@ class cnDashboardMetabox {
 		$instance = Connections_Directory();
 
 		add_filter( 'cn_list_results', array( $instance->retrieve, 'removeUnknownDateAdded' ), 9 );
+		add_filter( 'cn_list_retrieve_atts', array( __CLASS__, 'suppressFilters' ) );
 
 		remove_action( 'cn_list_actions', array( 'cnTemplatePart', 'listActions' ) );
 
@@ -309,6 +332,7 @@ class cnDashboardMetabox {
 		connectionsEntryList( $atts );
 
 		remove_filter( 'cn_list_results', array( $instance->retrieve, 'removeUnknownDateAdded' ), 9 );
+		remove_filter( 'cn_list_retrieve_atts', array( __CLASS__, 'suppressFilters' ) );
 	}
 
 	/**

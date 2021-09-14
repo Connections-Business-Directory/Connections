@@ -19,6 +19,7 @@ use Connections_Directory\Taxonomy\Registry as Taxonomy_Registry;
 use Connections_Directory\Taxonomy\Term as Taxonomy_Term;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\Convert\_length;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -136,10 +137,12 @@ class cnRetrieve {
 		$defaults['unit']                  = 'mi';
 
 		$defaults['parse_request']         = _array::get( $atts, 'lock', false );
+		$defaults['suppress_filters']      = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
-		cnFormatting::toBoolean( $atts['process_user_caps'] );
+		_format::toBoolean( $atts['process_user_caps'] );
+		_format::toBoolean( $atts['suppress_filters'] );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -585,20 +588,23 @@ class cnRetrieve {
 		 * // END --> Build the SELECT query segment.
 		 */
 
-		$pieces = array( 'select', 'from', 'join', 'where', 'having', 'orderBy', 'limit', 'offset' );
+		if ( ! $atts['suppress_filters'] ) {
 
-		/**
-		 * Filter the query SQL clauses.
-		 *
-		 * @since 8.5.14
-		 *
-		 * @param array $pieces Terms query SQL clauses.
-		 */
-		$clauses = apply_filters( 'cn_entry_query_clauses', compact( $pieces ) );
+			$pieces = array( 'select', 'from', 'join', 'where', 'having', 'orderBy', 'limit', 'offset' );
 
-		foreach ( $pieces as $piece ) {
+			/**
+			 * Filter the query SQL clauses.
+			 *
+			 * @since 8.5.14
+			 *
+			 * @param array $pieces Terms query SQL clauses.
+			 */
+			$clauses = apply_filters( 'cn_entry_query_clauses', compact( $pieces ) );
 
-			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+			foreach ( $pieces as $piece ) {
+
+				$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+			}
 		}
 
 		/**
@@ -1819,9 +1825,10 @@ class cnRetrieve {
 
 					return $this->entries(
 						array(
-							'lock'     => TRUE,
-							'id'       => $ids,
-							'order_by' => 'id|SPECIFIED',
+							'id'               => $ids,
+							'order_by'         => 'id|SPECIFIED',
+							'parse_request'    => false,
+							'suppress_filters' => true,
 						)
 					);
 

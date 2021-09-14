@@ -587,7 +587,7 @@ class cnTemplateFactory {
 		 */
 		if ( $template instanceof cnTemplate && $template->isLegacy() ) {
 
-			return isset( $template ) && ( is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
+			return is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ? $template : FALSE;
 
 		} elseif ( $template instanceof cnTemplate ) {
 

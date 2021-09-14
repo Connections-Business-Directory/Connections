@@ -565,6 +565,8 @@ class cnTemplateFactory {
 
 		/** @var $template cnTemplate */
 
+		self::maybeActivate();
+
 		/**
 		 * Filter the template to get based on its slug.
 		 *

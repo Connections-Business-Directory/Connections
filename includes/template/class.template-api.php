@@ -233,6 +233,27 @@ class cnTemplateFactory {
 	}
 
 	/**
+	 * Callback for the `admin_init`, `rest_api_init`, and `wp` actions.
+	 *
+	 * Activate the registered templates.
+	 *
+	 * @since 10.4.1
+	 */
+	public static function maybeActivate() {
+
+		if ( ! self::$didActivate ) {
+
+			// Add all the legacy templates found, including the default templates.
+			self::registerLegacy();
+
+			// Initiate the active template classes.
+			self::activate();
+
+			self::$didActivate = true;
+		}
+	}
+
+	/**
 	 * Activate registered templates.
 	 *
 	 * @access private

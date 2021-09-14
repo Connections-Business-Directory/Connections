@@ -249,6 +249,24 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.1 09/14/2021 =
+* NEW: Introduce `_::isInteger()` and `_::isPositiveInteger()`.
+* NEW: Introduce the `suppress_filters` parameter in `cnRetrieve::entries()`.
+* NEW: Introduce `cnTemplateFactory::maybeActivate()`.
+* TWEAK: Correct initiate new objects.
+* TWEAK: Use `self` shortcode keyword instead of classname when checking instance of object.
+* TWEAK: Utilize the `suppress_filters` property in `cnRetrieve::upcoming()`.
+* TWEAK: Utilize `suppress_filters` in the admin dashboard widgets.
+* TWEAK: Check to make sure object property is set before use.
+* TWEAK: Remove unnecessary `isset()` check.
+* TWEAK: Action to register templates should be run before templates are activated.
+* TWEAK: Add check for instance of self when initiating the template factory.
+* TWEAK: Update action hooks to call `cnTemplateFactory::maybeActivate()`.
+* TWEAK: Add call to `cnTemplateFactory::maybeActivate()` in `cnTemplateFactory()`. Needed to support the new Widget Editor because it seems the `rest_init` hook does not fire or is not fired in time to render the widget previews. Templates are required to be activated because templates are used to render the widgets.
+* OTHER: Correct typos.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+
 = 10.4 09/03/2021 =
 * NEW: Introduce the `_::isEmpty()` and `_::notEmpty()` helper methods.
 * NEW: Introduce the `_string::applyPrefix()` helper method.
@@ -722,4 +740,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4 =
+It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.4.1 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

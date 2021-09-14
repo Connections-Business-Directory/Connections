@@ -583,7 +583,7 @@ class cnTemplateFactory {
 		/*
 		 * If the template is a legacy template, lets check that the path is still valid before
 		 * returning it because it is possible the cached path no longer exists because the
-		 * WP install was moved; for example, a  server migration or a site migration.
+		 * WP install was moved; for example, a server migration or a site migration.
 		 */
 		if ( $template instanceof cnTemplate && $template->isLegacy() ) {
 

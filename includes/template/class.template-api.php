@@ -78,7 +78,7 @@ class cnTemplateFactory {
 			 *
 			 * When init'ing in the frontend, we must use the `wp` action hook
 			 * so the registered query vars have been parsed and available for use
-			 * using the get_quer_var() function. Using this function too early will
+			 * using the get_query_var() function. Using this function too early will
 			 * result in an empty string being returned.
 			 */
 			if ( is_admin() ) {
@@ -96,7 +96,7 @@ class cnTemplateFactory {
 	}
 
 	/**
-	 * Activate templates in REST requests so they are available for use in the Gutenberg post editor.
+	 * Activate templates in REST requests, so they are available for use in the Gutenberg post editor.
 	 *
 	 * @since 8.31
 	 * @deprecated 10.4.1
@@ -125,7 +125,7 @@ class cnTemplateFactory {
 	 * Register a template.
 	 *
 	 * Accepted options for the $atts property are:
-	 *  class (string) [required] The name of the class o initialize which contains the templates methods and properties.
+	 *  class (string) [required] The name of the class to initialize which contains the templates methods and properties.
 	 *  name (string) [required] The template name.
 	 *  slug (string) [optional] The template slug.
 	 *  type (string) [required] The template type.
@@ -134,9 +134,9 @@ class cnTemplateFactory {
 	 *  authorURL (string) [optional] The author's website.
 	 *  description (string) [optional] Template description.
 	 *  custom (bool) Whether this is a custom template or not. [Definition of custom is a template not bundled with core.]
-	 *  legacy (bool) [optional|required] Whether or not the template being registered is a legacy template. NOTE: required only when registering legacy templates.
+	 *  legacy (bool) [optional|required] Whether the template being registered is a legacy template. NOTE: required only when registering legacy templates.
 	 *  path (string) [required] The base path to the template's folder.
-	 *  url (string) [required] The base URL to the templates's folder.
+	 *  url (string) [required] The base URL to the template's folder.
 	 *  thumbnail (string) [optional] The template's thumbnail file name.
 	 *  functions (string) [required] The name of the templates functions file. NOTE: required only when registering legacy templates.
 	 *  parts (array) [optional] The name of the template's CSS|JS|PHP file for rendering the entry info. NOTE: required only when registering legacy templates.
@@ -271,7 +271,7 @@ class cnTemplateFactory {
 					// Init an instance of the cnTemplate object with $template.
 					$t = new cnTemplate( $template );
 
-					// If the template has a core class, init it passing its instance of cnTemplate
+					// If the template has a core class, init it, passing its instance of cnTemplate,
 					// so it is easily accessible within its class.
 					$object  = new $template->class( $t );
 					$t->setMe( $object );
@@ -670,7 +670,7 @@ class cnTemplateFactory {
 
 		/*
 		 * If a list type was specified in the shortcode, load the template based on that type.
-		 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
+		 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified.
 		 */
 		if ( ! empty( $atts['template'] ) ) {
 

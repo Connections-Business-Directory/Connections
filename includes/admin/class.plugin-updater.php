@@ -574,6 +574,11 @@ class cnPlugin_Updater {
 
 		$plugin = self::get_plugin_by_slug( $args->slug );
 
+		if ( false === $plugin ) {
+
+			return $result;
+		}
+
 		if ( ! isset( $args->slug ) || ( $args->slug != $plugin['slug'] ) ) {
 
 			return $result;

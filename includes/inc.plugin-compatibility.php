@@ -466,3 +466,62 @@ add_action(
 		}
 	}
 );
+
+/**
+ * Compatibility shim for the All-in-One Video Gallery plugin.
+ *
+ * Other plugins seem to also execute the code in this function, but some at a priority that is too soon
+ * and the rewrite tags for Connections are not yet registered which breaks the Connections rewrite rules.
+ * So, let run this code, but at a later priority to ensure Connections rewrite tags are registered and the
+ * rewrite rules for Connections are built correctly.
+ *
+ * @link   https://gist.github.com/tott/9548734
+ * @link   https://core.trac.wordpress.org/ticket/18450#comment:35
+ * @link   https://wordpress.org/support/topic/add_action-wp_loaded-public-maybe_flush_rules/
+ *
+ * @since  10.4.2
+ */
+add_action(
+	'wp_loaded',
+	function() {
+
+		if ( ! class_exists( 'AIOVG_Init', false ) ) {
+
+			return;
+		}
+
+		global $wp_rewrite;
+
+		$rewrite_rules = get_option( 'rewrite_rules' );
+
+		if ( $rewrite_rules && $wp_rewrite instanceof WP_Rewrite ) {
+
+			$rewrite_rules_array = array();
+
+			foreach ( $rewrite_rules as $rule => $rewrite ) {
+
+				$rewrite_rules_array[ $rule ]['rewrite'] = $rewrite;
+			}
+
+			$rewrite_rules_array = array_reverse( $rewrite_rules_array, true );
+
+			$maybe_missing = $wp_rewrite->rewrite_rules();
+			$missing_rules = false;
+
+			foreach ( $maybe_missing as $rule => $rewrite ) {
+
+				if ( ! array_key_exists( $rule, $rewrite_rules_array ) ) {
+
+					$missing_rules = true;
+					break;
+				}
+			}
+
+			if ( true === $missing_rules ) {
+
+				flush_rewrite_rules();
+			}
+		}
+	},
+	99
+);

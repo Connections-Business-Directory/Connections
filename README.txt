@@ -249,6 +249,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.2 09/23/2021 =
+* COMPATIBILITY: Add compatibility shim for the All-in-One Video Gallery plugin.
+* TWEAK: Ensure value is object before accessing its properties.
+
 = 10.4.1 09/14/2021 =
 * NEW: Introduce `_::isInteger()` and `_::isPositiveInteger()`.
 * NEW: Introduce the `suppress_filters` parameter in `cnRetrieve::entries()`.
@@ -743,4 +747,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.1 =
+It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.4.2 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

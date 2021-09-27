@@ -836,15 +836,15 @@ function connectionsShowViewPage( $action = NULL ) {
 					if ( $entry->getOrganization() && $entry->getEntryType() !== 'organization' ) echo '<strong>' . __( 'Organization', 'connections' ) . ':</strong> ' . $entry->getOrganization() . '<br />';
 					if ( $entry->getDepartment() ) echo '<strong>' . __( 'Department', 'connections' ) . ':</strong> ' . $entry->getDepartment() . '<br />';
 
-					$entry->addresses->render( 'admin' );
+					$entry->addresses->escapeForDisplay()->render( 'admin' );
 
 					echo '</td>' , "\n";
 
 					echo '<td>';
 
-					$entry->phoneNumbers->render( 'admin' );
-					$entry->emailAddresses->render( 'admin' );
-					$entry->im->render( 'admin' );
+					$entry->phoneNumbers->escapeForDisplay()->render( 'admin' );
+					$entry->emailAddresses->escapeForDisplay()->render( 'admin' );
+					$entry->im->escapeForDisplay()->render( 'admin' );
 
 					$socialNetworks = $entry->getSocialMedia();
 
@@ -860,12 +860,12 @@ function connectionsShowViewPage( $action = NULL ) {
 						echo '</div>';
 					}
 
-					$entry->links->render( 'admin' );
+					$entry->links->escapeForDisplay()->render( 'admin' );
 
 					echo "</td> \n";
 
 					echo "<td>";
-					$entry->dates->render( 'admin' );
+					$entry->dates->escapeForDisplay()->render( 'admin' );
 					echo "</td> \n";
 					echo "</tr> \n";
 

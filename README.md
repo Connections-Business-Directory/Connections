@@ -247,6 +247,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.3 09/27/2021 =
+
+* SECURITY: Entry data on the Manage admin page should be escaped to prevent high level WordPress Users to perform
+  Cross-Site Scripting attacks.
+
 = 10.4.2 09/23/2021 =
 
 * COMPATIBILITY: Add compatibility shim for the All-in-One Video Gallery plugin.

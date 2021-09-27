@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 5.1
 Tested up to: 5.8
 Requires PHP: 5.6.20
-Stable tag: 10.4.2
+Stable tag: 10.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.3 09/27/2021 =
+* SECURITY: Entry data on the Manage admin page should be escaped to prevent high level WordPress Users to perform Cross-Site Scripting attacks.
 
 = 10.4.2 09/23/2021 =
 * COMPATIBILITY: Add compatibility shim for the All-in-One Video Gallery plugin.
@@ -750,4 +753,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.2 =
+It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.4.3 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

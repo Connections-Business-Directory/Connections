@@ -1833,6 +1833,11 @@ class cnTemplatePart {
 			if ( cnQuery::getVar('cn-char') ) $current = urldecode( cnQuery::getVar('cn-char') );
 		}
 
+		if ( 1 < strlen( $current ) ) {
+
+			$current = '';
+		}
+
 		$styles = cnHTML::attribute( 'style', $atts['style'] );
 
 		foreach ( $characters as $key => $char ) {

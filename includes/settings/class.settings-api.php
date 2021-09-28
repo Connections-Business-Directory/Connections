@@ -1810,7 +1810,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function quickTagJS() {
 			echo '<script type="text/javascript">/* <![CDATA[ */';
 
-			foreach ( self::$quickTagIDs as $id ) echo 'quicktags("' . $id . '");';
+			foreach ( self::$quickTagIDs as $id ) {
+
+				echo esc_js( "quicktags(\"{$id}\");" );
+			}
 
 		    echo '/* ]]> */</script>';
 		}
@@ -1826,7 +1829,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			echo '<script type="text/javascript">/* <![CDATA[ */' . PHP_EOL;
 				echo 'jQuery(function($) {' . PHP_EOL;
 
-					foreach ( self::$sortableIDs as $id ) echo '$(\'[id="' . $id . '"]\').sortable();' . PHP_EOL;
+					foreach ( self::$sortableIDs as $id ) {
+
+						echo esc_js( "$( '[id=\"{$id}\"]' ).sortable();" ) . PHP_EOL;
+					}
 
 				echo '});' . PHP_EOL;
 			echo '/* ]]> */</script>';

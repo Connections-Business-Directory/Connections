@@ -513,7 +513,7 @@ class Popup extends Abstract_Layer {
 	 */
 	public function render() {
 
-		echo $this->get();
+		echo wp_kses_post( $this->get() );
 	}
 
 	/**

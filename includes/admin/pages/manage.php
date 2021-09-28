@@ -107,7 +107,7 @@ function connectionsShowViewPage( $action = NULL ) {
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 
-				$id = esc_attr( $_GET['id'] );
+				$id = absint( $_GET['id'] );
 				check_admin_referer( 'entry_copy_' . $id );
 
 				$form  = new cnFormObjects();
@@ -201,7 +201,7 @@ function connectionsShowViewPage( $action = NULL ) {
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-				$id = esc_attr( $_GET['id'] );
+				$id = absint( $_GET['id'] );
 				check_admin_referer( 'entry_edit_' . $id );
 
 				$form  = new cnFormObjects();

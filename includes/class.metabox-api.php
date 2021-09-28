@@ -1444,7 +1444,10 @@ class cnMetabox_Render {
 	public static function quickTagJS() {
 		echo '<script type="text/javascript">/* <![CDATA[ */';
 
-		foreach ( self::$quickTagIDs as $id ) echo 'quicktags("' . $id . '");';
+		foreach ( self::$quickTagIDs as $id ) {
+
+			echo 'quicktags("' . esc_js( $id ) . '");';
+		}
 
 	    echo '/* ]]> */</script>';
 	}

@@ -1812,7 +1812,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			foreach ( self::$quickTagIDs as $id ) {
 
-				echo esc_js( "quicktags(\"{$id}\");" );
+				echo 'quicktags("' . esc_js( $id ) . '");';
 			}
 
 		    echo '/* ]]> */</script>';
@@ -1831,7 +1831,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					foreach ( self::$sortableIDs as $id ) {
 
-						echo esc_js( "$( '[id=\"{$id}\"]' ).sortable();" ) . PHP_EOL;
+						echo '$(\'[id="' . esc_js( $id ) . '"]\').sortable();' . PHP_EOL;
 					}
 
 				echo '});' . PHP_EOL;

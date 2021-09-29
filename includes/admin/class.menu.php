@@ -158,7 +158,6 @@ class cnAdminMenu {
 
 			$instance->pageHook->{ $hook } = add_submenu_page( 'connections_dashboard', $page_title, $menu_title, $capability, $menu_slug, $function );
 		}
-
 	}
 
 	/**

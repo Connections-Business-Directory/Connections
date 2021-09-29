@@ -182,14 +182,14 @@ function connectionsShowCategoriesPage() {
 							wp_kses_post( $category->getDescription() ),
 							'category_description',
 							array(
-								'media_buttons' => FALSE,
+								'media_buttons' => false,
 								'tinymce'       => array(
 									'editor_selector'   => 'tinymce',
 									'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
 									'toolbar2'          => '',
-									'inline_styles'     => TRUE,
-									'relative_urls'     => FALSE,
-									'remove_linebreaks' => FALSE,
+									'inline_styles'     => true,
+									'relative_urls'     => false,
+									'remove_linebreaks' => false,
 									'plugins'           => implode( ',', $tinymcePlugins )
 								)
 							)

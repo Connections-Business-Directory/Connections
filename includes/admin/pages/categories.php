@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The categories admin page.
  *

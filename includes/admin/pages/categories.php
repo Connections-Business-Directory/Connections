@@ -469,6 +469,7 @@ function connectionsShowCategoriesPage() {
 										);
 									}
 
+									// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 									wp_editor(
 										'',
 										'category_description',
@@ -485,6 +486,7 @@ function connectionsShowCategoriesPage() {
 											),
 										)
 									);
+									// phpcs:enable
 
 									echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									?>

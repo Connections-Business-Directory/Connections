@@ -455,7 +455,7 @@ function connectionsShowCategoriesPage() {
 											'paste',
 											'wordpress',
 											'wplink',
-											'wpdialogs'
+											'wpdialogs',
 										);
 
 									} else {
@@ -465,7 +465,7 @@ function connectionsShowCategoriesPage() {
 											'paste',
 											'wordpress',
 											'wplink',
-											'wpdialogs'
+											'wpdialogs',
 										);
 									}
 

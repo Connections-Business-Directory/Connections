@@ -50,7 +50,7 @@ function connectionsShowCategoriesPage() {
 
 		if ( isset( $_GET['cn-action'] ) ) {
 
-			$action = $_GET['cn-action'];
+			$action = sanitize_key( $_GET['cn-action'] );
 		}
 
 		if ( $action === 'edit_category' ) {

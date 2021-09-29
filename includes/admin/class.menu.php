@@ -18,6 +18,9 @@ use Connections_Directory\Utility\_array;
 
 /**
  * Class cnAdminMenu
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  */
 class cnAdminMenu {
 

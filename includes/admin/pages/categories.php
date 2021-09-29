@@ -53,7 +53,7 @@ function connectionsShowCategoriesPage() {
 			$action = sanitize_key( $_GET['cn-action'] );
 		}
 
-		if ( $action === 'edit_category' ) {
+		if ( 'edit_category' === $action ) {
 
 			$id = absint( $_GET['id'] );
 			check_admin_referer( 'category_edit_' . $id );

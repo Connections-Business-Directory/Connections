@@ -349,7 +349,7 @@ function connectionsShowCategoriesPage() {
 								$attr = array(
 									'id'     => 'add-term',
 									'action' => '',
-									'method' => 'post'
+									'method' => 'post',
 								);
 
 								$form->open( $attr );

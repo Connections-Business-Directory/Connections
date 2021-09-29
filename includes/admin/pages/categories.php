@@ -103,7 +103,7 @@ function connectionsShowCategoriesPage() {
 					?>
 
 					<div class="form-field form-required term-name-wrap">
-						<label for="category_name"><?php _e( 'Name', 'connections' ) ?></label>
+						<label for="category_name"><?php _e( 'Name', 'connections' ); ?></label>
 						<input type="text" aria-required="true" size="40" value="<?php echo esc_attr( $category->getName() ); ?>" id="category_name" name="category_name"/>
 						<input type="hidden" value="<?php echo esc_attr( $category->getID() ); ?>" id="category_id" name="category_id"/>
 

@@ -28,7 +28,7 @@ class cnAdminMenu {
 	 * @access private
 	 * @since 0.7.9
 	 * @var (object)
-	*/
+	 */
 	private static $instance;
 
 	/**

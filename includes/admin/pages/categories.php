@@ -140,7 +140,6 @@ function connectionsShowCategoriesPage() {
 								'exclude_tree'     => $category->getID(),
 								'hierarchical'     => true,
 								'show_option_none' => __( 'None', 'connections' ),
-								//'return'           => TRUE,
 							)
 						);
 						?>

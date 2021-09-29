@@ -143,10 +143,14 @@ function connectionsShowCategoriesPage() {
 							)
 						);
 						?>
-						<p><?php _e(
+						<p>
+							<?php
+							_e(
 								'Categories can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.',
 								'connections'
-							); ?></p>
+							);
+							?>
+						</p>
 					</div>
 
 

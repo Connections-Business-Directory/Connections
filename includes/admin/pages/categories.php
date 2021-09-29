@@ -190,8 +190,8 @@ function connectionsShowCategoriesPage() {
 									'inline_styles'     => true,
 									'relative_urls'     => false,
 									'remove_linebreaks' => false,
-									'plugins'           => implode( ',', $tinymcePlugins )
-								)
+									'plugins'           => implode( ',', $tinymcePlugins ),
+								),
 							)
 						);
 

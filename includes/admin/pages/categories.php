@@ -272,7 +272,6 @@ function connectionsShowCategoriesPage() {
 							);
 
 							$form->open( $attr );
-							//$form->tokenField( 'bulk_delete_category' );
 							?>
 							<input type="hidden" name="cn-action" value="category_bulk_actions"/>
 							<?php

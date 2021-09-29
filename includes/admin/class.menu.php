@@ -52,7 +52,7 @@ class cnAdminMenu {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 			self::menu();
 			self::addSupportMenuItem();
 			self::stylizeSupportMenuItems();

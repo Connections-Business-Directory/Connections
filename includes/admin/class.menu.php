@@ -144,7 +144,7 @@ class cnAdminMenu {
 		foreach ( $submenu['connections_dashboard'] as &$item ) {
 
 			$template = '<span class="cn-submenu-item" id="cn-submenu-item-%s">%s</span>';
-			$slug     = strtolower( preg_replace("/[^[:alnum:][:space:]]/u", '', $item[0] ) );
+			$slug     = strtolower( preg_replace( "/[^[:alnum:][:space:]]/u", '', $item[0] ) );
 
 			$item[0] = sprintf( $template, $slug, $item[0] );
 		}

@@ -55,7 +55,7 @@ function connectionsShowCategoriesPage() {
 
 		if ( 'edit_category' === $action ) {
 
-			$id = absint( $_GET['id'] );
+			$id = isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
 			check_admin_referer( 'category_edit_' . $id );
 
 			$term     = $instance->retrieve->category( $id );

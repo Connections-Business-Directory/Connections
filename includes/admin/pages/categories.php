@@ -245,6 +245,8 @@ function connectionsShowCategoriesPage() {
 			 */
 			$table = cnTemplatePart::table( 'term-admin', array( 'screen' => get_current_screen()->id ) );
 			$table->prepare_items();
+
+			$page = isset( $_REQUEST['page'] ) && ! empty( $_REQUEST['page'] ) ? sanitize_key( $_REQUEST['page'] ) : '';
 			?>
 			<div class="wrap nosubsub">
 
@@ -252,7 +254,7 @@ function connectionsShowCategoriesPage() {
 
 				<form class="search-form" action="" method="get">
 
-					<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>"/>
+					<input type="hidden" name="page" value="<?php echo esc_attr( $page ); ?>"/>
 					<?php $table->search_box( __( 'Search Categories', 'connections' ), 'category' ); ?>
 
 				</form>

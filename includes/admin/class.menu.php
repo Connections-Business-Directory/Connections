@@ -39,7 +39,9 @@ class cnAdminMenu {
 	 * @see cnAdminMenu::init()
 	 * @see cnAdminMenu();
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
 	 * Setup the class, if it has already been initialized, return the intialized instance.

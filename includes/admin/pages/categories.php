@@ -469,7 +469,7 @@ function connectionsShowCategoriesPage() {
 										);
 									}
 
-									// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
+									// phpcs:disable WordPress.Arrays.MultipleStatementAlignment
 									wp_editor(
 										'',
 										'category_description',

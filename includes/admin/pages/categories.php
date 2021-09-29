@@ -237,7 +237,7 @@ function connectionsShowCategoriesPage() {
 
 				</div>
 			</div>
-		<?php
+			<?php
 		} else {
 
 			/**

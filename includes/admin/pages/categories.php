@@ -33,7 +33,7 @@ function connectionsShowCategoriesPage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __(
+				width:700px">' . esc_html__(
 				'You do not have sufficient permissions to access this page.',
 				'connections'
 			) . '</p>'

@@ -528,7 +528,7 @@ function connectionsShowCategoriesPage() {
 				</div>
 				<!-- Column container -->
 			</div>
-		<?php
+			<?php
 		}
 	}
 }

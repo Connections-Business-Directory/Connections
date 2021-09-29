@@ -132,13 +132,13 @@ function connectionsShowCategoriesPage() {
 							'term-select',
 							array(
 								'hide_empty'       => 0,
-								'hide_if_empty'    => FALSE,
+								'hide_if_empty'    => false,
 								'name'             => 'category_parent',
 								'orderby'          => 'name',
 								'taxonomy'         => 'category',
 								'selected'         => $category->getParent(),
 								'exclude_tree'     => $category->getID(),
-								'hierarchical'     => TRUE,
+								'hierarchical'     => true,
 								'show_option_none' => __( 'None', 'connections' ),
 								//'return'           => TRUE,
 							)

@@ -185,7 +185,10 @@ class cnAdminMenu {
 			return;
 		}
 
-		switch ( $_GET['page'] ) {
+		// phpcs:ignore WordPress.Security.NonceVerification
+		$page = isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+
+		switch ( $page ) {
 
 			case 'connections_dashboard':
 				include_once CN_PATH . 'includes/admin/pages/dashboard.php';

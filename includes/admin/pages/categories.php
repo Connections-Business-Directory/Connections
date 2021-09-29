@@ -85,7 +85,7 @@ function connectionsShowCategoriesPage() {
 						'action' => '',
 						'method' => 'post',
 						'id'     => 'edit-term',
-						'name'   => 'updatecategory'
+						'name'   => 'updatecategory',
 					);
 
 					$form->open( $attr );

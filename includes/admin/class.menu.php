@@ -76,7 +76,7 @@ class cnAdminMenu {
 		$addEntryCapability = current_user_can( 'connections_add_entry' ) ? 'connections_add_entry' : 'connections_add_entry_moderated';
 
 		// Register the top level menu item.
-		if ( current_user_can( 'connections_view_menu') ) {
+		if ( current_user_can( 'connections_view_menu' ) ) {
 
 			$instance->pageHook->topLevel = add_menu_page( 'Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array( __CLASS__, 'showPage' ), CN_URL . 'assets/images/menu.png', CN_ADMIN_MENU_POSITION );
 		}

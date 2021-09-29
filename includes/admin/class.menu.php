@@ -203,11 +203,6 @@ class cnAdminMenu {
 				connectionsShowViewPage( 'add_entry' );
 				break;
 
-			//case 'connections_categories':
-			//	include_once CN_PATH . 'includes/admin/pages/categories.php';
-			//	connectionsShowCategoriesPage();
-			//	break;
-
 			case 'connections_settings':
 				include_once CN_PATH . 'includes/admin/pages/settings.php';
 				connectionsShowSettingsPage();

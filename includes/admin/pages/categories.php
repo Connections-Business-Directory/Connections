@@ -392,11 +392,11 @@ function connectionsShowCategoriesPage() {
 									<?php
 									$dropdown_args = array(
 										'hide_empty'       => 0,
-										'hide_if_empty'    => FALSE,
+										'hide_if_empty'    => false,
 										'taxonomy'         => 'category',
 										'name'             => 'category_parent',
 										'orderby'          => 'name',
-										'hierarchical'     => TRUE,
+										'hierarchical'     => true,
 										'show_option_none' => __( 'None', 'connections' ),
 									);
 

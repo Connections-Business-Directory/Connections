@@ -129,6 +129,7 @@ class cnAdminMenu {
 		$title     = esc_html( $title );
 		$permalink = esc_url( $permalink );
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		$submenu['connections_dashboard'][] = array( $title, 'manage_options', $permalink );
 	}
 

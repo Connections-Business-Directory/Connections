@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for adding the admin menus and show its pages.
  *

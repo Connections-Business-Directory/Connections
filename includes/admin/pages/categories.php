@@ -223,7 +223,7 @@ function connectionsShowCategoriesPage() {
 					 * @param object $tag      Current taxonomy term object.
 					 * @param string $taxonomy Current taxonomy slug.
 					 */
-					do_action( "{$taxonomy}_edit_form", $term, $taxonomy );
+					do_action( "{$taxonomy}_edit_form", $term, $taxonomy ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 					?>
 
 					<input type="hidden" name="cn-action" value="update_category"/>

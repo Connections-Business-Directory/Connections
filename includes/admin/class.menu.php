@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_array;
+
 /**
  * Class cnAdminMenu
  */
@@ -148,17 +150,16 @@ class cnAdminMenu {
 
 		foreach ( $submenu as $menu ) {
 
-			/**
-			 * @var string       $hook
-			 * @var string       $page_title
-			 * @var string       $menu_title
-			 * @var string       $capability
-			 * @var string       $menu_slug
-			 * @var array|string $function
-			 */
-			extract( $menu );
+			$hook = _array::get( $menu, 'hook', '' );
 
-			$instance->pageHook->{ $hook } = add_submenu_page( 'connections_dashboard', $page_title, $menu_title, $capability, $menu_slug, $function );
+			$instance->pageHook->{ $hook } = add_submenu_page(
+				'connections_dashboard',
+				_array::get( $menu, 'page_title', '' ),
+				_array::get( $menu, 'menu_title', '' ),
+				_array::get( $menu, 'capability', '' ),
+				_array::get( $menu, 'menu_slug', '' ),
+				_array::get( $menu, 'function', '' )
+			);
 		}
 	}
 

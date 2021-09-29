@@ -228,7 +228,6 @@ class cnAdminMenu {
 				connectionsShowRolesPage();
 				break;
 		}
-
 	}
 
 }

@@ -268,7 +268,7 @@ function connectionsShowCategoriesPage() {
 
 							$attr = array(
 								'action' => '',
-								'method' => 'post'
+								'method' => 'post',
 							);
 
 							$form->open( $attr );

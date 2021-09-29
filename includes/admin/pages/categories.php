@@ -115,7 +115,8 @@ function connectionsShowCategoriesPage() {
 						<input type="text" size="40" value="<?php echo esc_attr( $category->getSlug() ); ?>" id="category_slug" name="category_slug"/>
 
 						<p>
-							<?php _e(
+							<?php
+							_e(
 								'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.',
 								'connections'
 							);

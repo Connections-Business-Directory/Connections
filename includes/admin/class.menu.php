@@ -197,8 +197,9 @@ class cnAdminMenu {
 
 			case 'connections_manage':
 				include_once CN_PATH . 'includes/admin/pages/manage.php';
-				$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? $_GET['cn-action'] : '';
-				connectionsShowViewPage( esc_attr( $action ) );
+				// phpcs:ignore WordPress.Security.NonceVerification
+				$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? sanitize_key( $_GET['cn-action'] ) : '';
+				connectionsShowViewPage( $action );
 				break;
 
 			case 'connections_add':

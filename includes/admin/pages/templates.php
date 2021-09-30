@@ -181,6 +181,7 @@ function connectionsShowTemplatesPage() {
 								$template = $templates->{$slug};
 
 								$class = array( 'available-theme' );
+
 								if ( $row == 1 ) $class[]     = 'top';
 								if ( $row == $rows ) $class[] = 'bottom';
 								if ( $col == 1 ) $class[]     = 'left';

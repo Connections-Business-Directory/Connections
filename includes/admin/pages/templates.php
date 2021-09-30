@@ -7,6 +7,8 @@
  * @copyright   Copyright (c) 2015, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       unknown
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 
 // Exit if accessed directly.
@@ -238,8 +240,6 @@ function connectionsShowTemplatesPage() {
  * @since  8.4
  *
  * @param cnTemplate $template
- *
- * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 function cnTemplateThumbnail( $template ) {
 

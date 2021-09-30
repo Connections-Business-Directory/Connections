@@ -199,7 +199,7 @@ function connectionsShowTemplatesPage() {
 								}
 								?>
 
-								<td <?php echo cnHTML::attribute( 'class', $class ); ?>>
+								<td <?php echo cnHTML::attribute( 'class', $class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 
 									<?php
 									cnTemplateThumbnail( $template );

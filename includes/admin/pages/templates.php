@@ -389,12 +389,7 @@ function cnTemplateDeleteButton( $template ) {
 
 		?>
 
-		<a class="button button-warning"
-		   href="<?php echo esc_url( $url ); ?>"
-		   title="Delete '<?php echo esc_attr( $template->getName() ); ?>'"
-		   onclick="return confirm('You are about to delete this template \'<?php echo esc_attr( $template->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">
-			<?php _e( 'Delete', 'connections' ); ?>
-		</a>
+		<a class="button button-warning" href="<?php echo esc_url( $url ); ?>" title="Delete '<?php echo esc_attr( $template->getName() ); ?>'" onclick="return confirm('You are about to delete this template \'<?php echo esc_attr( $template->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');"><?php _e( 'Delete', 'connections' ); ?></a>
 		<?php
 	}
 }

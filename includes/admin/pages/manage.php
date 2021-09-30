@@ -60,10 +60,10 @@ function connectionsShowViewPage( $action = null ) {
 					echo '<div id="post-body" class="metabox-holder columns-' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '">';
 
 						wp_nonce_field( 'cn-manage-metaboxes' );
-						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
-						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
+						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', false );
 
 						do_action( 'cn_admin_form_add_entry_before', $entry, $form );
 

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Form\Field;
 
-function connectionsShowViewPage( $action = NULL ) {
+function connectionsShowViewPage( $action = null ) {
 
 	// Grab an instance of the Connections object.
 	$instance  = Connections_Directory();

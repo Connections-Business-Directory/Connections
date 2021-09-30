@@ -430,9 +430,7 @@ function cnTemplateCustomizerButton( $template, $customizerURL, $returnURL ) {
 		 */
 
 		?>
-		<a class="button"
-		   href="<?php echo esc_url( $href ) . '&autofocus[section]=cn_template_customizer_section_display'; ?>"
-		   title="Customize '<?php echo esc_attr( $template->getName() ); ?>'"><?php _e( 'Customize', 'connections' ); ?></a>
+		<a class="button" href="<?php echo esc_url( $href ) . '&autofocus[section]=cn_template_customizer_section_display'; ?>" title="Customize '<?php echo esc_attr( $template->getName() ); ?>'"><?php _e( 'Customize', 'connections' ); ?></a>
 		<?php
 	}
 }

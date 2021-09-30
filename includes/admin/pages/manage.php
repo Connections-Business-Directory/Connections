@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The manage admin page.
  *

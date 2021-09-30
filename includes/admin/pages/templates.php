@@ -182,7 +182,7 @@ function connectionsShowTemplatesPage() {
 
 								$class = array( 'available-theme' );
 
-								if ( $row == 1 ) {
+								if ( 1 == $row ) {
 									$class[] = 'top';
 								}
 
@@ -190,11 +190,11 @@ function connectionsShowTemplatesPage() {
 									$class[] = 'bottom';
 								}
 
-								if ( $col == 1 ) {
+								if ( 1 == $col ) {
 									$class[] = 'left';
 								}
 
-								if ( $col == 3 ) {
+								if ( 3 == $col ) {
 									$class[] = 'right';
 								}
 								?>

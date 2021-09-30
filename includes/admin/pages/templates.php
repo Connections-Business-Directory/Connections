@@ -38,14 +38,14 @@ function connectionsShowTemplatesPage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
+				width:700px">' . esc_html__( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
 		);
 	} else {
 
 		// Grab an instance of the Connections object.
-		$instance      = Connections_Directory();
+		$instance = Connections_Directory();
 
-		$type          = isset( $_GET['type'] ) ? esc_attr( $_GET['type'] ) : 'all';
+		$type          = isset( $_GET['type'] ) ? sanitize_key( $_GET['type'] ) : 'all'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$templates     = cnTemplateFactory::getCatalog( $type );
 		$adminURL      = self_admin_url( 'admin.php' );
 		$pageURL       = add_query_arg( 'page', 'connections_templates', $adminURL );

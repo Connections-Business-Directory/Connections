@@ -27,7 +27,6 @@ function connectionsShowViewPage( $action = null ) {
 	switch ( $action ) {
 
 		case 'add_entry':
-
 			echo '<h1>Connections : ' , esc_html__( 'Add Entry', 'connections' ) , '</h1>';
 
 			/*

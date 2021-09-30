@@ -129,7 +129,17 @@ function connectionsShowTemplatesPage() {
 							</p>
 
 							<p>
-								<?php printf( __( 'To learn more, please refer to the <a href="%s">documentation</a>.', 'connections' ), 'https://connections-pro.com/documentation/templates/' ); ?>
+								<?php
+								printf(
+									/* translators: %s: URL to the admin Templates screen. */
+									esc_html__( 'To learn more, please refer to the %s.', 'connections' ),
+									sprintf(
+										'<a href="%s" target="_blank">%s</a>',
+										'https://connections-pro.com/documentation/templates/',
+										esc_html__( 'documentation', 'connections' )
+									)
+								);
+								?>
 							</p>
 						</td>
 					</tr>

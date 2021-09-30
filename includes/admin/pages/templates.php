@@ -53,7 +53,26 @@ function connectionsShowTemplatesPage() {
 		$homeURL       = get_permalink( $homeID );
 		$customizerURL = add_query_arg( 'cn-customize-template', 'true', $homeURL );
 
+		$templateTypes = array(
+			'all'          => __( 'All', 'connections' ),
+			'individual'   => __( 'Individual', 'connections' ),
+			'organization' => __( 'Organization', 'connections' ),
+			'family'       => __( 'Family', 'connections' ),
+			'anniversary'  => __( 'Anniversary', 'connections' ),
+			'birthday'     => __( 'Birthday', 'connections' ),
+		);
 
+		$templateTypeLinks = array();
+
+		foreach ( $templateTypes as $templateType => $templateTypeLabel ) {
+
+			$templateTypeLinks[] = sprintf(
+				'<a %shref="%s">%s</a>',
+				$type === $templateType ? 'class="current" aria-current="page" ' : '',
+				add_query_arg( 'type', $templateType, esc_url( $pageURL ) ),
+				$templateTypeLabel
+			);
+		}
 		?>
 		<div class="wrap">
 
@@ -62,36 +81,9 @@ function connectionsShowTemplatesPage() {
 			</h1>
 
 			<ul class="subsubsub">
-				<li>
-					<a <?php if ( 'all' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'all', $pageURL ) ); ?>">
-						<?php _e( 'All', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'individual' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'individual', $pageURL ) ); ?>">
-						<?php _e( 'Individual', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'organization' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'organization', $pageURL ) ); ?>">
-						<?php _e( 'Organization', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'family' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'family', $pageURL ) ); ?>">
-						<?php _e( 'Family', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'anniversary' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'anniversary', $pageURL ) ); ?>">
-						<?php _e( 'Anniversary', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'birthday' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'birthday', $pageURL ) ); ?>">
-						<?php _e( 'Birthday', 'connections' ); ?>
-					</a>
-				</li>
+				<?php
+				echo wp_kses_post( '<li>' . implode( '&ensp;|&ensp;</li><li>', $templateTypeLinks ) . '</li>' );
+				?>
 			</ul>
 
 			<br class="clear">

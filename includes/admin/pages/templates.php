@@ -63,32 +63,32 @@ function connectionsShowTemplatesPage() {
 
 			<ul class="subsubsub">
 				<li>
-					<a <?php if ( 'all' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'all', $pageURL ) ) ?>">
+					<a <?php if ( 'all' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'all', $pageURL ) ); ?>">
 						<?php _e( 'All', 'connections' ); ?>
 					</a> |
 				</li>
 				<li>
-					<a <?php if ( 'individual' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'individual', $pageURL ) ) ?>">
+					<a <?php if ( 'individual' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'individual', $pageURL ) ); ?>">
 						<?php _e( 'Individual', 'connections' ); ?>
 					</a> |
 				</li>
 				<li>
-					<a <?php if ( 'organization' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'organization', $pageURL ) ) ?>">
+					<a <?php if ( 'organization' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'organization', $pageURL ) ); ?>">
 						<?php _e( 'Organization', 'connections' ); ?>
 					</a> |
 				</li>
 				<li>
-					<a <?php if ( 'family' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'family', $pageURL ) ) ?>">
+					<a <?php if ( 'family' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'family', $pageURL ) ); ?>">
 						<?php _e( 'Family', 'connections' ); ?>
 					</a> |
 				</li>
 				<li>
-					<a <?php if ( 'anniversary' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'anniversary', $pageURL ) ) ?>">
+					<a <?php if ( 'anniversary' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'anniversary', $pageURL ) ); ?>">
 						<?php _e( 'Anniversary', 'connections' ); ?>
 					</a> |
 				</li>
 				<li>
-					<a <?php if ( 'birthday' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'birthday', $pageURL ) ) ?>">
+					<a <?php if ( 'birthday' == $type ) echo 'class="current" '; ?>href="<?php echo esc_url( add_query_arg( 'type', 'birthday', $pageURL ) ); ?>">
 						<?php _e( 'Birthday', 'connections' ); ?>
 					</a>
 				</li>

@@ -182,10 +182,21 @@ function connectionsShowTemplatesPage() {
 
 								$class = array( 'available-theme' );
 
-								if ( $row == 1 ) $class[]     = 'top';
-								if ( $row == $rows ) $class[] = 'bottom';
-								if ( $col == 1 ) $class[]     = 'left';
-								if ( $col == 3 ) $class[]     = 'right';
+								if ( $row == 1 ) {
+									$class[] = 'top';
+								}
+
+								if ( $row == $rows ) {
+									$class[] = 'bottom';
+								}
+
+								if ( $col == 1 ) {
+									$class[] = 'left';
+								}
+
+								if ( $col == 3 ) {
+									$class[] = 'right';
+								}
 								?>
 
 								<td <?php echo cnHTML::attribute( 'class', $class ); ?>>

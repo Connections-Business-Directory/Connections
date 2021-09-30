@@ -276,9 +276,8 @@ function cnTemplateAuthor( $template ) {
 
 	if ( $template->getAuthorURL() ) {
 
-		$author = '<a title="' . __( 'Visit author\'s homepage.', 'connections' ) . '" href="' . esc_url( $template->getAuthorURL() ) . '">' .
-		          esc_html( $template->getAuthor() ) .
-		          '</a>';
+		$author = '<a title="' . __( 'Visit author\'s homepage.', 'connections' ) . '" href="' . esc_url( $template->getAuthorURL() ) . '">' . esc_html( $template->getAuthor() ) . '</a>';
+
 	} else {
 
 		$author = esc_html( $template->getAuthor() );

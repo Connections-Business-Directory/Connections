@@ -63,7 +63,7 @@ function connectionsShowViewPage( $action = null ) {
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', false );
+						$form->tokenField( 'add_entry', false, '_cn_wpnonce', false );
 
 						do_action( 'cn_admin_form_add_entry_before', $entry, $form );
 

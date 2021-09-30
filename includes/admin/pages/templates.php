@@ -250,7 +250,7 @@ function cnTemplateThumbnail( $template ) {
 		?>
 
 		<div class="center-thumbnail">
-			<img class="template-thumbnail" src="<?php echo esc_url( $thumbnail['url'] ) ?>" width="300" height="225">
+			<img class="template-thumbnail" src="<?php echo esc_url( $thumbnail['url'] ); ?>" width="300" height="225">
 		</div>
 
 	<?php else : ?>

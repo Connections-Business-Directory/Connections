@@ -107,7 +107,9 @@ function connectionsShowTemplatesPage() {
 									cnTemplateAuthor( $activeTemplate );
 									cnTemplateDescription( $activeTemplate );
 
-									echo '<p class="clear">' , cnTemplateCustomizerButton( $activeTemplate, $customizerURL, $pageURL ) , '</p>';
+									echo wp_kses_post(
+										'<p class="clear">' . cnTemplateCustomizerButton( $activeTemplate, $customizerURL, $pageURL ) . '</p>'
+									);
 
 									// Remove the current template so it does not show in the available templates.
 									unset( $templates->{$activeTemplate->getSlug()} );

@@ -366,11 +366,7 @@ function cnTemplateActivateButton( $template, $type = 'all' ) {
 
 	?>
 
-	<a class="button-primary"
-	   href="<?php echo esc_url( $url ); ?>"
-	   title="Activate '<?php echo esc_attr( $template->getName() ); ?>'">
-		<?php _e( 'Activate', 'connections' ); ?>
-	</a>
+	<a class="button-primary" href="<?php echo esc_url( $url ); ?>" title="Activate '<?php echo esc_attr( $template->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
 
 	<?php
 }

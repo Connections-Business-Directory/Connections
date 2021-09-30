@@ -274,6 +274,14 @@ function cnTemplateThumbnail( $template ) {
  */
 function cnTemplateAuthor( $template ) {
 
+	$allowed_html = array(
+		'a' => array(
+			'href'   => true,
+			'target' => true,
+			'title'  => true,
+		),
+	);
+
 	if ( $template->getAuthorURL() ) {
 
 		$author = '<a title="' . esc_html__( 'Visit author\'s homepage.', 'connections' ) . '" href="' . esc_url( $template->getAuthorURL() ) . '" target="_blank">' . esc_html( $template->getAuthor() ) . '</a>';
@@ -284,7 +292,7 @@ function cnTemplateAuthor( $template ) {
 	}
 	?>
 
-	<h3><?php echo esc_html( $template->getName() ); ?> <?php echo esc_html( $template->getVersion() ); ?> by <?php echo wp_kses_data( $author ); ?></h3>
+	<h3><?php echo esc_html( $template->getName() ); ?> <?php echo esc_html( $template->getVersion() ); ?> by <?php echo wp_kses( $author, $allowed_html ); ?></h3>
 	<?php
 }
 

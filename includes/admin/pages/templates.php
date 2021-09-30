@@ -321,11 +321,11 @@ function cnTemplateDeactivateText( $template ) {
 
 	if ( $template->isCustom() === false ) {
 
-		echo '<p class="description">', __( 'This a core template and can not be deleted.', 'connections' ), '</p>';
+		echo '<p class="description">' . esc_html__( 'This a core template and can not be deleted.', 'connections' ) . '</p>';
 
 	} elseif ( $template->isCustom() === true && $template->isLegacy() === false ) {
 
-		echo '<p class="description">', __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections' ), '</p>';
+		echo '<p class="description">' . esc_html__( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections' ) . '</p>';
 	}
 }
 

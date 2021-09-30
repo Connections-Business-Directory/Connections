@@ -28,7 +28,7 @@ function connectionsShowViewPage( $action = null ) {
 
 		case 'add_entry':
 
-			echo '<h1>Connections : ' , __( 'Add Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Add Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.

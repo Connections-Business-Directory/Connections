@@ -383,7 +383,7 @@ function cnTemplateDeleteButton( $template ) {
 
 	$form = new cnFormObjects();
 
-	if ( $template->isCustom() === TRUE && $template->isLegacy() === TRUE ) {
+	if ( $template->isCustom() === true && $template->isLegacy() === true ) {
 
 		$url = $form->tokenURL( 'admin.php?cn-action=delete_template&type=' . $template->getType() . '&template=' . $template->getSlug(), 'delete_' . $template->getSlug() );
 

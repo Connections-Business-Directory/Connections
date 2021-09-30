@@ -218,7 +218,8 @@ function connectionsShowTemplatesPage() {
 									</span>
 								</td>
 								<?php
-							} ?>
+							}
+							?>
 						</tr>
 						<?php
 					}

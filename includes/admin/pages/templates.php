@@ -284,7 +284,7 @@ function cnTemplateAuthor( $template ) {
 	}
 	?>
 
-	<h3><?php echo esc_html( $template->getName() );?> <?php echo esc_html( $template->getVersion() ); ?> by <?php echo $author; ?></h3>
+	<h3><?php echo esc_html( $template->getName() ); ?> <?php echo esc_html( $template->getVersion() ); ?> by <?php echo $author; ?></h3>
 	<?php
 }
 

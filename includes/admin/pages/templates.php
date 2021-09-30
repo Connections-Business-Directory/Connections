@@ -343,13 +343,7 @@ function cnTemplateShortcodeOverride( $template ) {
 
 	<p>
 		<?php _e( 'Shortcode Override:', 'connections' ); ?>
-		<input readonly
-		       value='template="<?php echo $template->getSlug()  ?>"'
-		       onclick="this.focus();this.select()"
-		       title="<?php _e(
-		           'To copy, click and then press Ctrl + C (PC) or Cmd + C (Mac).',
-		           'connections'
-		       ); ?>">
+		<input readonly value='template="<?php echo $template->getSlug()  ?>"' onclick="this.focus();this.select()" title="<?php _e( 'To copy, click and then press Ctrl + C (PC) or Cmd + C (Mac).', 'connections' ); ?>">
 	</p>
 
 	<?php

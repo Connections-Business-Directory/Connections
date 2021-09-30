@@ -245,7 +245,8 @@ function cnTemplateThumbnail( $template ) {
 
 	if ( $template->getThumbnail() ) :
 
-		$thumbnail = $template->getThumbnail(); ?>
+		$thumbnail = $template->getThumbnail();
+		?>
 
 		<div class="center-thumbnail">
 			<img class="template-thumbnail" src="<?php echo esc_url( $thumbnail['url'] ) ?>" width="300" height="225">

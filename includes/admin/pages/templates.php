@@ -238,6 +238,8 @@ function connectionsShowTemplatesPage() {
  * @since  8.4
  *
  * @param cnTemplate $template
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 function cnTemplateThumbnail( $template ) {
 

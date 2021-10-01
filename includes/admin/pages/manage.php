@@ -192,7 +192,6 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		case 'edit_entry':
-
 			echo '<h1>Connections : ' , __( 'Edit Entry', 'connections' ) , '</h1>';
 
 			/*

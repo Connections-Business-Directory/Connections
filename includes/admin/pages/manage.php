@@ -192,7 +192,7 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		case 'edit_entry':
-			echo '<h1>Connections : ' , __( 'Edit Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Edit Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether the current user can edit entries.

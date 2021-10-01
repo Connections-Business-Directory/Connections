@@ -302,7 +302,6 @@ function connectionsShowViewPage( $action = null ) {
 				}
 
 				$results = $instance->retrieve->entries( $retrieveAttr );
-				// print_r($instance->lastQuery);
 				?>
 
 				<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>

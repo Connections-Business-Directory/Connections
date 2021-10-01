@@ -272,7 +272,7 @@ function connectionsShowViewPage( $action = null ) {
 			$page   = (object) $instance->currentUser->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 			$offset = ( $page->current - 1 ) * $page->limit;
 
-			echo '<h1>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , esc_html__( 'Add New', 'connections' ) , '</a></h1>';
 
 			/*
 			 * Check whether user can view the entry list

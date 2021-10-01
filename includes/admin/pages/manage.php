@@ -268,7 +268,6 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		default:
-
 			$form   = new cnFormObjects();
 			$page   = (object) $instance->currentUser->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 			$offset = ( $page->current - 1 ) * $page->limit;

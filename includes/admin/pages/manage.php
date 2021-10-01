@@ -99,7 +99,7 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		case 'copy_entry':
-			echo '<h1>Connections : ' , __( 'Copy Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Copy Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.

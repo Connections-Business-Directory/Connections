@@ -106,7 +106,7 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 
-				$id = absint( $_GET['id'] );
+				$id = isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
 				check_admin_referer( 'entry_copy_' . $id );
 
 				$form  = new cnFormObjects();

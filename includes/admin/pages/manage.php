@@ -510,8 +510,6 @@ function connectionsShowViewPage( $action = null ) {
 								$currentPageURL = add_query_arg(
 									array(
 										'page'      => FALSE,
-										//'connections_process' => TRUE,
-										//'process' => 'manage',
 										'cn-action' => 'filter',
 										's'         => isset( $_REQUEST['s'] ) ? urlencode( $_REQUEST['s'] ) : '',
 									)

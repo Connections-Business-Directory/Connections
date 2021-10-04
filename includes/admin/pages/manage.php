@@ -365,11 +365,22 @@ function connectionsShowViewPage( $action = null ) {
 
 				<form method="post">
 
-					<?php $searchTerm = isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ? $_REQUEST['s'] : ''; ?>
+					<?php
+					// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
+
+						$searchTerm = _sanitize::search( wp_unslash( $_REQUEST['s'] ) );
+
+					} else {
+
+						$searchTerm = '';
+					}
+					// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					?>
 
 					<p class="search-box">
 						<label class="screen-reader-text" for="entry-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
-						<input type="search" id="entry-search-input" name="s" value="<?php echo esc_attr( wp_unslash( $searchTerm ) ); ?>" />
+						<input type="search" id="entry-search-input" name="s" value="<?php echo esc_attr( $searchTerm ); ?>" />
 						<?php submit_button( esc_attr__( 'Search Entries', 'connections' ), '', '', false, array( 'id' => 'search-submit' ) ); ?>
 					</p>
 

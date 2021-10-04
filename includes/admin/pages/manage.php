@@ -345,7 +345,17 @@ function connectionsShowViewPage( $action = null ) {
 						);
 					}
 
-					echo implode( ' | ', $subsubsub );
+					echo wp_kses(
+						implode( ' | ', $subsubsub ),
+						array(
+							'a'    => array(
+								'class' => true,
+								'href'  => true,
+							),
+							'li'   => array(),
+							'span' => array(),
+						)
+					);
 
 					?>
 

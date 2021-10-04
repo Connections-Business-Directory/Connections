@@ -290,12 +290,16 @@ function connectionsShowViewPage( $action = null ) {
 				$retrieveAttr['list_type'] = $instance->currentUser->getFilterEntryType();
 				$retrieveAttr['category']  = $instance->currentUser->getFilterCategory();
 
-				$retrieveAttr['char']       = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? esc_attr( $_GET['cn-char'] ) : '';
 				$retrieveAttr['visibility'] = $instance->currentUser->getFilterVisibility();
 				$retrieveAttr['status']     = $instance->currentUser->getFilterStatus();
 
 				$retrieveAttr['limit']  = $page->limit;
 				$retrieveAttr['offset'] = $offset;
+
+				if ( isset( $_REQUEST['cn-char'] ) ) {
+
+					$retrieveAttr['char'] = _sanitize::character( wp_unslash( $_REQUEST['cn-char'] ) );
+				}
 
 				if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
 

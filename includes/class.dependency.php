@@ -187,14 +187,15 @@ class cnDependency {
 		return array(
 
 			// Utility
-			'Connections_Directory\Utility\_'       => 'includes/Utility/_.php',
-			'Connections_Directory\Utility\_array'  => 'includes/Utility/_array.php',
-			'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
-			'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
-			'Connections_Directory\Utility\_escape' => 'includes/Utility/_escape.php',
-			'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
-			'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
-			'Connections_Directory\Utility\_url'    => 'includes/Utility/_url.php',
+			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
+			'Connections_Directory\Utility\_array'          => 'includes/Utility/_array.php',
+			'Connections_Directory\Utility\_color'          => 'includes/Utility/_color.php',
+			'Connections_Directory\Utility\_date'           => 'includes/Utility/_date.php',
+			'Connections_Directory\Utility\_escape'         => 'includes/Utility/_escape.php',
+			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
+			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
+			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',
+			'Connections_Directory\Utility\_url'            => 'includes/Utility/_url.php',
 			'Connections_Directory\Utility\Convert\_length' => 'includes/Utility/Convert/_length.php',
 
 			// Localization

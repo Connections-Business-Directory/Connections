@@ -511,7 +511,8 @@ function connectionsShowViewPage( $action = null ) {
 									array(
 										'page'      => false,
 										'cn-action' => 'filter',
-										's'         => isset( $_REQUEST['s'] ) ? urlencode( $_REQUEST['s'] ) : '',
+										// To support quote characters, first they are decoded from &quot; entities, then URL encoded.
+										's'         => isset( $_REQUEST['s'] ) ? rawurlencode( htmlspecialchars_decode( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) ) : '',
 									)
 								);
 

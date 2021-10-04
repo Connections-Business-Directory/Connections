@@ -491,7 +491,14 @@ function connectionsShowViewPage( $action = null ) {
 							 * Grab the pagination data again in case a filter reset the values
 							 * or the user input an invalid number which the retrieve query would have reset.
 							 */
-							$page = (object) $instance->currentUser->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
+							$page = (object) $instance->currentUser->getScreenOption(
+								'manage',
+								'pagination',
+								array(
+									'current' => 1,
+									'limit'   => 50,
+								)
+							);
 
 							$pageCount = ceil( $instance->resultCountNoLimit / $page->limit );
 

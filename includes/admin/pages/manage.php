@@ -296,6 +296,7 @@ function connectionsShowViewPage( $action = null ) {
 				$retrieveAttr['limit']  = $page->limit;
 				$retrieveAttr['offset'] = $offset;
 
+				// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				if ( isset( $_REQUEST['cn-char'] ) ) {
 
 					$retrieveAttr['char'] = _sanitize::character( wp_unslash( $_REQUEST['cn-char'] ) );
@@ -303,9 +304,9 @@ function connectionsShowViewPage( $action = null ) {
 
 				if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
 
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 					$retrieveAttr['search_terms'] = _sanitize::search( wp_unslash( $_REQUEST['s'] ) );
 				}
+				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				$results = $instance->retrieve->entries( $retrieveAttr );
 				?>

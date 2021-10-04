@@ -325,12 +325,24 @@ function connectionsShowViewPage( $action = null ) {
 
 					foreach ( $statuses as $key => $status ) {
 
-						$subsubsub[] = sprintf( '<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
+						$subsubsub[] = sprintf(
+							'<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
 							$instance->currentUser->getFilterStatus() == $key ? ' class="current" ' : ' ',
-							esc_url( $form->tokenURL( add_query_arg( array( 'page' => 'connections_manage', 'cn-action' => 'filter', 'status' => $key ) ), 'filter' ) ),
+							esc_url(
+								$form->tokenURL(
+									add_query_arg(
+										array(
+											'page'      => 'connections_manage',
+											'cn-action' => 'filter',
+											'status'    => $key,
+										)
+									),
+									'filter'
+								)
+							),
 							$status,
 							cnRetrieve::recordCount( array( 'status' => $key ) )
-						 );
+						);
 					}
 
 					echo implode( ' | ', $subsubsub );

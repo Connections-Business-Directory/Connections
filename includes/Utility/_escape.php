@@ -66,11 +66,21 @@ final class _escape {
 
 		if ( is_null( $callback ) ) {
 
+			// Private callback for the "wp_kses_allowed_html" filter used to return allowed HTML for "Connections_Directory/Escape/HTML" context.
 			$callback = function( $tags, $context ) {
 				global $allowedposttags;
 
 				if ( 'Connections_Directory/Escape/HTML' === $context ) {
 
+					/**
+					 * Default allowable HTML post tags.
+					 *
+					 * Use override default tags.
+					 *
+					 * @since 10.4
+					 *
+					 * @param array $allowedposttags
+					 */
 					return apply_filters( 'Connections_Directory/Utility/Escape/HTML', $allowedposttags );
 				}
 

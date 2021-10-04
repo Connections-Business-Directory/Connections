@@ -26,7 +26,7 @@ final class _sanitize {
 	 */
 	public static function character( $character ) {
 
-		if ( ! is_scalar( $character ) || ( ! empty( $character ) && strlen( $character ) > 1 ) ) {
+		if ( ! is_scalar( $character ) || ( ! empty( $character ) && 1 !== mb_strlen( $character ) ) ) {
 			$character = '';
 		}
 

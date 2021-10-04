@@ -482,6 +482,7 @@ function connectionsShowViewPage( $action = null ) {
 						<div class="tablenav-pages">
 							<?php
 
+							/* translators: Number of items. */
 							echo '<span class="displaying-num">' . sprintf( esc_html__( 'Displaying %1$d of %2$d entries.', 'connections' ), absint( $instance->resultCount ), absint( $instance->resultCountNoLimit ) ) . '</span>';
 
 							/*

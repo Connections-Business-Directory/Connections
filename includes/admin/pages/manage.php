@@ -398,9 +398,9 @@ function connectionsShowViewPage( $action = null ) {
 								array(
 									'name'            => 'category',
 									'show_option_all' => __( 'Show All Categories', 'connections' ),
-									'hide_empty'      => FALSE,
-									'hierarchical'    => TRUE,
-									'show_count'      => FALSE,
+									'hide_empty'      => false,
+									'hierarchical'    => true,
+									'show_count'      => false,
 									'orderby'         => 'name',
 									'selected'        => $instance->currentUser->getFilterCategory(),
 								)

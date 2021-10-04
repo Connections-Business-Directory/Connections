@@ -444,17 +444,26 @@ function connectionsShowViewPage( $action = null ) {
 
 							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) {
 
-								$visibilitySelect[] = array( 'label' => __( 'Show Public', 'connections' ), 'value' => 'public' );
+								$visibilitySelect[] = array(
+									'label' => __( 'Show Public', 'connections' ),
+									'value' => 'public',
+								);
 							}
 
 							if ( current_user_can( 'connections_view_private' ) ) {
 
-								$visibilitySelect[] = array( 'label' => __( 'Show Private', 'connections' ), 'value' => 'private' );
+								$visibilitySelect[] = array(
+									'label' => __( 'Show Private', 'connections' ),
+									'value' => 'private',
+								);
 							}
 
 							if ( current_user_can( 'connections_view_unlisted' ) ) {
 
-								$visibilitySelect[] = array( 'label' => __( 'Show Unlisted', 'connections' ), 'value' => 'unlisted' );
+								$visibilitySelect[] = array(
+									'label' => __( 'Show Unlisted', 'connections' ),
+									'value' => 'unlisted',
+								);
 							}
 
 							Field\Select::create()

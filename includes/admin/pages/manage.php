@@ -896,9 +896,9 @@ function connectionsShowViewPage( $action = null ) {
 
 								if ( current_user_can( 'connections_edit_entry' ) ) {
 
-									$editRelationTokenURL = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() ) );
+									$editRelationTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() );
 
-									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . $editRelationTokenURL . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . esc_url( $editRelationTokenURL ) . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
 
 								} else {
 

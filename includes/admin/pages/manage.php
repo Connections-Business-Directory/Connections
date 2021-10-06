@@ -943,16 +943,16 @@ function connectionsShowViewPage( $action = null ) {
 					echo "<td colspan='2'>&nbsp;</td> \n";
 					//echo "<td >&nbsp;</td> \n";
 					echo "<td colspan='3'>";
-					echo ( $entry->getBio() ) ? '<strong>' . __( 'Bio', 'connections' ) . ':</strong> ' . $entry->getBio() . '<br />' : '&nbsp;';
-					echo ( $entry->getNotes() ) ? '<strong>' . __( 'Notes', 'connections' ) . ':</strong> ' . $entry->getNotes() : '&nbsp;';
+					echo ( $entry->getBio() ) ? '<strong>' . esc_html__( 'Bio', 'connections' ) . ':</strong> ' . $entry->getBio() . '<br />' : '&nbsp;';
+					echo ( $entry->getNotes() ) ? '<strong>' . esc_html__( 'Notes', 'connections' ) . ':</strong> ' . $entry->getNotes() : '&nbsp;';
 					echo "</td> \n";
 					echo '<td>
-						  <span style="display: block;"><strong>' . __( 'Entry ID', 'connections' ) . ':</strong> ' . $entry->getId() . '</span>' . '
-						  <span style="display: block;"><strong>' . __( 'Entry Slug', 'connections' ) . ':</strong> ' . $entry->getSlug() . '</span>' . '
-						  <span style="display: block;"><strong>' . __( 'Date Added', 'connections' ) . ':</strong> ' . $entry->getDateAdded() . '</span>
-						  <span style="display: block;"><strong>' . __( 'Added By', 'connections' ) . ':</strong> ' . $entry->getAddedBy() . '</span>';
-					echo '<span style="display: block;"><strong>' . __( 'Image Linked', 'connections' ) . ':</strong> ' . ( ( ! $entry->getImageLinked() ) ? __( 'No', 'connections' ) : __( 'Yes', 'connections' ) ) . '</span>';
-					echo '<span style="display: block;"><strong>' . __( 'Display', 'connections' ) . ':</strong> ' . ( ( $entry->getImageLinked() && $entry->getImageDisplay() ) ? __( 'Yes', 'connections' ) : __( 'No', 'connections' ) ) . '</span>';
+						  <span style="display: block;"><strong>' . esc_html__( 'Entry ID', 'connections' ) . ':</strong> ' . $entry->getId() . '</span>' . '
+						  <span style="display: block;"><strong>' . esc_html__( 'Entry Slug', 'connections' ) . ':</strong> ' . $entry->getSlug() . '</span>' . '
+						  <span style="display: block;"><strong>' . esc_html__( 'Date Added', 'connections' ) . ':</strong> ' . $entry->getDateAdded() . '</span>
+						  <span style="display: block;"><strong>' . esc_html__( 'Added By', 'connections' ) . ':</strong> ' . $entry->getAddedBy() . '</span>';
+					echo '<span style="display: block;"><strong>' . esc_html__( 'Image Linked', 'connections' ) . ':</strong> ' . ( ( ! $entry->getImageLinked() ) ? esc_html__( 'No', 'connections' ) : esc_html__( 'Yes', 'connections' ) ) . '</span>';
+					echo '<span style="display: block;"><strong>' . esc_html__( 'Display', 'connections' ) . ':</strong> ' . ( ( $entry->getImageLinked() && $entry->getImageDisplay() ) ? esc_html__( 'Yes', 'connections' ) : esc_html__( 'No', 'connections' ) ) . '</span>';
 					echo "</td> \n";
 					echo "</tr> \n";
 

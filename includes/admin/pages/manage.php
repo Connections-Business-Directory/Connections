@@ -868,7 +868,7 @@ function connectionsShowViewPage( $action = null ) {
 					echo "</td> \n";
 					echo "</tr> \n";
 
-					echo "<tr class='child-row-" . $entry->getId() . " cn-entry-details' id='contact-" . $entry->getId() . "-detail' style='display:none;'>";
+					echo "<tr class='" . _escape::classNames( array( "child-row-{$entry->getId()}", 'cn-entry-details' ) ) . "' id='" . esc_attr( "contact-{$entry->getId()}-detail" ) . "' style='display:none;'>";
 					echo '<td colspan="2">&nbsp;</td>' , "\n";
 					// phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
 					// echo "<td >&nbsp;</td> \n";

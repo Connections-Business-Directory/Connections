@@ -657,9 +657,7 @@ function connectionsShowViewPage( $action = null ) {
 				<?php
 
 				foreach ( $results as $row ) {
-					/**
-					 *
-					 *
+					/*
 					 * @TODO: Use the Output class to show entry details.
 					 */
 					$entry = new cnOutput( $row );

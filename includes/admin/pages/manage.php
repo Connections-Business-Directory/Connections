@@ -988,4 +988,4 @@ function connectionsShowViewPage( $action = null ) {
 	}
 
 	echo '</div> <!-- .wrap -->';
- }
+}

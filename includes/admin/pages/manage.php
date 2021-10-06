@@ -746,8 +746,15 @@ function connectionsShowViewPage( $action = null ) {
 					$rowEditActions = array();
 
 					$rowActions['toggle_details'] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
-					$rowActions['vcard']          = $entry->vcard( array( 'text' => __( 'vCard', 'connections' ), 'return' => true ) );
-					$rowActions['view']           = cnURL::permalink(
+
+					$rowActions['vcard'] = $entry->vcard(
+						array(
+							'text'   => __( 'vCard', 'connections' ),
+							'return' => true,
+						)
+					);
+
+					$rowActions['view'] = cnURL::permalink(
 						array(
 							'slug'   => $entry->getSlug(),
 							// translators: The directory entry name.

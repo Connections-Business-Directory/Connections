@@ -782,7 +782,7 @@ function connectionsShowViewPage( $action = null ) {
 					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 					// if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 					//
-					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $fullName . '">' . __( 'Copy', 'connections' ) . '</a>';
+					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . esc_url( $copyTokenURL ) . '" title="' . esc_html__( 'Copy', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Copy', 'connections' ) . '</a>';
 					// }
 					// phpcs:enable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 

@@ -809,12 +809,12 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( is_array( $rowEditActions ) && ! empty( $rowEditActions ) ) {
 
-						echo implode( ' | ', $rowEditActions ) , '<br/>';
+						echo implode( ' | ', $rowEditActions ) , '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( is_array( $rowActions ) && ! empty( $rowActions ) ) {
 
-						echo implode( ' | ', $rowActions );
+						echo implode( ' | ', $rowActions ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					echo '</div>';

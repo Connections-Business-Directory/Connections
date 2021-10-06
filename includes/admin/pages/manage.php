@@ -934,8 +934,8 @@ function connectionsShowViewPage( $action = null ) {
 					echo ( $entry->getNotes() ) ? '<strong>' . esc_html__( 'Notes', 'connections' ) . ':</strong> ' . $entry->getNotes() : '&nbsp;';
 					echo "</td> \n";
 					echo '<td>
-						  <span style="display: block;"><strong>' . esc_html__( 'Entry ID', 'connections' ) . ':</strong> ' . esc_html__( $entry->getId() ) . '</span>' . '
-						  <span style="display: block;"><strong>' . esc_html__( 'Entry Slug', 'connections' ) . ':</strong> ' . esc_html( $entry->getSlug() ) . '</span>' . '
+						  <span style="display: block;"><strong>' . esc_html__( 'Entry ID', 'connections' ) . ':</strong> ' . esc_html__( $entry->getId() ) . '</span>
+						  <span style="display: block;"><strong>' . esc_html__( 'Entry Slug', 'connections' ) . ':</strong> ' . esc_html( $entry->getSlug() ) . '</span>
 						  <span style="display: block;"><strong>' . esc_html__( 'Date Added', 'connections' ) . ':</strong> ' . esc_html( $entry->getDateAdded() ) . '</span>
 						  <span style="display: block;"><strong>' . esc_html__( 'Added By', 'connections' ) . ':</strong> ' . esc_html( $entry->getAddedBy() ) . '</span>';
 					echo '<span style="display: block;"><strong>' . esc_html__( 'Image Linked', 'connections' ) . ':</strong> ' . ( ( ! $entry->getImageLinked() ) ? esc_html__( 'No', 'connections' ) : esc_html__( 'Yes', 'connections' ) ) . '</span>';

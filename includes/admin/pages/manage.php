@@ -589,7 +589,7 @@ function connectionsShowViewPage( $action = null ) {
 
 							$bulkActions = array();
 
-							if ( current_user_can( 'connections_edit_entry' )  || current_user_can( 'connections_edit_entry_moderated' ) ) {
+							if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 								$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
 								$bulkActions['approve']   = __( 'Approve', 'connections' );
 								$bulkActions['public']    = __( 'Set Public', 'connections' );

@@ -749,9 +749,9 @@ function connectionsShowViewPage( $action = null ) {
 					$rowActions['vcard']          = $entry->vcard( array( 'text' => __( 'vCard', 'connections' ), 'return' => true ) );
 					$rowActions['view']           = cnURL::permalink(
 						array(
-							'slug' => $entry->getSlug(),
-							'title' => sprintf( __( 'View %s', 'connections' ) , $entry->getName( array( 'format' => '%first% %last%' ) ) ),
-							'text' => __( 'View', 'connections' ),
+							'slug'   => $entry->getSlug(),
+							'title'  => sprintf( __( 'View %s', 'connections' ) , $entry->getName( array( 'format' => '%first% %last%' ) ) ),
+							'text'   => __( 'View', 'connections' ),
 							'return' => TRUE
 						)
 					);

@@ -752,7 +752,7 @@ function connectionsShowViewPage( $action = null ) {
 							'slug'   => $entry->getSlug(),
 							'title'  => sprintf( __( 'View %s', 'connections' ) , $entry->getName( array( 'format' => '%first% %last%' ) ) ),
 							'text'   => __( 'View', 'connections' ),
-							'return' => true
+							'return' => true,
 						)
 					);
 

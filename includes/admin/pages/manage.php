@@ -956,7 +956,8 @@ function connectionsShowViewPage( $action = null ) {
 					echo "</td> \n";
 					echo "</tr> \n";
 
-				} ?>
+				}
+				?>
 								</tbody>
 							</table>
 							</form>

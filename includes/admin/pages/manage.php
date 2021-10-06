@@ -772,10 +772,12 @@ function connectionsShowViewPage( $action = null ) {
 						$rowEditActions['edit'] = '<a class="editbutton" href="' . $editTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $fullName . '">' . __( 'Edit', 'connections' ) . '</a>';
 					}
 
-					//if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
+					// if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 					//
-					//	$rowEditActions['copy'] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $fullName . '">' . __( 'Copy', 'connections' ) . '</a>';
-					//}
+					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $fullName . '">' . __( 'Copy', 'connections' ) . '</a>';
+					// }
+					// phpcs:enable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 					if ( current_user_can( 'connections_delete_entry' ) ) {
 

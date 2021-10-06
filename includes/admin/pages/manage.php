@@ -943,7 +943,7 @@ function connectionsShowViewPage( $action = null ) {
 					echo "</td> \n";
 					echo "</tr> \n";
 
-					echo "<tr class='" . _escape::classNames( array( "child-row-{$entry->getId()}", 'entrynotes' ) ) . "' id='" . esc_attr( "contact-{$entry->getId()}-detail-notes" ) . "' style='display:none;'>";
+					echo "<tr class='" . _escape::classNames( array( "child-row-{$entry->getId()}", 'entrynotes' ) ) . "' id='" . esc_attr( "contact-{$entry->getId()}-detail-notes" ) . "' style='display:none;'>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo "<td colspan='2'>&nbsp;</td> \n";
 					// phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
 					// echo "<td >&nbsp;</td> \n";

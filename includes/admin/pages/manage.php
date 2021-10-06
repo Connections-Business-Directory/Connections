@@ -844,26 +844,26 @@ function connectionsShowViewPage( $action = null ) {
 
 						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : false;
 
-						/**
-						 * NOTE: WP 3.5 introduced get_edit_user_link()
-						 *
-						 * @link https://codex.wordpress.org/Function_Reference/get_edit_user_link
-						 *
-						 * @TODO Use get_edit_user_link() to simplify this code when WP hits >= 3.9.
-						 */
-						if ( $user ) {
+					/**
+					 * NOTE: WP 3.5 introduced get_edit_user_link()
+					 *
+					 * @link https://codex.wordpress.org/Function_Reference/get_edit_user_link
+					 *
+					 * @TODO Use get_edit_user_link() to simplify this code when WP hits >= 3.9.
+					 */
+					if ( $user ) {
 
-							if ( get_current_user_id() == $user->ID ) {
+						if ( get_current_user_id() == $user->ID ) {
 
-								$editUserLink = get_edit_profile_url( $user->ID );
+							$editUserLink = get_edit_profile_url( $user->ID );
 
-							} else {
+						} else {
 
-								$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
-							}
-
-							echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="' . esc_url( $editUserLink ) .'">'. esc_attr( $user->display_name ) .'</a>';
+							$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
 						}
+
+						echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="' . esc_url( $editUserLink ) .'">'. esc_attr( $user->display_name ) .'</a>';
+					}
 
 					echo "</td> \n";
 					echo "</tr> \n";

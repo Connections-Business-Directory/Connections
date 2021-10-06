@@ -842,7 +842,7 @@ function connectionsShowViewPage( $action = null ) {
 						echo '<strong>' . esc_html__( 'By', 'connections' ) . ':</strong> ' . esc_html( $entry->getEditedBy() ) . '<br />';
 						echo '<strong>' . esc_html__( 'Visibility', 'connections' ) . ':</strong> ' . esc_html( $entry->displayVisibilityType() ) . '<br />';
 
-						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : FALSE;
+						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : false;
 
 						/**
 						 * NOTE: WP 3.5 introduced get_edit_user_link()

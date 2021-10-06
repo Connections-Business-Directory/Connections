@@ -633,24 +633,24 @@ function connectionsShowViewPage( $action = null ) {
 					</div>
 					<div class="clear"></div>
 
-			       	<table cellspacing="0" class="widefat connections">
+					<table cellspacing="0" class="widefat connections">
 						<thead>
-				            <tr>
-				                <td class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></td>
-								<th class="col" style="width:10%;"></th>
-								<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
-								<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
-								<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
-				            </tr>
+						<tr>
+							<td class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></td>
+							<th class="col" style="width:10%;"></th>
+							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
+							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
+							<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
+						</tr>
 						</thead>
 						<tfoot>
-				            <tr>
-				                <td class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></td>
-								<th class="col" style="width:10%;"></th>
-								<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
-								<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
-								<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
-				            </tr>
+						<tr>
+							<td class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></td>
+							<th class="col" style="width:10%;"></th>
+							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
+							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
+							<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
+						</tr>
 						</tfoot>
 						<tbody>
 

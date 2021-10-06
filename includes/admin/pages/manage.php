@@ -559,13 +559,13 @@ function connectionsShowViewPage( $action = null ) {
 
 								echo '<span class="page-navigation" id="page-input">';
 
-								echo '<a href="' . $pageFilterURL['first_page'] . '" title="' . __( 'Go to the first page.', 'connections' ) . '" class="first-page button' , $pageDisabled['first_page'] , '">&laquo;</a> ';
-								echo '<a href="' . $pageFilterURL['previous_page'] . '" title="' . __( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , $pageDisabled['previous_page'] , '">&lsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['first_page'] ) . '" title="' . esc_html__( 'Go to the first page.', 'connections' ) . '" class="first-page button' , esc_attr( $pageDisabled['first_page'] ) , '">&laquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['previous_page'] ) . '" title="' . esc_html__( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , esc_attr( $pageDisabled['previous_page'] ) , '">&lsaquo;</a> ';
 
-								echo '<span class="paging-input"><input type="text" size="2" value="' . $page->current . '" name="pg" title="' . __( 'Current page', 'connections' ) . '" class="current-page"> ' . __( 'of', 'connections' ) . ' <span class="total-pages">' . $pageCount . '</span></span> ';
+								echo '<span class="paging-input"><input type="text" size="2" value="' . esc_attr( $page->current ) . '" name="pg" title="' . esc_html__( 'Current page', 'connections' ) . '" class="current-page"> ' . esc_html__( 'of', 'connections' ) . ' <span class="total-pages">' . absint( $pageCount ) . '</span></span> ';
 
-								echo '<a href="' . $pageFilterURL['next_page'] . '" title="' . __( 'Go to the next page.', 'connections' ) . '" class="next-page button' , $pageDisabled['next_page'] , '">&rsaquo;</a> ';
-								echo '<a href="' . $pageFilterURL['last_page'] . '" title="' . __( 'Go to the last page.', 'connections' ) . '" class="last-page button' , $pageDisabled['last_page'] , '">&raquo;</a>';
+								echo '<a href="' . esc_url( $pageFilterURL['next_page'] ) . '" title="' . esc_html__( 'Go to the next page.', 'connections' ) . '" class="next-page button' , esc_attr( $pageDisabled['next_page'] ) , '">&rsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['last_page'] ) . '" title="' . esc_html__( 'Go to the last page.', 'connections' ) . '" class="last-page button' , esc_attr( $pageDisabled['last_page'] ), '">&raquo;</a>';
 
 								echo '</span>';
 							}

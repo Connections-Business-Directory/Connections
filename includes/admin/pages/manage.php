@@ -828,7 +828,9 @@ function connectionsShowViewPage( $action = null ) {
 							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . esc_html( $category->name ) . '</a>';
 
 							$i++;
-							if ( count( $categories ) > $i ) echo ', ';
+							if ( count( $categories ) > $i ) {
+								echo ', ';
+							}
 						}
 
 						unset( $i );

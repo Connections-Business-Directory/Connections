@@ -107,7 +107,7 @@ class cnMeta {
 
 			} else {
 
-				return array_map( array( 'cnFormatting', 'maybeJSONdecode' ), $meta_cache[ $key ] );
+				return array_map( array( '_', 'maybeJSONdecode' ), $meta_cache[ $key ] );
 			}
 		}
 
@@ -726,7 +726,7 @@ class cnMeta {
 
 		if ( isset( $meta->meta_value ) ) {
 
-			$meta->meta_value = cnFormatting::maybeJSONdecode( $meta->meta_value );
+			$meta->meta_value = _::maybeJSONdecode( $meta->meta_value );
 		}
 
 		return $meta;

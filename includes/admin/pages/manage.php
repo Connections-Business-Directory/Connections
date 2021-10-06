@@ -825,7 +825,7 @@ function connectionsShowViewPage( $action = null ) {
 							 */
 							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' );
 
-							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . $category->name . '</a>';
+							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . esc_html( $category->name ) . '</a>';
 
 							$i++;
 							if ( count( $categories ) > $i ) echo ', ';

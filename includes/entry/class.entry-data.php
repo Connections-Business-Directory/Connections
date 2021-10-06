@@ -134,7 +134,7 @@ class cnEntry {
 	/**
 	 * @var cnEntry_Social_Networks
 	 */
-	private $socialMedia = '';
+	public $socialMedia = '';
 
 	/**
 	 * Unix time: Birthday.

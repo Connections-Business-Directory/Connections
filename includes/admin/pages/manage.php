@@ -915,21 +915,7 @@ function connectionsShowViewPage( $action = null ) {
 					$entry->phoneNumbers->escapeForDisplay()->render( 'admin' );
 					$entry->emailAddresses->escapeForDisplay()->render( 'admin' );
 					$entry->im->escapeForDisplay()->render( 'admin' );
-
-					$socialNetworks = $entry->getSocialMedia();
-
-					if ( ! empty( $socialNetworks ) ) {
-						echo '<div class="social-networks">';
-
-						foreach ( $entry->getSocialMedia() as $network ) {
-							( $network->preferred ) ? $preferred = '*' : $preferred = '';
-
-							echo '<span class="social-network"><strong>' , $network->name , ':</strong> <a target="_blank" href="' , $network->url , '">' , $network->url . '</a>' , $preferred , '</span>';
-						}
-
-						echo '</div>';
-					}
-
+					$entry->socialMedia->escapeForDisplay()->render( 'admin' );
 					$entry->links->escapeForDisplay()->render( 'admin' );
 
 					echo "</td> \n";

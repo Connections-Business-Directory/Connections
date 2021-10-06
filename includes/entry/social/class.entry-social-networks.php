@@ -227,7 +227,7 @@ final class cnEntry_Social_Networks extends cnEntry_Object_Collection {
 		if ( $this->filtered->isEmpty() ) return NULL;
 
 		$html = cnTemplatePart::get(
-			'entry' . DIRECTORY_SEPARATOR . 'social' . DIRECTORY_SEPARATOR . 'social',
+			'entry' . DIRECTORY_SEPARATOR . 'social-networks' . DIRECTORY_SEPARATOR . 'social-networks',
 			$template,
 			array_merge( array( 'networks' => $this->getCollection() ), $atts ),
 			$load,

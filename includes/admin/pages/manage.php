@@ -948,8 +948,8 @@ function connectionsShowViewPage( $action = null ) {
 					// phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
 					// echo "<td >&nbsp;</td> \n";
 					echo "<td colspan='3'>";
-					echo ( $entry->getBio() ) ? '<strong>' . esc_html__( 'Bio', 'connections' ) . ':</strong> ' . $entry->getBio() . '<br />' : '&nbsp;';
-					echo ( $entry->getNotes() ) ? '<strong>' . esc_html__( 'Notes', 'connections' ) . ':</strong> ' . $entry->getNotes() : '&nbsp;';
+					echo ( $entry->getBio() ) ? '<strong>' . esc_html__( 'Bio', 'connections' ) . ':</strong> ' . _escape::html( $entry->getBio() ) . '<br />' : '&nbsp;'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo ( $entry->getNotes() ) ? '<strong>' . esc_html__( 'Notes', 'connections' ) . ':</strong> ' . _escape::html( $entry->getNotes() ) : '&nbsp;';      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo "</td> \n";
 					echo '<td>
 						  <span style="display: block;"><strong>' . esc_html__( 'Entry ID', 'connections' ) . ':</strong> ' . esc_html( $entry->getId() ) . '</span>

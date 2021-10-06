@@ -31,7 +31,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		$resized = $this->_resize_padded( $canvas_w, $canvas_h, $canvas_color, $width, $height, $orig_w, $orig_h, $origin_x, $origin_y );
 
-		if ( is_resource( $resized ) ) {
+		if ( is_gd_image( $resized ) ) {
 			imagedestroy( $this->image );
 			$this->image = $resized;
 			return true;
@@ -85,12 +85,12 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		imagecopyresampled( $resized, $this->image, $origin_x, $origin_y, $src_x, $src_y, $width, $height, $src_w, $src_h );
 
-		if ( is_resource( $resized ) ) {
+		if ( is_gd_image( $resized ) ) {
 			$this->update_size( $width, $height );
 			return $resized;
 		}
 
-		return new WP_Error( 'image_resize_error', __( 'Image resize failed.', 'connections' ), $this->file );
+		return new WP_Error( 'image_resize_error', __( '_Image resize failed.', 'connections' ), $this->file );
 	}
 
 	/**
@@ -112,7 +112,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			imagealphablending($rotated, true);
 			imagesavealpha($rotated, true);
 
-			if ( is_resource( $rotated ) ) {
+			if ( is_gd_image( $rotated ) ) {
 				imagedestroy( $this->image );
 				$this->image = $rotated;
 				$this->update_size();
@@ -140,7 +140,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			$filtered = $this->_opacity( $this->image, $level );
 
-			if ( is_resource( $filtered ) ) {
+			if ( is_gd_image( $filtered ) ) {
 
 				// imagedestroy($this->image);
 				$this->image = $filtered;

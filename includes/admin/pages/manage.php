@@ -750,7 +750,7 @@ function connectionsShowViewPage( $action = null ) {
 					$rowActions['view']           = cnURL::permalink(
 						array(
 							'slug'   => $entry->getSlug(),
-							'title'  => sprintf( __( 'View %s', 'connections' ) , $entry->getName( array( 'format' => '%first% %last%' ) ) ),
+							'title'  => sprintf( __( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
 							'text'   => __( 'View', 'connections' ),
 							'return' => true,
 						)

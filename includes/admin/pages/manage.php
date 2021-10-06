@@ -838,9 +838,9 @@ function connectionsShowViewPage( $action = null ) {
 
 					echo "</td> \n";
 					echo '<td >';
-						echo '<strong>' . __( 'On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp() . '<br />';
-						echo '<strong>' . __( 'By', 'connections' ) . ':</strong> ' . $entry->getEditedBy() . '<br />';
-						echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibilityType() . '<br />';
+						echo '<strong>' . esc_html__( 'On', 'connections' ) . ':</strong> ' . esc_html( $entry->getFormattedTimeStamp() ) . '<br />';
+						echo '<strong>' . esc_html__( 'By', 'connections' ) . ':</strong> ' . esc_html( $entry->getEditedBy() ) . '<br />';
+						echo '<strong>' . esc_html__( 'Visibility', 'connections' ) . ':</strong> ' . esc_html( $entry->displayVisibilityType() ) . '<br />';
 
 						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : FALSE;
 

@@ -898,13 +898,31 @@ function connectionsShowViewPage( $action = null ) {
 							}
 						}
 
-						if ( ! empty( $relationsHTML ) ) echo implode( '<br />' . PHP_EOL, $relationsHTML );
+						if ( ! empty( $relationsHTML ) ) {
+
+							echo implode( '<br />' . PHP_EOL, $relationsHTML );
+						}
 					}
 
-					if ( $entry->getContactFirstName() || $entry->getContactLastName() ) echo '<strong>' . __( 'Contact', 'connections' ) . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />';
-					if ( $entry->getTitle() ) echo '<strong>' . __( 'Title', 'connections' ) . ':</strong> ' . $entry->getTitle() . '<br />';
-					if ( $entry->getOrganization() && $entry->getEntryType() !== 'organization' ) echo '<strong>' . __( 'Organization', 'connections' ) . ':</strong> ' . $entry->getOrganization() . '<br />';
-					if ( $entry->getDepartment() ) echo '<strong>' . __( 'Department', 'connections' ) . ':</strong> ' . $entry->getDepartment() . '<br />';
+					if ( $entry->getContactFirstName() || $entry->getContactLastName() ) {
+
+						echo '<strong>' . __( 'Contact', 'connections' ) . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />';
+					}
+
+					if ( $entry->getTitle() ) {
+
+						echo '<strong>' . __( 'Title', 'connections' ) . ':</strong> ' . $entry->getTitle() . '<br />';
+					}
+
+					if ( $entry->getOrganization() && $entry->getEntryType() !== 'organization' ) {
+
+						echo '<strong>' . __( 'Organization', 'connections' ) . ':</strong> ' . $entry->getOrganization() . '<br />';
+					}
+
+					if ( $entry->getDepartment() ) {
+
+						echo '<strong>' . __( 'Department', 'connections' ) . ':</strong> ' . $entry->getDepartment() . '<br />';
+					}
 
 					$entry->addresses->escapeForDisplay()->render( 'admin' );
 

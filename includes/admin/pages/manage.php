@@ -622,9 +622,9 @@ function connectionsShowViewPage( $action = null ) {
 							echo '<span class="displaying-num">' , esc_html__( 'Filter by character:', 'connections' ) , '</span>';
 							cnTemplatePart::index(
 								array(
-									'status' => $instance->currentUser->getFilterStatus(),
+									'status'     => $instance->currentUser->getFilterStatus(),
 									'visibility' => $instance->currentUser->getFilterVisibility(),
-									'tag' => 'span',
+									'tag'        => 'span',
 								)
 							);
 							cnTemplatePart::currentCharacter();

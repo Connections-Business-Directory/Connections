@@ -672,11 +672,11 @@ function connectionsShowViewPage( $action = null ) {
 					$unapproveTokenURL = esc_url( $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() ) );
 
 					switch ( $entry->getStatus() ) {
-						case 'pending' :
+						case 'pending':
 							$statusClass = ' unapproved';
 							break;
 
-						case 'approved' :
+						case 'approved':
 							$statusClass = ' approved';
 							break;
 

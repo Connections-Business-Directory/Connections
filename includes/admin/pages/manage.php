@@ -874,7 +874,9 @@ function connectionsShowViewPage( $action = null ) {
 					// echo "<td >&nbsp;</td> \n";
 					echo '<td colspan="2">';
 
-					if ( $relations = $entry->getFamilyMembers() ) {
+					$relations = $entry->getFamilyMembers();
+
+					if ( $relations ) {
 
 						$relationsHTML = array();
 

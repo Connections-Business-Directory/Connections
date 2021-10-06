@@ -889,7 +889,7 @@ function connectionsShowViewPage( $action = null ) {
 
 									$editRelationTokenURL = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() ) );
 
-									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
 
 								} else {
 

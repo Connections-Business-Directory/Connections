@@ -668,9 +668,9 @@ function connectionsShowViewPage( $action = null ) {
 					 */
 					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
 					$copyTokenURL      = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() ) );
-					$deleteTokenURL    = esc_url( $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() ) );
-					$approvedTokenURL  = esc_url( $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() ) );
-					$unapproveTokenURL = esc_url( $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() ) );
+					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
+					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 
 					switch ( $entry->getStatus() ) {
 						case 'pending':
@@ -745,7 +745,7 @@ function connectionsShowViewPage( $action = null ) {
 					$rowActions     = array();
 					$rowEditActions = array();
 
-					$rowActions['toggle_details'] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
+					$rowActions['toggle_details'] = '<a class="detailsbutton" id="' . esc_attr( "row-{$entry->getId()}" ) . '" title="' . esc_html__( 'Click to show details.', 'connections' ) . '" >' . esc_html__( 'Show Details', 'connections' ) . '</a>';
 
 					$rowActions['vcard'] = $entry->vcard(
 						array(
@@ -766,17 +766,17 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . $unapproveTokenURL . '" title="' . __( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . __( 'Unapprove', 'connections' ) . '</a>';
+						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveTokenURL ) . '" title="' . esc_html__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
 					}
 
 					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['approve'] = '<a class="action approve" href="' . $approvedTokenURL . '" title="' . __( 'Approve', 'connections' ) . ' ' . $fullName . '">' . __( 'Approve', 'connections' ) . '</a>';
+						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedTokenURL ) . '" title="' . esc_html__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
 					}
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						$rowEditActions['edit'] = '<a class="editbutton" href="' . $editTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $fullName . '">' . __( 'Edit', 'connections' ) . '</a>';
+						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editTokenURL ) . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 					}
 
 					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
@@ -788,7 +788,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( current_user_can( 'connections_delete_entry' ) ) {
 
-						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteTokenURL . '" title="' . __( 'Delete', 'connections' ) . ' ' . $fullName . '">' . __( 'Delete', 'connections' ) . '</a>';
+						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteTokenURL ) . '" title="' . esc_html__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
 					}
 
 					/**

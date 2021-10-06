@@ -927,7 +927,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					echo "<tr class='child-row-" . $entry->getId() . " entrynotes' id='contact-" . $entry->getId() . "-detail-notes' style='display:none;'>";
 					echo "<td colspan='2'>&nbsp;</td> \n";
-					//echo "<td >&nbsp;</td> \n";
+					// echo "<td >&nbsp;</td> \n";
 					echo "<td colspan='3'>";
 					echo ( $entry->getBio() ) ? '<strong>' . esc_html__( 'Bio', 'connections' ) . ':</strong> ' . $entry->getBio() . '<br />' : '&nbsp;';
 					echo ( $entry->getNotes() ) ? '<strong>' . esc_html__( 'Notes', 'connections' ) . ':</strong> ' . $entry->getNotes() : '&nbsp;';

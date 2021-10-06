@@ -604,11 +604,11 @@ function connectionsShowViewPage( $action = null ) {
 							$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
 
 							foreach ( $bulkActions as $action => $string ) {
-								echo '<option value="', $action, '">', $string, '</option>';
+								echo '<option value="', esc_attr( $action ), '">', esc_html( $string ) , '</option>';
 							}
 
 							echo '</select>';
-							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , __( 'Apply', 'connections' ) , '" />';
+							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , esc_html__( 'Apply', 'connections' ) , '" />';
 							echo '</div>';
 						}
 						?>

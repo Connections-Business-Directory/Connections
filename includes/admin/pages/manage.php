@@ -619,7 +619,7 @@ function connectionsShowViewPage( $action = null ) {
 							/*
 							 * Display the character filter control.
 							 */
-							echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
+							echo '<span class="displaying-num">' , esc_html__( 'Filter by character:', 'connections' ) , '</span>';
 							cnTemplatePart::index(
 								array(
 									'status' => $instance->currentUser->getFilterStatus(),

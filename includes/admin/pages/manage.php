@@ -846,7 +846,8 @@ function connectionsShowViewPage( $action = null ) {
 
 						/**
 						 * NOTE: WP 3.5 introduced get_edit_user_link()
-						 * REF:  http://codex.wordpress.org/Function_Reference/get_edit_user_link
+						 *
+						 * @link https://codex.wordpress.org/Function_Reference/get_edit_user_link
 						 *
 						 * @TODO Use get_edit_user_link() to simplify this code when WP hits >= 3.9.
 						 */

@@ -862,7 +862,7 @@ function connectionsShowViewPage( $action = null ) {
 							$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
 						}
 
-						echo '<strong>' . esc_html__( 'Linked to:', 'connections' ) . '</strong> <a href="' . esc_url( $editUserLink ) . '">' . esc_html( $user->display_name ) . '</a>';
+						echo '<strong>' . esc_html__( 'Linked to:', 'connections' ) . '</strong> <a href="' . esc_url( $editUserLink ) . '">' . esc_html( $user->display_name ) . '</a>'; // phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 					}
 
 					echo "</td> \n";

@@ -687,7 +687,7 @@ function connectionsShowViewPage( $action = null ) {
 					}
 
 					echo '<tr id="row-' , esc_attr( $entry->getId() ) , '" class="parent-row' . _escape::classNames( $statusClass ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='id[]'/></th> \n";
+					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . esc_attr( $entry->getId() ) . "' name='id[]'/></th> \n";
 					echo '<td>';
 					$entry->getImage(
 						array(

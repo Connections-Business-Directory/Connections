@@ -909,7 +909,7 @@ function connectionsShowViewPage( $action = null ) {
 
 						if ( ! empty( $relationsHTML ) ) {
 
-							echo implode( '<br />' . PHP_EOL, $relationsHTML );
+							echo implode( '<br />' . PHP_EOL, $relationsHTML ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
 					}
 

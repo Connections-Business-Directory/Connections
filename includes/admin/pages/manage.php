@@ -934,7 +934,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					echo "</td> \n";
 
-					echo "<td>";
+					echo '<td>';
 					$entry->dates->escapeForDisplay()->render( 'admin' );
 					echo "</td> \n";
 					echo "</tr> \n";

@@ -906,22 +906,22 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( $entry->getContactFirstName() || $entry->getContactLastName() ) {
 
-						echo '<strong>' . esc_html__( 'Contact', 'connections' ) . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />';
+						echo '<strong>' . esc_html__( 'Contact', 'connections' ) . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( $entry->getTitle() ) {
 
-						echo '<strong>' . esc_html__( 'Title', 'connections' ) . ':</strong> ' . $entry->getTitle() . '<br />';
+						echo '<strong>' . esc_html__( 'Title', 'connections' ) . ':</strong> ' . $entry->getTitle() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( $entry->getOrganization() && $entry->getEntryType() !== 'organization' ) {
 
-						echo '<strong>' . esc_html__( 'Organization', 'connections' ) . ':</strong> ' . $entry->getOrganization() . '<br />';
+						echo '<strong>' . esc_html__( 'Organization', 'connections' ) . ':</strong> ' . $entry->getOrganization() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( $entry->getDepartment() ) {
 
-						echo '<strong>' . esc_html__( 'Department', 'connections' ) . ':</strong> ' . $entry->getDepartment() . '<br />';
+						echo '<strong>' . esc_html__( 'Department', 'connections' ) . ':</strong> ' . $entry->getDepartment() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					$entry->addresses->escapeForDisplay()->render( 'admin' );

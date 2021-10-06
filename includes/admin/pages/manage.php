@@ -816,7 +816,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					$categories = $entry->getCategory();
 
-					if ( !empty( $categories ) ) {
+					if ( ! empty( $categories ) ) {
 						$i = 0;
 
 						foreach ( $categories as $category ) {

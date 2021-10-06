@@ -730,7 +730,11 @@ function connectionsShowViewPage( $action = null ) {
 					if ( is_array( $entryStates ) && ! empty( $entryStates ) ) {
 
 						echo ' &mdash; ';
-						echo '<span class="post-state">' . implode( '</span>, <span class="post-state">', $entryStates ) . '</span>';
+
+						foreach ( $entryStates as $entryState ) {
+
+							echo '<span class="post-state">' . esc_html( $entryState ) . '</span>';
+						}
 					}
 
 					echo '</strong>';

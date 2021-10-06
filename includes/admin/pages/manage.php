@@ -704,7 +704,7 @@ function connectionsShowViewPage( $action = null ) {
 					echo '</td>';
 					echo '<td  colspan="2">';
 
-					echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . CN_URL . 'assets/images/uparrow.gif" /></a></div>';
+					echo '<div style="float:right"><a href="#top" title="Return to top."><img src="' . esc_url( CN_URL . 'assets/images/uparrow.gif' ) . '" /></a></div>';
 
 					$name = $entry->getName( array( 'format' => '%last%, %first%' ) );
 

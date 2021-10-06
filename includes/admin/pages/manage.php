@@ -49,7 +49,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connections' ),
+					'title'    => esc_html__( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -95,7 +95,7 @@ function connectionsShowViewPage( $action = null ) {
 
 			} else {
 
-				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
+				cnMessage::render( 'error', esc_html__( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
@@ -142,7 +142,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connections' ),
+					'title'    => esc_html__( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -188,7 +188,7 @@ function connectionsShowViewPage( $action = null ) {
 
 			} else {
 
-				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
+				cnMessage::render( 'error', esc_html__( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
@@ -218,7 +218,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connections' ),
+					'title'    => esc_html__( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -264,7 +264,7 @@ function connectionsShowViewPage( $action = null ) {
 
 			} else {
 
-				cnMessage::render( 'error', __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
+				cnMessage::render( 'error', esc_html__( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
@@ -319,9 +319,9 @@ function connectionsShowViewPage( $action = null ) {
 					<?php
 
 					$statuses = array(
-						'all'      => __( 'All', 'connections' ),
-						'approved' => __( 'Approved', 'connections' ),
-						'pending'  => __( 'Moderate', 'connections' ),
+						'all'      => esc_html__( 'All', 'connections' ),
+						'approved' => esc_html__( 'Approved', 'connections' ),
+						'pending'  => esc_html__( 'Moderate', 'connections' ),
 					);
 
 					foreach ( $statuses as $key => $status ) {
@@ -398,7 +398,7 @@ function connectionsShowViewPage( $action = null ) {
 								'term-select',
 								array(
 									'name'            => 'category',
-									'show_option_all' => __( 'Show All Categories', 'connections' ),
+									'show_option_all' => esc_html__( 'Show All Categories', 'connections' ),
 									'hide_empty'      => false,
 									'hierarchical'    => true,
 									'show_count'      => false,
@@ -413,19 +413,19 @@ function connectionsShowViewPage( $action = null ) {
 										->createOptionsFromArray(
 											array(
 												array(
-													'label' => __( 'Show All Entries', 'connections' ),
+													'label' => esc_html__( 'Show All Entries', 'connections' ),
 													'value' => 'all',
 												),
 												array(
-													'label' => __( 'Show Individuals', 'connections' ),
+													'label' => esc_html__( 'Show Individuals', 'connections' ),
 													'value' => 'individual',
 												),
 												array(
-													'label' => __( 'Show Organizations', 'connections' ),
+													'label' => esc_html__( 'Show Organizations', 'connections' ),
 													'value' => 'organization',
 												),
 												array(
-													'label' => __( 'Show Families', 'connections' ),
+													'label' => esc_html__( 'Show Families', 'connections' ),
 													'value' => 'family',
 												),
 											)
@@ -438,7 +438,7 @@ function connectionsShowViewPage( $action = null ) {
 							 */
 							$visibilitySelect = array(
 								array(
-									'label' => __( 'Show All', 'connections' ),
+									'label' => esc_html__( 'Show All', 'connections' ),
 									'value' => 'all',
 								),
 							);
@@ -446,7 +446,7 @@ function connectionsShowViewPage( $action = null ) {
 							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) {
 
 								$visibilitySelect[] = array(
-									'label' => __( 'Show Public', 'connections' ),
+									'label' => esc_html__( 'Show Public', 'connections' ),
 									'value' => 'public',
 								);
 							}
@@ -454,7 +454,7 @@ function connectionsShowViewPage( $action = null ) {
 							if ( current_user_can( 'connections_view_private' ) ) {
 
 								$visibilitySelect[] = array(
-									'label' => __( 'Show Private', 'connections' ),
+									'label' => esc_html__( 'Show Private', 'connections' ),
 									'value' => 'private',
 								);
 							}
@@ -462,7 +462,7 @@ function connectionsShowViewPage( $action = null ) {
 							if ( current_user_can( 'connections_view_unlisted' ) ) {
 
 								$visibilitySelect[] = array(
-									'label' => __( 'Show Unlisted', 'connections' ),
+									'label' => esc_html__( 'Show Unlisted', 'connections' ),
 									'value' => 'unlisted',
 								);
 							}
@@ -591,15 +591,15 @@ function connectionsShowViewPage( $action = null ) {
 							$bulkActions = array();
 
 							if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
-								$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
-								$bulkActions['approve']   = __( 'Approve', 'connections' );
-								$bulkActions['public']    = __( 'Set Public', 'connections' );
-								$bulkActions['private']   = __( 'Set Private', 'connections' );
-								$bulkActions['unlisted']  = __( 'Set Unlisted', 'connections' );
+								$bulkActions['unapprove'] = esc_html__( 'Unapprove', 'connections' );
+								$bulkActions['approve']   = esc_html__( 'Approve', 'connections' );
+								$bulkActions['public']    = esc_html__( 'Set Public', 'connections' );
+								$bulkActions['private']   = esc_html__( 'Set Private', 'connections' );
+								$bulkActions['unlisted']  = esc_html__( 'Set Unlisted', 'connections' );
 							}
 
 							if ( current_user_can( 'connections_delete_entry' ) ) {
-								$bulkActions['delete'] = __( 'Delete', 'connections' );
+								$bulkActions['delete'] = esc_html__( 'Delete', 'connections' );
 							}
 
 							$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
@@ -697,7 +697,7 @@ function connectionsShowViewPage( $action = null ) {
 							'zc'       => 2,
 							'fallback' => array(
 								'type'   => 'block',
-								'string' => __( 'No Image Available', 'connections' ),
+								'string' => esc_html__( 'No Image Available', 'connections' ),
 							),
 						)
 					);
@@ -749,7 +749,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					$rowActions['vcard'] = $entry->vcard(
 						array(
-							'text'   => __( 'vCard', 'connections' ),
+							'text'   => esc_html__( 'vCard', 'connections' ),
 							'return' => true,
 						)
 					);
@@ -758,8 +758,8 @@ function connectionsShowViewPage( $action = null ) {
 						array(
 							'slug'   => $entry->getSlug(),
 							// translators: The directory entry name.
-							'title'  => sprintf( __( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
-							'text'   => __( 'View', 'connections' ),
+							'title'  => sprintf( esc_html__( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
+							'text'   => esc_html__( 'View', 'connections' ),
 							'return' => true,
 						)
 					);
@@ -898,7 +898,7 @@ function connectionsShowViewPage( $action = null ) {
 
 									$editRelationTokenURL = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() ) );
 
-									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . $editRelationTokenURL . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
 
 								} else {
 

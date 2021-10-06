@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Form\Field;
+use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_sanitize;
 
 function connectionsShowViewPage( $action = null ) {
@@ -685,7 +686,7 @@ function connectionsShowViewPage( $action = null ) {
 							break;
 					}
 
-					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass . '">';
+					echo '<tr id="row-' , esc_attr( $entry->getId() ) , '" class="parent-row' . _escape::classNames( $statusClass ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='id[]'/></th> \n";
 					echo '<td>';
 					$entry->getImage(

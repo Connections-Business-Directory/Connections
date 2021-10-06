@@ -674,11 +674,11 @@ function connectionsShowViewPage( $action = null ) {
 
 					switch ( $entry->getStatus() ) {
 						case 'pending':
-							$statusClass = ' unapproved';
+							$statusClass = 'unapproved';
 							break;
 
 						case 'approved':
-							$statusClass = ' approved';
+							$statusClass = 'approved';
 							break;
 
 						default:
@@ -686,7 +686,7 @@ function connectionsShowViewPage( $action = null ) {
 							break;
 					}
 
-					echo '<tr id="row-' , esc_attr( $entry->getId() ) , '" class="parent-row' . _escape::classNames( $statusClass ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo '<tr id="row-' , esc_attr( $entry->getId() ) , '" class="' . _escape::classNames( array( 'parent-row', $statusClass ) ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . esc_attr( $entry->getId() ) . "' name='id[]'/></th> \n";
 					echo '<td>';
 					$entry->getImage(

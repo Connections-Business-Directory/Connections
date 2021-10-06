@@ -685,7 +685,7 @@ function connectionsShowViewPage( $action = null ) {
 							break;
 					}
 
-					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass .'">';
+					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass . '">';
 					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='id[]'/></th> \n";
 					echo '<td>';
 					$entry->getImage(

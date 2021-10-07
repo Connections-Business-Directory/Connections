@@ -19,7 +19,7 @@ function connectionsShowSettingsPage() {
 	/*
 	 * Check whether user can edit Settings
 	 */
-	if ( !current_user_can( 'connections_change_settings' ) ) {
+	if ( ! current_user_can( 'connections_change_settings' ) ) {
 
 		wp_die( '<p id="error-page" style="-moz-background-clip:border;
 			-moz-border-radius:11px;

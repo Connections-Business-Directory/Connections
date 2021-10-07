@@ -10,7 +10,9 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\categoryManagement;

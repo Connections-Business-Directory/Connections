@@ -819,8 +819,7 @@ cnSystem_Info::display();
 
 		<div class="wrap" id="cn-logs">
 
-			<form id="cn-log-type" method="get"
-			      action="<?php echo esc_url( self_admin_url( 'admin.php' ) ); ?>">
+			<form id="cn-log-type" method="get" action="<?php echo esc_url( self_admin_url( 'admin.php' ) ); ?>">
 
 				<input type="hidden" name="page" value="connections_tools"/>
 				<input type="hidden" name="tab" value="logs"/>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for processing admin action.
  *

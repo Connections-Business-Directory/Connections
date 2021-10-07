@@ -545,7 +545,7 @@ cnSystem_Info::display();
 		?>
 					</textarea>
 
-				<?php // Form used to download .txt file ?>
+				<?php // Form used to download .txt file. ?>
 				<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
 					<input type="hidden" name="action" value="download_system_info"/>
 					<?php wp_nonce_field( 'download_system_info' ); ?>

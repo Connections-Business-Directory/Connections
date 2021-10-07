@@ -392,7 +392,6 @@ class cnAdminActions {
 		switch ( $type ) {
 
 			case 'address':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
 
 				$export = new cnCSV_Batch_Export_Addresses();
@@ -400,7 +399,6 @@ class cnAdminActions {
 				break;
 
 			case 'phone':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
 
 				$export = new cnCSV_Batch_Export_Phone_Numbers();
@@ -408,7 +406,6 @@ class cnAdminActions {
 				break;
 
 			case 'email':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
 
 				$export = new cnCSV_Batch_Export_Email();
@@ -416,7 +413,6 @@ class cnAdminActions {
 				break;
 
 			case 'date':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
 
 				$export = new cnCSV_Batch_Export_Dates();
@@ -424,7 +420,6 @@ class cnAdminActions {
 				break;
 
 			case 'category':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
 
 				$export = new cnCSV_Batch_Export_Term();
@@ -432,7 +427,6 @@ class cnAdminActions {
 				break;
 
 			case 'all':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
 
 				$export = new cnCSV_Batch_Export_All();
@@ -440,7 +434,6 @@ class cnAdminActions {
 				break;
 
 			default:
-
 				/**
 				 * All plugins to run their own download callback function.
 				 *

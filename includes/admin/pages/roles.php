@@ -106,7 +106,10 @@ function connectionsShowRolesPage() {
 
 							foreach ( $capabilities as $capability => $capabilityName ) {
 								// If unregistered users are permitted to view the entry list there is no need for setting this capability.
-								if ( $capability == 'connections_view_public' && $connections->options->getAllowPublic() == true ) continue;
+								if ( $capability == 'connections_view_public' && $connections->options->getAllowPublic() == true ) {
+
+									continue;
+								}
 
 								echo '<span style="display: block;"><label for="' . $role . '_' . $capability . '">';
 								echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';

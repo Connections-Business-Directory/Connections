@@ -761,10 +761,12 @@ cnSystem_Info::display();
 				<div id="cn-import-settings-response"></div>
 
 				<p>
-					<?php _e(
+					<?php
+					_e(
 						'Import the settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.',
 						'connections'
-					); ?>
+					);
+					?>
 				</p>
 
 				<form id="cn-import-settings" method="post" enctype="multipart/form-data" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">

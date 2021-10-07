@@ -69,7 +69,7 @@ function connectionsShowToolsPage() {
 			</h2>
 
 			<div class="metabox-holder">
-				<?php do_action( 'cn_tools_tab_' . $active_tab );?>
+				<?php do_action( 'cn_tools_tab_' . $active_tab ); ?>
 			</div><!-- .metabox-holder -->
 
 			<?php

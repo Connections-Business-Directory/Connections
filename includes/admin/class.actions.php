@@ -214,7 +214,7 @@ class cnAdminActions {
 		 *
 		 * @link https://davidwalsh.name/detect-ajax
 		 */
-		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || 'xmlhttprequest' != strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && 'xmlhttprequest' !== strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 
 			wp_send_json( -3 );
 		}

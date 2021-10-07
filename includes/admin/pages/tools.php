@@ -698,8 +698,8 @@ cnSystem_Info::display();
 				</p>
 
 				<p class="submit">
-					<input type="submit" onClick="return false;" class="button-secondary" name="generate-url" value="<?php _e( 'Generate URL', 'connections' ); ?>" data-nonce="<?php echo wp_create_nonce( 'generate_remote_system_info_url' ); ?>"/>
-					<input type="submit" onClick="return false;" class="button-secondary" name="revoke-url" value="<?php _e( 'Revoke URL', 'connections' ); ?>" data-nonce="<?php echo wp_create_nonce( 'revoke_remote_system_info_url' ); ?>"/>
+					<input type="submit" onClick="return false;" class="button-secondary" name="generate-url" value="<?php _e( 'Generate URL', 'connections' ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'generate_remote_system_info_url' ) ); ?>"/>
+					<input type="submit" onClick="return false;" class="button-secondary" name="revoke-url" value="<?php _e( 'Revoke URL', 'connections' ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'revoke_remote_system_info_url' ) ); ?>"/>
 				</p>
 
 			</div><!-- .inside -->

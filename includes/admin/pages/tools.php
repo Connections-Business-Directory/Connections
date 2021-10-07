@@ -776,7 +776,7 @@ cnSystem_Info::display();
 
 					<input type="hidden" name="action" value="import_settings"/>
 					<?php wp_nonce_field( 'import_settings' ); ?>
-					<?php submit_button( __( 'Import', 'connections' ), 'secondary', 'submit', TRUE, array( 'id' => 'cn-import-settings-submit' ) ); ?>
+					<?php submit_button( __( 'Import', 'connections' ), 'secondary', 'submit', true, array( 'id' => 'cn-import-settings-submit' ) ); ?>
 				</form>
 			</div><!-- .inside -->
 		</div><!-- .postbox -->

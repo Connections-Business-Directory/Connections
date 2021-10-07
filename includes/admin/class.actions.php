@@ -179,9 +179,7 @@ class cnAdminActions {
 	/**
 	 * AJAX callback used to download the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 */
 	public static function downloadSystemInfo() {
 
@@ -198,9 +196,7 @@ class cnAdminActions {
 	/**
 	 * AJAX callback to email the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 */
 	public static function emailSystemInfo() {
 

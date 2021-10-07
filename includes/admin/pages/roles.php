@@ -126,7 +126,7 @@ function connectionsShowRolesPage() {
 									echo 'DISABLED ';
 								}
 
-								echo '/> ' . $capabilityName . '</label></span>' . "\n";
+								echo '/> ' . esc_html( $capabilityName ) . '</label></span>' . "\n";
 
 							}
 

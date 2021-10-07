@@ -225,9 +225,9 @@ class cnAdminActions {
 		$atts = array(
 			'from_email' => $user->user_email,
 			'from_name'  => $user->display_name,
-			'to_email'   => $_POST['email'],
-			'subject'    => $_POST['subject'],
-			'message'    => $_POST['message'],
+			'to_email'   => sanitize_email( $_POST['email'] ),
+			'subject'    => sanitize_text_field( $_POST['subject'] ),
+			'message'    => sanitize_textarea_field( $_POST['message'] ),
 		);
 		// phpcs:enable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 

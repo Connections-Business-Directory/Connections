@@ -254,7 +254,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function generateSystemInfoURL() {
 
@@ -294,7 +293,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function revokeSystemInfoURL() {
 

@@ -631,10 +631,12 @@ cnSystem_Info::display();
 								<textarea name="message" id="cn-email-message" class="large-text" rows="10" cols="50" placeholder="<?php _e( 'Enter additional message here.', 'connections' ); ?>"></textarea>
 
 								<p class="description">
-									<?php _e(
+									<?php
+									_e(
 										'Your system information will be attached automatically to this email.',
 										'connections'
-									) ?>
+									)
+									?>
 								</p>
 
 							</td>

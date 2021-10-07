@@ -474,7 +474,7 @@ class cnAdmin_Tools {
 							<?php wp_nonce_field( 'csv_upload', 'nonce' ); ?>
 						</p>
 
-						<?php submit_button( esc_html__( 'Upload', 'connections' ), 'secondary', 'cn-upload-csv-category' ) ?>
+						<?php submit_button( esc_html__( 'Upload', 'connections' ), 'secondary', 'cn-upload-csv-category' ); ?>
 
 					</div>
 

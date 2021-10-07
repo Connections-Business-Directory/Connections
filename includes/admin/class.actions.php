@@ -164,12 +164,7 @@ class cnAdminActions {
 	/**
 	 * Run admin actions.
 	 *
-	 * @access private
-	 * @since  0.7.5
-	 *
-	 * @uses   do_action()
-	 *
-	 * @return void
+	 * @since 0.7.5
 	 */
 	private static function doActions() {
 

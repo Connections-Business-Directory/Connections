@@ -98,7 +98,8 @@ function connectionsShowToolsPage() {
 		?>
 		</div><!-- .wrap -->
 
-	<?php }
+	<?php
+	}
 }
 
 /**

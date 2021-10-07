@@ -379,7 +379,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportBatchDownload() {
 
-		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), 'cn-batch-export-download' ) ) {
+		if ( ! isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), 'cn-batch-export-download' ) ) {
 
 			wp_die( esc_html__( 'Nonce verification failed.', 'connections' ), esc_html__( 'Error', 'connections' ), array( 'response' => 403 ) );
 		}

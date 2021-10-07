@@ -356,7 +356,7 @@ class cnAdminActions {
 			wp_send_json( __( 'Please select a file to import.', 'connections' ) );
 		}
 
-		$json   = file_get_contents( $file );
+		$json   = file_get_contents( $file ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
 		$result = cnSettingsAPI::import( $json );
 
 		if ( TRUE === $result ) {

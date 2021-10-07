@@ -46,8 +46,8 @@ function connectionsShowToolsPage() {
 
 		if ( ! empty( $tabs ) ) {
 
-			$first_tab  = $tabs[0];
-			$active_tab = isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : $first_tab['id'];
+			$first_tab    = $tabs[0];
+			$active_tab   = isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : $first_tab['id'];
 			$current_page = self_admin_url( 'admin.php?page=connections_tools' );
 
 			?>

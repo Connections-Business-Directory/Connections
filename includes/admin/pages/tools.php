@@ -694,13 +694,7 @@ cnSystem_Info::display();
 				</p>
 
 				<p>
-					<input type="text" readonly="readonly" id="system-info-url" class="regular-text"
-					       onclick="this.focus();this.select()" value="<?php echo esc_url( $url ? $url : '' ); ?>"
-					       title="<?php _e(
-						       'To copy the URL, click then press Ctrl + C (PC) or Cmd + C (Mac).',
-						       'connections'
-					       ); ?>"/>&nbsp;&nbsp;<a class="button-secondary" href="<?php echo esc_url( $url ? $url : '#' ); ?>" target="_blank"
-					                              id="system-info-url-text-link" style="display: <?php echo $url ? 'display-inline' : 'none' ; ?>"><?php _e( 'Test', 'connections' ); ?></a>
+					<input type="text" readonly="readonly" id="system-info-url" class="regular-text" onclick="this.focus();this.select()" value="<?php echo esc_url( $url ? $url : '' ); ?>" title="<?php _e( 'To copy the URL, click then press Ctrl + C (PC) or Cmd + C (Mac).', 'connections' ); ?>"/>&nbsp;&nbsp;<a class="button-secondary" href="<?php echo esc_url( $url ? $url : '#' ); ?>" target="_blank" id="system-info-url-text-link" style="display: <?php echo $url ? 'display-inline' : 'none' ; ?>"><?php _e( 'Test', 'connections' ); ?></a>
 				</p>
 
 				<p class="submit">

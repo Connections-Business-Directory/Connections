@@ -49,6 +49,8 @@ class cnAdminActions {
 	/**
 	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
+	 * @see cnAdminFunction::init()
+	 *
 	 * @since 0.7.5
 	 */
 	public static function init() {

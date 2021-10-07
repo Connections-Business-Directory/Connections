@@ -126,7 +126,9 @@ class cnAdmin_Tools {
 	 * @access public
 	 * @since  8.3
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
 	 * @access public

@@ -47,7 +47,7 @@ function connectionsShowToolsPage() {
 		if ( ! empty( $tabs ) ) {
 
 			$first_tab    = $tabs[0];
-			$active_tab   = isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : $first_tab['id'];
+			$active_tab   = isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : $first_tab['id']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$current_page = self_admin_url( 'admin.php?page=connections_tools' );
 
 			?>

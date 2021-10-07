@@ -283,7 +283,7 @@ class cnAdminActions {
 
 		wp_send_json_success(
 			array(
-				'url' => $url,
+				'url'     => $url,
 				'message' => __( 'Secret URL has been created.', 'connections' ),
 			)
 		);

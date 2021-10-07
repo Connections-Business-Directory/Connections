@@ -89,7 +89,7 @@ function connectionsShowToolsPage() {
 			margin:25px auto 20px;
 			padding:1em 2em;
 			text-align:center;
-			width:700px"><?php esc_html_e( 'There are no tools available for your to use.', 'connections' ) ?></p>
+			width:700px"><?php esc_html_e( 'There are no tools available for your to use.', 'connections' ); ?></p>
 
 			<?php
 

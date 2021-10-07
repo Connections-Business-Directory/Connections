@@ -384,7 +384,7 @@ class cnAdminActions {
 			wp_die( __( 'Nonce verification failed.', 'connections' ), __( 'Error', 'connections' ), array( 'response' => 403 ) );
 		}
 
-		$type = esc_attr( $_REQUEST['type'] );
+		$type = sanitize_key( $_REQUEST['type'] );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';

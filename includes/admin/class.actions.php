@@ -316,7 +316,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function downloadSettings() {
 
@@ -335,7 +334,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function importSettings() {
 

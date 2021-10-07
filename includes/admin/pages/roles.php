@@ -96,7 +96,7 @@ function connectionsShowRolesPage() {
 								continue;
 							}
 
-							$capabilies = cnRole::capabilities();
+							$capabilities = cnRole::capabilities();
 
 							echo '<div class="postbox">';
 
@@ -104,7 +104,7 @@ function connectionsShowRolesPage() {
 
 							echo '<div class="inside">';
 
-							foreach ( $capabilies as $capability => $capabilityName ) {
+							foreach ( $capabilities as $capability => $capabilityName ) {
 								// if unregistered users are permitted to view the entry list there is no need for setting this capability
 								if ( $capability == 'connections_view_public' && $connections->options->getAllowPublic() == true ) continue;
 

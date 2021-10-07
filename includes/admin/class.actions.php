@@ -258,7 +258,7 @@ class cnAdminActions {
 	 */
 	public static function generateSystemInfoURL() {
 
-		if ( ! check_ajax_referer( 'generate_remote_system_info_url', FALSE, FALSE ) ) {
+		if ( ! check_ajax_referer( 'generate_remote_system_info_url', false, false ) ) {
 
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}

@@ -243,6 +243,7 @@ class cnAdminActions {
 			/** @var PHPMailer $phpmailer */
 			global $phpmailer;
 
+			// phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 			wp_send_json( $phpmailer->ErrorInfo );
 		}
 	}

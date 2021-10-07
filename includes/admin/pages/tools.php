@@ -856,7 +856,7 @@ cnSystem_Info::display();
 
 		</div>
 
-	<?php
+		<?php
 	}
 
 }

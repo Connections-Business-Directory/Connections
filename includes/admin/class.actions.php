@@ -32,9 +32,8 @@ class cnAdminActions {
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
 	 * @since 0.7.5
-	 * @var (object)
+	 * @var static
 	 */
 	private static $instance;
 

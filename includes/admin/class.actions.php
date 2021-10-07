@@ -165,14 +165,14 @@ class cnAdminActions {
 	 */
 	private static function doActions() {
 
-		if ( isset( $_POST['cn-action'] ) ) {
+		if ( isset( $_POST['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			do_action( 'cn_' . sanitize_key( $_POST['cn-action'] ) );
+			do_action( 'cn_' . sanitize_key( $_POST['cn-action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		}
 
-		if ( isset( $_GET['cn-action'] ) ) {
+		if ( isset( $_GET['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-			do_action( 'cn_' . sanitize_key( $_GET['cn-action'] ) );
+			do_action( 'cn_' . sanitize_key( $_GET['cn-action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 	}
 

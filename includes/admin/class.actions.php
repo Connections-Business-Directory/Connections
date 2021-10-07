@@ -49,7 +49,7 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Setup the class, if it has already been initialized, return the initialized instance.
+	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @since 0.7.5
 	 * @see cnAdminActions()

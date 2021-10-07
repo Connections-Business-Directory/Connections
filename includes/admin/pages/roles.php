@@ -121,7 +121,7 @@ function connectionsShowRolesPage() {
 								}
 
 								// The administrator should always have all capabilities.
-								if ( $role == 'administrator' ) echo 'DISABLED ';
+								if ( 'administrator' === $role ) echo 'DISABLED ';
 								echo '/> ' . $capabilityName . '</label></span>' . "\n";
 
 							}

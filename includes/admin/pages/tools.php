@@ -685,10 +685,12 @@ cnSystem_Info::display();
 				<div id="cn-remote-response"></div>
 
 				<p>
-					<?php _e(
+					<?php
+					_e(
 						'Create a secret URL that support can use to remotely view your system information. The secret URL will expire after 72 hours and can be revoked at any time.',
 						'connections'
-					) ?>
+					)
+					?>
 				</p>
 
 				<p>

@@ -186,30 +186,35 @@ class cnAdmin_Tools {
 	private static function registerTabs() {
 
 		$tabs = array(
-			array( 'id'       => 'export',
-			       'name'     => __( 'Export', 'connections' ),
-			       'callback' => array( __CLASS__, 'export' ),
-			       'capability' => 'export',
+			array(
+				'id'         => 'export',
+				'name'       => __( 'Export', 'connections' ),
+				'callback'   => array( __CLASS__, 'export' ),
+				'capability' => 'export',
 			),
-			array( 'id'       => 'import',
-			       'name'     => __( 'Import', 'connections' ),
-			       'callback' => array( __CLASS__, 'import' ),
-			       'capability' => 'import',
+			array(
+				'id'         => 'import',
+				'name'       => __( 'Import', 'connections' ),
+				'callback'   => array( __CLASS__, 'import' ),
+				'capability' => 'import',
 			),
-			array( 'id'       => 'system_info',
-			       'name'     => __( 'System Information', 'connections' ),
-			       'callback' => array( __CLASS__, 'systemInfo' ),
-			       'capability' => 'manage_options',
+			array(
+				'id'         => 'system_info',
+				'name'       => __( 'System Information', 'connections' ),
+				'callback'   => array( __CLASS__, 'systemInfo' ),
+				'capability' => 'manage_options',
 			),
-			array( 'id'       => 'settings_import_export',
-			       'name'     => __( 'Settings Import/Export', 'connections' ),
-			       'callback' => array( __CLASS__, 'settingsImportExport' ),
-			       'capability' => 'manage_options',
+			array(
+				'id'         => 'settings_import_export',
+				'name'       => __( 'Settings Import/Export', 'connections' ),
+				'callback'   => array( __CLASS__, 'settingsImportExport' ),
+				'capability' => 'manage_options',
 			),
-			array( 'id'       => 'logs',
-			       'name'     => __( 'Logs', 'connections' ),
-			       'callback' => array( __CLASS__, 'logs' ),
-			       'capability' => 'manage_options',
+			array(
+				'id'         => 'logs',
+				'name'       => __( 'Logs', 'connections' ),
+				'callback'   => array( __CLASS__, 'logs' ),
+				'capability' => 'manage_options',
 			),
 		);
 

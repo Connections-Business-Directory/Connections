@@ -381,7 +381,7 @@ class cnAdminActions {
 
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'cn-batch-export-download' ) ) {
 
-			wp_die( __( 'Nonce verification failed.', 'connections' ), __( 'Error', 'connections' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Nonce verification failed.', 'connections' ), esc_html__( 'Error', 'connections' ), array( 'response' => 403 ) );
 		}
 
 		$type = isset( $_REQUEST['type'] ) ? sanitize_key( $_REQUEST['type'] ) : '';

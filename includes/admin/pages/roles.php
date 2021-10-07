@@ -44,10 +44,10 @@ function connectionsShowRolesPage() {
 			<h1>Connections : <?php _e( 'Roles &amp; Capabilities', 'connections' ); ?></h1>
 
 			<?php
-		$attr = array(
-			'action' => '',
-			'method' => 'post',
-		);
+			$attr = array(
+				'action' => '',
+				'method' => 'post',
+			);
 
 		$form->open( $attr );
 		$form->tokenField( 'update_role_settings' );

@@ -460,7 +460,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Addresses();
 		$nonce  = wp_create_nonce( 'export_csv_addresses' );
 

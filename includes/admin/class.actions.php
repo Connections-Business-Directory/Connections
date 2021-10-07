@@ -40,7 +40,6 @@ class cnAdminActions {
 	/**
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
-	 * @access public
 	 * @since 0.7.5
 	 * @see cnAdminActions::init()
 	 * @see cnAdminActions();
@@ -52,7 +51,6 @@ class cnAdminActions {
 	/**
 	 * Setup the class, if it has already been initialized, return the initialized instance.
 	 *
-	 * @access public
 	 * @since 0.7.5
 	 * @see cnAdminActions()
 	 */
@@ -72,8 +70,7 @@ class cnAdminActions {
 	/**
 	 * Return an instance of the class.
 	 *
-	 * @access public
-	 * @since  0.7.5
+	 * @since 0.7.5
 	 *
 	 * @return cnAdminActions
 	 */
@@ -85,12 +82,7 @@ class cnAdminActions {
 	/**
 	 * Register admin actions.
 	 *
-	 * @access private
-	 * @since  0.7.5
-	 *
-	 * @uses   add_action()
-	 *
-	 * @return void
+	 * @since 0.7.5
 	 */
 	private static function register() {
 

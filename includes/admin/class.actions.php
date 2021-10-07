@@ -61,9 +61,7 @@ class cnAdminActions {
 
 			self::register();
 			self::doActions();
-
 		}
-
 	}
 
 	/**

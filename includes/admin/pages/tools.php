@@ -737,10 +737,12 @@ cnSystem_Info::display();
 
 			<div class="inside">
 				<p>
-					<?php _e(
+					<?php
+					_e(
 						'Export the settings for this site as a .json file. This allows you to easily import the configuration into another site.',
 						'connections'
-					); ?>
+					);
+					?>
 				</p>
 
 				<form method="post" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">

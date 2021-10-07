@@ -111,7 +111,7 @@ function connectionsShowRolesPage() {
 									continue;
 								}
 
-								echo '<span style="display: block;"><label for="' . $role . '_' . $capability . '">';
+								echo '<span style="display: block;"><label for="' . esc_attr( "{$role}_{$capability}" ) . '">';
 								echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';
 								echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" ';
 

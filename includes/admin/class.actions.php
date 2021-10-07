@@ -86,7 +86,7 @@ class cnAdminActions {
 	 */
 	private static function register() {
 
-		// Entry Actions
+		// Entry Actions.
 		add_action( 'cn_add_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_update_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_duplicate_entry', array( __CLASS__, 'processEntry' ) );
@@ -96,14 +96,14 @@ class cnAdminActions {
 		// Process entry categories. - Deprecated since 10.2, no longer used.
 		//add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
 
-		// Entry Meta Action
+		// Entry Meta Action.
 		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
 
 		// Save the user's manage admin page actions.
 		add_action( 'cn_manage_actions', array( __CLASS__, 'entryManagement' ) );
 		add_action( 'cn_filter', array( __CLASS__, 'userFilter' ) );
 
-		// Role Actions
+		// Role Actions.
 		add_action( 'cn_update_role_capabilities', array( __CLASS__, 'updateRoleCapabilities' ) );
 
 		// Category Actions - Deprecated since 10.2, no longer used.
@@ -112,16 +112,16 @@ class cnAdminActions {
 		//add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
 		//add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
 
-		// Term Actions
+		// Term Actions.
 		add_action( 'cn_add-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'addTerm' ) );
 		add_action( 'cn_update-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'updateTerm' ) );
 		add_action( 'cn_delete-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTerm' ) );
 		add_action( 'cn_bulk-term-action', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'bulkTerm' ) );
 
-		// Term Meta Actions
+		// Term Meta Actions.
 		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
 
-		// Template Actions
+		// Template Actions.
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
 		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
 

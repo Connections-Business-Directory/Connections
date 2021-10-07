@@ -90,7 +90,7 @@ function connectionsShowRolesPage() {
 						foreach ( $editable_roles as $role => $details ) {
 							$name = translate_user_role( $details['name'] );
 
-							// the admininistrator should always have all capabilities
+							// The administrator should always have all capabilities.
 							if ( $role == 'administrator' ) continue;
 
 							$capabilies = cnRole::capabilities();

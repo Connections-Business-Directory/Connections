@@ -116,7 +116,7 @@ function connectionsShowRolesPage() {
 								echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" ';
 
 								if ( cnRole::hasCapability( $role, $capability ) ) echo 'CHECKED ';
-								// the admininistrator should always have all capabilities
+								// The administrator should always have all capabilities.
 								if ( $role == 'administrator' ) echo 'DISABLED ';
 								echo '/> ' . $capabilityName . '</label></span>' . "\n";
 

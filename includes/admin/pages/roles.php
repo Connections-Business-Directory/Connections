@@ -91,7 +91,10 @@ function connectionsShowRolesPage() {
 							$name = translate_user_role( $details['name'] );
 
 							// The administrator should always have all capabilities.
-							if ( $role == 'administrator' ) continue;
+							if ( $role == 'administrator' ) {
+
+								continue;
+							}
 
 							$capabilies = cnRole::capabilities();
 

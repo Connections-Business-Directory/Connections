@@ -161,7 +161,7 @@ class cnAdmin_Tools {
 	 */
 	private static function init() {
 
-		self::$instance = new self;
+		self::$instance = new self();
 
 		foreach ( self::getTabs() as $tab ) {
 

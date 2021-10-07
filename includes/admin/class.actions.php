@@ -41,8 +41,6 @@ class cnAdminActions {
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
 	 * @since 0.7.5
-	 * @see cnAdminActions::init()
-	 * @see cnAdminActions();
 	 */
 	public function __construct() {
 		/* Do nothing here */
@@ -52,7 +50,6 @@ class cnAdminActions {
 	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @since 0.7.5
-	 * @see cnAdminActions()
 	 */
 	public static function init() {
 

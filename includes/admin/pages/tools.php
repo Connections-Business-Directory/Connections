@@ -103,6 +103,9 @@ function connectionsShowToolsPage() {
 
 /**
  * Class cnAdmin_Tools
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnAdmin_Tools {
 

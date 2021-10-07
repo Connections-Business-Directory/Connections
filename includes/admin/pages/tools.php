@@ -843,7 +843,7 @@ cnSystem_Info::display();
 					'Switch',
 					'secondary',
 					'action',
-					FALSE,
+					false,
 					array(
 						'id'    => 'log-type-submit',
 					)

@@ -85,45 +85,45 @@ function connectionsShowRolesPage() {
 				<div class="has-sidebar" id="post-body">
 					<div class="has-sidebar-content" id="post-body-content">
 						<?php
-		$editable_roles = get_editable_roles();
+						$editable_roles = get_editable_roles();
 
-		foreach ( $editable_roles as $role => $details ) {
-			$name = translate_user_role( $details['name'] );
+						foreach ( $editable_roles as $role => $details ) {
+							$name = translate_user_role( $details['name'] );
 
-			// the admininistrator should always have all capabilities
-			if ( $role == 'administrator' ) continue;
+							// the admininistrator should always have all capabilities
+							if ( $role == 'administrator' ) continue;
 
-			$capabilies = cnRole::capabilities();
+							$capabilies = cnRole::capabilities();
 
-			echo '<div class="postbox">';
+							echo '<div class="postbox">';
 
-			echo '<h3 class="hndle" style="cursor: auto;"><span>' , $name , '</span></h3>';
+							echo '<h3 class="hndle" style="cursor: auto;"><span>' , $name , '</span></h3>';
 
-			echo '<div class="inside">';
+							echo '<div class="inside">';
 
-			foreach ( $capabilies as $capability => $capabilityName ) {
-				// if unregistered users are permitted to view the entry list there is no need for setting this capability
-				if ( $capability == 'connections_view_public' && $connections->options->getAllowPublic() == true ) continue;
+							foreach ( $capabilies as $capability => $capabilityName ) {
+								// if unregistered users are permitted to view the entry list there is no need for setting this capability
+								if ( $capability == 'connections_view_public' && $connections->options->getAllowPublic() == true ) continue;
 
-				echo '<span style="display: block;"><label for="' . $role . '_' . $capability . '">';
-				echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';
-				echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" ';
+								echo '<span style="display: block;"><label for="' . $role . '_' . $capability . '">';
+								echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';
+								echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" ';
 
-				if ( cnRole::hasCapability( $role, $capability ) ) echo 'CHECKED ';
-				// the admininistrator should always have all capabilities
-				if ( $role == 'administrator' ) echo 'DISABLED ';
-				echo '/> ' . $capabilityName . '</label></span>' . "\n";
+								if ( cnRole::hasCapability( $role, $capability ) ) echo 'CHECKED ';
+								// the admininistrator should always have all capabilities
+								if ( $role == 'administrator' ) echo 'DISABLED ';
+								echo '/> ' . $capabilityName . '</label></span>' . "\n";
 
-			}
+							}
 
-			echo '<span style="display: block;"><label for="' . $role . '_reset_capabilities">';
-			echo '<input type="checkbox" id="' . $role . '_reset_capabilities" name="reset[' . $role . ']" value="' . $name . '" /> ';
-			echo sprintf( __( 'Reset %s Capabilities', 'connections' ) , $name ) . '</label></span>' . "\n";
+							echo '<span style="display: block;"><label for="' . $role . '_reset_capabilities">';
+							echo '<input type="checkbox" id="' . $role . '_reset_capabilities" name="reset[' . $role . ']" value="' . $name . '" /> ';
+							echo sprintf( __( 'Reset %s Capabilities', 'connections' ) , $name ) . '</label></span>' . "\n";
 
-			echo '</div>';
-			echo '</div>';
-		}
-?>
+							echo '</div>';
+							echo '</div>';
+						}
+						?>
 					</div>
 				</div>
 			</div>

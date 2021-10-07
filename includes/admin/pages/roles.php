@@ -51,7 +51,7 @@ function connectionsShowRolesPage() {
 
 			$form->open( $attr );
 			$form->tokenField( 'update_role_settings' );
-?>
+			?>
 
 			<div id="poststuff" class="metabox-holder has-right-sidebar">
 

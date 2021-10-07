@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+
 function connectionsShowToolsPage() {
 
 	/*
@@ -59,9 +61,9 @@ function connectionsShowToolsPage() {
 
 					$tab_url = add_query_arg( array( 'tab' => $tab['id'] ), $current_page );
 
-					$active = $active_tab == $tab['id'] ? ' nav-tab-active' : '';
+					$active = $active_tab == $tab['id'] ? 'nav-tab-active' : '';
 
-					echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab['name'] ) . '" class="nav-tab' . $active . '">' . esc_html( $tab['name'] ) . '</a>';
+					echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab['name'] ) . '" class="' . _escape::classNames( array( 'nav-tab', $active ) ) . '">' . esc_html( $tab['name'] ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 
 				?>

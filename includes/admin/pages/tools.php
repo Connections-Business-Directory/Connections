@@ -468,10 +468,7 @@ class cnAdmin_Tools {
 
 			<div class="inside">
 
-				<form id="cn-import-category" class="cn-import-form"
-				      action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>"
-				      method="post"
-				      enctype="multipart/form-data">
+				<form id="cn-import-category" class="cn-import-form" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>" method="post" enctype="multipart/form-data">
 
 					<div class="cn-upload-file">
 

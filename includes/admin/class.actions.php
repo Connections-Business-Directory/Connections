@@ -451,12 +451,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Addresses()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportAddresses() {
 

@@ -38,7 +38,7 @@ function connectionsShowRolesPage() {
 
 		$form = new cnFormObjects();
 
-?>
+		?>
 		<div class="wrap cn-roles">
 
 			<h1>Connections : <?php _e( 'Roles &amp; Capabilities', 'connections' ); ?></h1>

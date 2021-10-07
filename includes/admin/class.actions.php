@@ -94,7 +94,7 @@ class cnAdminActions {
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
 
 		// Process entry categories. - Deprecated since 10.2, no longer used.
-		//add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
+		// add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
 
 		// Entry Meta Action.
 		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
@@ -107,10 +107,10 @@ class cnAdminActions {
 		add_action( 'cn_update_role_capabilities', array( __CLASS__, 'updateRoleCapabilities' ) );
 
 		// Category Actions - Deprecated since 10.2, no longer used.
-		//add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
-		//add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
-		//add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
-		//add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
+		// add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
+		// add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
+		// add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
+		// add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
 
 		// Term Actions.
 		add_action( 'cn_add-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'addTerm' ) );

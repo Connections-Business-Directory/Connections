@@ -359,7 +359,7 @@ class cnAdminActions {
 		$json   = file_get_contents( $file ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
 		$result = cnSettingsAPI::import( $json );
 
-		if ( TRUE === $result ) {
+		if ( true === $result ) {
 
 			wp_send_json( __( 'Settings have been imported.', 'connections' ) );
 

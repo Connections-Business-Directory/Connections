@@ -154,7 +154,7 @@ class cnAdminActions {
 		// Add the Connections Tab to the Add Plugins admin page.
 		add_filter( 'install_plugins_tabs', array( __CLASS__, 'installTab' ) );
 
-		// Setup the plugins_api() arguments.
+		// Set up the plugins_api() arguments.
 		add_filter( 'install_plugins_table_api_args_connections', array( __CLASS__, 'installArgs' ) );
 	}
 

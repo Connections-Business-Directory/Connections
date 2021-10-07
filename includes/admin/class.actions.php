@@ -211,7 +211,8 @@ class cnAdminActions {
 
 		/**
 		 * Since email is sent via an ajax request, let's check for the appropriate header.
-		 * @link http://davidwalsh.name/detect-ajax
+		 *
+		 * @link https://davidwalsh.name/detect-ajax
 		 */
 		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || 'xmlhttprequest' != strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 

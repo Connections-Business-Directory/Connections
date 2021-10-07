@@ -351,7 +351,7 @@ class cnAdminActions {
 			wp_send_json( __( 'Please upload a .json file.', 'connections' ) );
 		}
 
-		$file = $_FILES['import_file']['tmp_name'];
+		$file = sanitize_text_field( wp_unslash( $_FILES['import_file']['tmp_name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		if ( empty( $file ) ) {
 

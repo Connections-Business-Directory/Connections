@@ -810,9 +810,10 @@ cnSystem_Info::display();
 
 		$current = cnLog_Email::LOG_TYPE;
 		$views   = wp_list_pluck( cnLog::views(), 'id' );
+		$view    = isset( $_GET['view'] ) ? sanitize_text_field( $_GET['view'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		if ( isset( $_GET['view'] ) && array_key_exists( $_GET['view'], $views ) ) {
-			$current = $_GET['view'];
+		if ( array_key_exists( $view, $views ) ) {
+			$current = $view;
 		}
 
 		?>

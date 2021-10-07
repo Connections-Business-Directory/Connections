@@ -845,7 +845,7 @@ cnSystem_Info::display();
 					'action',
 					false,
 					array(
-						'id'    => 'log-type-submit',
+						'id' => 'log-type-submit',
 					)
 				);
 				?>

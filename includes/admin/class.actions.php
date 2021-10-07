@@ -167,12 +167,12 @@ class cnAdminActions {
 
 		if ( isset( $_POST['cn-action'] ) ) {
 
-			do_action( 'cn_' . $_POST['cn-action'] );
+			do_action( 'cn_' . sanitize_key( $_POST['cn-action'] ) );
 		}
 
 		if ( isset( $_GET['cn-action'] ) ) {
 
-			do_action( 'cn_' . $_GET['cn-action'] );
+			do_action( 'cn_' . sanitize_key( $_GET['cn-action'] ) );
 		}
 	}
 

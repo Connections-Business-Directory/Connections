@@ -344,7 +344,7 @@ class cnAdminActions {
 			wp_send_json( __( 'You do not have sufficient permissions to import the settings.', 'connections' ) );
 		}
 
-		if ( 'json' != pathinfo( $_FILES['import_file']['name'], PATHINFO_EXTENSION ) ) {
+		if ( 'json' !== pathinfo( $_FILES['import_file']['name'], PATHINFO_EXTENSION ) ) {
 
 			wp_send_json( __( 'Please upload a .json file.', 'connections' ) );
 		}

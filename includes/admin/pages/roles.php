@@ -106,7 +106,7 @@ function connectionsShowRolesPage() {
 
 							foreach ( $capabilities as $capability => $capabilityName ) {
 								// If unregistered users are permitted to view the entry list there is no need for setting this capability.
-								if ( $capability == 'connections_view_public' && $connections->options->getAllowPublic() == true ) {
+								if ( 'connections_view_public' === $capability && $connections->options->getAllowPublic() == true ) {
 
 									continue;
 								}

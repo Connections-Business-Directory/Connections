@@ -608,7 +608,7 @@ cnSystem_Info::display();
 								</label>
 							</th>
 							<td>
-								<input type="email" name="email" id="cn-email-address" class="regular-text" placeholder="<?php _e( 'user@email.com', 'connections'); ?>"/>
+								<input type="email" name="email" id="cn-email-address" class="regular-text" placeholder="<?php _e( 'user@email.com', 'connections' ); ?>"/>
 							</td>
 						</tr>
 						<tr>
@@ -618,7 +618,7 @@ cnSystem_Info::display();
 								</label>
 							</th>
 							<td>
-								<input type="text" name="subject" id="cn-email-subject" class="regular-text" placeholder="<?php _e( 'Subject', 'connections'); ?>"/>
+								<input type="text" name="subject" id="cn-email-subject" class="regular-text" placeholder="<?php _e( 'Subject', 'connections' ); ?>"/>
 							</td>
 						</tr>
 						<tr>

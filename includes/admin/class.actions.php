@@ -45,7 +45,9 @@ class cnAdminActions {
 	 * @see cnAdminActions::init()
 	 * @see cnAdminActions();
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
 	 * Setup the class, if it has already been initialized, return the initialized instance.

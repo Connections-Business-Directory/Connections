@@ -643,8 +643,8 @@ cnSystem_Info::display();
 						</tr>
 					</table>
 					<input type="hidden" name="action" value="email_system_info"/>
-					<?php $form->tokenField( 'email_system_info', FALSE, '_cn_wpnonce', FALSE ); ?>
-					<?php submit_button( __( 'Send Email', 'connections' ), 'secondary', 'submit', TRUE, array( 'id' => 'cn-send-system-info-submit' ) ) ?>
+					<?php $form->tokenField( 'email_system_info', false, '_cn_wpnonce', false ); ?>
+					<?php submit_button( __( 'Send Email', 'connections' ), 'secondary', 'submit', true, array( 'id' => 'cn-send-system-info-submit' ) ) ?>
 				</form>
 
 			</div><!-- .inside -->

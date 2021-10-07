@@ -34,7 +34,7 @@ function connectionsShowRolesPage() {
 				width:700px">' . esc_html__( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
 		);
 	} else {
-		global $connections, $wp_roles;
+		global $connections;
 
 		$form = new cnFormObjects();
 

@@ -221,6 +221,7 @@ class cnAdminActions {
 
 		$user = wp_get_current_user();
 
+		// phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 		$atts = array(
 			'from_email' => $user->user_email,
 			'from_name'  => $user->display_name,
@@ -228,6 +229,7 @@ class cnAdminActions {
 			'subject'    => $_POST['subject'],
 			'message'    => $_POST['message'],
 		);
+		// phpcs:enable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
 		$response = cnSystem_Info::email( $atts );
 

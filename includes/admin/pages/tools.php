@@ -294,10 +294,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-addresses"
-						       value="<?php _e( 'Export', 'connections' ) ?>"
-						       data-action="export_csv_addresses"
-						       data-nonce="<?php echo wp_create_nonce( 'export_csv_addresses' ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-addresses" value="<?php _e( 'Export', 'connections' ) ?>" data-action="export_csv_addresses" data-nonce="<?php echo wp_create_nonce( 'export_csv_addresses' ); ?>"/>
 					</p>
 
 				</form>
@@ -322,10 +319,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-phone-numbers"
-						       value="<?php _e( 'Export', 'connections' ) ?>"
-						       data-action="export_csv_phone_numbers"
-						       data-nonce="<?php echo wp_create_nonce( 'export_csv_phone_numbers' ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-phone-numbers" value="<?php _e( 'Export', 'connections' ) ?>" data-action="export_csv_phone_numbers" data-nonce="<?php echo wp_create_nonce( 'export_csv_phone_numbers' ); ?>"/>
 					</p>
 
 				</form>
@@ -350,10 +344,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-email"
-						       value="<?php _e( 'Export', 'connections' ) ?>"
-						       data-action="export_csv_email"
-						       data-nonce="<?php echo wp_create_nonce( 'export_csv_email' ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-email" value="<?php _e( 'Export', 'connections' ) ?>" data-action="export_csv_email" data-nonce="<?php echo wp_create_nonce( 'export_csv_email' ); ?>"/>
 					</p>
 
 				</form>
@@ -378,10 +369,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-dates"
-						       value="<?php _e( 'Export', 'connections' ) ?>"
-						       data-action="export_csv_dates"
-						       data-nonce="<?php echo wp_create_nonce( 'export_csv_dates' ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-dates" value="<?php _e( 'Export', 'connections' ) ?>" data-action="export_csv_dates" data-nonce="<?php echo wp_create_nonce( 'export_csv_dates' ); ?>"/>
 					</p>
 
 				</form>
@@ -406,10 +394,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-term"
-						       value="<?php _e( 'Export', 'connections' ) ?>"
-						       data-action="export_csv_term"
-						       data-nonce="<?php echo wp_create_nonce( 'export_csv_term' ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-term" value="<?php _e( 'Export', 'connections' ) ?>" data-action="export_csv_term" data-nonce="<?php echo wp_create_nonce( 'export_csv_term' ); ?>"/>
 					</p>
 
 				</form>
@@ -434,10 +419,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-all"
-						       value="<?php _e( 'Export', 'connections' ) ?>"
-						       data-action="export_csv_all"
-						       data-nonce="<?php echo wp_create_nonce( 'export_csv_all' ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-all" value="<?php _e( 'Export', 'connections' ) ?>" data-action="export_csv_all" data-nonce="<?php echo wp_create_nonce( 'export_csv_all' ); ?>"/>
 					</p>
 
 				</form>

@@ -376,15 +376,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   do_action()
-	 * @uses   wp_verify_nonce()
-	 * @uses   wp_die()
-	 * @uses   __()
-	 * @uses   cnCSV_Batch_Export_Addresses()
-	 * @uses   cnCSV_Batch_Export_Phone_Numbers()
-	 * @uses   cnCSV_Batch_Export_Email()
-	 * @uses   cnCSV_Batch_Export_Dates()
 	 */
 	public static function csvExportBatchDownload() {
 

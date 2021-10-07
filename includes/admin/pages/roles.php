@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The role capability admin page.
  *

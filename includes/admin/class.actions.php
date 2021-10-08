@@ -581,7 +581,7 @@ class cnAdminActions {
 				}
 
 				// Remove any items which do not have Connections in its name.
-				if ( FALSE === strpos( $item['name'], 'Connections' ) ) {
+				if ( false === strpos( $item['name'], 'Connections' ) ) {
 
 					unset( $wp_list_table->items[ $key ] );
 				}
@@ -593,7 +593,7 @@ class cnAdminActions {
 					unset( $wp_list_table->items[ $key ] );
 				}
 
-				if ( FALSE === strpos( $item->name, 'Connections' ) ) {
+				if ( false === strpos( $item->name, 'Connections' ) ) {
 
 					unset( $wp_list_table->items[ $key ] );
 				}

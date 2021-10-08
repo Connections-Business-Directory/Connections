@@ -832,7 +832,7 @@ class cnAdminActions {
 
 		check_ajax_referer( 'import_csv_term' );
 
-		if ( ! wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'import_csv_term' ) ) {
+		if ( ! isset( $_REQUEST['_ajax_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['_ajax_nonce'] ), 'import_csv_term' ) ) {
 
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'connections' ) ) );
 		}

@@ -601,7 +601,7 @@ class cnAdminActions {
 		}
 
 		// Save the items from the original query.
-		$core            = $wp_list_table->items;
+		$core = $wp_list_table->items;
 
 		// Affiliate URL and preg replace pattern.
 		$tslAffiliateURL = 'https://tinyscreenlabs.com/?tslref=connections';

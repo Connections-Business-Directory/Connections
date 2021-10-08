@@ -859,7 +859,7 @@ class cnAdminActions {
 			);
 		}
 
-		if ( ! isset( $_REQUEST['file']['path'] ) || ! file_exists( $_REQUEST['file']['path'] ) ) {
+		if ( empty( $path ) || ! file_exists( $path ) ) {
 			wp_send_json_error(
 				array(
 					'message' => __(
@@ -875,7 +875,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/import/class.csv-import-batch-category.php';
 
 		$step   = isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1;
-		$import = new cnCSV_Batch_Import_Term( $_REQUEST['file']['path'] );
+		$import = new cnCSV_Batch_Import_Term( $path );
 		$nonce  = wp_create_nonce( 'import_csv_term' );
 
 		self::csvBatchImport( $import, 'category', $step, $nonce );

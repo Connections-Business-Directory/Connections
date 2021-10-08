@@ -62,6 +62,22 @@ final class _sanitize {
 	}
 
 	/**
+	 * Sanitize a file path.
+	 *
+	 * @since 10.4.4
+	 *
+	 * @param string $path The file path to sanitize.
+	 *
+	 * @return string
+	 */
+	public static function filePath( $path ) {
+
+		$path = sanitize_text_field( $path );
+
+		return realpath( $path );
+	}
+
+	/**
 	 * Sanitizes search term.
 	 *
 	 * @since 10.4.4

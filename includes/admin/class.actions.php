@@ -677,7 +677,7 @@ class cnAdminActions {
 		?>
 		<form id="plugin-filter" method="post">
 			<?php
-			//$wp_list_table->display();
+			// $wp_list_table->display();
 			$wp_list_table->_pagination_args = array();
 
 			if ( 0 < count( $core ) ) {

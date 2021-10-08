@@ -543,7 +543,7 @@ class cnAdminActions {
 			),
 			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
 			'locale'   => get_user_locale(),
-			//'installed_plugins' => $this->get_installed_plugin_slugs(),
+			// 'installed_plugins' => $this->get_installed_plugin_slugs(),
 		);
 
 		$args['installed_plugins'] = array( 'connections' );

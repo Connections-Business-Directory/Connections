@@ -846,8 +846,7 @@ class cnAdminActions {
 			);
 		}
 
-		if ( empty( $_REQUEST['file']['type'] ) ||
-		     ( ! in_array( wp_unslash( $_REQUEST['file']['type'] ), array( 'text/csv', 'text/plain' ), TRUE ) ) ) {
+		if ( empty( $_REQUEST['file']['type'] ) || ( ! in_array( wp_unslash( $_REQUEST['file']['type'] ), array( 'text/csv', 'text/plain' ), TRUE ) ) ) {
 			wp_send_json_error(
 				array(
 					'message' => __( 'The uploaded file does not appear to be a CSV file.', 'connections' ),

@@ -537,9 +537,9 @@ class cnAdminActions {
 			'page'     => $paged,
 			'per_page' => $per_page,
 			'fields'   => array(
-				'last_updated'    => TRUE,
-				'icons'           => TRUE,
-				'active_installs' => TRUE,
+				'last_updated'    => true,
+				'icons'           => true,
+				'active_installs' => true,
 			),
 			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
 			'locale'   => get_user_locale(),

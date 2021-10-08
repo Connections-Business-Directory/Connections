@@ -626,9 +626,9 @@ class cnAdminActions {
 			array(
 				'slug'              => 'connections-business-directory-offers',
 				'fields'            => array(
-					'last_updated'    => TRUE,
-					'icons'           => TRUE,
-					'active_installs' => TRUE,
+					'last_updated'    => true,
+					'icons'           => true,
+					'active_installs' => true,
 				),
 				'locale'            => get_user_locale(),
 				'installed_plugins' => array( 'connections' ),

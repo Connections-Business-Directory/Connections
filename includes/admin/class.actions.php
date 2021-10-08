@@ -575,16 +575,28 @@ class cnAdminActions {
 			if ( is_array( $item ) ) {
 
 				// Remove the core plugin.
-				if ( 'connections' === $item['slug'] ) unset( $wp_list_table->items[ $key ] );
+				if ( 'connections' === $item['slug'] ) {
+
+					unset( $wp_list_table->items[ $key ] );
+				}
 
 				// Remove any items which do not have Connections in its name.
-				if ( FALSE === strpos( $item['name'], 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+				if ( FALSE === strpos( $item['name'], 'Connections' ) ) {
+
+					unset( $wp_list_table->items[ $key ] );
+				}
 
 			} elseif ( is_object( $item ) ) {
 
-				if ( 'connections' === $item->slug ) unset( $wp_list_table->items[ $key ] );
+				if ( 'connections' === $item->slug ) {
 
-				if ( FALSE === strpos( $item->name, 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+					unset( $wp_list_table->items[ $key ] );
+				}
+
+				if ( FALSE === strpos( $item->name, 'Connections' ) ) {
+
+					unset( $wp_list_table->items[ $key ] );
+				}
 			}
 
 		}

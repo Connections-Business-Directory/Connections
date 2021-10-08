@@ -479,7 +479,7 @@ class cnAdminActions {
 
 		check_ajax_referer( 'set_category_div_height' );
 
-		$height = absint( $_POST['height'] );
+		$height = isset( $_POST['height'] ) ? absint( $_POST['height'] ) : 200;
 
 		if ( Connections_Directory()->currentUser->setCategoryDivHeight( $height ) ) {
 

@@ -743,12 +743,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Phone_Numbers()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportPhoneNumbers() {
 
@@ -770,12 +764,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Email()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportEmail() {
 
@@ -797,12 +785,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportDates() {
 
@@ -824,12 +806,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportTerm() {
 
@@ -851,12 +827,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvImportTerm() {
 
@@ -913,12 +883,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5.1
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportAll() {
 
@@ -940,12 +904,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   wp_send_json_error()
-	 * @uses   is_wp_error()
-	 * @uses   wp_send_json_success()
-	 * @uses   wp_create_nonce()
-	 * @uses   self_admin_url()
 	 *
 	 * @param cnCSV_Batch_Export $export
 	 * @param string             $type
@@ -1133,12 +1091,6 @@ class cnAdminActions {
 	 * @access private
 	 * @since  8.5.5
 	 *
-	 * @uses   wp_send_json_error()
-	 * @uses   is_wp_error()
-	 * @uses   wp_send_json_success()
-	 * @uses   wp_create_nonce()
-	 * @uses   self_admin_url()
-	 *
 	 * @param cnCSV_Batch_Import $import
 	 * @param string             $taxonomy
 	 * @param int                $step
@@ -1217,10 +1169,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  0.7.8
-	 *
-	 * @uses   wp_redirect()
-	 * @uses   get_admin_url()
-	 * @uses   get_current_blog_id()
 	 *
 	 * @return void
 	 */
@@ -1315,10 +1263,6 @@ class cnAdminActions {
 	 *
 	 * @access public
 	 * @since  0.7.8
-	 *
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
 	 *
 	 * @return void
 	 */
@@ -1586,11 +1530,6 @@ class cnAdminActions {
 	 * @access public
 	 * @since  0.7.8
 	 *
-	 * @uses absint()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 *
 	 * @param int $id [optional] Entry ID.
 	 * @param string $status [optional] The entry status to be assigned.
 	 *
@@ -1726,11 +1665,6 @@ class cnAdminActions {
 	 * @access public
 	 * @since  0.7.8
 	 *
-	 * @uses absint()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 *
 	 * @param int $id [optional] Entry ID.
 	 *
 	 * @return void
@@ -1795,11 +1729,6 @@ class cnAdminActions {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 *
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
 	 *
 	 * @return void
 	 */
@@ -1971,15 +1900,7 @@ class cnAdminActions {
 	 * Activate a template.
 	 *
 	 * @access public
-	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses delete_transient()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @uses add_query_arg()
-	 * @return void
+	 * @since  0.7.7
 	 */
 	public static function activateTemplate() {
 
@@ -2022,15 +1943,7 @@ class cnAdminActions {
 	 * @TODO Move the delete to a generic method in cnFileSystem()
 	 *
 	 * @access public
-	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses delete_transient()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @uses add_query_arg()
-	 * @return void
+	 * @since  0.7.7
 	 */
 	public static function deleteTemplate() {
 
@@ -2098,13 +2011,7 @@ class cnAdminActions {
 	 * Update the role settings.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return void
+	 * @since  0.7.5
 	 */
 	public static function updateRoleCapabilities() {
 
@@ -2163,15 +2070,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   check_admin_referer()
-	 * @uses   cnLog::delete()
-	 * @uses   cnMessage::set()
-	 * @uses   add_query_arg()
-	 * @uses   wp_get_referer()
-	 * @uses   wp_safe_redirect()
 	 */
 	public static function logManagement() {
 
@@ -2229,15 +2127,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   check_admin_referer()
-	 * @uses   cnLog::delete()
-	 * @uses   cnMessage::set()
-	 * @uses   add_query_arg()
-	 * @uses   wp_get_referer()
-	 * @uses   wp_safe_redirect()
 	 */
 	public static function deleteLog() {
 

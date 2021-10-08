@@ -701,7 +701,7 @@ class cnAdminActions {
 
 				// Update the links to TSL to use the affiliate URL.
 				$offers->homepage = $tslAffiliateURL;
-				$offers->author = preg_replace( $pattern, $tslAffiliateURL, $offers->author );
+				$offers->author   = preg_replace( $pattern, $tslAffiliateURL, $offers->author );
 
 				$wp_list_table->items = array( $offers );
 				self::installDisplayGroup( 'Third Party' );

@@ -607,6 +607,7 @@ class cnAdminActions {
 		$tslAffiliateURL = 'https://tinyscreenlabs.com/?tslref=connections';
 		$pattern         = "/(?<=href=(\"|'))[^\"']+(?=(\"|'))/";
 
+		// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 		//$mam = plugins_api(
 		//	'plugin_information',
 		//	array(
@@ -620,6 +621,7 @@ class cnAdminActions {
 		//		'installed_plugins' => array( 'connections' ),
 		//	)
 		//);
+		// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 		$offers = plugins_api(
 			'plugin_information',
@@ -635,6 +637,7 @@ class cnAdminActions {
 			)
 		);
 
+		// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 		//$tsl = plugins_api(
 		//	'query_plugins',
 		//	array(
@@ -669,6 +672,7 @@ class cnAdminActions {
 		//		}
 		//	}
 		//}
+		// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 		?>
 		<form id="plugin-filter" method="post">
@@ -681,6 +685,7 @@ class cnAdminActions {
 				self::installDisplayGroup( 'Free' );
 			}
 
+			// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 			//if ( ! is_wp_error( $mam ) ) {
 			//
 			//	// Update the links to TSL to use the affiliate URL.
@@ -690,6 +695,7 @@ class cnAdminActions {
 			//	$wp_list_table->items = array( $mam );
 			//	self::installDisplayGroup( 'Mobile App' );
 			//}
+			// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 			if ( ! is_wp_error( $offers ) ) {
 

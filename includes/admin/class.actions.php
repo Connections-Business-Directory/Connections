@@ -541,7 +541,7 @@ class cnAdminActions {
 				'icons'           => true,
 				'active_installs' => true,
 			),
-			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
+			// Send the locale and installed plugin slugs to the API, so it can provide context-sensitive results.
 			'locale'   => get_user_locale(),
 			// 'installed_plugins' => $this->get_installed_plugin_slugs(),
 		);

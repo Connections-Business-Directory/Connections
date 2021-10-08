@@ -727,7 +727,7 @@ class cnAdminActions {
 		/** @var WP_Plugin_Install_List_Table $wp_list_table */
 		global $wp_list_table;
 
-		// needs an extra wrapping div for nth-child selectors to work
+		// Needs an extra wrapping div for nth-child selectors to work.
 		?>
 		<div class="plugin-group"><h3> <?php echo esc_html( $name ); ?></h3>
 			<div class="plugin-items">

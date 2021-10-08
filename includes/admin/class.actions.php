@@ -855,7 +855,7 @@ class cnAdminActions {
 			);
 		}
 
-		if ( ! file_exists( $_REQUEST['file']['path'] ) ) {
+		if ( ! isset( $_REQUEST['file']['path'] ) || ! file_exists( $_REQUEST['file']['path'] ) ) {
 			wp_send_json_error(
 				array(
 					'message' => __(

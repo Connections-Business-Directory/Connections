@@ -548,7 +548,7 @@ class cnAdminActions {
 
 		$args['installed_plugins'] = array( 'connections' );
 		$args['author']            = 'shazahm1hotmailcom';
-		//$args['search'] = 'Connections Business Directory';
+		// $args['search'] = 'Connections Business Directory';
 
 		add_action( 'install_plugins_connections', array( __CLASS__, 'installResults' ), 9, 1 );
 

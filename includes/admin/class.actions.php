@@ -752,7 +752,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Phone_Numbers();
 		$nonce  = wp_create_nonce( 'export_csv_phone_numbers' );
 
@@ -773,7 +773,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Email();
 		$nonce  = wp_create_nonce( 'export_csv_email' );
 
@@ -794,7 +794,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Dates();
 		$nonce  = wp_create_nonce( 'export_csv_dates' );
 
@@ -815,7 +815,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Term();
 		$nonce  = wp_create_nonce( 'export_csv_term' );
 
@@ -871,7 +871,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 		require_once CN_PATH . 'includes/import/class.csv-import-batch-category.php';
 
-		$step   = absint( $_REQUEST['step'] );
+		$step   = isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1;
 		$import = new cnCSV_Batch_Import_Term( $_REQUEST['file']['path'] );
 		$nonce  = wp_create_nonce( 'import_csv_term' );
 
@@ -892,7 +892,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_All();
 		$nonce  = wp_create_nonce( 'export_csv_all' );
 

@@ -598,7 +598,6 @@ class cnAdminActions {
 					unset( $wp_list_table->items[ $key ] );
 				}
 			}
-
 		}
 
 		// Save the items from the original query.

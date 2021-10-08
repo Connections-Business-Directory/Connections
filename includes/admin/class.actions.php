@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Utility\_sanitize;
+use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\categoryManagement;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\deleteCategory;
@@ -847,9 +848,9 @@ class cnAdminActions {
 			);
 		}
 
-		if ( empty( $_REQUEST['file']['type'] ) || ! in_array( wp_unslash( $_REQUEST['file']['type'] ), array( 'text/csv', 'text/plain' ), true ) ) {
 		$path = isset( $_REQUEST['file']['path'] ) ? _sanitize::filePath( wp_unslash( $_REQUEST['file']['path'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
+		if ( empty( $path ) || ! _validate::isCSV( $path ) ) {
 			wp_send_json_error(
 				array(
 					'message' => __( 'The uploaded file does not appear to be a CSV file.', 'connections' ),

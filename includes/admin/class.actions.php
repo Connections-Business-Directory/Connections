@@ -1132,7 +1132,7 @@ class cnAdminActions {
 
 			wp_send_json_success(
 				array(
-					'map'        => json_encode( $import->getMap() ),
+					'map'        => wp_json_encode( $import->getMap() ),
 					'step'       => $step,
 					'count'      => $count,
 					'imported'   => $imported,

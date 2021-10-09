@@ -1068,7 +1068,7 @@ class cnAdminActions {
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => $result->get_error_message()
+					'message' => $result->get_error_message(),
 				)
 			);
 		}

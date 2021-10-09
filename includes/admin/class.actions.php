@@ -1039,8 +1039,6 @@ class cnAdminActions {
 
 			if ( is_wp_error( $headers ) ) {
 
-				error_log( print_r( $headers, true ) );
-
 				wp_send_json_error(
 					array(
 						'form'    => $_POST,

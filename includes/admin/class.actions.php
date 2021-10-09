@@ -994,7 +994,7 @@ class cnAdminActions {
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => __( 'Nonce verification failed', 'connections' )
+					'message' => __( 'Nonce verification failed', 'connections' ),
 				)
 			);
 		}
@@ -1004,7 +1004,7 @@ class cnAdminActions {
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => __( 'You do not have permission to import data.', 'connections' )
+					'message' => __( 'You do not have permission to import data.', 'connections' ),
 				)
 			);
 		}

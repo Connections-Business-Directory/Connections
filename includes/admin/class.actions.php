@@ -1102,6 +1102,7 @@ class cnAdminActions {
 		/**
 		 * Prevent the taxonomy hierarchy from being purged and built after each term insert because
 		 * it severely slows down the import as the number of terms being imported increases.
+		 *
 		 * @see cnTerm::cleanCache()
 		 */
 		add_filter( "pre_option_cn_{$taxonomy}_children", '__return_empty_array' );

@@ -952,7 +952,7 @@ class cnAdminActions {
 				)
 			);
 
-		} elseif ( TRUE === $export->is_empty ) {
+		} elseif ( true === $export->is_empty ) {
 
 			wp_send_json_error(
 				array(

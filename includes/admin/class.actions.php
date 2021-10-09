@@ -1107,7 +1107,7 @@ class cnAdminActions {
 		 */
 		add_filter( "pre_option_cn_{$taxonomy}_children", '__return_empty_array' );
 
-		$import->setMap( json_decode( wp_unslash( $_REQUEST['map'] ) ) );
+		$import->setMap( json_decode( wp_unslash( $_REQUEST['map'] ), true ) );
 
 		$result = $import->process( $step );
 

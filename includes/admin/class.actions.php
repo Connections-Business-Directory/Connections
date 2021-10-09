@@ -987,11 +987,6 @@ class cnAdminActions {
 	 */
 	public static function uploadCSV() {
 
-		//if ( ! function_exists( 'wp_handle_upload' ) ) {
-		//
-		//	require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		//}
-
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'csv_upload' ) ) {

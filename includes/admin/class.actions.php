@@ -979,6 +979,12 @@ class cnAdminActions {
 		}
 	}
 
+	/**
+	 * Callback for the `wp_ajax_csv_upload` action.
+	 *
+	 * @access private
+	 * @since  unknown
+	 */
 	public static function uploadCSV() {
 
 		//if ( ! function_exists( 'wp_handle_upload' ) ) {

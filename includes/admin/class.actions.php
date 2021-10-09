@@ -989,7 +989,7 @@ class cnAdminActions {
 
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'csv_upload' ) ) {
+		if ( ! isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), 'csv_upload' ) ) {
 
 			wp_send_json_error(
 				array(

@@ -1020,7 +1020,8 @@ class cnAdminActions {
 		}
 
 		$upload = new cnUpload(
-			$_FILES['cn-import-file'],
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$_FILES['cn-import-file'], // Uses `wp_handle_upload()` internally.
 			array(
 				'mimes' => array(
 					'csv' => 'text/csv',

@@ -956,7 +956,7 @@ class cnAdminActions {
 
 			wp_send_json_error(
 				array(
-					'message' => __( 'No data found for export parameters.', 'connections' )
+					'message' => __( 'No data found for export parameters.', 'connections' ),
 				)
 			);
 

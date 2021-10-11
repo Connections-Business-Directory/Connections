@@ -1509,7 +1509,6 @@ class cnAdminActions {
 
 							$metaIDs['deleted'] = $row['meta_id'];
 						}
-
 					}
 				}
 

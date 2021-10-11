@@ -1093,7 +1093,7 @@ class cnAdminActions {
 
 			wp_send_json_error(
 				array(
-					'form'    => $_POST,
+					'form'    => $_POST, // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					'message' => __( 'You do not have permission to export data.', 'connections' ),
 				)
 			);
@@ -1115,7 +1115,7 @@ class cnAdminActions {
 
 			wp_send_json_error(
 				array(
-					'form'    => $_POST,
+					'form'    => $_POST, // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					'message' => $result->get_error_message(),
 				)
 			);

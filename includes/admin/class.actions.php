@@ -1336,9 +1336,6 @@ class cnAdminActions {
 				break;
 		}
 
-		// do_action( 'cn_process_meta-entry', $action, $id );
-		// do_action( 'cn_process_meta-entry-' . $action, $action, $id );
-
 		wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
 
 		exit();

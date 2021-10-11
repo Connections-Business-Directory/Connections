@@ -1663,7 +1663,7 @@ class cnAdminActions {
 				return;
 			}
 
-			cnEntry_Action::visibility( $visibility, $_POST['id'] );
+			cnEntry_Action::visibility( $visibility, absint( $_POST['id'] ) );
 
 			cnMessage::set( 'success', 'form_entry_visibility_bulk' );
 

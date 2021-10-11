@@ -1658,12 +1658,12 @@ class cnAdminActions {
 
 			$permitted = array( 'public', 'private', 'unlisted' );
 
-			if ( ! in_array( $visibility, $permitted ) || ! isset( $_POST['id'] ) ) {
+			if ( ! in_array( $visibility, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 				return;
 			}
 
-			cnEntry_Action::visibility( $visibility, absint( $_POST['id'] ) );
+			cnEntry_Action::visibility( $visibility, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			cnMessage::set( 'success', 'form_entry_visibility_bulk' );
 

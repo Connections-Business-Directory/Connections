@@ -1470,7 +1470,7 @@ class cnAdminActions {
 							FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
 							ORDER BY meta_key,meta_id", $id ), ARRAY_A );
 
-				if ( $results !== FALSE ) {
+				if ( $results !== false ) {
 
 					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {

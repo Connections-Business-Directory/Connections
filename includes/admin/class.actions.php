@@ -1721,12 +1721,12 @@ class cnAdminActions {
 		if ( current_user_can( 'connections_delete_entry' ) ) {
 
 			// @TODO $POST['id'] should be passed to the method as an attribute.
-			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) {
+			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 				return;
 			}
 
-			cnEntry_Action::delete( absint( $_POST['id'] ) );
+			cnEntry_Action::delete( absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 

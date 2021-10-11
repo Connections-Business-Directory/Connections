@@ -1336,7 +1336,7 @@ class cnAdminActions {
 				break;
 		}
 
-		wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), $redirect ) );
 
 		exit();
 	}

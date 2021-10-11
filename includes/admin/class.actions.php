@@ -1563,7 +1563,7 @@ class cnAdminActions {
 		 */
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			//  The permitted statuses.
+			// The permitted statuses.
 			$permitted = array( 'pending', 'approved' );
 
 			// If `status` was not supplied, check $_GET.

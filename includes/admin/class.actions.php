@@ -1156,7 +1156,13 @@ class cnAdminActions {
 
 		} else {
 
-			$url = add_query_arg( array( 'page' => 'connections_tools', 'tab' => 'import' ), self_admin_url( 'admin.php' ) );
+			$url = add_query_arg(
+				array(
+					'page' => 'connections_tools',
+					'tab'  => 'import',
+				),
+				self_admin_url( 'admin.php' )
+			);
 
 			wp_send_json_success(
 				array(

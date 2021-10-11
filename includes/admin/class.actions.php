@@ -1794,17 +1794,17 @@ class cnAdminActions {
 		// Set the moderation filter for the current user if set in the query string.
 		if ( isset( $_GET['status'] ) ) {
 
-			$connections->currentUser->setFilterStatus( $_GET['status'] );
+			$connections->currentUser->setFilterStatus( sanitize_key( $_GET['status'] ) );
 		}
 
 		if ( isset( $_POST['entry_type'] ) ) {
 
-			$connections->currentUser->setFilterEntryType( esc_attr( $_POST['entry_type'] ) );
+			$connections->currentUser->setFilterEntryType( sanitize_key( $_POST['entry_type'] ) );
 		}
 
 		if ( isset( $_POST['visibility_type'] ) ) {
 
-			$connections->currentUser->setFilterVisibility( esc_attr( $_POST['visibility_type'] ) );
+			$connections->currentUser->setFilterVisibility( sanitize_key( $_POST['visibility_type'] ) );
 		}
 
 		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) {

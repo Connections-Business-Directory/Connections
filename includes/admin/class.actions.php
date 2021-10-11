@@ -1274,7 +1274,7 @@ class cnAdminActions {
 	public static function processEntry() {
 
 		$form   = new cnFormObjects();
-		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
+		$action = isset( $_REQUEST['cn-action'] ) ? sanitize_key( $_REQUEST['cn-action'] ) : '';
 
 		// Set up the redirect URL.
 		$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_add';

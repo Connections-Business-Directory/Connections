@@ -1752,9 +1752,8 @@ class cnAdminActions {
 		self::saveUserFilters();
 
 		/*
-		 * Setup the redirect.
+		 * Set up the redirect.
 		 */
-
 		if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
 			$queryVar['s'] = urlencode( $_REQUEST['s'] );
 		}

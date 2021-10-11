@@ -1518,7 +1518,10 @@ class cnAdminActions {
 					foreach ( $_POST['newmeta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}

@@ -1759,8 +1759,9 @@ class cnAdminActions {
 			$queryVar['s'] = urlencode( _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
-		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {
-			$queryVar['cn-char'] = urlencode( $_GET['cn-char'] );
+		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+			$queryVar['cn-char'] = urlencode( _sanitize::character( wp_unslash( $_GET['cn-char'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
 		/*

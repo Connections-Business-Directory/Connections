@@ -1624,12 +1624,10 @@ class cnAdminActions {
 			switch ( $status ) {
 
 				case 'pending':
-
 					cnMessage::set( 'success', 'form_entry_pending_bulk' );
 					break;
 
 				case 'approved':
-
 					cnMessage::set( 'success', 'form_entry_approve_bulk' );
 					break;
 			}

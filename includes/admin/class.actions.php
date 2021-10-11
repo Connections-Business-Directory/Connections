@@ -1622,7 +1622,7 @@ class cnAdminActions {
 				return;
 			}
 
-			cnEntry_Action::status( $status, absint( $_POST['id'] ) );
+			cnEntry_Action::status( $status, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			switch ( $status ) {
 

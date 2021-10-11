@@ -1142,12 +1142,10 @@ class cnAdminActions {
 			$remaining  = 0 < $count - $imported ? $count - $imported : 0;
 			$percentage = $import->getPercentageComplete();
 
-			$step += 1;
-
 			wp_send_json_success(
 				array(
 					'map'        => wp_json_encode( $import->getMap() ),
-					'step'       => $step,
+					'step'       => ++$step,
 					'count'      => $count,
 					'imported'   => $imported,
 					'remaining'  => $remaining,

@@ -1381,7 +1381,7 @@ class cnAdminActions {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		if ( ! $id = absint( $id ) ) return FALSE;
+		if ( ! $id = absint( $id ) ) return false;
 
 		$meta       = array();
 		$newmeta    = array();

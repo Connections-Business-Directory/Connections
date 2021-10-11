@@ -1396,7 +1396,7 @@ class cnAdminActions {
 			case 'add':
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					foreach ( $_POST['newmeta'] as $row ) {
+					foreach ( $_POST['newmeta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
 						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
@@ -1421,7 +1421,7 @@ class cnAdminActions {
 				// Copy any meta associated with the source entry to the new entry.
 				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					foreach ( $_POST['meta'] as $row ) {
+					foreach ( $_POST['meta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
 						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
@@ -1440,7 +1440,7 @@ class cnAdminActions {
 				// Lastly, add any new meta the user may have added.
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					foreach ( $_POST['newmeta'] as $row ) {
+					foreach ( $_POST['newmeta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
 						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
@@ -1456,7 +1456,7 @@ class cnAdminActions {
 
 				if ( isset( $_POST['metakeyselect'] ) && '-1' !== $_POST['metakeyselect'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				}
 
 				$metaIDs['added'] = array_merge( $meta, $newmeta, $metaSelect );

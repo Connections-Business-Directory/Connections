@@ -1410,7 +1410,7 @@ class cnAdminActions {
 
 				if ( isset( $_POST['metakeyselect'] ) && '-1' !== $_POST['metakeyselect'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );

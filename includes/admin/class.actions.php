@@ -1595,7 +1595,7 @@ class cnAdminActions {
 			cnMessage::set( 'error', 'capability_edit' );
 		}
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
 
 		exit();
 	}

@@ -1658,7 +1658,7 @@ class cnAdminActions {
 
 			$permitted = array( 'public', 'private', 'unlisted' );
 
-			if ( ! in_array( $visibility, $permitted ) ) {
+			if ( ! in_array( $visibility, $permitted ) || ! isset( $_POST['id'] ) ) {
 
 				return;
 			}

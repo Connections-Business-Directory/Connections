@@ -1399,7 +1399,10 @@ class cnAdminActions {
 					foreach ( $_POST['newmeta'] as $row ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						$newmeta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}

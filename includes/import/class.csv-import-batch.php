@@ -97,7 +97,7 @@ class cnCSV_Batch_Import {
 		if ( ! class_exists( 'parseCSV' ) ) {
 
 			require_once CN_PATH . 'vendor/parse-csv/parsecsv.lib.php';
-			require_once CN_PATH . 'vendor/parse-csv/cn-parsecsv.lib.php';
+			require_once CN_PATH . 'vendor/parse-csv/cn-parsecsv.lib.v1.1.php';
 		}
 
 		$this->file = $file;
@@ -246,10 +246,43 @@ class cnCSV_Batch_Import {
 		if ( ! empty( $data ) ) {
 
 			$more = TRUE;
+			$this->mapData( $data );
 			$this->import( $data );
 		}
 
 		return $more;
+	}
+
+	/**
+	 * Map the CSV rows to Connections field by user supplied key.
+	 *
+	 * @access private
+	 * @since  10.4.4
+	 *
+	 * @param array $sourceData The parse data from a CSV file.
+	 *
+	 * @return array
+	 */
+	private function mapData( &$sourceData ) {
+
+		$map = $this->getMap();
+
+		// Map the CSV data by row to the Connections field defined by the supplied map $csvMap.
+		// This does create the array of objects used for the actual import.
+		foreach ( $sourceData as $rowIndex => $rowValue ) {
+
+			reset( $map );
+
+			foreach ( $rowValue as $value ) {
+
+				$csvHeader = key( $map );
+
+				$sourceData[ $rowIndex ][ $csvHeader ] = $value;
+				next( $map );
+			}
+		}
+
+		return $sourceData;
 	}
 
 	/**

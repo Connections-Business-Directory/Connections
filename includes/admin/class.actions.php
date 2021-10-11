@@ -1649,7 +1649,7 @@ class cnAdminActions {
 	 *
 	 * @param string $visibility The entry visibility that should be set.
 	 */
-	static public function setEntryVisibilityBulk( $visibility ) {
+	public static function setEntryVisibilityBulk( $visibility ) {
 
 		/*
 		 * Check whether the current user can edit entries.

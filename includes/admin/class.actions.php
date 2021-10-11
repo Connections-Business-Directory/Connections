@@ -1424,10 +1424,16 @@ class cnAdminActions {
 					foreach ( $_POST['meta'] as $row ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						// Add the meta except for those that the user deleted for this entry.
-						if ( $row['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+						if ( $row['value'] !== '::DELETED::' ) {
+
+							$meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+						}
 					}
 				}
 
@@ -1437,7 +1443,10 @@ class cnAdminActions {
 					foreach ( $_POST['newmeta'] as $row ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -1466,7 +1475,10 @@ class cnAdminActions {
 					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {
 
-						if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $row['meta_id'] ] );
+						if ( cnMeta::isPrivate( $row['meta_key'] ) ) {
+
+							unset( $results[ $row['meta_id'] ] );
+						}
 					}
 
 					// Loop thru the associated meta and update any that may have been changed.

@@ -1465,7 +1465,6 @@ class cnAdminActions {
 
 			case 'update':
 				// Query the meta associated to the entry.
-				//$results = cnMeta::get( 'entry', $id );
 				$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
 							FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
 							ORDER BY meta_key,meta_id", $id ), ARRAY_A );

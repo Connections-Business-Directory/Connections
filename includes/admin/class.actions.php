@@ -1306,7 +1306,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					cnEntry_Action::copy( $_GET['id'], $_POST );
+					cnEntry_Action::copy( absint( $_GET['id'] ), $_POST );
 
 				} else {
 
@@ -1326,7 +1326,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 
-					cnEntry_Action::update( $_GET['id'], $_POST );
+					cnEntry_Action::update( absint( $_GET['id'] ), $_POST );
 
 				} else {
 

@@ -1408,7 +1408,7 @@ class cnAdminActions {
 					}
 				}
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+				if ( isset( $_POST['metakeyselect'] ) && '-1' !== $_POST['metakeyselect'] ) {
 
 					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}

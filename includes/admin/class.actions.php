@@ -1202,45 +1202,37 @@ class cnAdminActions {
 		switch ( $action ) {
 
 			case 'delete':
-
 				// Bulk delete entries.
 				self::deleteEntryBulk();
 				break;
 
 			case 'approve':
-
 				// Bulk approve entries.
 				self::setEntryStatusBulk( 'approved' );
 				break;
 
 			case 'unapprove':
-
 				// Bulk unapprove entries.
 				self::setEntryStatusBulk( 'pending' );
 				break;
 
 			case 'public':
-
 				// Set entries to public visibility in bulk.
 				self::setEntryVisibilityBulk( 'public' );
 				break;
 
 			case 'private':
-
 				// Set entries to private visibility in bulk.
 				self::setEntryVisibilityBulk( 'private' );
 				break;
 
 			case 'unlisted':
-
 				// Set entries to unlisted visibility in bulk.
 				self::setEntryVisibilityBulk( 'unlisted' );
 				break;
 
 			default:
-
 				/* None, blank intentionally. */
-
 				break;
 		}
 

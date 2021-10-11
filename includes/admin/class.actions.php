@@ -1302,7 +1302,7 @@ class cnAdminActions {
 				/*
 				 * Check whether the current user can add an entry.
 				 */
-				if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) ) {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
@@ -1322,7 +1322,7 @@ class cnAdminActions {
 				/*
 				 * Check whether the current user can edit an entry.
 				 */
-				if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) ) {
 
 					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 

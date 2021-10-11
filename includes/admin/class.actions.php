@@ -1529,7 +1529,7 @@ class cnAdminActions {
 					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
 				}
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+				if ( isset( $_POST['metakeyselect'] ) && '-1' !== $_POST['metakeyselect'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}

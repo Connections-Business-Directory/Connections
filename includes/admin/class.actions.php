@@ -1766,8 +1766,7 @@ class cnAdminActions {
 		/*
 		 * Do the redirect.
 		 */
-
-		wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryVar, 'admin.php?page=connections_manage' ) ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryVar, 'admin.php?page=connections_manage' ) ) );
 
 		exit();
 	}

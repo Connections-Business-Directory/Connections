@@ -1617,7 +1617,10 @@ class cnAdminActions {
 
 			$permitted = array( 'pending', 'approved' );
 
-			if ( ! in_array( $status, $permitted ) ) return;
+			if ( ! in_array( $status, $permitted ) ) {
+
+				return;
+			}
 
 			cnEntry_Action::status( $status, $_POST['id'] );
 

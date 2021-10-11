@@ -1617,7 +1617,7 @@ class cnAdminActions {
 
 			$permitted = array( 'pending', 'approved' );
 
-			if ( ! in_array( $status, $permitted ) ) {
+			if ( ! in_array( $status, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 				return;
 			}

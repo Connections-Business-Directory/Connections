@@ -1277,7 +1277,7 @@ class cnAdminActions {
 		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
 
 		// Set up the redirect URL.
-		$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
+		$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_add';
 
 		switch ( $action ) {
 
@@ -1317,7 +1317,7 @@ class cnAdminActions {
 
 			case 'update_entry':
 				// Set up the redirect URL.
-				$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';
+				$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_manage';
 
 				/*
 				 * Check whether the current user can edit an entry.

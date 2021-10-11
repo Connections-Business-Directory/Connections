@@ -1841,7 +1841,7 @@ class cnAdminActions {
 			$page = new stdClass();
 
 			$page->name  = 'manage';
-			$page->limit = $_POST['settings']['page']['limit']; // phpcs:ignore WordPress.Security.NonceVerification
+			$page->limit = absint( $_POST['settings']['page']['limit'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$connections->currentUser->setFilterPage( $page );
 		}

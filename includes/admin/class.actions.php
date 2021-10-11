@@ -1502,7 +1502,7 @@ class cnAdminActions {
 							$metaIDs['updated'] = $row['meta_id'];
 						}
 
-						if ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						if ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && '::DELETED::' === $_POST['meta'][ $row['meta_id'] ]['value'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 							// Record entry meta to be deleted.
 							cnMeta::deleteByID( 'entry', $row['meta_id'] );

@@ -1276,7 +1276,7 @@ class cnAdminActions {
 		$form   = new cnFormObjects();
 		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
 
-		// Setup the redirect URL.
+		// Set up the redirect URL.
 		$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
 
 		switch ( $action ) {

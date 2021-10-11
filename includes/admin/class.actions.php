@@ -1197,7 +1197,7 @@ class cnAdminActions {
 		self::saveUserFilters();
 
 		// Grab the bulk action requested by user.
-		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? $_POST['action'] : 'none';
+		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? sanitize_key( $_POST['action'] ) : 'none';
 
 		switch ( $action ) {
 

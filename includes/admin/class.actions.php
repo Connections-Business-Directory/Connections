@@ -1248,8 +1248,10 @@ class cnAdminActions {
 		// if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) )
 		// 	$queryVar['s'] = urlencode( $_GET['s'] );
 
-		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) )
+		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {
+
 			$queryVar['cn-char'] = urlencode( $_GET['cn-char'] );
+		}
 
 		/*
 		 * Do the redirect.

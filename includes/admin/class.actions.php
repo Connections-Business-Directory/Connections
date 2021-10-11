@@ -1430,7 +1430,7 @@ class cnAdminActions {
 						}
 
 						// Add the meta except for those that the user deleted for this entry.
-						if ( $row['value'] !== '::DELETED::' ) {
+						if ( '::DELETED::' !== $row['value'] ) {
 
 							$meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 						}

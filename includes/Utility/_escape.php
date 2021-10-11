@@ -93,7 +93,7 @@ final class _escape {
 			add_filter( 'wp_kses_allowed_html', $callback, 10, 2 );
 		}
 
-		return wp_kses( (string) $html, 'Connections_Directory/Escape/HTML' );
+		return wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Escape/HTML' );
 	}
 
 	/**

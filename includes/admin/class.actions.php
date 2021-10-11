@@ -1193,7 +1193,7 @@ class cnAdminActions {
 		 * Run user requested actions.
 		 */
 
-		// Process user selected filters
+		// Process user selected filters.
 		self::saveUserFilters();
 
 		// Grab the bulk action requested by user.

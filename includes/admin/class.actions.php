@@ -1658,7 +1658,10 @@ class cnAdminActions {
 
 			$permitted = array( 'public', 'private', 'unlisted' );
 
-			if ( ! in_array( $visibility, $permitted ) ) return;
+			if ( ! in_array( $visibility, $permitted ) ) {
+
+				return;
+			}
 
 			cnEntry_Action::visibility( $visibility, $_POST['id'] );
 

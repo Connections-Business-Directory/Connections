@@ -1282,7 +1282,6 @@ class cnAdminActions {
 		switch ( $action ) {
 
 			case 'add_entry':
-
 				/*
 				 * Check whether the current user can add an entry.
 				 */
@@ -1300,7 +1299,6 @@ class cnAdminActions {
 				break;
 
 			case 'copy_entry':
-
 				/*
 				 * Check whether the current user can add an entry.
 				 */
@@ -1318,7 +1316,6 @@ class cnAdminActions {
 				break;
 
 			case 'update_entry':
-
 				// Setup the redirect URL.
 				$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';
 

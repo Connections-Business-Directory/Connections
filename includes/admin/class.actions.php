@@ -1569,7 +1569,7 @@ class cnAdminActions {
 			// If `status` was not supplied, check $_GET.
 			if ( ( empty( $status ) ) && ( isset( $_GET['status'] ) && ! empty( $_GET['status'] ) ) ) {
 
-				$status = $_GET['status'];
+				$status = sanitize_key( $_GET['status'] );
 
 			}
 

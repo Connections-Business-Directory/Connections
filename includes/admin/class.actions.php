@@ -1394,7 +1394,7 @@ class cnAdminActions {
 		switch ( $action ) {
 
 			case 'add':
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 					foreach ( $_POST['newmeta'] as $row ) {
 
@@ -1416,7 +1416,7 @@ class cnAdminActions {
 
 			case 'copy':
 				// Copy any meta associated with the source entry to the new entry.
-				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) {
+				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 					foreach ( $_POST['meta'] as $row ) {
 
@@ -1429,7 +1429,7 @@ class cnAdminActions {
 				}
 
 				// Lastly, add any new meta the user may have added.
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 					foreach ( $_POST['newmeta'] as $row ) {
 
@@ -1442,7 +1442,7 @@ class cnAdminActions {
 					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
 				}
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}
@@ -1471,7 +1471,7 @@ class cnAdminActions {
 					foreach ( $results as $metaID => $row ) {
 
 						// Update the entry meta if it differs.
-						if ( ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] !== $row['meta_value'] ) ||
+						if ( ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] !== $row['meta_value'] ) || // phpcs:ignore WordPress.Security.NonceVerification.Missing
 							 ( isset( $_POST['meta'][ $row['meta_id'] ]['key'] )   && $_POST['meta'][ $row['meta_id'] ]['key']   !== $row['meta_key']   ) &&
 							 ( $_POST['meta'][ $row['meta_id'] ]['value'] !== '::DELETED::' ) ) {
 
@@ -1484,7 +1484,7 @@ class cnAdminActions {
 							$metaIDs['updated'] = $row['meta_id'];
 						}
 
-						if ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) {
+						if ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 							// Record entry meta to be deleted.
 							cnMeta::deleteByID( 'entry', $row['meta_id'] );
@@ -1496,7 +1496,7 @@ class cnAdminActions {
 				}
 
 				// Lastly, add any new meta the user may have added.
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 					foreach ( $_POST['newmeta'] as $row ) {
 
@@ -1509,7 +1509,7 @@ class cnAdminActions {
 					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
 				}
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}

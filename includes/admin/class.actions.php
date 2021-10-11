@@ -1374,7 +1374,7 @@ class cnAdminActions {
 	 * @param  string $action The action to being performed to an entry.
 	 * @param  int    $id     The entry ID.
 	 *
-	 * @return mixed          array | bool  An array of meta IDs or FALSE on failure.
+	 * @return array|false An array of meta IDs or FALSE on failure.
 	 */
 	public static function processEntryMeta( $action, $id ) {
 

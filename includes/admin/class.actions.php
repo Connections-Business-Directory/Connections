@@ -1726,7 +1726,7 @@ class cnAdminActions {
 				return;
 			}
 
-			cnEntry_Action::delete( $_POST['id'] );
+			cnEntry_Action::delete( absint( $_POST['id'] ) );
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 

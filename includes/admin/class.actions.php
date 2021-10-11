@@ -1582,12 +1582,10 @@ class cnAdminActions {
 			switch ( $status ) {
 
 				case 'pending':
-
 					cnMessage::set( 'success', 'form_entry_pending' );
 					break;
 
 				case 'approve':
-
 					cnMessage::set( 'success', 'form_entry_approve' );
 					break;
 			}

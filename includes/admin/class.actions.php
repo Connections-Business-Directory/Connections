@@ -1684,7 +1684,7 @@ class cnAdminActions {
 	public static function deleteEntry( $id = 0 ) {
 
 		// If no entry ID was supplied, check $_GET.
-		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? $_GET['id'] : $id;
+		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : $id;
 
 		check_admin_referer( 'entry_delete_' . $id );
 

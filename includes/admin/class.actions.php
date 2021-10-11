@@ -1237,7 +1237,7 @@ class cnAdminActions {
 		}
 
 		/*
-		 * Setup the redirect.
+		 * Set up the redirect.
 		 */
 
 		if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {

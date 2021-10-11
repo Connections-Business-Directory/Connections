@@ -1516,7 +1516,7 @@ class cnAdminActions {
 				// Lastly, add any new meta the user may have added.
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					foreach ( $_POST['newmeta'] as $row ) {
+					foreach ( $_POST['newmeta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
 						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );

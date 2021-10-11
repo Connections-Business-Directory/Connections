@@ -1242,7 +1242,7 @@ class cnAdminActions {
 
 		if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
 
-			$queryVar['s'] = urlencode( wp_unslash( $_REQUEST['s'] ) );
+			$queryVar['s'] = urlencode( _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
 		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {

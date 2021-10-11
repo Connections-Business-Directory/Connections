@@ -1820,7 +1820,7 @@ class cnAdminActions {
 
 			$page = new stdClass();
 
-			$page->name = 'manage';
+			$page->name    = 'manage';
 			$page->current = absint( $_POST['pg'] );
 
 			$connections->currentUser->setFilterPage( $page );
@@ -1830,7 +1830,7 @@ class cnAdminActions {
 
 			$page = new stdClass();
 
-			$page->name = 'manage';
+			$page->name    = 'manage';
 			$page->current = absint( $_GET['pg'] );
 
 			$connections->currentUser->setFilterPage( $page );
@@ -1840,7 +1840,7 @@ class cnAdminActions {
 
 			$page = new stdClass();
 
-			$page->name = 'manage';
+			$page->name  = 'manage';
 			$page->limit = $_POST['settings']['page']['limit'];
 
 			$connections->currentUser->setFilterPage( $page );

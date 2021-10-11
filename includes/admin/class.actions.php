@@ -1107,7 +1107,21 @@ class cnAdminActions {
 		 */
 		add_filter( "pre_option_cn_{$taxonomy}_children", '__return_empty_array' );
 
-		$import->setMap( json_decode( sanitize_text_field( wp_unslash( $_REQUEST['map'] ) ), true ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_REQUEST['map'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			wp_send_json_error(
+				array(
+					'form'    => $_POST, // phpcs:ignore WordPress.Security.NonceVerification.Missing
+					'message' => 'Invalid CSV to field map provided.',
+				)
+			);
+
+		} else {
+
+			$map = json_decode( sanitize_text_field( wp_unslash( $_REQUEST['map'] ) ), true ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		$import->setMap( $map );
 
 		$result = $import->process( $step );
 

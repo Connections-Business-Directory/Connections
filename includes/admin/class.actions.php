@@ -1394,7 +1394,6 @@ class cnAdminActions {
 		switch ( $action ) {
 
 			case 'add':
-
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
 
 					foreach ( $_POST['newmeta'] as $row ) {
@@ -1416,7 +1415,6 @@ class cnAdminActions {
 				break;
 
 			case 'copy':
-
 				// Copy any meta associated with the source entry to the new entry.
 				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) {
 
@@ -1454,7 +1452,6 @@ class cnAdminActions {
 				break;
 
 			case 'update':
-
 				// Query the meta associated to the entry.
 				//$results = cnMeta::get( 'entry', $id );
 				$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id

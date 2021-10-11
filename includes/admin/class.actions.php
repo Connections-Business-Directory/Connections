@@ -1545,7 +1545,7 @@ class cnAdminActions {
 	/**
 	 * Set the entry status to pending or approved.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
 	 * @param int    $id     Entry ID.
@@ -1603,12 +1603,10 @@ class cnAdminActions {
 	/**
 	 * Set the approval status of entries in bulk.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @param  string $status The entry status that should be set.
-	 *
-	 * @return void
+	 * @param string $status The entry status that should be set.
 	 */
 	public static function setEntryStatusBulk( $status ) {
 
@@ -1645,12 +1643,10 @@ class cnAdminActions {
 	/**
 	 * Set the visibility status of entries in bulk.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @param  string $visibility The entry visibility that should be set.
-	 *
-	 * @return void
+	 * @param string $visibility The entry visibility that should be set.
 	 */
 	static public function setEntryVisibilityBulk( $visibility ) {
 
@@ -1676,12 +1672,10 @@ class cnAdminActions {
 	/**
 	 * Delete an entry.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @param int $id [optional] Entry ID.
-	 *
-	 * @return void
+	 * @param int $id Entry ID.
 	 */
 	public static function deleteEntry( $id = 0 ) {
 
@@ -1712,10 +1706,8 @@ class cnAdminActions {
 	/**
 	 * Delete entries in bulk.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
-	 *
-	 * @return void
 	 */
 	public static function deleteEntryBulk() {
 
@@ -1741,10 +1733,8 @@ class cnAdminActions {
 	/**
 	 * Process user filters.
 	 *
-	 * @access public
+	 * @access private
 	 * @since 0.7.8
-	 *
-	 * @return void
 	 */
 	public static function userFilter() {
 
@@ -1778,10 +1768,8 @@ class cnAdminActions {
 	/**
 	 * Save user filters.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
-	 *
-	 * @return void
 	 */
 	public static function saveUserFilters() {
 

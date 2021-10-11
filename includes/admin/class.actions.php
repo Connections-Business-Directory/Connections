@@ -1473,7 +1473,7 @@ class cnAdminActions {
 					ARRAY_A
 				);
 
-				if ( $results !== false ) {
+				if ( false !== $results ) {
 
 					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {

@@ -1316,7 +1316,7 @@ class cnAdminActions {
 				break;
 
 			case 'update_entry':
-				// Setup the redirect URL.
+				// Set up the redirect URL.
 				$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';
 
 				/*

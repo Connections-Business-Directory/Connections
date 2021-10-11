@@ -1792,56 +1792,56 @@ class cnAdminActions {
 		global $connections;
 
 		// Set the moderation filter for the current user if set in the query string.
-		if ( isset( $_GET['status'] ) ) {
+		if ( isset( $_GET['status'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
-			$connections->currentUser->setFilterStatus( sanitize_key( $_GET['status'] ) );
+			$connections->currentUser->setFilterStatus( sanitize_key( $_GET['status'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
-		if ( isset( $_POST['entry_type'] ) ) {
+		if ( isset( $_POST['entry_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
-			$connections->currentUser->setFilterEntryType( sanitize_key( $_POST['entry_type'] ) );
+			$connections->currentUser->setFilterEntryType( sanitize_key( $_POST['entry_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
-		if ( isset( $_POST['visibility_type'] ) ) {
+		if ( isset( $_POST['visibility_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
-			$connections->currentUser->setFilterVisibility( sanitize_key( $_POST['visibility_type'] ) );
+			$connections->currentUser->setFilterVisibility( sanitize_key( $_POST['visibility_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
-		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) {
+		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
 
-			$connections->currentUser->setFilterCategory( absint( $_POST['category'] ) );
+			$connections->currentUser->setFilterCategory( absint( $_POST['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
-		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) {
+		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
 
-			$connections->currentUser->setFilterCategory( absint( $_GET['category'] ) );
+			$connections->currentUser->setFilterCategory( absint( $_GET['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
-		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) {
+		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
 			$page = new stdClass();
 
 			$page->name    = 'manage';
-			$page->current = absint( $_POST['pg'] );
+			$page->current = absint( $_POST['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$connections->currentUser->setFilterPage( $page );
 		}
 
-		if ( isset( $_GET['pg'] ) && ! empty( $_GET['pg'] ) ) {
+		if ( isset( $_GET['pg'] ) && ! empty( $_GET['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
 			$page = new stdClass();
 
 			$page->name    = 'manage';
-			$page->current = absint( $_GET['pg'] );
+			$page->current = absint( $_GET['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$connections->currentUser->setFilterPage( $page );
 		}
 
-		if ( isset( $_POST['settings']['page']['limit'] ) ) {
+		if ( isset( $_POST['settings']['page']['limit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
 			$page = new stdClass();
 
 			$page->name  = 'manage';
-			$page->limit = $_POST['settings']['page']['limit'];
+			$page->limit = $_POST['settings']['page']['limit']; // phpcs:ignore WordPress.Security.NonceVerification
 
 			$connections->currentUser->setFilterPage( $page );
 		}

@@ -1548,10 +1548,8 @@ class cnAdminActions {
 	 * @access public
 	 * @since  0.7.8
 	 *
-	 * @param int $id [optional] Entry ID.
-	 * @param string $status [optional] The entry status to be assigned.
-	 *
-	 * @return void
+	 * @param int    $id     Entry ID.
+	 * @param string $status The entry status to be assigned.
 	 */
 	public static function setEntryStatus( $id = 0, $status = '' ) {
 

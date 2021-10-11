@@ -1792,15 +1792,32 @@ class cnAdminActions {
 		global $connections;
 
 		// Set the moderation filter for the current user if set in the query string.
-		if ( isset( $_GET['status'] ) ) $connections->currentUser->setFilterStatus( $_GET['status'] );
+		if ( isset( $_GET['status'] ) ) {
 
-		if ( isset( $_POST['entry_type'] ) ) $connections->currentUser->setFilterEntryType( esc_attr( $_POST['entry_type'] ) );
-		if ( isset( $_POST['visibility_type'] ) ) $connections->currentUser->setFilterVisibility( esc_attr( $_POST['visibility_type'] ) );
+			$connections->currentUser->setFilterStatus( $_GET['status'] );
+		}
 
-		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_POST['category'] ) );
-		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_GET['category'] ) );
+		if ( isset( $_POST['entry_type'] ) ) {
+
+			$connections->currentUser->setFilterEntryType( esc_attr( $_POST['entry_type'] ) );
+		}
+
+		if ( isset( $_POST['visibility_type'] ) ) {
+
+			$connections->currentUser->setFilterVisibility( esc_attr( $_POST['visibility_type'] ) );
+		}
+
+		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) {
+
+			$connections->currentUser->setFilterCategory( absint( $_POST['category'] ) );
+		}
+		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) {
+
+			$connections->currentUser->setFilterCategory( absint( $_GET['category'] ) );
+		}
 
 		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) {
+
 			$page = new stdClass();
 
 			$page->name = 'manage';
@@ -1810,6 +1827,7 @@ class cnAdminActions {
 		}
 
 		if ( isset( $_GET['pg'] ) && ! empty( $_GET['pg'] ) ) {
+
 			$page = new stdClass();
 
 			$page->name = 'manage';
@@ -1819,6 +1837,7 @@ class cnAdminActions {
 		}
 
 		if ( isset( $_POST['settings']['page']['limit'] ) ) {
+
 			$page = new stdClass();
 
 			$page->name = 'manage';

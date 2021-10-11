@@ -107,7 +107,7 @@ class cnMeta {
 
 			} else {
 
-				return array_map( array( '_', 'maybeJSONdecode' ), $meta_cache[ $key ] );
+				return array_map( array( 'Connections_Directory\Utility\_', 'maybeJSONdecode' ), $meta_cache[ $key ] );
 			}
 		}
 

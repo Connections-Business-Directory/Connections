@@ -2011,7 +2011,7 @@ class cnAdminActions {
 
 					if ( $file != '.' && $file != '..' ) {
 
-						chmod( $directory . $file, 0777 );
+						chmod( $directory . $file, 0777 ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
 
 						if ( is_dir( $directory . $file ) ) {
 

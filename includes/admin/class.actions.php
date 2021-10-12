@@ -939,11 +939,9 @@ class cnAdminActions {
 
 		if ( $result ) {
 
-			$step += 1;
-
 			wp_send_json_success(
 				array(
-					'step'       => $step,
+					'step'       => ++$step,
 					'count'      => $count,
 					'exported'   => $exported,
 					'remaining'  => $remaining,

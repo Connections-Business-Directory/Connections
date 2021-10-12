@@ -2113,7 +2113,7 @@ class cnAdminActions {
 
 					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
 
-						// the administrator should always have all capabilities
+						// The administrator should always have all capabilities.
 						if ( $role == 'administrator' ) {
 
 							continue;

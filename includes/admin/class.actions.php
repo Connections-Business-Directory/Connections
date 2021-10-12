@@ -2002,8 +2002,9 @@ class cnAdminActions {
 			 isset( $_GET['type'] )
 		) {
 
-			$templateName = esc_attr( $_GET['template'] );
-			check_admin_referer( 'delete_' . $templateName );
+			$slug = sanitize_key( $_GET['template'] );
+
+			check_admin_referer( "delete_{$slug}" );
 
 			/**
 			 * Delete a directory.

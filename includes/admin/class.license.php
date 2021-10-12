@@ -22,42 +22,49 @@ class cnLicense {
 
 	/**
 	 * Plugin basename.
+	 *
 	 * @var string
 	 */
 	private $file;
 
 	/**
 	 * Plugin ID (download ID).
+	 *
 	 * @var int
 	 */
 	private $id = 0;
 
 	/**
 	 * Plugin name.
+	 *
 	 * @var string
 	 */
 	private $name;
 
 	/**
 	 * Plugin slug.
+	 *
 	 * @var string
 	 */
 	private $slug;
 
 	/**
 	 * Plugin version.
+	 *
 	 * @var string
 	 */
 	private $version;
 
 	/**
 	 * Plugin author.
+	 *
 	 * @var string
 	 */
 	private $author;
 
 	/**
 	 * Plugin license key.
+	 *
 	 * @var string
 	 */
 	private $key;
@@ -212,10 +219,10 @@ class cnLicense {
 	 * Do this via JS because this can not be done with CSS. :(
 	 */
 	jQuery(document).ready( function($) {
-		
-		/** 
+
+		/**
 		 * Deal with the "live" search introduced in WP 4.6.
-		 * @link http://stackoverflow.com/a/19401707/5351316 
+		 * @link http://stackoverflow.com/a/19401707/5351316
 		 */
 		var body = $('body');
 		var observer = new MutationObserver( function( mutations ) {
@@ -227,14 +234,14 @@ class cnLicense {
 		        }
 		    });
 		});
-		
+
 		observer.observe( body[0], {
 		    attributes: true
 		});
-		
+
 		cnReStyle();
 	});
-	
+
 	function cnReStyle() {
 		jQuery('.plugin-update-tr.cn-license-status')
 			.prev().find('th, td')

@@ -2184,7 +2184,6 @@ class cnAdminActions {
 			switch ( $action ) {
 
 				case 'delete':
-
 					check_admin_referer( 'bulk-email' );
 
 					foreach ( $_GET['log'] as $id ) {

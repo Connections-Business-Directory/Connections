@@ -2122,10 +2122,11 @@ class cnAdminActions {
 						if ( 'true' === $grant ) {
 
 							cnRole::add( esc_attr( $role ), esc_attr( $capability ) );
+
 						} else {
+
 							cnRole::remove( esc_attr( $role ), esc_attr( $capability ) );
 						}
-
 					}
 				}
 			}

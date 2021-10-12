@@ -2002,6 +2002,7 @@ class cnAdminActions {
 			 isset( $_GET['type'] )
 		) {
 
+			$type = sanitize_key( $_GET['type'] );
 			$slug = sanitize_key( $_GET['template'] );
 
 			check_admin_referer( "delete_{$slug}" );
@@ -2052,7 +2053,7 @@ class cnAdminActions {
 				return true;
 			}
 
-			if ( removeDirectory( CN_CUSTOM_TEMPLATE_PATH . '/' . $templateName . '/' ) ) {
+			if ( removeDirectory( CN_CUSTOM_TEMPLATE_PATH . '/' . $slug . '/' ) ) {
 				cnMessage::set( 'success', 'template_deleted' );
 			} else {
 				cnMessage::set( 'error', 'template_delete_failed' );

@@ -2106,12 +2106,18 @@ class cnAdminActions {
 				// Cycle thru each role available because checkboxes do not report a value when not checked.
 				foreach ( $wp_roles->get_names() as $role => $name ) {
 
-					if ( ! isset( $_POST['roles'][ $role ] ) ) continue;
+					if ( ! isset( $_POST['roles'][ $role ] ) ) {
+
+						continue;
+					}
 
 					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
 
 						// the administrator should always have all capabilities
-						if ( $role == 'administrator' ) continue;
+						if ( $role == 'administrator' ) {
+
+							continue;
+						}
 
 						if ( $grant == 'true' ) {
 							cnRole::add( esc_attr( $role ), esc_attr( $capability ) );
@@ -2123,9 +2129,15 @@ class cnAdminActions {
 				}
 			}
 
-			if ( isset( $_POST['reset'] ) ) cnRole::reset( array_map( 'esc_attr', $_POST['reset'] ) );
+			if ( isset( $_POST['reset'] ) ) {
 
-			if ( isset( $_POST['reset_all'] ) ) cnRole::reset();
+				cnRole::reset( array_map( 'esc_attr', $_POST['reset'] ) );
+			}
+
+			if ( isset( $_POST['reset_all'] ) ) {
+
+				cnRole::reset();
+			}
 
 			cnMessage::set( 'success', 'role_settings_updated' );
 

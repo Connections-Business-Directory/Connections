@@ -2024,11 +2024,11 @@ class cnAdminActions {
 
 							chdir( '.' );
 							removeDirectory( $directory . $file . '/' );
-							rmdir( $directory . $file ) or $deleteError = true;
+							rmdir( $directory . $file ) || $deleteError = true; // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
 
 						} else {
 
-							@unlink( $directory . $file ) or $deleteError = true;
+							@unlink( $directory . $file ) || $deleteError = true;
 						}
 
 						if ( $deleteError ) {

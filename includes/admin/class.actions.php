@@ -2003,10 +2003,10 @@ class cnAdminActions {
 			check_admin_referer( 'delete_' . $templateName );
 
 			function removeDirectory( $directory ) {
-				$deleteError = FALSE;
+				$deleteError = false;
 				$currentDirectory = opendir( $directory );
 
-				while ( ( $file = readdir( $currentDirectory ) ) !== FALSE ) {
+				while ( ( $file = readdir( $currentDirectory ) ) !== false ) {
 
 					if ( $file != "." && $file != ".." ) {
 
@@ -2020,18 +2020,18 @@ class cnAdminActions {
 
 						} else {
 
-							@unlink( $directory . $file ) or $deleteError = TRUE;
+							@unlink( $directory . $file ) or $deleteError = true;
 						}
 
-						if ( $deleteError ) return FALSE;
+						if ( $deleteError ) return false;
 					}
 				}
 
 				closedir( $currentDirectory );
 
-				if ( ! rmdir( $directory ) ) return FALSE;
+				if ( ! rmdir( $directory ) ) return false;
 
-				return TRUE;
+				return true;
 			}
 
 			if ( removeDirectory( CN_CUSTOM_TEMPLATE_PATH . '/' . $templateName . '/' ) ) {

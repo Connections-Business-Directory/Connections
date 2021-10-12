@@ -2002,6 +2002,13 @@ class cnAdminActions {
 			$templateName = esc_attr( $_GET['template'] );
 			check_admin_referer( 'delete_' . $templateName );
 
+			/**
+			 * Delete a directory.
+			 *
+			 * @param string $directory The path to delete.
+			 *
+			 * @return bool
+			 */
 			function removeDirectory( $directory ) {
 
 				$deleteError      = false;

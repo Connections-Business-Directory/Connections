@@ -1965,14 +1965,12 @@ class cnAdminActions {
 
 			delete_transient( 'cn_legacy_templates' );
 
-			$tab = ! isset( $_GET['type'] ) ? 'all' : sanitize_key( $_GET['type'] );
-
 			wp_safe_redirect(
 				get_admin_url(
 					get_current_blog_id(),
 					add_query_arg(
 						array(
-							'type' => $tab,
+							'type' => $type,
 						),
 						'admin.php?page=connections_templates'
 					)

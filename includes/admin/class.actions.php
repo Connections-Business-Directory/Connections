@@ -2143,7 +2143,13 @@ class cnAdminActions {
 
 			cnMessage::set( 'success', 'role_settings_updated' );
 
-			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_roles' ) );
+			wp_safe_redirect(
+				get_admin_url(
+					get_current_blog_id(),
+					'admin.php?page=connections_roles'
+				)
+			);
+
 			exit();
 
 		} else {

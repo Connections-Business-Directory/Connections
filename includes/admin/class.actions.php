@@ -2111,7 +2111,7 @@ class cnAdminActions {
 						continue;
 					}
 
-					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
+					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 						// The administrator should always have all capabilities.
 						if ( 'administrator' === $role ) {

@@ -2187,7 +2187,7 @@ class cnAdminActions {
 
 					foreach ( $_GET['log'] as $id ) {
 
-						cnLog::delete( $id );
+						cnLog::delete( absint( $id ) );
 					}
 
 					cnMessage::set( 'success', 'log_bulk_delete' );

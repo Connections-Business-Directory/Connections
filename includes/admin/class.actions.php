@@ -1489,7 +1489,7 @@ class cnAdminActions {
 						// Update the entry meta if it differs.
 						if ( ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] !== $row['meta_value'] ) || // phpcs:ignore WordPress.Security.NonceVerification.Missing
 							 ( isset( $_POST['meta'][ $row['meta_id'] ]['key'] ) && $_POST['meta'][ $row['meta_id'] ]['key'] !== $row['meta_key'] ) &&
-							 ( $_POST['meta'][ $row['meta_id'] ]['value'] !== '::DELETED::' ) ) {
+							 ( '::DELETED::' !== $_POST['meta'][ $row['meta_id'] ]['value'] ) ) {
 
 							// If the key begins with an underscore, remove it because those are private.
 							// if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );

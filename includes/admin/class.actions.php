@@ -2173,12 +2173,11 @@ class cnAdminActions {
 
 			if ( isset( $_GET['action'] ) && '-1' !== $_GET['action'] ) {
 
-				$action = $_GET['action'];
+				$action = sanitize_key( $_GET['action'] );
 
 			} elseif ( isset( $_GET['action2'] ) && '-1' !== $_GET['action2'] ) {
 
-				$action = $_GET['action2'];
-
+				$action = sanitize_key( $_GET['action2'] );
 			}
 
 			switch ( $action ) {

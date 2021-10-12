@@ -2024,13 +2024,19 @@ class cnAdminActions {
 							@unlink( $directory . $file ) or $deleteError = true;
 						}
 
-						if ( $deleteError ) return false;
+						if ( $deleteError ) {
+
+							return false;
+						}
 					}
 				}
 
 				closedir( $currentDirectory );
 
-				if ( ! rmdir( $directory ) ) return false;
+				if ( ! rmdir( $directory ) ) {
+
+					return false;
+				}
 
 				return true;
 			}

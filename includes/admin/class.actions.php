@@ -2198,10 +2198,10 @@ class cnAdminActions {
 
 		$url = add_query_arg(
 			array(
-				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
-				'cn-action' => FALSE,
-				'action'    => FALSE,
-				'action2'   => FALSE,
+				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : false,
+				'cn-action' => false,
+				'action'    => false,
+				'action2'   => false,
 			),
 			wp_get_referer()
 		);
@@ -2235,7 +2235,7 @@ class cnAdminActions {
 
 			$url = add_query_arg(
 				array(
-					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
+					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : false,
 				),
 				wp_get_referer()
 			);

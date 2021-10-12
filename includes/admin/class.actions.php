@@ -2009,7 +2009,7 @@ class cnAdminActions {
 
 				while ( ( $file = readdir( $currentDirectory ) ) !== false ) {
 
-					if ( $file != "." && $file != ".." ) {
+					if ( $file != '.' && $file != '..' ) {
 
 						chmod( $directory . $file, 0777 );
 

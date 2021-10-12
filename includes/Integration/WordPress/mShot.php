@@ -52,7 +52,7 @@ final class mShot {
 	 *
 	 * @var bool
 	 */
-	private $link = TRUE;
+	private $link = true;
 
 	/**
 	 * The string applied to the <img> or <a> title attribute.
@@ -82,7 +82,7 @@ final class mShot {
 	 *
 	 * @var bool
 	 */
-	private $follow = FALSE;
+	private $follow = false;
 
 	/**
 	 * The link target attribute.
@@ -122,7 +122,7 @@ final class mShot {
 	 *
 	 * @var bool
 	 */
-	private $return = FALSE;
+	private $return = false;
 
 	/**
 	 * Set up the options.
@@ -137,14 +137,14 @@ final class mShot {
 		$defaults = array(
 			'url'    => 'connections-pro.com',
 			'width'  => 200,
-			'link'   => TRUE,
+			'link'   => true,
 			'title'  => '',
 			'alt'    => '',
 			'target' => '',
-			'follow' => FALSE,
+			'follow' => false,
 			'before' => '',
 			'after'  => '',
-			'return' => FALSE,
+			'return' => false,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -153,14 +153,14 @@ final class mShot {
 
 		$this->setURL( $atts['url'] );
 		$this->setWidth( $atts['width'] );
-		$this->link = is_bool( $atts['link'] ) ? $atts['link'] : TRUE;
+		$this->link = is_bool( $atts['link'] ) ? $atts['link'] : true;
 		$this->setTitle( $atts['title'] );
 		$this->setAlt( $atts['alt'] );
-		$this->follow = is_bool( $atts['follow'] ) ? $atts['follow'] : FALSE;
+		$this->follow = is_bool( $atts['follow'] ) ? $atts['follow'] : false;
 		$this->target = in_array( $atts['target'], $validTargets ) ? $atts['target'] : '_blank';
 		$this->before = is_string( $atts['before'] ) && 0 < strlen( $atts['before'] ) ? $atts['before'] : '';
 		$this->after  = is_string( $atts['after'] ) && 0 < strlen( $atts['after'] ) ? $atts['after'] : '';
-		$this->return = is_bool( $atts['return'] ) ? $atts['return'] : FALSE;
+		$this->return = is_bool( $atts['return'] ) ? $atts['return'] : false;
 	}
 
 	/**
@@ -187,7 +187,7 @@ final class mShot {
 	 */
 	public function getURL() {
 
-		if ( FALSE === filter_var( $this->url, FILTER_VALIDATE_URL ) ) {
+		if ( false === filter_var( $this->url, FILTER_VALIDATE_URL ) ) {
 
 			return new WP_Error( 'invalid_url', __( 'Invalid URL.', 'connections' ) );
 		}

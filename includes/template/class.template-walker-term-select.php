@@ -106,18 +106,18 @@ class CN_Walker_Term_Select_List extends Walker {
 			'show_option_none'  => '',
 			'orderby'           => 'name',
 			'order'             => 'ASC',
-			'show_count'        => FALSE,
-			'hide_empty'        => FALSE,
+			'show_count'        => false,
+			'hide_empty'        => false,
 			'name'              => 'cat',
 			'id'                => '',
 			'class'             => 'postform',
 			'depth'             => 0,
 			'tab_index'         => 0,
 			'taxonomy'          => 'category',
-			'hide_if_empty'     => FALSE,
+			'hide_if_empty'     => false,
 			'option_none_value' => -1,
 			'selected'          => 0,
-			'return'            => FALSE,
+			'return'            => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -128,7 +128,7 @@ class CN_Walker_Term_Select_List extends Walker {
 
 		if ( ! isset( $atts['pad_counts'] ) && $atts['show_count'] && $atts['hierarchical'] ) {
 
-			$atts['pad_counts'] = TRUE;
+			$atts['pad_counts'] = true;
 		}
 
 		$tab_index_attribute = (int) $atts['tab_index'] > 0 ? " tabindex=\"{$atts['tab_index']}\"" : '';
@@ -175,7 +175,7 @@ class CN_Walker_Term_Select_List extends Walker {
 
 				/** This filter is documented in includes/template/class.template-walker-term-select.php */
 				$show_option_none = apply_filters( 'cn_list_cats', $atts['show_option_none'] );
-				$selected         = selected( $atts['option_none_value'], $atts['selected'], FALSE );
+				$selected         = selected( $atts['option_none_value'], $atts['selected'], false );
 				$out .= "\t<option value='" . esc_attr( $atts['option_none_value'] ) . "'$selected>$show_option_none</option>\n";
 			}
 
@@ -237,7 +237,7 @@ class CN_Walker_Term_Select_List extends Walker {
 
 		$out .= "\t<option class=\"level-$depth\" value=\"" . $term->term_id . "\"";
 
-		$out .= selected( $term->term_id, $args['selected'], FALSE );
+		$out .= selected( $term->term_id, $args['selected'], false );
 
 		$out .= '>';
 		$out .= $pad . $name;

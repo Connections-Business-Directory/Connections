@@ -110,7 +110,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -127,7 +127,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Require Login', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -145,7 +145,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Default Category', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -163,7 +163,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Base country and region.', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -197,7 +197,7 @@ class cnRegisterSettings {
 			'title'        => __( 'General', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -214,7 +214,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Results List', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -237,7 +237,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -259,7 +259,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -282,7 +282,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type' => 'object',
 				'description' => esc_html__(
@@ -304,7 +304,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -325,7 +325,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Publish Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -348,7 +348,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -366,7 +366,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Address Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -384,7 +384,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Phone Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -402,7 +402,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Email Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -420,7 +420,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Instant Messaging Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -438,7 +438,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Link Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -456,7 +456,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Date Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -474,7 +474,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Social Networks Fieldset', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -499,7 +499,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -521,7 +521,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -543,7 +543,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -565,7 +565,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -599,7 +599,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Search Fields', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -619,7 +619,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Page Meta', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -636,7 +636,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Page Display', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -661,7 +661,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -683,7 +683,7 @@ class cnRegisterSettings {
 				);
 			},
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -700,7 +700,7 @@ class cnRegisterSettings {
 			'position'     => 18,
 			'title'        => esc_html__( 'Custom Post Type Support', 'connections' ),
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -717,7 +717,7 @@ class cnRegisterSettings {
 			'position'     => 19,
 			'title'        => esc_html__( 'Google Maps Geocoding API', 'connections' ),
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => esc_html__(
@@ -735,7 +735,7 @@ class cnRegisterSettings {
 			'title'        => __( 'Compatibility', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
 				'description' => 'Configure various compatibility options.',
@@ -749,7 +749,7 @@ class cnRegisterSettings {
 			'title'     => __( 'Debug' , 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings,
-			'show_in_rest' => TRUE,
+			'show_in_rest' => true,
 			'schema' => array( 'type' => 'object' ),
 		);
 
@@ -980,8 +980,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1001,8 +1001,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1022,8 +1022,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1043,8 +1043,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1064,8 +1064,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1130,7 +1130,7 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   => cnOptions::getContentBlocks( NULL, 'list' ),
+			'options'   => cnOptions::getContentBlocks( null, 'list' ),
 			'default'   => 0,
 			'schema' => array(
 				'type'       => 'object',
@@ -1235,7 +1235,7 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   => cnOptions::getContentBlocks( NULL, 'single' ),
+			'options'   => cnOptions::getContentBlocks( null, 'single' ),
 			'default'   => 0,
 			'schema' => array(
 				'type'       => 'object',
@@ -1432,8 +1432,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1528,8 +1528,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1552,8 +1552,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1612,8 +1612,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1636,8 +1636,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1660,8 +1660,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1706,8 +1706,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1802,8 +1802,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1826,8 +1826,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1850,8 +1850,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1946,8 +1946,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1970,8 +1970,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -1994,8 +1994,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2090,8 +2090,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2114,8 +2114,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2138,8 +2138,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2234,8 +2234,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2258,8 +2258,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2326,8 +2326,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2350,8 +2350,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2374,8 +2374,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2398,8 +2398,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2494,8 +2494,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2518,8 +2518,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2542,8 +2542,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2630,8 +2630,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2790,8 +2790,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2814,8 +2814,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2845,8 +2845,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 100,
-				'exclusiveMinimum' => TRUE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => true,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -2934,8 +2934,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 100,
-				'exclusiveMinimum' => TRUE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => true,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3023,8 +3023,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 100,
-				'exclusiveMinimum' => TRUE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => true,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3112,8 +3112,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 100,
-				'exclusiveMinimum' => TRUE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => true,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3283,8 +3283,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3307,8 +3307,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3334,8 +3334,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3358,8 +3358,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3382,8 +3382,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3594,8 +3594,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3618,8 +3618,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3642,8 +3642,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3666,8 +3666,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3690,8 +3690,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3714,8 +3714,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3738,8 +3738,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3762,8 +3762,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3786,8 +3786,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3810,8 +3810,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3834,8 +3834,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3963,8 +3963,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -3987,8 +3987,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -4008,8 +4008,8 @@ class cnRegisterSettings {
 				'type'             => 'integer',
 				'minimum'          => 0,
 				'maximum'          => 1,
-				'exclusiveMinimum' => FALSE,
-				'exclusiveMaximum' => FALSE,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
 			),
 		);
 
@@ -4504,30 +4504,30 @@ class cnRegisterSettings {
 		/*
 		 * Build the array to store the user preferences.
 		 */
-		$search['family_name']        = in_array( 'family_name' , $fields ) ? TRUE : FALSE;
-		$search['first_name']         = in_array( 'first_name' , $fields ) ? TRUE : FALSE;
-		$search['middle_name']        = in_array( 'middle_name' , $fields ) ? TRUE : FALSE;
-		$search['last_name']          = in_array( 'last_name' , $fields ) ? TRUE : FALSE;
-		$search['title']              = in_array( 'title' , $fields ) ? TRUE : FALSE;
-		$search['organization']       = in_array( 'organization' , $fields ) ? TRUE : FALSE;
-		$search['department']         = in_array( 'department' , $fields ) ? TRUE : FALSE;
-		$search['contact_first_name'] = in_array( 'contact_first_name' , $fields ) ? TRUE : FALSE;
-		$search['contact_last_name']  = in_array( 'contact_last_name' , $fields ) ? TRUE : FALSE;
-		$search['bio']                = in_array( 'bio' , $fields ) ? TRUE : FALSE;
-		$search['notes']              = in_array( 'notes' , $fields ) ? TRUE : FALSE;
+		$search['family_name']        = in_array( 'family_name' , $fields ) ? true : false;
+		$search['first_name']         = in_array( 'first_name' , $fields ) ? true : false;
+		$search['middle_name']        = in_array( 'middle_name' , $fields ) ? true : false;
+		$search['last_name']          = in_array( 'last_name' , $fields ) ? true : false;
+		$search['title']              = in_array( 'title' , $fields ) ? true : false;
+		$search['organization']       = in_array( 'organization' , $fields ) ? true : false;
+		$search['department']         = in_array( 'department' , $fields ) ? true : false;
+		$search['contact_first_name'] = in_array( 'contact_first_name' , $fields ) ? true : false;
+		$search['contact_last_name']  = in_array( 'contact_last_name' , $fields ) ? true : false;
+		$search['bio']                = in_array( 'bio' , $fields ) ? true : false;
+		$search['notes']              = in_array( 'notes' , $fields ) ? true : false;
 
-		$search['address_line_1']     = in_array( 'address_line_1' , $fields ) ? TRUE : FALSE;
-		$search['address_line_2']     = in_array( 'address_line_2' , $fields ) ? TRUE : FALSE;
-		$search['address_line_3']     = in_array( 'address_line_3' , $fields ) ? TRUE : FALSE;
-		$search['address_line_4']     = in_array( 'address_line_4' , $fields ) ? TRUE : FALSE;
-		$search['address_district']   = in_array( 'address_district' , $fields ) ? TRUE : FALSE;
-		$search['address_county']     = in_array( 'address_county' , $fields ) ? TRUE : FALSE;
-		$search['address_city']       = in_array( 'address_city' , $fields ) ? TRUE : FALSE;
-		$search['address_state']      = in_array( 'address_state' , $fields ) ? TRUE : FALSE;
-		$search['address_zipcode']    = in_array( 'address_zipcode' , $fields ) ? TRUE : FALSE;
-		$search['address_country']    = in_array( 'address_country' , $fields ) ? TRUE : FALSE;
+		$search['address_line_1']     = in_array( 'address_line_1' , $fields ) ? true : false;
+		$search['address_line_2']     = in_array( 'address_line_2' , $fields ) ? true : false;
+		$search['address_line_3']     = in_array( 'address_line_3' , $fields ) ? true : false;
+		$search['address_line_4']     = in_array( 'address_line_4' , $fields ) ? true : false;
+		$search['address_district']   = in_array( 'address_district' , $fields ) ? true : false;
+		$search['address_county']     = in_array( 'address_county' , $fields ) ? true : false;
+		$search['address_city']       = in_array( 'address_city' , $fields ) ? true : false;
+		$search['address_state']      = in_array( 'address_state' , $fields ) ? true : false;
+		$search['address_zipcode']    = in_array( 'address_zipcode' , $fields ) ? true : false;
+		$search['address_country']    = in_array( 'address_country' , $fields ) ? true : false;
 
-		$search['phone_number']       = in_array( 'phone_number' , $fields ) ? TRUE : FALSE;
+		$search['phone_number']       = in_array( 'phone_number' , $fields ) ? true : false;
 
 		//var_dump($search);
 

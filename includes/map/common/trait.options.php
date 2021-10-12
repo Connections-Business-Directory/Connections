@@ -106,7 +106,7 @@ trait Options {
 	 *
 	 * @return mixed
 	 */
-	public function getOption( $name, $default = NULL ) {
+	public function getOption( $name, $default = null ) {
 
 		if ( isset( $this->options[ $name ] ) ) {
 			return $this->options[ $name ];

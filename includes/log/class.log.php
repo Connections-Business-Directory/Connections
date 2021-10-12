@@ -349,8 +349,8 @@ final class cnLog {
 
 		$atts = array(
 			'public'              => defined( 'WP_DEBUG' ) && WP_DEBUG,
-			'publicly_queryable'  => FALSE,
-			'exclude_from_search' => TRUE,
+			'publicly_queryable'  => false,
+			'exclude_from_search' => true,
 			'labels'              => array(
 				'name'               => _x( 'Logs', 'post type general name', 'connections' ),
 				'singular_name'      => _x( 'Log', 'post type singular name', 'connections' ),
@@ -365,11 +365,11 @@ final class cnLog {
 				'not_found_in_trash' => __( 'No logs found in Trash.', 'connections' ),
 				'all_items'          => __( 'All Logs', 'connections' ),
 			),
-			'query_var'           => FALSE,
-			'rewrite'             => FALSE,
+			'query_var'           => false,
+			'rewrite'             => false,
 			'capability_type'     => 'post',
 			'supports'            => array( 'title', 'editor' ),
-			'can_export'          => FALSE,
+			'can_export'          => false,
 			'capabilities'        => array(
 				'create_posts'       => 'do_not_allow',
 				'edit_post'          => 'activate_plugins',
@@ -381,7 +381,7 @@ final class cnLog {
 				'read_private_posts' => 'do_not_allow',
 				'publish_posts'      => 'do_not_allow',
 			),
-			'map_meta_cap'        => FALSE,
+			'map_meta_cap'        => false,
 		);
 
 		register_post_type( self::POST_TYPE, apply_filters( 'cn_log_post_type_atts', $atts ) );
@@ -632,7 +632,7 @@ final class cnLog {
 			'ping_status'    => 'closed',
 			'post_parent'    => 0,
 			'post_content'   => '',
-			'type'           => FALSE
+			'type'           => false
 		);
 
 		$data = wp_parse_args( $data, $defaults );
@@ -645,7 +645,7 @@ final class cnLog {
 		// Insert the log type, if supplied.
 		if ( $data['type'] && self::valid( $data['type'] ) ) {
 
-			wp_set_object_terms( $id, $data['type'], self::TAXONOMY, FALSE );
+			wp_set_object_terms( $id, $data['type'], self::TAXONOMY, false );
 		}
 
 		// Insert log meta, if supplied.
@@ -757,7 +757,7 @@ final class cnLog {
 
 			foreach ( $logs as $log ) {
 
-				wp_delete_post( $log->ID, TRUE );
+				wp_delete_post( $log->ID, true );
 			}
 		}
 	}
@@ -771,7 +771,7 @@ final class cnLog {
 	 */
 	public static function delete( $id ) {
 
-		return wp_delete_post( absint( $id ), TRUE );
+		return wp_delete_post( absint( $id ), true );
 	}
 
 	/**
@@ -820,7 +820,7 @@ final class cnLog {
 			'posts_per_page' => 20,
 			'post_status'    => 'publish',
 			'paged'          => cnQuery::getVar( 'paged' ),
-			'type'           => FALSE
+			'type'           => false
 		);
 
 		$query = wp_parse_args( $atts, $defaults );
@@ -863,7 +863,7 @@ final class cnLog {
 		}
 
 		// No logs found.
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -941,9 +941,9 @@ final class cnLog {
 	 */
 	public static function purge() {
 
-		$purge = apply_filters( 'cn_log_purge', FALSE );
+		$purge = apply_filters( 'cn_log_purge', false );
 
-		if ( FALSE === $purge ) {
+		if ( false === $purge ) {
 			return;
 		}
 
@@ -969,7 +969,7 @@ final class cnLog {
 	 */
 	private static function PurgeLogs( $logs ) {
 
-		$force = apply_filters( 'cn_log_force_delete_log', TRUE );
+		$force = apply_filters( 'cn_log_force_delete_log', true );
 
 		foreach ( $logs as $log ) {
 
@@ -1052,7 +1052,7 @@ final class cnLog {
 
 			foreach ( $results as $key => $meta ) {
 
-				if ( FALSE === strpos( $key, self::POST_META_PREFIX ) ) continue;
+				if ( false === strpos( $key, self::POST_META_PREFIX ) ) continue;
 
 				$keyBase    = str_replace( self::POST_META_PREFIX, '', $key );
 				$keyDisplay = apply_filters( 'cn_log_meta_key', $keyBase );

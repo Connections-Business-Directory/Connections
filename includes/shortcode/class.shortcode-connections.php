@@ -47,7 +47,7 @@ class cnShortcode_Connections extends cnShortcode {
 		/** @var cnTemplate $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
-		if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $atts );
+		if ( $template === false ) return cnTemplatePart::loadTemplateError( $atts );
 
 		/*
 		 * This filter adds the current template paths to cnLocate so when template
@@ -64,45 +64,45 @@ class cnShortcode_Connections extends cnShortcode {
 		 * Now that the template has been loaded, Validate the user supplied shortcode atts.
 		 */
 		$defaults = array(
-			'id'                    => NULL,
-			'slug'                  => NULL,
-			'category'              => NULL,
-			'category_in'           => NULL,
-			'exclude_category'      => NULL,
-			'category_name'         => NULL,
-			'category_slug'         => NULL,
-			'wp_current_category'   => FALSE,
-			'allow_public_override' => FALSE,
-			'private_override'      => FALSE,
+			'id'                    => null,
+			'slug'                  => null,
+			'category'              => null,
+			'category_in'           => null,
+			'exclude_category'      => null,
+			'category_name'         => null,
+			'category_slug'         => null,
+			'wp_current_category'   => false,
+			'allow_public_override' => false,
+			'private_override'      => false,
 			'show_alphaindex'       => cnSettingsAPI::get( 'connections', 'display_results', 'index' ),
 			'repeat_alphaindex'     => cnSettingsAPI::get( 'connections', 'display_results', 'index_repeat' ),
 			'show_alphahead'        => cnSettingsAPI::get( 'connections', 'display_results', 'show_current_character' ),
-			'list_type'             => NULL,
-			'order_by'              => NULL,
-			'limit'                 => NULL,
-			'offset'                => NULL,
-			'family_name'           => NULL,
-			'last_name'             => NULL,
-			'title'                 => NULL,
-			'organization'          => NULL,
-			'department'            => NULL,
-			'district'              => NULL,
-			'county'                => NULL,
-			'city'                  => NULL,
-			'state'                 => NULL,
-			'zip_code'              => NULL,
-			'country'               => NULL,
+			'list_type'             => null,
+			'order_by'              => null,
+			'limit'                 => null,
+			'offset'                => null,
+			'family_name'           => null,
+			'last_name'             => null,
+			'title'                 => null,
+			'organization'          => null,
+			'department'            => null,
+			'district'              => null,
+			'county'                => null,
+			'city'                  => null,
+			'state'                 => null,
+			'zip_code'              => null,
+			'country'               => null,
 			'meta_query'            => '',
 			'content'               => '', // @todo Unused needs remove after all templates are updated to remove it.
-			'near_addr'             => NULL,
-			'latitude'              => NULL,
-			'longitude'             => NULL,
+			'near_addr'             => null,
+			'latitude'              => null,
+			'longitude'             => null,
 			'radius'                => 10,
 			'unit'                  => 'mi',
-			'template'              => NULL, /* @since version 0.7.1.0 */
-			'width'                 => NULL,
-			'lock'                  => FALSE,
-			'force_home'            => FALSE,
+			'template'              => null, /* @since version 0.7.1.0 */
+			'width'                 => null,
+			'lock'                  => false,
+			'force_home'            => false,
 			'home_id'               => self::getHomeID(),
 		);
 
@@ -203,9 +203,9 @@ class cnShortcode_Connections extends cnShortcode {
 
 		// The filter should check $content that content is not empty before processing $content.
 		// And if it is empty the filter should return (bool) FALSE, so the core template parts can be executed.
-		$content = apply_filters( "cn_shortcode_content-$tag", FALSE, $content, $atts, $results, $template );
+		$content = apply_filters( "cn_shortcode_content-$tag", false, $content, $atts, $results, $template );
 
-		if ( $content === FALSE ) {
+		if ( $content === false ) {
 
 			ob_start();
 

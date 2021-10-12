@@ -53,7 +53,7 @@ class Team {
 					),
 					'categoriesIn'         => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'columns'              => array(
 						'type'    => 'integer',
@@ -73,27 +73,27 @@ class Team {
 					),
 					'displayEmail'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displayDropShadow'    => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displayExcerpt'       => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'displayPhone'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displaySocial'        => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displayTitle'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'gutterWidth'          => array(
 						'type'    => 'integer',
@@ -125,7 +125,7 @@ class Team {
 					),
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'imageType'            => array(
 						'type'    => 'string',
@@ -239,14 +239,14 @@ class Team {
 
 		if ( ! array_key_exists( $attributes['listType'], $entryTypes ) ) {
 
-			$attributes['listType'] = NULL;
+			$attributes['listType'] = null;
 		}
 
 		$categories = \cnFunction::decodeJSON( $attributes['categories'] );
 
 		if ( is_wp_error( $categories ) ) {
 
-			$attributes['categories'] = NULL;
+			$attributes['categories'] = null;
 
 		} else {
 
@@ -259,7 +259,7 @@ class Team {
 
 		if ( is_wp_error( $excludeCategories ) ) {
 
-			$attributes['categoriesExclude'] = NULL;
+			$attributes['categoriesExclude'] = null;
 
 		} else {
 
@@ -412,7 +412,7 @@ class Team {
 
 		$html = ob_get_clean();
 
-		if ( FALSE === $html ) {
+		if ( false === $html ) {
 
 			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
 		}

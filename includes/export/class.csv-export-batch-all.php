@@ -168,185 +168,185 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			array(
 				'field'  => 'id',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'ordo',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'entry_type',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'visibility',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'category',
 				'header' => 'Categories',
 				'type'   => 2,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_TERMS_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'family_name',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'honorific_prefix',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'first_name',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'middle_name',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'last_name',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'honorific_suffix',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'title',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'organization',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'department',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'contact_first_name',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'contact_last_name',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'address',
 				'type'   => 1,
 				'fields' => 'line_1;line_2;line_3;line_4;district;county;city;state;zipcode;country;latitude;longitude;visibility',
 				'table'  => CN_ENTRY_ADDRESS_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'phone',
 				'type'   => 1,
 				'fields' => 'number;visibility',
 				'table'  => CN_ENTRY_PHONE_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'email',
 				'type'   => 1,
 				'fields' => 'address;visibility',
 				'table'  => CN_ENTRY_EMAIL_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'social',
 				'type'   => 1,
 				'fields' => 'url;visibility',
 				'table'  => CN_ENTRY_SOCIAL_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'im',
 				'type'   => 1,
 				'fields' => 'uid;visibility',
 				'table'  => CN_ENTRY_MESSENGER_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'links',
 				'type'   => 1,
 				'fields' => 'url;title;visibility',
 				'table'  => CN_ENTRY_LINK_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'dates',
 				'type'   => 1,
 				'fields' => 'date;visibility',
 				'table'  => CN_ENTRY_DATE_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'bio',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'notes',
 				'type'   => 0,
-				'fields' => NULL,
+				'fields' => null,
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			array(
 				'field'  => 'options',
 				'type'   => 4,
 				'fields' => 'image_url;logo_url',
 				'table'  => CN_ENTRY_TABLE,
-				'types'  => NULL,
+				'types'  => null,
 			),
 			//array(
 			//	'field'          => 'meta_data',
@@ -595,7 +595,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		$count   = count( $this->fields );
 
 		// Clear the fields and types query caches.
-		cnCache::clear( TRUE, 'transient', 'cn-csv' );
+		cnCache::clear( true, 'transient', 'cn-csv' );
 
 		for ( $i = 0; $i < $count; $i++ ) {
 
@@ -814,7 +814,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			return $rows;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -892,7 +892,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			} elseif ( 5 === $type ) {
 
 				$data = '';
-				$meta = cnMeta::get( 'entry', $entry->id, $this->fields[ $i ]['field'], TRUE );
+				$meta = cnMeta::get( 'entry', $entry->id, $this->fields[ $i ]['field'], true );
 
 				if ( ! empty( $meta ) ) {
 
@@ -1030,7 +1030,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 				$results = cnCache::get( 'fields-' . $atts['table'], 'transient', 'cn-csv' );
 
-				if ( FALSE === $results ) {
+				if ( false === $results ) {
 
 					// Get the field names from the SQL schema for the table we're going to use, and plop them into an array...
 					$sql = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = "' . DB_NAME . '" AND table_name = "' . $atts['table'] . '";';
@@ -1088,7 +1088,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 				$results = cnCache::get( 'types-' . $atts['table'], 'transient', 'cn-csv' );
 
-				if ( FALSE === $results ) {
+				if ( false === $results ) {
 
 					$sql = 'SELECT DISTINCT `type` FROM ' . $atts['table'] . ' ORDER BY `type`';
 
@@ -1228,7 +1228,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		$result = cnCache::get( 'max-term-count', 'transient', 'cn-csv' );
 
-		if ( FALSE === $result ) {
+		if ( false === $result ) {
 
 			$sql = $wpdb->prepare(
 				'SELECT COUNT(*) AS total

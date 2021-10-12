@@ -19,12 +19,12 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 */
 	public function get( $id ) {
 
-		if ( FALSE !== $key = $this->getItemKeyByID( $id ) ) {
+		if ( false !== $key = $this->getItemKeyByID( $id ) ) {
 
 			return apply_filters( 'cn_email_address', $this->items->get( $key ) );
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -72,17 +72,17 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 			}
 		);
 
-		if ( FALSE !== $key ) {
+		if ( false !== $key ) {
 
 			$this->items->put( $key, apply_filters( 'cn_set_email_address', $email ) );
 
 			//// Reset the filters so both the filtered and unfiltered collections are the same after updating an email address.
 			//$this->resetFilters();
 
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -96,7 +96,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	public function updateFromArray( $data ) {
 
 		$new               = cnEntry_Email_Addresses::createFromArray( $this->id, $data )->getCollection();
-		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : NULL;
+		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : null;
 		$existingPreferred = $this->getPreferred();
 
 		/** @var cnEmail_Address $email */
@@ -223,9 +223,9 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 *                          Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
 	 *                          NULL will be returned when the filtered collection is empty.
 	 */
-	public function render( $template = 'hcard', $atts = array(), $load = TRUE, $buffer = FALSE, $require_once = FALSE ) {
+	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return NULL;
+		if ( $this->filtered->isEmpty() ) return null;
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'email-addresses' . DIRECTORY_SEPARATOR . 'email',
@@ -249,7 +249,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 *
 	 * @return cnCollection
 	 */
-	public function getCollection( $limit = NULL ) {
+	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_email_address' )
 		     ->applyFilter( 'cn_email_addresses' )
@@ -271,7 +271,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 *
 	 * @return array
 	 */
-	public function getCollectionAsArray( $limit = NULL ) {
+	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_email_address' )
 		     ->applyFilter( 'cn_email_addresses' )
@@ -359,7 +359,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 */
 	public function getPreferred() {
 
-		return apply_filters( 'cn_email_address', $this->filtered->where( 'preferred', '===', TRUE )->first() );
+		return apply_filters( 'cn_email_address', $this->filtered->where( 'preferred', '===', true )->first() );
 	}
 
 	/**
@@ -449,7 +449,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 			 * Set saving as true to force the query of all entries filtered per supplied attributes.
 			 * This will reflect who it function when the table manager and query classes are implemented.
 			 */
-			$data = $instance->retrieve->emailAddresses( $options, TRUE );
+			$data = $instance->retrieve->emailAddresses( $options, true );
 		}
 
 		if ( empty( $data ) ) return $this;
@@ -500,7 +500,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 		 * If the `preferred` array key is set, the preferred email address will be set based on the array key value.
 		 * If it is not, the preferred email address value will be retained using the `preferred` key within each email address.
 		 */
-		$preferred  = cnArray::pull( $data, 'preferred', NULL );
+		$preferred  = cnArray::pull( $data, 'preferred', null );
 		$collection = new cnCollection( $data );
 		$order      = $collection->max( 'order' );
 
@@ -520,7 +520,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 
 			if ( ! is_null( $preferred ) ) {
 
-				$email['preferred'] = $key == $preferred ? TRUE : FALSE;
+				$email['preferred'] = $key == $preferred ? true : false;
 			}
 
 			/**

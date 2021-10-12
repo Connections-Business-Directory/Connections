@@ -84,7 +84,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 					'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 					'args'                => array(
 						'force' => array(
-							'default'     => FALSE,
+							'default'     => false,
 							'description' => __( 'Required to be true, as resource does not support trashing.', 'connections' ),
 						),
 					),
@@ -207,7 +207,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 				break;
 
 			default:
-				$type = NULL;
+				$type = null;
 		}
 
 		$data = array(
@@ -226,8 +226,8 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 				'permalink' => $entry->getPermalink(),
 				'name'      => $entry->getName(),
 				'title'        => $entry->getTitle(),
-				'department'   => $entry->getDepartment() ? array( '@type' => 'Organization', 'name' => $entry->getDepartment() ) : NULL,
-				'organization' => $entry->getOrganization() ? array( '@type' => 'Organization', 'name' => $entry->getOrganization() ) : NULL,
+				'department'   => $entry->getDepartment() ? array( '@type' => 'Organization', 'name' => $entry->getDepartment() ) : null,
+				'organization' => $entry->getOrganization() ? array( '@type' => 'Organization', 'name' => $entry->getOrganization() ) : null,
 				//'addresses'    => $addresses,
 				//'phone'        => $entry->getPhoneNumbers(),
 				//'email'        => $entry->getEmailAddresses(),
@@ -265,7 +265,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 					'description' => __( 'Unique identifier for the object.', 'connections' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => TRUE,
+					'readonly'    => true,
 				),
 				'name' => array(
 					'description' => __( 'The name of the object.', 'connections' ),

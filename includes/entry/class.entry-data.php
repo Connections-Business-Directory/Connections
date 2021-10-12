@@ -190,7 +190,7 @@ class cnEntry {
 	 *
 	 * @var string
 	 */
-	private $visibility = NULL;
+	private $visibility = null;
 
 	/**
 	 * @since unknown
@@ -314,7 +314,7 @@ class cnEntry {
 	 *
 	 * @param mixed object|null $entry
 	 */
-	public function __construct( $entry = NULL ) {
+	public function __construct( $entry = null ) {
 
 		// Load the formatting class for sanitizing the get methods.
 		$this->format = new cnFormatting();
@@ -418,7 +418,7 @@ class cnEntry {
 
 			if ( isset( $entry->status ) ) $this->status = $entry->status;
 
-			$this->ruid = uniqid( $this->getId() , FALSE );
+			$this->ruid = uniqid( $this->getId() , false );
 
 		} else {
 
@@ -502,7 +502,7 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getFormattedTimeStamp( $format = NULL ) {
+	public function getFormattedTimeStamp( $format = null ) {
 
 		if ( is_null( $format ) ) {
 
@@ -536,7 +536,7 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getHumanTimeDiff() {
-		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp', TRUE ) );
+		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp', true ) );
 	}
 
 	/**
@@ -551,7 +551,7 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getDateAdded( $format = NULL ) {
+	public function getDateAdded( $format = null ) {
 
 		if ( is_null( $format ) ) {
 
@@ -563,7 +563,7 @@ class cnEntry {
 			$format = implode( ' ', $options );
 		}
 
-		if ( $this->dateAdded != NULL ) {
+		if ( $this->dateAdded != null ) {
 
 			return date_i18n( $format, $this->dateAdded + cnDate::getWPUTCOffset() );
 
@@ -623,7 +623,7 @@ class cnEntry {
 
 		$defaults = array(
 			'page_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-			'force_home' => FALSE,
+			'force_home' => false,
 		);
 
 		$this->directoryHome = cnSanitize::args( apply_filters( 'cn_entry_directory_homepage', $atts, $this ), $defaults );
@@ -645,7 +645,7 @@ class cnEntry {
 				'home_id'    => $this->directoryHome['page_id'],
 				'force_home' => $this->directoryHome['force_home'],
 				'data'       => 'url',
-				'return'     => TRUE,
+				'return'     => true,
 			)
 		);
 
@@ -674,7 +674,7 @@ class cnEntry {
 					'home_id'    => $this->directoryHome['page_id'],
 					'force_home' => $this->directoryHome['force_home'],
 					'data'       => 'url',
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 		}
@@ -713,7 +713,7 @@ class cnEntry {
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
 							'data'       => 'url',
-							'return'     => TRUE,
+							'return'     => true,
 						)
 					);
 			}
@@ -1430,10 +1430,10 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getAddresses( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
+	public function getAddresses( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => FALSE,
+			'preferred'   => false,
 			'type'        => array(),
 			'district'    => array(),
 			'county'      => array(),
@@ -1442,7 +1442,7 @@ class cnEntry {
 			'zipcode'     => array(),
 			'country'     => array(),
 			'coordinates' => array(),
-			'limit'       => NULL,
+			'limit'       => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1528,12 +1528,12 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
+	public function getPhoneNumbers( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => FALSE,
+			'preferred'   => false,
 			'type'        => array(),
-			'limit'       => NULL,
+			'limit'       => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1598,12 +1598,12 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getEmailAddresses( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
+	public function getEmailAddresses( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => FALSE,
+			'preferred'   => false,
 			'type'        => array(),
-			'limit'       => NULL,
+			'limit'       => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1676,12 +1676,12 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getIm( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
+	public function getIm( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => FALSE,
+			'preferred'   => false,
 			'type'        => array(),
-			'limit'       => NULL,
+			'limit'       => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1763,12 +1763,12 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getSocialMedia( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
+	public function getSocialMedia( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => FALSE,
+			'preferred'   => false,
 			'type'        => array(),
-			'limit'       => NULL,
+			'limit'       => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1842,14 +1842,14 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
+	public function getLinks( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred' => FALSE,
+			'preferred' => false,
 			'type'      => array(),
-			'image'     => FALSE,
-			'logo'      => FALSE,
-			'limit'     => NULL,
+			'image'     => false,
+			'logo'      => false,
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1897,7 +1897,7 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getWebsites( $atts = array(), $cached = TRUE ) {
+	public function getWebsites( $atts = array(), $cached = true ) {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getLinks()' );
 
@@ -1905,7 +1905,7 @@ class cnEntry {
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'preferred' => NULL,
+			'preferred' => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1978,12 +1978,12 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getDates( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
+	public function getDates( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => FALSE,
+			'preferred'   => false,
 			'type'        => array(),
-			'limit'       => NULL,
+			'limit'       => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2493,7 +2493,7 @@ class cnEntry {
 
 		$defaults = array(
 			'key'    => '',
-			'single' => FALSE,
+			'single' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2534,7 +2534,7 @@ class cnEntry {
 	 * @return bool
 	 */
 	public function getLogoDisplay() {
-		return isset( $this->options['logo']['display'] ) ? $this->options['logo']['display'] : FALSE;
+		return isset( $this->options['logo']['display'] ) ? $this->options['logo']['display'] : false;
 	}
 
 	/**
@@ -2558,7 +2558,7 @@ class cnEntry {
 	 * @return bool
 	 */
 	public function getLogoLinked() {
-		return isset( $this->options['logo']['linked'] ) ? $this->options['logo']['linked'] : FALSE;
+		return isset( $this->options['logo']['linked'] ) ? $this->options['logo']['linked'] : false;
 	}
 
 	/**
@@ -2923,8 +2923,8 @@ class cnEntry {
 				$this->getOriginalImageURL( $atts['type'] ),
 				array(
 					'crop_mode' => empty( $atts['crop_mode'] ) && $atts['crop_mode'] !== 0 ? 1 : $atts['crop_mode'],
-					'width'     => empty( $atts['width'] ) ? NULL : $atts['width'],
-					'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
+					'width'     => empty( $atts['width'] ) ? null : $atts['width'],
+					'height'    => empty( $atts['height'] ) ? null : $atts['height'],
 					'quality'   => $atts['quality'],
 					'sub_dir'   => $slug,
 				),
@@ -3182,10 +3182,10 @@ class cnEntry {
 
 		} else {
 
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -3256,7 +3256,7 @@ class cnEntry {
 		$result = $wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
-				'ts'                 => current_time( 'mysql', TRUE ),
+				'ts'                 => current_time( 'mysql', true ),
 				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),
@@ -3336,7 +3336,7 @@ class cnEntry {
 		/*
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.
 		 */
-		if ( FALSE !== $result ) {
+		if ( false !== $result ) {
 
 			$this->addresses->save();
 			$this->phoneNumbers->save();
@@ -3368,31 +3368,31 @@ class cnEntry {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$addresses = $this->getAddresses( array(), FALSE, TRUE, 'db' );
-		$addresses = json_decode( json_encode( $addresses ), TRUE );
+		$addresses = $this->getAddresses( array(), false, true, 'db' );
+		$addresses = json_decode( json_encode( $addresses ), true );
 
-		$phoneNumbers = $this->getPhoneNumbers( array(), FALSE, TRUE, 'db' );
-		$phoneNumbers = json_decode( json_encode( $phoneNumbers ), TRUE );
+		$phoneNumbers = $this->getPhoneNumbers( array(), false, true, 'db' );
+		$phoneNumbers = json_decode( json_encode( $phoneNumbers ), true );
 
-		$emailAddresses = $this->getEmailAddresses( array(), FALSE, TRUE, 'db' );
-		$emailAddresses = json_decode( json_encode( $emailAddresses ), TRUE );
+		$emailAddresses = $this->getEmailAddresses( array(), false, true, 'db' );
+		$emailAddresses = json_decode( json_encode( $emailAddresses ), true );
 
-		$im = $this->getIm( array(), FALSE, TRUE, 'db' );
-		$im = json_decode( json_encode( $im ), TRUE );
+		$im = $this->getIm( array(), false, true, 'db' );
+		$im = json_decode( json_encode( $im ), true );
 
-		$social = $this->getSocialMedia( array(), FALSE, TRUE );
-		$social = json_decode( json_encode( $social ), TRUE );
+		$social = $this->getSocialMedia( array(), false, true );
+		$social = json_decode( json_encode( $social ), true );
 
-		$links = $this->getLinks( array(), FALSE, TRUE, 'db' );
-		$links = json_decode( json_encode( $links ), TRUE );
+		$links = $this->getLinks( array(), false, true, 'db' );
+		$links = json_decode( json_encode( $links ), true );
 
-		$dates = $this->getDates( array(), FALSE, TRUE, 'db' );
-		$dates = json_decode( json_encode( $dates ), TRUE );
+		$dates = $this->getDates( array(), false, true, 'db' );
+		$dates = json_decode( json_encode( $dates ), true );
 
 		$wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
-				'ts'            => current_time( 'mysql', TRUE ),
+				'ts'            => current_time( 'mysql', true ),
 				'addresses'     => serialize( $addresses ),
 				'phone_numbers' => serialize( $phoneNumbers ),
 				'email'         => serialize( $emailAddresses ),
@@ -3430,8 +3430,8 @@ class cnEntry {
 		$result = $wpdb->insert(
 			CN_ENTRY_TABLE,
 			array(
-				'ts'                 => current_time( 'mysql', TRUE ),
-				'date_added'         => current_time( 'timestamp', TRUE ),
+				'ts'                 => current_time( 'mysql', true ),
+				'date_added'         => current_time( 'timestamp', true ),
 				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),
@@ -3512,7 +3512,7 @@ class cnEntry {
 		$connections->lastQueryError = $wpdb->last_error;
 		$connections->lastInsertID = $wpdb->insert_id;
 
-		if ( FALSE !== $result ) {
+		if ( false !== $result ) {
 
 			$this->setId( $wpdb->insert_id );
 

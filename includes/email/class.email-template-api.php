@@ -140,7 +140,7 @@ class cnEmail_Template {
 	 */
 	public static function get( $slug ) {
 
-		return isset( self::$templates->{ $slug } ) ? self::$templates->{ $slug } : FALSE;
+		return isset( self::$templates->{ $slug } ) ? self::$templates->{ $slug } : false;
 
 	}
 
@@ -246,7 +246,7 @@ class cnEmail_Template {
 
 		$tags = array('</p>', '<br />', '<br/>', '<br>', '<hr />', '<hr>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</tr>');
 
-		$content = wpautop( $content, TRUE );
+		$content = wpautop( $content, true );
 
 		$content = str_ireplace( $tags, "\r\n", $content );
 

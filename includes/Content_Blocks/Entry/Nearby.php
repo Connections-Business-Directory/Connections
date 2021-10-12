@@ -80,16 +80,16 @@ class Nearby extends Content_Block {
 		$carousel = array();
 
 		$settings = array(
-			'arrows'           => cnArray::get( $carousel, 'arrows', TRUE ),
-			'autoplay'         => cnArray::get( $carousel, 'autoplay', FALSE ),
+			'arrows'           => cnArray::get( $carousel, 'arrows', true ),
+			'autoplay'         => cnArray::get( $carousel, 'autoplay', false ),
 			'autoplaySpeed'    => cnArray::get( $carousel, 'autoplaySpeed', 3000 ),
-			'dots'             => cnArray::get( $carousel, 'dots', TRUE ),
+			'dots'             => cnArray::get( $carousel, 'dots', true ),
 			//'cssEase'          => 'ease',
-			'infinite'         => cnArray::get( $carousel, 'infinite', FALSE ),
-			'lazyLoad'         => FALSE,
-			'pauseOnFocus'     => cnArray::get( $carousel, 'pause', TRUE ),
-			'pauseOnHover'     => cnArray::get( $carousel, 'pause', TRUE ),
-			'pauseOnDotsHover' => cnArray::get( $carousel, 'pause', TRUE ),
+			'infinite'         => cnArray::get( $carousel, 'infinite', false ),
+			'lazyLoad'         => false,
+			'pauseOnFocus'     => cnArray::get( $carousel, 'pause', true ),
+			'pauseOnHover'     => cnArray::get( $carousel, 'pause', true ),
+			'pauseOnDotsHover' => cnArray::get( $carousel, 'pause', true ),
 			'rows'             => 1,
 			'speed'            => cnArray::get( $carousel, 'speed', 500 ),
 			'slidesToShow'     => cnArray::get( $carousel, 'slidesToShow', 2 ),
@@ -105,10 +105,10 @@ class Nearby extends Content_Block {
 
 		$classNames = array( 'cn-list', 'slick-slider-block', 'slick-slider-content-block' );
 
-		if ( cnArray::get( $carousel, 'arrows', TRUE ) ) array_push( $classNames, 'slick-slider-has-arrows' );
-		if ( cnArray::get( $carousel, 'dots', TRUE ) ) array_push( $classNames, 'slick-slider-has-dots' );
+		if ( cnArray::get( $carousel, 'arrows', true ) ) array_push( $classNames, 'slick-slider-has-arrows' );
+		if ( cnArray::get( $carousel, 'dots', true ) ) array_push( $classNames, 'slick-slider-has-dots' );
 
-		if ( cnArray::get( $carousel, 'displayDropShadow', FALSE ) ) array_push( $classNames, 'slick-slider-has-shadow' );
+		if ( cnArray::get( $carousel, 'displayDropShadow', false ) ) array_push( $classNames, 'slick-slider-has-shadow' );
 
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 
@@ -175,7 +175,7 @@ class Nearby extends Content_Block {
 
 		$html = ob_get_clean();
 
-		if ( FALSE === $html ) {
+		if ( false === $html ) {
 
 			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
 		}

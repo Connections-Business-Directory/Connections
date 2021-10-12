@@ -147,7 +147,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Anniversaries Today', 'connections' ),
 			'list_type' => 'anniversary',
 			'days'      => 0,
-			'today'     => TRUE,
+			'today'     => true,
 		);
 
 		self::$metaboxes[] = array(
@@ -160,7 +160,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Birthdays Today', 'connections' ),
 			'list_type' => 'birthday',
 			'days'      => 0,
-			'today'     => TRUE,
+			'today'     => true,
 		);
 
 		self::$metaboxes[] = array(
@@ -173,7 +173,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Upcoming Anniversaries.', 'connections' ),
 			'list_type' => 'anniversary',
 			'days'      => 30,
-			'today'     => FALSE,
+			'today'     => false,
 		);
 
 		self::$metaboxes[] = array(
@@ -186,7 +186,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Upcoming Birthdays.', 'connections' ),
 			'list_type' => 'birthday',
 			'days'      => 30,
-			'today'     => FALSE,
+			'today'     => false,
 		);
 	}
 
@@ -323,8 +323,8 @@ class cnDashboardMetabox {
 		$atts = array(
 			'order_by'        => $metabox['args']['order_by'],
 			'template'        => $metabox['args']['template'],
-			'show_alphaindex' => FALSE,
-			'show_alphahead'  => FALSE,
+			'show_alphaindex' => false,
+			'show_alphahead'  => false,
 			'limit'           => $metabox['args']['limit'],
 			'status'          => $metabox['args']['status'],
 		);
@@ -350,11 +350,11 @@ class cnDashboardMetabox {
 			'list_type'        => $metabox['args']['list_type'],
 			'days'             => $metabox['args']['days'],
 			'include_today'    => $metabox['args']['today'],
-			'private_override' => FALSE,
+			'private_override' => false,
 			'date_format'      => cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' ),
-			'show_lastname'    => TRUE,
-			'list_title'       => NULL,
-			'show_title'       => FALSE,
+			'show_lastname'    => true,
+			'list_title'       => null,
+			'show_title'       => false,
 			'template'         => 'dashboard-upcoming',
 			'no_results'       => $metabox['args']['message'],
 		);

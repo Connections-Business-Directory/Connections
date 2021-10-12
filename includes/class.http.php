@@ -27,7 +27,7 @@ if ( ! class_exists( 'cnHTTP' ) ) :
 		 */
 		public static function verifySSL() {
 
-			return (bool) apply_filters( 'cn_sl_api_request_verify_ssl', TRUE );
+			return (bool) apply_filters( 'cn_sl_api_request_verify_ssl', true );
 		}
 	}
 

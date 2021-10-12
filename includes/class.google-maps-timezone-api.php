@@ -126,11 +126,11 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 		 *
 		 * @return cnGoogleMapsTimeZone
 		 */
-		public function __construct( $latitude = 0.0, $longitude = 0.0, $timestamp = NULL ) {
+		public function __construct( $latitude = 0.0, $longitude = 0.0, $timestamp = null ) {
 
-			if ( NULL === $timestamp ) {
+			if ( null === $timestamp ) {
 
-				$timestamp = current_time( 'timestamp', TRUE );
+				$timestamp = current_time( 'timestamp', true );
 			}
 
 			$this->setLatitudeLongitude( $latitude, $longitude )->setTimestamp( $timestamp );
@@ -173,7 +173,7 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( $latitude && $longitude ) {
 				return $latitude . ',' . $longitude;
 			} else {
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -460,7 +460,7 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 
 			$decodedSigningKey = self::base64DecodeUrlSafe( $this->getSigningKey() );
 
-			$signature = hash_hmac( 'sha1', $pathQueryString, $decodedSigningKey, TRUE );
+			$signature = hash_hmac( 'sha1', $pathQueryString, $decodedSigningKey, true );
 			$signature = self::base64EncodeUrlSafe( $signature );
 
 			return $signature;
@@ -544,11 +544,11 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 		 *
 		 * @return cnTimezone|string|WP_Error
 		 */
-		public function queryTimeZone( $raw = FALSE ) {
+		public function queryTimeZone( $raw = false ) {
 
 			$key = $this->getLatitudeLongitude();
 
-			if ( FALSE === $key || 0 === strlen( $key ) ) {
+			if ( false === $key || 0 === strlen( $key ) ) {
 
 				return new WP_Error(
 					'no_latitude_or_longitude', __( 'No latitude or longitude supplied.', 'connections' ),

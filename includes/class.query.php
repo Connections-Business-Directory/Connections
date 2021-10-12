@@ -158,7 +158,7 @@ class cnQuery {
 	 *
 	 * @return string
 	 */
-	public static function in( $values, $format, $in = TRUE ) {
+	public static function in( $values, $format, $in = true ) {
 
 		global $wpdb;
 

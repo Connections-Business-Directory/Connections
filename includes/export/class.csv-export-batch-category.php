@@ -81,8 +81,8 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 		$results = cnTerm::getTaxonomyTerms(
 			$this->type,
 			array(
-				'hide_empty'   => FALSE,
-				'hierarchical' => FALSE,
+				'hide_empty'   => false,
+				'hierarchical' => false,
 				'offset'       => $offset,
 				'number'       => $this->limit,
 			)
@@ -91,7 +91,7 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 		$count = cnTerm::getTaxonomyTerms(
 			$this->type,
 			array(
-				'hide_empty' => FALSE,
+				'hide_empty' => false,
 				'fields'     => 'count',
 			)
 		);

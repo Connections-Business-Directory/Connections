@@ -82,7 +82,7 @@ class cnFormObjects {
 	 *
 	 * @return string
 	 */
-	public function token( $formId = NULL ) {
+	public function token( $formId = null ) {
 		$token = md5( uniqid( rand(), true ) );
 
 		return $token;
@@ -98,16 +98,16 @@ class cnFormObjects {
 	 * @param bool    $echo    [optional] Whether to display or return the hidden form field.
 	 * @return string
 	 */
-	public function tokenField( $action, $item = FALSE, $name = '_cn_wpnonce', $referer = TRUE, $echo = TRUE ) {
+	public function tokenField( $action, $item = false, $name = '_cn_wpnonce', $referer = true, $echo = true ) {
 		$name = esc_attr( $name );
 
-		if ( $item === FALSE ) {
+		if ( $item === false ) {
 
-			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, FALSE );
+			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, false );
 
 		} else {
 
-			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, $referer, FALSE );
+			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, $referer, false );
 		}
 
 		if ( $echo ) echo $token;
@@ -136,9 +136,9 @@ class cnFormObjects {
 	 * @param bool    $item   [optional] Item name. Use when protecting multiple items on the same page.
 	 * @return string
 	 */
-	public function getNonce( $action, $item = FALSE ) {
+	public function getNonce( $action, $item = false ) {
 
-		if ( $item === FALSE ) {
+		if ( $item === false ) {
 
 			$nonce = $this->nonceBase . '_' . $action;
 
@@ -177,9 +177,9 @@ class cnFormObjects {
 				'class'    => $class,
 				'id'       => $name,
 				'options'  => $options,
-				'required' => FALSE,
+				'required' => false,
 				'label'    => '',
-				'return'   => TRUE,
+				'return'   => true,
 			),
 			$value
 		);
@@ -213,8 +213,8 @@ class cnFormObjects {
 				'class'    => '',
 				'id'       => $name,
 				'options'  => array_flip( $options ), // The options array is flipped to preserve backward compatibility.
-				'required' => FALSE,
-				'return'   => TRUE,
+				'required' => false,
+				'return'   => true,
 			),
 			$value
 		);

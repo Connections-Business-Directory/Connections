@@ -81,7 +81,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		imagefill( $resized, 0, 0, $color );
 
 		// Restore transparency.
-		imagesavealpha( $resized, TRUE );
+		imagesavealpha( $resized, true );
 
 		imagecopyresampled( $resized, $this->image, $origin_x, $origin_y, $src_x, $src_y, $width, $height, $src_w, $src_h );
 
@@ -134,7 +134,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function opacity( $level ) {
 
-		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 100 ) ) ) !== FALSE ) {
+		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 100 ) ) ) !== false ) {
 
 			$level /= 100;
 
@@ -145,7 +145,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 				// imagedestroy($this->image);
 				$this->image = $filtered;
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -232,13 +232,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			$g = hexdec ( substr( $hexColor, 2, 2 ) );
 			$b = hexdec ( substr( $hexColor, 2, 2 ) );
 
-			imagealphablending( $this->image, FALSE );
+			imagealphablending( $this->image, false );
 
 			if ( imagefilter( $this->image, IMG_FILTER_COLORIZE, $r, $g, $b, 0 ) ) {
 
-				imagesavealpha( $this->image, TRUE );
+				imagesavealpha( $this->image, true );
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -259,7 +259,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imagefilter( $this->image, IMG_FILTER_GRAYSCALE ) ) {
 
-				return TRUE;
+				return true;
 			}
 
 		}
@@ -281,7 +281,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imagefilter( $this->image, IMG_FILTER_NEGATE ) ) {
 
-				return TRUE;
+				return true;
 			}
 
 		}
@@ -300,13 +300,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function brightness( $level = 0 ) {
 
-		if ( filter_var( (int) $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -255, 'max_range' => 255 ) ) ) !== FALSE ) {
+		if ( filter_var( (int) $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -255, 'max_range' => 255 ) ) ) !== false ) {
 
 			if ( function_exists('imagefilter') ) {
 
 				if ( imagefilter( $this->image, IMG_FILTER_BRIGHTNESS, $level ) ) {
 
-					return TRUE;
+					return true;
 				}
 			}
 
@@ -333,13 +333,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		// Ensure we round up rather than down. This is to prevent over/under $level values.
 		$level = $level >= 0 ? (int) ceil( $level ) : (int) floor( $level );
 
-		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -100, 'max_range' => 80 ) ) ) !== FALSE ) {
+		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -100, 'max_range' => 80 ) ) ) !== false ) {
 
 			if ( function_exists('imagefilter') ) {
 
 				if ( imagefilter( $this->image, IMG_FILTER_CONTRAST, $level ) ) {
 
-					return TRUE;
+					return true;
 				}
 			}
 
@@ -362,7 +362,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imagefilter( $this->image, IMG_FILTER_EDGEDETECT ) && imagefilter( $this->image, IMG_FILTER_GRAYSCALE ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -383,7 +383,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imagefilter( $this->image, IMG_FILTER_EMBOSS ) && imagefilter( $this->image, IMG_FILTER_GRAYSCALE ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -404,7 +404,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imagefilter( $this->image, IMG_FILTER_GAUSSIAN_BLUR ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -425,7 +425,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imagefilter( $this->image, IMG_FILTER_SELECTIVE_BLUR ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -446,7 +446,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imagefilter( $this->image, IMG_FILTER_MEAN_REMOVAL ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -467,13 +467,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		$level = (float) cnUtility::remapRange( $level, -100, 100, -8, 8 );
 
-		if ( ( $level >= -8 ) && ( $level <= 8 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== FALSE ) ) {
+		if ( ( $level >= -8 ) && ( $level <= 8 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 
 			if ( function_exists('imagefilter') ) {
 
 				if ( imagefilter( $this->image, IMG_FILTER_SMOOTH, $level ) ) {
 
-					return TRUE;
+					return true;
 				}
 			}
 
@@ -506,7 +506,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imageconvolution( $this->image, $matrix, $divisor, $offset ) ) {
 
-				return TRUE;
+				return true;
 			}
 
 		}

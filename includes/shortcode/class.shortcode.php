@@ -105,9 +105,9 @@ class cnShortcode {
 		global $shortcode_tags;
 
 		// Exit early if the shortcode does not exist in content.
-		if ( FALSE === strpos( $content, "[$tag" ) || ! array_key_exists( $tag, $shortcode_tags ) ) {
+		if ( false === strpos( $content, "[$tag" ) || ! array_key_exists( $tag, $shortcode_tags ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		// Backup the registered shortcode tags, so they can be restored after searching for the requested shortcode.
@@ -125,7 +125,7 @@ class cnShortcode {
 
 			if ( empty( $matches ) ) {
 
-				return FALSE;
+				return false;
 			}
 
 			foreach ( $matches as $shortcode ) {
@@ -184,7 +184,7 @@ class cnShortcode {
 				return $found;
 
 			default:
-				return FALSE;
+				return false;
 		}
 	}
 
@@ -227,11 +227,11 @@ class cnShortcode {
 
 					$options .= $value;
 
-				} elseif ( FALSE === strpos( $value, '"' ) ) {
+				} elseif ( false === strpos( $value, '"' ) ) {
 
 					$options .= '"' . $value . '"';
 
-				} elseif ( FALSE === strpos( $value, '\'' ) ) {
+				} elseif ( false === strpos( $value, '\'' ) ) {
 
 					$options .= '\'' . $value . '\'';
 
@@ -670,7 +670,7 @@ class cnShortcode {
 				if ( ! is_array( $atts ) ) $atts = array();
 
 				// Disable the output of the repeat character index.
-				cnArray::set( $atts, 'repeat_alphaindex', FALSE );
+				cnArray::set( $atts, 'repeat_alphaindex', false );
 
 				// Force the use of the Names template.
 				cnArray::set( $atts, 'template', 'names' );
@@ -689,7 +689,7 @@ class cnShortcode {
 						if ( has_action( 'cn_edit_entry_form' ) ) {
 
 							// Check to see if the entry has been linked to a user ID.
-							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', TRUE );
+							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', true );
 							// var_dump( $entryID );
 
 							$results = $instance->retrieve->entries( array( 'status' => 'approved,pending' ) );
@@ -734,7 +734,7 @@ class cnShortcode {
 						$results = $instance->retrieve->entries( $atts );
 						//var_dump($results);
 
-						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : NULL;
+						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
 
 						return cnShortcode_Connections::shortcode( $atts, $content );
 

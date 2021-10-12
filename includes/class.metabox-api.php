@@ -252,7 +252,7 @@ class cnMetaboxAPI {
 	 *
 	 * @return array
 	 */
-	public static function get( $id = NULL ) {
+	public static function get( $id = null ) {
 
 		if ( is_null( $id ) ) return self::$metaboxes;
 
@@ -273,10 +273,10 @@ class cnMetaboxAPI {
 		if ( isset( self::$metaboxes[ $id ] ) ) {
 
 			unset( self::$metaboxes[ $id ] );
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -422,7 +422,7 @@ class cnMetaboxAPI {
 
 				foreach ( $metabox['fields'] as $field ) {
 
-					if ( $field['id'] == $key ) return TRUE;
+					if ( $field['id'] == $key ) return true;
 				}
 			}
 
@@ -432,13 +432,13 @@ class cnMetaboxAPI {
 
 					foreach ( $section['fields'] as $field ) {
 
-						if ( $field['id'] == $key ) return TRUE;
+						if ( $field['id'] == $key ) return true;
 					}
 				}
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -452,7 +452,7 @@ class cnMetaboxAPI {
 	 */
 	public static function getFieldType( $id ) {
 
-		$type = FALSE;
+		$type = false;
 
 		if ( is_string( $id ) && strlen( $id ) > 0 ) {
 
@@ -897,7 +897,7 @@ class cnMetabox_Render {
 
 			} else {
 
-				$value = $this->object->getMeta( array( 'key' => $field['id'], 'single' => TRUE ) );
+				$value = $this->object->getMeta( array( 'key' => $field['id'], 'single' => true ) );
 			}
 
 			if ( empty( $value ) ) $value = isset( $field['default'] ) ? $field['default'] : '';
@@ -942,15 +942,15 @@ class cnMetabox_Render {
 			// For a label to be rendered the $field['name'] has to be supplied.
 			// Show the label if $field['show_label'] is TRUE, OR, if it is not supplied assume TRUE and show it anyway.
 			// The result will be the label will be shown unless specifically $field['show_label'] is set to FALSE.
-			if ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( ! isset( $field['show_label'] ) || $field['show_label'] == TRUE ) ) {
+			if ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( ! isset( $field['show_label'] ) || $field['show_label'] == true ) ) {
 
 				echo '<th class="cn-metabox-label">' . esc_html( $field['name'] ) . '</th>';
 
-			} elseif ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( isset( $field['show_label'] ) && $field['show_label'] == TRUE ) ) {
+			} elseif ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( isset( $field['show_label'] ) && $field['show_label'] == true ) ) {
 
 				echo '<th class="cn-metabox-label">' . esc_html( $field['name'] ) . '</th>';
 
-			} elseif ( ! isset( $field['show_label'] ) || $field['show_label'] == FALSE ) {
+			} elseif ( ! isset( $field['show_label'] ) || $field['show_label'] == false ) {
 
 				echo '<th class="cn-metabox-label-empty">&nbsp;</th>';
 			}
@@ -1212,7 +1212,7 @@ class cnMetabox_Render {
 					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
 						! empty( $value ) ? date( 'm/d/Y', strtotime( $value ) ) : '',
-						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
+						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					wp_enqueue_script('jquery-ui-datepicker');
@@ -1239,7 +1239,7 @@ class cnMetabox_Render {
 					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
 						esc_attr( $value ),
-						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
+						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					wp_enqueue_style('wp-color-picker');
@@ -1261,7 +1261,7 @@ class cnMetabox_Render {
 							'iris',
 							admin_url( 'js/iris.min.js' ),
 							array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ),
-							FALSE,
+							false,
 							1
 						);
 
@@ -1269,7 +1269,7 @@ class cnMetabox_Render {
 							'wp-color-picker',
 							admin_url( 'js/color-picker.min.js' ),
 							array( 'iris' ),
-							FALSE,
+							false,
 							1
 						);
 
@@ -1302,7 +1302,7 @@ class cnMetabox_Render {
 					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
 						absint( $value ),
-						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
+						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					Field\Description::create()
@@ -1333,7 +1333,7 @@ class cnMetabox_Render {
 
 					printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s"%2$s>%3$s</textarea>',
 						esc_attr( $field['id'] ),
-						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : '',
+						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : '',
 						wp_kses_data( $value )
 					);
 
@@ -1381,7 +1381,7 @@ class cnMetabox_Render {
 							if ( $meta == '' || $meta == array() ) {
 
 								$keys = wp_list_pluck( $field['repeatable'], 'id' );
-								$meta = array ( array_fill_keys( $keys, NULL ) );
+								$meta = array ( array_fill_keys( $keys, null ) );
 							}
 
 							$meta = array_values( $meta );
@@ -1660,7 +1660,7 @@ class cnMetabox_Process {
 			 */
 			$field = apply_filters( 'cn_pre_save_meta', $field, $id, $action );
 
-			if ( ! $id = absint( $id ) ) return FALSE;
+			if ( ! $id = absint( $id ) ) return false;
 
 			/**
 			 * Filter to allow meta to not be saved.
@@ -1671,16 +1671,16 @@ class cnMetabox_Process {
 			 *
 			 * @param false $false Return TRUE to not save the field meta.
 			 */
-			if ( apply_filters( 'cn_pre_save_meta_skip', FALSE ) || apply_filters( 'cn_pre_save_meta_skip-' . $field['id'], FALSE ) ) {
+			if ( apply_filters( 'cn_pre_save_meta_skip', false ) || apply_filters( 'cn_pre_save_meta_skip-' . $field['id'], false ) ) {
 
 				continue;
 			}
 
 			$value = $this->sanitize(
 				$field['type'],
-				isset( $_POST[ $field['id'] ] ) ? $_POST[ $field['id'] ] : NULL,
+				isset( $_POST[ $field['id'] ] ) ? $_POST[ $field['id'] ] : null,
 				isset( $field['options'] ) ? $field['options'] : array(),
-				isset( $field['default'] ) ? $field['default'] : NULL
+				isset( $field['default'] ) ? $field['default'] : null
 			);
 
 			switch ( $action ) {
@@ -1714,7 +1714,7 @@ class cnMetabox_Process {
 	 *
 	 * @return mixed
 	 */
-	public function sanitize( $type, $value, $options = array(), $default = NULL ) {
+	public function sanitize( $type, $value, $options = array(), $default = null ) {
 
 		switch ( $type ) {
 

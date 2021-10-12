@@ -63,7 +63,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 		foreach ( $fields as $meta_key => $args ) {
 
 			$name       = $args['name'];
-			$all_values = cnMeta::get( $this->get_meta_type(), $object_id, $meta_key, FALSE );
+			$all_values = cnMeta::get( $this->get_meta_type(), $object_id, $meta_key, false );
 
 			if ( $args['single'] ) {
 

@@ -196,7 +196,7 @@ final class Address implements Query {
 	 *
 	 * @return mixed
 	 */
-	public function getData( $name, $default = NULL ) {
+	public function getData( $name, $default = null ) {
 
 		if ( ! array_key_exists( $name, $this->data ) ) {
 			return $default;

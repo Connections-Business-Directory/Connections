@@ -133,7 +133,7 @@ class cnEntry_HTML extends cnEntry {
 	 */
 	public function getImage( $atts = array() ) {
 
-		$displayImage  = FALSE;
+		$displayImage  = false;
 		//$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 		$tag           = array();
@@ -161,9 +161,9 @@ class cnEntry_HTML extends cnEntry {
 			'sizes'     => array( '100vw' ),
 			'style'     => array(),
 			'action'    => 'display',
-			'lazyload'  => TRUE,
-			'permalink' => FALSE, // Defaulting this to false for now. Default this to true in future update.
-			'return'    => FALSE,
+			'lazyload'  => true,
+			'permalink' => false, // Defaulting this to false for now. Default this to true in future update.
+			'return'    => false,
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );
@@ -187,7 +187,7 @@ class cnEntry_HTML extends cnEntry {
 		 */
 		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'style', 'return' );
 
-		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? TRUE : FALSE;
+		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? true : false;
 
 		switch ( $atts['image'] ) {
 
@@ -195,7 +195,7 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $this->getImageLinked() && ( $this->getImageDisplay() || 'edit' == $atts['action'] ) ) {
 
-					$displayImage  = TRUE;
+					$displayImage  = true;
 					$atts['class'] = 'cn-image photo';
 					$atts['alt']   = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
 					$atts['title'] = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
@@ -220,7 +220,7 @@ class cnEntry_HTML extends cnEntry {
 						if ( is_wp_error( $image ) ) {
 
 							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-							$displayImage = FALSE;
+							$displayImage = false;
 
 						} else {
 
@@ -252,7 +252,7 @@ class cnEntry_HTML extends cnEntry {
 							if ( is_wp_error( $image ) ) {
 
 								if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-								$displayImage = FALSE;
+								$displayImage = false;
 
 							} else {
 
@@ -268,7 +268,7 @@ class cnEntry_HTML extends cnEntry {
 
 						} else {
 
-							$displayImage = FALSE;
+							$displayImage = false;
 
 							$atts['fallback']['type']   = 'block';
 							$atts['fallback']['string'] = sprintf( __( 'Photo present %s is not valid.', 'connections' ), $size );
@@ -279,7 +279,7 @@ class cnEntry_HTML extends cnEntry {
 				/*
 				 * Create the link for the image if one was assigned.
 				 */
-				$links = $this->getLinks( array( 'image' => TRUE ) );
+				$links = $this->getLinks( array( 'image' => true ) );
 
 				if ( ! empty( $links ) ) {
 
@@ -292,7 +292,7 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || 'edit' == $atts['action'] ) ) {
 
-					$displayImage  = TRUE;
+					$displayImage  = true;
 					$atts['class'] = 'cn-image logo';
 					$atts['alt']   = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
 					$atts['title'] = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
@@ -317,7 +317,7 @@ class cnEntry_HTML extends cnEntry {
 						if ( is_wp_error( $image ) ) {
 
 							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-							$displayImage = FALSE;
+							$displayImage = false;
 
 						} else {
 
@@ -342,7 +342,7 @@ class cnEntry_HTML extends cnEntry {
 						if ( is_wp_error( $image ) ) {
 
 							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-							$displayImage = FALSE;
+							$displayImage = false;
 
 						} else {
 
@@ -359,7 +359,7 @@ class cnEntry_HTML extends cnEntry {
 				/*
 				 * Create the link for the image if one was assigned.
 				 */
-				$links = $this->getLinks( array( 'logo' => TRUE ) );
+				$links = $this->getLinks( array( 'logo' => true ) );
 
 				if ( ! empty( $links ) ) {
 
@@ -430,7 +430,7 @@ class cnEntry_HTML extends cnEntry {
 			 * If a link has not been attached to the photo/logo AND the permalink option is enabled
 			 * initiate a new link object and set it's properties.
 			 */
-			if ( ! isset( $link ) && TRUE === $atts['permalink'] ) {
+			if ( ! isset( $link ) && true === $atts['permalink'] ) {
 
 				$link = (object) array( 'url' => $this->getPermalink(), 'target' => '', 'followString' => '' );
 			}
@@ -575,7 +575,7 @@ class cnEntry_HTML extends cnEntry {
 				'home_id'    => $this->directoryHome['page_id'],
 				'force_home' => $this->directoryHome['force_home'],
 				'data'       => 'url',
-				'return'     => FALSE,
+				'return'     => false,
 			)
 		);
 	}
@@ -673,7 +673,7 @@ class cnEntry_HTML extends cnEntry {
 			'target' => 'name',
 			'before' => '',
 			'after'  => '',
-			'return' => FALSE
+			'return' => false
 		);
 
 		/**
@@ -759,7 +759,7 @@ class cnEntry_HTML extends cnEntry {
 					'text'       => $html,
 					'home_id'    => $this->directoryHome['page_id'],
 					'force_home' => $this->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 		}
@@ -782,7 +782,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getNameBlock()' );
 
-		return $this->getNameBlock( array( 'format' => '%prefix% %first% %middle% %last% %suffix%', 'return' => TRUE ) );
+		return $this->getNameBlock( array( 'format' => '%prefix% %first% %middle% %last% %suffix%', 'return' => true ) );
 	}
 
 	/**
@@ -798,7 +798,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getNameBlock()' );
 
-		return $this->getNameBlock( array( 'format' => '%last%, %first% %middle%', 'return' => TRUE ) );
+		return $this->getNameBlock( array( 'format' => '%last%, %first% %middle%', 'return' => true ) );
 	}
 
 	/**
@@ -847,7 +847,7 @@ class cnEntry_HTML extends cnEntry {
 			'after'         => '',
 			'before_item'   => '',
 			'after_item'    => '',
-			'return'        => FALSE,
+			'return'        => false,
 		);
 
 		/**
@@ -893,7 +893,7 @@ class cnEntry_HTML extends cnEntry {
 							'text'       => $relation->getName( array( 'format' => $atts['name_format'] ) ),
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE,
+							'return'     => true,
 						)
 					);
 
@@ -945,7 +945,7 @@ class cnEntry_HTML extends cnEntry {
 			'tag'    => 'span',
 			'before' => '',
 			'after'  => '',
-			'return' => FALSE
+			'return' => false
 		);
 
 		/**
@@ -1000,13 +1000,13 @@ class cnEntry_HTML extends cnEntry {
 		$defaults = array(
 			'before'    => '',
 			'after'     => '',
-			'show_org'  => TRUE,
-			'show_dept' => TRUE,
+			'show_org'  => true,
+			'show_dept' => true,
 			'link'      => array(
 				'organization' => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
 				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
 			),
-			'return'    => FALSE
+			'return'    => false
 		);
 
 		/**
@@ -1037,7 +1037,7 @@ class cnEntry_HTML extends cnEntry {
 							'text'       => $org,
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
+							'return'     => true
 						)
 					);
 
@@ -1061,7 +1061,7 @@ class cnEntry_HTML extends cnEntry {
 							'text'       => $dept,
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
+							'return'     => true
 						)
 					);
 
@@ -1091,7 +1091,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getOrgUnitBlock()' );
 
-		return $this->getOrgUnitBlock( array( 'return' => TRUE ) );
+		return $this->getOrgUnitBlock( array( 'return' => true ) );
 	}
 
 	/**
@@ -1103,7 +1103,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getOrgUnitBlock()' );
 
-		return $this->getOrgUnitBlock( array( 'return' => TRUE ) );
+		return $this->getOrgUnitBlock( array( 'return' => true ) );
 	}
 
 	/**
@@ -1137,7 +1137,7 @@ class cnEntry_HTML extends cnEntry {
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE
+			'return'    => false
 		);
 
 		/**
@@ -1233,15 +1233,15 @@ class cnEntry_HTML extends cnEntry {
 	public function getAddressBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred'   => NULL,
-			'type'        => NULL,
-			'limit'       => NULL,
-			'district'    => NULL,
-			'county'      => NULL,
-			'city'        => NULL,
-			'state'       => NULL,
-			'zipcode'     => NULL,
-			'country'     => NULL,
+			'preferred'   => null,
+			'type'        => null,
+			'limit'       => null,
+			'district'    => null,
+			'county'      => null,
+			'city'        => null,
+			'state'       => null,
+			'zipcode'     => null,
+			'country'     => null,
 			'coordinates' => array(),
 			'format'      => '',
 			'link'        => array(
@@ -1255,7 +1255,7 @@ class cnEntry_HTML extends cnEntry {
 			'separator'   => ':',
 			'before'      => '',
 			'after'       => '',
-			'return'      => FALSE,
+			'return'      => false,
 		);
 
 		/**
@@ -1282,7 +1282,7 @@ class cnEntry_HTML extends cnEntry {
 		                        ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                        ->take( $atts['limit'] )
 		                        ->escapeFor( 'display' )
-		                        ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                        ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
 		$this->addresses->resetFilters();
@@ -1333,19 +1333,19 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getMapBlock( $atts = array(), $cached = TRUE ) {
+	public function getMapBlock( $atts = array(), $cached = true ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'static'    => FALSE,
+			'preferred' => null,
+			'type'      => null,
+			'static'    => false,
 			'maptype'   => 'ROADMAP',
 			'zoom'      => 13,
 			'height'    => 400,
 			'width'     => 400,
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1424,14 +1424,14 @@ class cnEntry_HTML extends cnEntry {
 	public function getPhoneNumberBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1451,7 +1451,7 @@ class cnEntry_HTML extends cnEntry {
 		                           ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                           ->take( $atts['limit'] )
 		                           ->escapeFor( 'display' )
-		                           ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                           ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get phone numbers with different params return expected results.
 		$this->phoneNumbers->resetFilters();
@@ -1597,16 +1597,16 @@ class cnEntry_HTML extends cnEntry {
 	public function getEmailAddressBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
 			'title'     => '',
 			'size'      => 32,
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1626,7 +1626,7 @@ class cnEntry_HTML extends cnEntry {
 		                             ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                             ->take( $atts['limit'] )
 		                             ->escapeFor( 'display' )
-		                             ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                             ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get email addresses with different params return expected results.
 		$this->emailAddresses->resetFilters();
@@ -1676,14 +1676,14 @@ class cnEntry_HTML extends cnEntry {
 	public function getImBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1703,7 +1703,7 @@ class cnEntry_HTML extends cnEntry {
 		                 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                 ->take( $atts['limit'] )
 		                 ->escapeFor( 'display' )
-		                 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get messenger IDs with different params return expected results.
 		$this->im->resetFilters();
@@ -1772,18 +1772,18 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getSocialMediaBlock( $atts = array(), $cached = TRUE ) {
+	public function getSocialMediaBlock( $atts = array(), $cached = true ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
+			'preferred' => null,
+			'type'      => null,
 			'format'    => '',
 			//'style'     => 'wpzoom',
 			'size'      => 32,
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1888,7 +1888,7 @@ class cnEntry_HTML extends cnEntry {
 		/*
 		 * Set some defaults so the result resembles how the previous rendered.
 		 */
-		return $this->getLinkBlock( array( 'format' => '%label%%separator% %url%' , 'type' => array( 'personal', 'website' ) , 'return' => TRUE ) );
+		return $this->getLinkBlock( array( 'format' => '%label%%separator% %url%' , 'type' => array( 'personal', 'website' ) , 'return' => true ) );
 	}
 
 	/**
@@ -1929,17 +1929,17 @@ class cnEntry_HTML extends cnEntry {
 	public function getLinkBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
-			'label'     => NULL,
+			'label'     => null,
 			'size'      => 'lg',
 			'icon_size' => 32,
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1959,7 +1959,7 @@ class cnEntry_HTML extends cnEntry {
 		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                    ->take( $atts['limit'] )
 		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->links->resetFilters();
@@ -2014,16 +2014,16 @@ class cnEntry_HTML extends cnEntry {
 	public function getDateBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred'   => NULL,
-			'type'        => NULL,
-			'limit'       => NULL,
+			'preferred'   => null,
+			'type'        => null,
+			'limit'       => null,
 			'format'      => '',
 			'name_format' => '',
 			'date_format' => cnSettingsAPI::get( 'connections', 'display_general', 'date_format' ),
 			'separator'   => ':',
 			'before'      => '',
 			'after'       => '',
-			'return'      => FALSE,
+			'return'      => false,
 		);
 
 		/**
@@ -2043,7 +2043,7 @@ class cnEntry_HTML extends cnEntry {
 		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                    ->take( $atts['limit'] )
 		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->dates->resetFilters();
@@ -2098,7 +2098,7 @@ class cnEntry_HTML extends cnEntry {
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
 		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults['return'] = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		/*
@@ -2119,7 +2119,7 @@ class cnEntry_HTML extends cnEntry {
 		$out .= '<div class="vevent"><span class="birthday">';
 
 		$replace[] = '<span class="date-name">' . __( 'Birthday', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2180,7 +2180,7 @@ class cnEntry_HTML extends cnEntry {
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
 		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults['return'] = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		/*
@@ -2201,7 +2201,7 @@ class cnEntry_HTML extends cnEntry {
 		$out .= '<div class="vevent"><span class="anniversary">';
 
 		$replace[] = '<span class="date-name">' . __( 'Anniversary', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2240,7 +2240,7 @@ class cnEntry_HTML extends cnEntry {
 		$defaults = array(
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE
+			'return'    => false
 		);
 
 		/**
@@ -2278,7 +2278,7 @@ class cnEntry_HTML extends cnEntry {
 		$defaults = array(
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE
+			'return'    => false
 		);
 
 		/**
@@ -2315,7 +2315,7 @@ class cnEntry_HTML extends cnEntry {
 			'after'     => '',
 			'length'    => apply_filters( 'cn_excerpt_length', 55 ),
 			'more'      => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
-			'return'    => FALSE
+			'return'    => false
 		);
 
 		/**
@@ -2398,10 +2398,10 @@ class cnEntry_HTML extends cnEntry {
 			'parent_separator' => ' &raquo; ',
 			'before'           => '',
 			'after'            => '',
-			'link'             => FALSE,
-			'parents'          => FALSE,
+			'link'             => false,
+			'parents'          => false,
 			'child_of'         => 0,
-			'return'           => FALSE,
+			'return'           => false,
 		);
 
 		/**
@@ -2450,18 +2450,18 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string The HTML output of the custom content blocks.
 	 */
-	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = NULL ) {
+	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = null ) {
 
 		$blockContainerContent = '';
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$registered = cnOptions::getContentBlocks( NULL, 'single' );
+			$registered = cnOptions::getContentBlocks( null, 'single' );
 			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
 
 		} else {
 
-			$registered = cnOptions::getContentBlocks( NULL, 'list' );
+			$registered = cnOptions::getContentBlocks( null, 'list' );
 			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
 		}
 
@@ -2481,7 +2481,7 @@ class cnEntry_HTML extends cnEntry {
 			'header_tag'    => 'h3',
 			'before'        => '',
 			'after'         => '',
-			'return'        => FALSE
+			'return'        => false
 			);
 
 		$atts = wp_parse_args(
@@ -2530,7 +2530,7 @@ class cnEntry_HTML extends cnEntry {
 			if ( has_action( 'cn_output_meta_field-' . $key ) ) {
 
 				// Grab the meta.
-				$results = $this->getMeta( array( 'key' => $key, 'single' => TRUE ) );
+				$results = $this->getMeta( array( 'key' => $key, 'single' => true ) );
 
 				if ( ! empty( $results ) ) {
 
@@ -2624,7 +2624,7 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getCategoryClass( $return = FALSE ) {
+	public function getCategoryClass( $return = false ) {
 
 		$categories = $this->getCategory();
 		$out        = array();
@@ -2720,14 +2720,14 @@ class cnEntry_HTML extends cnEntry {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
+		if ( ! is_admin() ) cnSEO::doFilterPermalink( false );
 
 		$base      = get_option( 'connections_permalink' );
 		$name      = $base['name_base'];
 		$homeID    = Connections_Directory()->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
 		$piece     = array();
-		$id        = FALSE;
-		$token     = FALSE;
+		$id        = false;
+		$token     = false;
 		$iconSizes = array( 16, 24, 32, 48 );
 		$search    = array( '%text%', '%icon%' );
 		$replace   = array();
@@ -2744,11 +2744,11 @@ class cnEntry_HTML extends cnEntry {
 			'title'  => __( 'Download vCard', 'connections' ),
 			'format' => '',
 			'size'   => 24,
-			'follow' => FALSE,
+			'follow' => false,
 			'slug'   => '',
 			'before' => '',
 			'after'  => '',
-			'return' => FALSE
+			'return' => false
 		);
 
 		$atts = wp_parse_args( $atts , $defaults );

@@ -59,7 +59,7 @@ function _getTermChildren( $term_id, $terms, $taxonomy, &$ancestors = array() ) 
 
 	foreach ( (array) $terms as $term ) {
 
-		$use_id = FALSE;
+		$use_id = false;
 
 		if ( ! is_object( $term ) ) {
 
@@ -70,7 +70,7 @@ function _getTermChildren( $term_id, $terms, $taxonomy, &$ancestors = array() ) 
 				return $term;
 			}
 
-			$use_id = TRUE;
+			$use_id = true;
 		}
 
 		// Don't recurse if we've already identified the term as a child - this indicates a loop.

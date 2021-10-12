@@ -36,7 +36,7 @@ final class cnEntry_Addresses implements cnToArray {
 	 * @param int               $id   The entry ID to create the address collection for.
 	 * @param null|array|string $data The data used to create the collection with.
 	 */
-	public function __construct( $id = NULL, $data = NULL ) {
+	public function __construct( $id = null, $data = null ) {
 
 		$this->id       = $id;
 		$this->items    = new cnCollection();
@@ -85,12 +85,12 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function get( $id ) {
 
-		if ( FALSE !== $key = $this->getItemKeyByID( $id ) ) {
+		if ( false !== $key = $this->getItemKeyByID( $id ) ) {
 
 			return apply_filters( 'cn_address', $this->items->get( $key ) );
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -125,7 +125,7 @@ final class cnEntry_Addresses implements cnToArray {
 		//// Reset the filters just in case filters have been applied to the collection.
 		//$this->resetFilters();
 
-		if ( FALSE !== $key = $this->getItemKeyByID( $id ) ) {
+		if ( false !== $key = $this->getItemKeyByID( $id ) ) {
 
 			$this->items->forget( $key );
 		}
@@ -180,17 +180,17 @@ final class cnEntry_Addresses implements cnToArray {
 			}
 		);
 
-		if ( FALSE !== $key ) {
+		if ( false !== $key ) {
 
 			$this->items->put( $key, apply_filters( 'cn_set_address', $address ) );
 
 			//// Reset the filters so both the filtered and unfiltered collections are the same after updating an address.
 			//$this->resetFilters();
 
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -204,7 +204,7 @@ final class cnEntry_Addresses implements cnToArray {
 	public function updateFromArray( $data ) {
 
 		$new               = cnEntry_Addresses::createFromArray( $this->id, $data )->getCollection();
-		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : NULL;
+		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : null;
 		$existingPreferred = $this->getPreferred();
 
 		/** @var cnAddress $address */
@@ -372,9 +372,9 @@ final class cnEntry_Addresses implements cnToArray {
 	 *                     Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
 	 *                     NULL will be returned when the filtered collection is empty.
 	 */
-	public function render( $template = 'hcard', $atts = array(), $load = TRUE, $buffer = FALSE, $require_once = FALSE ) {
+	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return NULL;
+		if ( $this->filtered->isEmpty() ) return null;
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'addresses' . DIRECTORY_SEPARATOR . 'address',
@@ -398,7 +398,7 @@ final class cnEntry_Addresses implements cnToArray {
 	 *
 	 * @return cnCollection
 	 */
-	public function getCollection( $limit = NULL ) {
+	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_address' )
 			 ->applyFilter( 'cn_addresses' )
@@ -420,7 +420,7 @@ final class cnEntry_Addresses implements cnToArray {
 	 *
 	 * @return array
 	 */
-	public function getCollectionAsArray( $limit = NULL ) {
+	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_address' )
 			 ->applyFilter( 'cn_addresses' )
@@ -442,7 +442,7 @@ final class cnEntry_Addresses implements cnToArray {
 	 *
 	 * @return array
 	 */
-	public function getCollectionAsObjects( $limit = NULL ) {
+	public function getCollectionAsObjects( $limit = null ) {
 
 		return array_map(
 			function( $item ) {
@@ -542,7 +542,7 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function getPreferred() {
 
-		return apply_filters( 'cn_address', $this->filtered->where( 'preferred', '===', TRUE )->first() );
+		return apply_filters( 'cn_address', $this->filtered->where( 'preferred', '===', true )->first() );
 	}
 
 	/**
@@ -563,7 +563,7 @@ final class cnEntry_Addresses implements cnToArray {
 		$this->items->transform(
 			function( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
-				return $id == $item->getID() ? $item->setPreferred( TRUE ) : $item->setPreferred( FALSE );
+				return $id == $item->getID() ? $item->setPreferred( true ) : $item->setPreferred( false );
 			}
 		);
 
@@ -798,7 +798,7 @@ final class cnEntry_Addresses implements cnToArray {
 			 * Set saving as true to force the query of all entries filtered per supplied attributes.
 			 * This will reflect who it function when the table manager and query classes are implemented.
 			 */
-			$data = $instance->retrieve->addresses( $options, TRUE );
+			$data = $instance->retrieve->addresses( $options, true );
 		}
 
 		if ( empty( $data ) ) return $this;
@@ -856,7 +856,7 @@ final class cnEntry_Addresses implements cnToArray {
 
 		} else {
 
-			$preferred = NULL;
+			$preferred = null;
 		}
 
 		$collection = new cnCollection( $data );
@@ -888,7 +888,7 @@ final class cnEntry_Addresses implements cnToArray {
 
 			if ( ! is_null( $preferred ) ) {
 
-				$address['preferred'] = $key == $preferred ? TRUE : FALSE;
+				$address['preferred'] = $key == $preferred ? true : false;
 			}
 
 			/**

@@ -386,14 +386,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					'section'           => $section,
 					'id'                => $field['id'],
 					'type'              => $field['type'],
-					'size'              => isset( $field['size'] ) ? $field['size'] : NULL,
+					'size'              => isset( $field['size'] ) ? $field['size'] : null,
 					'title'             => isset( $field['title'] ) ? $field['title'] : '',
 					'desc'              => isset( $field['desc'] ) ? $field['desc'] : '',
 					'help'              => isset( $field['help'] ) ? $field['help'] : '',
 					'show_option_none'  => isset( $field['show_option_none'] ) ? $field['show_option_none'] : '',
 					'option_none_value' => isset( $field['option_none_value'] ) ? $field['option_none_value'] : '',
 					'options'           => isset( $field['options'] ) ? $field['options'] : array(),
-					'default'           => isset( $field['default'] ) ? $field['default'] : NULL,
+					'default'           => isset( $field['default'] ) ? $field['default'] : null,
 				);
 
 				// Set the field sanitation callback.
@@ -429,7 +429,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						self::$rest = cnArray::add(
 							self::$rest,
 							"{$optionName}.schema.default.{$field['id']}",
-							cnArray::get( $field, 'default', NULL )
+							cnArray::get( $field, 'default', null )
 						);
 					}
 				}
@@ -470,7 +470,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				foreach ( $options as $optionName => $value ) {
 
 					// TRUE and FALSE should be stored as 1 and 0 in the db so get_option must be strictly compared.
-					if ( get_option( $optionName ) === FALSE ) {
+					if ( get_option( $optionName ) === false ) {
 
 						if ( ! empty( $value ) ) {
 							// If the option doesn't exist, the default values can safely be saved.
@@ -536,7 +536,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				self::$rest = cnArray::add(
 					self::$rest,
 					"{$id}.show_in_rest",
-					cnArray::get( $section, 'show_in_rest', FALSE )
+					cnArray::get( $section, 'show_in_rest', false )
 				);
 
 				self::$rest = cnArray::add(
@@ -555,11 +555,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			foreach ( self::$fields as $field ) {
 
 				$type   = cnArray::get( self::$rest, "{$field['option_name']}.schema.type", 'string' );
-				$schema = FALSE;
+				$schema = false;
 
-				if ( cnArray::get( self::$rest, "{$field['option_name']}.show_in_rest", FALSE ) ) {
+				if ( cnArray::get( self::$rest, "{$field['option_name']}.show_in_rest", false ) ) {
 
-					$schema = cnArray::get( self::$rest, "{$field['option_name']}", FALSE );
+					$schema = cnArray::get( self::$rest, "{$field['option_name']}", false );
 				}
 
 				// Register the settings.
@@ -747,7 +747,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			} else {
 
 				$values = get_option( $field['section'] );
-				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : NULL; //print_r($value);
+				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : null; //print_r($value);
 				$name   = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 			}
 
@@ -881,7 +881,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					foreach ( $field['options'] as $key => $label )
 					{
-						$checked = checked( TRUE , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , FALSE );
+						$checked = checked( true , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , false );
 
 						$out .= sprintf( '<label><input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s" %3$s/> %4$s</label><br />', $name, $key, $checked, $label );
 					}
@@ -1011,8 +1011,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					$postTypes = get_post_types(
 						array(
-							'public'       => TRUE,
-							'show_in_menu' => TRUE,
+							'public'       => true,
+							'show_in_menu' => true,
 						),
 						'objects'
 					);
@@ -1068,13 +1068,13 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						'term-select',
 						array(
 							'hide_empty'    => 0,
-							'hide_if_empty' => FALSE,
+							'hide_if_empty' => false,
 							'name'          => $name,
 							'orderby'       => 'name',
 							'taxonomy'      => 'category',
 							'selected'      => $value,
-							'hierarchical'  => TRUE,
-							'return'        => TRUE,
+							'hierarchical'  => true,
+							'return'        => true,
 						)
 					);
 
@@ -1132,11 +1132,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
-									'disabled'=> TRUE,
+									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'disabled'=> true,
 									'label'   => $label,
 									'layout'  => '%field%%label%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1147,9 +1147,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1162,10 +1162,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%%label%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1179,7 +1179,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								'name'    => esc_attr( $name ) . '[order][]',
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							$key
 						);
@@ -1272,10 +1272,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
 									'checked' => 'checked="checked"',
-									'disabled'=> TRUE,
+									'disabled'=> true,
 									//'label'   => $label,
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1286,9 +1286,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1301,10 +1301,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
 									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									//'label'   => $label,
-									'disabled'=> TRUE,
+									'disabled'=> true,
 									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1317,10 +1317,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1335,7 +1335,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									//'label'   => $label,
 									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1349,7 +1349,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								'name'    => esc_attr( $name ) . '[order][]',
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							$key
 						);
@@ -1486,10 +1486,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
 									'checked' => 'checked="checked"',
-									'disabled'=> TRUE,
+									'disabled'=> true,
 									//'label'   => $label,
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1500,9 +1500,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1515,10 +1515,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
 									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									//'label'   => $label,
-									'disabled'=> TRUE,
+									'disabled'=> true,
 									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1535,10 +1535,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 										'id'   => esc_attr( $name ) . '[active][%token%]',
 										'name' => esc_attr( $name ) . '[active][]',
 									),
-									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								$key
 							);
@@ -1559,7 +1559,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 										'registered' => array_key_exists( $key, $field['options']['items'] ) ? 1 : 0,
 									),
 									'layout'  => '%field%',
-									'return'  => TRUE,
+									'return'  => true,
 								),
 								sanitize_text_field( isset( $value['icon'][ $key ]['name'] ) ? $value['icon'][ $key ]['name'] : $field['options']['items'][ $key ] )
 							);
@@ -1592,7 +1592,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								),
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							$key
 						);
@@ -1610,7 +1610,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								),
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['slug'] ) ? $value['icon'][ $key ]['slug'] : $key )
 						);
@@ -1628,7 +1628,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								),
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-color'] ) ? $value['icon'][ $key ]['background-color'] : '' )
 						);
@@ -1646,7 +1646,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								),
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-color-hover'] ) ? $value['icon'][ $key ]['background-color-hover'] : '' )
 						);
@@ -1664,7 +1664,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								),
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-transparent'] ) ? $value['icon'][ $key ]['background-transparent'] : '' )
 						);
@@ -1682,7 +1682,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								),
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color'] ) ? $value['icon'][ $key ]['foreground-color'] : '' )
 						);
@@ -1700,7 +1700,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								),
 								'label'   => '',
 								'layout'  => '%field%',
-								'return'  => TRUE,
+								'return'  => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color-hover'] ) ? $value['icon'][ $key ]['foreground-color-hover'] : '' )
 						);
@@ -1778,7 +1778,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						'<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $name ),
 						esc_attr( $value ),
-						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
+						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					wp_enqueue_script('wp-color-picker');
@@ -1943,7 +1943,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
 
 					// TRUE and FALSE should be stored as 1 and 0 in the db so get_option must be strictly compared.
-					if ( FALSE !== get_option( $optionName ) ) {
+					if ( false !== get_option( $optionName ) ) {
 
 						$settings[ $optionName ] = get_option( $optionName );
 
@@ -1972,13 +1972,13 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					} else {
 
-						return FALSE;
+						return false;
 					}
 				}
 
 			} else {
 
-				return FALSE;
+				return false;
 			}
 
 			if ( ! empty( $section ) ) {
@@ -1992,13 +1992,13 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						if ( array_key_exists( $option, $settings[ $section ] ) ) {
 							return $settings[ $section ][ $option ];
 						} else {
-							return FALSE;
+							return false;
 						}
 					} else {
 						return $settings[ $section ];
 					}
 				} else {
-					return FALSE;
+					return false;
 				}
 			}
 
@@ -2025,7 +2025,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			$optionName = "{$pluginID}_{$section}";
 
-			if ( FALSE !== $result = get_option( $optionName ) ) {
+			if ( false !== $result = get_option( $optionName ) ) {
 
 				if ( is_array( $result ) ) {
 
@@ -2140,7 +2140,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 */
 		public static function import( $json ) {
 
-			$result = cnFunction::decodeJSON( $json, TRUE );
+			$result = cnFunction::decodeJSON( $json, true );
 
 			if ( is_wp_error( $result ) ) {
 
@@ -2155,7 +2155,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				}
 			}
 
-			return TRUE;
+			return true;
 		}
 	}
 }

@@ -190,7 +190,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		/** @noinspection DuplicatedCode */
 		$this->id          = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred         = cnArray::get( $data, 'preferred', FALSE );
+		$preferred         = cnArray::get( $data, 'preferred', false );
 
 		$type              = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
@@ -317,12 +317,12 @@ final class cnAddress extends cnEntry_Collection_Item {
 
 				case 'latitude':
 
-					$this->coordinates->setLatitude( NULL );
+					$this->coordinates->setLatitude( null );
 					break;
 
 				case 'longitude':
 
-					$this->coordinates->setLongitude( NULL );
+					$this->coordinates->setLongitude( null );
 					break;
 
 				default:
@@ -670,9 +670,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setCoordinates( $latitude, $longitude ) {
 
-		if ( NULL === $latitude || NULL === $longitude ) {
+		if ( null === $latitude || null === $longitude ) {
 
-			$this->coordinates = NULL;
+			$this->coordinates = null;
 		}
 
 		$this->coordinates = new cnCoordinates( $latitude, $longitude );
@@ -691,8 +691,8 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function getLatitude() {
 
-		if ( NULL === $this->coordinates ) {
-			return NULL;
+		if ( null === $this->coordinates ) {
+			return null;
 		}
 
 		return $this->coordinates->getLatitude();
@@ -706,8 +706,8 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function getLongitude() {
 
-		if ( NULL === $this->coordinates ) {
-			return NULL;
+		if ( null === $this->coordinates ) {
+			return null;
 		}
 
 		return $this->coordinates->getLongitude();

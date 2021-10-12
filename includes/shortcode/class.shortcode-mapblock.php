@@ -64,7 +64,7 @@ class mapBlock {
 			)
 		);
 
-		$this->layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
+		$this->layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( false );
 
 		$googleMapsAPIBrowserKey = Option::get(
 			'connections',
@@ -164,7 +164,7 @@ class mapBlock {
 			'zoom'      => 16,
 			'height'    => '400px',
 			'width'     => '100%',
-			'marker'    => TRUE,
+			'marker'    => true,
 		);
 	}
 
@@ -207,7 +207,7 @@ class mapBlock {
 				$defaults = array(
 					'id'      => 'layer',
 					'name'    => '',
-					'control' => FALSE,
+					'control' => false,
 				);
 
 				$atts = $this->parseShortcodeAtts( $match[3] );
@@ -249,7 +249,7 @@ class mapBlock {
 	 *
 	 * @return string
 	 */
-	private function parseMarkers( $content, $layer = NULL ) {
+	private function parseMarkers( $content, $layer = null ) {
 
 		$pattern = get_shortcode_regex( array( 'mapmarker' ) );
 
@@ -259,8 +259,8 @@ class mapBlock {
 
 				$defaults = array(
 					'id'        => 'marker',
-					'latitude'  => NULL,
-					'longitude' => NULL,
+					'latitude'  => null,
+					'longitude' => null,
 				);
 
 				$atts = shortcode_parse_atts( $match[3] );

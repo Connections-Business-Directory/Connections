@@ -246,7 +246,7 @@ class cnTerm_Meta_UI {
 	 */
 	public function get( $term_id = 0 ) {
 
-		return cnMeta::get( 'term', $term_id, $this->meta_key, TRUE );
+		return cnMeta::get( 'term', $term_id, $this->meta_key, true );
 	}
 
 	/**

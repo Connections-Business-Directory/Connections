@@ -56,7 +56,7 @@ function connectionsUpcomingList( $atts ) {
  *
  * @return string
  */
-function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
+function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 	/**
 	 * @var ConnectionsLoad $connections
@@ -69,7 +69,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 	$templateTypeDefaults = array(
 		'list_type' => 'birthday',
-		'template'  => NULL,
+		'template'  => null,
 	);
 
 	$templateType = cnSanitize::args( $atts, $templateTypeDefaults );
@@ -86,24 +86,24 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	}
 
 	// No template found return error message.
-	if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $templateType );
+	if ( $template === false ) return cnTemplatePart::loadTemplateError( $templateType );
 
 	$defaults = array(
 		'list_type'        => 'birthday',
 		'days'             => '30',
-		'include_today'    => TRUE,
-		'private_override' => FALSE,
+		'include_today'    => true,
+		'private_override' => false,
 		'name_format'      => '',
 		'date_format'      => 'F jS',
 		'year_type'        => 'upcoming',
 		'year_format'      => '%y ' . __( 'Year(s)', 'connections' ),
-		'show_lastname'    => FALSE,
-		'show_title'       => TRUE,
+		'show_lastname'    => false,
+		'show_title'       => true,
 		'list_title'       => '',
 		'no_results'       => apply_filters( 'cn_upcoming_no_result_message', __( 'No results.', 'connections' ) ),
-		'template'         => NULL,
+		'template'         => null,
 		'content'          => '',
-		'force_home'       => TRUE,
+		'force_home'       => true,
 		'home_id'          => cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 	);
 
@@ -275,10 +275,10 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	return $out;
 }
 
-function _connections_vcard( $atts , $content = NULL, $tag = 'connections_vcard' ) {
+function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard' ) {
 
 	$atts = shortcode_atts( array(
-			'id' => NULL
+			'id' => null
 		),
 		$atts,
 		$tag
@@ -291,10 +291,10 @@ function _connections_vcard( $atts , $content = NULL, $tag = 'connections_vcard'
 	return '<span class="cn-qtip-vcard">' . $content . $qTipContent . '</span>';
 }
 
-function _connections_qtip( $atts , $content = NULL, $tag = 'connections_qtip' )
+function _connections_qtip( $atts , $content = null, $tag = 'connections_qtip' )
 {
 	$atts = shortcode_atts( array(
-			'id' => NULL
+			'id' => null
 		),
 		$atts,
 		$tag

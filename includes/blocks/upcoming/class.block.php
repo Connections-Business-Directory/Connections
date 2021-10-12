@@ -32,7 +32,7 @@ class Upcoming {
 					),
 					'displayLastName'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'dateFormat'           => array(
 						'type'    => 'string',
@@ -48,11 +48,11 @@ class Upcoming {
 					),
 					'includeToday'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'listType'             => array(
 						'type'    => 'string',
@@ -106,7 +106,7 @@ class Upcoming {
 			'include_today'    => $attributes['includeToday'],
 			'date_format'      => $attributes['dateFormat'],
 			'show_lastname'    => $attributes['displayLastName'],
-			'show_title'       => FALSE,
+			'show_title'       => false,
 			'list_title'       => $attributes['heading'],
 			'no_results'       => $attributes['noResults'],
 			'template'         => $attributes['template'],
@@ -123,7 +123,7 @@ class Upcoming {
 
 		if ( 0 < strlen( $options['list_title'] ) ) {
 
-			$options['show_title'] = TRUE;
+			$options['show_title'] = true;
 			$options['list_title'] = str_replace( '%d', absint( $options['days'] ), $options['list_title'] );
 		}
 

@@ -40,7 +40,7 @@ class Entry extends cnShortcode {
 		/** @var Template $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
-		if ( $template === FALSE ) {
+		if ( $template === false ) {
 			$this->html = cnTemplatePart::loadTemplateError( $atts );
 			return;
 		}
@@ -151,10 +151,10 @@ class Entry extends cnShortcode {
 	private function getDefaults( $template ) {
 
 		$defaults = array(
-			'id'         => NULL,
-			'template'   => NULL,
-			'force_home' => FALSE,
-			'random'     => FALSE,
+			'id'         => null,
+			'template'   => null,
+			'force_home' => false,
+			'random'     => false,
 			'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 		);
 
@@ -185,9 +185,9 @@ class Entry extends cnShortcode {
 
 		// Force some specific defaults.
 		$atts['content']         = '';
-		$atts['lock']            = TRUE;
-		$atts['show_alphaindex'] = FALSE;
-		$atts['show_alphahead']  = FALSE;
+		$atts['lock']            = true;
+		$atts['show_alphaindex'] = false;
+		$atts['show_alphahead']  = false;
 		$atts['limit']           = 1;
 
 		_format::toBoolean( $atts['force_home'] );
@@ -255,7 +255,7 @@ class Entry extends cnShortcode {
 
 		$html = ob_get_clean();
 
-		if ( FALSE === $html ) {
+		if ( false === $html ) {
 
 			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
 		}

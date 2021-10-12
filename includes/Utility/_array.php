@@ -145,7 +145,7 @@ final class _array {
 	 *
 	 * @return mixed
 	 */
-	public static function first( $array, callable $callback = NULL, $default = NULL ) {
+	public static function first( $array, callable $callback = null, $default = null ) {
 
 		if ( is_null( $callback ) ) {
 			if ( empty( $array ) ) {
@@ -223,13 +223,13 @@ final class _array {
 	 *
 	 * @return mixed
 	 */
-	public static function last( $array, callable $callback = NULL, $default = NULL ) {
+	public static function last( $array, callable $callback = null, $default = null ) {
 
 		if ( is_null( $callback ) ) {
 			return empty( $array ) ? $default : end( $array );
 		}
 
-		return self::first( array_reverse( $array, TRUE ), $callback, $default );
+		return self::first( array_reverse( $array, true ), $callback, $default );
 	}
 
 	///**
@@ -312,7 +312,7 @@ final class _array {
 	 *
 	 * @return mixed
 	 */
-	public static function get( $array, $key, $default = NULL ) {
+	public static function get( $array, $key, $default = null ) {
 
 		if ( ! self::accessible( $array ) ) {
 			return $default;
@@ -348,17 +348,17 @@ final class _array {
 	public static function has( $array, $keys ) {
 
 		if ( is_null( $keys ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$keys = (array) $keys;
 
 		if ( ! $array ) {
-			return FALSE;
+			return false;
 		}
 
 		if ( $keys === array() ) {
-			return FALSE;
+			return false;
 		}
 
 		foreach ( $keys as $key ) {
@@ -372,12 +372,12 @@ final class _array {
 				if ( self::accessible( $subKeyArray ) && self::exists( $subKeyArray, $segment ) ) {
 					$subKeyArray = $subKeyArray[ $segment ];
 				} else {
-					return FALSE;
+					return false;
 				}
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -418,7 +418,7 @@ final class _array {
 	 *
 	 * @return array
 	 */
-	public static function pluck( $array, $value, $key = NULL ) {
+	public static function pluck( $array, $value, $key = null ) {
 
 		$results = array();
 
@@ -468,7 +468,7 @@ final class _array {
 	 *
 	 * @return mixed
 	 */
-	public static function data_get( $target, $key, $default = NULL ) {
+	public static function data_get( $target, $key, $default = null ) {
 
 		if ( is_null( $key ) ) {
 			return $target;
@@ -510,7 +510,7 @@ final class _array {
 	 *
 	 * @return array
 	 */
-	public static function prepend( $array, $value, $key = NULL ) {
+	public static function prepend( $array, $value, $key = null ) {
 
 		if ( is_null( $key ) ) {
 			array_unshift( $array, $value );
@@ -530,7 +530,7 @@ final class _array {
 	 *
 	 * @return mixed
 	 */
-	public static function pull( &$array, $key, $default = NULL ) {
+	public static function pull( &$array, $key, $default = null ) {
 
 		if ( ! self::accessible( $array ) ) {
 			return $default;

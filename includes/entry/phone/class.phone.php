@@ -70,7 +70,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 
 		$this->id          = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred         = cnArray::get( $data, 'preferred', FALSE );
+		$preferred         = cnArray::get( $data, 'preferred', false );
 
 		$type              = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 

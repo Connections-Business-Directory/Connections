@@ -55,7 +55,7 @@ class cnPlugin_Updater {
 			'author'    => '',
 			'version'   => '',
 			'license'   => '',
-			'beta'      => FALSE,
+			'beta'      => false,
 		);
 
 		$plugin = cnSanitize::args( $data, $defaults );
@@ -77,7 +77,7 @@ class cnPlugin_Updater {
 
 		self::$plugins[ $plugin['basename'] ] = $plugin;
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -97,7 +97,7 @@ class cnPlugin_Updater {
 			return self::$plugins[ $basename ];
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -120,7 +120,7 @@ class cnPlugin_Updater {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -204,7 +204,7 @@ class cnPlugin_Updater {
 			return $r;
 		}
 
-		$plugins = json_decode( $r['body']['plugins'], TRUE );
+		$plugins = json_decode( $r['body']['plugins'], true );
 
 		if ( ! is_array( $plugins ) || ! array_key_exists( 'active', $plugins ) ) {
 
@@ -293,7 +293,7 @@ class cnPlugin_Updater {
 		if ( $time_not_changed ) {
 
 			$plugins        = get_plugins();
-			$plugin_changed = FALSE;
+			$plugin_changed = false;
 
 			foreach ( $plugins as $file => $p ) {
 
@@ -303,7 +303,7 @@ class cnPlugin_Updater {
 				     && array_key_exists( $file, self::$plugins ) /* Skip all plugins not registered with this class. */
 				) {
 
-					$plugin_changed = TRUE;
+					$plugin_changed = true;
 				}
 			}
 
@@ -315,7 +315,7 @@ class cnPlugin_Updater {
 					     && array_key_exists( $plugin_file, self::$plugins ) /* Skip all plugins not registered with this class. */
 					) {
 
-						$plugin_changed = TRUE;
+						$plugin_changed = true;
 						break;
 					}
 				}
@@ -337,7 +337,7 @@ class cnPlugin_Updater {
 
 		$response = self::request();
 
-		if ( FALSE !== $response && is_array( $response ) ) {
+		if ( false !== $response && is_array( $response ) ) {
 
 			$update    = array();
 			$no_update = array();
@@ -399,7 +399,7 @@ class cnPlugin_Updater {
 		global $pagenow;
 
 		$timeout    = 0;
-		$clearCache = get_option( 'cn_update_plugins_clear_cache', FALSE );
+		$clearCache = get_option( 'cn_update_plugins_clear_cache', false );
 
 		/**
 		 * If the check update plugins flag has been set, triggered by updating a addon, return `0` as the timeout
@@ -464,9 +464,9 @@ class cnPlugin_Updater {
 
 		$timeout = self::get_update_check_timeout();
 
-		$cached = get_option( 'cn_update_plugins', FALSE );
+		$cached = get_option( 'cn_update_plugins', false );
 
-		if ( FALSE !== $cached ) {
+		if ( false !== $cached ) {
 
 			$last_checked = isset( $cached['last_checked'] ) && ! empty( $cached['last_checked'] ) ? $cached['last_checked'] : time();
 
@@ -507,7 +507,7 @@ class cnPlugin_Updater {
 				'checked'      => $checked,
 				'last_checked' => time(),
 			),
-			FALSE
+			false
 		);
 	}
 
@@ -535,14 +535,14 @@ class cnPlugin_Updater {
 	 */
 	public static function update_plugins_clear() {
 
-		$clearCache = get_option( 'cn_update_plugins_clear_cache', FALSE );
+		$clearCache = get_option( 'cn_update_plugins_clear_cache', false );
 
 		if ( $clearCache ) {
 
 			update_option(
 				'cn_update_plugins_clear_cache',
-				FALSE,
-				FALSE
+				false,
+				false
 			);
 		}
 	}
@@ -589,11 +589,11 @@ class cnPlugin_Updater {
 		// Get the transient where we store the api request for this plugin for 1 hour.
 		$transient = get_site_transient( $cache_key );
 
-		if ( FALSE === $transient && FALSE !== $plugin ) {
+		if ( false === $transient && false !== $plugin ) {
 
 			$response = self::request( $plugin );
 
-			if ( FALSE !== $response ) {
+			if ( false !== $response ) {
 
 				// Expires in 1 hour.
 				set_site_transient( $cache_key, $response, HOUR_IN_SECONDS );
@@ -619,7 +619,7 @@ class cnPlugin_Updater {
 	 */
 	private static function request( $plugin = array() ) {
 
-		$response = FALSE;
+		$response = false;
 
 		/**
 		 * Timeout logic base on WP core.

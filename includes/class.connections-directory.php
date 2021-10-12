@@ -123,7 +123,7 @@ final class Connections_Directory {
 	 *
 	 * @var bool
 	 */
-	public $dbUpgrade = FALSE;
+	public $dbUpgrade = false;
 
 	/**
 	 * Stores the template parts object and any templates activated by the cnTemplateFactory object.
@@ -422,7 +422,7 @@ final class Connections_Directory {
 	private function initOptions() {
 		$version = $this->options->getVersion();
 
-		switch ( TRUE ) {
+		switch ( true ) {
 
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case ( version_compare( $version, '0.7.3', '<' ) ) :
@@ -431,10 +431,10 @@ final class Connections_Directory {
 				 * so they will be accessible in the structure supported by the
 				 * Connections WordPress Settings API Wrapper Class.
 				 */
-				if ( FALSE !== get_option( 'connections_options' ) ) {
+				if ( false !== get_option( 'connections_options' ) ) {
 					$options = get_option( 'connections_options' );
 
-					if ( FALSE === get_option( 'connections_login' ) ) {
+					if ( false === get_option( 'connections_login' ) ) {
 						update_option( 'connections_login' , array(
 							                                   'required' => $options['settings']['allow_public'],
 							                                   'message' => 'Please login to view the directory.'
@@ -442,7 +442,7 @@ final class Connections_Directory {
 						);
 					}
 
-					if ( FALSE === get_option( 'connections_visibility' ) ) {
+					if ( false === get_option( 'connections_visibility' ) ) {
 						update_option( 'connections_visibility' , array(
 							                                        'allow_public_override' => $options['settings']['allow_public_override'],
 							                                        'allow_private_override' => $options['settings']['allow_private_override']
@@ -450,7 +450,7 @@ final class Connections_Directory {
 						);
 					}
 
-					if ( FALSE === get_option( 'connections_image_thumbnail' ) ) {
+					if ( false === get_option( 'connections_image_thumbnail' ) ) {
 						update_option( 'connections_image_thumbnail' , array(
 							                                             'quality' => $options['settings']['image']['thumbnail']['quality'],
 							                                             'width' => $options['settings']['image']['thumbnail']['x'],
@@ -459,7 +459,7 @@ final class Connections_Directory {
 						                                             )
 						);
 					}
-					if ( FALSE === get_option( 'connections_image_medium' ) ) {
+					if ( false === get_option( 'connections_image_medium' ) ) {
 						update_option( 'connections_image_medium' , array(
 							                                          'quality' => $options['settings']['image']['entry']['quality'],
 							                                          'width' => $options['settings']['image']['entry']['x'],
@@ -469,7 +469,7 @@ final class Connections_Directory {
 						);
 					}
 
-					if ( FALSE === get_option( 'connections_image_large' ) ) {
+					if ( false === get_option( 'connections_image_large' ) ) {
 						update_option( 'connections_image_large' , array(
 							                                         'quality' => $options['settings']['image']['profile']['quality'],
 							                                         'width' => $options['settings']['image']['profile']['x'],
@@ -479,7 +479,7 @@ final class Connections_Directory {
 						);
 					}
 
-					if ( FALSE === get_option( 'connections_image_logo' ) ) {
+					if ( false === get_option( 'connections_image_logo' ) ) {
 						update_option( 'connections_image_logo' , array(
 							                                        'quality' => $options['settings']['image']['logo']['quality'],
 							                                        'width' => $options['settings']['image']['logo']['x'],
@@ -489,14 +489,14 @@ final class Connections_Directory {
 						);
 					}
 
-					if ( FALSE === get_option( 'connections_compatibility' ) ) {
+					if ( false === get_option( 'connections_compatibility' ) ) {
 						update_option( 'connections_compatibility' , array(
 							                                           'google_maps_api' => $options['settings']['advanced']['load_google_maps_api'],
 							                                           'javascript_footer' => $options['settings']['advanced']['load_javascript_footer'] )
 						);
 					}
 
-					if ( FALSE === get_option( 'connections_debug' ) ) {
+					if ( false === get_option( 'connections_debug' ) ) {
 						update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
 					}
 
@@ -542,15 +542,15 @@ final class Connections_Directory {
 				update_option( 'connections_permalink', $options );
 		}
 
-		if ( NULL === $this->options->getDefaultTemplatesSet() ) $this->options->setDefaultTemplates();
+		if ( null === $this->options->getDefaultTemplatesSet() ) $this->options->setDefaultTemplates();
 
 		// Class used for managing role capabilities.
 		if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
-		if ( TRUE !== $this->options->getCapabilitiesSet() ) {
+		if ( true !== $this->options->getCapabilitiesSet() ) {
 
 			cnRole::reset();
-			$this->options->defaultCapabilitiesSet( TRUE );
+			$this->options->defaultCapabilitiesSet( true );
 		}
 
 		/**

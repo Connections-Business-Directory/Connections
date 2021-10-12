@@ -36,7 +36,7 @@ class Directory {
 					),
 					'characterIndex'       => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'city'                 => array(
 						'type'    => 'array',
@@ -79,7 +79,7 @@ class Directory {
 					),
 					'forceHome'            => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'fullName'             => array(
 						'type'    => 'array',
@@ -94,11 +94,11 @@ class Directory {
 					),
 					'inCategories'         => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'lastName'             => array(
 						'type'    => 'array',
@@ -121,7 +121,7 @@ class Directory {
 					),
 					'orderRandom'          => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'organization'         => array(
 						'type'    => 'array',
@@ -132,15 +132,15 @@ class Directory {
 					),
 					'parseQuery'           => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'repeatCharacterIndex' => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'sectionHead'          => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'state'                => array(
 						'type'    => 'array',
@@ -198,14 +198,14 @@ class Directory {
 
 		if ( ! array_key_exists( $attributes['listType'], $entryTypes ) ) {
 
-			$attributes['listType'] = NULL;
+			$attributes['listType'] = null;
 		}
 
 		$categories = \cnFunction::decodeJSON( $attributes['categories'] );
 
 		if ( is_wp_error( $categories ) ) {
 
-			$attributes['categories'] = NULL;
+			$attributes['categories'] = null;
 
 		} else {
 
@@ -218,7 +218,7 @@ class Directory {
 
 		if ( is_wp_error( $excludeCategories ) ) {
 
-			$attributes['excludeCategories'] = NULL;
+			$attributes['excludeCategories'] = null;
 
 		} else {
 

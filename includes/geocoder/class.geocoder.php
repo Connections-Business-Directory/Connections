@@ -70,7 +70,7 @@ class Geocoder {
 	 * @param Provider    $provider
 	 * @param null|string $locale
 	 */
-	public function __construct( $provider, $locale = NULL ) {
+	public function __construct( $provider, $locale = null ) {
 
 		$this->provider = $provider;
 		$this->locale   = $locale;
@@ -88,14 +88,14 @@ class Geocoder {
 
 		$locale = $query->getLocale();
 
-		if ( empty( $locale ) && NULL !== $this->locale ) {
+		if ( empty( $locale ) && null !== $this->locale ) {
 
 			$query = $query->withLocale( $this->locale );
 		}
 
 		$bounds = $query->getBounds();
 
-		if ( empty( $bounds ) && NULL !== $this->bounds ) {
+		if ( empty( $bounds ) && null !== $this->bounds ) {
 
 			$query = $query->withBounds( $this->bounds );
 		}
@@ -114,7 +114,7 @@ class Geocoder {
 
 		$locale = $query->getLocale();
 
-		if ( empty( $locale ) && NULL !== $this->locale ) {
+		if ( empty( $locale ) && null !== $this->locale ) {
 
 			$query = $query->withLocale( $this->locale );
 		}

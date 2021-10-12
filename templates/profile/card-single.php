@@ -16,7 +16,7 @@ $notes = $entry->getNotes();
 	<div class="cn-left" style="float: left">
 
 		<div style="margin-bottom: 5px;">
-			<h3 style="margin: 0;"><?php $entry->getNameBlock( array( 'format' => $atts['name_format'], 'link' => FALSE ) ); ?></h3>
+			<h3 style="margin: 0;"><?php $entry->getNameBlock( array( 'format' => $atts['name_format'], 'link' => false ) ); ?></h3>
 			<?php
 
 			if ( $atts['show_title'] ) $entry->getTitleBlock();

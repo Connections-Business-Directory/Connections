@@ -138,7 +138,7 @@ final class cnCoordinates {
 	 */
 	public function getLatitude() {
 
-		return (float) $this->latitude ? $this->latitude : NULL;
+		return (float) $this->latitude ? $this->latitude : null;
 	}
 
 	/**
@@ -164,7 +164,7 @@ final class cnCoordinates {
 	 */
 	public function getLongitude() {
 
-		return (float) $this->longitude ? $this->longitude : NULL;
+		return (float) $this->longitude ? $this->longitude : null;
 	}
 
 	/**

@@ -303,7 +303,7 @@ class cnTerms {
 			cnTerm::updateCount( $result, $taxonomySlug );
 		}
 
-		cnCache::clear( TRUE, 'transient', "cn_{$taxonomySlug}" );
+		cnCache::clear( true, 'transient', "cn_{$taxonomySlug}" );
 
 		return $result;
 	}
@@ -342,7 +342,7 @@ class cnTerms {
 		$terms  = cnTerm::getRelationships( $entryID, 'category', array( 'fields' => 'ids' ) );
 		$result = cnTerm::deleteRelationships( $entryID, $terms, 'category' );
 
-		cnCache::clear( TRUE, 'transient', "cn_category" );
+		cnCache::clear( true, 'transient', "cn_category" );
 
 		return $result;
 	}
@@ -449,7 +449,7 @@ class cnTerm {
 			'fields'            => 'all',
 			'parent'            => '',
 			'meta_query'        => '',
-			'update_meta_cache' => TRUE,
+			'update_meta_cache' => true,
 		);
 
 		$args     = wp_parse_args( $args, $defaults );
@@ -613,7 +613,7 @@ class cnTerm {
 		 * --> END <--
 		 */
 
-		$objects = FALSE;
+		$objects = false;
 
 		if ( 'all' == $args['fields'] || 'all_with_entry_id' == $args['fields'] ) {
 
@@ -650,7 +650,7 @@ class cnTerm {
 
 			$terms = array_merge( $terms, $_terms );
 
-			$objects = TRUE;
+			$objects = true;
 
 		} else if ( 'ids' == $args['fields'] || 'names' == $args['fields'] || 'slugs' == $args['fields'] ) {
 
@@ -778,7 +778,7 @@ class cnTerm {
 	 *
 	 * @return array|WP_Error Affected Term IDs.
 	 */
-	public static function setRelationships( $object_id, $terms, $taxonomy, $append = FALSE ) {
+	public static function setRelationships( $object_id, $terms, $taxonomy, $append = false ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
@@ -1045,7 +1045,7 @@ class cnTerm {
 			return (bool) $deleted;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -1093,7 +1093,7 @@ class cnTerm {
 	 *
 	 * @return bool If no terms will return false, and if successful will return true.
 	 */
-	public static function updateCount( $terms, $taxonomy, $do_deferred = FALSE ) {
+	public static function updateCount( $terms, $taxonomy, $do_deferred = false ) {
 
 		static $_deferred = array();
 
@@ -1109,7 +1109,7 @@ class cnTerm {
 
 		if ( empty( $terms ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		if ( ! is_array( $terms ) ) {
@@ -1126,7 +1126,7 @@ class cnTerm {
 
 			$_deferred[ $taxonomy ] = array_unique( array_merge( $_deferred[ $taxonomy ], $terms ) );
 
-			return TRUE;
+			return true;
 		}
 
 		return self::updateCountNow( $terms, $taxonomy );
@@ -1147,9 +1147,9 @@ class cnTerm {
 	 *
 	 * @return bool Whether term counting is enabled or disabled.
 	 */
-	public static function deferCount( $defer = NULL ) {
+	public static function deferCount( $defer = null ) {
 
-		static $_defer = FALSE;
+		static $_defer = false;
 
 		if ( is_bool( $defer ) ) {
 
@@ -1158,7 +1158,7 @@ class cnTerm {
 			// flush any deferred counts
 			if ( ! $defer ) {
 
-				self::updateCount( NULL, NULL, TRUE );
+				self::updateCount( null, null, true );
 			}
 
 		}
@@ -1219,9 +1219,9 @@ class cnTerm {
 
 		//}
 
-		self::cleanCache( $terms, '', FALSE );
+		self::cleanCache( $terms, '', false );
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -1336,7 +1336,7 @@ class cnTerm {
 	 *                   and the term ID exists. Returns an array of the term ID and the term taxonomy ID
 	 *                   if the taxonomy is specified and the pairing exists.
 	 */
-	public static function exists( $term, $taxonomy = '', $parent = NULL ) {
+	public static function exists( $term, $taxonomy = '', $parent = null ) {
 
 		global $wpdb;
 
@@ -1581,13 +1581,13 @@ class cnTerm {
 		 * Prevent the creation of terms with duplicate names at the same level of a taxonomy hierarchy,
 		 * unless a unique slug has been explicitly provided.
 		 */
-		$name_matches = self::getTaxonomyTerms( $taxonomy, array( 'name' => $name, 'hide_empty' => FALSE, 'parent' => $args['parent'], ) );
+		$name_matches = self::getTaxonomyTerms( $taxonomy, array( 'name' => $name, 'hide_empty' => false, 'parent' => $args['parent'], ) );
 
 		/*
 		 * The `name` match in `self::getTaxonomyTerms()` doesn't differentiate accented characters,
 		 * so we do a stricter comparison here.
 		 */
-		$name_match = NULL;
+		$name_match = null;
 
 		if ( $name_matches ) {
 
@@ -1610,11 +1610,11 @@ class cnTerm {
 
 				//@todo Implement the is_taxonomy_hierarchical() conditional statement.
 				//if ( is_taxonomy_hierarchical( $taxonomy ) ) {
-				if ( TRUE ) { //temp hack...
+				if ( true ) { //temp hack...
 
 					$siblings = self::getTaxonomyTerms( $taxonomy, array( 'get' => 'all', 'parent' => $parent ) );
 
-					$existing_term = NULL;
+					$existing_term = null;
 
 					if ( $name_match->slug === $slug && in_array( $name, wp_list_pluck( $siblings, 'name' ) ) ) {
 
@@ -1652,7 +1652,7 @@ class cnTerm {
 		 */
 		$data = apply_filters( 'cn_insert_term_data', $data, $taxonomy, $args );
 
-		if ( FALSE === $wpdb->insert( CN_TERMS_TABLE, $data ) ) {
+		if ( false === $wpdb->insert( CN_TERMS_TABLE, $data ) ) {
 
 			return new WP_Error( 'db_insert_error', __( 'Could not insert term into the database', 'connections' ), $wpdb->last_error );
 		}
@@ -1914,11 +1914,11 @@ class cnTerm {
 			return new WP_Error( 'missing_parent', __( 'Parent term does not exist.', 'connections' ) );
 		}
 
-		$empty_slug = FALSE;
+		$empty_slug = false;
 
 		if ( empty( $args['slug'] ) ) {
 
-			$empty_slug = TRUE;
+			$empty_slug = true;
 			$slug       = sanitize_title( $name );
 
 		} else {
@@ -2178,7 +2178,7 @@ class cnTerm {
 
 		if ( ! $ids = self::exists( $term, $taxonomy ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		if ( is_wp_error( $ids ) ) {
@@ -2232,7 +2232,7 @@ class cnTerm {
 		//@todo Implement the is_taxonomy_hierarchical() conditional statement.
 		// Update children to point to new parent
 		//if ( is_taxonomy_hierarchical($taxonomy) ) {
-		if ( TRUE ) { //temp hack...
+		if ( true ) { //temp hack...
 
 			$term_obj = self::get( $term, $taxonomy );
 
@@ -2383,7 +2383,7 @@ class cnTerm {
 		// ../includes/admin/class.actions.php
 		//do_action( "cn_delete_$taxonomy", $term, $tt_id, $deleted_term );
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -2424,12 +2424,12 @@ class cnTerm {
 
 		global $wpdb;
 
-		$needs_suffix  = TRUE;
+		$needs_suffix  = true;
 		$original_slug = $slug;
 
 		if ( ! self::exists( $slug ) || ! cnTerm::getBy( 'slug', $slug, $term->taxonomy )  ) {
 
-			$needs_suffix = FALSE;
+			$needs_suffix = false;
 		}
 
 		// If the taxonomy supports hierarchy and the term has a parent, make the slug unique
@@ -2547,7 +2547,7 @@ class cnTerm {
 	 * @param string    $taxonomy       Can be empty and will assume tt_ids, else will use for context.
 	 * @param bool      $clean_taxonomy Whether to clean taxonomy wide caches (true), or just individual term object caches (false). Default is true.
 	 */
-	public static function cleanCache( $ids, $taxonomy = '', $clean_taxonomy = TRUE ) {
+	public static function cleanCache( $ids, $taxonomy = '', $clean_taxonomy = true ) {
 
 		global $wpdb, $_wp_suspend_cache_invalidation;
 
@@ -2623,7 +2623,7 @@ class cnTerm {
 		wp_cache_set( 'last_changed', microtime(), 'cn_terms' );
 
 		// Clear any transients/cache fragments that were set.
-		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+		cnCache::clear( true, 'transient', "cn_{$taxonomy}" );
 	}
 
 	/**
@@ -2764,7 +2764,7 @@ class cnTerm {
 
 			if ( ! $term = (int) $term ) {
 
-				return NULL;
+				return null;
 			}
 
 			if ( ! $_term = wp_cache_get( $term, 'cn_' . $taxonomy ) ) {
@@ -2774,7 +2774,7 @@ class cnTerm {
 
 				if ( ! $_term ) {
 
-					return NULL;
+					return null;
 				}
 
 				wp_cache_add( $term, $_term, 'cn_' . $taxonomy );
@@ -2969,7 +2969,7 @@ class cnTerm {
 			'object_ids'        => null,
 			'orderby'           => 'name',
 			'order'             => 'ASC',
-			'hide_empty'        => TRUE,
+			'hide_empty'        => true,
 			'include'           => array(),
 			'exclude'           => array(),
 			'exclude_tree'      => array(),
@@ -2978,16 +2978,16 @@ class cnTerm {
 			'fields'            => 'all',
 			'name'              => '',
 			'slug'              => '',
-			'hierarchical'      => TRUE,
+			'hierarchical'      => true,
 			'search'            => '',
 			'name__like'        => '',
 			'description__like' => '',
 			'parent'            => '',
-			'childless'         => FALSE,
+			'childless'         => false,
 			'child_of'          => 0,
-			'pad_counts'        => FALSE,
+			'pad_counts'        => false,
 			'meta_query'        => array(),
-			'update_meta_cache' => TRUE,
+			'update_meta_cache' => true,
 		);
 
 		/**
@@ -3008,23 +3008,23 @@ class cnTerm {
 			 ( '' !== $atts['parent'] && 0 !== $atts['parent'] )
 			) {
 
-			$atts['hierarchical'] = FALSE;
-			$atts['pad_counts']   = FALSE;
+			$atts['hierarchical'] = false;
+			$atts['pad_counts']   = false;
 		}
 
 		// 'parent' overrides 'child_of'.
 		if ( 0 < intval( $atts['parent'] ) ) {
 
-			$atts['child_of'] = FALSE;
+			$atts['child_of'] = false;
 		}
 
 		if ( 'all' == $atts['get'] ) {
 
-			$atts['childless']    = FALSE;
+			$atts['childless']    = false;
 			$atts['child_of']     = 0;
 			$atts['hide_empty']   = 0;
-			$atts['hierarchical'] = FALSE;
-			$atts['pad_counts']   = FALSE;
+			$atts['hierarchical'] = false;
+			$atts['pad_counts']   = false;
 		}
 
 		if ( $atts['child_of'] ) {
@@ -3061,7 +3061,7 @@ class cnTerm {
 		$cache_key = "cn_get_terms:$key:$last_changed";
 		$cache     = wp_cache_get( $cache_key, 'cn_terms' );
 
-		if ( FALSE !== $cache ) {
+		if ( false !== $cache ) {
 
 			/**
 			 * Filter the given taxonomy's terms cache.
@@ -3396,7 +3396,7 @@ class cnTerm {
 
 		if ( 'count' == $atts['fields'] ) {
 
-			$atts['hierarchical'] = FALSE;
+			$atts['hierarchical'] = false;
 		}
 
 		if ( $atts['hide_empty'] && ! $atts['hierarchical'] ) {
@@ -3764,7 +3764,7 @@ class cnTerm {
 
 			if ( empty( $value ) ) {
 
-				return FALSE;
+				return false;
 			}
 
 		} else if ( 'name' == $field ) {
@@ -3787,7 +3787,7 @@ class cnTerm {
 
 			if ( is_wp_error( $term ) ) {
 
-				$term = FALSE;
+				$term = false;
 			}
 
 			return $term;
@@ -3802,7 +3802,7 @@ class cnTerm {
 
 		if ( ! $term ) {
 
-			return FALSE;
+			return false;
 		}
 
 		wp_cache_add( $term->term_id, $term, 'cn_' . $taxonomy );
@@ -3898,7 +3898,7 @@ class cnTerm {
 
 		} elseif ( ! $_term ) {
 
-			return NULL;
+			return null;
 		}
 
 		/**
@@ -3956,7 +3956,7 @@ class cnTerm {
 	 */
 	public static function count( $taxonomy, $args = array() ) {
 
-		$defaults = array( 'hide_empty' => FALSE );
+		$defaults = array( 'hide_empty' => false );
 		$args     = wp_parse_args( $args, $defaults );
 
 		$args['fields'] = 'count';
@@ -4053,11 +4053,11 @@ class cnTerm {
 
 		if ( empty( $term1->term_id ) || empty( $term2->parent ) ) {
 
-			return FALSE;
+			return false;
 		}
 		if ( $term2->parent == $term1->term_id ) {
 
-			return TRUE;
+			return true;
 		}
 
 		return self::isAncestorOf( $term1, self::get( $term2->parent, $taxonomy ), $taxonomy );
@@ -4224,7 +4224,7 @@ class cnTerm {
 		//global $wp_rewrite;
 
 		$defaults = array(
-			'force_home' => FALSE,
+			'force_home' => false,
 			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 		);
 
@@ -4301,7 +4301,7 @@ class cnTerm {
 						'data'       => 'url',
 						'force_home' => $atts['force_home'],
 						'home_id'    => $atts['home_id'],
-						'return'     => TRUE,
+						'return'     => true,
 					)
 				);
 
@@ -4345,17 +4345,17 @@ class cnTerm {
 			'get'          => '',
 			'orderby'      => 'name',
 			'order'        => 'ASC',
-			'hide_empty'   => FALSE,
+			'hide_empty'   => false,
 			'exclude'      => array(),
 			'exclude_tree' => array(),
 			'include'      => array(),
 			'fields'       => 'all',
 			'slug'         => '',
 			'parent'       => '',
-			'hierarchical' => TRUE,
+			'hierarchical' => true,
 			'child_of'     => 0,
 			'name__like'   => '',
-			'pad_counts'   => FALSE,
+			'pad_counts'   => false,
 			'offset'       => 0,
 			'number'       => 0,
 			'search'       => '',

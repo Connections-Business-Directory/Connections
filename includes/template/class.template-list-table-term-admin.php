@@ -35,7 +35,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 * @since  8.2
 	 * @var string
 	 */
-	private $orderby = NULL;
+	private $orderby = null;
 
 	/**
 	 * The term to search for @see cnTerm::getTaxonomyTerms().
@@ -109,7 +109,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			array(
 				'plural'   => 'terms',
 				'singular' => 'term',
-				'ajax'     => FALSE,
+				'ajax'     => false,
 				//'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
 				//'screen'   => "connections-{$this->taxonomy}",
 			)
@@ -128,7 +128,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	public function ajax_user_can() {
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -173,7 +173,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		$args = array(
 			'page'       => $this->get_pagenum(),
 			'number'     => $per_page,
-			'hide_empty' => FALSE,
+			'hide_empty' => false,
 			'search'     => $this->search,
 		);
 
@@ -205,7 +205,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'total_items' => cnTerm::getTaxonomyTerms(
 					$this->taxonomy,
 					array(
-						'hide_empty' => FALSE,
+						'hide_empty' => false,
 						'search'     => $this->search,
 						'fields'     => 'count'
 					)
@@ -314,10 +314,10 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	protected function get_sortable_columns() {
 
 		$columns =  array(
-			'name'        => array( 'name', FALSE ),
-			'description' => array( 'description', FALSE ),
-			'slug'        => array( 'slug', FALSE ),
-			'posts'       => array( 'count', FALSE ),
+			'name'        => array( 'name', false ),
+			'description' => array( 'description', false ),
+			'slug'        => array( 'slug', false ),
+			'posts'       => array( 'count', false ),
 		);
 
 		/**

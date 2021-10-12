@@ -142,7 +142,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 
-		$detailed = cnArray::get( $request, 'detailed', FALSE );
+		$detailed = cnArray::get( $request, 'detailed', false );
 
 		$countries = cnCountries::getAll( $detailed, ARRAY_A );
 
@@ -219,7 +219,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_regions( $request ) {
 
-		$code = cnArray::get( $request, 'code', FALSE );
+		$code = cnArray::get( $request, 'code', false );
 
 		$response = cnCountries::getByCode( $code );
 
@@ -314,7 +314,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 			'detailed' => array(
 				'description'        => __( 'Whether or not to returned detailed country meta. Default is to return only the country name, ISO codes, calling code and emoji.', 'connections' ),
 				'type'               => 'boolean',
-				'default'            => FALSE,
+				'default'            => false,
 
 			)
 		);

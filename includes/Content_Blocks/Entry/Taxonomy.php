@@ -93,8 +93,8 @@ class Taxonomy extends Content_Block {
 			'parent_separator' => ' &raquo; ',
 			//'before'           => '',
 			//'after'            => '',
-			'link'             => FALSE,
-			'parents'          => FALSE,
+			'link'             => false,
+			'parents'          => false,
 			'child_of'         => 0,
 			//'return'           => FALSE,
 		);

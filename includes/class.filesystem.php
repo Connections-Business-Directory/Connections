@@ -86,7 +86,7 @@ class cnFileSystem {
 
 			$contents = @file_get_contents( $path . '.htaccess' );
 
-			if ( FALSE === strpos( $contents, 'Options -Indexes' ) || ! $contents ) {
+			if ( false === strpos( $contents, 'Options -Indexes' ) || ! $contents ) {
 
 				@file_put_contents( $path . '.htaccess', $rules );
 			}
@@ -114,7 +114,7 @@ class cnFileSystem {
 	public static function mkdirWritable( $path ) {
 		$path = untrailingslashit( $path );
 
-		if ( ! self::mkdir( $path ) ) return FALSE;
+		if ( ! self::mkdir( $path ) ) return false;
 
 		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0746 );
 		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0747 );
@@ -126,9 +126,9 @@ class cnFileSystem {
 		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0767 );
 
 		if ( file_exists( $path ) && is_writeable( $path ) ) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 
 	}
@@ -170,7 +170,7 @@ class cnFileSystem {
 		// Loop through the folder
 		$dir = dir( $source );
 
-		while ( FALSE !== $entry = $dir->read() ) {
+		while ( false !== $entry = $dir->read() ) {
 
 			// Skip pointers
 			if ( $entry == '.' || $entry == '..' ) {
@@ -185,7 +185,7 @@ class cnFileSystem {
 		// Clean up
 		$dir->close();
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -201,7 +201,7 @@ class cnFileSystem {
 	 *
 	 * @return void
 	 */
-	public static function xrmdir( $path, $deleteRoot = TRUE ) {
+	public static function xrmdir( $path, $deleteRoot = true ) {
 
 		// If the $path does not exist, bail.
 		if ( ! file_exists( $path ) ) return;
@@ -445,7 +445,7 @@ class cnUpload {
 		// Passing options not intended to be overridden, even if pass empty causes bad things to happen to you.
 
 		$options['action']    = empty( $atts['action'] ) ? '' : $atts['action'];
-		$options['test_form'] = empty( $atts['post_action'] ) ? FALSE : $atts['post_action'];
+		$options['test_form'] = empty( $atts['post_action'] ) ? false : $atts['post_action'];
 
 		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes'] ) ) $options['mimes']  = $atts['mimes'];
 		if ( ! empty( $atts['error_callback'] ) ) $options['upload_error_handler']        = $atts['error_callback'];

@@ -81,7 +81,7 @@ class cnLicense {
 	 * @param string $author    The plugin author.
 	 * @param string $updateURL The EDD SL API Updater URL.
 	 */
-	public function __construct( $file, $name, $version, $author, $updateURL = NULL ) {
+	public function __construct( $file, $name, $version, $author, $updateURL = null ) {
 
 		// Create a slug from the $name var. This will be used as the settings ID when registering the settings field.
 		// NOTE: Based on WP function sanitize_key().
@@ -89,7 +89,7 @@ class cnLicense {
 
 		// Grab the licenses from the db. Have to use get_option because this
 		// is being run before cnSettingsAPI has been init/d.
-		$licenses = get_option( 'connections_licenses', FALSE );
+		$licenses = get_option( 'connections_licenses', false );
 		$key      = isset( $licenses[ $slug ] ) ? $licenses[ $slug ] : '';
 
 		$this->file      = $file;
@@ -302,7 +302,7 @@ HERERDOC;
 	public function isBetaSupportEnabled() {
 
 		$beta    = get_option( 'connections_beta', array() );
-		$enabled = cnArray::get( $beta, $this->slug, FALSE );
+		$enabled = cnArray::get( $beta, $this->slug, false );
 
 		return cnFormatting::toBoolean( $enabled );
 	}
@@ -552,7 +552,7 @@ HERERDOC;
 				// Make sure the change items were found and not empty before proceeding.
 				if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-					$ul = FALSE;
+					$ul = false;
 
 					// Finally, lets render the changelog list.
 					foreach ( $matches[1] as $key => $line ) {
@@ -561,7 +561,7 @@ HERERDOC;
 
 							echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
 							echo '<ul class="cn-changelog">';
-							$ul = TRUE;
+							$ul = true;
 						}
 
 						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
@@ -627,7 +627,7 @@ HERERDOC;
 		}
 
 		// If there was an error message in the EDD SL API response, set the description to the error message.
-		if ( isset( $data->success ) && FALSE === $data->success ) {
+		if ( isset( $data->success ) && false === $data->success ) {
 
 			// $status = isset( $data[ $slug ] ) && isset( $data[ $slug ]->license ) ? $data[ $slug ]->license : 'unknown';
 			$error  = isset( $data->error ) ? $data->error : 'unknown';
@@ -708,7 +708,7 @@ HERERDOC;
 					break;
 			}
 
-		} elseif ( isset( $data->success ) && TRUE === $data->success ) {
+		} elseif ( isset( $data->success ) && true === $data->success ) {
 
 			// Get the status if the item's license key.
 			//$status = self::status( $license->name, $license->key );
@@ -780,7 +780,7 @@ HERERDOC;
 
 					$expiryDate = strtotime( $data->expires );
 
-					if ( $expiryDate !== FALSE ) {
+					if ( $expiryDate !== false ) {
 
 						$message = sprintf( esc_html__( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date( 'F jS Y', $expiryDate ) );
 
@@ -911,7 +911,7 @@ HERERDOC;
 		$data = get_option( 'connections_license_data' );
 
 		// Retrieve the old key from the options.
-		$oldKey = isset( $keys[ $this->slug ] ) ? $keys[ $this->slug ] : FALSE;
+		$oldKey = isset( $keys[ $this->slug ] ) ? $keys[ $this->slug ] : false;
 
 		// Retrieve the new key from the user submitted value.
 		$newKey = isset( $settings[ $this->slug ] ) ? $settings[ $this->slug ] : '';
@@ -938,7 +938,7 @@ HERERDOC;
 
 			$data[ $this->slug ] = array();
 
-			update_option( 'connections_license_data', $data, FALSE );
+			update_option( 'connections_license_data', $data, false );
 			//delete_transient( 'connections_license-' . $this->slug );
 		}
 
@@ -988,7 +988,7 @@ HERERDOC;
 			self::license( 'activate', $this->name, $key );
 
 			// Save the license key.
-			update_option( 'connections_licenses', $keys, FALSE );
+			update_option( 'connections_licenses', $keys, false );
 
 			//wp_clean_plugins_cache();
 			cnPlugin_Updater::clear_cached_response();
@@ -1071,8 +1071,8 @@ HERERDOC;
 
 						update_option(
 							'cn_update_plugins_clear_cache',
-							TRUE,
-							FALSE
+							true,
+							false
 						);
 					}
 				}
@@ -1101,13 +1101,13 @@ HERERDOC;
 	 *
 	 * @return object|WP_Error The EDD SL response for the item on success or WP_Error on fail.
 	 */
-	public static function license( $action, $name, $license, $url = NULL ) {
+	public static function license( $action, $name, $license, $url = null ) {
 
 		$licenses = get_option( 'connections_license_data' );
 		$slug     = self::getSlug( $name );
 		$url      = is_null( $url ) ? CN_UPDATE_URL : esc_url( $url );
 
-		$licenses = ( $licenses === FALSE ) ? array() : $licenses;
+		$licenses = ( $licenses === false ) ? array() : $licenses;
 
 		// Set the EDD SL API action.
 		switch ( $action ) {
@@ -1161,7 +1161,7 @@ HERERDOC;
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses, FALSE );
+				update_option( 'connections_license_data', $licenses, false );
 
 				// Save license data in transient.
 				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
@@ -1179,14 +1179,14 @@ HERERDOC;
 
 					$data = self::license( 'status', $name, $license, $url );
 
-					$data->success = FALSE;
+					$data->success = false;
 					$data->error   = $data->license;
 				}
 
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses, FALSE );
+				update_option( 'connections_license_data', $licenses, false );
 
 				// Save license data in transient.
 				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );

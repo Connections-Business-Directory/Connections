@@ -26,23 +26,23 @@ class cnThumb_Responsive extends cnShortcode {
 		$permitted = array( 'attachment', 'featured', 'path', 'url', 'logo', 'photo' );
 		$defaults  = array(
 			'type'          => 'url',
-			'source'        => NULL,
-			'negate'        => FALSE,
-			'grayscale'     => FALSE,
+			'source'        => null,
+			'negate'        => false,
+			'grayscale'     => false,
 			'brightness'    => 0,
-			'colorize'      => NULL,
+			'colorize'      => null,
 			'contrast'      => 0,
-			'detect_edges'  => FALSE,
-			'emboss'        => FALSE,
-			'gaussian_blur' => FALSE,
-			'blur'          => FALSE,
-			'sketchy'       => FALSE,
-			'sharpen'       => FALSE,
-			'smooth'        => NULL,
+			'detect_edges'  => false,
+			'emboss'        => false,
+			'gaussian_blur' => false,
+			'blur'          => false,
+			'sketchy'       => false,
+			'sharpen'       => false,
+			'smooth'        => null,
 			'opacity'       => 100,
 			'crop_mode'     => 1,
 			'crop_focus'    => array( .5, .5 ),
-			'crop_only'     => FALSE,
+			'crop_only'     => false,
 			'canvas_color'  => '#FFFFFF',
 			'quality'       => 90,
 			'sizes'         => '1024|640|320',
@@ -154,12 +154,12 @@ class cnThumb_Responsive extends cnShortcode {
 				// Display the error messages.
 				return implode( PHP_EOL, $image->get_error_messages() );
 
-			} elseif ( $image === FALSE ) {
+			} elseif ( $image === false ) {
 
 				return __( 'An error has occured while creating the thumbnail.', 'connections' );
 			}
 
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 
 				$log[] = '<pre>' . $image['log'] . '</pre>';
 			}
@@ -172,7 +172,7 @@ class cnThumb_Responsive extends cnShortcode {
 			empty( $content ) ? '' : ' alt="' . esc_attr( $content ) . '"'
 			);
 
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 
 			$out .= implode( '', $log );
 		}

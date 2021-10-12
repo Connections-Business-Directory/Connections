@@ -28,7 +28,7 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'Dashboard Widget that displays the recently modified entries.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',

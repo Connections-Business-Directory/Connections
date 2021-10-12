@@ -102,18 +102,18 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 		$defaults = array(
 			'taxonomy'          => 'category',
-			'hierarchical'      => TRUE,
+			'hierarchical'      => true,
 			'name'              => 'cn-cat',
-			'show_select_all'   => TRUE,
+			'show_select_all'   => true,
 			'show_option_all'   => __( 'Select Category', 'connections' ),
-			'show_count'        => FALSE,
-			'hide_empty'        => FALSE,
+			'show_count'        => false,
+			'hide_empty'        => false,
 			'depth'             => 0,
 			'parent_id'         => array(),
 			'selected'          => 0,
 			'before'            => '',
 			'after'             => '',
-			'return'            => FALSE,
+			'return'            => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -167,7 +167,7 @@ class CN_Walker_Term_Radio_Group extends Walker {
 				$type            = esc_attr( $walker->tree_type );
 
 				$out .= "<li id='cn-{$type}-0'>" . '<label><input value="0" type="radio" name="' . esc_attr( $atts['name'] ) . '" id="cn-in-' . $type . '-0"' .
-				        checked( in_array( 0, (array) $atts['selected'] ), TRUE, FALSE ) . ' /> ' .
+				        checked( in_array( 0, (array) $atts['selected'] ), true, false ) . ' /> ' .
 				        esc_html( $show_option_all ) . '</label>';
 
 				$out .= '</li>' . PHP_EOL;
@@ -244,13 +244,13 @@ class CN_Walker_Term_Radio_Group extends Walker {
 		$name = esc_attr( $args['name'] );
 
 		// Set the option SELECTED attribute if the category is one of the currently selected categories.
-		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], TRUE ) ? ' CHECKED ' : '';
+		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], true ) ? ' CHECKED ' : '';
 
 		$out .= str_repeat( "\t", $depth );
 
 		$out .= "<li id='cn-{$type}-{$term->term_id}'>" . '<label><input value="' . $term->term_id . '" type="radio" name="' . $name . '" id="cn-in-' . $type . '-' . $term->term_id . '"' .
 				$selected .
-				disabled( empty( $args['disabled'] ), FALSE, FALSE ) . ' /> ' .
+				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
 				esc_html( $term->name );
 
 		if ( $args['show_count'] ) {

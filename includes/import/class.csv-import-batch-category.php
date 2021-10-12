@@ -136,7 +136,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 						$exists = $this->termExists( $name, $slug, $parent );
 
 						// Term does not exist, create it.
-						if ( FALSE === $exists ) {
+						if ( false === $exists ) {
 
 							$this->insertTerm( $name, $slug, $desc, $parent );
 						}
@@ -152,7 +152,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 					$exists = $this->termExists( $name, $slug, $parent_id );
 
 					// Term does not exist, create it.
-					if ( FALSE === $exists ) {
+					if ( false === $exists ) {
 
 						$this->insertTerm( $name, $slug, $desc, $parent_id );
 					}
@@ -204,7 +204,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			//error_log( 'Exists: ' . print_r( $exists, TRUE ) );
 
 			// Term does not exist, create it.
-			if ( FALSE === $exists ) {
+			if ( false === $exists ) {
 
 				$result = $this->insertTerm( $name, $slug, '', $parent_id );
 
@@ -248,7 +248,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 			if ( 0 == $term ) {
 
-				return FALSE;
+				return false;
 			}
 
 			if ( $result = $wpdb->get_row(
@@ -263,7 +263,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 			} else {
 
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -298,7 +298,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 		} else {
 
-			return FALSE;
+			return false;
 		}
 
 	}
@@ -329,9 +329,9 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 		if ( is_wp_error( $result ) ) {
 
 			error_log( 'Term Import Error: ' . $result->get_error_message() );
-			error_log( ' - Name: ' . print_r( $name, TRUE ) );
-			error_log( ' - Slug: ' . print_r( $slug, TRUE ) );
-			error_log( ' - Parent ID: ' . print_r( $parent, TRUE ) );
+			error_log( ' - Name: ' . print_r( $name, true ) );
+			error_log( ' - Slug: ' . print_r( $slug, true ) );
+			error_log( ' - Parent ID: ' . print_r( $parent, true ) );
 		}
 
 		return $result;

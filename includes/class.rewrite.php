@@ -173,8 +173,8 @@ class cnRewrite {
 			)
 		{
 			// In some cases WP misinterprets the request as a page request and returns a 404.
-			$var['page'] = $var['pagename'] = $var['name'] = FALSE;
-			$var[ CN_IMAGE_ENDPOINT ] = TRUE;
+			$var['page'] = $var['pagename'] = $var['name'] = false;
+			$var[ CN_IMAGE_ENDPOINT ] = true;
 		}
 
 		return $var;
@@ -942,8 +942,8 @@ class cnRewrite {
 		global $wp_rewrite, $connections;
 
 		// Right now, lets only support pages. Not a page, punt...
-		if ( ! is_page() ) return FALSE;
-		if ( is_404() ) return FALSE;
+		if ( ! is_page() ) return false;
+		if ( is_404() ) return false;
 
 		// The URL in the address bar
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
@@ -959,7 +959,7 @@ class cnRewrite {
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = trailingslashit( $redirectURL[0] );
 
-		if ( FALSE === $originalURL ) return FALSE;
+		if ( false === $originalURL ) return false;
 
 		// We only need to process the URL and redirect  if the user is using pretty permalinks.
 		if ( is_object ( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
@@ -1012,7 +1012,7 @@ class cnRewrite {
 			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
 		}
 
-		if ( ! $redirectURL || $redirectURL == $requestedURL ) return FALSE;
+		if ( ! $redirectURL || $redirectURL == $requestedURL ) return false;
 
 		wp_redirect( $redirectURL, 301 );
 		exit();

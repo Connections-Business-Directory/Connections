@@ -150,7 +150,7 @@ class cnText_Domain {
 		// Load the default language files from the Language Packs folder and then from the those distributed with plugin.
 		} else {
 
-			load_plugin_textdomain( $domain, FALSE, $relativePath );
+			load_plugin_textdomain( $domain, false, $relativePath );
 		}
 	}
 }

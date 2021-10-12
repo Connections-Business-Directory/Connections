@@ -198,7 +198,7 @@ class cnTemplate {
 		$templatePath = $this->locate( $this->fileNames( 'card' ) );
 		// var_dump($templatePath);
 
-		if ( $templatePath !== FALSE ) {
+		if ( $templatePath !== false ) {
 			// var_dump($templatePath);
 			$templatePath = addslashes( $templatePath );
 			// The action should only be added once.
@@ -232,10 +232,10 @@ class cnTemplate {
 		}
 
 		// This will locate the CSS file to be enqueued.
-		$cssPath = $this->locate( $this->fileNames( $this->slug, NULL, NULL, 'css' ) );
+		$cssPath = $this->locate( $this->fileNames( $this->slug, null, null, 'css' ) );
 		// var_dump($cssPath);
 
-		if ( $cssPath !== FALSE ) {
+		if ( $cssPath !== false ) {
 			// var_dump($cssPath);
 
 			$this->parts['css-path'] = $cssPath;
@@ -261,11 +261,11 @@ class cnTemplate {
 		}
 
 		// This will locate the custom CSS file to be enqueued.
-		$customCSS = $this->locate( $this->fileNames( "{$this->slug}-custom", NULL, NULL, 'css' ) );
+		$customCSS = $this->locate( $this->fileNames( "{$this->slug}-custom", null, null, 'css' ) );
 		// var_dump($customCSS);
 
 		// If a custom CSS file was found, lets register it.
-		if ( $customCSS  !== FALSE ) {
+		if ( $customCSS  !== false ) {
 			// var_dump($customCSS);
 
 			$this->parts['css-custom-path'] = $customCSS;
@@ -273,10 +273,10 @@ class cnTemplate {
 		}
 
 		// This will locate the JS file to be included.
-		$jsPath = $this->locate( $this->fileNames( $this->slug, NULL, NULL, 'js' ) );
+		$jsPath = $this->locate( $this->fileNames( $this->slug, null, null, 'js' ) );
 		// var_dump($jsPath)
 
-		if ( $jsPath !== FALSE ) {
+		if ( $jsPath !== false ) {
 			// var_dump($jsPath);
 
 			$this->parts['js-path'] = $jsPath;
@@ -290,12 +290,12 @@ class cnTemplate {
 		}
 
 		// Only legacy templates had a `functions.php` so only search for it on legacy templates.
-		if ( $this->legacy == TRUE ) {
+		if ( $this->legacy == true ) {
 
-			$functionsPath = $this->locate( $this->fileNames( 'functions', NULL, NULL, 'php' ) );
+			$functionsPath = $this->locate( $this->fileNames( 'functions', null, null, 'php' ) );
 			// var_dump($functionsPath);
 
-			if ( $functionsPath !== FALSE ) {
+			if ( $functionsPath !== false ) {
 				// var_dump($functionsPath);
 
 				// The action should only be added once.
@@ -522,7 +522,7 @@ class cnTemplate {
 
 		} else {
 
-			$this->supports[ $features ] = TRUE;
+			$this->supports[ $features ] = true;
 		}
 	}
 
@@ -538,7 +538,7 @@ class cnTemplate {
 			return $this->supports[ $feature ];
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -552,7 +552,7 @@ class cnTemplate {
 	 *
 	 * @return mixed|null
 	 */
-	public function getOption( $key, $default = NULL ) {
+	public function getOption( $key, $default = null ) {
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
@@ -693,7 +693,7 @@ class cnTemplate {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -796,7 +796,7 @@ class cnTemplate {
 	 *
 	 * @return array        An indexed array of file names to search for.
 	 */
-	private function fileNames( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
+	private function fileNames( $base, $name = null, $slug = null, $ext = 'php' ) {
 
 		$files = array();
 
@@ -813,14 +813,14 @@ class cnTemplate {
 				$files[] = $this->fileName( $base, 'category', $term->slug, $ext );
 			}
 
-			$files[] = $this->fileName( $base, 'category', NULL, $ext );
+			$files[] = $this->fileName( $base, 'category', null, $ext );
 			// var_dump( $files );
 		}
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
 			$files[] = $this->fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug'), $ext );
-			$files[] = $this->fileName( $base, 'category', NULL, $ext );
+			$files[] = $this->fileName( $base, 'category', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -829,7 +829,7 @@ class cnTemplate {
 			$country = $this->queryVarSlug( cnQuery::getVar( 'cn-country' ) );
 
 			$files[] = $this->fileName( $base, 'country', $country, $ext );
-			$files[] = $this->fileName( $base, 'country', NULL, $ext );
+			$files[] = $this->fileName( $base, 'country', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -838,7 +838,7 @@ class cnTemplate {
 			$region  = $this->queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = $this->fileName( $base, 'region', $region, $ext );
-			$files[] = $this->fileName( $base, 'region', NULL, $ext );
+			$files[] = $this->fileName( $base, 'region', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -847,7 +847,7 @@ class cnTemplate {
 			$zipcode = $this->queryVarSlug( cnQuery::getVar( 'cn-postal-code' ) );
 
 			$files[] = $this->fileName( $base, 'postal-code', $zipcode, $ext );
-			$files[] = $this->fileName( $base, 'postal-code', NULL, $ext );
+			$files[] = $this->fileName( $base, 'postal-code', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -856,7 +856,7 @@ class cnTemplate {
 			$locality = $this->queryVarSlug( cnQuery::getVar( 'cn-locality' ) );
 
 			$files[] = $this->fileName( $base, 'locality', $locality, $ext );
-			$files[] = $this->fileName( $base, 'locality', NULL, $ext );
+			$files[] = $this->fileName( $base, 'locality', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -865,7 +865,7 @@ class cnTemplate {
 			$organization = $this->queryVarSlug( cnQuery::getVar( 'cn-organization' ) );
 
 			$files[] = $this->fileName( $base, 'organization', $organization, $ext );
-			$files[] = $this->fileName( $base, 'organization', NULL, $ext );
+			$files[] = $this->fileName( $base, 'organization', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -874,19 +874,19 @@ class cnTemplate {
 			$department = $this->queryVarSlug( cnQuery::getVar( 'cn-department' ) );
 
 			$files[] = $this->fileName( $base, 'department', $department, $ext );
-			$files[] = $this->fileName( $base, 'department', NULL, $ext );
+			$files[] = $this->fileName( $base, 'department', null, $ext );
 			// var_dump( $files );
 		}
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$files[] = $this->fileName( $base, NULL, cnQuery::getVar( 'cn-entry-slug'), $ext );
-			$files[] = $this->fileName( $base, 'single', NULL, $ext );
+			$files[] = $this->fileName( $base, null, cnQuery::getVar( 'cn-entry-slug'), $ext );
+			$files[] = $this->fileName( $base, 'single', null, $ext );
 			// var_dump( $files );
 		}
 
 		// Add the base as the least priority, since it is required.
-		$files[] = $this->fileName( $base, NULL, NULL, $ext );
+		$files[] = $this->fileName( $base, null, null, $ext );
 
 		/**
 		 * Allow template choices to be filtered.
@@ -917,7 +917,7 @@ class cnTemplate {
 	 *
 	 * @return string       The file name.
 	 */
-	private function fileName( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
+	private function fileName( $base, $name = null, $slug = null, $ext = 'php' ) {
 
 		$name = array( $base, $name, $slug );
 		$name = array_filter( $name );
@@ -1182,7 +1182,7 @@ class cnTemplate {
 		$required = apply_filters( 'cn_template_required_js-' . $this->slug, array(), $this );
 		$url      = cnURL::makeProtocolRelative( $this->parts['js-url'] );
 
-		wp_enqueue_script( "cnt-{$this->slug}", $url, $required, $this->version, TRUE );
+		wp_enqueue_script( "cnt-{$this->slug}", $url, $required, $this->version, true );
 	}
 
 }

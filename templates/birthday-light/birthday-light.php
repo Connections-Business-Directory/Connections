@@ -37,7 +37,7 @@ if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'Default birthday template with a white background in a table like format.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',

@@ -77,7 +77,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 			array(
 				'plural'   => 'email',
 				'singular' => 'email',
-				'ajax'     => FALSE,
+				'ajax'     => false,
 				//'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
 				//'screen'   => "connections-{$this->taxonomy}",
 			)
@@ -94,7 +94,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 	 */
 	public function ajax_user_can() {
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -289,7 +289,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 	protected function get_sortable_columns() {
 
 		$columns = array(
-			'date' => array( 'date', FALSE ),
+			'date' => array( 'date', false ),
 		);
 
 		/**
@@ -389,7 +389,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 			$this->type
 		);
 
-		submit_button( 'Filter', 'secondary', 'filter_action', FALSE, array( 'id' => 'email-log-query-submit' ) );
+		submit_button( 'Filter', 'secondary', 'filter_action', false, array( 'id' => 'email-log-query-submit' ) );
 	}
 
 	/**

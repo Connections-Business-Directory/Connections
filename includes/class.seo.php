@@ -31,7 +31,7 @@ class cnSEO {
 	 *
 	 * @var boolean
 	 */
-	private static $filterPermalink = TRUE;
+	private static $filterPermalink = true;
 
 	/**
 	 * Register the default template actions.
@@ -175,8 +175,8 @@ class cnSEO {
 			$wpQueryVars = array_diff_key( (array) $wp_query->query_vars, array_flip( array( 'src', 'w', 'h', 'q', 'a', 'zc', 'f', 's', 'o', 'cc', 'ct' ) ) );
 
 			// If the shortcode is not found and a Connections query var is detected, return 404.
-			if ( FALSE === cnShortcode::find( 'connections', $post->post_content ) &&
-			     TRUE === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) ) ) {
+			if ( false === cnShortcode::find( 'connections', $post->post_content ) &&
+			     true === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) ) ) {
 
 				$wp_query->set_404();
 				status_header( 404 );
@@ -185,7 +185,7 @@ class cnSEO {
 
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -231,7 +231,7 @@ class cnSEO {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -245,7 +245,7 @@ class cnSEO {
 	 *
 	 * @return void
 	 */
-	public static function doFilterPermalink( $do = TRUE ) {
+	public static function doFilterPermalink( $do = true ) {
 
 		self::$filterPermalink = $do;
 	}
@@ -896,7 +896,7 @@ class cnSEO {
 	 */
 	public static function startNav( $args ) {
 
-		self::doFilterPermalink( FALSE );
+		self::doFilterPermalink( false );
 
 		return $args;
 	}

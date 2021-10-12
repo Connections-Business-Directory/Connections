@@ -99,7 +99,7 @@ class Layer_Control extends Control {
 	 */
 	public function isCollapsed() {
 
-		return $this->getOption( 'collapsed', TRUE );
+		return $this->getOption( 'collapsed', true );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Layer_Control extends Control {
 	 */
 	public function isAutoZIndex() {
 
-		return $this->getOption( 'autoZIndex', TRUE );
+		return $this->getOption( 'autoZIndex', true );
 	}
 
 	/**

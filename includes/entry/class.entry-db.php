@@ -98,7 +98,7 @@ class cnEntry_DB {
 	 */
 	public function multisert( $table, $map, $rows ) {
 
-		$result = FALSE;
+		$result = false;
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

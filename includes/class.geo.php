@@ -76,7 +76,7 @@ class cnGeo {
 		$dest = wp_parse_args( $destination, $defaultDest );
 
 		$defaults = array(
-			'return' => TRUE
+			'return' => true
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -245,11 +245,11 @@ class cnGeo {
 
 		if ( ! is_string( $code ) || empty( $code ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		$countries = self::getCountries();
-		$country   = isset( $countries[ strtoupper( $code ) ] ) ? $countries[ strtoupper( $code ) ] : FALSE;
+		$country   = isset( $countries[ strtoupper( $code ) ] ) ? $countries[ strtoupper( $code ) ] : false;
 
 		return $country;
 	}
@@ -309,7 +309,7 @@ class cnGeo {
 		}
 
 		$country = cnCountries::getByCode( $code );
-		$regions = NULL;
+		$regions = null;
 
 		if ( $country instanceof cnCountry ) {
 
@@ -865,11 +865,11 @@ class cnGeo {
 
 		if ( ! is_string( $code ) || empty( $code ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		$phoneCodes = self::getCountryPhoneCodes();
-		$phoneCode  = isset( $phoneCodes[ strtoupper( $code ) ] ) ? $phoneCodes[ strtoupper( $code ) ] : FALSE;
+		$phoneCode  = isset( $phoneCodes[ strtoupper( $code ) ] ) ? $phoneCodes[ strtoupper( $code ) ] : false;
 
 		return $phoneCode;
 	}

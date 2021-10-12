@@ -56,7 +56,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Related_Carousel' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'https://connections-pro.com',
 				'description' => 'Carousel',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',

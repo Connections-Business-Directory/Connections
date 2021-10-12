@@ -147,7 +147,7 @@ class cnCSV_Batch_Import {
 
 		if ( 0 < $csv->error ) {
 
-			error_log( print_r( $csv->error_info, TRUE ) );
+			error_log( print_r( $csv->error_info, true ) );
 
 			$error = array_shift( $csv->error_info );
 
@@ -193,7 +193,7 @@ class cnCSV_Batch_Import {
 	 */
 	public function process( $step ) {
 
-		$more = FALSE;
+		$more = false;
 
 		$this->step = $step;
 		$offset     = $this->limit * ( $this->step - 1 );
@@ -211,7 +211,7 @@ class cnCSV_Batch_Import {
 
 		if ( 0 < $csv->error ) {
 
-			error_log( print_r( $csv->error_info, TRUE ) );
+			error_log( print_r( $csv->error_info, true ) );
 
 			$error = array_shift( $csv->error_info );
 
@@ -225,7 +225,7 @@ class cnCSV_Batch_Import {
 		 * @see parseCSV::parse() does support offset and limit params but it simply uses array_split() in
 		 * @see parseCSV::parse_string() on the array rather than reparsing the file with offset/limit.
 		 */
-		$data = array_slice( $csv->data, $offset, $this->limit, TRUE );
+		$data = array_slice( $csv->data, $offset, $this->limit, true );
 
 		/**
 		 * @todo If a clean CSV could be guaranteed, then something like this could be done and require much less memory.
@@ -245,7 +245,7 @@ class cnCSV_Batch_Import {
 
 		if ( ! empty( $data ) ) {
 
-			$more = TRUE;
+			$more = true;
 			$this->mapData( $data );
 			$this->import( $data );
 		}
@@ -297,7 +297,7 @@ class cnCSV_Batch_Import {
 
 		foreach ( $data as $row ) {
 
-			error_log( print_r( $row, TRUE ) );
+			error_log( print_r( $row, true ) );
 		}
 	}
 

@@ -63,7 +63,7 @@ interface Query {
 	 *
 	 * @return mixed
 	 */
-	public function getData( $name, $default = NULL );
+	public function getData( $name, $default = null );
 
 	/**
 	 * @since 8.26

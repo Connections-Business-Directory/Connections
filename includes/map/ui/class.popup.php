@@ -175,7 +175,7 @@ class Popup extends Abstract_Layer {
 	 */
 	public function isAutoPan() {
 
-		return $this->getOption( 'autoPan', TRUE );
+		return $this->getOption( 'autoPan', true );
 	}
 
 	/**
@@ -205,7 +205,7 @@ class Popup extends Abstract_Layer {
 	 */
 	public function isKeepInView() {
 
-		return $this->getOption( 'keepInView', FALSE );
+		return $this->getOption( 'keepInView', false );
 	}
 
 	/**
@@ -235,7 +235,7 @@ class Popup extends Abstract_Layer {
 	 */
 	public function hasCloseButton() {
 
-		return $this->getOption( 'closeButton', TRUE );
+		return $this->getOption( 'closeButton', true );
 	}
 
 	/**
@@ -443,7 +443,7 @@ class Popup extends Abstract_Layer {
 	 */
 	public function isAutoClose() {
 
-		return $this->getOption( 'autoClose', TRUE );
+		return $this->getOption( 'autoClose', true );
 	}
 
 	/**

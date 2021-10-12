@@ -74,7 +74,7 @@ class Management extends Content_Block {
 			$url . "assets/js/cn-entry-management{$min}.js",
 			array( 'jquery-ui-dialog', 'wp-api-request' ),
 			CN_CURRENT_VERSION,
-			TRUE
+			true
 		);
 	}
 

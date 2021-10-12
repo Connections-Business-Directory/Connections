@@ -241,7 +241,7 @@ final class cnLog_Email {
 
 		foreach ( $post_meta as $key => $value ) {
 
-			if ( FALSE === strpos( $key, cnLog::POST_META_PREFIX ) ) continue;
+			if ( false === strpos( $key, cnLog::POST_META_PREFIX ) ) continue;
 
 			$key = str_replace( cnLog::POST_META_PREFIX, '', $key );
 
@@ -387,7 +387,7 @@ final class cnLog_Email {
 
 		foreach ( $headers as $header ) {
 
-			if ( FALSE !== strpos( $header, 'X-CN-Log-Type: ' ) ) {
+			if ( false !== strpos( $header, 'X-CN-Log-Type: ' ) ) {
 
 				$type = str_replace( 'X-CN-Log-Type: ', '', $header );
 			}

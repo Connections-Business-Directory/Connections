@@ -160,7 +160,7 @@ class Marker extends Abstract_Layer {
 	 */
 	public function isInteractive() {
 
-		return $this->getOption( 'interactive', TRUE );
+		return $this->getOption( 'interactive', true );
 	}
 
 	/**
@@ -190,7 +190,7 @@ class Marker extends Abstract_Layer {
 	 */
 	public function isDraggable() {
 
-		return $this->getOption( 'draggable', TRUE );
+		return $this->getOption( 'draggable', true );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class Marker extends Abstract_Layer {
 	 */
 	public function isKeyboard() {
 
-		return $this->getOption( 'keyboard', TRUE );
+		return $this->getOption( 'keyboard', true );
 	}
 
 	/**
@@ -370,7 +370,7 @@ class Marker extends Abstract_Layer {
 	 */
 	public function isRiseOnHover() {
 
-		return $this->getOption( 'riseOnHover', FALSE );
+		return $this->getOption( 'riseOnHover', false );
 	}
 
 	/**

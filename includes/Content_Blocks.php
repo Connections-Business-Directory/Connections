@@ -105,12 +105,12 @@ class Content_Blocks {
 	 */
 	public function remove( $id ) {
 
-		$success = FALSE;
+		$success = false;
 
 		if ( array_key_exists( $id, $this->blocks ) ) {
 
 			unset( $this->blocks[ $id ] );
-			$success = TRUE;
+			$success = true;
 		}
 
 		return $success;

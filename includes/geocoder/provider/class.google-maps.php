@@ -85,7 +85,7 @@ final class Google_Maps implements Provider {
 	 *
 	 * @return Google_Maps
 	 */
-	public static function business( $clientId, $privateKey = NULL, $region = NULL, $apiKey = NULL, $channel = NULL ) {
+	public static function business( $clientId, $privateKey = null, $region = null, $apiKey = null, $channel = null ) {
 
 		$provider             = new self( $region, $apiKey );
 		$provider->clientId   = $clientId;
@@ -101,7 +101,7 @@ final class Google_Maps implements Provider {
 	 * @param string     $region Region biasing (optional)
 	 * @param string     $apiKey Google Geocoding API key (optional)
 	 */
-	public function __construct( $apiKey, $region = NULL ) {
+	public function __construct( $apiKey, $region = null ) {
 
 		$this->apiKey = $apiKey;
 		$this->region = $region;
@@ -129,7 +129,7 @@ final class Google_Maps implements Provider {
 
 		$url = sprintf( self::ADDRESS_GEOCODE_ENDPOINT, rawurlencode( $query->getText() ) );
 
-		if ( NULL !== $bounds = $query->getBounds() ) {
+		if ( null !== $bounds = $query->getBounds() ) {
 
 			$url .= sprintf(
 				'&bounds=%s,%s|%s,%s',
@@ -165,11 +165,11 @@ final class Google_Maps implements Provider {
 			$coordinate->getLongitude()
 		);
 
-		if ( NULL !== $locationType = $query->getData( 'location_type' ) ) {
+		if ( null !== $locationType = $query->getData( 'location_type' ) ) {
 			$url .= '&location_type=' . urlencode( $locationType );
 		}
 
-		if ( NULL !== $resultType = $query->getData( 'result_type' ) ) {
+		if ( null !== $resultType = $query->getData( 'result_type' ) ) {
 			$url .= '&result_type=' . urlencode( $resultType );
 		}
 
@@ -206,28 +206,28 @@ final class Google_Maps implements Provider {
 	 *
 	 * @return string query with extra params
 	 */
-	private function buildQuery( $url, $locale = NULL, $region = NULL ) {
+	private function buildQuery( $url, $locale = null, $region = null ) {
 
-		if ( NULL !== $locale ) {
+		if ( null !== $locale ) {
 			$url = sprintf( '%s&language=%s', $url, $locale );
 		}
 
-		if ( NULL !== $region ) {
+		if ( null !== $region ) {
 			$url = sprintf( '%s&region=%s', $url, $region );
 		}
 
-		if ( NULL !== $this->apiKey ) {
+		if ( null !== $this->apiKey ) {
 			$url = sprintf( '%s&key=%s', $url, $this->apiKey );
 		}
 
-		if ( NULL !== $this->clientId ) {
+		if ( null !== $this->clientId ) {
 			$url = sprintf( '%s&client=%s', $url, $this->clientId );
 
-			if ( NULL !== $this->channel ) {
+			if ( null !== $this->channel ) {
 				$url = sprintf( '%s&channel=%s', $url, $this->channel );
 			}
 
-			if ( NULL !== $this->privateKey ) {
+			if ( null !== $this->privateKey ) {
 				$url = $this->signQuery( $url );
 			}
 		}
@@ -257,7 +257,7 @@ final class Google_Maps implements Provider {
 
 		// Create a signature using the private key and the URL-encoded
 		// string using HMAC SHA1. This signature will be binary.
-		$signature = hash_hmac( 'sha1', $urlPartToSign, $decodedKey, TRUE );
+		$signature = hash_hmac( 'sha1', $urlPartToSign, $decodedKey, true );
 
 		$encodedSignature = str_replace( array( '+', '/' ), array( '-', '_' ), base64_encode( $signature ) );
 
@@ -360,7 +360,7 @@ final class Google_Maps implements Provider {
 	private function parseResponse( $request, $content ) {
 
 		// Throw exception if invalid clientID and/or privateKey used with GoogleMapsBusinessProvider
-		if ( FALSE !== strpos( $content, "Provided 'signature' is not valid for the provided client ID" ) ) {
+		if ( false !== strpos( $content, "Provided 'signature' is not valid for the provided client ID" ) ) {
 
 			return new WP_Error(
 				'geocode_provider_invalid_client_id',

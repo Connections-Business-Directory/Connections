@@ -38,7 +38,7 @@
 		if ( $atts['displayPhone'] ) {
 
 			//$entry->getPhoneNumberBlock( array( 'format' => '%number%' ) );
-			$number = $entry->getPhoneNumberBlock( array( 'preferred' => TRUE, 'format' => '%number%', 'return' => TRUE ) );
+			$number = $entry->getPhoneNumberBlock( array( 'preferred' => true, 'format' => '%number%', 'return' => true ) );
 
 			if ( $number ) {
 
@@ -53,7 +53,7 @@
 		if ( $atts['displayEmail'] ) {
 
 			//$entry->getEmailAddressBlock( array( 'format' => '%address%' ) );
-			$email = $entry->getEmailAddressBlock( array( 'preferred' => TRUE, 'format' => '%address%', 'return' => TRUE ) );
+			$email = $entry->getEmailAddressBlock( array( 'preferred' => true, 'format' => '%address%', 'return' => true ) );
 
 			if ( $email ) {
 

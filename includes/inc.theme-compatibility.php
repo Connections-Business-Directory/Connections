@@ -52,17 +52,17 @@ function cn_enqueue_enfold_css_override() {
 	$theme  = wp_get_theme();
 	$parent = $theme->parent();
 
-	if ( FALSE === $parent || NULL === $parent ) {
+	if ( false === $parent || null === $parent ) {
 
-		$enqueue = in_array( $theme->get( 'Name' ), array( 'Enfold' ), TRUE );
+		$enqueue = in_array( $theme->get( 'Name' ), array( 'Enfold' ), true );
 
 	} elseif ( $parent instanceof WP_Theme ) {
 
-		$enqueue = in_array( $parent->get( 'Name' ), array( 'Enfold' ), TRUE );
+		$enqueue = in_array( $parent->get( 'Name' ), array( 'Enfold' ), true );
 
 	} else {
 
-		$enqueue = FALSE;
+		$enqueue = false;
 	}
 
 	if ( $enqueue ) {
@@ -153,7 +153,7 @@ function cn_et_grab_image_setting( $value ) {
 
 	global $post;
 
-	if ( $post instanceof  WP_Post && TRUE === $value ) {
+	if ( $post instanceof  WP_Post && true === $value ) {
 
 		return ! has_shortcode( $post->post_content, 'connections' );
 	}

@@ -917,7 +917,7 @@ function cnAlterTable( $tableName, $columnName, $sql ) {
 	global $wpdb;
 
 	foreach ( $wpdb->get_col( "SHOW COLUMNS FROM $tableName" ) as $column ) {
-		if ( $column == $columnName ) return TRUE;
+		if ( $column == $columnName ) return true;
 	}
 
 	// didn't find it try to create it.
@@ -939,7 +939,7 @@ function cnAddTableColumn( $tableName, $columnName, $sql ) {
 	global $wpdb;
 
 	foreach ( $wpdb->get_col( "SHOW COLUMNS FROM $tableName" ) as $column ) {
-		if ( $column == $columnName ) return TRUE;
+		if ( $column == $columnName ) return true;
 	}
 
 	// didn't find it try to create it.
@@ -947,10 +947,10 @@ function cnAddTableColumn( $tableName, $columnName, $sql ) {
 
 	// we cannot directly tell that whether this succeeded!
 	foreach ( $wpdb->get_col( "SHOW COLUMNS FROM $tableName" ) as $column ) {
-		if ( $column == $columnName ) return TRUE;
+		if ( $column == $columnName ) return true;
 	}
 
 	echo '<ul><li><strong>' , sprintf( __( 'Could not add column %1$s in table %2$s.', 'connections' ), $columnName, $tableName ), "</li></strong></ul>\n";
 
-	return FALSE;
+	return false;
 }

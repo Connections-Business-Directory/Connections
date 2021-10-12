@@ -236,7 +236,7 @@ final class _string {
 	 */
 	public static function replaceFirst( $search, $replace, $subject ) {
 
-		if ( FALSE !== $pos = strpos( $subject, $search ) ) {
+		if ( false !== $pos = strpos( $subject, $search ) ) {
 
 			$subject = substr_replace( $subject, $replace, $pos, strlen( $search ) );
 		}
@@ -288,7 +288,7 @@ final class _string {
 	 *
 	 * @return string
 	 */
-	public static function replaceWhatWith( $string, $what = NULL, $with = ' ' ) {
+	public static function replaceWhatWith( $string, $what = null, $with = ' ' ) {
 
 		if ( ! is_string( $string ) ) {
 			return '';
@@ -404,7 +404,7 @@ final class _string {
 		// Whether or not to append the more string.
 		// This is only true if the word count is is more than the word length limit.
 		// This is not set if length is set to `p`.
-		$appendMore = FALSE;
+		$appendMore = false;
 
 		// Strip all shortcode from the text.
 		$string = strip_shortcodes( $string );
@@ -417,7 +417,7 @@ final class _string {
 
 		} else {
 
-			$string  = self::stripTags( $string, FALSE, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$string  = self::stripTags( $string, false, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
 			$tokens  = array();
 			$excerpt = '';
 			$count   = 0;
@@ -433,7 +433,7 @@ final class _string {
 					$excerpt .= trim( $token );
 
 					// If the length limit was reached, append the more string.
-					$appendMore = TRUE;
+					$appendMore = true;
 
 					break;
 				}
@@ -452,7 +452,7 @@ final class _string {
 		// No need to append the more string if the excerpted string matches the original string.
 		if ( trim( $string ) == $excerpt ) {
 
-			$appendMore = FALSE;
+			$appendMore = false;
 		}
 
 		$lastCloseTag = strrpos( $excerpt, '</' );
@@ -460,7 +460,7 @@ final class _string {
 
 		// Determine if the string ends with a HTML tag or word.
 		if ( ( ! preg_match( '/[\s\?\.\!]$/', $excerpt ) ) &&
-		     ( FALSE !== $lastCloseTag && ( FALSE !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
+		     ( false !== $lastCloseTag && ( false !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
 
 			// Inside last HTML tag
 			if ( $appendMore ) {
@@ -499,7 +499,7 @@ final class _string {
 	 *
 	 * @return string The processed string.
 	 */
-	public static function stripTags( $string, $remove_breaks = FALSE, $allowed_tags = '' ) {
+	public static function stripTags( $string, $remove_breaks = false, $allowed_tags = '' ) {
 
 		$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
 		$string = strip_tags( $string, $allowed_tags );
@@ -552,8 +552,8 @@ final class _string {
 		$defaults = array(
 			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
 			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
-			'exact'        => FALSE,
-			'html'         => TRUE,
+			'exact'        => false,
+			'html'         => true,
 			'allowed_tags' => apply_filters(
 				'cn_excerpt_allowed_tags',
 				array(
@@ -614,7 +614,7 @@ final class _string {
 
 						$pos = array_search( $closeTag[1], $openTags );
 
-						if ( $pos !== FALSE ) {
+						if ( $pos !== false ) {
 
 							array_splice( $openTags, $pos, 1 );
 						}
@@ -772,7 +772,7 @@ final class _string {
 
 			$bytes = openssl_random_pseudo_bytes( $length * 2 );
 
-			if ( FALSE === $bytes ) {
+			if ( false === $bytes ) {
 
 				return new WP_Error( 'general_random_string', __( 'Unable to generate random string.', 'connections' ) );
 			}

@@ -175,7 +175,7 @@ class cnEmail {
 	 *
 	 * @param bool $html
 	 */
-	public function html( $html = TRUE ) {
+	public function html( $html = true ) {
 
 		if ( $html ) {
 
@@ -593,7 +593,7 @@ class cnEmail {
 
 				$this->header = array();
 				$this->charset = get_bloginfo( 'charset' );
-				$this->html( FALSE );
+				$this->html( false );
 				break;
 
 			case 'to':
@@ -625,7 +625,7 @@ class cnEmail {
 
 				$this->header = array();
 				$this->charset = get_bloginfo( 'charset' );
-				$this->html( FALSE );
+				$this->html( false );
 
 				$this->to = array();
 				$this->cc = array();

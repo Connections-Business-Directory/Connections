@@ -120,11 +120,11 @@ final class cnLink extends cnEntry_Collection_Item {
 		$follow  = cnSettingsAPI::get( 'connections', 'fieldset-link', 'follow-link' );
 
 		$follow = cnArray::get( $data, 'follow', $follow );
-		$image  = cnArray::get( $data, 'image', FALSE );
-		$logo   = cnArray::get( $data, 'logo', FALSE );
+		$image  = cnArray::get( $data, 'image', false );
+		$logo   = cnArray::get( $data, 'logo', false );
 
 		$this->id          = (int) cnArray::get( $data, 'id', 0 );
-		$preferred         = cnArray::get( $data, 'preferred', FALSE );
+		$preferred         = cnArray::get( $data, 'preferred', false );
 		$url               = cnArray::get( $data, 'url', '' );
 
 		if ( is_string( $url ) && 0 < strlen( $url ) ) {
@@ -351,11 +351,11 @@ final class cnLink extends cnEntry_Collection_Item {
 		switch ( $type ) {
 
 			case 'logo':
-				$this->logo = TRUE;
+				$this->logo = true;
 				break;
 
 			case 'photo':
-				$this->image = TRUE;
+				$this->image = true;
 				break;
 		}
 	}
@@ -371,20 +371,20 @@ final class cnLink extends cnEntry_Collection_Item {
 	 */
 	public function attachedTo() {
 
-		if ( TRUE === $this->logo || TRUE === $this->image ) {
+		if ( true === $this->logo || true === $this->image ) {
 
-			if ( TRUE === $this->logo ) {
+			if ( true === $this->logo ) {
 
 				return 'logo';
 
-			} elseif ( TRUE === $this->image ) {
+			} elseif ( true === $this->image ) {
 
 				return 'photo';
 			}
 
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**

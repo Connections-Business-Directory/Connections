@@ -51,7 +51,7 @@ if ( ! class_exists( 'CN_Block_Team_Grid_Card_Overlay_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'https://connections-pro.com',
 				'description' => 'Grid layout.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',

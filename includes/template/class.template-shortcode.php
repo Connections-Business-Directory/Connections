@@ -43,7 +43,7 @@ class cnTemplate_Shortcode {
 	 * @since  0.8
 	 * @var    mixed   [ object | bool ] An instance of cnTemplate if one was loaded or FALSE.
 	 */
-	private $template = FALSE;
+	private $template = false;
 
 	/**
 	 * The array containing the results of an entry query.
@@ -152,10 +152,10 @@ class cnTemplate_Shortcode {
 		$tags = $this->tags();
 
 		// If the requested part is in the registered template shortcode tags, return its attributes.
-		if ( $key = array_key_exists( $tag, $tags ) !== FALSE ) return $tags[ $tag ];
+		if ( $key = array_key_exists( $tag, $tags ) !== false ) return $tags[ $tag ];
 
 		// The tags was not found, return FALSE.
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -174,7 +174,7 @@ class cnTemplate_Shortcode {
 
 		$tags = array_keys( self::tags() );
 
-		if ( FALSE === strpos( $content, '[' ) ) {
+		if ( false === strpos( $content, '[' ) ) {
 
 			return $content;
 		}
@@ -211,7 +211,7 @@ class cnTemplate_Shortcode {
 	 *
 	 * @return string The shortcode search regular expression
 	 */
-	public function regex( $tags = NULL ) {
+	public function regex( $tags = null ) {
 
 		$tagnames = is_null( $tags ) ? array_keys( $this->tags() ) : $tags;
 
@@ -315,7 +315,7 @@ class cnTemplate_Shortcode {
 
 			// self-closing tag
 			// return $m[1] . call_user_func( $tag['callback'], $atts, NULL,  $m[2] ) . $m[6];
-			echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, NULL, $m[2] ) . $m[6];
+			echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, null, $m[2] ) . $m[6];
 		}
 
 		return ob_get_clean();

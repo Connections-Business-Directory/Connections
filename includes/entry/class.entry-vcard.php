@@ -133,7 +133,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 	 *
 	 * @return string
 	 */
-	protected function getGroupName( $new = NULL ) {
+	protected function getGroupName( $new = null ) {
 
 		static $i = 0;
 
@@ -417,21 +417,21 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 	private function setvCardDates() {
 
-		$anniversary = NULL;
-		$birthday    = NULL;
+		$anniversary = null;
+		$birthday    = null;
 
 		$day = $this->getDates( array( 'type' => 'anniversary' ) );
 
 		if ( ! empty( $day ) ) {
 
-			$anniversary = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
+			$anniversary = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), true );
 		}
 
 		$day = $this->getDates( array( 'type' => 'birthday' ) );
 
 		if ( ! empty( $day ) ) {
 
-			$birthday = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
+			$birthday = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), true );
 		}
 
 		// Set the anniversary.

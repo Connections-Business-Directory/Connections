@@ -81,7 +81,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				'author'    => '',
 				'version'   => '',
 				'license'   => '',
-				'beta'      => FALSE,
+				'beta'      => false,
 			);
 
 			$plugin = cnSanitize::args( $data, $defaults );
@@ -104,7 +104,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			self::$licenses[ $plugin['basename'] ] = $plugin;
 
-			return TRUE;
+			return true;
 		}
 
 		/**
@@ -124,7 +124,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				return self::$licenses[ $basename ];
 			}
 
-			return FALSE;
+			return false;
 		}
 
 		/**
@@ -147,7 +147,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				}
 			}
 
-			return FALSE;
+			return false;
 		}
 
 		/**
@@ -173,7 +173,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 				$license = self::get_by_slug( $slug );
 
-				if ( FALSE !== $license ) {
+				if ( false !== $license ) {
 
 					/** @var WP_Error $response */
 					$response = self::request( $license );
@@ -186,7 +186,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 					$data[ $slug ] = $response;
 					$status        = $data[ $slug ];
 
-					update_option( 'connections_license_data', $data, FALSE );
+					update_option( 'connections_license_data', $data, false );
 
 				} else {
 
@@ -234,7 +234,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 					}
 
 					$data['last_checked'] = time();
-					update_option( 'connections_license_data', $data, FALSE );
+					update_option( 'connections_license_data', $data, false );
 				}
 
 			}
@@ -256,7 +256,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 		 */
 		private static function request( $plugin = array() ) {
 
-			$response = FALSE;
+			$response = false;
 
 			/**
 			 * Timeout logic base on WP core.

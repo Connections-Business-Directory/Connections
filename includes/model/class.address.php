@@ -118,19 +118,19 @@ class Address {
 	public function __construct( $data ) {
 
 		$address = array(
-			'line_1'      => NULL,
-			'line_2'      => NULL,
-			'line_3'      => NULL,
-			'line_4'      => NULL,
-			'district'    => NULL,
-			'county'      => NULL,
-			'locality'    => NULL, //city
-			'region'      => NULL, //state
-			'postal_code' => NULL, //zipcode
-			'country'     => NULL,
-			'coordinates' => NULL,
-			'bounds'      => NULL,
-			'timezone'    => NULL,
+			'line_1'      => null,
+			'line_2'      => null,
+			'line_3'      => null,
+			'line_4'      => null,
+			'district'    => null,
+			'county'      => null,
+			'locality'    => null, //city
+			'region'      => null, //state
+			'postal_code' => null, //zipcode
+			'country'     => null,
+			'coordinates' => null,
+			'bounds'      => null,
+			'timezone'    => null,
 			'meta'        => array(),
 		);
 
@@ -412,9 +412,9 @@ class Address {
 	 */
 	public function setCoordinates( $latitude, $longitude ) {
 
-		if ( NULL === $latitude || NULL === $longitude ) {
+		if ( null === $latitude || null === $longitude ) {
 
-			$this->coordinates = NULL;
+			$this->coordinates = null;
 		}
 
 		$this->coordinates = new Coordinates( $latitude, $longitude );
@@ -429,8 +429,8 @@ class Address {
 	 */
 	public function getLatitude() {
 
-		if ( NULL === $this->coordinates ) {
-			return NULL;
+		if ( null === $this->coordinates ) {
+			return null;
 		}
 
 		return $this->coordinates->getLatitude();
@@ -443,8 +443,8 @@ class Address {
 	 */
 	public function getLongitude() {
 
-		if ( NULL === $this->coordinates ) {
-			return NULL;
+		if ( null === $this->coordinates ) {
+			return null;
 		}
 
 		return $this->coordinates->getLongitude();
@@ -493,7 +493,7 @@ class Address {
 	 *
 	 * @return mixed
 	 */
-	public function getMeta( $name, $default = NULL ) {
+	public function getMeta( $name, $default = null ) {
 
 		if ( $this->hasMeta( $name ) ) {
 			return $this->meta[ $name ];

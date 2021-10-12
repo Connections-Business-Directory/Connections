@@ -154,7 +154,7 @@ final class _ {
 	 *
 	 * @return array|mixed|WP_Error
 	 */
-	public static function decodeJSON( $json, $assoc = FALSE, $depth = 512 ) {
+	public static function decodeJSON( $json, $assoc = false, $depth = 512 ) {
 
 		$data = json_decode( $json, $assoc, $depth );
 
@@ -317,11 +317,11 @@ final class _ {
 
 		foreach ( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
 
-			if ( TRUE === array_key_exists( $key, $_SERVER ) ) {
+			if ( true === array_key_exists( $key, $_SERVER ) ) {
 
 				foreach ( array_map( 'trim', explode( ',', $_SERVER[ $key ] ) ) as $ip ) {
 
-					if ( FALSE !== filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+					if ( false !== filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
 
 						return $ip;
 					}
@@ -346,7 +346,7 @@ final class _ {
 
 			$data    = openssl_random_pseudo_bytes(16);
 
-			if ( FALSE !== $data ) {
+			if ( false !== $data ) {
 
 				$data[6] = chr( ord( $data[6] ) & 0x0f | 0x40 ); // set version to 0010
 				$data[8] = chr( ord( $data[8] ) & 0x3f | 0x80 ); // set bits 6-7 to 10
@@ -404,32 +404,32 @@ final class _ {
 		#range check
 		if ( $oMin == $oMax ) {
 
-			return FALSE;
+			return false;
 		}
 
 		if ( $nMin == $nMax ) {
 
-			return FALSE;
+			return false;
 		}
 
 		#check reversed input range
-		$reverseInput = FALSE;
+		$reverseInput = false;
 		$oldMin       = min( $oMin, $oMax );
 		$oldMax       = max( $oMin, $oMax );
 
 		if ( ! $oldMin == $oMin ) {
 
-			$reverseInput = TRUE;
+			$reverseInput = true;
 		}
 
 		#check reversed output range
-		$reverseOutput = FALSE;
+		$reverseOutput = false;
 		$newMin        = min( $nMin, $nMax );
 		$newMax        = max( $nMin, $nMax );
 
 		if ( ! $newMin == $nMin ) {
 
-			$reverseOutput = TRUE;
+			$reverseOutput = true;
 		}
 
 		$portion = ( $x - $oldMin ) * ( $newMax - $newMin ) / ( $oldMax - $oldMin );

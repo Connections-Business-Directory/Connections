@@ -90,7 +90,7 @@ final class cnEntry_Image {
 		// If the source image already exists in the new folder structure, post 8.1, bail, nothing to do.
 		if ( is_file( $path . $filename ) ) {
 
-			return TRUE;
+			return true;
 		}
 
 		if ( is_file( $legacyPath . $filename ) ) {
@@ -121,7 +121,7 @@ final class cnEntry_Image {
 				}
 
 				// Delete any of the legacy size variations if the copy/move was successful.
-				if ( TRUE === $result ) {
+				if ( true === $result ) {
 
 					// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
 					// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
@@ -143,7 +143,7 @@ final class cnEntry_Image {
 						@unlink( $file->getPathname() );
 					}
 
-					return TRUE;
+					return true;
 				}
 
 			}
@@ -201,7 +201,7 @@ final class cnEntry_Image {
 		// If the source logo already exists in the new folder structure, post 8.1, bail, nothing to do.
 		if ( is_file( $path . $filename ) ) {
 
-			return TRUE;
+			return true;
 		}
 
 		if ( is_file( $legacyPath . $filename ) ) {
@@ -228,7 +228,7 @@ final class cnEntry_Image {
 					$result = @copy( $original, $path . $filename );
 				}
 
-				if ( TRUE === $result ) return TRUE;
+				if ( true === $result ) return true;
 			}
 
 		}

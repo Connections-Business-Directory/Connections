@@ -104,7 +104,7 @@ class cnOptions {
 		$this->defaultTemplatesSet = $this->options['settings']['template']['defaults_set'];
 		$this->activeTemplates = (array) $this->options['settings']['template']['active'];
 
-		$this->defaultRolesSet = isset( $this->options['settings']['roles']['defaults_set'] ) && ! empty( $this->options['settings']['roles']['defaults_set'] ) ? $this->options['settings']['roles']['defaults_set'] : FALSE;
+		$this->defaultRolesSet = isset( $this->options['settings']['roles']['defaults_set'] ) && ! empty( $this->options['settings']['roles']['defaults_set'] ) ? $this->options['settings']['roles']['defaults_set'] : false;
 
 		$this->wpCurrentTime = current_time( 'timestamp' );
 		$this->currentTime   = date( 'U' );
@@ -172,7 +172,7 @@ class cnOptions {
 	public function getAllowPublic() {
 		global $connections;
 
-		$required = $connections->settings->get( 'connections', 'connections_login', 'required' ) ? FALSE : TRUE;
+		$required = $connections->settings->get( 'connections', 'connections_login', 'required' ) ? false : true;
 
 		return $required;
 	}
@@ -190,7 +190,7 @@ class cnOptions {
 	 */
 	public static function loginRequired() {
 
-		return cnSettingsAPI::get( 'connections', 'login', 'required' ) ? TRUE : FALSE;
+		return cnSettingsAPI::get( 'connections', 'login', 'required' ) ? true : false;
 	}
 
 	/**
@@ -207,7 +207,7 @@ class cnOptions {
 
 		_deprecated_function( __METHOD__, '9.11' );
 
-		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_public_override' ) ? TRUE : FALSE;
+		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_public_override' ) ? true : false;
 	}
 
 	/**
@@ -224,7 +224,7 @@ class cnOptions {
 
 		_deprecated_function( __METHOD__, '9.11' );
 
-		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_private_override' ) ? TRUE : FALSE;
+		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_private_override' ) ? true : false;
 	}
 
 	/**
@@ -250,7 +250,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-publish' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getEntryTypes();
 
@@ -413,7 +413,7 @@ class cnOptions {
 		$this->setActiveTemplate( 'anniversary', 'anniversary-light' );
 		$this->setActiveTemplate( 'birthday', 'birthday-light' );
 
-		$this->defaultTemplatesSet = TRUE;
+		$this->defaultTemplatesSet = true;
 	}
 
 	/**
@@ -517,7 +517,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-address' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getCoreAddressTypes();
 
@@ -663,7 +663,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-phone' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getCorePhoneTypes();
 
@@ -805,7 +805,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-email' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getCoreEmailTypes();
 
@@ -974,7 +974,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-social-networks' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getCoreSocialNetworkTypes();
 
@@ -1118,7 +1118,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-messenger' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getCoreMessengerTypes();
 
@@ -1260,7 +1260,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-link' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getCoreLinkTypes();
 
@@ -1410,7 +1410,7 @@ class cnOptions {
 
 		$options = get_option( 'connections_fieldset-date' );
 
-		if ( FALSE === $options ) {
+		if ( false === $options ) {
 
 			$options = self::getCoreDateTypes();
 
@@ -1541,7 +1541,7 @@ class cnOptions {
 
 		_deprecated_function( __METHOD__, '9.15' );
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -1554,7 +1554,7 @@ class cnOptions {
 
 		_deprecated_function( __METHOD__, '9.15' );
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -1585,7 +1585,7 @@ class cnOptions {
 	 *                            Or just the content block name if the id is supplied.
 	 *                            False is return if no blocks are found.
 	 */
-	public static function getContentBlocks( $item = NULL, $type = NULL ) {
+	public static function getContentBlocks( $item = null, $type = null ) {
 
 		$blocks = array();
 
@@ -1608,7 +1608,7 @@ class cnOptions {
 			if ( $item == $block ) return $name;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -1645,7 +1645,7 @@ class cnOptions {
 		$category = get_option( 'connections_category' );
 
 		// Check to ensure the default category ID is saved in the options table before returning it.
-		if ( FALSE === $category || ! isset( $category['default'] ) || empty( $category['default'] ) ) {
+		if ( false === $category || ! isset( $category['default'] ) || empty( $category['default'] ) ) {
 
 			// If there was no default category set, check for the "Uncategorized" category. If it exists return its
 			// `id` and if it does not, then create it an return the `id`.
@@ -1655,7 +1655,7 @@ class cnOptions {
 
 				// Ensure nothing went wrong when checking for the "Uncategorized" category.
 				// If not, save the `id` in the options table.
-				if ( FALSE !== $category  ) {
+				if ( false !== $category  ) {
 
 					$id = $category['term_id'];
 

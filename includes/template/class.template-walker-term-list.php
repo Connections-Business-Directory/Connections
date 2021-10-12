@@ -82,17 +82,17 @@ class CN_Walker_Term_List extends Walker {
 			'show_option_none' => __( 'No categories', 'connections' ),
 			'orderby'          => 'name',
 			'order'            => 'ASC',
-			'show_count'       => FALSE,
-			'hide_empty'       => FALSE,
+			'show_count'       => false,
+			'hide_empty'       => false,
 			'child_of'         => 0,
 			'exclude'          => array(),
-			'hierarchical'     => TRUE,
+			'hierarchical'     => true,
 			'depth'            => 0,
 			'parent_id'        => array(),
 			'taxonomy'         => 'category',
-			'force_home'       => FALSE,
+			'force_home'       => false,
 			'home_id'          => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-			'return'           => FALSE,
+			'return'           => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -182,7 +182,7 @@ class CN_Walker_Term_List extends Walker {
 
 			if ( ! empty( $atts['show_option_all'] ) ) {
 
-				$out .= '<li class="cat-item-all"><a href="' . cnURL::permalink( array( 'type' => 'home', 'data' => 'url', 'return' => TRUE ) )  . '">' . $atts['show_option_all'] . '</a></li>';
+				$out .= '<li class="cat-item-all"><a href="' . cnURL::permalink( array( 'type' => 'home', 'data' => 'url', 'return' => true ) )  . '">' . $atts['show_option_all'] . '</a></li>';
 			}
 
 			$out .= $walker->walk( $terms, $atts['depth'], $atts );
@@ -295,7 +295,7 @@ class CN_Walker_Term_List extends Walker {
 			$term->taxonomy,
 			array(
 				'parent'     => $term->term_id,
-				'hide_empty' => FALSE,
+				'hide_empty' => false,
 				'fields'     => 'count',
 				)
 		);

@@ -76,7 +76,7 @@ class cnAdminFunction {
 			// Check if the db requires updating, display message if it does.
 			if ( version_compare( $instance->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
 
-				$instance->dbUpgrade = TRUE;
+				$instance->dbUpgrade = true;
 
 				add_action( 'current_screen', array( __CLASS__, 'displayDBUpgradeNotice' ) );
 			}
@@ -227,15 +227,15 @@ class cnAdminFunction {
 			array(
 				'slug'   => 'connections',
 				'fields' => array(
-					'tested'       => TRUE,
-					'requires'     => FALSE,
-					'rating'       => FALSE,
-					'downloaded'   => FALSE,
-					'downloadlink' => FALSE,
-					'last_updated' => FALSE,
-					'homepage'     => FALSE,
-					'tags'         => FALSE,
-					'sections'     => TRUE
+					'tested'       => true,
+					'requires'     => false,
+					'rating'       => false,
+					'downloaded'   => false,
+					'downloadlink' => false,
+					'last_updated' => false,
+					'homepage'     => false,
+					'tags'         => false,
+					'sections'     => true
 					)
 				)
 			);
@@ -257,7 +257,7 @@ class cnAdminFunction {
 			// Make sure the change items were found and not empty before proceeding.
 			if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-				$ul = FALSE;
+				$ul = false;
 
 				// Finally, lets render the changelog list.
 				foreach ( $matches[1] as $key => $line ) {
@@ -266,7 +266,7 @@ class cnAdminFunction {
 
 						echo '<p class="cn-update-message-p-clear-before"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
 						echo '<ul class="cn-changelog">';
-						$ul = TRUE;
+						$ul = true;
 					}
 
 					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
@@ -489,7 +489,7 @@ class cnAdminFunction {
 		Connections_Directory()->user->setScreenOptions( 'manage', $meta );
 
 		// cnUser::setScreenOptions() saves the user meta, return FALSE to short circuit set_screen_options().
-		return FALSE;
+		return false;
 	}
 
 	/**

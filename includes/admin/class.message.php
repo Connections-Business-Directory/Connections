@@ -379,7 +379,7 @@ class cnMessage extends WP_Error {
 	public static function set( $type, $code ) {
 
 		$messages = self::get();
-		$result   = FALSE;
+		$result   = false;
 
 		switch ( $type ) {
 
@@ -430,13 +430,13 @@ class cnMessage extends WP_Error {
 	private static function store( $message ) {
 
 		/** @var array|string|false $meta */
-		$meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		$meta = get_user_meta( self::$id, self::$meta_key, true );
 
 		/*
 		 * Since get_user_meta() can return array|string|false but we expect only an array,
 		 * check for the other possible return values and if found setup the array.
 		 */
-		if ( is_string( $meta ) || FALSE === $meta ) {
+		if ( is_string( $meta ) || false === $meta ) {
 
 			$meta = array( 'messages' => array() );
 		}
@@ -467,7 +467,7 @@ class cnMessage extends WP_Error {
 	 */
 	public static function get() {
 
-		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		$user_meta = get_user_meta( self::$id, self::$meta_key, true );
 		$messages  = array();
 
 		if ( isset( $user_meta['messages'] ) && ! empty( $user_meta['messages'] ) ) {
@@ -486,7 +486,7 @@ class cnMessage extends WP_Error {
 	 */
 	public static function reset() {
 
-		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		$user_meta = get_user_meta( self::$id, self::$meta_key, true );
 
 		if ( isset( $user_meta['messages'] ) ) {
 

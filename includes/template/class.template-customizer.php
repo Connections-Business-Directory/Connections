@@ -203,14 +203,14 @@ class cnTemplate_Customizer {
 
 				} else {
 
-					$this->supports[ $options ] = TRUE;
+					$this->supports[ $options ] = true;
 				}
 
 			}
 
 		} else {
 
-			$this->supports[ $features ] = TRUE;
+			$this->supports[ $features ] = true;
 		}
 	}
 
@@ -248,7 +248,7 @@ class cnTemplate_Customizer {
 			return $this->supports[ $feature ];
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -272,7 +272,7 @@ class cnTemplate_Customizer {
 
 			$features = $this->getSupportsOptions( 'customizer' );
 
-			if ( FALSE !== $features ) {
+			if ( false !== $features ) {
 
 				$this->registerFeatures( $features, $wp_customize );
 			}
@@ -755,7 +755,7 @@ class cnTemplate_Customizer {
 				"{$base}_{$slug}[card][category_select]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
 					//'sanitize_callback'    => 'sanitize_text_field',
@@ -781,7 +781,7 @@ class cnTemplate_Customizer {
 				"{$base}_{$slug}[card][show_empty_categories]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
 					//'sanitize_callback'    => 'sanitize_text_field',
@@ -807,7 +807,7 @@ class cnTemplate_Customizer {
 				"{$base}_{$slug}[card][show_category_count]",
 				array(
 					'type'                 => 'option',
-					'default'              => FALSE,
+					'default'              => false,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
 					//'sanitize_callback'    => 'sanitize_text_field',
@@ -897,7 +897,7 @@ class cnTemplate_Customizer {
 				"{$base}_{$slug}[card][search]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
 					//'sanitize_callback'    => 'sanitize_text_field',
@@ -987,7 +987,7 @@ class cnTemplate_Customizer {
 				"{$base}_{$slug}[card][pagination]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
 					//'sanitize_callback'    => 'sanitize_text_field',
@@ -1087,7 +1087,7 @@ class cnTemplate_Customizer {
 				$option,
 				array(
 					'type'       => 'option',
-					'default'    => TRUE,
+					'default'    => true,
 					'transport'  => 'refresh',
 					'capability' => 'edit_theme_options',
 					//'sanitize_callback'    => 'sanitize_text_field',
@@ -1284,7 +1284,7 @@ class cnTemplate_Customizer {
 						$option,
 						array(
 							'type'                 => 'option',
-							'default'              => TRUE,
+							'default'              => true,
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
 							//'sanitize_callback'    => 'sanitize_text_field',
@@ -1739,7 +1739,7 @@ class cnTemplate_Customizer {
 
 			if ( ! in_array( $section->id, $exemptions ) ) {
 
-				$active = FALSE;
+				$active = false;
 			}
 		}
 
@@ -1775,11 +1775,11 @@ class cnTemplate_Customizer {
 			if ( cnString::startsWith( "cn_{$this->slug}_{$this->view}", $control->id ) ||
 			     in_array( $control->section, $exemptions ) ) {
 
-				$active = TRUE;
+				$active = true;
 
 			} else {
 
-				$active = FALSE;
+				$active = false;
 			}
 
 		}
@@ -1917,7 +1917,7 @@ class cnTemplate_Customizer {
 			array(
 				'type' => 'home',
 				'text' => __( 'Go Back', 'connections' ),
-				'return' => FALSE
+				'return' => false
 			)
 		);
 

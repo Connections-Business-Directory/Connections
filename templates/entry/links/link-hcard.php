@@ -50,8 +50,8 @@ foreach ( $links as $link ) {
 	$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . $url . '"' . ' target="' . $target . '" rel="noopener" ' . $follow . '>' . $link->title . '</a>';
 	$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" rel="noopener" ' . $follow . '>' . $url . '</a>';
 
-	if ( FALSE !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
-	     FALSE !== strpos( $atts['format'], '%image%' ) ) {
+	if ( false !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
+	     false !== strpos( $atts['format'], '%image%' ) ) {
 
 		$screenshot = new cnSiteShot(
 			array(
@@ -60,7 +60,7 @@ foreach ( $links as $link ) {
 				'title'  => $name,
 				'target' => $target,
 				'follow' => $link->follow,
-				'return' => TRUE,
+				'return' => true,
 			)
 		);
 

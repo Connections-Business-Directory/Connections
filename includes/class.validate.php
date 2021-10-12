@@ -46,7 +46,7 @@ class cnValidate {
 	 *
 	 * @return int
 	 */
-	public function url( $url, $check_exists = TRUE ) {
+	public function url( $url, $check_exists = true ) {
 
 		_deprecated_function( __METHOD__, '9.11', null );
 
@@ -58,9 +58,9 @@ class cnValidate {
 
 		// add http:// (here AND in the referenced $url), if needed
 		if ( ! $url ) {
-			return FALSE;
+			return false;
 		}
-		if ( FALSE === strpos( $url, ':' ) ) {
+		if ( false === strpos( $url, ':' ) ) {
 			$url = 'http://' . $url;
 		}
 
@@ -100,12 +100,12 @@ class cnValidate {
 			$ip = $matches[0];
 			if ( ! preg_match( '/^([0-9a-f\.\/:]+)$/', strtolower( $ip ) ) ) {
 
-				return FALSE;
+				return false;
 			}
 
 			if ( substr_count( $ip, ':' ) < 2 ) {
 
-				return FALSE;
+				return false;
 			}
 
 			$octets = preg_split( '/[:\/]/', $ip );
@@ -114,7 +114,7 @@ class cnValidate {
 
 				if ( strlen( $i ) > 4 ) {
 
-					return FALSE;
+					return false;
 				}
 			}
 
@@ -133,14 +133,14 @@ class cnValidate {
 
 			if ( ! preg_match( $regex, $url_local ) ) {
 
-				return FALSE;
+				return false;
 			}
 
 			$seg = preg_split( '/[.\/]/', $url_local );
 
 			if ( ( $seg[2] > 255 ) || ( $seg[3] > 255 ) || ( $seg[4] > 255 ) || ( $seg[5] > 255 ) ) {
 
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -188,18 +188,18 @@ class cnValidate {
 			$status   = array();
 			$url_test = str_replace( ' ', '%20', $url );
 			$handle   = curl_init( $url_test );
-			curl_setopt( $handle, CURLOPT_HEADER, TRUE );
-			curl_setopt( $handle, CURLOPT_NOBODY, TRUE );
-			curl_setopt( $handle, CURLOPT_FAILONERROR, TRUE );
-			curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, FALSE );
-			curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, FALSE );
-			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, FALSE );
-			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, TRUE );
+			curl_setopt( $handle, CURLOPT_HEADER, true );
+			curl_setopt( $handle, CURLOPT_NOBODY, true );
+			curl_setopt( $handle, CURLOPT_FAILONERROR, true );
+			curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, false );
+			curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, false );
+			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, false );
+			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
 			preg_match( '/HTTP\/.* ([0-9]+) .*/', curl_exec( $handle ), $status );
 
 			if ( $status[1] == 200 ) {
 
-				$is_valid = TRUE;
+				$is_valid = true;
 			} else {
 
 				$is_valid = - 1;
@@ -228,7 +228,7 @@ class cnValidate {
 	 *
 	 * @return int
 	 */
-	public function email( $email, $check_mx = TRUE ) {
+	public function email( $email, $check_mx = true ) {
 
 		_deprecated_function( __METHOD__, '9.11', null );
 
@@ -261,14 +261,14 @@ class cnValidate {
 					// Check each line to find the one that starts with the host name.
 					foreach ( $result as $line ) {
 						if ( eregi( "^$host_name", $line ) ) {
-							return TRUE;
+							return true;
 						}
 					}
 
-					return FALSE;
+					return false;
 				}
 
-				return FALSE;
+				return false;
 			}
 		}
 

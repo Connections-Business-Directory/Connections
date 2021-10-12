@@ -78,7 +78,7 @@ class cnEntry_Action {
 	 */
 	private static function processImage( $entrySlug ) {
 
-		if ( ! isset( $_FILES['original_image'] ) ) return FALSE;
+		if ( ! isset( $_FILES['original_image'] ) ) return false;
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -86,7 +86,7 @@ class cnEntry_Action {
 		if ( is_wp_error( $img = cnImage::upload( $_FILES['original_image'], $entrySlug ) ) ) {
 
 			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
-			return FALSE;
+			return false;
 		}
 
 		$cropMode = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
@@ -172,7 +172,7 @@ class cnEntry_Action {
 	 */
 	private static function processLogo( $entrySlug ) {
 
-		if ( ! isset( $_FILES['original_logo'] ) ) return FALSE;
+		if ( ! isset( $_FILES['original_logo'] ) ) return false;
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -180,7 +180,7 @@ class cnEntry_Action {
 		if ( is_wp_error( $img = cnImage::upload( $_FILES['original_logo'], $entrySlug ) ) ) {
 
 			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
-			return FALSE;
+			return false;
 		}
 
 		$cropMode = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
@@ -271,7 +271,7 @@ class cnEntry_Action {
 
 					$destinationFile = trailingslashit( realpath( $destinationPath ) ) . basename( $file );
 
-					if ( copy( $file->getPathname(), $destinationFile ) === FALSE ) {
+					if ( copy( $file->getPathname(), $destinationFile ) === false ) {
 
 						return new WP_Error( 'image_copy_error', __( 'Image copy failed.', 'connections' ) );
 					}
@@ -279,7 +279,7 @@ class cnEntry_Action {
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -386,7 +386,7 @@ class cnEntry_Action {
 		// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
 		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
 
-		if ( $entry->getImageNameOriginal() != NULL ) {
+		if ( $entry->getImageNameOriginal() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameOriginal() ) &&
 				$compatiblityDate < @filemtime( $path . $entry->getImageNameOriginal() )
@@ -396,7 +396,7 @@ class cnEntry_Action {
 			}
 		}
 
-		if ( $entry->getImageNameThumbnail() != NULL ) {
+		if ( $entry->getImageNameThumbnail() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameThumbnail() ) &&
 				$compatiblityDate < @filemtime( $path . $entry->getImageNameThumbnail() )
@@ -406,7 +406,7 @@ class cnEntry_Action {
 			}
 		}
 
-		if ( $entry->getImageNameCard() != NULL ) {
+		if ( $entry->getImageNameCard() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameCard() ) &&
 				$compatiblityDate < @filemtime( $path . $entry->getImageNameCard() )
@@ -416,7 +416,7 @@ class cnEntry_Action {
 			}
 		}
 
-		if ( $entry->getImageNameProfile() != NULL ) {
+		if ( $entry->getImageNameProfile() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameProfile() ) &&
 				$compatiblityDate < @filemtime( $path . $entry->getImageNameProfile() )
@@ -450,7 +450,7 @@ class cnEntry_Action {
 			$path = WP_CONTENT_DIR . '/connection_images/';
 		}
 
-		if ( $entry->getLogoName() != NULL &&
+		if ( $entry->getLogoName() != null &&
 			is_file( $path . $entry->getLogoName() )
 			) {
 
@@ -569,15 +569,15 @@ class cnEntry_Action {
 			// If there were no errors processing the logo, set the values.
 			if ( $result ) {
 
-				$entry->setLogoLinked( TRUE );
-				$entry->setLogoDisplay( TRUE );
+				$entry->setLogoLinked( true );
+				$entry->setLogoDisplay( true );
 				$entry->setLogoName( $result['name'] );
 				$entry->setOriginalLogoMeta( $result );
 
 			} else {
 
-				$entry->setLogoLinked( FALSE );
-				$entry->setLogoDisplay( FALSE );
+				$entry->setLogoLinked( false );
+				$entry->setLogoDisplay( false );
 			}
 		}
 
@@ -586,7 +586,7 @@ class cnEntry_Action {
 
 			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific logo will be deleted.
-			if ( $entry->getLogoName() != NULL && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
+			if ( $entry->getLogoName() != null && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
 
 				self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $slug );
 			}
@@ -601,8 +601,8 @@ class cnEntry_Action {
 			switch ( $data['logoOptions'] ) {
 
 				case 'remove':
-					$entry->setLogoDisplay( FALSE );
-					$entry->setLogoLinked( FALSE );
+					$entry->setLogoDisplay( false );
+					$entry->setLogoLinked( false );
 
 					// Delete the entry image and its variations.
 					self::deleteImages( $entry->getLogoName(), $slug );
@@ -610,19 +610,19 @@ class cnEntry_Action {
 					// Delete logo the legacy logo, pre 8.1.
 					self::deleteLegacyLogo( $entry );
 
-					$entry->setLogoName( NULL );
+					$entry->setLogoName( null );
 					break;
 
 				case 'hidden':
-					$entry->setLogoDisplay( FALSE );
+					$entry->setLogoDisplay( false );
 					break;
 
 				case 'show':
-					$entry->setLogoDisplay( TRUE );
+					$entry->setLogoDisplay( true );
 					break;
 
 				default:
-					$entry->setLogoDisplay( FALSE );
+					$entry->setLogoDisplay( false );
 					break;
 			}
 		}
@@ -647,15 +647,15 @@ class cnEntry_Action {
 			// If there were no errors processing the image, set the values.
 			if ( $result ) {
 
-				$entry->setImageLinked( TRUE );
-				$entry->setImageDisplay( TRUE );
+				$entry->setImageLinked( true );
+				$entry->setImageDisplay( true );
 				$entry->setImageNameOriginal( $result['image_names']['original'] );
 				$entry->setOriginalImageMeta( $result['image']['original']['meta'] );
 
 			} else {
 
-				$entry->setImageLinked( FALSE );
-				$entry->setImageDisplay( FALSE );
+				$entry->setImageLinked( false );
+				$entry->setImageDisplay( false );
 			}
 
 		}
@@ -665,7 +665,7 @@ class cnEntry_Action {
 
 			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific images will be deleted.
-			if ( $entry->getImageNameOriginal() != NULL && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
+			if ( $entry->getImageNameOriginal() != null && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
 
 				self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $slug );
 			}
@@ -678,8 +678,8 @@ class cnEntry_Action {
 			switch ( $data['imgOptions'] ) {
 
 				case 'remove':
-					$entry->setImageDisplay( FALSE );
-					$entry->setImageLinked( FALSE );
+					$entry->setImageDisplay( false );
+					$entry->setImageLinked( false );
 
 					// Delete the entry image and its variations.
 					self::deleteImages( $entry->getImageNameOriginal(), $slug );
@@ -687,20 +687,20 @@ class cnEntry_Action {
 					// Delete any legacy images, pre 8.1, that may exist.
 					self::deleteLegacyImages( $entry );
 
-					$entry->setImageNameOriginal( NULL );
+					$entry->setImageNameOriginal( null );
 
 					break;
 
 				case 'hidden':
-					$entry->setImageDisplay( FALSE );
+					$entry->setImageDisplay( false );
 					break;
 
 				case 'show':
-					$entry->setImageDisplay( TRUE );
+					$entry->setImageDisplay( true );
 					break;
 
 				default:
-					$entry->setImageDisplay( FALSE );
+					$entry->setImageDisplay( false );
 					break;
 			}
 		}
@@ -730,10 +730,10 @@ class cnEntry_Action {
 				}
 
 				// Save the entry to the database. On fail store error message.
-				if ( $entry->save() === FALSE ) {
+				if ( $entry->save() === false ) {
 
 					cnMessage::set( 'error', 'entry_added_failed' );
-					return FALSE;
+					return false;
 
 				} else {
 
@@ -788,10 +788,10 @@ class cnEntry_Action {
 				}
 
 				// Update the entry to the database. On fail store error message.
-				if ( $entry->update() === FALSE ) {
+				if ( $entry->update() === false ) {
 
 					cnMessage::set( 'error', 'entry_updated_failed' );
-					return FALSE;
+					return false;
 
 				} else {
 
@@ -866,10 +866,10 @@ class cnEntry_Action {
 		$permitted = array( 'pending', 'approved' );
 
 		// Ensure the status being set is permitted.
-		if ( ! in_array( $status, $permitted ) ) return FALSE;
+		if ( ! in_array( $status, $permitted ) ) return false;
 
 		// Make sure $id is not empty.
-		if ( empty( $id ) ) return FALSE;
+		if ( empty( $id ) ) return false;
 
 		// Check for and convert to an array.
 		$ids = wp_parse_id_list( $id );
@@ -883,7 +883,7 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
-		if ( FALSE !== $result ) {
+		if ( false !== $result ) {
 
 			/**
 			 * Action fired after entries have their status bulk changed.
@@ -895,7 +895,7 @@ class cnEntry_Action {
 			do_action( 'cn_process_status', $ids );
 		}
 
-		return $result !== FALSE ? TRUE : FALSE;
+		return $result !== false ? true : false;
 	}
 
 	/**
@@ -924,10 +924,10 @@ class cnEntry_Action {
 		$permitted = array( 'public', 'private', 'unlisted' );
 
 		// Ensure the status being set is permitted.
-		if ( ! in_array( $visibility, $permitted ) ) return FALSE;
+		if ( ! in_array( $visibility, $permitted ) ) return false;
 
 		// Make sure $id is not empty.
-		if ( empty( $id ) ) return FALSE;
+		if ( empty( $id ) ) return false;
 
 		// Check for and convert to an array.
 		$ids = wp_parse_id_list( $id );
@@ -941,7 +941,7 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
-		if ( FALSE !== $result ) {
+		if ( false !== $result ) {
 
 			/**
 			 * Action fired after entries have their visibility bulk changed.
@@ -953,7 +953,7 @@ class cnEntry_Action {
 			do_action( 'cn_process_visibility', $ids );
 		}
 
-		return $result !== FALSE ? TRUE : FALSE;
+		return $result !== false ? true : false;
 	}
 
 	/**
@@ -978,7 +978,7 @@ class cnEntry_Action {
 		$instance = Connections_Directory();
 
 		// Make sure $id is not empty.
-		if ( empty( $ids ) ) return FALSE;
+		if ( empty( $ids ) ) return false;
 
 		// Check for and convert to an array.
 		$ids = wp_parse_id_list( $ids );
@@ -1001,7 +1001,7 @@ class cnEntry_Action {
 		 */
 		do_action( 'cn_process_bulk_delete', $ids );
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -1027,7 +1027,7 @@ class cnEntry_Action {
 			cnTerm::updateCount( $result, $taxonomy );
 		}
 
-		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+		cnCache::clear( true, 'transient', "cn_{$taxonomy}" );
 
 		return $result;
 	}
@@ -1180,8 +1180,8 @@ class cnEntry_Action {
 	 */
 	public static function clearCache() {
 
-		cnCache::clear( TRUE, 'transient', 'cn_category' );
-		cnCache::clear( TRUE, 'transient', 'cn_relative' );
+		cnCache::clear( true, 'transient', 'cn_category' );
+		cnCache::clear( true, 'transient', 'cn_relative' );
 
 		/**
 		 * Action fired after entry related caches are cleared.
@@ -1219,7 +1219,7 @@ class cnEntry_Action {
 
 				$admin_bar->add_node(
 					array(
-						'parent' => FALSE,
+						'parent' => false,
 						'id'     => 'cn-edit-entry',
 						'title'  => __( 'Edit Entry', 'connections' ),
 						'href'   => admin_url( wp_nonce_url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry[0]->id, 'entry_edit_' . $entry[0]->id ) ),

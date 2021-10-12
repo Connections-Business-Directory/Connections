@@ -106,14 +106,14 @@ final class Address_Builder {
 	 */
 	public function build( $class = 'Connections_Directory\Model\Address' ) {
 
-		if ( ! is_a( $class, 'Connections_Directory\Model\Address', TRUE ) ) {
+		if ( ! is_a( $class, 'Connections_Directory\Model\Address', true ) ) {
 
 			throw new \LogicException(
 				'First parameter to Address_Builder::build must be a class name extending Connections_Directory\Model\Address.'
 			);
 		}
 
-		$country = NULL;
+		$country = null;
 
 		if ( ! empty( $this->country ) || ! empty( $this->country ) ) {
 
@@ -152,7 +152,7 @@ final class Address_Builder {
 			$this->bounds = new Bounds( $south, $west, $north, $east );
 		}
 		catch ( \InvalidArgumentException $e ) {
-			$this->bounds = NULL;
+			$this->bounds = null;
 		}
 
 		return $this;
@@ -336,7 +336,7 @@ final class Address_Builder {
 	 *
 	 * @return mixed
 	 */
-	public function getMeta( $name, $default = NULL ) {
+	public function getMeta( $name, $default = null ) {
 
 		if ( $this->hasMeta( $name ) ) {
 			return $this->meta[ $name ];

@@ -324,8 +324,8 @@ add_action( 'plugins_loaded', 'cn_maps_marker_pro' );
 
 function cn_maps_marker_pro() {
 
-	if ( class_exists( 'Leafletmapsmarker', FALSE ) ||
-	     class_exists( 'MMP_Globals', FALSE ) ) {
+	if ( class_exists( 'Leafletmapsmarker', false ) ||
+	     class_exists( 'MMP_Globals', false ) ) {
 
 		add_action( 'admin_notices', 'cn_deregister_google_maps_api', 9.999 );
 		add_action( 'admin_notices', 'cn_register_google_maps_api', 10.001 );
@@ -355,7 +355,7 @@ function cn_register_google_maps_api() {
 		$googleMapsAPIURL,
 		array(),
 		CN_CURRENT_VERSION,
-		TRUE
+		true
 	);
 }
 

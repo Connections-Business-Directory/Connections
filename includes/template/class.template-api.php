@@ -160,8 +160,8 @@ class cnTemplateFactory {
 			'author'      => '',
 			'authorURL'   => '',
 			'description' => '',
-			'custom'      => TRUE,
-			'legacy'      => FALSE,
+			'custom'      => true,
+			'legacy'      => false,
 			'path'        => '',
 			'url'         => '',
 			'thumbnail'   => '',
@@ -266,7 +266,7 @@ class cnTemplateFactory {
 
 			foreach ( $slug as $template ) {
 
-				if ( $template->legacy == FALSE && ! empty( $template->class ) ) {
+				if ( $template->legacy == false && ! empty( $template->class ) ) {
 
 					// Init an instance of the cnTemplate object with $template.
 					$t = new cnTemplate( $template );
@@ -306,7 +306,7 @@ class cnTemplateFactory {
 
 		$legacyTemplates = get_transient( 'cn_legacy_templates' );
 
-		if ( $legacyTemplates === FALSE ) {
+		if ( $legacyTemplates === false ) {
 
 			// Build a catalog of all legacy templates.
 			self::scan();
@@ -335,7 +335,7 @@ class cnTemplateFactory {
 				$atts['authorURL']   = $template->uri;
 				$atts['description'] = $template->description;
 				$atts['custom']      = $template->custom;
-				$atts['legacy']      = TRUE;
+				$atts['legacy']      = true;
 
 				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
 				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
@@ -386,7 +386,7 @@ class cnTemplateFactory {
 
 			foreach ( $baseDirs as $path ) {
 
-				if ( FALSE === stripos( $templatePath, $path ) ) {
+				if ( false === stripos( $templatePath, $path ) ) {
 					continue;
 				}
 			}
@@ -398,7 +398,7 @@ class cnTemplateFactory {
 
 			//$templateDirectories = opendir($templatePath);
 
-			while ( ( $templateDirectory = readdir( $templateDirectories ) ) !== FALSE ) {
+			while ( ( $templateDirectory = readdir( $templateDirectories ) ) !== false ) {
 
 				$path = trailingslashit( $templatePath . $templateDirectory );
 
@@ -425,12 +425,12 @@ class cnTemplateFactory {
 
 						$templates->{ $template->type }->{ $template->slug }->path        = $path;
 						$templates->{ $template->type }->{ $template->slug }->slug        = $template->slug ;
-						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? TRUE : FALSE;
+						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? true : false;
 
-						if ( file_exists( $path . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = TRUE;
-						if ( file_exists( $path . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = TRUE;
-						if ( file_exists( $path . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = TRUE;
-						if ( file_exists( $path . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
+						if ( file_exists( $path . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = true;
+						if ( file_exists( $path . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = true;
+						if ( file_exists( $path . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = true;
+						if ( file_exists( $path . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = true;
 					}
 				}
 			}
@@ -594,11 +594,11 @@ class cnTemplateFactory {
 				}
 			}
 
-			$template = isset( $template ) ? $template : FALSE;
+			$template = isset( $template ) ? $template : false;
 
 		} else {
 
-			$template = isset( self::$templates->{ $type }->{ $slug } ) ? $instance->template->{ $slug } : FALSE;
+			$template = isset( self::$templates->{ $type }->{ $slug } ) ? $instance->template->{ $slug } : false;
 		}
 
 		/*
@@ -608,7 +608,7 @@ class cnTemplateFactory {
 		 */
 		if ( $template instanceof cnTemplate && $template->isLegacy() ) {
 
-			return is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ? $template : FALSE;
+			return is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ? $template : false;
 
 		} elseif ( $template instanceof cnTemplate ) {
 
@@ -636,8 +636,8 @@ class cnTemplateFactory {
 
 		$type     = 'all';
 		$defaults = array(
-			'list_type'     => NULL,
-			'template'      => NULL,
+			'list_type'     => null,
+			'template'      => null,
 		);
 
 		/**
@@ -688,7 +688,7 @@ class cnTemplateFactory {
 		// If the template was not located, return FALSE.
 		// This will in turn display the template not found error message
 		// later in the execution of the shortcode.
-		if ( $template == FALSE ) return FALSE;
+		if ( $template == false ) return false;
 
 		/** @var cnTemplate $template */
 		do_action( 'cn_register_legacy_template_parts' );

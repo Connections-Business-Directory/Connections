@@ -122,7 +122,7 @@ class cnEntry_Shortcode {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// All the core methods in the cnEntry_HTML class echo by default, make sure to return instead.
-		$atts['return'] = TRUE;
+		$atts['return'] = true;
 
 		switch ( $atts['part'] ) {
 
@@ -255,12 +255,12 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
-			'city'      => NULL,
-			'state'     => NULL,
-			'zipcode'   => NULL,
-			'country'   => NULL,
+			'preferred' => false,
+			'type'      => null,
+			'city'      => null,
+			'state'     => null,
+			'zipcode'   => null,
+			'country'   => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -317,8 +317,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -349,8 +349,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -392,8 +392,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -435,8 +435,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -478,8 +478,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -523,8 +523,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );

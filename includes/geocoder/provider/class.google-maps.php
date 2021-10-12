@@ -387,7 +387,8 @@ final class Google_Maps implements Provider {
 			case 'ZERO_RESULTS':
 
 				return new WP_Error(
-					'geocode_provider_no_results', __( 'Returned zero results.', 'connections' ),
+					'geocode_provider_no_results',
+					__( 'Returned zero results.', 'connections' ),
 					property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 				);
 

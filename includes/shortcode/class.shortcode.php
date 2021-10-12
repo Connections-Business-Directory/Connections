@@ -209,7 +209,7 @@ class cnShortcode {
 
 		$options = '';
 
-		if ( is_array( $atts) || ! empty( $atts ) ) {
+		if ( is_array( $atts ) || ! empty( $atts ) ) {
 
 			foreach ( $atts as $key  => $value ) {
 
@@ -593,7 +593,7 @@ class cnShortcode {
 			return $message;
 		}
 
-		$view = cnQuery::getVar('cn-view');
+		$view = cnQuery::getVar( 'cn-view' );
 
 		switch ( $view ) {
 
@@ -682,7 +682,7 @@ class cnShortcode {
 			// Show the entry detail using a template based on the entry type.
 			case 'detail':
 
-				switch ( cnQuery::getVar('cn-process') ) {
+				switch ( cnQuery::getVar( 'cn-process' ) ) {
 
 					case 'edit':
 
@@ -900,7 +900,9 @@ class cnShortcode {
 	 */
 	public static function removePBR( $content ){
 
-		$content = strtr( $content, array(
+		$content = strtr(
+			$content,
+			array(
 			'<p><!--'  => '<!--',
 			'--></p>'  => '-->',
 			'<p>['     => '[',

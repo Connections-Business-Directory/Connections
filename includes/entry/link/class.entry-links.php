@@ -68,7 +68,7 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 		$key = $this->items->search(
 			function( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
-				return absint($id ) === $item->getID();
+				return absint( $id ) === $item->getID();
 			}
 		);
 
@@ -547,7 +547,7 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 		}
 
 		$collection = new cnCollection( $data );
-		$order      = $collection->max('order');
+		$order      = $collection->max( 'order' );
 
 		foreach ( $collection as $key => $link ) {
 

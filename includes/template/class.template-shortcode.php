@@ -215,7 +215,7 @@ class cnTemplate_Shortcode {
 
 		$tagnames = is_null( $tags ) ? array_keys( $this->tags() ) : $tags;
 
-		$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
+		$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
 
 		// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
 		// Also, see shortcode_unautop() and shortcode.js.
@@ -274,7 +274,7 @@ class cnTemplate_Shortcode {
 		// allow [[foo]] syntax for escaping a tag
 		if ( $m[1] == '[' && $m[6] == ']' ) {
 
-			return substr($m[0], 1, -1);
+			return substr( $m[0], 1, -1 );
 		}
 
 		$tag = $this->tag( $m[2] );

@@ -551,7 +551,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( false === $key || 0 === strlen( $key ) ) {
 
 				return new WP_Error(
-					'no_latitude_or_longitude', __( 'No latitude or longitude supplied.', 'connections' ),
+					'no_latitude_or_longitude',
+					__( 'No latitude or longitude supplied.', 'connections' ),
 					$key
 				);
 			}
@@ -570,7 +571,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( empty( $content ) ) {
 
 				return new WP_Error(
-					'empty_response', __( 'Empty response received.', 'connections' ),
+					'empty_response',
+					__( 'Empty response received.', 'connections' ),
 					$request
 				);
 			}
@@ -578,7 +580,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( 403 == wp_remote_retrieve_response_code( $request ) ) {
 
 				return new WP_Error(
-					'response_message', wp_remote_retrieve_response_message( $request ),
+					'response_message',
+					wp_remote_retrieve_response_message( $request ),
 					$request
 				);
 			}
@@ -588,7 +591,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( is_null( $response ) ) {
 
 				return new WP_Error(
-					'empty_response', __( 'Response could not be decoded.', 'connections' ),
+					'empty_response',
+					__( 'Response could not be decoded.', 'connections' ),
 					$request
 				);
 			}
@@ -601,7 +605,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 				case 'ZERO_RESULTS':
 
 					return new WP_Error(
-						'no_results', __( 'Returned zero results.', 'connections' ),
+						'no_results',
+						__( 'Returned zero results.', 'connections' ),
 						$response->errorMessage
 					);
 
@@ -620,7 +625,9 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 				case 'REQUEST_DENIED':
 
 					return new WP_Error(
-						'request_denied', __( 'Request has been denied.', 'connections' ), $response->errorMessage
+						'request_denied',
+						__( 'Request has been denied.', 'connections' ),
+						$response->errorMessage
 					);
 
 					break;
@@ -638,7 +645,9 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 				case 'UNKNOWN_ERROR':
 
 					return new WP_Error(
-						'unknown_error', __( 'An unknown error has occurred.', 'connections' ), $response->errorMessage
+						'unknown_error',
+						__( 'An unknown error has occurred.', 'connections' ),
+						$response->errorMessage
 					);
 
 					break;

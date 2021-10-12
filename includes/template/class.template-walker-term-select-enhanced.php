@@ -418,7 +418,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! $args['group'] ) {
 
-			$this->do_el( $out, $term, $depth, $args);
+			$this->do_el( $out, $term, $depth, $args );
 
 		} elseif ( $args['group'] && 0 === $depth && $this->has_children ) {
 
@@ -426,7 +426,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		} elseif ( $args['group'] && 0 < $depth ) {
 
-			$this->do_el( $out, $term, $depth, $args);
+			$this->do_el( $out, $term, $depth, $args );
 		}
 	}
 

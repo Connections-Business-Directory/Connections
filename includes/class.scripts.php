@@ -111,7 +111,7 @@ class cnScript {
 	public static function registerScripts() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		$path = Connections_Directory()->pluginPath();
@@ -134,7 +134,7 @@ class cnScript {
 		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', true );
 
 		// The Quform unregisters this script, so lets ensure its registered so it can be enqueued.
-		if ( ! wp_script_is( 'jquery-form', 'registered') ) {
+		if ( ! wp_script_is( 'jquery-form', 'registered' ) ) {
 			wp_register_script( 'jquery-form', "/wp-includes/js/jquery/jquery.form$min.js", array( 'jquery' ), '4.2.1', true );
 		}
 
@@ -401,7 +401,7 @@ class cnScript {
 		add_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		$path = Connections_Directory()->pluginPath();
@@ -509,8 +509,8 @@ class cnScript {
 
 		$editPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'manage' ) ) $editPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add' ) ) $editPageHooks[] = $instance->pageHook->add;
 
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
@@ -527,9 +527,9 @@ class cnScript {
 
 		$metaboxPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'dashboard') ) $metaboxPageHooks[] = $instance->pageHook->dashboard;
-		if ( property_exists( $instance->pageHook, 'manage') ) $metaboxPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add') ) $metaboxPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'dashboard' ) ) $metaboxPageHooks[] = $instance->pageHook->dashboard;
+		if ( property_exists( $instance->pageHook, 'manage' ) ) $metaboxPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add' ) ) $metaboxPageHooks[] = $instance->pageHook->add;
 
 		// Load the core JavaScripts required for metabox UI.
 		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', $metaboxPageHooks );
@@ -702,8 +702,8 @@ class cnScript {
 
 		$editPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'manage' ) ) $editPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add' ) ) $editPageHooks[] = $instance->pageHook->add;
 
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 

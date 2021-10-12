@@ -90,7 +90,7 @@ function _getTermChildren( $term_id, $terms, $taxonomy, &$ancestors = array() ) 
 				$term_list[] = $term;
 			}
 
-			if ( ! isset( $has_children[ $term->term_id ]) ) {
+			if ( ! isset( $has_children[ $term->term_id ] ) ) {
 
 				continue;
 			}
@@ -220,7 +220,7 @@ function _padTermCounts( &$terms, $taxonomy ) {
 	// Get the object and term ids and stick them in a lookup table
 	// $tax_obj      = get_taxonomy( $taxonomy );
 	$entry_types = array( 'individual', 'organization', 'family' );
-	$results     = $wpdb->get_results("SELECT entry_id, term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " INNER JOIN " . CN_ENTRY_TABLE . " ON entry_id = id WHERE term_taxonomy_id IN (" . implode(',', array_keys( $term_ids ) ) . ") AND entry_type IN ('" . implode( "', '", $entry_types ) . "') AND visibility IN ('" . implode( "', '", (array) $visibility ) . "')");
+	$results     = $wpdb->get_results( "SELECT entry_id, term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " INNER JOIN " . CN_ENTRY_TABLE . " ON entry_id = id WHERE term_taxonomy_id IN (" . implode( ',', array_keys( $term_ids ) ) . ") AND entry_type IN ('" . implode( "', '", $entry_types ) . "') AND visibility IN ('" . implode( "', '", (array) $visibility ) . "')" );
 
 	foreach ( $results as $row ) {
 

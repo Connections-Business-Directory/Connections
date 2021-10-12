@@ -76,7 +76,7 @@ class cnThumb_Responsive extends cnShortcode {
 		array_map( 'trim', $atts['sizes'] );
 		array_map( 'absint', $atts['sizes'] );
 
-		if ( empty( $atts['sizes']) ) {
+		if ( empty( $atts['sizes'] ) ) {
 
 			return __( 'No image sizes were supplied or supplied values were invalid.', 'connections' );
 		}
@@ -167,10 +167,11 @@ class cnThumb_Responsive extends cnShortcode {
 			$srcset[] = $image['url'] . ' ' . $width . 'w';
 		}
 
-		$out = sprintf( '<img class="cn-image" srcset="%1$s" sizes="100vw"%2$s />',
+		$out = sprintf(
+			'<img class="cn-image" srcset="%1$s" sizes="100vw"%2$s />',
 			implode( ',', $srcset ),
 			empty( $content ) ? '' : ' alt="' . esc_attr( $content ) . '"'
-			);
+		);
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 

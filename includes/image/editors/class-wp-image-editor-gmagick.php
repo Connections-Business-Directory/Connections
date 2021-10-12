@@ -94,7 +94,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			// Select the first frame to handle animated images properly
 			if ( is_callable( array( $this->image, 'setimageindex' ) ) )
-				$this->image->setimageindex(0);
+				$this->image->setimageindex( 0 );
 
 			$this->mime_type = $this->get_mime_type( $this->image->getimageformat() );
 		}
@@ -311,7 +311,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		 * (GD rotates counter-clockwise)
 		 */
 		try {
-			$this->image->rotateimage( new GmagickPixel('none'), 360 - $angle );
+			$this->image->rotateimage( new GmagickPixel( 'none' ), 360 - $angle );
 		}
 		catch ( Exception $e ) {
 			return new WP_Error( 'image_rotate_error', $e->getMessage() );

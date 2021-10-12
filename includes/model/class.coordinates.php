@@ -57,7 +57,8 @@ final class cnCoordinates {
 
 		if ( $latitude < - 90 || $latitude > 90 ) {
 			return new WP_Error(
-				'invalid_value', sprintf( 'Latitude should be between -90 and 90. Got: %s', $latitude )
+				'invalid_value',
+				sprintf( 'Latitude should be between -90 and 90. Got: %s', $latitude )
 			);
 		}
 

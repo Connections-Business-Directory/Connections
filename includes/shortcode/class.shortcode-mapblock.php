@@ -202,7 +202,7 @@ class mapBlock {
 			function( $match ) {
 
 				// If there is no content, then there are no markers to parse, return.
-				if ( 0 == strlen( $match[5]) ) return '';
+				if ( 0 == strlen( $match[5] ) ) return '';
 
 				$defaults = array(
 					'id'      => 'layer',

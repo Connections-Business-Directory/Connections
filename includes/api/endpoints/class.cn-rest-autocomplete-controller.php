@@ -170,7 +170,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 				if ( 1 === count( $terms ) ) {
 
-					$where[] = $type . ' ' . $wpdb->prepare('LIKE %s', $wpdb->esc_like( $terms[0] ) . '%' );
+					$where[] = $type . ' ' . $wpdb->prepare( 'LIKE %s', $wpdb->esc_like( $terms[0] ) . '%' );
 					$where[] = $wpdb->prepare( 'OR `id` = %d', $terms[0] );
 
 				} else {
@@ -192,7 +192,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 				if ( 1 === count( $terms ) ) {
 
-					$where[] = $type . ' ' . $wpdb->prepare('LIKE %s', $wpdb->esc_like( $terms[0] ) . '%' );
+					$where[] = $type . ' ' . $wpdb->prepare( 'LIKE %s', $wpdb->esc_like( $terms[0] ) . '%' );
 
 				} else {
 
@@ -213,7 +213,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 				if ( 1 === count( $terms ) ) {
 
-					$where[] = $type . ' ' . $wpdb->prepare('LIKE %s', $wpdb->esc_like( $terms[0] ) . '%' );
+					$where[] = $type . ' ' . $wpdb->prepare( 'LIKE %s', $wpdb->esc_like( $terms[0] ) . '%' );
 
 				} else {
 

@@ -1231,17 +1231,17 @@ class cnTemplatePart {
 
 		// Store the query vars
 		$queryVars                    = array();
-		$queryVars['cn-s']            = cnQuery::getVar('cn-s') ? esc_html( wp_unslash( cnQuery::getVar('cn-s') ) ) : false;
-		$queryVars['cn-char']         = cnQuery::getVar('cn-char') ? esc_html( wp_unslash( urldecode( cnQuery::getVar('cn-char') ) ) ) : false;
-		$queryVars['cn-cat']          = cnQuery::getVar('cn-cat') ? cnQuery::getVar('cn-cat') : false;
-		$queryVars['cn-organization'] = cnQuery::getVar('cn-organization') ? esc_html( urldecode( cnQuery::getVar('cn-organization') ) ) : false;
-		$queryVars['cn-department']   = cnQuery::getVar('cn-department') ? esc_html( urldecode( cnQuery::getVar('cn-department') ) ) : false;
-		$queryVars['cn-district']     = cnQuery::getVar('cn-district') ? esc_html( urldecode( cnQuery::getVar('cn-district') ) ) : false;
-		$queryVars['cn-county']       = cnQuery::getVar('cn-county') ? esc_html( urldecode( cnQuery::getVar('cn-county') ) ) : false;
-		$queryVars['cn-locality']     = cnQuery::getVar('cn-locality') ? esc_html( urldecode( cnQuery::getVar('cn-locality') ) ) : false;
-		$queryVars['cn-region']       = cnQuery::getVar('cn-region') ? esc_html( urldecode( cnQuery::getVar('cn-region') ) ) : false;
-		$queryVars['cn-postal-code']  = cnQuery::getVar('cn-postal-code') ? esc_html( urldecode( cnQuery::getVar('cn-postal-code') ) ) :  false;
-		$queryVars['cn-country']      = cnQuery::getVar('cn-country') ? esc_html( urldecode( cnQuery::getVar('cn-country') ) ) : false;
+		$queryVars['cn-s']            = cnQuery::getVar( 'cn-s' ) ? esc_html( wp_unslash( cnQuery::getVar( 'cn-s' ) ) ) : false;
+		$queryVars['cn-char']         = cnQuery::getVar( 'cn-char' ) ? esc_html( wp_unslash( urldecode( cnQuery::getVar( 'cn-char' ) ) ) ) : false;
+		$queryVars['cn-cat']          = cnQuery::getVar( 'cn-cat' ) ? cnQuery::getVar( 'cn-cat' ) : false;
+		$queryVars['cn-organization'] = cnQuery::getVar( 'cn-organization' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-organization' ) ) ) : false;
+		$queryVars['cn-department']   = cnQuery::getVar( 'cn-department' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-department' ) ) ) : false;
+		$queryVars['cn-district']     = cnQuery::getVar( 'cn-district' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-district' ) ) ) : false;
+		$queryVars['cn-county']       = cnQuery::getVar( 'cn-county' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-county' ) ) ) : false;
+		$queryVars['cn-locality']     = cnQuery::getVar( 'cn-locality' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-locality' ) ) ) : false;
+		$queryVars['cn-region']       = cnQuery::getVar( 'cn-region' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-region' ) ) ) : false;
+		$queryVars['cn-postal-code']  = cnQuery::getVar( 'cn-postal-code' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ) :  false;
+		$queryVars['cn-country']      = cnQuery::getVar( 'cn-country' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-country' ) ) ) : false;
 		// if ( cnQuery::getVar('cn-near-coord') ) $queryVars['cn-near-coord']     = cnQuery::getVar('cn-near-coord');
 		// if ( cnQuery::getVar('cn-radius') ) $queryVars['cn-radius']             = cnQuery::getVar('cn-radius');
 		// if ( cnQuery::getVar('cn-unit') ) $queryVars['cn-unit']                 = cnQuery::getVar('cn-unit');
@@ -1437,7 +1437,7 @@ class cnTemplatePart {
 
 		$defaults = array(
 			'tag'     => 'p',
-			'message' => __('No results.', 'connections'),
+			'message' => __( 'No results.', 'connections' ),
 			'before'  => '',
 			'after'   => '',
 			'return'  => false
@@ -1559,8 +1559,8 @@ class cnTemplatePart {
 			'tag'    => 'span',
 			'href'   => '#cn-top',
 			'style'  => array(),
-			'title'  => __('Return to top.', 'connections'),
-			'text'   => '<img src="' . CN_URL . 'assets/images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/>',
+			'title'  => __( 'Return to top.', 'connections' ),
+			'text'   => '<img src="' . CN_URL . 'assets/images/uparrow.gif" alt="' . __( 'Return to top.', 'connections' ) . '"/>',
 			'before' => '',
 			'after'  => '',
 			'return' => false
@@ -1740,7 +1740,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$searchValue = ( cnQuery::getVar('cn-s') ) ? cnQuery::getVar('cn-s') : '';
+		$searchValue = ( cnQuery::getVar( 'cn-s' ) ) ? cnQuery::getVar( 'cn-s' ) : '';
 
 		// Check to see if there is a template file override.
 		$part = self::get( 'search', null, array( 'atts' => $atts, 'searchValue' => $searchValue ) );
@@ -1754,7 +1754,7 @@ class cnTemplatePart {
 
 			$out .= '<span class="cn-search">';
 				if ( $atts['show_label'] ) $out .= '<label for="cn-search-input">Search Directory</label>';
-				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( wp_unslash( $searchValue ) ) . '" placeholder="' . __('Search', 'connections') . '"/>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( wp_unslash( $searchValue ) ) . '" placeholder="' . __( 'Search', 'connections' ) . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
 			$out .= '</span>';
 
@@ -1782,7 +1782,7 @@ class cnTemplatePart {
 
 		$defaults = array(
 			'name'   => '',
-			'value'  => __('Submit', 'connections'),
+			'value'  => __( 'Submit', 'connections' ),
 			'return' => false
 		);
 
@@ -1830,7 +1830,7 @@ class cnTemplatePart {
 		if ( is_admin() ) {
 			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) $current = urldecode( $_GET['cn-char'] );
 		} else {
-			if ( cnQuery::getVar('cn-char') ) $current = urldecode( cnQuery::getVar('cn-char') );
+			if ( cnQuery::getVar( 'cn-char' ) ) $current = urldecode( cnQuery::getVar( 'cn-char' ) );
 		}
 
 		if ( 1 < mb_strlen( $current ) ) {
@@ -1850,7 +1850,8 @@ class cnTemplatePart {
 
 			} else {
 
-				$url = cnURL::permalink( array(
+				$url = cnURL::permalink(
+					array(
 					'type'       => 'character',
 					'slug'       => $char,
 					'title'      => $char,
@@ -1904,11 +1905,11 @@ class cnTemplatePart {
 		if ( is_admin() ) {
 			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) $current = urldecode( $_GET['cn-char'] );
 		} else {
-			if ( cnQuery::getVar('cn-char') ) $current = urldecode( cnQuery::getVar('cn-char') );
+			if ( cnQuery::getVar( 'cn-char' ) ) $current = urldecode( cnQuery::getVar( 'cn-char' ) );
 		}
 
 		// Only output if there is a current character set in the query string.
-		if ( 0 < strlen( $current ) ) $out .= '<input class="cn-current-char-input" name="cn-char" title="' . __('Current Character', 'connections') . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
+		if ( 0 < strlen( $current ) ) $out .= '<input class="cn-current-char-input" name="cn-char" title="' . __( 'Current Character', 'connections' ) . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -2009,29 +2010,29 @@ class cnTemplatePart {
 			$permalink = $wp_rewrite->using_permalinks() ? trailingslashit( get_permalink() ) : get_permalink();
 
 			// Get the settings for the base of each data type to be used in the URL.
-			$base = get_option('connections_permalink');
+			$base = get_option( 'connections_permalink' );
 
 			// Store the query vars
-			if ( cnQuery::getVar('cn-s') ) $queryVars['cn-s']                       = urlencode( cnQuery::getVar('cn-s') );
-			if ( cnQuery::getVar('cn-char') ) $queryVars['cn-char']                 = cnQuery::getVar('cn-char');
-			if ( cnQuery::getVar('cn-cat') ) $queryVars['cn-cat']                   = cnQuery::getVar('cn-cat');
-			if ( cnQuery::getVar('cn-organization') ) $queryVars['cn-organization'] = cnQuery::getVar('cn-organization');
-			if ( cnQuery::getVar('cn-department') ) $queryVars['cn-department']     = cnQuery::getVar('cn-department');
-			if ( cnQuery::getVar('cn-locality') ) $queryVars['cn-locality']         = cnQuery::getVar('cn-locality');
-			if ( cnQuery::getVar('cn-region') ) $queryVars['cn-region']             = cnQuery::getVar('cn-region');
-			if ( cnQuery::getVar('cn-postal-code') ) $queryVars['cn-postal-code']   = cnQuery::getVar('cn-postal-code');
-			if ( cnQuery::getVar('cn-country') ) $queryVars['cn-country']           = cnQuery::getVar('cn-country');
-			if ( cnQuery::getVar('cn-near-coord') ) $queryVars['cn-near-coord']     = cnQuery::getVar('cn-near-coord');
-			if ( cnQuery::getVar('cn-radius') ) $queryVars['cn-radius']             = cnQuery::getVar('cn-radius');
-			if ( cnQuery::getVar('cn-unit') ) $queryVars['cn-unit']                 = cnQuery::getVar('cn-unit');
+			if ( cnQuery::getVar( 'cn-s' ) ) $queryVars['cn-s']                       = urlencode( cnQuery::getVar( 'cn-s' ) );
+			if ( cnQuery::getVar( 'cn-char' ) ) $queryVars['cn-char']                 = cnQuery::getVar( 'cn-char' );
+			if ( cnQuery::getVar( 'cn-cat' ) ) $queryVars['cn-cat']                   = cnQuery::getVar( 'cn-cat' );
+			if ( cnQuery::getVar( 'cn-organization' ) ) $queryVars['cn-organization'] = cnQuery::getVar( 'cn-organization' );
+			if ( cnQuery::getVar( 'cn-department' ) ) $queryVars['cn-department']     = cnQuery::getVar( 'cn-department' );
+			if ( cnQuery::getVar( 'cn-locality' ) ) $queryVars['cn-locality']         = cnQuery::getVar( 'cn-locality' );
+			if ( cnQuery::getVar( 'cn-region' ) ) $queryVars['cn-region']             = cnQuery::getVar( 'cn-region' );
+			if ( cnQuery::getVar( 'cn-postal-code' ) ) $queryVars['cn-postal-code']   = cnQuery::getVar( 'cn-postal-code' );
+			if ( cnQuery::getVar( 'cn-country' ) ) $queryVars['cn-country']           = cnQuery::getVar( 'cn-country' );
+			if ( cnQuery::getVar( 'cn-near-coord' ) ) $queryVars['cn-near-coord']     = cnQuery::getVar( 'cn-near-coord' );
+			if ( cnQuery::getVar( 'cn-radius' ) ) $queryVars['cn-radius']             = cnQuery::getVar( 'cn-radius' );
+			if ( cnQuery::getVar( 'cn-unit' ) ) $queryVars['cn-unit']                 = cnQuery::getVar( 'cn-unit' );
 
-			if ( is_front_page() && cnQuery::getVar('page_id') ) {
+			if ( is_front_page() && cnQuery::getVar( 'page_id' ) ) {
 
-				$queryVars['page_id'] = cnQuery::getVar('page_id');
+				$queryVars['page_id'] = cnQuery::getVar( 'page_id' );
 			}
 
 			// Current page
-			if ( cnQuery::getVar('cn-pg') ) $current = absint( cnQuery::getVar('cn-pg') );
+			if ( cnQuery::getVar( 'cn-pg' ) ) $current = absint( cnQuery::getVar( 'cn-pg' ) );
 
 			/*
 			 * Create the page permalinks. If on a post or custom post type, use query vars.
@@ -2039,7 +2040,7 @@ class cnTemplatePart {
 			if ( cnShortcode::isSupportedPostType( get_queried_object() ) && $wp_rewrite->using_permalinks() ) {
 
 				// Add the category base and path if paging thru a category.
-				if ( cnQuery::getVar('cn-cat-slug') ) $permalink = trailingslashit( $permalink . $base['category_base'] . '/' . cnQuery::getVar('cn-cat-slug') );
+				if ( cnQuery::getVar( 'cn-cat-slug' ) ) $permalink = trailingslashit( $permalink . $base['category_base'] . '/' . cnQuery::getVar( 'cn-cat-slug' ) );
 
 				// Add the country base and path if paging thru a country.
 				if ( cnQuery::getVar( 'cn-country' ) ) {
@@ -2049,31 +2050,31 @@ class cnTemplatePart {
 				}
 
 				// Add the region base and path if paging thru a region.
-				if ( cnQuery::getVar('cn-region') ) {
+				if ( cnQuery::getVar( 'cn-region' ) ) {
 
 					_array::forget( $queryVars, 'cn-region' );
-					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . cnQuery::getVar('cn-region') );
+					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . cnQuery::getVar( 'cn-region' ) );
 				}
 
 				// Add the postal code base and path if paging thru a postal code.
-				if ( cnQuery::getVar('cn-postal-code') ) {
+				if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 
 					_array::forget( $queryVars, 'cn-postal-code' );
-					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . cnQuery::getVar('cn-postal-code') );
+					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . cnQuery::getVar( 'cn-postal-code' ) );
 				}
 
 				// Add the locality base and path if paging thru a locality.
-				if ( cnQuery::getVar('cn-locality') ) {
+				if ( cnQuery::getVar( 'cn-locality' ) ) {
 
 					_array::forget( $queryVars, 'cn-locality' );
-					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar('cn-locality') );
+					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar( 'cn-locality' ) );
 				}
 
 				// Add the organization base and path if paging thru a organization.
-				if ( cnQuery::getVar('cn-organization') ) $permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . cnQuery::getVar('cn-organization') );
+				if ( cnQuery::getVar( 'cn-organization' ) ) $permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . cnQuery::getVar( 'cn-organization' ) );
 
 				// Add the department base and path if paging thru a department.
-				if ( cnQuery::getVar('cn-department') ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar('cn-department') );
+				if ( cnQuery::getVar( 'cn-department' ) ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar( 'cn-department' ) );
 
 				$args = array(
 					'base'               => $permalink . '%_%',
@@ -2286,9 +2287,9 @@ class cnTemplatePart {
 		$defaults = array(
 			'type'            => 'select',
 			'group'           => false,
-			'default'         => __('Select Category', 'connections'),
+			'default'         => __( 'Select Category', 'connections' ),
 			'show_select_all' => true,
-			'select_all'      => __('Show All Categories', 'connections'),
+			'select_all'      => __( 'Show All Categories', 'connections' ),
 			'show_empty'      => true,
 			'show_count'      => false,
 			'depth'           => 0,
@@ -2565,7 +2566,7 @@ class cnTemplatePart {
 	private static function categoryInput( $atts = array() ) {
 		global $connections;
 
-		$selected = ( cnQuery::getVar('cn-cat') ) ? cnQuery::getVar('cn-cat') : array();
+		$selected = ( cnQuery::getVar( 'cn-cat' ) ) ? cnQuery::getVar( 'cn-cat' ) : array();
 		$level = 0;
 		$out = '';
 		$trClass = 'alternate';
@@ -2615,7 +2616,7 @@ class cnTemplatePart {
 
 		// Build the table grid.
 		$table = array();
-		$rows = ceil(count( $categories ) / $atts['columns'] );
+		$rows = ceil( count( $categories ) / $atts['columns'] );
 		$keys = array_keys( $categories );
 
 		for ( $row = 1; $row <= $rows; $row++ )
@@ -2646,7 +2647,7 @@ class cnTemplatePart {
 
 				$out .= '<ul class="cn-cat-tree">';
 
-				$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
+				$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts );
 
 				$out .= '</ul>';
 
@@ -2688,7 +2689,7 @@ class cnTemplatePart {
 			'exclude'    => array(),
 		);
 
-		$atts = wp_parse_args($atts, $defaults);
+		$atts = wp_parse_args( $atts, $defaults );
 
 		// Do not show the excluded category as options.
 		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
@@ -2773,7 +2774,7 @@ class cnTemplatePart {
 
 		if ( ! empty( $atts['parent_id'] ) && ! is_array( $atts['parent_id'] ) ) {
 			// Trim extra whitespace.
-			$atts['parent_id'] = trim( str_replace(' ', '', $atts['parent_id'] ) );
+			$atts['parent_id'] = trim( str_replace( ' ', '', $atts['parent_id'] ) );
 
 			// Convert to array.
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
@@ -2800,7 +2801,7 @@ class cnTemplatePart {
 
 		// Build the table grid.
 		$table = array();
-		$rows = ceil(count( $categories ) / $atts['columns'] );
+		$rows = ceil( count( $categories ) / $atts['columns'] );
 		$keys = array_keys( $categories );
 		for ( $row = 1; $row <= $rows; $row++ )
 			for ( $col = 1; $col <= $atts['columns']; $col++ )
@@ -2824,7 +2825,7 @@ class cnTemplatePart {
 				if ( 1 == $col ) $tdClass[] = '-left';
 				if ( $col == $atts['columns'] ) $tdClass[] = '-right';
 
-				$out .= '<td class="' . implode( '', $tdClass) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
+				$out .= '<td class="' . implode( '', $tdClass ) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
 
 				$out .= '<ul class="cn-cat-tree">';
 
@@ -2877,7 +2878,7 @@ class cnTemplatePart {
 			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 		);
 
-		$atts = wp_parse_args($atts, $defaults);
+		$atts = wp_parse_args( $atts, $defaults );
 
 		// Do not show the excluded category as options.
 		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;

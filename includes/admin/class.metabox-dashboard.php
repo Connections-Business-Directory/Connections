@@ -35,7 +35,7 @@ class cnDashboardMetabox {
 	public static function init() {
 
 		// Bail if not in admin or doing an AJAX request.
-		if ( ! is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) {
+		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 
 			return;
 		}

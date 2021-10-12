@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @param array $atts
  */
 function connectionsEntryList($atts) {
-	echo cnShortcode_Connections::shortcode($atts);
+	echo cnShortcode_Connections::shortcode( $atts );
 }
 
 /**
@@ -223,7 +223,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 					foreach ( $results as $row ) {
 
-						$entry = new cnEntry_vCard( $row);
+						$entry = new cnEntry_vCard( $row );
 						$vCard =& $entry;
 
 						// Configure the page where the entry link to.
@@ -277,8 +277,9 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard' ) {
 
-	$atts = shortcode_atts( array(
-			'id' => null
+	$atts = shortcode_atts(
+		array(
+			'id' => null,
 		),
 		$atts,
 		$tag
@@ -293,14 +294,15 @@ function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard'
 
 function _connections_qtip( $atts , $content = null, $tag = 'connections_qtip' )
 {
-	$atts = shortcode_atts( array(
-			'id' => null
+	$atts = shortcode_atts(
+		array(
+			'id' => null,
 		),
 		$atts,
 		$tag
 	);
 
-	if ( empty( $atts['id'] ) || ! is_numeric ($atts['id'] ) || empty( $content ) ) return '';
+	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) return '';
 
 	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'] , 'template' => 'qtip-card' ) ) . '</span>';
 

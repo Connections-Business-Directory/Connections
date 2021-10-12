@@ -50,7 +50,7 @@ class cnThumb extends cnShortcode {
 
 		$defaults = apply_filters( 'cn_thumb_shortcode_atts', $defaults );
 
-		$atts = shortcode_atts( $defaults, $atts, $tag ) ;
+		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		if ( ! in_array( $atts['type'], $permitted ) ) {
 

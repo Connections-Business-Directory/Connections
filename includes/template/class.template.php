@@ -819,7 +819,7 @@ class cnTemplate {
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-			$files[] = $this->fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug'), $ext );
+			$files[] = $this->fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug' ), $ext );
 			$files[] = $this->fileName( $base, 'category', null, $ext );
 			// var_dump( $files );
 		}
@@ -880,7 +880,7 @@ class cnTemplate {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$files[] = $this->fileName( $base, null, cnQuery::getVar( 'cn-entry-slug'), $ext );
+			$files[] = $this->fileName( $base, null, cnQuery::getVar( 'cn-entry-slug' ), $ext );
 			$files[] = $this->fileName( $base, 'single', null, $ext );
 			// var_dump( $files );
 		}

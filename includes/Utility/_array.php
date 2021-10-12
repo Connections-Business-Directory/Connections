@@ -672,7 +672,7 @@ final class _array {
 	 */
 	public static function where( $array, $callback ) {
 
-		if ( version_compare( PHP_VERSION, '5.6.0') >= 0 ) {
+		if ( version_compare( PHP_VERSION, '5.6.0' ) >= 0 ) {
 
 			return array_filter( $array, $callback, ARRAY_FILTER_USE_BOTH );
 

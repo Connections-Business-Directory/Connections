@@ -18,7 +18,7 @@ use Connections_Directory\Form\Field;
 use Connections_Directory\Utility\_array;
 use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
 
-if ( ! class_exists('cnSettingsAPI') ) {
+if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 	/**
 	 * Class cnSettingsAPI
@@ -198,8 +198,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			$sections = array();
 			$sort     = array();
 
-			$sections = apply_filters('cn_register_settings_sections', $sections);
-			$sections = apply_filters('cn_filter_settings_sections', $sections);
+			$sections = apply_filters( 'cn_register_settings_sections', $sections );
+			$sections = apply_filters( 'cn_filter_settings_sections', $sections );
 			//print_r($sections);
 
 			if ( empty( $sections ) ) return;
@@ -332,8 +332,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			$sort    = array();
 			$options = array();
 
-			$fields = apply_filters('cn_register_settings_fields', $fields);
-			$fields = apply_filters('cn_filter_settings_fields', $fields); // @todo:  At some point delete this line
+			$fields = apply_filters( 'cn_register_settings_fields', $fields );
+			$fields = apply_filters( 'cn_filter_settings_fields', $fields ); // @todo:  At some point delete this line
 			//var_dump($fields);
 
 			if ( empty( $fields ) ) return;
@@ -699,7 +699,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 						<table class="form-table">
 
-						<?php do_settings_fields( $optionGroup, 'default'); ?>
+						<?php do_settings_fields( $optionGroup, 'default' ); ?>
 
 						</table>
 
@@ -956,7 +956,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<div class="description"> %1$s</div>',
+						printf(
+                            '<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
@@ -1781,7 +1782,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
-					wp_enqueue_script('wp-color-picker');
+					wp_enqueue_script( 'wp-color-picker' );
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'colorpickerJS' ) );
 
 					break;

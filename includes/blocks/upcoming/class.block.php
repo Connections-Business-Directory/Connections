@@ -114,7 +114,7 @@ class Upcoming {
 			'year_type'        => $attributes['yearType'],
 		);
 
-		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );
+		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
 
 		if ( is_array( $other ) && ! empty( $other ) ) {
 

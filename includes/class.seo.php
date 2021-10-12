@@ -616,7 +616,7 @@ class cnSEO {
 
 		$separator = html_entity_decode( $separator );
 
-		return trim( $title, " \t\n\r\0\x0B{$separator}");
+		return trim( $title, " \t\n\r\0\x0B{$separator}" );
 	}
 
 	/**

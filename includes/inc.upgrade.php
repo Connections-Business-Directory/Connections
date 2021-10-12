@@ -19,7 +19,8 @@ function connectionsShowUpgradePage() {
 	 * Check whether user can access.
 	 */
 	if ( ! current_user_can( 'connections_manage' ) ) {
-		wp_die( '<p id="error-page" style="-moz-background-clip:border;
+		wp_die(
+            '<p id="error-page" style="-moz-background-clip:border;
 				-moz-border-radius:11px;
 				background:#FFFFFF none repeat scroll 0 0;
 				border:1px solid #DFDFDF;
@@ -30,7 +31,8 @@ function connectionsShowUpgradePage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
+				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
+		);
 	} else {
 
 		$url = add_query_arg(
@@ -300,7 +302,8 @@ function cnRunDBUpgrade() {
 					foreach ( (array) $addresses as $key => $address ) {
 						if ( empty( $address['type'] ) ) $address['type'] = 'other';
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -328,7 +331,8 @@ function cnRunDBUpgrade() {
 							$address['country'],
 							$address['latitude'],
 							$address['longitude'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -369,7 +373,8 @@ function cnRunDBUpgrade() {
 
 						if ( empty( $phone['type'] ) ) $phone['type'] = 'homephone';
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -381,7 +386,8 @@ function cnRunDBUpgrade() {
 							0,
 							$phone['type'],
 							$phone['number'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -422,7 +428,8 @@ function cnRunDBUpgrade() {
 
 						if ( empty( $email['type'] ) ) $email['type'] = 'personal';
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -434,7 +441,8 @@ function cnRunDBUpgrade() {
 							0,
 							$email['type'],
 							$email['address'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -473,7 +481,8 @@ function cnRunDBUpgrade() {
 					foreach ( (array) $imIDs as $key => $network ) {
 						if ( empty( $network['id'] ) ) continue;
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -485,7 +494,8 @@ function cnRunDBUpgrade() {
 							0,
 							$network['type'],
 							$network['id'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -524,7 +534,8 @@ function cnRunDBUpgrade() {
 					foreach ( (array) $socialMediaIDs as $key => $network ) {
 						if ( empty( $network['url'] ) ) continue;
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -536,7 +547,8 @@ function cnRunDBUpgrade() {
 							0,
 							$network['type'],
 							$network['url'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -578,7 +590,8 @@ function cnRunDBUpgrade() {
 					foreach ( (array) $websites as $key => $website ) {
 						if ( empty( $website['address'] ) ) continue;
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -596,7 +609,8 @@ function cnRunDBUpgrade() {
 							$website['address'],
 							'new',
 							0,
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -692,7 +706,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.7', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.7.', 'connections'  ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.7.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 

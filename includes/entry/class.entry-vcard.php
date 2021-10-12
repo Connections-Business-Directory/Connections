@@ -39,7 +39,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 	 */
 	private function setvCardData() {
 
-		$this->vCard = File_IMC::build('vCard' );
+		$this->vCard = File_IMC::build( 'vCard' );
 
 		// Set the structured representation of the name. REQUIRED.
 		$this->vCard->set(

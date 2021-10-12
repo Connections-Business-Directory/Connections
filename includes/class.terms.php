@@ -1388,20 +1388,20 @@ class cnTerm {
 			$where_fields[]      = $taxonomy;
 			$else_where_fields[] = $taxonomy;
 
-			if ( $result = $wpdb->get_row( $wpdb->prepare( "SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s $orderby $limit", $where_fields), ARRAY_A ) ){
+			if ( $result = $wpdb->get_row( $wpdb->prepare( "SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s $orderby $limit", $where_fields ), ARRAY_A ) ){
 
 				return $result;
 			}
 
-			return $wpdb->get_row( $wpdb->prepare( "SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $else_where AND tt.taxonomy = %s $orderby $limit", $else_where_fields), ARRAY_A );
+			return $wpdb->get_row( $wpdb->prepare( "SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $else_where AND tt.taxonomy = %s $orderby $limit", $else_where_fields ), ARRAY_A );
 		}
 
-		if ( $result = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $where $orderby $limit", $where_fields) ) ) {
+		if ( $result = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $where $orderby $limit", $where_fields ) ) ) {
 
 			return $result;
 		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $else_where $orderby $limit", $else_where_fields) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $else_where $orderby $limit", $else_where_fields ) );
 	}
 
 	/**
@@ -1571,7 +1571,7 @@ class cnTerm {
 				/*
 				 * The alias is not in a group, so we create a new one and add the alias to it.
 				 */
-				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms") + 1;
+				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms" ) + 1;
 
 				cnTerm::update( $alias->term_id, $taxonomy, array( 'term_group' => $term_group, ) );
 			}
@@ -3517,7 +3517,8 @@ class cnTerm {
 			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
 		}
 
-		$sql = sprintf( 'SELECT %1$s FROM %2$s AS t %3$s WHERE %4$s %5$s%6$s',
+		$sql = sprintf(
+            'SELECT %1$s FROM %2$s AS t %3$s WHERE %4$s %5$s%6$s',
 			$distinct . $fields,
 			CN_TERMS_TABLE,
 			$join,

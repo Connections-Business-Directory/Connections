@@ -66,7 +66,7 @@ class Management extends Content_Block {
 	public static function registerScripts() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		wp_register_script(

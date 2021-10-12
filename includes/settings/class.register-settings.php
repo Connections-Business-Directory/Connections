@@ -1121,8 +1121,9 @@ class cnRegisterSettings {
 			'title'     => __( 'Content Blocks', 'connections' ),
 			'desc'      => sprintf(
 				wp_kses(
-					__( 'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
-					    'connections'
+					__(
+						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
+						'connections'
 					),
 					array(  'a' => array( 'href' => array(), 'target' => array() ) )
 				),
@@ -1226,8 +1227,9 @@ class cnRegisterSettings {
 			'title'     => __( 'Content Blocks', 'connections' ),
 			'desc'      => sprintf(
 				wp_kses(
-					__( 'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
-					    'connections'
+					__(
+						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
+						'connections'
 					),
 					array(  'a' => array( 'href' => array(), 'target' => array() ) )
 				),
@@ -4452,7 +4454,7 @@ class cnRegisterSettings {
 	 */
 	private static function flushRewriteRules() {
 
-		update_option('connections_flush_rewrite', '1');
+		update_option( 'connections_flush_rewrite', '1' );
 	}
 
 	/**

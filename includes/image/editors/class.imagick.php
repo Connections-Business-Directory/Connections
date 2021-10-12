@@ -160,7 +160,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 		try {
 
-			return $this->image->negateImage(false);
+			return $this->image->negateImage( false );
 
 		} catch ( Exception $e ) {
 

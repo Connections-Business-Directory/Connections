@@ -2782,9 +2782,13 @@ class cnEntryMetabox {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
-			FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
-			ORDER BY meta_key,meta_id", $entry->getId()), ARRAY_A );
+		$results =  $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT meta_key, meta_value, meta_id, entry_id FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d ORDER BY meta_key,meta_id",
+				$entry->getId()
+			),
+			ARRAY_A
+		);
 
 		$metabox = $metabox['args'];
 		$keys    = cnMeta::key( 'entry' );
@@ -2816,7 +2820,7 @@ class cnEntryMetabox {
 
 		}
 
-		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
+		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>' );
 		$options = implode( PHP_EOL, $options );
 
 		// echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
@@ -2940,7 +2944,8 @@ class cnEntryMetabox {
 
 		if ( isset( $metabox['desc'] ) && ! empty( $metabox['desc'] ) ) {
 
-			printf( '<p>%1$s</p>',
+			printf(
+                '<p>%1$s</p>',
 				esc_html( $metabox['desc'] )
 			);
 		}

@@ -162,7 +162,7 @@ class Map_Block extends Content_Block {
 
 				$attribution[] = $baseMap->getAttribution();
 
-				$baseMap->setAttribution( implode( ' | ', $attribution )  );
+				$baseMap->setAttribution( implode( ' | ', $attribution ) );
 
 				/*
 				 * Adding a base layer, creates a layer switch control, add base map tiles as a normal layer to

@@ -101,7 +101,7 @@ class cnEntry_Action {
 				'sub_dir'   => $entrySlug,
 				),
 			'data'
-			);
+		);
 
 		if ( is_wp_error( $large ) ) {
 
@@ -118,7 +118,7 @@ class cnEntry_Action {
 				'sub_dir'   => $entrySlug,
 				),
 			'data'
-			);
+		);
 
 		if ( is_wp_error( $medium ) ) {
 
@@ -135,7 +135,7 @@ class cnEntry_Action {
 				'sub_dir'   => $entrySlug,
 				),
 			'data'
-			);
+		);
 
 		if ( is_wp_error( $thumb ) ) {
 
@@ -195,7 +195,7 @@ class cnEntry_Action {
 				'sub_dir'   => $entrySlug,
 				),
 			'data'
-			);
+		);
 
 		if ( is_wp_error( $logo ) ) {
 

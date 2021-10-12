@@ -435,64 +435,80 @@ final class Connections_Directory {
 					$options = get_option( 'connections_options' );
 
 					if ( false === get_option( 'connections_login' ) ) {
-						update_option( 'connections_login' , array(
-							                                   'required' => $options['settings']['allow_public'],
-							                                   'message' => 'Please login to view the directory.'
-						                                   )
+						update_option(
+							'connections_login',
+							array(
+								'required' => $options['settings']['allow_public'],
+								'message'  => 'Please login to view the directory.',
+							)
 						);
 					}
 
 					if ( false === get_option( 'connections_visibility' ) ) {
-						update_option( 'connections_visibility' , array(
-							                                        'allow_public_override' => $options['settings']['allow_public_override'],
-							                                        'allow_private_override' => $options['settings']['allow_private_override']
-						                                        )
+						update_option(
+							'connections_visibility',
+							array(
+								'allow_public_override' => $options['settings']['allow_public_override'],
+								'allow_private_override' => $options['settings']['allow_private_override']
+							)
 						);
 					}
 
 					if ( false === get_option( 'connections_image_thumbnail' ) ) {
-						update_option( 'connections_image_thumbnail' , array(
-							                                             'quality' => $options['settings']['image']['thumbnail']['quality'],
-							                                             'width' => $options['settings']['image']['thumbnail']['x'],
-							                                             'height' => $options['settings']['image']['thumbnail']['y'],
-							                                             'ratio' => $options['settings']['image']['thumbnail']['crop']
-						                                             )
+						update_option(
+							'connections_image_thumbnail',
+							array(
+								'quality' => $options['settings']['image']['thumbnail']['quality'],
+								'width'   => $options['settings']['image']['thumbnail']['x'],
+								'height'  => $options['settings']['image']['thumbnail']['y'],
+								'ratio'   => $options['settings']['image']['thumbnail']['crop'],
+							)
 						);
 					}
+
 					if ( false === get_option( 'connections_image_medium' ) ) {
-						update_option( 'connections_image_medium' , array(
-							                                          'quality' => $options['settings']['image']['entry']['quality'],
-							                                          'width' => $options['settings']['image']['entry']['x'],
-							                                          'height' => $options['settings']['image']['entry']['y'],
-							                                          'ratio' => $options['settings']['image']['entry']['crop']
-						                                          )
+						update_option(
+							'connections_image_medium',
+							array(
+								'quality' => $options['settings']['image']['entry']['quality'],
+								'width'   => $options['settings']['image']['entry']['x'],
+								'height'  => $options['settings']['image']['entry']['y'],
+								'ratio'   => $options['settings']['image']['entry']['crop'],
+							)
 						);
 					}
 
 					if ( false === get_option( 'connections_image_large' ) ) {
-						update_option( 'connections_image_large' , array(
-							                                         'quality' => $options['settings']['image']['profile']['quality'],
-							                                         'width' => $options['settings']['image']['profile']['x'],
-							                                         'height' => $options['settings']['image']['profile']['y'],
-							                                         'ratio' => $options['settings']['image']['profile']['crop']
-						                                         )
+						update_option(
+							'connections_image_large',
+							array(
+								'quality' => $options['settings']['image']['profile']['quality'],
+								'width'   => $options['settings']['image']['profile']['x'],
+								'height'  => $options['settings']['image']['profile']['y'],
+								'ratio'   => $options['settings']['image']['profile']['crop'],
+							)
 						);
 					}
 
 					if ( false === get_option( 'connections_image_logo' ) ) {
-						update_option( 'connections_image_logo' , array(
-							                                        'quality' => $options['settings']['image']['logo']['quality'],
-							                                        'width' => $options['settings']['image']['logo']['x'],
-							                                        'height' => $options['settings']['image']['logo']['y'],
-							                                        'ratio' => $options['settings']['image']['logo']['crop']
-						                                        )
+						update_option(
+							'connections_image_logo',
+							array(
+								'quality' => $options['settings']['image']['logo']['quality'],
+								'width'   => $options['settings']['image']['logo']['x'],
+								'height'  => $options['settings']['image']['logo']['y'],
+								'ratio'   => $options['settings']['image']['logo']['crop'],
+							)
 						);
 					}
 
 					if ( false === get_option( 'connections_compatibility' ) ) {
-						update_option( 'connections_compatibility' , array(
-							                                           'google_maps_api' => $options['settings']['advanced']['load_google_maps_api'],
-							                                           'javascript_footer' => $options['settings']['advanced']['load_javascript_footer'] )
+						update_option(
+							'connections_compatibility',
+							array(
+								'google_maps_api'   => $options['settings']['advanced']['load_google_maps_api'],
+								'javascript_footer' => $options['settings']['advanced']['load_javascript_footer'],
+							)
 						);
 					}
 

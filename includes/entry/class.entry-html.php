@@ -452,7 +452,8 @@ class cnEntry_HTML extends cnEntry {
 			}
 
 			// The inner <span> is required for responsive image support. This markup also makes it IE8 compatible.
-			$out = sprintf( '<span class="cn-image-style"><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s%1$s/>%5$s</span></span>',
+			$out = sprintf(
+				'<span class="cn-image-style"><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s%1$s/>%5$s</span></span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				absint( $image['width'] ),
 				isset( $anchor ) ? $anchor : '',
@@ -537,7 +538,8 @@ class cnEntry_HTML extends cnEntry {
 
 					$string = empty( $atts['fallback']['string'] ) ? '' : '<span>' . $atts['fallback']['string'] . '</span>';
 
-					$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-%1$s cn-image-none"%2$s>%3$s</span></span>',
+					$out = sprintf(
+						'<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-%1$s cn-image-none"%2$s>%3$s</span></span>',
 						esc_attr( $atts['image'] ),
 						empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 						$string
@@ -1030,7 +1032,8 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $atts['link']['organization'] ) {
 
-					$organization = cnURL::permalink( array(
+					$organization = cnURL::permalink(
+						array(
 							'type'       => 'organization',
 							'slug'       => $this->getOrganization( 'raw' ),
 							'title'      => $org,
@@ -1054,7 +1057,8 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $atts['link']['department'] ) {
 
-					$department = cnURL::permalink( array(
+					$department = cnURL::permalink(
+						array(
 							'type'       => 'department',
 							'slug'       => $this->getDepartment( 'raw' ),
 							'title'      => $dept,

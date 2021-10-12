@@ -153,12 +153,12 @@ class cnMeta {
 		}
 
 		$table  = self::tableName( $type );
-		$column = sanitize_key( $type . '_id');
+		$column = sanitize_key( $type . '_id' );
 
 		if ( ! is_array( $object_ids ) ) {
 
-			$object_ids = preg_replace('|[^0-9,]|', '', $object_ids );
-			$object_ids = explode(',', $object_ids);
+			$object_ids = preg_replace( '|[^0-9,]|', '', $object_ids );
+			$object_ids = explode( ',', $object_ids );
 		}
 
 		$object_ids = array_map( 'intval', $object_ids );
@@ -303,12 +303,12 @@ class cnMeta {
 		}
 
 		if ( $unique && $wpdb->get_var(
-				$wpdb->prepare(
-					"SELECT COUNT(*) FROM " . $table . " WHERE meta_key = %s AND $column = %d",
-					$key,
-					$id
-				)
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM " . $table . " WHERE meta_key = %s AND $column = %d",
+				$key,
+				$id
 			)
+		)
 		) {
 
 			return false;
@@ -924,10 +924,11 @@ class cnMeta {
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
 		// The query will not retrieve any meta key that begin with an '_' [underscore].
-		$sql = $wpdb->prepare( 'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %d',
-				//empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
+		$sql = $wpdb->prepare(
+			'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %d',
+				// empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
 				absint( $limit )
-			);
+		);
 
 		$keys = $wpdb->get_col( $sql );
 

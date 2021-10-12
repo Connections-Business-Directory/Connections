@@ -851,7 +851,8 @@ HERERDOC;
 		$status = self::statusMessage( $this );
 
 		// Render the text input.
-		printf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
+		printf(
+			'<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
 			$size,
 			$name,
 			isset( $value ) ? $value : ''

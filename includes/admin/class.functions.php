@@ -238,7 +238,7 @@ class cnAdminFunction {
 					'sections'     => true
 					)
 				)
-			);
+        );
 		// echo '<p>' . print_r( $plugin, TRUE ) .  '</p>';
 		// echo '<p>' . print_r( $plugin->sections['changelog'], TRUE ) .  '</p>';
 
@@ -335,7 +335,7 @@ class cnAdminFunction {
 		 * PHP notices when attempting to access them. If the menus have been added then the
 		 * properties will exist so it will be safe to add the actions using the properties.
 		 */
-		if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu') ) {
+		if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu' ) ) {
 
 			/*
 			 * The Screen Layout options in the Screen Option tab only needs to be added on the manage page when NOT performing an action to an entry.

@@ -284,8 +284,8 @@ class Taxonomy extends Content_Block {
 		 */
 		$items = apply_filters(
 			"Connections_Directory/Content_Block/Entry/Taxonomy/{$this->taxonomy->getSlug()}/Term/Items",
-			$items )
-		;
+			$items
+		);
 
 		if ( 'list' == $this->get( 'type' ) ) {
 

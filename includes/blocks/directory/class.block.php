@@ -291,7 +291,7 @@ class Directory {
 			$options['home_id'] = $attributes['homePage'];
 		}
 
-		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );
+		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
 
 		if ( is_array( $other ) && ! empty( $other ) ) {
 

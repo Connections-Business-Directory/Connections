@@ -162,7 +162,7 @@ class Content_Blocks {
 
 			$block->set( 'option_filter', $filter );
 
-			switch ( $block->get( 'context') ) {
+			switch ( $block->get( 'context' ) ) {
 
 				case 'list':
 					add_filter( 'cn_content_blocks-list', $filter );

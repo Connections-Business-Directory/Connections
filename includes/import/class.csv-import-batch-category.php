@@ -58,7 +58,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 * Should help prevent the import from terminating early unless the host
 			 * does not allow the limit to be changed or enforces a "hard" limit.
 			 */
-			@set_time_limit(1);
+			@set_time_limit( 1 );
 
 			$name      = '';
 			$slug      = '';
@@ -252,12 +252,13 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			}
 
 			if ( $result = $wpdb->get_row(
-				$wpdb->prepare( 'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' as tt ON tt.term_id = t.term_id WHERE t.term_id = %d AND tt.taxonomy = %s',
-				                $term,
-				                $this->type ),
+				$wpdb->prepare(
+					'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' as tt ON tt.term_id = t.term_id WHERE t.term_id = %d AND tt.taxonomy = %s',
+					$term,
+					$this->type
+				),
 				ARRAY_A
-			)
-			) {
+			) ) {
 
 				return (int) $result['term_id'];
 

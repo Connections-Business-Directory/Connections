@@ -819,7 +819,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			cnArray::set(
 				$object,
 				'address.rendered',
-				sanitize_email(  $email->address )
+				sanitize_email( $email->address )
 			);
 
 			if ( 'edit' === $request['context'] &&

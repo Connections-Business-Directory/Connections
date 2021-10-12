@@ -3267,8 +3267,14 @@ class cnRetrieve {
 		 * like a, an, and the. These are usually called "stopwords". You should not simply translate these individual
 		 * words into your language. Instead, look for and provide commonly accepted stopwords in your language.
 		 */
-		$words = explode( ',', _x( 'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
-			'Comma-separated list of search stopwords in your language', 'connections' ) );
+		$words = explode(
+			',',
+			_x(
+				'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
+				'Comma-separated list of search stopwords in your language',
+				'connections'
+			)
+		);
 
 		$stopwords = array();
 		foreach( $words as $word ) {

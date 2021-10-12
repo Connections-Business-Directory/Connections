@@ -378,11 +378,7 @@ class cnImage {
 			$quality = cnQuery::getVar( 'q' ) ? cnQuery::getVar( 'q' ) : 90;
 
 			// Ensure valid value for $quality. If invalid valid is supplied reset to the default of 90, matching WP core.
-			if ( filter_var(
-				     (int) $quality,
-				     FILTER_VALIDATE_INT,
-				     array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) )
-			     ) === false ) {
+			if ( filter_var( (int) $quality, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) ) ) === false ) {
 
 				$quality = 90;
 			}
@@ -673,11 +669,7 @@ class cnImage {
 		}
 
 		// Ensure valid value for crop mode.
-		if ( filter_var(
-			     (int) $crop_mode,
-			     FILTER_VALIDATE_INT,
-			     array( 'options' => array( 'min_range' => 0, 'max_range' => 3 ) )
-		     ) === false ) {
+		if ( filter_var( (int) $crop_mode, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 3 ) ) ) === false ) {
 
 			$crop_mode = 1;
 		}
@@ -789,11 +781,7 @@ class cnImage {
 		}
 
 		// Ensure valid value for $quality. If invalid valid is supplied reset to the default of 90, matching WP core.
-		if ( filter_var(
-			     (int) $quality,
-			     FILTER_VALIDATE_INT,
-			     array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) )
-		     ) === false ) {
+		if ( filter_var( (int) $quality, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) ) ) === false ) {
 
 			$quality = 82;
 		}
@@ -1098,12 +1086,12 @@ class cnImage {
 			( $crop_focus ? ( is_array( $crop_focus ) ? str_replace( '.', '', join( '', $crop_focus ) ) : '1' ) : '0' ) .
 			$crop_mode .
 			( $crop_only ? '1' : '0' ) .
-			(isset($src_x) ? str_pad((string)$src_x, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($src_y) ? str_pad((string)$src_y, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($src_w) ? str_pad((string)$src_w, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($src_h) ? str_pad((string)$src_h, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($dst_w) ? str_pad((string)$dst_w, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($dst_h) ? str_pad((string)$dst_h, 5, '0', STR_PAD_LEFT) : '00000') .
+			(isset( $src_x ) ? str_pad( (string)$src_x, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $src_y ) ? str_pad( (string)$src_y, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $src_w ) ? str_pad( (string)$src_w, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $src_h ) ? str_pad( (string)$src_h, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $dst_w ) ? str_pad( (string)$dst_w, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $dst_h ) ? str_pad( (string)$dst_h, 5, '0', STR_PAD_LEFT ) : '00000') .
 			str_pad( preg_replace( '#^\##', '', $canvas_color ), 8, '0', STR_PAD_LEFT ) .
 			str_pad( (string) $quality, 3, '0', STR_PAD_LEFT );
 

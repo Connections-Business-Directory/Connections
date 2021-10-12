@@ -136,10 +136,11 @@ class cnCategory {
 
 		$out = do_shortcode( $out );
 
-		$out = sprintf( '<%1$s class="cn-cat-description">%2$s</%1$s>',
-				$atts['container_tag'],
-				$out
-			);
+		$out = sprintf(
+			'<%1$s class="cn-cat-description">%2$s</%1$s>',
+			$atts['container_tag'],
+			$out
+		);
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";

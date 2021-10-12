@@ -46,7 +46,7 @@ add_filter( 'cn_image_class', 'cn_add_img_as_is_class' );
 function cn_enqueue_enfold_css_override() {
 
 	// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
-	$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	$url = cnURL::makeProtocolRelative( CN_URL );
 
 	$theme  = wp_get_theme();
@@ -110,25 +110,25 @@ function cn_presscore_page_title( $title ) {
 
 	$config = Presscore_Config::get_instance();
 
-	if ( 'fancy' != $config->get('header_title') ) {
+	if ( 'fancy' != $config->get( 'header_title' ) ) {
 		return $title;
 	}
 
 	// TODO apply 'the_title' filter here
-	$custom_title = ( 'generic' == $config->get('fancy_header.title.mode') ) ? presscore_get_page_title() : $config->get('fancy_header.title');
+	$custom_title = ( 'generic' == $config->get( 'fancy_header.title.mode' ) ) ? presscore_get_page_title() : $config->get( 'fancy_header.title' );
 
 	$custom_title = cnSEO::filterPostTitle( $custom_title, get_the_ID() );
 
 	if ( $custom_title ) {
 
-		$title_class = presscore_get_font_size_class( $config->get('fancy_header.title.font.size') );
-		if ( 'accent' == $config->get('fancy_header.title.color.mode') ) {
+		$title_class = presscore_get_font_size_class( $config->get( 'fancy_header.title.font.size' ) );
+		if ( 'accent' == $config->get( 'fancy_header.title.color.mode' ) ) {
 			$title_class .= ' color-accent';
 		}
 
 		$title_style = '';
-		if ( 'color' == $config->get('fancy_header.title.color.mode') ) {
-			$title_style = ' style="color: ' . esc_attr( $config->get('fancy_header.title.color') ) . '"';
+		if ( 'color' == $config->get( 'fancy_header.title.color.mode' ) ) {
+			$title_style = ' style="color: ' . esc_attr( $config->get( 'fancy_header.title.color' ) ) . '"';
 		}
 
 		$custom_title = '<h1 class="fancy-title entry-title ' . $title_class . '"' . $title_style . '><span>' . strip_tags( $custom_title ) . '</span></h1>';

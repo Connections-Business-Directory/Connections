@@ -170,7 +170,7 @@ class cnLocate {
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-			$files[] = self::fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug'), $ext );
+			$files[] = self::fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug' ), $ext );
 			$files[] = self::fileName( $base, 'category', null, $ext );
 			// var_dump( $files );
 		}
@@ -231,7 +231,7 @@ class cnLocate {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$files[] = self::fileName( $base, null, cnQuery::getVar( 'cn-entry-slug'), $ext );
+			$files[] = self::fileName( $base, null, cnQuery::getVar( 'cn-entry-slug' ), $ext );
 			$files[] = self::fileName( $base, 'single', null, $ext );
 			// var_dump( $files );
 		}

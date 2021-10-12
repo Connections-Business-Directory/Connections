@@ -380,12 +380,12 @@ class cnRewrite {
 	public static function addRootRewriteRules( $root_rewrite ) {
 
 		// If a page has not been set to be the front, exit, because these rules would not apply.
-		if ( ! get_option('page_on_front') ) return $root_rewrite;
+		if ( ! get_option( 'page_on_front' ) ) return $root_rewrite;
 
 		$rule = array();
 
 		/** @var string $pageID Get the page id of the user selected front page. */
-		$pageID = get_option('page_on_front');
+		$pageID = get_option( 'page_on_front' );
 
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
@@ -962,7 +962,7 @@ class cnRewrite {
 		if ( false === $originalURL ) return false;
 
 		// We only need to process the URL and redirect  if the user is using pretty permalinks.
-		if ( is_object ( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
+		if ( is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
 
 			// Get the settings for the base of each data type to be used in the URL.
 			$base = get_option( 'connections_permalink' );
@@ -995,7 +995,7 @@ class cnRewrite {
 			// If paged, append pagination
 			if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-				$page = (int) cnQuery::getVar('cn-pg');
+				$page = (int) cnQuery::getVar( 'cn-pg' );
 				$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 
 				if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
@@ -1047,7 +1047,7 @@ class cnRewrite {
 		// If paged, append pagination
 		if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-			$page = (int) cnQuery::getVar('cn-pg');
+			$page = (int) cnQuery::getVar( 'cn-pg' );
 			$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 			if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
 

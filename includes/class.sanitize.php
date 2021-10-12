@@ -581,7 +581,7 @@ class cnSanitize {
 		}
 
 		// Returns 3 or 6 hex digits, or the empty string.
-		if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
 
 			return $color;
 		}

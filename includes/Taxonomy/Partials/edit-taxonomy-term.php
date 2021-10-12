@@ -84,7 +84,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 			<th scope="row"><label for="term-slug"><?php _e( 'Slug', 'connections' ); ?> </label></th>
 			<td>
 				<input name="term-slug" id="term-slug" type="text" value="<?php echo esc_attr( $term->slug ); ?>" size="40" />
-				<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'connections' ); ?></p>
+				<p><?php _e( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'connections' ); ?></p>
 			</td>
 		</tr>
 		<?php if ( $taxonomy->isHierarchical() ) : ?>

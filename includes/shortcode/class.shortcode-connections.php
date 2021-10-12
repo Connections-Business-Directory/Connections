@@ -109,7 +109,7 @@ class cnShortcode_Connections extends cnShortcode {
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
 		$defaults = apply_filters( 'cn_list_atts_permitted-' . $template->getSlug(), $defaults );
 
-		$atts = shortcode_atts( $defaults, $atts, $tag ) ;
+		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$atts = apply_filters( 'cn_list_atts', $atts );
 		$atts = apply_filters( 'cn_list_atts-' . $template->getSlug(), $atts );
@@ -188,10 +188,11 @@ class cnShortcode_Connections extends cnShortcode {
 
 		$html .= ob_get_clean();
 
-		$html .= sprintf( '<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
-				$instance->options->getVersion(),
-				$instance->options->getDBVersion(),
-				empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
+		$html .= sprintf(
+			'<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
+			$instance->options->getVersion(),
+			$instance->options->getDBVersion(),
+			empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
 		);
 
 		$html .= sprintf(

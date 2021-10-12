@@ -1951,11 +1951,10 @@ class cnAdminActions {
 			 isset( $_GET['type'] )
 		) {
 
-			$templateName = sanitize_key( $_GET['template'] );
-			check_admin_referer( 'activate_' . $templateName );
-
 			$type = sanitize_key( $_GET['type'] );
 			$slug = sanitize_key( $_GET['template'] );
+
+			check_admin_referer( "activate_{$slug}" );
 
 			$connections->options->setActiveTemplate( $type, $slug );
 

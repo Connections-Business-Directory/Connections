@@ -2185,7 +2185,7 @@ class cnAdminActions {
 				case 'delete':
 					check_admin_referer( 'bulk-email' );
 
-					foreach ( $_GET['log'] as $id ) {
+					foreach ( $_GET['log'] as $id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 						cnLog::delete( absint( $id ) );
 					}

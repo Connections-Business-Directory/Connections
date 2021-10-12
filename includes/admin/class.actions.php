@@ -2114,12 +2114,13 @@ class cnAdminActions {
 					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
 
 						// The administrator should always have all capabilities.
-						if ( $role == 'administrator' ) {
+						if ( 'administrator' === $role ) {
 
 							continue;
 						}
 
-						if ( $grant == 'true' ) {
+						if ( 'true' === $grant ) {
+
 							cnRole::add( esc_attr( $role ), esc_attr( $capability ) );
 						} else {
 							cnRole::remove( esc_attr( $role ), esc_attr( $capability ) );

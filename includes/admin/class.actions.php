@@ -2202,7 +2202,7 @@ class cnAdminActions {
 
 		$url = add_query_arg(
 			array(
-				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : false,
+				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? sanitize_key( $_GET['type'] ) : false,
 				'cn-action' => false,
 				'action'    => false,
 				'action2'   => false,

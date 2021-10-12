@@ -2003,7 +2003,8 @@ class cnAdminActions {
 			check_admin_referer( 'delete_' . $templateName );
 
 			function removeDirectory( $directory ) {
-				$deleteError = false;
+
+				$deleteError      = false;
 				$currentDirectory = opendir( $directory );
 
 				while ( ( $file = readdir( $currentDirectory ) ) !== false ) {

@@ -2033,7 +2033,7 @@ class cnAdminActions {
 
 				closedir( $currentDirectory );
 
-				if ( ! rmdir( $directory ) ) {
+				if ( ! rmdir( $directory ) ) { // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
 
 					return false;
 				}

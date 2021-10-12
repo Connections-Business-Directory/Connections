@@ -2017,7 +2017,7 @@ class cnAdminActions {
 
 							chdir( '.' );
 							removeDirectory( $directory . $file . '/' );
-							rmdir( $directory . $file ) or $deleteError = TRUE;
+							rmdir( $directory . $file ) or $deleteError = true;
 
 						} else {
 

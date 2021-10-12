@@ -1948,11 +1948,11 @@ class cnAdminActions {
 		 */
 		if ( current_user_can( 'connections_manage_template' ) ) {
 
-			$templateName = esc_attr( $_GET['template'] );
+			$templateName = sanitize_key( $_GET['template'] );
 			check_admin_referer( 'activate_' . $templateName );
 
-			$type = esc_attr( $_GET['type'] );
-			$slug = esc_attr( $_GET['template'] );
+			$type = sanitize_key( $_GET['type'] );
+			$slug = sanitize_key( $_GET['template'] );
 
 			$connections->options->setActiveTemplate( $type, $slug );
 
@@ -1962,7 +1962,7 @@ class cnAdminActions {
 
 			delete_transient( 'cn_legacy_templates' );
 
-			! isset( $_GET['type'] ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
+			! isset( $_GET['type'] ) ? $tab = 'all' : $tab = sanitize_key( $_GET['type'] );
 
 			wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
 

@@ -1965,7 +1965,7 @@ class cnAdminActions {
 
 			delete_transient( 'cn_legacy_templates' );
 
-			! isset( $_GET['type'] ) ? $tab = 'all' : $tab = sanitize_key( $_GET['type'] );
+			$tab = ! isset( $_GET['type'] ) ? 'all' : sanitize_key( $_GET['type'] );
 
 			wp_safe_redirect(
 				get_admin_url(

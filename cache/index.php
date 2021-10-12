@@ -13,4 +13,4 @@ if ( ! current_user_can( 'connections_view_dashboard' ) ) {
 			text-align:center;
 			width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
 }
-?>
+

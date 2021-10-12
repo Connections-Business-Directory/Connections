@@ -1946,7 +1946,10 @@ class cnAdminActions {
 		/*
 		 * Check whether user can manage Templates
 		 */
-		if ( current_user_can( 'connections_manage_template' ) ) {
+		if ( current_user_can( 'connections_manage_template' ) &&
+			 isset( $_GET['template'] ) &&
+			 isset( $_GET['type'] )
+		) {
 
 			$templateName = sanitize_key( $_GET['template'] );
 			check_admin_referer( 'activate_' . $templateName );

@@ -1987,7 +1987,7 @@ class cnAdminActions {
 	/**
 	 * Delete a template.
 	 *
-	 * @TODO Move the delete to a generic method in cnFileSystem()
+	 * @TODO Move delete to a generic method in cnFileSystem()
 	 *
 	 * @access public
 	 * @since  0.7.7

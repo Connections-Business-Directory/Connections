@@ -261,7 +261,9 @@ final class _color {
 	 */
 	public static function rgb2hex2rgb( $color, $returnAsString = false, $separator = ',' ) {
 
-		if ( ! $color ) return false;
+		if ( ! $color ) {
+			return false;
+		}
 
 		$color = trim( $color );
 

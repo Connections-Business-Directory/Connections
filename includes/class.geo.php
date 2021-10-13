@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\Convert\_length;
@@ -90,7 +92,10 @@ class cnGeo {
 		$c = 2 * asin( sqrt( $a ) );
 		$distance = $radius * $c; // Result is in (SI) km.
 
-		if ( $atts['return'] ) return $distance;
+		if ( $atts['return'] ) {
+			return $distance;
+		}
+
 		echo $distance;
 	}
 

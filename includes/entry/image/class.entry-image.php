@@ -67,7 +67,13 @@ final class cnEntry_Image {
 		$slug = rawurldecode( $this->entry->getSlug() );
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
-		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), $legacyPath . $filename );
+		if ( empty( $slug ) ) {
+			return new WP_Error(
+				'image_empty_slug',
+				__( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ),
+				$legacyPath . $filename
+			);
+		}
 
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
@@ -190,7 +196,13 @@ final class cnEntry_Image {
 		$slug = rawurldecode( $this->entry->getSlug() );
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
-		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
+		if ( empty( $slug ) ) {
+			return new WP_Error(
+				'image_empty_slug',
+				__( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ),
+				$legacyPath . $filename
+			);
+		}
 
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
@@ -228,7 +240,9 @@ final class cnEntry_Image {
 					$result = @copy( $original, $path . $filename );
 				}
 
-				if ( true === $result ) return true;
+				if ( true === $result ) {
+					return true;
+				}
 			}
 
 		}

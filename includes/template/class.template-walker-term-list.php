@@ -116,7 +116,9 @@ class CN_Walker_Term_List extends Walker {
 			// so the term tree will be properly constructed.
 			foreach ( $terms as $term ) {
 
-				if ( 0 !== $term->parent ) $term->parent = 0;
+				if ( 0 !== $term->parent ) {
+					$term->parent = 0;
+				}
 			}
 
 			foreach ( $atts['parent_id'] as $termID ) {

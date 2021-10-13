@@ -3,8 +3,9 @@
 // Exit if accessed directly
 use Connections_Directory\Utility\_array;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Common static methods that can be used across all core shortcodes.
@@ -445,7 +446,9 @@ class cnShortcode {
 
 					$atts = shortcode_parse_atts( $match[3] );
 
-					if ( ! is_array( $atts ) ) $atts = array( $atts );
+					if ( ! is_array( $atts ) ) {
+						$atts = array( $atts );
+					}
 
 					cnArray::set( $atts, 'slug', sanitize_title( $slug ) );
 
@@ -562,7 +565,9 @@ class cnShortcode {
 	public static function view( $atts, $content = '', $tag = 'connections' ) {
 
 		// Ensure that the $atts var passed from Wordpress is an array.
-		if ( ! is_array( $atts ) ) $atts = (array) $atts;
+		if ( ! is_array( $atts ) ) {
+			$atts = (array) $atts;
+		}
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -667,7 +672,9 @@ class cnShortcode {
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
 
-				if ( ! is_array( $atts ) ) $atts = array();
+				if ( ! is_array( $atts ) ) {
+					$atts = array();
+				}
 
 				// Disable the output of the repeat character index.
 				cnArray::set( $atts, 'repeat_alphaindex', false );
@@ -860,7 +867,9 @@ class cnShortcode {
 		 */
 		foreach ( self::$filterRegistry as $filter ) {
 
-			if ( isset( $wp_filter[ $filter ] ) ) unset( $wp_filter[ $filter ] );
+			if ( isset( $wp_filter[ $filter ] ) ) {
+				unset( $wp_filter[ $filter ] );
+			}
 		}
 	}
 

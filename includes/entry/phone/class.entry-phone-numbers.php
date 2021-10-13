@@ -225,7 +225,9 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	 */
 	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return null;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'phone-numbers' . DIRECTORY_SEPARATOR . 'phone',
@@ -389,7 +391,9 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all phone numbers will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -452,7 +456,9 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 			$data = $instance->retrieve->phoneNumbers( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -506,12 +512,16 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 
 		foreach ( $collection as $key => $phone ) {
 
-			if ( empty( $phone ) ) continue;
+			if ( empty( $phone ) ) {
+				continue;
+			}
 
 			/*
 			 * If the number is empty, no need to store it.
 			 */
-			if ( empty( $phone['number'] ) ) continue;
+			if ( empty( $phone['number'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $phone['order'] ) ) {
 

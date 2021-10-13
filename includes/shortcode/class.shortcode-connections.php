@@ -1,8 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The core [connections] shortcode.
@@ -47,7 +48,9 @@ class cnShortcode_Connections extends cnShortcode {
 		/** @var cnTemplate $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
-		if ( $template === false ) return cnTemplatePart::loadTemplateError( $atts );
+		if ( $template === false ) {
+			return cnTemplatePart::loadTemplateError( $atts );
+		}
 
 		/*
 		 * This filter adds the current template paths to cnLocate so when template

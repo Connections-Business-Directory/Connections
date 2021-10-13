@@ -225,7 +225,9 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 */
 	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return null;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'email-addresses' . DIRECTORY_SEPARATOR . 'email',
@@ -389,7 +391,9 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all email addresses will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -452,7 +456,9 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 			$data = $instance->retrieve->emailAddresses( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -506,12 +512,16 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 
 		foreach ( $collection as $key => $email ) {
 
-			if ( empty( $email ) ) continue;
+			if ( empty( $email ) ) {
+				continue;
+			}
 
 			/*
 			 * If the address is empty, no need to store it.
 			 */
-			if ( empty( $email['address'] ) ) continue;
+			if ( empty( $email['address'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $email['order'] ) ) {
 

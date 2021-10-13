@@ -44,7 +44,9 @@ class cnTemplate_Customizer {
 	 */
 	public function __construct() {
 
-		if ( ! isset( $_REQUEST['cn-template'] ) ) return;
+		if ( ! isset( $_REQUEST['cn-template'] ) ) {
+			return;
+		}
 
 		$this->setSlug();
 		$this->setView();
@@ -180,7 +182,9 @@ class cnTemplate_Customizer {
 
 		}
 
-		if ( $this->template->supports ) $this->setupTemplateFeatures( $this->template->supports );
+		if ( $this->template->supports ) {
+			$this->setupTemplateFeatures( $this->template->supports );
+		}
 	}
 
 	/**
@@ -1806,7 +1810,9 @@ class cnTemplate_Customizer {
 	public function remove_all_scripts() {
 		global $wp_scripts;
 
-		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) return;
+		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) {
+			return;
+		}
 
 		$exceptions = array(
 			'jquery',
@@ -1879,7 +1885,9 @@ class cnTemplate_Customizer {
 	public function remove_footer_actions() {
 		global $wp_filter;
 
-		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) return;
+		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) {
+			return;
+		}
 
 		$exceptions = array(
 			'wp_print_footer_scripts',

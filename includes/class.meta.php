@@ -13,7 +13,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Utility\_;
 
@@ -932,11 +934,15 @@ class cnMeta {
 
 		$keys = $wpdb->get_col( $sql );
 
-		if ( $keys ) natcasesort( $keys );
+		if ( $keys ) {
+			natcasesort( $keys );
+		}
 
 		foreach ( $keys as $i => $key ) {
 
-			if ( self::isPrivate( $key ) ) unset( $keys[ $i ] );
+			if ( self::isPrivate( $key ) ) {
+				unset( $keys[ $i ] );
+			}
 		}
 
 		return $keys;

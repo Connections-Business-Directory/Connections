@@ -13,7 +13,10 @@
  * @since       0.8
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnLicense
@@ -117,8 +120,13 @@ class cnLicense {
 	 */
 	private function includes() {
 
-		if ( ! class_exists( 'cnPlugin_Updater' ) ) require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
-		if ( ! class_exists( 'cnLicense_Status' ) ) require_once CN_PATH . 'includes/admin/class.license-status.php';
+		if ( ! class_exists( 'cnPlugin_Updater' ) ) {
+			require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
+		}
+
+		if ( ! class_exists( 'cnLicense_Status' ) ) {
+			require_once CN_PATH . 'includes/admin/class.license-status.php';
+		}
 	}
 
 	/**
@@ -141,7 +149,11 @@ class cnLicense {
 		 * The did_action( `cn_register_licenses_tab`) action will ensure that they are.
 		 */
 		add_action( 'cn_register_licenses_tab', array( __CLASS__, 'registerSettingsTabSection' ) );
-		if ( did_action( 'cn_register_licenses_tab' ) === 0 ) do_action( 'cn_register_licenses_tab' );
+
+		if ( did_action( 'cn_register_licenses_tab' ) === 0 ) {
+			do_action( 'cn_register_licenses_tab' );
+		}
+
 		add_filter( 'cn_register_settings_fields', array( $this, 'registerSettingsFields' ) );
 
 		// Activate license key on settings save
@@ -918,14 +930,18 @@ HERERDOC;
 		$newKey = isset( $settings[ $this->slug ] ) ? $settings[ $this->slug ] : '';
 
 		// Sanitize the new key.
-		if ( isset( $settings[ $this->slug ] ) ) $settings[ $this->slug ] = sanitize_text_field( $newKey );
+		if ( isset( $settings[ $this->slug ] ) ) {
+			$settings[ $this->slug ] = sanitize_text_field( $newKey );
+		}
 
 		// If the old key does not equal the new key, deactivate the old key and activate the new key; if supplied.
 		if ( $oldKey && $oldKey != $newKey ) {
 
 			self::license( 'deactivate', $this->name, $oldKey );
 
-			if ( ! empty( $newKey ) ) self::license( 'activate', $this->name, $newKey );
+			if ( ! empty( $newKey ) ) {
+				self::license( 'activate', $this->name, $newKey );
+			}
 		}
 
 		// If the old key was empty and the new is not, activate the new key.
@@ -979,7 +995,9 @@ HERERDOC;
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `valid`, no need to attempt to activate the key again; bail.
-			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'valid' ) return;
+			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'valid' ) {
+				return;
+			}
 
 			$key = sanitize_text_field( $_POST['connections_licenses'][ $this->slug ] );
 
@@ -1027,7 +1045,9 @@ HERERDOC;
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `deactivated`, no need to attempt to deactivate the key again; bail.
-			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'deactivated' ) return;
+			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'deactivated' ) {
+				return;
+			}
 
 			// Deactivate the license.
 			self::license( 'deactivate', $this->name, $this->key );

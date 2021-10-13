@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnRole extends WP_Roles {
 
@@ -88,7 +90,9 @@ class cnRole extends WP_Roles {
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
 
-		if ( ! self::hasCapability( $role, $cap ) ) $instance->add_cap( $role, $cap, $grant );
+		if ( ! self::hasCapability( $role, $cap ) ) {
+			$instance->add_cap( $role, $cap, $grant );
+		}
 	}
 
 	/**
@@ -105,7 +109,9 @@ class cnRole extends WP_Roles {
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
 
-		if ( self::hasCapability( $role, $cap ) ) $instance->remove_cap( $role, $cap );
+		if ( self::hasCapability( $role, $cap ) ) {
+			$instance->remove_cap( $role, $cap );
+		}
 	}
 
 	/**
@@ -122,7 +128,9 @@ class cnRole extends WP_Roles {
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
 
-		if ( ! isset( $instance->roles[ $role ] ) ) return false;
+		if ( ! isset( $instance->roles[ $role ] ) ) {
+			return false;
+		}
 
 		$wp_role = new WP_Role( $role, $instance->roles[ $role ]['capabilities'] );
 
@@ -154,7 +162,9 @@ class cnRole extends WP_Roles {
 		 * If no roles are supplied to the method to reset; the method
 		 * will reset the capabilities of all roles defined.
 		 */
-		if ( empty( $roles ) ) $roles = $instance->get_names();
+		if ( empty( $roles ) ) {
+			$roles = $instance->get_names();
+		}
 
 		$capabilities = self::capabilities();
 
@@ -167,14 +177,18 @@ class cnRole extends WP_Roles {
 
 				foreach ( $capabilities as $cap => $name ) {
 
-					if ( ! self::hasCapability( $role, $cap ) ) $instance->add_cap( $role, $cap, $grant );
+					if ( ! self::hasCapability( $role, $cap ) ) {
+						$instance->add_cap( $role, $cap, $grant );
+					}
 				}
 
 			} else {
 
 				foreach ( $capabilities as $cap => $name ) {
 
-					if ( self::hasCapability( $role, $cap ) ) $instance->remove_cap( $role, $cap );
+					if ( self::hasCapability( $role, $cap ) ) {
+						$instance->remove_cap( $role, $cap );
+					}
 
 				}
 
@@ -204,7 +218,9 @@ class cnRole extends WP_Roles {
 
 			foreach ( self::capabilities() as $cap => $name ) {
 
-				if ( self::hasCapability( $role, $cap ) ) $instance->remove_cap( $role, $cap );
+				if ( self::hasCapability( $role, $cap ) ) {
+					$instance->remove_cap( $role, $cap );
+				}
 			}
 		}
 	}

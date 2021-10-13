@@ -374,7 +374,9 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return null;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'addresses' . DIRECTORY_SEPARATOR . 'address',
@@ -702,7 +704,9 @@ final class cnEntry_Addresses implements cnToArray {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all addresses will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -801,7 +805,9 @@ final class cnEntry_Addresses implements cnToArray {
 			$data = $instance->retrieve->addresses( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -864,22 +870,26 @@ final class cnEntry_Addresses implements cnToArray {
 
 		foreach ( $collection as $key => $address ) {
 
-			if ( empty( $address ) ) continue;
+			if ( empty( $address ) ) {
+				continue;
+			}
 
 			/*
 			 * Previous versions stored empty arrays for addresses, check for them, continue if found.
 			 * NOTE: Checking only the fields available in the previous versions.
 			 */
 			if ( empty( $address['line_1'] ) &&
-			     empty( $address['line_2'] ) &&
-			     empty( $address['address_line1'] ) &&
-			     empty( $address['address_line2'] ) &&
-			     empty( $address['city'] ) &&
-			     empty( $address['state'] ) &&
-			     empty( $address['zipcode'] ) &&
-			     empty( $address['country'] ) &&
-			     empty( $address['latitude'] ) &&
-			     empty( $address['longitude'] ) ) continue;
+				 empty( $address['line_2'] ) &&
+				 empty( $address['address_line1'] ) &&
+				 empty( $address['address_line2'] ) &&
+				 empty( $address['city'] ) &&
+				 empty( $address['state'] ) &&
+				 empty( $address['zipcode'] ) &&
+				 empty( $address['country'] ) &&
+				 empty( $address['latitude'] ) &&
+				 empty( $address['longitude'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $address['order'] ) ) {
 

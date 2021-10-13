@@ -13,7 +13,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnSchema
@@ -74,22 +76,62 @@ class cnSchema {
 		 * Build the query to be passed to dbDelta.
 		 * The query being built is based on if the tables exists or not.
 		 */
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_TABLE . "'" ) != CN_ENTRY_TABLE ) $sql[] = self::entry();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_TABLE_META . "'" ) != CN_ENTRY_TABLE_META ) $sql[] = self::entryMeta();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERMS_TABLE . "'" ) != CN_TERMS_TABLE ) $sql[] = self::terms();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_TAXONOMY_TABLE . "'" ) != CN_TERM_TAXONOMY_TABLE ) $sql[] = self::termTaxonomy();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_RELATIONSHIP_TABLE . "'" ) != CN_TERM_RELATIONSHIP_TABLE ) $sql[] = self::termRelationship();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_META_TABLE . "'" ) != CN_TERM_META_TABLE ) $sql[] = self::termMeta();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_ADDRESS_TABLE . "'" ) != CN_ENTRY_ADDRESS_TABLE ) $sql[] = self::addresses();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_PHONE_TABLE . "'" ) != CN_ENTRY_PHONE_TABLE ) $sql[] = self::phone();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_EMAIL_TABLE . "'" ) != CN_ENTRY_EMAIL_TABLE ) $sql[] = self::email();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_MESSENGER_TABLE . "'" ) != CN_ENTRY_MESSENGER_TABLE ) $sql[] = self::messenger();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_SOCIAL_TABLE . "'" ) != CN_ENTRY_SOCIAL_TABLE ) $sql[] = self::socialMedia();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_LINK_TABLE . "'" ) != CN_ENTRY_LINK_TABLE ) $sql[] = self::links();
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_DATE_TABLE . "'" ) != CN_ENTRY_DATE_TABLE ) $sql[] = self::dates();
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_TABLE . "'" ) != CN_ENTRY_TABLE ) {
+			$sql[] = self::entry();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_TABLE_META . "'" ) != CN_ENTRY_TABLE_META ) {
+			$sql[] = self::entryMeta();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERMS_TABLE . "'" ) != CN_TERMS_TABLE ) {
+			$sql[] = self::terms();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_TAXONOMY_TABLE . "'" ) != CN_TERM_TAXONOMY_TABLE ) {
+			$sql[] = self::termTaxonomy();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_RELATIONSHIP_TABLE . "'" ) != CN_TERM_RELATIONSHIP_TABLE ) {
+			$sql[] = self::termRelationship();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_META_TABLE . "'" ) != CN_TERM_META_TABLE ) {
+			$sql[] = self::termMeta();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_ADDRESS_TABLE . "'" ) != CN_ENTRY_ADDRESS_TABLE ) {
+			$sql[] = self::addresses();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_PHONE_TABLE . "'" ) != CN_ENTRY_PHONE_TABLE ) {
+			$sql[] = self::phone();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_EMAIL_TABLE . "'" ) != CN_ENTRY_EMAIL_TABLE ) {
+			$sql[] = self::email();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_MESSENGER_TABLE . "'" ) != CN_ENTRY_MESSENGER_TABLE ) {
+			$sql[] = self::messenger();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_SOCIAL_TABLE . "'" ) != CN_ENTRY_SOCIAL_TABLE ) {
+			$sql[] = self::socialMedia();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_LINK_TABLE . "'" ) != CN_ENTRY_LINK_TABLE ) {
+			$sql[] = self::links();
+		}
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_DATE_TABLE . "'" ) != CN_ENTRY_DATE_TABLE ) {
+			$sql[] = self::dates();
+		}
 
 		// Create the tables.
-		if ( ! empty( $sql ) ) dbDelta( implode( ';', $sql ) );
+		if ( ! empty( $sql ) ) {
+			dbDelta( implode( ';', $sql ) );
+		}
 
 		/*
 		 * Alter the tables after they are created to add FULLTEXT support.
@@ -123,16 +165,24 @@ class cnSchema {
 		 */
 
 		$result = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE Key_name = \'search\'' );
-		if ( empty( $result ) )
-			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (family_name, first_name, middle_name, last_name, title, organization, department, contact_first_name, contact_last_name, bio, notes)' );
+
+		if ( empty( $result ) ) {
+			$wpdb->query(
+				'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (family_name, first_name, middle_name, last_name, title, organization, department, contact_first_name, contact_last_name, bio, notes)'
+			);
+		}
 
 		$result = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE Key_name = \'search\'' );
-		if ( empty( $result ) )
-			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (line_1, line_2, line_3, city, state, zipcode, country)' );
+		if ( empty( $result ) ) {
+			$wpdb->query(
+				'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (line_1, line_2, line_3, city, state, zipcode, country)'
+			);
+		}
 
 		$result = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE Key_name = \'search\'' );
-		if ( empty( $result ) )
+		if ( empty( $result ) ) {
 			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (number)' );
+		}
 	}
 
 	/**
@@ -213,8 +263,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -249,8 +304,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -285,8 +345,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -323,8 +388,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -357,8 +427,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -393,8 +468,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -441,8 +521,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -478,8 +563,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -515,8 +605,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -552,8 +647,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -589,8 +689,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -631,8 +736,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}
@@ -668,8 +778,13 @@ class cnSchema {
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 
-		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
-		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+		if ( ! empty( $wpdb->charset ) ) {
+			$sql[] = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
+		}
+
+		if ( ! empty( $wpdb->collate ) ) {
+			$sql[] = 'COLLATE ' . $wpdb->collate;
+		}
 
 		return implode( ' ', $sql );
 	}

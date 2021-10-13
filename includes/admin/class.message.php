@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * @todo Incorporate Persist Admin notice Dismissals
@@ -328,7 +330,9 @@ class cnMessage extends WP_Error {
 		$instance = self::getInstance();
 
 		// Check to see if $message is one of the registered message codes and if it is, set $message to the actual message rather than the message code.
-		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) $message = $instance->get_error_message( $message );
+		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) {
+			$message = $instance->get_error_message( $message );
+		}
 
 		switch ( $type ) {
 			case 'error':

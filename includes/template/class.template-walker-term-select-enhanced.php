@@ -215,7 +215,9 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			// so the term tree will be properly constructed.
 			foreach ( $terms as $term ) {
 
-				if ( 0 !== $term->parent ) $term->parent = 0;
+				if ( 0 !== $term->parent ) {
+					$term->parent = 0;
+				}
 			}
 
 			foreach ( $atts['parent_id'] as $termID ) {
@@ -237,7 +239,9 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			// $out .= PHP_EOL . "<select name='$name' id='$id' class='$class' $tab_index_attribute>" . PHP_EOL;
 
 			// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
-			if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('cn-enhanced-select') );
+			if ( $atts['enhanced'] ) {
+				$atts['class'] = array_merge( (array) $atts['class'], array( 'cn-enhanced-select' ) );
+			}
 
 			// Create the field label, if supplied.
 			$replace[] = ! empty( $atts['label'] ) ? cnHTML::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';

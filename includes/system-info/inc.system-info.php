@@ -20,7 +20,9 @@ Host:                       <?php echo $host; ?>
 <?php
 
 $mySQLMode = $wpdb->get_results( 'SELECT @@sql_mode' );
-if ( is_array( $mySQLMode ) ) $sqlMode = $mySQLMode[0]->{'@@sql_mode'};
+if ( is_array( $mySQLMode ) ) {
+	$sqlMode = $mySQLMode[0]->{'@@sql_mode'};
+}
 ?>
 
 Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8?>&nbsp;Bit)

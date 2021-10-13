@@ -9,7 +9,9 @@ use cnTemplatePart;
 use Connections_Directory\Utility\_format;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class Entry

@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Template tag to call the entry list. All options can be passed as an
@@ -86,7 +88,9 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	}
 
 	// No template found return error message.
-	if ( $template === false ) return cnTemplatePart::loadTemplateError( $templateType );
+	if ( $template === false ) {
+		return cnTemplatePart::loadTemplateError( $templateType );
+	}
 
 	$defaults = array(
 		'list_type'        => 'birthday',
@@ -216,7 +220,9 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 			$out .= "\n" . '<div class="cn-template cn-' . $template->getSlug() . '" id="cn-' . $template->getSlug() . '">' . "\n";
 
 				$out .= "\n" . '<div class="cn-clear" id="cn-list-head">' . "\n";
-					if ( $atts['show_title'] ) $out .= '<div class="cn-upcoming-title">' . $list_title  . '</div>';
+					if ( $atts['show_title'] ) {
+						$out .= '<div class="cn-upcoming-title">' . $list_title . '</div>';
+					}
 				$out .= "\n" . '</div>' . "\n";
 
 				$out .= '<div class="cn-clear" id="cn-list-body">' . "\n";
@@ -285,7 +291,9 @@ function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard'
 		$tag
 	);
 
-	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) return '';
+	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) {
+		return '';
+	}
 
 	$qTipContent = '<span class="cn-qtip-content-vcard" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'] , 'template' => 'qtip-vcard' ) ) . '</span>';
 
@@ -302,7 +310,9 @@ function _connections_qtip( $atts , $content = null, $tag = 'connections_qtip' )
 		$tag
 	);
 
-	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) return '';
+	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) {
+		return '';
+	}
 
 	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'] , 'template' => 'qtip-card' ) ) . '</span>';
 

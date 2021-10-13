@@ -254,7 +254,9 @@ class cnMetaboxAPI {
 	 */
 	public static function get( $id = null ) {
 
-		if ( is_null( $id ) ) return self::$metaboxes;
+		if ( is_null( $id ) ) {
+			return self::$metaboxes;
+		}
 
 		return isset( self::$metaboxes[ $id ] ) ? self::$metaboxes[ $id ] : array();
 	}
@@ -394,11 +396,15 @@ class cnMetaboxAPI {
 		// The metaboxes only need to be added on the manage page if performing an action to an entry.
 		// This is to prevent the metaboxes from showing on the Screen Option tab on the Manage
 		// admin page when viewing the manage entries table.
-		if ( $hook_suffix == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) return;
+		if ( $hook_suffix == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+			return;
+		}
 
 		foreach ( self::$metaboxes as $metabox ) {
 
-			if ( in_array( $hook_suffix, $metabox['pages'] ) ) cnMetabox_Render::add( $hook_suffix, $metabox );
+			if ( in_array( $hook_suffix, $metabox['pages'] ) ) {
+				cnMetabox_Render::add( $hook_suffix, $metabox );
+			}
 		}
 	}
 
@@ -422,7 +428,8 @@ class cnMetaboxAPI {
 
 				foreach ( $metabox['fields'] as $field ) {
 
-					if ( $field['id'] == $key ) return true;
+					if ( $field['id'] == $key ) { return true;
+                    }
 				}
 			}
 
@@ -432,7 +439,8 @@ class cnMetaboxAPI {
 
 					foreach ( $section['fields'] as $field ) {
 
-						if ( $field['id'] == $key ) return true;
+						if ( $field['id'] == $key ) { return true;
+                        }
 					}
 				}
 			}
@@ -609,7 +617,9 @@ class cnMetabox_Render {
 	public static function add( $pageHook, array $metabox ) {
 
 		// Bail if params are empty.
-		if ( empty( $pageHook ) || empty( $metabox ) ) return;
+		if ( empty( $pageHook ) || empty( $metabox ) ) {
+			return;
+		}
 
 		// Use the core metabox API to render the metabox unless the metabox was registered with a custom callback to be used to render the metabox.
 		// $callback = isset( $metabox['callback'] ) && ! empty( $metabox['callback'] ) ? $metabox['callback'] : array( new cnMetabox_Render(), 'render' );
@@ -699,18 +709,24 @@ class cnMetabox_Render {
 
 			// Since custom metaboxes can be enabled/disabled, there's a possibility that there will
 			// be a saved metabox in the settings that no longer exists. Lets catch this and continue.
-			if ( empty( $metabox ) ) continue;
+			if ( empty( $metabox ) ) {
+				continue;
+			}
 
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
 			if ( ! empty( $atts['exclude'] ) ) {
 
-				if ( in_array( $id, $atts['exclude'] ) && ! in_array( $id, $atts['hide'] ) ) continue;
+				if ( in_array( $id, $atts['exclude'] ) && ! in_array( $id, $atts['hide'] ) ) {
+					continue;
+				}
 
 			} else {
 
 				if ( ! empty( $atts['include'] ) ) {
 
-					if ( ! in_array( $id, $atts['include'] ) && ! in_array( $id, $atts['hide'] ) ) continue;
+					if ( ! in_array( $id, $atts['include'] ) && ! in_array( $id, $atts['hide'] ) ) {
+						continue;
+					}
 				}
 			}
 
@@ -902,7 +918,9 @@ class cnMetabox_Render {
 				$value = $this->object->getMeta( array( 'key' => $field['id'], 'single' => true ) );
 			}
 
-			if ( empty( $value ) ) $value = isset( $field['default'] ) ? $field['default'] : '';
+			if ( empty( $value ) ) {
+				$value = isset( $field['default'] ) ? $field['default'] : '';
+			}
 
 			/**
 			 * Apply custom classes to a metabox table.
@@ -1627,7 +1645,9 @@ class cnMetabox_Process {
 
 			foreach ( $sections as $section ) {
 
-				if ( ! empty( $section['fields'] ) ) $this->save( $action, $id, $section['fields'] );
+				if ( ! empty( $section['fields'] ) ) {
+					$this->save( $action, $id, $section['fields'] );
+				}
 			}
 		}
 
@@ -1666,7 +1686,9 @@ class cnMetabox_Process {
 			 */
 			$field = apply_filters( 'cn_pre_save_meta', $field, $id, $action );
 
-			if ( ! $id = absint( $id ) ) return false;
+			if ( ! $id = absint( $id ) ) {
+				return false;
+			}
 
 			/**
 			 * Filter to allow meta to not be saved.

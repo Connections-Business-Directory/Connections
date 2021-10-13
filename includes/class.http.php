@@ -7,7 +7,10 @@
  * @since       8.6.7
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'cnHTTP' ) ) :
 

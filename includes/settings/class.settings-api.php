@@ -202,7 +202,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			$sections = apply_filters( 'cn_filter_settings_sections', $sections );
 			// print_r($sections);
 
-			if ( empty( $sections ) ) return;
+			if ( empty( $sections ) ) {
+				return;
+			}
 
 			foreach ( $sections as $key => $section ) {
 
@@ -218,9 +220,13 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					$id = isset( $section['plugin_id'] ) && $section['plugin_id'] !== substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
 
-					if ( isset( $section['tab'] ) && ! empty( $section['tab'] ) ) $section['page_hook'] = $section['page_hook'] . '-' . $section['tab'];
+					if ( isset( $section['tab'] ) && ! empty( $section['tab'] ) ) {
+						$section['page_hook'] = $section['page_hook'] . '-' . $section['tab'];
+					}
 
-					if ( ! isset( $section['callback'] ) || empty( $section['callback'] ) ) $section['callback'] = '__return_false';
+					if ( ! isset( $section['callback'] ) || empty( $section['callback'] ) ) {
+						$section['callback'] = '__return_false';
+					}
 
 					/*
 					 * Reference:
@@ -336,7 +342,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			$fields = apply_filters( 'cn_filter_settings_fields', $fields ); // @todo:  At some point delete this line
 			// var_dump($fields);
 
-			if ( empty( $fields ) ) return;
+			if ( empty( $fields ) ) {
+				return;
+			}
 
 			foreach ( $fields as $key => $field ) {
 				// Store the position values so an array multi sort can be done to position the fields in the desired order.
@@ -348,7 +356,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			foreach ( $fields as $field ) {
 
 				// Add the tab id to the page hook if the field was registered to a specific tab.
-				if ( isset( $field['tab'] ) && ! empty( $field['tab'] ) ) $field['page_hook'] = $field['page_hook'] . '-' . $field['tab'];
+				if ( isset( $field['tab'] ) && ! empty( $field['tab'] ) ) {
+					$field['page_hook'] = $field['page_hook'] . '-' . $field['tab'];
+				}
 
 				// If the section was not set or supplied empty set the value to 'default'. This is WP core behavior.
 				if ( ! isset( $field['section'] ) || empty( $field['section'] ) ) {
@@ -377,9 +387,17 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				$options['id'] = $field['id'];
 				$options['type'] = $field['type'];
-				if ( isset( $field['desc'] ) ) $options['desc'] = $field['desc'];
-				if ( isset( $field['help'] ) ) $options['help'] = $field['help'];
-				if ( isset( $field['options'] ) ) $options['options'] = $field['options'];
+				if ( isset( $field['desc'] ) ) {
+					$options['desc'] = $field['desc'];
+				}
+
+				if ( isset( $field['help'] ) ) {
+					$options['help'] = $field['help'];
+				}
+
+				if ( isset( $field['options'] ) ) {
+					$options['options'] = $field['options'];
+				}
 
 				$options = array(
 					/*'tab'             => $field['tab'],*/
@@ -440,7 +458,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 				$defaultValue = ( isset( $field['default'] ) /*&& ! empty( $field['default'] )*/ ) ? $field['default'] : '';
 
 				// Register the plugin.
-				if ( ! array_key_exists( $field['plugin_id'], self::$registry ) ) self::$registry[$field['plugin_id']] = array();
+				if ( ! array_key_exists( $field['plugin_id'], self::$registry ) ) {
+					self::$registry[ $field['plugin_id'] ] = array();
+				}
 
 				if ( ! array_key_exists( $optionName, self::$registry[$field['plugin_id']] ) ) {
 
@@ -794,7 +814,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 					$out .= sprintf( '<input type="number" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+						$out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
+					}
 
 					break;
 
@@ -875,7 +897,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'multiselect':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+						$out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
+					}
 
 					$out .= '<span style="background-color: white; border-color: #DFDFDF; border-radius: 3px; border-width: 1px; border-style: solid; display: block; height: 90px; padding: 0 3px; overflow: auto; width: 25em;">';
 
@@ -940,7 +964,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'quicktag':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+						$out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
+					}
 
 					$out .= '<div class="wp-editor-container">';
 					$out .= sprintf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>', $name, $value );
@@ -1112,7 +1138,12 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						// Add back in any new content blocks.
 						$blocks = array_merge( $blocks, $field['options']['items'] );
 
-						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
+						foreach ( $value['order'] as $key ) {
+
+							if ( isset( $blocks[ $key ] ) ) {
+								$order[] = $key;
+							}
+						}
 
 						// Order the array as the user has defined in $value['order'].
 						$blocks = array_merge( array_flip( $order ), $blocks );
@@ -1246,7 +1277,12 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						// Add back in any new content blocks.
 						$blocks = array_merge( $blocks, $field['options']['items'] );
 
-						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
+						foreach ( $value['order'] as $key ) {
+
+							if ( isset( $blocks[ $key ] ) ) {
+								$order[] = $key;
+							}
+						}
 
 						// Order the array as the user has defined in $value['order'].
 						$blocks = array_replace( array_flip( $order ), $blocks );
@@ -1447,7 +1483,12 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						// Add back in any new content blocks.
 						$blocks = array_merge( $blocks, $field['options']['items'] );
 
-						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
+						foreach ( $value['order'] as $key ) {
+
+							if ( isset( $blocks[ $key ] ) ) {
+								$order[] = $key;
+							}
+						}
 
 						// Order the array as the user has defined in $value['order'].
 						$blocks = array_replace( array_flip( $order ), $blocks );

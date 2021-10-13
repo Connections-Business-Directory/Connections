@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnScript
@@ -509,8 +511,13 @@ class cnScript {
 
 		$editPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'manage' ) ) $editPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add' ) ) $editPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'manage' ) ) {
+			$editPageHooks[] = $instance->pageHook->manage;
+		}
+
+		if ( property_exists( $instance->pageHook, 'add' ) ) {
+			$editPageHooks[] = $instance->pageHook->add;
+		}
 
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
@@ -527,9 +534,17 @@ class cnScript {
 
 		$metaboxPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'dashboard' ) ) $metaboxPageHooks[] = $instance->pageHook->dashboard;
-		if ( property_exists( $instance->pageHook, 'manage' ) ) $metaboxPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add' ) ) $metaboxPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'dashboard' ) ) {
+			$metaboxPageHooks[] = $instance->pageHook->dashboard;
+		}
+
+		if ( property_exists( $instance->pageHook, 'manage' ) ) {
+			$metaboxPageHooks[] = $instance->pageHook->manage;
+		}
+
+		if ( property_exists( $instance->pageHook, 'add' ) ) {
+			$metaboxPageHooks[] = $instance->pageHook->add;
+		}
 
 		// Load the core JavaScripts required for metabox UI.
 		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', $metaboxPageHooks );
@@ -623,7 +638,9 @@ class cnScript {
 	 */
 	public static function jQueryFixr() {
 
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_compatibility', 'jquery' ) ) return;
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_compatibility', 'jquery' ) ) {
+			return;
+		}
 
 		wp_deregister_script( 'jquery' );
 
@@ -702,8 +719,13 @@ class cnScript {
 
 		$editPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'manage' ) ) $editPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add' ) ) $editPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'manage' ) ) {
+			$editPageHooks[] = $instance->pageHook->manage;
+		}
+
+		if ( property_exists( $instance->pageHook, 'add' ) ) {
+			$editPageHooks[] = $instance->pageHook->add;
+		}
 
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
@@ -718,7 +740,9 @@ class cnScript {
 
 		$settingsPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'settings' ) ) $settingsPageHooks[] = $instance->pageHook->settings;
+		if ( property_exists( $instance->pageHook, 'settings' ) ) {
+			$settingsPageHooks[] = $instance->pageHook->settings;
+		}
 
 		if ( in_array( $pageHook, $settingsPageHooks ) ) {
 
@@ -766,7 +790,10 @@ class cnScript {
 
 		wp_enqueue_style( 'cn-public' );
 		wp_enqueue_style( 'cn-brandicons' );
-		if ( self::maybeEnqueueStyle() ) wp_enqueue_style( 'leaflet-control-geocoder' );
+
+		if ( self::maybeEnqueueStyle() ) {
+			wp_enqueue_style( 'leaflet-control-geocoder' );
+		}
 
 		if ( is_rtl() ) {
 
@@ -804,7 +831,9 @@ class cnScript {
 		$foreground      = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color' );
 		$foregroundHover = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color-hover' );
 
-		if ( false === $networks || ( ! isset( $networks['icon'] ) || ! is_array( $networks['icon'] ) ) ) return;
+		if ( false === $networks || ( ! isset( $networks['icon'] ) || ! is_array( $networks['icon'] ) ) ) {
+			return;
+		}
 
 		$css = '';
 
@@ -909,7 +938,9 @@ class cnScript {
 
 		// If SCRIPT_DEBUG is set and TRUE the minified file names
 		// do not need added to the $files name array.
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) return $files;
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			return $files;
+		}
 
 		if ( $ext == 'css' || $ext == 'js' ) {
 

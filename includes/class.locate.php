@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Template part loader.
@@ -237,7 +239,9 @@ class cnLocate {
 		}
 
 		// If `$name` was supplied, add it to the files to search for.
-		if ( ! is_null( $name ) ) $files[] = self::fileName( $base, $name, null, $ext );
+		if ( ! is_null( $name ) ) {
+			$files[] = self::fileName( $base, $name, null, $ext );
+		}
 
 		// Add the base as the least priority, since it is required.
 		$files[] = self::fileName( $base, null, null, $ext );

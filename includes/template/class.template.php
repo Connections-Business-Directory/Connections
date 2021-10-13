@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnTemplate
@@ -975,21 +977,27 @@ class cnTemplate {
 				}
 
 				// If this is a legacy template, add the file 'template.php' as the least priority ( last in the file name array )
-				if ( isset( $this->parts['card'] ) && ! empty( $this->parts['card'] ) ) $files[] = $this->parts['card'];
+				if ( isset( $this->parts['card'] ) && ! empty( $this->parts['card'] ) ) {
+					$files[] = $this->parts['card'];
+				}
 
 				break;
 
 			case 'css':
 
 				// If this is a legacy template, add the file 'styles.css' as the least priority ( last in the file name array )
-				if ( isset( $this->parts['css'] ) && ! empty( $this->parts['css'] ) ) $files[] = $this->parts['css'];
+				if ( isset( $this->parts['css'] ) && ! empty( $this->parts['css'] ) ) {
+					$files[] = $this->parts['css'];
+				}
 
 				break;
 
 			case 'js':
 
 				// If this is a legacy template, add the file 'template.js' as the least priority ( last in the file name array )
-				if ( isset( $this->parts['js'] ) && ! empty( $this->parts['js'] ) ) $files[] = $this->parts['js'];
+				if ( isset( $this->parts['js'] ) && ! empty( $this->parts['js'] ) ) {
+					$files[] = $this->parts['js'];
+				}
 
 				break;
 
@@ -1021,7 +1029,9 @@ class cnTemplate {
 
 		// If SCRIPT_DEBUG is set and TRUE the minified file names
 		// do not need added to the $files name array.
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) return $files;
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			return $files;
+		}
 
 		if ( $ext == 'css' || $ext == 'js' ) {
 

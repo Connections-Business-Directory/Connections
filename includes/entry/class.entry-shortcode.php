@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnEntry_Shortcode {
 
@@ -110,7 +112,9 @@ class cnEntry_Shortcode {
 	public function shortcode( $atts, $content = '', $tag = 'cn_entry' ) {
 
 		// Bail if self::$entry is not set because an instance of the cnEntry object is required.
-		if ( is_null( $this->entry ) ) return '';
+		if ( is_null( $this->entry ) ) {
+			return '';
+		}
 
 		$defaults = array(
 			'part' => '',

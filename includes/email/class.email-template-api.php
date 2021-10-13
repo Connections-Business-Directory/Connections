@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnEmail_Template
@@ -122,10 +124,14 @@ class cnEmail_Template {
 		extract( $atts );
 
 		// Since the template slug is optional, but required, we'll create the slug from the template's name.
-		if ( empty( $slug ) ) $slug = $atts['slug'] = sanitize_title_with_dashes( $name, '', 'save' );
+		if ( empty( $slug ) ) {
+			$slug = $atts['slug'] = sanitize_title_with_dashes( $name, '', 'save' );
+		}
 
 		// PHP 5.4 warning fix.
-		if ( ! isset( self::$templates->{ $slug } ) ) self::$templates->{ $slug } = new stdClass();
+		if ( ! isset( self::$templates->{$slug} ) ) {
+			self::$templates->{$slug} = new stdClass();
+		}
 
 		self::$templates->{ $slug } = (object) $atts;
 	}

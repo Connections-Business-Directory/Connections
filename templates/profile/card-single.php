@@ -19,7 +19,9 @@ $notes = $entry->getNotes();
 			<h3 style="margin: 0;"><?php $entry->getNameBlock( array( 'format' => $atts['name_format'], 'link' => false ) ); ?></h3>
 			<?php
 
-			if ( $atts['show_title'] ) $entry->getTitleBlock();
+			if ( $atts['show_title'] ) {
+				$entry->getTitleBlock();
+			}
 
 			if ( $atts['show_org'] || $atts['show_dept'] ) {
 				$entry->getOrgUnitBlock(
@@ -45,21 +47,37 @@ $notes = $entry->getNotes();
 
 		<?php
 
-		if ( $atts['show_family'] )$entry->getFamilyMemberBlock();
+		if ( $atts['show_family'] ) {
+			$entry->getFamilyMemberBlock();
+		}
 
-		if ( $atts['show_addresses'] ) $entry->getAddressBlock( array( 'format' => $atts['address_format'] , 'type' => $atts['address_types'] ) );
+		if ( $atts['show_addresses'] ) {
+			$entry->getAddressBlock( array( 'format' => $atts['address_format'], 'type' => $atts['address_types'] ) );
+		}
 
-		if ( $atts['show_phone_numbers'] ) $entry->getPhoneNumberBlock( array( 'format' => $atts['phone_format'] , 'type' => $atts['phone_types'] ) );
+		if ( $atts['show_phone_numbers'] ) {
+			$entry->getPhoneNumberBlock( array( 'format' => $atts['phone_format'], 'type' => $atts['phone_types'] ) );
+		}
 
-		if ( $atts['show_email'] ) $entry->getEmailAddressBlock( array( 'format' => $atts['email_format'] , 'type' => $atts['email_types'] ) );
+		if ( $atts['show_email'] ) {
+			$entry->getEmailAddressBlock( array( 'format' => $atts['email_format'], 'type' => $atts['email_types'] ) );
+		}
 
-		if ( $atts['show_im'] ) $entry->getImBlock();
+		if ( $atts['show_im'] ) {
+			$entry->getImBlock();
+		}
 
-		if ( $atts['show_dates'] ) $entry->getDateBlock( array( 'format' => $atts['date_format'], 'type' => $atts['date_types'] ) );
+		if ( $atts['show_dates'] ) {
+			$entry->getDateBlock( array( 'format' => $atts['date_format'], 'type' => $atts['date_types'] ) );
+		}
 
-		if ( $atts['show_links'] ) $entry->getLinkBlock( array( 'format' => $atts['link_format'], 'type' => $atts['link_types'] ) );
+		if ( $atts['show_links'] ) {
+			$entry->getLinkBlock( array( 'format' => $atts['link_format'], 'type' => $atts['link_types'] ) );
+		}
 
-		if ( $atts['show_social_media'] ) $entry->getSocialMediaBlock();
+		if ( $atts['show_social_media'] ) {
+			$entry->getSocialMediaBlock();
+		}
 
 		?>
 

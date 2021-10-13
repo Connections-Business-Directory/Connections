@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Callback for the `upload_size_limit` filter.
@@ -30,17 +32,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function cn_upload_size_limit( $bytes ) {
 
-	if ( ! defined( 'KB_IN_BYTES' ) )
+	if ( ! defined( 'KB_IN_BYTES' ) ) {
 		define( 'KB_IN_BYTES', 1024 );
+	}
 
-	if ( ! defined( 'MB_IN_BYTES' ) )
+	if ( ! defined( 'MB_IN_BYTES' ) ) {
 		define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
+	}
 
-	if ( ! defined( 'GB_IN_BYTES' ) )
+	if ( ! defined( 'GB_IN_BYTES' ) ) {
 		define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
+	}
 
-	if ( ! defined( 'TB_IN_BYTES' ) )
+	if ( ! defined( 'TB_IN_BYTES' ) ) {
 		define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
+	}
 
 	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
 	$p_bytes = wp_convert_hr_to_bytes( ini_get( 'post_max_size' ) );
@@ -340,7 +346,9 @@ function cn_deregister_google_maps_api() {
 function cn_register_google_maps_api() {
 
 	// If script is registered, bail.
-	if ( wp_script_is( 'cn-google-maps-api', $list = 'registered' )  ) return;
+	if ( wp_script_is( 'cn-google-maps-api', $list = 'registered' ) ) {
+		return;
+	}
 
 	$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
 	$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );

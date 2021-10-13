@@ -21,7 +21,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 include( dirname( __FILE__ ) . '/includes/class.requirements-check.php' );
 include( dirname( __FILE__ ) . '/includes/class.text-domain.php' );

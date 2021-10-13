@@ -30,15 +30,42 @@ class cnCategory {
 
 	function __construct( $data = null ) {
 		if ( isset( $data ) ) {
-			if ( isset( $data->term_id ) ) $this->id = $data->term_id;
-			if ( isset( $data->name ) ) $this->name = $data->name;
-			if ( isset( $data->slug ) ) $this->slug = $data->slug;
-			if ( isset( $data->term_group ) ) $this->termGroup = $data->term_group;
-			if ( isset( $data->taxonomy ) ) $this->taxonomy = $data->taxonomy;
-			if ( isset( $data->description ) ) $this->description = $data->description;
-			if ( isset( $data->parent ) ) $this->parent = $data->parent;
-			if ( isset( $data->count ) ) $this->count = $data->count;
-			if ( isset( $data->children ) ) $this->children = $data->children;
+
+			if ( isset( $data->term_id ) ) {
+				$this->id = $data->term_id;
+			}
+
+			if ( isset( $data->name ) ) {
+				$this->name = $data->name;
+			}
+
+			if ( isset( $data->slug ) ) {
+				$this->slug = $data->slug;
+			}
+
+			if ( isset( $data->term_group ) ) {
+				$this->termGroup = $data->term_group;
+			}
+
+			if ( isset( $data->taxonomy ) ) {
+				$this->taxonomy = $data->taxonomy;
+			}
+
+			if ( isset( $data->description ) ) {
+				$this->description = $data->description;
+			}
+
+			if ( isset( $data->parent ) ) {
+				$this->parent = $data->parent;
+			}
+
+			if ( isset( $data->count ) ) {
+				$this->count = $data->count;
+			}
+
+			if ( isset( $data->children ) ) {
+				$this->children = $data->children;
+			}
 		}
 	}
 
@@ -142,7 +169,10 @@ class cnCategory {
 			$out
 		);
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		if ( $atts['return'] ) {
+			return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		}
+
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
 

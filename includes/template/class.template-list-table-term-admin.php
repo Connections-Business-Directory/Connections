@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
@@ -436,11 +438,13 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		foreach ( $terms as $key => $term ) {
 
-			if ( $count >= $end )
+			if ( $count >= $end ) {
 				break;
+			}
 
-			if ( $term->parent != $parent && empty( $_REQUEST['s'] ) )
+			if ( $term->parent != $parent && empty( $_REQUEST['s'] ) ) {
 				continue;
+			}
 
 			// If the page starts in a subtree, print the parents.
 			if ( $count == $start && $term->parent > 0 && empty( $_REQUEST['s'] ) ) {
@@ -450,8 +454,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 					$my_parent = cnTerm::get( $p, $taxonomy );
 					$my_parents[] = $my_parent;
 					$p = $my_parent->parent;
-					if ( in_array( $p, $parent_ids ) ) // Prevent parent loops.
+					if ( in_array( $p, $parent_ids ) ) { // Prevent parent loops.
 						break;
+					}
 					$parent_ids[] = $p;
 				}
 				unset( $parent_ids );
@@ -473,8 +478,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 			unset( $terms[ $key ] );
 
-			if ( isset( $children[ $term->term_id ] ) && empty( $_REQUEST['s'] ) )
+			if ( isset( $children[ $term->term_id ] ) && empty( $_REQUEST['s'] ) ) {
 				$this->_rows( $taxonomy, $terms, $children, $start, $per_page, $count, $term->term_id, $level + 1 );
+			}
 		}
 	}
 

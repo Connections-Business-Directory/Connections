@@ -236,7 +236,9 @@ final class Connections_Directory {
 			// register_uninstall_hook( dirname($file) . '/connections.php', array('connectionsLoad', 'uninstall') );
 
 			// Init the options if there is a version change just in case there were any changes.
-			if ( version_compare( self::$instance->options->getVersion(), CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
+			if ( version_compare( self::$instance->options->getVersion(), CN_CURRENT_VERSION ) < 0 ) {
+				self::$instance->initOptions();
+			}
 			// self::$instance->options->setDBVersion('0.1.9'); self::$instance->options->saveOptions();
 		}
 
@@ -558,10 +560,14 @@ final class Connections_Directory {
 				update_option( 'connections_permalink', $options );
 		}
 
-		if ( null === $this->options->getDefaultTemplatesSet() ) $this->options->setDefaultTemplates();
+		if ( null === $this->options->getDefaultTemplatesSet() ) {
+			$this->options->setDefaultTemplates();
+		}
 
 		// Class used for managing role capabilities.
-		if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
+		if ( ! class_exists( 'cnRole' ) ) {
+			require_once CN_PATH . 'includes/admin/class.capabilities.php';
+		}
 
 		if ( true !== $this->options->getCapabilitiesSet() ) {
 

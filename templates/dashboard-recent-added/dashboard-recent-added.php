@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
@@ -75,7 +77,9 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
 			if ( is_admin() ) {
 
-				if ( ! isset( $form ) ) $form = new cnFormObjects();
+				if ( ! isset( $form ) ) {
+					$form = new cnFormObjects();
+				}
 
 				$editTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
 

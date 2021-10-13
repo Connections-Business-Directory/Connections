@@ -204,9 +204,17 @@ function _padTermCounts( &$terms, $taxonomy ) {
 	 */
 	if ( is_user_logged_in() ) {
 
-		if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
-		if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
-		if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
+		if ( current_user_can( 'connections_view_public' ) ) {
+			$visibility[] = 'public';
+		}
+
+		if ( current_user_can( 'connections_view_private' ) ) {
+			$visibility[] = 'private';
+		}
+
+		if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) {
+			$visibility[] = 'unlisted';
+		}
 
 	} else {
 

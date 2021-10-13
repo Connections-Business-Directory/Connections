@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
@@ -78,7 +80,9 @@ class cnEntry_Action {
 	 */
 	private static function processImage( $entrySlug ) {
 
-		if ( ! isset( $_FILES['original_image'] ) ) return false;
+		if ( ! isset( $_FILES['original_image'] ) ) {
+			return false;
+		}
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -145,9 +149,17 @@ class cnEntry_Action {
 		// Output the debug log.
 		if ( $instance->options->getDebug() && is_admin() ) {
 
-			if ( ! is_wp_error( $large ) && isset( $large['log'] ) ) cnMessage::runtime( 'notice', 'Large Image Process Log<br/> <pre>' . $large['log'] . '</pre>' );
-			if ( ! is_wp_error( $medium ) && isset( $medium['log'] ) ) cnMessage::runtime( 'notice', 'Medium Image Process Log<br/><pre>' . $medium['log'] . '</pre>' );
-			if ( ! is_wp_error( $thumb ) && isset( $thumb['log'] ) ) cnMessage::runtime( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
+			if ( ! is_wp_error( $large ) && isset( $large['log'] ) ) {
+				cnMessage::runtime( 'notice', 'Large Image Process Log<br/> <pre>' . $large['log'] . '</pre>' );
+			}
+
+			if ( ! is_wp_error( $medium ) && isset( $medium['log'] ) ) {
+				cnMessage::runtime( 'notice', 'Medium Image Process Log<br/><pre>' . $medium['log'] . '</pre>' );
+			}
+
+			if ( ! is_wp_error( $thumb ) && isset( $thumb['log'] ) ) {
+				cnMessage::runtime( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
+			}
 		}
 
 		return array( 'image_names' => array( 'original' => $img['name'] ), 'image' => array( 'original' => array( 'meta' => $img ) ) );
@@ -172,7 +184,9 @@ class cnEntry_Action {
 	 */
 	private static function processLogo( $entrySlug ) {
 
-		if ( ! isset( $_FILES['original_logo'] ) ) return false;
+		if ( ! isset( $_FILES['original_logo'] ) ) {
+			return false;
+		}
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -205,7 +219,9 @@ class cnEntry_Action {
 		// Output the debug log.
 		if ( $instance->options->getDebug() && is_admin() ) {
 
-			if ( isset( $logo['log'] ) ) cnMessage::runtime( 'notice', 'Logo Image Process Log<br/> <pre>' . $logo['log'] . '</pre>' );
+			if ( isset( $logo['log'] ) ) {
+				cnMessage::runtime( 'notice', 'Logo Image Process Log<br/> <pre>' . $logo['log'] . '</pre>' );
+			}
 		}
 
 		return $img;
@@ -301,7 +317,9 @@ class cnEntry_Action {
 	public static function deleteImages( $filename, $source ) {
 
 		// Ensure neither $filename or $source are empty. If one is bail.
-		if ( empty( $filename ) || empty( $source ) ) return;
+		if ( empty( $filename ) || empty( $source ) ) {
+			return;
+		}
 
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
@@ -310,7 +328,9 @@ class cnEntry_Action {
 		$path = CN_IMAGE_PATH . $source . DIRECTORY_SEPARATOR;
 
 		// If the $path does not exist, bail.
-		if ( ! file_exists( $path ) ) return;
+		if ( ! file_exists( $path ) ) {
+			return;
+		}
 
 		// Build path to the original file.
 		$original = $path . $filename;
@@ -480,23 +500,62 @@ class cnEntry_Action {
 
 		// If copying/editing an entry, the entry data is loaded into the class
 		// properties and then properties are overwritten by the data as needed.
-		if ( ! empty( $id ) ) $entry->set( absint( $id ) );
+		if ( ! empty( $id ) ) {
+			$entry->set( absint( $id ) );
+		}
 
 		isset( $data['order'] ) ? $entry->setOrder( $data['order'] ) : 0;
 
-		if ( isset( $data['entry_type'] ) ) $entry->setEntryType( $data['entry_type'] );
-		if ( isset( $data['family_name'] ) ) $entry->setFamilyName( $data['family_name'] );
+		if ( isset( $data['entry_type'] ) ) {
+			$entry->setEntryType( $data['entry_type'] );
+		}
+
+		if ( isset( $data['family_name'] ) ) {
+			$entry->setFamilyName( $data['family_name'] );
+		}
+
 		( isset( $data['family_member'] ) ) ? $entry->setFamilyMembers( $data['family_member'] ) : $entry->setFamilyMembers( array() );
-		if ( isset( $data['honorific_prefix'] ) ) $entry->setHonorificPrefix( $data['honorific_prefix'] );
-		if ( isset( $data['first_name'] ) ) $entry->setFirstName( $data['first_name'] );
-		if ( isset( $data['middle_name'] ) ) $entry->setMiddleName( $data['middle_name'] );
-		if ( isset( $data['last_name'] ) ) $entry->setLastName( $data['last_name'] );
-		if ( isset( $data['honorific_suffix'] ) ) $entry->setHonorificSuffix( $data['honorific_suffix'] );
-		if ( isset( $data['title'] ) ) $entry->setTitle( $data['title'] );
-		if ( isset( $data['organization'] ) ) $entry->setOrganization( $data['organization'] );
-		if ( isset( $data['department'] ) ) $entry->setDepartment( $data['department'] );
-		if ( isset( $data['contact_first_name'] ) ) $entry->setContactFirstName( $data['contact_first_name'] );
-		if ( isset( $data['contact_last_name'] ) ) $entry->setContactLastName( $data['contact_last_name'] );
+
+		if ( isset( $data['honorific_prefix'] ) ) {
+			$entry->setHonorificPrefix( $data['honorific_prefix'] );
+		}
+
+		if ( isset( $data['first_name'] ) ) {
+			$entry->setFirstName( $data['first_name'] );
+		}
+
+		if ( isset( $data['middle_name'] ) ) {
+			$entry->setMiddleName( $data['middle_name'] );
+		}
+
+		if ( isset( $data['last_name'] ) ) {
+			$entry->setLastName( $data['last_name'] );
+		}
+
+		if ( isset( $data['honorific_suffix'] ) ) {
+			$entry->setHonorificSuffix( $data['honorific_suffix'] );
+		}
+
+		if ( isset( $data['title'] ) ) {
+			$entry->setTitle( $data['title'] );
+		}
+
+		if ( isset( $data['organization'] ) ) {
+			$entry->setOrganization( $data['organization'] );
+		}
+
+		if ( isset( $data['department'] ) ) {
+			$entry->setDepartment( $data['department'] );
+		}
+
+		if ( isset( $data['contact_first_name'] ) ) {
+			$entry->setContactFirstName( $data['contact_first_name'] );
+		}
+
+		if ( isset( $data['contact_last_name'] ) ) {
+			$entry->setContactLastName( $data['contact_last_name'] );
+		}
+
 		( isset( $data['address'] ) ) ? $entry->setAddresses( $data['address'] ) : $entry->setAddresses( array() );
 		( isset( $data['phone'] ) ) ? $entry->setPhoneNumbers( $data['phone'] ) : $entry->setPhoneNumbers( array() );
 		( isset( $data['email'] ) ) ? $entry->setEmailAddresses( $data['email'] ) : $entry->setEmailAddresses( array() );
@@ -505,12 +564,30 @@ class cnEntry_Action {
 		// ( isset($data['website']) ) ? $entry->setWebsites($data['website']) : $entry->setWebsites( array() );
 		( isset( $data['link'] ) ) ? $entry->setLinks( $data['link'] ) : $entry->setLinks( array() );
 		( isset( $data['date'] ) ) ? $entry->setDates( $data['date'] ) : $entry->setDates( array() );
-		if ( isset( $data['birthday_day'] ) && isset( $data['birthday_month'] ) ) $entry->setBirthday( $data['birthday_day'], $data['birthday_month'] );
-		if ( isset( $data['anniversary_day'] ) && isset( $data['anniversary_month'] ) ) $entry->setAnniversary( $data['anniversary_day'], $data['anniversary_month'] );
-		if ( isset( $data['bio'] ) ) $entry->setBio( $data['bio'] );
-		if ( isset( $data['notes'] ) ) $entry->setNotes( $data['notes'] );
-		if ( isset( $data['excerpt'] ) ) $entry->setExcerpt( $data['excerpt'] );
-		if ( isset( $data['visibility'] ) ) $entry->setVisibility( $data['visibility'] );
+
+		if ( isset( $data['birthday_day'] ) && isset( $data['birthday_month'] ) ) {
+			$entry->setBirthday( $data['birthday_day'], $data['birthday_month'] );
+		}
+
+		if ( isset( $data['anniversary_day'] ) && isset( $data['anniversary_month'] ) ) {
+			$entry->setAnniversary( $data['anniversary_day'], $data['anniversary_month'] );
+		}
+
+		if ( isset( $data['bio'] ) ) {
+			$entry->setBio( $data['bio'] );
+		}
+
+		if ( isset( $data['notes'] ) ) {
+			$entry->setNotes( $data['notes'] );
+		}
+
+		if ( isset( $data['excerpt'] ) ) {
+			$entry->setExcerpt( $data['excerpt'] );
+		}
+
+		if ( isset( $data['visibility'] ) ) {
+			$entry->setVisibility( $data['visibility'] );
+		}
 
 		( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->getUser();
 
@@ -866,10 +943,14 @@ class cnEntry_Action {
 		$permitted = array( 'pending', 'approved' );
 
 		// Ensure the status being set is permitted.
-		if ( ! in_array( $status, $permitted ) ) return false;
+		if ( ! in_array( $status, $permitted ) ) {
+			return false;
+		}
 
 		// Make sure $id is not empty.
-		if ( empty( $id ) ) return false;
+		if ( empty( $id ) ) {
+			return false;
+		}
 
 		// Check for and convert to an array.
 		$ids = wp_parse_id_list( $id );
@@ -924,10 +1005,14 @@ class cnEntry_Action {
 		$permitted = array( 'public', 'private', 'unlisted' );
 
 		// Ensure the status being set is permitted.
-		if ( ! in_array( $visibility, $permitted ) ) return false;
+		if ( ! in_array( $visibility, $permitted ) ) {
+			return false;
+		}
 
 		// Make sure $id is not empty.
-		if ( empty( $id ) ) return false;
+		if ( empty( $id ) ) {
+			return false;
+		}
 
 		// Check for and convert to an array.
 		$ids = wp_parse_id_list( $id );
@@ -978,7 +1063,9 @@ class cnEntry_Action {
 		$instance = Connections_Directory();
 
 		// Make sure $id is not empty.
-		if ( empty( $ids ) ) return false;
+		if ( empty( $ids ) ) {
+			return false;
+		}
 
 		// Check for and convert to an array.
 		$ids = wp_parse_id_list( $ids );

@@ -3084,7 +3084,9 @@ class cnTerm {
 
 			foreach ( $atts['orderby'] as $i => $value ) {
 
-				if ( ! isset( $order ) ) $order = 'ASC';
+				if ( ! isset( $order ) ) {
+					$order = 'ASC';
+				}
 
 				switch ( $value ) {
 
@@ -3151,7 +3153,9 @@ class cnTerm {
 
 			// The @var $value will be set to the last value from the $atts['orderby'] foreach loop.
 			// If a `none` $atts['orderby'] was found in the supplied array, no order by clause will be set.
-			if ( ! empty( $orderBy ) && $value != 'none' ) $orderByClause = 'ORDER BY ' . implode( ', ', $orderBy );
+			if ( ! empty( $orderBy ) && $value != 'none' ) {
+				$orderByClause = 'ORDER BY ' . implode( ', ', $orderBy );
+			}
 
 		} else {
 

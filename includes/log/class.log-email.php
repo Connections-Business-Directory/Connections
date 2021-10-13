@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Log all email sent through @see cnEmail.
@@ -241,7 +243,9 @@ final class cnLog_Email {
 
 		foreach ( $post_meta as $key => $value ) {
 
-			if ( false === strpos( $key, cnLog::POST_META_PREFIX ) ) continue;
+			if ( false === strpos( $key, cnLog::POST_META_PREFIX ) ) {
+				continue;
+			}
 
 			$key = str_replace( cnLog::POST_META_PREFIX, '', $key );
 

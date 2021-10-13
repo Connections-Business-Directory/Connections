@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Form\Field;
 
@@ -71,7 +73,9 @@ class cnAdminFunction {
 			 */
 			$directoryHome = $instance->settings->get( 'connections', 'connections_home_page', 'page_id' );
 
-			if ( ! $directoryHome ) cnMessage::create( 'notice', 'home_page_set_failed' );
+			if ( ! $directoryHome ) {
+				cnMessage::create( 'notice', 'home_page_set_failed' );
+			}
 
 			// Check if the db requires updating, display message if it does.
 			if ( version_compare( $instance->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
@@ -84,8 +88,13 @@ class cnAdminFunction {
 			/*
 			 * Add admin notices if required directories are not present or not writeable.
 			 */
-			if ( ! file_exists( CN_IMAGE_PATH ) ) cnMessage::create( 'notice', 'image_path_exists_failed' );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) cnMessage::create( 'notice', 'image_path_writeable_failed' );
+			if ( ! file_exists( CN_IMAGE_PATH ) ) {
+				cnMessage::create( 'notice', 'image_path_exists_failed' );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				cnMessage::create( 'notice', 'image_path_writeable_failed' );
+			}
 
 			// if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_exists_failed' );
 			// if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_writeable_failed' );
@@ -219,8 +228,9 @@ class cnAdminFunction {
 
 		// Grab the plugin info using the WordPress.org Plugins API.
 		// First, check to see if the function exists, if it doesn't, include the file which contains it.
-		if ( ! function_exists( 'plugins_api' ) )
+		if ( ! function_exists( 'plugins_api' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+		}
 
 		$plugin = plugins_api(
 			'plugin_information',
@@ -303,7 +313,9 @@ class cnAdminFunction {
 		 * This is to prevent the Screen Layout options in the Screen Options tab from being displayed on the Manage
 		 * admin page when viewing the manage entries table.
 		 */
-		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) return $columns;
+		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+			return $columns;
+		}
 
 		$columns[ $instance->pageHook->dashboard ] = 2;
 		$columns[ $instance->pageHook->manage ] = 2;

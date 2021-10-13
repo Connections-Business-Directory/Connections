@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
@@ -380,7 +382,9 @@ class cnRewrite {
 	public static function addRootRewriteRules( $root_rewrite ) {
 
 		// If a page has not been set to be the front, exit, because these rules would not apply.
-		if ( ! get_option( 'page_on_front' ) ) return $root_rewrite;
+		if ( ! get_option( 'page_on_front' ) ) {
+			return $root_rewrite;
+		}
 
 		$rule = array();
 
@@ -942,8 +946,13 @@ class cnRewrite {
 		global $wp_rewrite, $connections;
 
 		// Right now, lets only support pages. Not a page, punt...
-		if ( ! is_page() ) return false;
-		if ( is_404() ) return false;
+		if ( ! is_page() ) {
+			return false;
+		}
+
+		if ( is_404() ) {
+			return false;
+		}
 
 		// The URL in the address bar
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
@@ -954,12 +963,16 @@ class cnRewrite {
 		$parsedURL   = @parse_url( $requestedURL );
 
 		// Ensure array index is set, prevent PHP error notice.
-		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] ='';
+		if ( ! isset( $parsedURL['query'] ) ) {
+			$parsedURL['query'] = '';
+		}
 
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = trailingslashit( $redirectURL[0] );
 
-		if ( false === $originalURL ) return false;
+		if ( false === $originalURL ) {
+			return false;
+		}
 
 		// We only need to process the URL and redirect  if the user is using pretty permalinks.
 		if ( is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
@@ -988,7 +1001,9 @@ class cnRewrite {
 				}
 				// var_dump( $slug ); //exit();
 
-				if ( ! empty( $slug ) && ! stripos( $redirectURL , $base['category_base'] . '/' . implode( '/', $slug ) ) ) $redirectURL .= user_trailingslashit( $base['category_base'] . '/' . implode( '/', $slug ) );
+				if ( ! empty( $slug ) && ! stripos( $redirectURL, $base['category_base'] . '/' . implode( '/', $slug ) ) ) {
+					$redirectURL .= user_trailingslashit( $base['category_base'] . '/' . implode( '/', $slug ) );
+				}
 				// var_dump( $redirectURL ); //exit();
 			}
 
@@ -998,7 +1013,9 @@ class cnRewrite {
 				$page = (int) cnQuery::getVar( 'cn-pg' );
 				$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 
-				if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
+				if ( $page > 1 && ! stripos( $redirectURL, "pg/$page" ) ) {
+					$redirectURL .= user_trailingslashit( "pg/$page", 'page' );
+				}
 				// var_dump( $redirectURL ); //exit();
 			}
 		}
@@ -1012,7 +1029,9 @@ class cnRewrite {
 			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
 		}
 
-		if ( ! $redirectURL || $redirectURL == $requestedURL ) return false;
+		if ( ! $redirectURL || $redirectURL == $requestedURL ) {
+			return false;
+		}
 
 		wp_redirect( $redirectURL, 301 );
 		exit();
@@ -1042,14 +1061,18 @@ class cnRewrite {
 		$redirectURL = $redirectURL[0];
 
 		// Ensure array index is set, prevent PHP error notice.
-		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] ='';
+		if ( ! isset( $parsedURL['query'] ) ) {
+			$parsedURL['query'] = '';
+		}
 
 		// If paged, append pagination
 		if ( cnQuery::getVar( 'cn-pg' ) ) {
 
 			$page = (int) cnQuery::getVar( 'cn-pg' );
 			$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
-			if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
+			if ( $page > 1 && ! stripos( $redirectURL, "pg/$page" ) ) {
+				$redirectURL .= user_trailingslashit( "pg/$page", 'page' );
+			}
 
 			// var_dump( $redirectURL );
 			// exit();

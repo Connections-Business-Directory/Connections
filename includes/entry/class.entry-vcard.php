@@ -137,7 +137,9 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		static $i = 0;
 
-		if ( ! is_null( $new ) ) $i++;
+		if ( ! is_null( $new ) ) {
+			$i++;
+		}
 
 		return "item$i";
 	}

@@ -15,7 +15,9 @@
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Get and Set the plugin options
@@ -1601,11 +1603,15 @@ class cnOptions {
 			$blocks['required'] = array_merge( $blocks['required'], $blockType['required'] );
 		}
 
-		if ( is_null( $item ) && is_string( $type ) ) return $blocks;
+		if ( is_null( $item ) && is_string( $type ) ) {
+			return $blocks;
+		}
 
 		foreach ( $blocks['items'] as $block => $name ) {
 
-			if ( $item == $block ) return $name;
+			if ( $item == $block ) {
+				return $name;
+			}
 		}
 
 		return false;

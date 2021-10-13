@@ -912,20 +912,28 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			$images = cnArray::get( $requestParams, '_images', array() );
 
 			// Not an array request likely invalid or not formatted correctly, return empty array.
-			if ( ! is_array( $images ) ) return $meta;
+			if ( ! is_array( $images ) ) {
+				return $meta;
+			}
 
 			foreach ( $images as $image ) {
 
 				// Not an array request likely invalid or not formatted correctly, continue to next item in image request.
-				if ( ! is_array( $image ) ) continue;
+				if ( ! is_array( $image ) ) {
+					continue;
+				}
 
 				// If type does not exist, continue to next item in image request.
-				if ( ! cnArray::exists( $image, 'type' ) ) continue;
+				if ( ! cnArray::exists( $image, 'type' ) ) {
+					continue;
+				}
 
 				$type = cnArray::get( $image, 'type' );
 
 				// Not a valid image type, continue to next item in image request.
-				if ( ! in_array( $type, array( 'logo', 'photo' ) ) ) continue;
+				if ( ! in_array( $type, array( 'logo', 'photo' ) ) ) {
+					continue;
+				}
 
 				// If a size is requested, parse it, if not, return all valid sizes.
 				if ( cnArray::exists( $image, 'size' ) ) {

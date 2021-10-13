@@ -14,7 +14,9 @@ use Connections_Directory\Utility\_;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Entry class
@@ -329,25 +331,72 @@ class cnEntry {
 
 		if ( ! is_null( $entry ) ) {
 
-			if ( isset( $entry->id ) ) $this->id = (integer) $entry->id;
-			if ( isset( $entry->user ) ) $this->user = (integer) $entry->user;
-			if ( isset( $entry->ts ) ) $this->timeStamp = $entry->ts;
-			if ( isset( $entry->date_added ) ) $this->dateAdded = (integer) $entry->date_added;
-			if ( isset( $entry->ordo ) ) $this->order = (integer) $entry->ordo;
+			if ( isset( $entry->id ) ) {
+				$this->id = (integer) $entry->id;
+			}
 
-			if ( isset( $entry->slug ) ) $this->slug = $entry->slug;
+			if ( isset( $entry->user ) ) {
+				$this->user = (integer) $entry->user;
+			}
 
-			if ( isset( $entry->honorific_prefix ) ) $this->honorificPrefix = $entry->honorific_prefix;
-			if ( isset( $entry->first_name ) ) $this->firstName = $entry->first_name;
-			if ( isset( $entry->middle_name ) ) $this->middleName = $entry->middle_name;
-			if ( isset( $entry->last_name ) ) $this->lastName = $entry->last_name;
-			if ( isset( $entry->honorific_suffix ) ) $this->honorificSuffix = $entry->honorific_suffix;
-			if ( isset( $entry->title ) ) $this->title = $entry->title;
-			if ( isset( $entry->organization ) ) $this->organization = $entry->organization;
-			if ( isset( $entry->contact_first_name ) ) $this->contactFirstName = $entry->contact_first_name;
-			if ( isset( $entry->contact_last_name ) ) $this->contactLastName = $entry->contact_last_name;
-			if ( isset( $entry->department ) ) $this->department = $entry->department;
-			if ( isset( $entry->family_name ) ) $this->familyName = $entry->family_name;
+			if ( isset( $entry->ts ) ) {
+				$this->timeStamp = $entry->ts;
+			}
+
+			if ( isset( $entry->date_added ) ) {
+				$this->dateAdded = (integer) $entry->date_added;
+			}
+
+			if ( isset( $entry->ordo ) ) {
+				$this->order = (integer) $entry->ordo;
+			}
+
+			if ( isset( $entry->slug ) ) {
+				$this->slug = $entry->slug;
+			}
+
+			if ( isset( $entry->honorific_prefix ) ) {
+				$this->honorificPrefix = $entry->honorific_prefix;
+			}
+
+			if ( isset( $entry->first_name ) ) {
+				$this->firstName = $entry->first_name;
+			}
+
+			if ( isset( $entry->middle_name ) ) {
+				$this->middleName = $entry->middle_name;
+			}
+			if ( isset( $entry->last_name ) ) {
+				$this->lastName = $entry->last_name;
+			}
+
+			if ( isset( $entry->honorific_suffix ) ) {
+				$this->honorificSuffix = $entry->honorific_suffix;
+			}
+
+			if ( isset( $entry->title ) ) {
+				$this->title = $entry->title;
+			}
+
+			if ( isset( $entry->organization ) ) {
+				$this->organization = $entry->organization;
+			}
+
+			if ( isset( $entry->contact_first_name ) ) {
+				$this->contactFirstName = $entry->contact_first_name;
+			}
+
+			if ( isset( $entry->contact_last_name ) ) {
+				$this->contactLastName = $entry->contact_last_name;
+			}
+
+			if ( isset( $entry->department ) ) {
+				$this->department = $entry->department;
+			}
+
+			if ( isset( $entry->family_name ) ) {
+				$this->familyName = $entry->family_name;
+			}
 
 			$this->addresses      = isset( $entry->addresses ) ? new cnEntry_Addresses( $this->getId(), $entry->addresses ) : new cnEntry_Addresses( $this->getId() );
 			$this->phoneNumbers   = isset( $entry->phone_numbers ) ? new cnEntry_Phone_Numbers( $this->getId(), $entry->phone_numbers ) : new cnEntry_Phone_Numbers( $this->getId() );
@@ -378,14 +427,33 @@ class cnEntry {
 				$this->socialMedia->fromMaybeSerialized( $entry->social );
 			}
 
-			if ( isset( $entry->birthday ) ) $this->birthday = (integer) $entry->birthday;
-			if ( isset( $entry->anniversary ) ) $this->anniversary = (integer) $entry->anniversary;
+			if ( isset( $entry->birthday ) ) {
+				$this->birthday = (integer) $entry->birthday;
+			}
 
-			if ( isset( $entry->bio ) ) $this->bio = $entry->bio;
-			if ( isset( $entry->notes ) ) $this->notes = $entry->notes;
-			if ( isset( $entry->excerpt ) ) $this->excerpt = $entry->excerpt;
-			if ( isset( $entry->visibility ) ) $this->visibility = $entry->visibility;
-			if ( isset( $entry->sort_column ) ) $this->sortColumn = $entry->sort_column;
+			if ( isset( $entry->anniversary ) ) {
+				$this->anniversary = (integer) $entry->anniversary;
+			}
+
+			if ( isset( $entry->bio ) ) {
+				$this->bio = $entry->bio;
+			}
+
+			if ( isset( $entry->notes ) ) {
+				$this->notes = $entry->notes;
+			}
+
+			if ( isset( $entry->excerpt ) ) {
+				$this->excerpt = $entry->excerpt;
+			}
+
+			if ( isset( $entry->visibility ) ) {
+				$this->visibility = $entry->visibility;
+			}
+
+			if ( isset( $entry->sort_column ) ) {
+				$this->sortColumn = $entry->sort_column;
+			}
 
 			if ( isset( $entry->options ) ) {
 
@@ -404,19 +472,37 @@ class cnEntry {
 					$this->logoDisplay = $this->options['logo']['display'];
 				}
 
-				if ( isset( $this->options['connection_group'] ) ) $this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4
-				if ( isset( $this->options['group']['family'] ) ) $this->familyMembers = $this->options['group']['family'];
+				if ( isset( $this->options['connection_group'] ) ) {
+					$this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4
+				}
+				if ( isset( $this->options['group']['family'] ) ) {
+					$this->familyMembers = $this->options['group']['family'];
+				}
 			}
 
-			if ( isset( $entry->entry_type ) ) $this->entryType = $entry->entry_type;
+			if ( isset( $entry->entry_type ) ) {
+				$this->entryType = $entry->entry_type;
+			}
 
-			if ( isset( $entry->added_by ) ) $this->addedBy = $entry->added_by;
-			if ( isset( $entry->edited_by ) ) $this->editedBy = $entry->edited_by;
+			if ( isset( $entry->added_by ) ) {
+				$this->addedBy = $entry->added_by;
+			}
 
-			if ( isset( $entry->owner ) ) $this->owner = $entry->owner;
-			if ( isset( $entry->user ) ) $this->user = $entry->user;
+			if ( isset( $entry->edited_by ) ) {
+				$this->editedBy = $entry->edited_by;
+			}
 
-			if ( isset( $entry->status ) ) $this->status = $entry->status;
+			if ( isset( $entry->owner ) ) {
+				$this->owner = $entry->owner;
+			}
+
+			if ( isset( $entry->user ) ) {
+				$this->user = $entry->user;
+			}
+
+			if ( isset( $entry->status ) ) {
+				$this->status = $entry->status;
+			}
 
 			$this->ruid = uniqid( $this->getId() , false );
 
@@ -762,7 +848,9 @@ class cnEntry {
 		$slug = sanitize_title( apply_filters( 'cn_entry_slug', $slug ) );
 
 		// If the entry was entered with no name, use the entry ID instead.
-		if ( empty( $slug ) ) return 'cn-id-' . $this->getId();
+		if ( empty( $slug ) ) {
+			return 'cn-id-' . $this->getId();
+		}
 
 		// Query all matching slugs in one database query.
 		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug LIKE %s', $wpdb->esc_like( $slug ) . '%' );
@@ -1459,17 +1547,21 @@ class cnEntry {
                             ->filterBy( 'preferred', $atts['preferred'] )
                             ->escapeFor( $context );
 
-			if ( ! $saving ) $this->addresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			if ( ! $saving ) {
+				$this->addresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			}
 
 			$results = $this->addresses->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
+			if ( ! $saving ) {
+				$atts['visibility'] = Connections_Directory()->currentUser->canView();
+			}
 
 			$results = $this->addresses->query( $atts )
-			                           ->escapeFor( $context )
-			                           ->getCollectionAsObjects();
+									   ->escapeFor( $context )
+									   ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
@@ -1544,13 +1636,17 @@ class cnEntry {
 			                   ->filterBy( 'preferred', $atts['preferred'] )
 			                   ->escapeFor( $context );
 
-			if ( ! $saving ) $this->phoneNumbers->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			if ( ! $saving ) {
+				$this->phoneNumbers->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			}
 
 			$results = $this->phoneNumbers->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
+			if ( ! $saving ) {
+				$atts['visibility'] = Connections_Directory()->currentUser->canView();
+			}
 
 			$results = $this->phoneNumbers->query( $atts )
 			                              ->escapeFor( $context )
@@ -1614,13 +1710,17 @@ class cnEntry {
 			                     ->filterBy( 'preferred', $atts['preferred'] )
 			                     ->escapeFor( $context );
 
-			if ( ! $saving ) $this->emailAddresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			if ( ! $saving ) {
+				$this->emailAddresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			}
 
 			$results = $this->emailAddresses->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
+			if ( ! $saving ) {
+				$atts['visibility'] = Connections_Directory()->currentUser->canView();
+			}
 
 			$results = $this->emailAddresses->query( $atts )
 			                                ->escapeFor( $context )
@@ -1692,13 +1792,17 @@ class cnEntry {
 			         ->filterBy( 'preferred', $atts['preferred'] )
 			         ->escapeFor( $context );
 
-			if ( ! $saving ) $this->im->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			if ( ! $saving ) {
+				$this->im->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			}
 
 			$results = $this->im->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
+			if ( ! $saving ) {
+				$atts['visibility'] = Connections_Directory()->currentUser->canView();
+			}
 
 			$results = $this->im->query( $atts )
 			                    ->escapeFor( $context )
@@ -1779,13 +1883,17 @@ class cnEntry {
 			                  ->filterBy( 'preferred', $atts['preferred'] )
 			                  ->escapeFor( $context );
 
-			if ( ! $saving ) $this->socialMedia->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			if ( ! $saving ) {
+				$this->socialMedia->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			}
 
 			$results = $this->socialMedia->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
+			if ( ! $saving ) {
+				$atts['visibility'] = Connections_Directory()->currentUser->canView();
+			}
 
 			$results = $this->socialMedia->query( $atts )
 			                             ->escapeFor( $context )
@@ -1862,13 +1970,17 @@ class cnEntry {
 			            ->filterBy( 'logo', $atts['logo'] )
 			            ->escapeFor( $context );
 
-			if ( ! $saving ) $this->links->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			if ( ! $saving ) {
+				$this->links->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			}
 
 			$results = $this->links->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
+			if ( ! $saving ) {
+				$atts['visibility'] = Connections_Directory()->currentUser->canView();
+			}
 
 			$results = $this->links->query( $atts )
 			                       ->escapeFor( $context )
@@ -1994,13 +2106,17 @@ class cnEntry {
 			            ->filterBy( 'preferred', $atts['preferred'] )
 			            ->escapeFor( $context );
 
-			if ( ! $saving ) $this->dates->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			if ( ! $saving ) {
+				$this->dates->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+			}
 
 			$results = $this->dates->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
+			if ( ! $saving ) {
+				$atts['visibility'] = Connections_Directory()->currentUser->canView();
+			}
 
 			$results = $this->dates->query( $atts )
 			                       ->escapeFor( $context )
@@ -2207,11 +2323,15 @@ class cnEntry {
 	 */
 	public function getUpcoming( $type, $format = '' ) {
 
-		if ( empty( $this->$type ) ) return '';
+		if ( empty( $this->$type ) ) {
+			return '';
+		}
 
 		$timeStamp = current_time( 'timestamp' );
 
-		if ( empty( $format ) ) $format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
+		if ( empty( $format ) ) {
+			$format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
+		}
 
 		if ( gmmktime( 23, 59, 59, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) ) < $timeStamp ) {
 
@@ -2365,7 +2485,9 @@ class cnEntry {
 	 */
 	public function getVisibility() {
 
-		if ( is_null( $this->visibility ) ) $this->visibility = 'public';
+		if ( is_null( $this->visibility ) ) {
+			$this->visibility = 'public';
+		}
 
 		return sanitize_key( $this->visibility );
 	}
@@ -2510,7 +2632,9 @@ class cnEntry {
 	 */
 	public function getEntryType() {
 		// This is to provide compatibility for versions >= 0.7.0.4
-		if ( 'connection_group' == $this->entryType ) $this->entryType = 'family';
+		if ( 'connection_group' == $this->entryType ) {
+			$this->entryType = 'family';
+		}
 
 		return $this->entryType;
 	}
@@ -2829,7 +2953,9 @@ class cnEntry {
 
 		$url = '';
 
-		if ( empty( $type ) ) return '';
+		if ( empty( $type ) ) {
+			return '';
+		}
 
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );
@@ -2912,7 +3038,9 @@ class cnEntry {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( empty( $atts['type'] ) ) return $meta;
+		if ( empty( $atts['type'] ) ) {
+			return $meta;
+		}
 
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );

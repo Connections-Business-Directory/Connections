@@ -87,7 +87,9 @@ final class _format {
 	public static function toBoolean( &$value ) {
 
 		// Already a bool, return it.
-		if ( is_bool( $value ) ) return $value;
+		if ( is_bool( $value ) ) {
+			return $value;
+		}
 
 		$value = filter_var( strtolower( $value ), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 
@@ -318,7 +320,9 @@ final class _format {
 		}
 
 		// If the escaping is still open, make sure to close it. So formatting like this will work: `H\h i\m\i\n`.
-		if ( $escaping ) $format .= '\'';
+		if ( $escaping ) {
+			$format .= '\'';
+		}
 
 		return $format;
 	}

@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class CN_Image_Editor_GD
@@ -36,8 +38,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			$this->image = $resized;
 			return true;
 
-		} elseif ( is_wp_error( $resized ) )
+		} elseif ( is_wp_error( $resized ) ) {
 			return $resized;
+		}
 
 		return new WP_Error( 'image_resize_error', __( 'Image resize failed.', 'connections' ), $this->file );
 	}
@@ -158,7 +161,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		if (!function_exists( 'imagealphablending' ) ||
 			!function_exists( 'imagecolorat' ) ||
 			!function_exists( 'imagecolorallocatealpha' ) ||
-			!function_exists( 'imagesetpixel' )) return false;
+			!function_exists( 'imagesetpixel' )) {
+			return false;
+		}
 
 		// get image width and height
 		$w = imagesx( $image );

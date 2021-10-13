@@ -225,7 +225,9 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 	 */
 	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return null;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'messenger' . DIRECTORY_SEPARATOR . 'messenger',
@@ -389,7 +391,9 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all messenger ID will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -449,7 +453,9 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 			$data = Connections_Directory()->retrieve->imIDs( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -503,12 +509,16 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 
 		foreach ( $collection as $key => $messenger ) {
 
-			if ( empty( $messenger ) ) continue;
+			if ( empty( $messenger ) ) {
+				continue;
+			}
 
 			/*
 			 * If the messenger user ID is empty, no need to store it.
 			 */
-			if ( 0 >= strlen( $messenger['uid'] ) ) continue;
+			if ( 0 >= strlen( $messenger['uid'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $messenger['order'] ) ) {
 

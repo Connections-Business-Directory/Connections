@@ -230,7 +230,9 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 	 */
 	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return null;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'links' . DIRECTORY_SEPARATOR . 'link',
@@ -402,21 +404,27 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all links will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'image' === $field ) {
 
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all links will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'image', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'image', '===', $value );
+			}
 
 		} elseif ( 'logo' === $field ) {
 
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all links will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'logo', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'logo', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -476,7 +484,9 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 			$data = Connections_Directory()->retrieve->links( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -551,12 +561,16 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 
 		foreach ( $collection as $key => $link ) {
 
-			if ( empty( $link ) ) continue;
+			if ( empty( $link ) ) {
+				continue;
+			}
 
 			/*
 			 * If the link URL is empty, no need to store it.
 			 */
-			if ( 0 >= strlen( $link['url'] ) ) continue;
+			if ( 0 >= strlen( $link['url'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $link['order'] ) ) {
 

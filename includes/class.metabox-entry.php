@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Utility\_;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -62,7 +64,9 @@ class cnEntryMetabox {
 		}
 
 		// Set the "Visibility" options that can be set by the current user.
-		if ( is_user_logged_in() ) self::$visibility = $instance->options->getVisibilityOptions();
+		if ( is_user_logged_in() ) {
+			self::$visibility = $instance->options->getVisibilityOptions();
+		}
 
 		// Hide the "Custom Metadata Fields" metabox by default for users.
 		add_filter( 'cn_admin_default_metabox_page_hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
@@ -522,9 +526,17 @@ class cnEntryMetabox {
 		$orgClasses  = array( 'cn-organization' );
 		$deptClasses = array();
 
-		if ( in_array( 'organization', $individualNameFields ) ) $orgClasses[] = 'cn-individual';
-		if ( in_array( 'department', $individualNameFields ) ) $deptClasses[] = 'cn-individual';
-		if ( in_array( 'department', $organizationNameFields ) ) $deptClasses[] = 'cn-organization';
+		if ( in_array( 'organization', $individualNameFields ) ) {
+			$orgClasses[] = 'cn-individual';
+		}
+
+		if ( in_array( 'department', $individualNameFields ) ) {
+			$deptClasses[] = 'cn-individual';
+		}
+
+		if ( in_array( 'department', $organizationNameFields ) ) {
+			$deptClasses[] = 'cn-organization';
+		}
 
 		$fieldset = array(
 			'sections' => array(
@@ -2546,11 +2558,11 @@ class cnEntryMetabox {
 			<div class="link-assignment">
 
 				<label>
-					<input type="radio" name="link[image]" value="<?php echo $token; ?>" <?php if ( isset( $link->image ) ) checked( $link->image, true ); ?>>
+					<input type="radio" name="link[image]" value="<?php echo $token; ?>" <?php if ( isset( $link->image ) ) { checked( $link->image, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the image.', 'connections' ); ?>
 				</label>
 				<label>
-					<input type="radio" name="link[logo]" value="<?php echo $token; ?>" <?php if ( isset( $link->logo ) ) checked( $link->logo, true ); ?>>
+					<input type="radio" name="link[logo]" value="<?php echo $token; ?>" <?php if ( isset( $link->logo ) ) { checked( $link->logo, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the logo.', 'connections' ); ?>
 				</label>
 
@@ -2799,7 +2811,9 @@ class cnEntryMetabox {
 
 			foreach ( $results as $metaID => $meta ) {
 
-				if ( cnMeta::isPrivate( $meta['meta_key'] ) ) unset( $results[ $metaID ] );
+				if ( cnMeta::isPrivate( $meta['meta_key'] ) ) {
+					unset( $results[ $metaID ] );
+				}
 			}
 		}
 

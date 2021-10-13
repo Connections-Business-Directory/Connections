@@ -1140,23 +1140,71 @@ class cnImage {
 
 			// Setup the $methods var to be passed to wp_get_image_editor()
 			// so the correct image editor engine can be chosen for processing the image.
-			if ( $negate ) $methods['methods'][]              = 'negate';
-			if ( $grayscale ) $methods['methods'][]           = 'grayscale';
-			if ( isset( $brightness ) ) $methods['methods'][] = 'brightness';
-			if ( isset( $colorize ) ) $methods['methods'][]   = 'colorize';
-			if ( isset( $contrast ) ) $methods['methods'][]   = 'contrast';
-			if ( $detect_edges ) $methods['methods'][]        = 'detect_edges';
-			if ( $emboss ) $methods['methods'][]              = 'emboss';
-			if ( $gaussian_blur ) $methods['methods'][]       = 'gaussian_blur';
-			if ( $blur ) $methods['methods'][]                = 'blur';
-			if ( $sketchy ) $methods['methods'][]             = 'sketchy';
-			if ( $sharpen ) $methods['methods'][]             = 'sharpen';
-			if ( isset( $smooth ) ) $methods['methods'][]     = 'smooth';
-			if ( isset( $opacity ) ) $methods['methods'][]    = 'opacity';
-			if ( $crop_focus ) $methods['methods'][]          = 'crop';
-			if ( $crop_mode == 2 ) $methods['methods'][]      = 'resize_padded';
-			if ( $crop_only ) $methods['methods'][]           = 'resize';
-			$methods['methods'][]                             = 'set_quality';
+			if ( $negate ) {
+				$methods['methods'][] = 'negate';
+			}
+
+			if ( $grayscale ) {
+				$methods['methods'][] = 'grayscale';
+			}
+
+			if ( isset( $brightness ) ) {
+				$methods['methods'][] = 'brightness';
+			}
+
+			if ( isset( $colorize ) ) {
+				$methods['methods'][] = 'colorize';
+			}
+
+			if ( isset( $contrast ) ) {
+				$methods['methods'][] = 'contrast';
+			}
+
+			if ( $detect_edges ) {
+				$methods['methods'][] = 'detect_edges';
+			}
+
+			if ( $emboss ) {
+				$methods['methods'][] = 'emboss';
+			}
+
+			if ( $gaussian_blur ) {
+				$methods['methods'][] = 'gaussian_blur';
+			}
+
+			if ( $blur ) {
+				$methods['methods'][] = 'blur';
+			}
+
+			if ( $sketchy ) {
+				$methods['methods'][] = 'sketchy';
+			}
+
+			if ( $sharpen ) {
+				$methods['methods'][] = 'sharpen';
+			}
+
+			if ( isset( $smooth ) ) {
+				$methods['methods'][] = 'smooth';
+			}
+
+			if ( isset( $opacity ) ) {
+				$methods['methods'][] = 'opacity';
+			}
+
+			if ( $crop_focus ) {
+				$methods['methods'][] = 'crop';
+			}
+
+			if ( $crop_mode == 2 ) {
+				$methods['methods'][] = 'resize_padded';
+			}
+
+			if ( $crop_only ) {
+				$methods['methods'][] = 'resize';
+			}
+
+			$methods['methods'][] = 'set_quality';
 
 			// Perform resizing and other filters.
 			/** @var CN_Image_Editor_GD $editor */

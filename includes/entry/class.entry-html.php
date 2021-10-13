@@ -14,7 +14,9 @@ use Connections_Directory\Content_Blocks;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnOutput
@@ -170,7 +172,9 @@ class cnEntry_HTML extends cnEntry {
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
-		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) $atts['fallback'] = cnSanitize::args( $atts['fallback'], $defaults['fallback'] );
+		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) {
+			$atts['fallback'] = cnSanitize::args( $atts['fallback'], $defaults['fallback'] );
+		}
 
 		/*
 		 * Convert some of the $atts values in the array to boolean.
@@ -219,7 +223,10 @@ class cnEntry_HTML extends cnEntry {
 
 						if ( is_wp_error( $image ) ) {
 
-							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							if ( is_admin() ) {
+								cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							}
+
 							$displayImage = false;
 
 						} else {
@@ -251,7 +258,10 @@ class cnEntry_HTML extends cnEntry {
 
 							if ( is_wp_error( $image ) ) {
 
-								if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+								if ( is_admin() ) {
+									cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+								}
+
 								$displayImage = false;
 
 							} else {
@@ -316,7 +326,10 @@ class cnEntry_HTML extends cnEntry {
 
 						if ( is_wp_error( $image ) ) {
 
-							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							if ( is_admin() ) {
+								cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							}
+
 							$displayImage = false;
 
 						} else {
@@ -341,7 +354,10 @@ class cnEntry_HTML extends cnEntry {
 
 						if ( is_wp_error( $image ) ) {
 
-							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							if ( is_admin() ) {
+								cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							}
+
 							$displayImage = false;
 
 						} else {
@@ -406,7 +422,9 @@ class cnEntry_HTML extends cnEntry {
 
 			// Remove any values in the $atts array that not not img attributes and add those that are to the $tag array.
 			foreach ( $atts as $attr => $value ) {
-				if ( ! empty( $value ) && ! in_array( $attr , $nonAtts ) ) $tag[] = "$attr=\"$value\"";
+				if ( ! empty( $value ) && ! in_array( $attr, $nonAtts ) ) {
+					$tag[] = "$attr=\"$value\"";
+				}
 			}
 
 			// Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
@@ -1815,7 +1833,9 @@ class cnEntry_HTML extends cnEntry {
 		// $iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
 		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
-		if ( empty( $networks ) ) return '';
+		if ( empty( $networks ) ) {
+			return '';
+		}
 
 		// $out = '<span class="social-media-block">' . PHP_EOL;
 
@@ -2113,7 +2133,9 @@ class cnEntry_HTML extends cnEntry {
 		$search = array( '%label%' , '%date%' , '%separator%' );
 		$replace = array();
 
-		if ( ! $this->getBirthday() ) return '';
+		if ( ! $this->getBirthday() ) {
+			return '';
+		}
 
 		/*
 		 * NOTE: The vevent span is for hCalendar compatibility.
@@ -2195,7 +2217,9 @@ class cnEntry_HTML extends cnEntry {
 		$search = array( '%label%' , '%date%' , '%separator%' );
 		$replace = array();
 
-		if ( ! $this->getAnniversary() ) return '';
+		if ( ! $this->getAnniversary() ) {
+			return '';
+		}
 
 		/*
 		 * NOTE: The vevent span is for hCalendar compatibility.
@@ -2503,7 +2527,9 @@ class cnEntry_HTML extends cnEntry {
 		}
 
 		// Nothing to render, exit.
-		if ( empty( $blocks ) ) return '';
+		if ( empty( $blocks ) ) {
+			return '';
+		}
 
 		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
 		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' );
@@ -2596,7 +2622,9 @@ class cnEntry_HTML extends cnEntry {
 
 		}
 
-		if ( empty( $blockContainerContent ) ) return '';
+		if ( empty( $blockContainerContent ) ) {
+			return '';
+		}
 
 		$out = apply_filters(
 			'cn_entry_output_content_block_container',
@@ -2633,7 +2661,9 @@ class cnEntry_HTML extends cnEntry {
 		$categories = $this->getCategory();
 		$out        = array();
 
-		if ( empty( $categories ) ) return '';
+		if ( empty( $categories ) ) {
+			return '';
+		}
 
 		foreach ( $categories as $category ) {
 			$out[] = $category->slug;
@@ -2661,20 +2691,21 @@ class cnEntry_HTML extends cnEntry {
 	 */
 	public function getLastUpdatedStyle() {
 		$age = (int) abs( time() - strtotime( $this->getUnixTimeStamp() ) );
-		if ( $age < 657000 ) // less than one week: red
+		if ( $age < 657000 ) { // less than one week: red
 			$ageStyle = ' color:red; ';
-		elseif ( $age < 1314000 ) // one-two weeks: maroon
+		} elseif ( $age < 1314000 ) { // one-two weeks: maroon
 			$ageStyle = ' color:maroon; ';
-		elseif ( $age < 2628000 ) // two weeks to one month: green
+		} elseif ( $age < 2628000 ) { // two weeks to one month: green
 			$ageStyle = ' color:green; ';
-		elseif ( $age < 7884000 ) // one - three months: blue
+		} elseif ( $age < 7884000 ) { // one - three months: blue
 			$ageStyle = ' color:blue; ';
-		elseif ( $age < 15768000 ) // three to six months: navy
+		} elseif ( $age < 15768000 ) { // three to six months: navy
 			$ageStyle = ' color:navy; ';
-		elseif ( $age < 31536000 ) // six months to a year: black
+		} elseif ( $age < 31536000 ) { // six months to a year: black
 			$ageStyle = ' color:black; ';
-		else      // more than one year: don't show the update age
+		} else {      // more than one year: don't show the update age
 			$ageStyle = ' display:none; ';
+		}
 		return $ageStyle;
 	}
 
@@ -2724,7 +2755,9 @@ class cnEntry_HTML extends cnEntry {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink( false );
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink( false );
+		}
 
 		$base      = get_option( 'connections_permalink' );
 		$name      = $base['name_base'];
@@ -2772,11 +2805,25 @@ class cnEntry_HTML extends cnEntry {
 			$permalink = trailingslashit( get_permalink( $homeID ) );
 		}
 
-		if ( ! empty( $atts['class'] ) ) $piece[] = 'class="' . $atts['class'] .'"';
-		if ( ! empty( $atts['slug'] ) ) $piece[] = 'id="' . $atts['slug'] .'"';
-		if ( ! empty( $atts['title'] ) ) $piece[] = 'title="' . $atts['title'] .'"';
-		if ( ! empty( $atts['target'] ) ) $piece[] = 'target="' . $atts['target'] .'"';
-		if ( ! $atts['follow'] ) $piece[] = 'rel="nofollow"';
+		if ( ! empty( $atts['class'] ) ) {
+			$piece[] = 'class="' . $atts['class'] . '"';
+		}
+
+		if ( ! empty( $atts['slug'] ) ) {
+			$piece[] = 'id="' . $atts['slug'] . '"';
+		}
+
+		if ( ! empty( $atts['title'] ) ) {
+			$piece[] = 'title="' . $atts['title'] . '"';
+		}
+
+		if ( ! empty( $atts['target'] ) ) {
+			$piece[] = 'target="' . $atts['target'] . '"';
+		}
+
+		if ( ! $atts['follow'] ) {
+			$piece[] = 'rel="nofollow"';
+		}
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
@@ -2803,7 +2850,9 @@ class cnEntry_HTML extends cnEntry {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink();
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink();
+		}
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 

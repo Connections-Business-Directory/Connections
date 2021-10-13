@@ -52,7 +52,9 @@ $style  = array(
 		<div style="margin-bottom: 20px;">
 			<?php
 
-			if ( $atts['show_title'] ) $entry->getTitleBlock();
+			if ( $atts['show_title'] ) {
+				$entry->getTitleBlock();
+			}
 
 			if ( $atts['show_org'] || $atts['show_dept'] ) {
 				$entry->getOrgUnitBlock(

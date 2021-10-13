@@ -13,7 +13,9 @@
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnUser
@@ -81,7 +83,9 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta,'filter.entry_type', $entryType );
 
@@ -155,7 +159,9 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta, 'filter.visibility', $visibility );
 
@@ -198,7 +204,9 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta,'filter.status', $status );
 
@@ -234,7 +242,9 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta,'filter.category', $id );
 
@@ -336,11 +346,15 @@ class cnUser {
 	 */
 	public function setCategoryDivHeight( $height ) {
 
-		if ( ! is_int( $height ) ) return false;
+		if ( ! is_int( $height ) ) {
+			return false;
+		}
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		// $user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
 		cnArray::set( $user_meta, 'ui.category_div_height', absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) ) );
@@ -513,7 +527,9 @@ class cnUser {
 				$visibility[] = 'public';
 			}
 
-			if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
+			if ( current_user_can( 'connections_view_private' ) ) {
+				$visibility[] = 'private';
+			}
 
 			if ( current_user_can( 'connections_view_unlisted' ) &&
 			     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
@@ -524,10 +540,17 @@ class cnUser {
 		} else {
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
+			if ( ! cnOptions::loginRequired() ) {
+				$visibility[] = 'public';
+			}
 
-			if ( Connections_Directory()->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( Connections_Directory()->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+			if ( Connections_Directory()->options->getAllowPublicOverride() ) {
+				$visibility[] = 'public';
+			}
+
+			if ( Connections_Directory()->options->getAllowPrivateOverride() ) {
+				$visibility[] = 'private';
+			}
 		}
 
 		return $visibility;
@@ -607,7 +630,9 @@ class cnUser {
 
 			} else {
 
-				if ( 'public' == $visibility ) return true;
+				if ( 'public' == $visibility ) {
+					return true;
+				}
 			}
 
 			// If we get here, return FALSE

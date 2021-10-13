@@ -1,8 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Template Shortcode API.
@@ -152,7 +153,9 @@ class cnTemplate_Shortcode {
 		$tags = $this->tags();
 
 		// If the requested part is in the registered template shortcode tags, return its attributes.
-		if ( $key = array_key_exists( $tag, $tags ) !== false ) return $tags[ $tag ];
+		if ( $key = array_key_exists( $tag, $tags ) !== false ) {
+			return $tags[ $tag ];
+		}
 
 		// The tags was not found, return FALSE.
 		return false;

@@ -60,7 +60,9 @@ class Carousel {
 					'prepare_callback' => function( $value ) {
 
 						// If value is empty, then return an empty JSON encoded array.
-						if ( ! $value ) $value = wp_json_encode( array() );
+						if ( ! $value ) {
+							$value = wp_json_encode( array() );
+						}
 
 						return $value;
 						//return wp_json_encode( $value );
@@ -646,10 +648,17 @@ class Carousel {
 
 		$classNames = array( 'cn-list', 'slick-slider-block' );
 
-		if ( cnArray::get( $carousel, 'arrows', true ) ) array_push( $classNames, 'slick-slider-has-arrows' );
-		if ( cnArray::get( $carousel, 'dots', true ) ) array_push( $classNames, 'slick-slider-has-dots' );
+		if ( cnArray::get( $carousel, 'arrows', true ) ) {
+			array_push( $classNames, 'slick-slider-has-arrows' );
+		}
 
-		if ( cnArray::get( $carousel, 'displayDropShadow', false ) ) array_push( $classNames, 'slick-slider-has-shadow' );
+		if ( cnArray::get( $carousel, 'dots', true ) ) {
+			array_push( $classNames, 'slick-slider-has-dots' );
+		}
+
+		if ( cnArray::get( $carousel, 'displayDropShadow', false ) ) {
+			array_push( $classNames, 'slick-slider-has-shadow' );
+		}
 
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 

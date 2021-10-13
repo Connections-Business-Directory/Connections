@@ -390,7 +390,10 @@ final class mShot {
 
 		$html = $this->before . $html . $this->after . PHP_EOL;
 
-		if ( ! $this->return ) echo $html;
+		if ( ! $this->return ) {
+			echo $html;
+		}
+
 		return $html;
 	}
 }

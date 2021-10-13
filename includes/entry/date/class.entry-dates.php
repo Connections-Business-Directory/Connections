@@ -224,7 +224,9 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	 */
 	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return null;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'dates' . DIRECTORY_SEPARATOR . 'date',
@@ -388,7 +390,9 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all dates will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -448,7 +452,9 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			$data = Connections_Directory()->retrieve->dates( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -502,12 +508,16 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 
 		foreach ( $collection as $key => $date ) {
 
-			if ( empty( $date ) ) continue;
+			if ( empty( $date ) ) {
+				continue;
+			}
 
 			/*
 			 * If the date is empty, no need to store it.
 			 */
-			if ( 0 >= strlen( $date['date'] ) ) continue;
+			if ( 0 >= strlen( $date['date'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $date['order'] ) ) {
 

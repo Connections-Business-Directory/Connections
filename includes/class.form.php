@@ -15,7 +15,9 @@
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Create custom HTML forms.
@@ -33,7 +35,9 @@ class cnFormObjects {
 		 * Create the visibility option array based on the current user capability.
 		 */
 		foreach ( $this->visibiltyOptions as $key => $option ) {
-			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) unset( $this->visibiltyOptions[$key] );
+			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) {
+				unset( $this->visibiltyOptions[ $key ] );
+			}
 		}
 	}
 
@@ -46,14 +50,37 @@ class cnFormObjects {
 	 */
 	public function open( $attr ) {
 
-		if ( isset( $attr['class'] ) ) $attr['class'] = 'class="' . esc_attr( $attr['class'] ) . '" ';
-		if ( isset( $attr['id'] ) ) $attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
-		if ( isset( $attr['name'] ) ) $attr['name'] = 'name="' . esc_attr( $attr['name'] ) . '" ';
-		if ( isset( $attr['action'] ) ) $attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';
-		if ( isset( $attr['accept'] ) ) $attr['accept'] = 'accept="' . esc_attr( $attr['accept'] ) . '" ';
-		if ( isset( $attr['accept-charset'] ) ) $attr['accept-charset'] = 'accept-charset="' . esc_attr( $attr['accept-charset'] ) . '" ';
-		if ( isset( $attr['enctype'] ) ) $attr['enctype'] = 'enctype="' . esc_attr( $attr['enctype'] ) . '" ';
-		if ( isset( $attr['method'] ) ) $attr['method'] = 'method="' . esc_attr( $attr['method'] ) . '" ';
+		if ( isset( $attr['class'] ) ) {
+			$attr['class'] = 'class="' . esc_attr( $attr['class'] ) . '" ';
+		}
+
+		if ( isset( $attr['id'] ) ) {
+			$attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
+		}
+
+		if ( isset( $attr['name'] ) ) {
+			$attr['name'] = 'name="' . esc_attr( $attr['name'] ) . '" ';
+		}
+
+		if ( isset( $attr['action'] ) ) {
+			$attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';
+		}
+
+		if ( isset( $attr['accept'] ) ) {
+			$attr['accept'] = 'accept="' . esc_attr( $attr['accept'] ) . '" ';
+		}
+
+		if ( isset( $attr['accept-charset'] ) ) {
+			$attr['accept-charset'] = 'accept-charset="' . esc_attr( $attr['accept-charset'] ) . '" ';
+		}
+
+		if ( isset( $attr['enctype'] ) ) {
+			$attr['enctype'] = 'enctype="' . esc_attr( $attr['enctype'] ) . '" ';
+		}
+
+		if ( isset( $attr['method'] ) ) {
+			$attr['method'] = 'method="' . esc_attr( $attr['method'] ) . '" ';
+		}
 
 		$out = '<form ';
 
@@ -110,7 +137,9 @@ class cnFormObjects {
 			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, $referer, false );
 		}
 
-		if ( $echo ) echo $token;
+		if ( $echo ) {
+			echo $token;
+		}
 
 		// if ( $referer ) wp_referer_field( $echo, 'previous' );
 

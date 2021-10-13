@@ -49,7 +49,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnEmail
@@ -449,11 +451,25 @@ class cnEmail {
 		/*
 		 * Be a good citizen and add the filters that were hooked back to the wp_mail filters.
 		 */
-		if ( ! empty( $filter['param'] ) ) $wp_filter['wp_mail']               = $filter['param'];
-		if ( ! empty( $filter['type'] ) ) $wp_filter['wp_mail_content_type']   = $filter['type'];
-		if ( ! empty( $filter['charset'] ) ) $wp_filter['wp_mail_charset']     = $filter['charset'];
-		if ( ! empty( $filter['from_name'] ) ) $wp_filter['wp_mail_from_name'] = $filter['from_name'];
-		if ( ! empty( $filter['from_email'] ) ) $wp_filter['wp_mail_from']     = $filter['from_email'];
+		if ( ! empty( $filter['param'] ) ) {
+			$wp_filter['wp_mail'] = $filter['param'];
+		}
+
+		if ( ! empty( $filter['type'] ) ) {
+			$wp_filter['wp_mail_content_type'] = $filter['type'];
+		}
+
+		if ( ! empty( $filter['charset'] ) ) {
+			$wp_filter['wp_mail_charset'] = $filter['charset'];
+		}
+
+		if ( ! empty( $filter['from_name'] ) ) {
+			$wp_filter['wp_mail_from_name'] = $filter['from_name'];
+		}
+
+		if ( ! empty( $filter['from_email'] ) ) {
+			$wp_filter['wp_mail_from'] = $filter['from_email'];
+		}
 
 		/**
 		 * wp_mail() returns a (bool), so lets return the result.

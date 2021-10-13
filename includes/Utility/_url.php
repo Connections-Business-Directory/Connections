@@ -247,7 +247,9 @@ final class _url {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink( false );
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink( false );
+		}
 
 		// The anchor attributes.
 		$piece = array();
@@ -311,13 +313,31 @@ final class _url {
 
 		$atts['permalink_root'] = $permalink;
 
-		if ( ! empty( $atts['class'] ) ) $piece['class']       = 'class="' . $atts['class'] .'"';
+		if ( ! empty( $atts['class'] ) ) {
+			$piece['class'] = 'class="' . $atts['class'] . '"';
+		}
+
 		// if ( ! empty( $atts['slug'] ) ) $piece['id']        = 'id="' . $atts['slug'] .'"';
-		if ( ! empty( $atts['title'] ) ) $piece['title']       = 'title="' . $atts['title'] .'"';
-		if ( ! empty( $atts['target'] ) ) $piece['target']     = 'target="' . $atts['target'] .'"';
-		if ( ! $atts['follow'] ) $piece['follow']              = 'rel="nofollow"';
-		if ( ! empty( $atts['rel'] ) ) $piece['rel']           = 'rel="' . $atts['rel'] .'"';
-		if ( ! empty( $atts['on_click'] ) ) $piece['on_click'] = 'onClick="' . $atts['on_click'] .'"';
+
+		if ( ! empty( $atts['title'] ) ) {
+			$piece['title'] = 'title="' . $atts['title'] . '"';
+		}
+
+		if ( ! empty( $atts['target'] ) ) {
+			$piece['target'] = 'target="' . $atts['target'] . '"';
+		}
+
+		if ( ! $atts['follow'] ) {
+			$piece['follow'] = 'rel="nofollow"';
+		}
+
+		if ( ! empty( $atts['rel'] ) ) {
+			$piece['rel'] = 'rel="' . $atts['rel'] . '"';
+		}
+
+		if ( ! empty( $atts['on_click'] ) ) {
+			$piece['on_click'] = 'onClick="' . $atts['on_click'] . '"';
+		}
 
 		/*
 		 * NOTE: Use `rawurlencode()` when encoding the permalink for department, organization, district, county,
@@ -557,9 +577,14 @@ final class _url {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink( true );
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink( true );
+		}
 
-		if ( $atts['return'] ) return $out;
+		if ( $atts['return'] ) {
+			return $out;
+		}
+
 		echo $out;
 	}
 

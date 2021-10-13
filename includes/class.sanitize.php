@@ -15,7 +15,9 @@
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnSanitize
@@ -42,7 +44,9 @@ class cnSanitize {
 	 */
 	public static function args( $untrusted, $defaults ) {
 
-		if ( ! is_array( $defaults ) ) return $defaults;
+		if ( ! is_array( $defaults ) ) {
+			return $defaults;
+		}
 
 		if ( is_object( $untrusted ) ) {
 
@@ -57,7 +61,9 @@ class cnSanitize {
 			wp_parse_str( $untrusted, $args );
 		}
 
-		if ( ! isset( $args ) ) return $defaults;
+		if ( ! isset( $args ) ) {
+			return $defaults;
+		}
 
 		$intersect  = array_intersect_key( $args, $defaults ); // Get data for which is in the valid fields.
 		$difference = array_diff_key( $defaults, $args ); // Get default data which is not supplied.
@@ -424,7 +430,9 @@ class cnSanitize {
 	 */
 	public static function options( $values, $options, $defaults = array() ) {
 
-		if ( empty( $values ) ) return array();
+		if ( empty( $values ) ) {
+			return array();
+		}
 
 		// Let do a bit of array gymnastics...
 		// array_flip $values so the values are the keys.
@@ -608,8 +616,9 @@ class cnSanitize {
 
 		$color = ltrim( $color, '#' );
 
-		if ( '' === $color )
+		if ( '' === $color ) {
 			return '';
+		}
 
 		return self::hexColor( '#' . $color ) ? $color : '';
 	}

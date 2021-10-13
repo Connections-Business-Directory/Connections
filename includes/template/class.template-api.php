@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * API for registering templates.
@@ -190,10 +192,14 @@ class cnTemplateFactory {
 		extract( $atts );
 
 		// Since the template slug is optional, but required, we'll create the slug from the template's name.
-		if ( empty( $slug ) ) $slug = $atts['slug'] = sanitize_title_with_dashes( $name, '', 'save' );
+		if ( empty( $slug ) ) {
+			$slug = $atts['slug'] = sanitize_title_with_dashes( $name, '', 'save' );
+		}
 
 		// PHP 5.4 warning fix.
-		if ( ! isset( self::$templates->{ $type } ) ) self::$templates->{ $type } = new stdClass();
+		if ( ! isset( self::$templates->{$type} ) ) {
+			self::$templates->{$type} = new stdClass();
+		}
 		// if ( ! isset( self::$templates->{ $type }->{ $slug } ) ) self::$templates->{ $type }->{ $slug } = new stdClass();
 		// self::$templates->{ $type } = new stdClass();
 		self::$templates->{ $type }->{ $slug } = new stdClass();
@@ -218,14 +224,16 @@ class cnTemplateFactory {
 			// $t == the template type $s == template slug.
 			foreach ( self::$templates as $t => $s ) {
 
-				if ( isset( self::$templates->{ $t }->{ $slug } ) )
-					unset( self::$templates->{ $t }->{ $slug } );
+				if ( isset( self::$templates->{$t}->{$slug} ) ) {
+					unset( self::$templates->{$t}->{$slug} );
+				}
 			}
 
 		} else {
 
-			if ( isset( self::$templates->{ $type }->{ $slug } ) )
-				unset( self::$templates->{ $type }->{ $slug } );
+			if ( isset( self::$templates->{$type}->{$slug} ) ) {
+				unset( self::$templates->{$type}->{$slug} );
+			}
 		}
 
 	}
@@ -391,9 +399,13 @@ class cnTemplateFactory {
 				}
 			}
 
-			if ( ! is_dir( $templatePath ) && ! is_readable( $templatePath ) ) continue;
+			if ( ! is_dir( $templatePath ) && ! is_readable( $templatePath ) ) {
+				continue;
+			}
 
-			if ( ! $templateDirectories = @opendir( $templatePath ) ) continue;
+			if ( ! $templateDirectories = @opendir( $templatePath ) ) {
+				continue;
+			}
 			// var_dump($templatePath);
 
 			// $templateDirectories = opendir($templatePath);
@@ -410,11 +422,18 @@ class cnTemplateFactory {
 						include( $path . 'meta.php' );
 						$template->slug = $templateDirectory;
 
-						if ( ! isset( $template->type ) ) $template->type = 'all';
+						if ( ! isset( $template->type ) ) {
+							$template->type = 'all';
+						}
 
 						// PHP 5.4 warning fix.
-						if ( ! isset( $templates->{ $template->type } ) ) $templates->{ $template->type } = new stdClass();
-						if ( ! isset( $templates->{ $template->type }->{ $template->slug } ) ) $templates->{ $template->type }->{ $template->slug } = new stdClass();
+						if ( ! isset( $templates->{$template->type} ) ) {
+							$templates->{$template->type} = new stdClass();
+						}
+
+						if ( ! isset( $templates->{$template->type}->{$template->slug} ) ) {
+							$templates->{$template->type}->{$template->slug} = new stdClass();
+						}
 
 						// Load the template metadata from the meta.php file
 						$templates->{ $template->type }->{ $template->slug }->name        = $template->name;
@@ -427,10 +446,21 @@ class cnTemplateFactory {
 						$templates->{ $template->type }->{ $template->slug }->slug        = $template->slug ;
 						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? true : false;
 
-						if ( file_exists( $path . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = true;
-						if ( file_exists( $path . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = true;
-						if ( file_exists( $path . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = true;
-						if ( file_exists( $path . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = true;
+						if ( file_exists( $path . 'styles.css' ) ) {
+							$templates->{$template->type}->{$template->slug}->cssPath = true;
+						}
+
+						if ( file_exists( $path . 'template.js' ) ) {
+							$templates->{$template->type}->{$template->slug}->jsPath = true;
+						}
+
+						if ( file_exists( $path . 'functions.php' ) ) {
+							$templates->{$template->type}->{$template->slug}->phpPath = true;
+						}
+
+						if ( file_exists( $path . 'thumbnail.png' ) ) {
+							$templates->{$template->type}->{$template->slug}->thumbnailURL = true;
+						}
 					}
 				}
 			}
@@ -500,7 +530,9 @@ class cnTemplateFactory {
 			foreach ( $types as $type ) {
 
 				// If there are no registered templates by the requested type, move on.
-				if ( ! isset( self::$templates->$type ) ) continue;
+				if ( ! isset( self::$templates->$type ) ) {
+					continue;
+				}
 
 				foreach ( self::$templates->$type as $template ) {
 
@@ -664,7 +696,9 @@ class cnTemplateFactory {
 				$type = $atts['list_type'][0];
 
 				// Change the list type to family from connection_group to maintain compatibility with versions 0.7.0.4 and earlier.
-				if ( $type == 'connection_group' ) $type = 'family';
+				if ( $type == 'connection_group' ) {
+					$type = 'family';
+				}
 			}
 		}
 
@@ -688,7 +722,9 @@ class cnTemplateFactory {
 		// If the template was not located, return FALSE.
 		// This will in turn display the template not found error message
 		// later in the execution of the shortcode.
-		if ( $template == false ) return false;
+		if ( $template == false ) {
+			return false;
+		}
 
 		/** @var cnTemplate $template */
 		do_action( 'cn_register_legacy_template_parts' );

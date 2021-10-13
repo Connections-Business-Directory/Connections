@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class for logging events and errors.
@@ -833,14 +835,18 @@ final class cnLog {
 
 				foreach ( $query['type'] as $type ) {
 
-					if ( self::valid( $type ) ) $types[] = $type;
+					if ( self::valid( $type ) ) {
+						$types[] = $type;
+					}
 				}
 
 			} else {
 
 				$types = '';
 
-				if ( self::valid( $query['type'] ) ) $types = $query['type'];
+				if ( self::valid( $query['type'] ) ) {
+					$types = $query['type'];
+				}
 			}
 
 			if ( ! empty( $types ) ) {
@@ -899,14 +905,18 @@ final class cnLog {
 
 				foreach ( $type as $id ) {
 
-					if ( self::valid( $id ) ) $types[] = $id;
+					if ( self::valid( $id ) ) {
+						$types[] = $id;
+					}
 				}
 
 			} else {
 
 				$types = '';
 
-				if ( self::valid( $type ) ) $types = $type;
+				if ( self::valid( $type ) ) {
+					$types = $type;
+				}
 			}
 
 			$query['tax_query'] = array(
@@ -1052,7 +1062,9 @@ final class cnLog {
 
 			foreach ( $results as $key => $meta ) {
 
-				if ( false === strpos( $key, self::POST_META_PREFIX ) ) continue;
+				if ( false === strpos( $key, self::POST_META_PREFIX ) ) {
+					continue;
+				}
 
 				$keyBase    = str_replace( self::POST_META_PREFIX, '', $key );
 				$keyDisplay = apply_filters( 'cn_log_meta_key', $keyBase );

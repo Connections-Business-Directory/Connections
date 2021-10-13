@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnRegisterSettings
@@ -4035,7 +4037,9 @@ class cnRegisterSettings {
 
 		if ( $loginRequired ) {
 
-			if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
+			if ( ! isset( $wp_roles ) ) {
+				$wp_roles = new WP_Roles();
+			}
 
 			$roles = $wp_roles->get_names();
 
@@ -4410,17 +4414,48 @@ class cnRegisterSettings {
 		/*
 		 * Make sure there is a value saved for each permalink base.
 		 */
-		if ( ! isset( $settings['character_base'] ) || empty( $settings['character_base'] ) ) $settings['character_base']          = 'char';
-		if ( ! isset( $settings['category_base'] ) || empty( $settings['category_base'] ) ) $settings['category_base']             = 'cat';
-		if ( ! isset( $settings['country_base'] ) || empty( $settings['country_base'] ) ) $settings['country_base']                = 'country';
-		if ( ! isset( $settings['region_base'] ) || empty( $settings['region_base'] ) ) $settings['region_base']                   = 'region';
-		if ( ! isset( $settings['locality_base'] ) || empty( $settings['locality_base'] ) ) $settings['locality_base']             = 'locality';
-		if ( ! isset( $settings['postal_code_base'] ) || empty( $settings['postal_code_base'] ) ) $settings['postal_code_base']    = 'postal_code';
-		if ( ! isset( $settings['district_base'] ) || empty( $settings['district_base'] ) ) $settings['district_base']             = 'district';
-		if ( ! isset( $settings['county_base'] ) || empty( $settings['county_base'] ) ) $settings['county_base']                   = 'county';
-		if ( ! isset( $settings['name_base'] ) || empty( $settings['name_base'] ) ) $settings['name_base']                         = 'name';
-		if ( ! isset( $settings['organization_base'] ) || empty( $settings['organization_base'] ) ) $settings['organization_base'] = 'organization';
-		if ( ! isset( $settings['department_base'] ) || empty( $settings['department_base'] ) ) $settings['department_base']       = 'department';
+		if ( ! isset( $settings['character_base'] ) || empty( $settings['character_base'] ) ) {
+			$settings['character_base'] = 'char';
+		}
+
+		if ( ! isset( $settings['category_base'] ) || empty( $settings['category_base'] ) ) {
+			$settings['category_base'] = 'cat';
+		}
+
+		if ( ! isset( $settings['country_base'] ) || empty( $settings['country_base'] ) ) {
+			$settings['country_base'] = 'country';
+		}
+
+		if ( ! isset( $settings['region_base'] ) || empty( $settings['region_base'] ) ) {
+			$settings['region_base'] = 'region';
+		}
+
+		if ( ! isset( $settings['locality_base'] ) || empty( $settings['locality_base'] ) ) {
+			$settings['locality_base'] = 'locality';
+		}
+
+		if ( ! isset( $settings['postal_code_base'] ) || empty( $settings['postal_code_base'] ) ) {
+			$settings['postal_code_base'] = 'postal_code';
+		}
+
+		if ( ! isset( $settings['district_base'] ) || empty( $settings['district_base'] ) ) {
+			$settings['district_base'] = 'district';
+		}
+
+		if ( ! isset( $settings['county_base'] ) || empty( $settings['county_base'] ) ) {
+			$settings['county_base'] = 'county';
+		}
+		if ( ! isset( $settings['name_base'] ) || empty( $settings['name_base'] ) ) {
+			$settings['name_base'] = 'name';
+		}
+
+		if ( ! isset( $settings['organization_base'] ) || empty( $settings['organization_base'] ) ) {
+			$settings['organization_base'] = 'organization';
+		}
+
+		if ( ! isset( $settings['department_base'] ) || empty( $settings['department_base'] ) ) {
+			$settings['department_base'] = 'department';
+		}
 
 		$settings = array_map( array( 'cnFormatting', 'sanitizeStringStrong' ), $settings );
 
@@ -4537,43 +4572,110 @@ class cnRegisterSettings {
 		 * Drop the current FULLTEXT indexes.
 		 */
 		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE KEY_NAME = \'search\'' ); // var_dump($indexExists);
-		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' DROP INDEX search' );
+		if ( $indexExists > 0 ) {
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' DROP INDEX search' );
+		}
 
 		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE KEY_NAME = \'search\'' ); // var_dump($indexExists);
-		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' DROP INDEX search' );
+		if ( $indexExists > 0 ) {
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' DROP INDEX search' );
+		}
 
 		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE KEY_NAME = \'search\'' ); // var_dump($indexExists);
-		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' DROP INDEX search' );
+		if ( $indexExists > 0 ) {
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' DROP INDEX search' );
+		}
 
 		/*
 		 * Recreate the FULLTEXT indexes based on the user choices
 		 */
 
 		// Build the arrays that will be imploded in the query statement.
-		if ( $search['family_name'] ) $column['entry'][]        = 'family_name';
-		if ( $search['first_name'] ) $column['entry'][]         = 'first_name';
-		if ( $search['middle_name'] ) $column['entry'][]        = 'middle_name';
-		if ( $search['last_name'] ) $column['entry'][]          = 'last_name';
-		if ( $search['title'] ) $column['entry'][]              = 'title';
-		if ( $search['organization'] ) $column['entry'][]       = 'organization';
-		if ( $search['department'] ) $column['entry'][]         = 'department';
-		if ( $search['contact_first_name'] ) $column['entry'][] = 'contact_first_name';
-		if ( $search['contact_last_name'] ) $column['entry'][]  = 'contact_last_name';
-		if ( $search['bio'] ) $column['entry'][]                = 'bio';
-		if ( $search['notes'] ) $column['entry'][]              = 'notes';
+		if ( $search['family_name'] ) {
+			$column['entry'][] = 'family_name';
+		}
 
-		if ( $search['address_line_1'] ) $column['address'][]   = 'line_1';
-		if ( $search['address_line_2'] ) $column['address'][]   = 'line_2';
-		if ( $search['address_line_3'] ) $column['address'][]   = 'line_3';
-		if ( $search['address_line_4'] ) $column['address'][]   = 'line_4';
-		if ( $search['address_district'] ) $column['address'][] = 'district';
-		if ( $search['address_county'] ) $column['address'][]   = 'county';
-		if ( $search['address_city'] ) $column['address'][]     = 'city';
-		if ( $search['address_state'] ) $column['address'][]    = 'state';
-		if ( $search['address_zipcode'] ) $column['address'][]  = 'zipcode';
-		if ( $search['address_country'] ) $column['address'][]  = 'country';
+		if ( $search['first_name'] ) {
+			$column['entry'][] = 'first_name';
+		}
 
-		if ( $search['phone_number'] ) $column['phone'][]       = 'number';
+		if ( $search['middle_name'] ) {
+			$column['entry'][] = 'middle_name';
+		}
+
+		if ( $search['last_name'] ) {
+			$column['entry'][] = 'last_name';
+		}
+
+		if ( $search['title'] ) {
+			$column['entry'][] = 'title';
+		}
+
+		if ( $search['organization'] ) {
+			$column['entry'][] = 'organization';
+		}
+
+		if ( $search['department'] ) {
+			$column['entry'][] = 'department';
+		}
+
+		if ( $search['contact_first_name'] ) {
+			$column['entry'][] = 'contact_first_name';
+		}
+
+		if ( $search['contact_last_name'] ) {
+			$column['entry'][] = 'contact_last_name';
+		}
+
+		if ( $search['bio'] ) {
+			$column['entry'][] = 'bio';
+		}
+
+		if ( $search['notes'] ) {
+			$column['entry'][] = 'notes';
+		}
+
+		if ( $search['address_line_1'] ) {
+			$column['address'][] = 'line_1';
+		}
+
+		if ( $search['address_line_2'] ) {
+			$column['address'][] = 'line_2';
+		}
+		if ( $search['address_line_3'] ) {
+			$column['address'][] = 'line_3';
+		}
+		if ( $search['address_line_4'] ) {
+			$column['address'][] = 'line_4';
+		}
+
+		if ( $search['address_district'] ) {
+			$column['address'][] = 'district';
+		}
+
+		if ( $search['address_county'] ) {
+			$column['address'][] = 'county';
+		}
+
+		if ( $search['address_city'] ) {
+			$column['address'][] = 'city';
+		}
+
+		if ( $search['address_state'] ) {
+			$column['address'][] = 'state';
+		}
+
+		if ( $search['address_zipcode'] ) {
+			$column['address'][] = 'zipcode';
+		}
+
+		if ( $search['address_country'] ) {
+			$column['address'][] = 'country';
+		}
+
+		if ( $search['phone_number'] ) {
+			$column['phone'][] = 'number';
+		}
 
 		// Add the FULLTEXT indexes.
 		if ( isset( $settings['fulltext_enabled'] ) ) {
@@ -4601,7 +4703,9 @@ class cnRegisterSettings {
 		// die;
 
 		// Ensure at least keyword search enabled if user decides to try to disable both keyword and FULLTEXT searching.
-		if ( empty( $settings['fulltext_enabled'] ) && empty( $settings['keyword_enabled'] ) ) $settings['keyword_enabled'] = 1;
+		if ( empty( $settings['fulltext_enabled'] ) && empty( $settings['keyword_enabled'] ) ) {
+			$settings['keyword_enabled'] = 1;
+		}
 
 		return $settings;
 	}

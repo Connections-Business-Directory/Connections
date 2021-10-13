@@ -56,7 +56,9 @@ class Google_Maps extends Tile_Layer {
 
 		foreach ( $this->getOptions() as $key => $value ) {
 
-			if ( 'attribution' === $key ) continue;
+			if ( 'attribution' === $key ) {
+				continue;
+			}
 
 			array_push( $options, array( 'name' => $key, 'value' => (string) $value ) );
 		}

@@ -25,7 +25,7 @@ class cnCard_Customizer {
 
 		$base = 'connections_template';
 		$slug = $template->slug;
-		//$id   = 'cn_card_border_width';
+		// $id   = 'cn_card_border_width';
 
 		$wp_customize->add_setting(
 			"{$base}_{$slug}[card][border_width]",
@@ -35,7 +35,7 @@ class cnCard_Customizer {
 				'transport'  => 'refresh',
 				'capability' => 'edit_theme_options',
 				'sanitize_callback'    => 'absint',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 
@@ -60,8 +60,8 @@ class cnCard_Customizer {
 				'default'    => '#E3E3E3',
 				'transport'  => 'refresh',
 				'capability' => 'edit_theme_options',
-				//'sanitize_callback'    => 'absint',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_callback'    => 'absint',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 
@@ -71,10 +71,10 @@ class cnCard_Customizer {
 				"cn_{$slug}_card_border_color",
 				array(
 					'label'       => __( 'Border Color', 'connections' ),
-					//'type'        => 'number',
+					// 'type'        => 'number',
 					'section'     => 'cn_template_customizer_section_style',
 					'settings'    => "{$base}_{$slug}[card][border_color]",
-					//'description' => __( 'Enter border width in pixels.', 'connections' ),
+					// 'description' => __( 'Enter border width in pixels.', 'connections' ),
 				)
 			)
 		);
@@ -87,7 +87,7 @@ class cnCard_Customizer {
 				'transport'  => 'refresh',
 				'capability' => 'edit_theme_options',
 				'sanitize_callback'    => 'absint',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 

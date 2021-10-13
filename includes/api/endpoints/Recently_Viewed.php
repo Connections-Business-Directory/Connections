@@ -75,7 +75,7 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 
 		$cookie = cnArray::get( $_COOKIE, 'cnRecentlyViewed', '[]' );
 		$recent = _::maybeJSONdecode( html_entity_decode( stripslashes( $cookie ) ) );
-		//error_log( var_export( $recent, true ) );
+		// error_log( var_export( $recent, true ) );
 
 		if ( ! is_array( $recent ) ) {
 

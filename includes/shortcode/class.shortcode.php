@@ -38,7 +38,7 @@ class cnShortcode {
 		// remove_filter( 'the_content', 'wpautop' );
 
 		add_filter( 'content_save_pre',  array( __CLASS__, 'clean' ) );
-		//add_filter( 'the_content',  array( __CLASS__, 'clean' ), 5 ); // Run before cnShortcode::single()
+		// add_filter( 'the_content',  array( __CLASS__, 'clean' ), 5 ); // Run before cnShortcode::single()
 
 		add_filter( 'content_save_pre', array( __CLASS__, 'removeCodePreTags' ) );
 		add_filter( 'the_content', array( __CLASS__, 'removeCodePreTags' ), 5 ); // Run before cnShortcode::single()
@@ -145,7 +145,7 @@ class cnShortcode {
 				// Allow [[foo]] syntax for escaping a tag.
 				if ( '[' == $shortcode[1] && ']' == $shortcode[6] ) {
 
-					//$found[] = substr( $shortcode[0], 1, -1 );
+					// $found[] = substr( $shortcode[0], 1, -1 );
 					continue;
 				}
 
@@ -268,7 +268,7 @@ class cnShortcode {
 
 		$original = $content;
 
-		//$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/isu', '$2', $content );
+		// $content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/isu', '$2', $content );
 		$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/iu', '$2', $content );
 
 		/*
@@ -301,8 +301,8 @@ class cnShortcode {
 	 */
 	public static function clean( $content ) {
 
-		//error_log( 'CURRENT FILTER: ' . current_filter() );
-		//error_log( 'PRE-CONTENT: ' . $content );
+		// error_log( 'CURRENT FILTER: ' . current_filter() );
+		// error_log( 'PRE-CONTENT: ' . $content );
 
 		/*
 		 * The $content is slashed in the `content_save_pre` filter, need to unslash it.
@@ -310,14 +310,14 @@ class cnShortcode {
 		$content = 'content_save_pre' == current_filter() ? wp_unslash( $content ) : $content;
 
 		$matches = cnShortcode::find( 'connections', $content, 'matches' );
-		//error_log( 'MATCHES: ' . json_encode( $matches, JSON_PRETTY_PRINT ) );
+		// error_log( 'MATCHES: ' . json_encode( $matches, JSON_PRETTY_PRINT ) );
 
 		if ( $matches ) {
 
 			foreach ( $matches as $match ) {
 
-				//$atts = shortcode_parse_atts( $match[3] );
-				//error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+				// $atts = shortcode_parse_atts( $match[3] );
+				// error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
 
 				$chr_map = array(
 					// Windows codepage 1252
@@ -352,7 +352,7 @@ class cnShortcode {
 				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, "UTF-8" ) );
 
 				$atts = shortcode_parse_atts( wp_unslash( $match[3] ) );
-				//error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+				// error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
 
 				$shortcode = cnShortcode::write( 'connections', $atts );
 
@@ -365,7 +365,7 @@ class cnShortcode {
 		 * The $content is slashed in the `content_save_pre` filter, need to slash it.
 		 */
 		$content = 'content_save_pre' == current_filter() ? wp_slash( $content ) : $content;
-		//error_log( 'POST-CONTENT: ' . $content . PHP_EOL );
+		// error_log( 'POST-CONTENT: ' . $content . PHP_EOL );
 
 		return $content;
 	}
@@ -729,10 +729,10 @@ class cnShortcode {
 					default:
 
 						// Ensure an array is passed the the cnRetrieve::entries method.
-						//if ( ! is_array( $atts ) ) $atts = (array) $atts;
+						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
 
 						$results = $instance->retrieve->entries( $atts );
-						//var_dump($results);
+						// var_dump($results);
 
 						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
 
@@ -746,7 +746,7 @@ class cnShortcode {
 			// Show the standard result list.
 			default:
 
-				//return cnShortcode_Connections::shortcode( $atts, $content );
+				// return cnShortcode_Connections::shortcode( $atts, $content );
 
 				if ( has_action( "cn_view_$view" ) ) {
 

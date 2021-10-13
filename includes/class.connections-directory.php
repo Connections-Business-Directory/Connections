@@ -237,7 +237,7 @@ final class Connections_Directory {
 
 			// Init the options if there is a version change just in case there were any changes.
 			if ( version_compare( self::$instance->options->getVersion(), CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
-			//self::$instance->options->setDBVersion('0.1.9'); self::$instance->options->saveOptions();
+			// self::$instance->options->setDBVersion('0.1.9'); self::$instance->options->saveOptions();
 		}
 
 		return self::$instance;

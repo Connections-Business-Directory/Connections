@@ -145,7 +145,7 @@ final class cnLink extends cnEntry_Collection_Item {
 		$this->image       = cnFormatting::toBoolean( $image );
 		$this->logo        = cnFormatting::toBoolean( $logo );
 
-		//$this->name = $types[ $this->type ];
+		// $this->name = $types[ $this->type ];
 		$this->name = array_key_exists( $this->type, $types ) ? $types[ $this->type ] : $default[ $this->type ];
 
 		if ( empty( $this->title ) ) $this->title = $this->url;

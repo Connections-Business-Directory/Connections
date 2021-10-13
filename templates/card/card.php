@@ -65,7 +65,7 @@ $notes = $entry->getNotes();
 				$entry->getContactNameBlock(
 					array(
 						'format' => $atts['contact_name_format'],
-						//'label'  => $atts['str_contact_label']
+						// 'label'  => $atts['str_contact_label']
 					)
 				);
 			}

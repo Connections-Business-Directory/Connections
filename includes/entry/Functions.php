@@ -30,7 +30,7 @@ class Functions {
 		$related = array();
 		$default = array(
 			'relation' => 'taxonomy',
-			//'taxonomy' => 'category',
+			// 'taxonomy' => 'category',
 			'order_by' => 'id|RANDOM',
 			'limit'    => 8,
 		);
@@ -201,7 +201,7 @@ class Functions {
 			'Connections_Directory/Entry/Near/Query_Parameters',
 			$queryParameters
 		);
-		//var_dump( $queryParameters );
+		// var_dump( $queryParameters );
 		if ( empty( $queryParameters['latitude'] ) && empty( $queryParameters['longitude'] ) ) {
 
 			return $nearBy;
@@ -280,5 +280,5 @@ class Functions {
 		return false;
 	}
 
-	//function popular() {}
+	// function popular() {}
 }

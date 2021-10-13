@@ -205,7 +205,7 @@ class cnScript {
 			 *       when registering the Google Maps API related dependencies.
 			 */
 			$mapDependencies = array(
-				//'leaflet-layer-deferred',
+				// 'leaflet-layer-deferred',
 				'leaflet-basemap-googlemaps',
 				'leaflet-control-geocoder-google-native',
 			);
@@ -430,11 +430,11 @@ class cnScript {
 		}
 
 		// This will locate the CSS file to be enqueued.
-		//$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
+		// $coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
 		// var_dump($coreCSS);
 
 		// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
-		//wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
+		// wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
 		wp_register_style(
 			'cn-public',
 			"{$url}assets/dist/css/frontend.css",
@@ -518,7 +518,7 @@ class cnScript {
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
-			//wp_enqueue_script( 'jquery-gomap' );
+			// wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-chosen' );
 
@@ -685,11 +685,11 @@ class cnScript {
 		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
 			wp_enqueue_style( 'cn-admin' );
-			//wp_enqueue_style( 'cn-admin-jquery-ui' );
-			//wp_enqueue_style( 'cn-admin-jquery-datepicker' );
+			// wp_enqueue_style( 'cn-admin-jquery-ui' );
+			// wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
 			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
-			//wp_enqueue_style( 'cn-brandicons' );
+			// wp_enqueue_style( 'cn-brandicons' );
 			wp_enqueue_style( 'leaflet-control-geocoder' );
 
 			if ( is_rtl() ) {
@@ -873,10 +873,10 @@ class cnScript {
 				break;
 		}
 
-		//$css .= "i[class^=cn-brandicon]:before { color: #000; }" . PHP_EOL;
+		// $css .= "i[class^=cn-brandicon]:before { color: #000; }" . PHP_EOL;
 
-		//wp_register_style( 'cn-brandicons-custom', FALSE );
-		//wp_enqueue_style( 'cn-brandicons-custom' );
+		// wp_register_style( 'cn-brandicons-custom', FALSE );
+		// wp_enqueue_style( 'cn-brandicons-custom' );
 
 		if ( 0 < strlen( $css ) ) {
 

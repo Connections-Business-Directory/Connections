@@ -41,7 +41,7 @@ class Related extends Content_Block {
 
 		if ( ! $template instanceof Template ) {
 
-			//echo '<p>' . __( 'Template not found.', 'connections' ) . '</p>';
+			// echo '<p>' . __( 'Template not found.', 'connections' ) . '</p>';
 			return;
 		}
 
@@ -54,7 +54,7 @@ class Related extends Content_Block {
 
 		if ( 0 >= count( $related ) ) {
 
-			//echo '<p>' . __( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
+			// echo '<p>' . __( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
 			return;
 		}
 
@@ -65,7 +65,7 @@ class Related extends Content_Block {
 			'autoplay'         => cnArray::get( $carousel, 'autoplay', false ),
 			'autoplaySpeed'    => cnArray::get( $carousel, 'autoplaySpeed', 3000 ),
 			'dots'             => cnArray::get( $carousel, 'dots', true ),
-			//'cssEase'          => 'ease',
+			// 'cssEase'          => 'ease',
 			'infinite'         => cnArray::get( $carousel, 'infinite', false ),
 			'lazyLoad'         => false,
 			'pauseOnFocus'     => cnArray::get( $carousel, 'pause', true ),
@@ -151,7 +151,7 @@ class Related extends Content_Block {
 		foreach ( $related as $entry ) {
 
 			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $attributes );
-			//do_action( 'cn_template-names', $entry, $template, $attributes );
+			// do_action( 'cn_template-names', $entry, $template, $attributes );
 		}
 
 		$html = ob_get_clean();

@@ -295,7 +295,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 					$this->$name = $value;
 			}
 
-			//$this->$name = $value;
+			// $this->$name = $value;
 		}
 	}
 
@@ -329,7 +329,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 					unset( $this->$name );
 			}
 
-			//unset( $this->$name );
+			// unset( $this->$name );
 		}
 	}
 

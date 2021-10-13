@@ -73,9 +73,9 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 		public static function register( $file, array $data ) {
 
 			$defaults = array(
-				//'file'      => '',
-				//'basename'  => '',
-				//'slug'      => '',
+				// 'file'      => '',
+				// 'basename'  => '',
+				// 'slug'      => '',
 				'item_id'   => 0,
 				'item_name' => '',
 				'author'    => '',
@@ -96,9 +96,9 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				return new WP_Error( 'plugin_version_not_provided', esc_html__( 'Plugin version is required.', 'connections' ), $plugin );
 			}
 
-			//$plugin['file']     = $file;
+			// $plugin['file']     = $file;
 			$plugin['basename'] = plugin_basename( $file );
-			//$plugin['slug']     = basename( $file, '.php' );
+			// $plugin['slug']     = basename( $file, '.php' );
 			$plugin['slug']     = self::get_slug( $plugin['item_name'] );
 			$plugin['item_id']  = absint( $plugin['item_id'] );
 
@@ -222,15 +222,15 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				if ( ! is_wp_error( $response ) ) {
 
 					$data = array();
-					//wp_clean_plugins_cache();
-					//cnPlugin_Updater::clear_cached_response();
+					// wp_clean_plugins_cache();
+					// cnPlugin_Updater::clear_cached_response();
 
 					foreach ( $response as $plugin ) {
 
 						$data[ $plugin->slug ] = $plugin;
 
 						// Save license data in transient.
-						//set_transient( 'connections_license-' . $plugin->slug, $plugin, DAY_IN_SECONDS );
+						// set_transient( 'connections_license-' . $plugin->slug, $plugin, DAY_IN_SECONDS );
 					}
 
 					$data['last_checked'] = time();
@@ -287,7 +287,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				'user-agent' => 'Connections Business Directory/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 			);
 
-			//$url = 'https://connections-pro.com/wp-json/cn-plugin/v1/status/';
+			// $url = 'https://connections-pro.com/wp-json/cn-plugin/v1/status/';
 			$url = sprintf( 'https://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'item-status' : 'status' ) );
 
 			if ( wp_http_supports( array( 'ssl' ) ) ) {
@@ -392,7 +392,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 					     defined( 'DOING_AJAX' ) && DOING_AJAX
 					) {
 
-						//$timeout = 2 * HOUR_IN_SECONDS; // This matches the plugin updater timeout, but lets leave at 0 for now.
+						// $timeout = 2 * HOUR_IN_SECONDS; // This matches the plugin updater timeout, but lets leave at 0 for now.
 						$timeout = 0;
 
 					} else {

@@ -73,8 +73,8 @@ class cnFormObjects {
 		echo '</form>';
 	}
 
-	//Function inspired from:
-	//http://www.melbournechapter.net/wordpress/programming-languages/php/cman/2006/06/16/php-form-input-and-cross-site-attacks/
+	// Function inspired from:
+	// http://www.melbournechapter.net/wordpress/programming-languages/php/cman/2006/06/16/php-form-input-and-cross-site-attacks/
 	/**
 	 * Creates a random token.
 	 *

@@ -79,7 +79,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		global $wpdb;
 
 		$response  = array();
-		//$total     = 0;
+		// $total     = 0;
 		$endpoints = array(
 			'name',
 			'last_name',
@@ -95,17 +95,17 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		);
 
 		$args = array(
-			//'exclude'    => $request['exclude'],
-			//'include'    => $request['include'],
+			// 'exclude'    => $request['exclude'],
+			// 'include'    => $request['include'],
 			'order'      => $request['order'],
 			'orderby'    => $request['orderby'],
-			//'post'       => $request['post'],
-			//'hide_empty' => $request['hide_empty'],
+			// 'post'       => $request['post'],
+			// 'hide_empty' => $request['hide_empty'],
 			'number'     => cnArray::get( $request, 'per_page' ),
 			'offset'     => cnArray::get( $request, 'offset' ),
 			'search'     => cnArray::get( $request, 'search' ),
 			'type'       => cnArray::get( $request, 'type' ),
-			//'slug'       => $request['slug'],
+			// 'slug'       => $request['slug'],
 		);
 
 		if ( ! in_array( $args['type'], $endpoints ) ) {

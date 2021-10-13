@@ -189,7 +189,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 
 		if ( ( ! isset( $addresses[0]->latitude ) || empty( $addresses[0]->latitude ) ) && ( ! isset( $addresses[0]->longitude ) || empty( $addresses[0]->longitude ) ) ) {
 
-			//return;
+			// return;
 		}
 
 		switch ( $entry->getEntryType() ) {
@@ -228,16 +228,16 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 				'title'        => $entry->getTitle(),
 				'department'   => $entry->getDepartment() ? array( '@type' => 'Organization', 'name' => $entry->getDepartment() ) : null,
 				'organization' => $entry->getOrganization() ? array( '@type' => 'Organization', 'name' => $entry->getOrganization() ) : null,
-				//'addresses'    => $addresses,
-				//'phone'        => $entry->getPhoneNumbers(),
-				//'email'        => $entry->getEmailAddresses(),
-				//'im'           => $entry->getIm(),
-				//'social'       => $entry->getSocialMedia(),
-				//'dates'        => $entry->getDates(),
+				// 'addresses'    => $addresses,
+				// 'phone'        => $entry->getPhoneNumbers(),
+				// 'email'        => $entry->getEmailAddresses(),
+				// 'im'           => $entry->getIm(),
+				// 'social'       => $entry->getSocialMedia(),
+				// 'dates'        => $entry->getDates(),
 				'bio'          => $entry->getBio(),
 				'notes'        => $entry->getNotes(),
-				//'categories'   => $entry->getCategory(),
-				//'meta'         => $entry->getMeta(),
+				// 'categories'   => $entry->getCategory(),
+				// 'meta'         => $entry->getMeta(),
 			),
 		);
 

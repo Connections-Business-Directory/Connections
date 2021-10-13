@@ -110,8 +110,8 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'plural'   => 'terms',
 				'singular' => 'term',
 				'ajax'     => false,
-				//'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
-				//'screen'   => "connections-{$this->taxonomy}",
+				// 'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
+				// 'screen'   => "connections-{$this->taxonomy}",
 			)
 		);
 
@@ -211,7 +211,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 					)
 				),
 				'per_page'    => $per_page,
-				//'total_pages' => $set_me, /** This will by calculated by @see WP_List_Table::set_pagination_args() if not supplied. */
+				// 'total_pages' => $set_me, /** This will by calculated by @see WP_List_Table::set_pagination_args() if not supplied. */
 			)
 		);
 
@@ -573,7 +573,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'page'            => $_GET['page'],
 				'cn-action'       => "edit_{$this->taxonomy}",
 				'id'              => $term->term_id,
-				//'wp_http_referer' => urlencode( wp_unslash( $uri ) ),
+				// 'wp_http_referer' => urlencode( wp_unslash( $uri ) ),
 			),
 			$uri
 		);

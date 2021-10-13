@@ -424,7 +424,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		if ( is_field_included( 'fn.rendered', $fields ) ) {
 
 			cnArray::set( $data, 'fn.rendered', $entry->getName() );
-			//cnArray::set( $data, 'name.rendered', $entry->getName() );
+			// cnArray::set( $data, 'name.rendered', $entry->getName() );
 		}
 
 		if ( is_field_included( 'honorific_prefix.rendered', $fields ) ) {
@@ -940,7 +940,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							array(
 								'type' => $type,
 								'size' => $size,
-								//'zc'   => cnArray::get( $image, 'zc', 1 ),
+								// 'zc'   => cnArray::get( $image, 'zc', 1 ),
 							)
 						);
 
@@ -1332,7 +1332,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address line one, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1345,7 +1345,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address line two, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1358,7 +1358,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address line three, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1371,7 +1371,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address line four, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1384,7 +1384,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address district, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1397,7 +1397,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address county, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1410,7 +1410,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address locality, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1423,7 +1423,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address region, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1436,7 +1436,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address post code, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1449,7 +1449,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'HTML address country, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1509,7 +1509,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'Phone number, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1553,7 +1553,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 										'description' => __( 'Email address, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										//'readonly'    => true,
+										// 'readonly'    => true,
 									),
 								),
 							),

@@ -49,7 +49,7 @@ class Blocks {
 	public static function enqueueEditorAssets() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		//$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
 		$path = Connections_Directory()->pluginPath();
 
@@ -107,7 +107,7 @@ class Blocks {
 	public static function enqueueAssets() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		//$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
 		$path = Connections_Directory()->pluginPath();
 

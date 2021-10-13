@@ -763,7 +763,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		$offset = $this->limit * ( $this->step - 1 );
 
-		//if ( 6 <= $this->step ) return FALSE;
+		// if ( 6 <= $this->step ) return FALSE;
 
 		$sql = $wpdb->prepare(
 			'SELECT SQL_CALC_FOUND_ROWS *
@@ -910,7 +910,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				$terms = $this->getTerms( $entry->id, 'category' );
 
 				foreach ( $terms as $term ) {
-					//$terms[] = $parent . ':' . $term->term_id;
+					// $terms[] = $parent . ':' . $term->term_id;
 					if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) $names[] = $term->name;
 				}
 

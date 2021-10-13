@@ -91,12 +91,12 @@ class Taxonomy extends Content_Block {
 			'label'            => $this->taxonomy->getLabels()->content_block_label_colon,
 			'separator'        => ', ',
 			'parent_separator' => ' &raquo; ',
-			//'before'           => '',
-			//'after'            => '',
+			// 'before'           => '',
+			// 'after'            => '',
 			'link'             => false,
 			'parents'          => false,
 			'child_of'         => 0,
-			//'return'           => FALSE,
+			// 'return'           => FALSE,
 		);
 
 		return apply_filters(

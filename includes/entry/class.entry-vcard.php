@@ -490,7 +490,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 		$this->vCard->set( 'CLASS', 'PUBLIC' );
 
 		// Set the timestamp (ISO 8601 formatted UTC date/time) for the last time the vCard was updated.
-		//$this->vCard->set( 'REV', date( 'Ymd\THis\Z', $this->getUnixTimeStamp() ) );
+		// $this->vCard->set( 'REV', date( 'Ymd\THis\Z', $this->getUnixTimeStamp() ) );
 
 		// Set the time zone of the vCard.
 		$this->vCard->set( 'TZ', $this->getUTCOffset() );
@@ -529,7 +529,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		if ( 'vcard' === $process ) {
 
-			$slug = cnQuery::getVar( 'cn-entry-slug' ); //var_dump($slug);
+			$slug = cnQuery::getVar( 'cn-entry-slug' ); // var_dump($slug);
 
 			/*
 			 * If the token and id values were set, the link was likely from the admin.
@@ -551,11 +551,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 					wp_die( __( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry ); //var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry ); // var_dump($vCard);die;
 
 			} else {
 
-				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); //var_dump($entry);die;
+				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); // var_dump($entry);die;
 
 				// Die if no entry was found.
 				if ( empty( $entry ) ) {
@@ -563,16 +563,16 @@ class cnEntry_vCard extends cnEntry_HTML {
 					wp_die( __( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry[0] ); //var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry[0] ); // var_dump($vCard);die;
 			}
 
-			$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
+			$filename = sanitize_file_name( $vCard->getName() ); // var_dump($filename);
 			$data     = $vCard->data()->fetch();
 
 			header( 'Content-Description: File Transfer' );
 			header( 'Content-Type: application/octet-stream' );
 			header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
-			//header( 'Content-Length: ' . strlen( $data ) );
+			// header( 'Content-Length: ' . strlen( $data ) );
 			header( 'Pragma: public' );
 			header( "Pragma: no-cache" );
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );

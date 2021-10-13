@@ -234,7 +234,7 @@ class cnDashboardMetabox {
 				if ( is_wp_error( $rss ) ) {
 
 					echo '<p>' , sprintf( __( "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for updates.", 'connections' ), $metabox['args']['feed'] ) , '</p>';
-					echo '</div>'; //close out the rss-widget before returning.
+					echo '</div>'; // close out the rss-widget before returning.
 
 					return;
 
@@ -438,7 +438,7 @@ class cnDashboardMetabox {
 	public static function partners() {
 
 		$logo = CN_URL . 'assets/images/tsl-logo-v3.png';
-		//$url  = self_admin_url( 'plugin-install.php/?s=Connections+Business+Directory+Mobile+App+Manager+Plugin&tab=search&type=term');
+		// $url  = self_admin_url( 'plugin-install.php/?s=Connections+Business+Directory+Mobile+App+Manager+Plugin&tab=search&type=term');
 		$url  = self_admin_url( 'plugin-install.php?tab=connections' );
 		?>
 		<div class="two-third">

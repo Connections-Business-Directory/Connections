@@ -157,7 +157,7 @@ class cnTimezone {
 	public function get_utc_offset( $format = 's' ) {
 
 		// Calculate the UTC offset using the raw offset and dst offset.
-		//$minutes    = ( $this->get_raw_offset() + $this->get_dst_offset() ) / MINUTE_IN_SECONDS;
+		// $minutes    = ( $this->get_raw_offset() + $this->get_dst_offset() ) / MINUTE_IN_SECONDS;
 
 		// Calculate the UTC offset using the DateTimeZone object.
 		$timezone = new DateTimeZone( $this->get_id() );
@@ -274,7 +274,7 @@ class cnTimezone {
 		$datetime = new DateTime( "@$timestamp" );
 		$datetime->setTimezone( new DateTimeZone( $this->get_id() ) );
 
-		//return date( $format, $timestamp );
+		// return date( $format, $timestamp );
 		return $datetime;
 	}
 

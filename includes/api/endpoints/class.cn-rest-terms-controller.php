@@ -172,9 +172,9 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			$prepared_args['offset'] = ( $request['page'] - 1 ) * $prepared_args['number'];
 		}
 
-		//$taxonomy_obj = get_taxonomy( $this->taxonomy );
+		// $taxonomy_obj = get_taxonomy( $this->taxonomy );
 
-		//if ( $taxonomy_obj->hierarchical && isset( $request['parent'] ) ) {
+		// if ( $taxonomy_obj->hierarchical && isset( $request['parent'] ) ) {
 		if ( 0 === $request['parent'] ) {
 			// Only query top-level terms.
 			$prepared_args['parent'] = 0;
@@ -183,7 +183,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 				$prepared_args['parent'] = $request['parent'];
 			}
 		}
-		//}
+		// }
 
 		/**
 		 * Filter the query arguments, before passing them to `cnTerm::getTaxonomyTerms()`.
@@ -866,7 +866,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	public function get_collection_params() {
 
 		$query_params = parent::get_collection_params();
-		//$taxonomy = get_taxonomy( $this->taxonomy );
+		// $taxonomy = get_taxonomy( $this->taxonomy );
 
 		$query_params['context']['default'] = 'view';
 

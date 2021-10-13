@@ -1888,7 +1888,7 @@ class cnImage {
 		$file['size']     = filesize( $path . $filename );
 		$file['tmp_name'] = $path . $filename;
 		$file['error']    = 0;
-		//var_dump( $file );
+		// var_dump( $file );
 
 		$sideload = new cnUpload( $file, $atts );
 
@@ -1987,7 +1987,7 @@ class cnImage {
 		);
 
 		$id = media_handle_sideload( $file_array, 0 );
-		//$attachment_url = wp_get_attachment_url( $id );
+		// $attachment_url = wp_get_attachment_url( $id );
 
 		// Check for handle sideload errors:
 		if ( is_wp_error( $id ) ) {
@@ -2114,14 +2114,14 @@ class cnImage {
 				return $saved;
 			}
 
-			//$image['name'] = ''; Does not change because it is being overwritten.
+			// $image['name'] = ''; Does not change because it is being overwritten.
 			$image['path'] = $saved['path'];
-			//$image['url'] = ''; @todo This may need updated if the file name has changed.
+			// $image['url'] = ''; @todo This may need updated if the file name has changed.
 			$image['width']  = $saved['width'];
 			$image['height'] = $saved['height'];
 			$image['size']   = "width=\"{$saved['width']}\" height=\"{$saved['height']}\"";
 			$image['mime']   = $saved['mime-type'];
-			//$image['type'] = 0; @todo This might need to be updated if the image type has changed.
+			// $image['type'] = 0; @todo This might need to be updated if the image type has changed.
 
 		}
 

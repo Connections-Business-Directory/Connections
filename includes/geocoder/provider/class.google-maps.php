@@ -492,7 +492,7 @@ final class Google_Maps implements Provider {
 			case 'administrative_area_level_4':
 			case 'administrative_area_level_5':
 
-				//$builder->addAdminLevel( intval( substr( $type, - 1 ) ), $values->long_name, $values->short_name );
+				// $builder->addAdminLevel( intval( substr( $type, - 1 ) ), $values->long_name, $values->short_name );
 				$builder->setMeta( $type, $values->long_name );
 				break;
 
@@ -529,13 +529,13 @@ final class Google_Maps implements Provider {
 
 			case 'sublocality':
 
-				//$builder->setSubLocality( $values->long_name );
+				// $builder->setSubLocality( $values->long_name );
 				$builder->setMeta( $type, $values->long_name );
 				break;
 
 			case 'street_address':
 			case 'intersection':
-			//case 'political':
+			// case 'political':
 			case 'colloquial_area':
 			case 'ward':
 			case 'neighborhood':

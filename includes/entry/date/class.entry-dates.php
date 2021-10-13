@@ -342,7 +342,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -528,7 +528,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			 */
 			$date = apply_filters( 'cn_date-pre_setup', $date );
 
-			//$this->add( cnEntry_Date::create( $date ) );
+			// $this->add( cnEntry_Date::create( $date ) );
 
 			$item = cnEntry_Date::create( $date );
 

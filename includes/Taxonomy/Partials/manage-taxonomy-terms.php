@@ -92,7 +92,7 @@ $table->prepare_items();
 						array(
 							'class'  => 'validate',
 							'id'     => 'addtag',
-							//'action' => '',
+							// 'action' => '',
 							'method' => 'post',
 						)
 					);

@@ -9,7 +9,7 @@
  * @version 0.7.3.1
  */
 
-/// Exit if accessed directly
+// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -151,7 +151,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			$tabs = apply_filters( 'cn_register_settings_tabs', $tabs );
 			$tabs = apply_filters( 'cn_filter_settings_tabs', $tabs );
-			//var_dump($tabs);
+			// var_dump($tabs);
 
 			if ( ! empty( $tabs ) ) {
 
@@ -200,7 +200,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			$sections = apply_filters( 'cn_register_settings_sections', $sections );
 			$sections = apply_filters( 'cn_filter_settings_sections', $sections );
-			//print_r($sections);
+			// print_r($sections);
 
 			if ( empty( $sections ) ) return;
 
@@ -232,7 +232,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						$section['callback'],
 						$section['page_hook']
 					);
-					//global $wp_settings_sections;print_r($wp_settings_sections);
+					// global $wp_settings_sections;print_r($wp_settings_sections);
 				}
 			}
 
@@ -334,7 +334,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			$fields = apply_filters( 'cn_register_settings_fields', $fields );
 			$fields = apply_filters( 'cn_filter_settings_fields', $fields ); // @todo:  At some point delete this line
-			//var_dump($fields);
+			// var_dump($fields);
 
 			if ( empty( $fields ) ) return;
 
@@ -686,7 +686,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						 * appended to the page hook. If this is not done the settings registered to the current tab will
 						 * not be saved.
 						 */
-						//global $new_whitelist_options;print_r($new_whitelist_options);
+						// global $new_whitelist_options;print_r($new_whitelist_options);
 						?>
 						<?php settings_fields( $optionGroup ); ?>
 
@@ -741,13 +741,13 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			if ( in_array( $field['section'] , self::$coreSections ) ) {
 
-				$value = get_option( $field['id'] ); //print_r($value);
+				$value = get_option( $field['id'] ); // print_r($value);
 				$name  = sprintf( '%1$s', $field['id'] );
 
 			} else {
 
 				$values = get_option( $field['section'] );
-				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : null; //print_r($value);
+				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : null; // print_r($value);
 				$name   = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 			}
 
@@ -1234,7 +1234,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						$order = array();
 
 						// Remove any content blocks that no longer exist.
-						//$blocks = array_intersect_key( $value['type'], array_flip( $value['order'] ) );
+						// $blocks = array_intersect_key( $value['type'], array_flip( $value['order'] ) );
 						$blocks = array_intersect_key(
 							array_merge(
 								$field['options']['items'],
@@ -1274,7 +1274,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'name'    => esc_attr( $name ) . '[active][]',
 									'checked' => 'checked="checked"',
 									'disabled'=> true,
-									//'label'   => $label,
+									// 'label'   => $label,
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1300,8 +1300,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
-									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
-									//'label'   => $label,
+									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									// 'label'   => $label,
 									'disabled'=> true,
 									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
 									'layout'  => '%field%',
@@ -1332,8 +1332,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
-									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
-									//'label'   => $label,
+									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									// 'label'   => $label,
 									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
 									'layout'  => '%field%',
 									'return'  => true,
@@ -1435,7 +1435,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						$order = array();
 
 						// Remove any content blocks that no longer exist.
-						//$blocks = array_intersect_key( $value['type'], array_flip( $value['order'] ) );
+						// $blocks = array_intersect_key( $value['type'], array_flip( $value['order'] ) );
 						$blocks = array_intersect_key(
 							array_merge(
 								$field['options']['items'],
@@ -1458,8 +1458,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						$blocks = $field['options']['items'];
 					}
 
-					//$blocks['%token%'] = 'template';
-					//$blocks = array( '%token%' => '%template%') + $blocks;
+					// $blocks['%token%'] = 'template';
+					// $blocks = array( '%token%' => '%template%') + $blocks;
 
 					foreach ( $blocks as $key => $label ) {
 
@@ -1488,7 +1488,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'name'    => esc_attr( $name ) . '[active][]',
 									'checked' => 'checked="checked"',
 									'disabled'=> true,
-									//'label'   => $label,
+									// 'label'   => $label,
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1514,8 +1514,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
-									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
-									//'label'   => $label,
+									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									// 'label'   => $label,
 									'disabled'=> true,
 									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
 									'layout'  => '%field%',
@@ -1550,9 +1550,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[icon][' . $key . '][name]',
 									'name'    => esc_attr( $name ) . '[icon][' . $key . '][name]',
-									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
-									//'label'   => $label,
-									//'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									// 'label'   => $label,
+									// 'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
 									'data'    => array(
 										'id'         => esc_attr( $name ) . '[icon][%token%][name]',
 										'name'       => esc_attr( $name ) . '[icon][%token%][name]',
@@ -1930,7 +1930,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		public static function get( $pluginID, $section = '', $option = '' ) {
 
 			$settings = array();
-			//var_dump($this->registry[$pluginID]);
+			// var_dump($this->registry[$pluginID]);
 
 			// Return all the specified plugin options registered using this API.
 			if ( array_key_exists( $pluginID, self::$registry ) ) {

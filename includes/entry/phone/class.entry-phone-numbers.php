@@ -343,7 +343,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -532,7 +532,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 			 */
 			$phone = apply_filters( 'cn_phone-pre_setup', $phone );
 
-			//$this->add( cnPhone::create( $phone ) );
+			// $this->add( cnPhone::create( $phone ) );
 			$this->items->push( cnPhone::create( $phone ) );
 
 			$order++;

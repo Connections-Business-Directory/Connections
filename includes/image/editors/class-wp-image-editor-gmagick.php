@@ -395,7 +395,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 		// Set correct file permissions
 		$stat  = stat( dirname( $filename ) );
-		$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
+		$perms = $stat['mode'] & 0000666; // same permissions as parent folder, strip off the executable bits
 		@ chmod( $filename, $perms );
 
 		/** This filter is documented in wp-includes/class-wp-image-editor-gd.php */

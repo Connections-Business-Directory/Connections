@@ -440,7 +440,7 @@ HERERDOC;
 			'help'              => '',
 			'type'              => 'checkbox',
 			'default'           => '',
-			//'sanitize_callback' => array( $this, 'sanitizeBeta' ),
+			// 'sanitize_callback' => array( $this, 'sanitizeBeta' ),
 		);
 
 		return $fields;
@@ -523,7 +523,7 @@ HERERDOC;
 
 		$sections = maybe_unserialize( $info->sections );
 
-		//--> START Changelog
+		// --> START Changelog
 		if ( isset( $sections['changelog'] ) && ! empty( $sections['changelog'] ) ) {
 
 			// Create the regex that'll parse the changelog for the latest version.
@@ -531,7 +531,7 @@ HERERDOC;
 			$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
 
 			preg_match( $regex, $sections['changelog'], $matches );
-			//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
 			// NOTE: If readme.txt support was not enabled for plugin, parse the changelog meta added by EDD-SL.
 			if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) {
@@ -540,7 +540,7 @@ HERERDOC;
 				$regex = '~<(p)>(?:<strong>)?=\s' . preg_quote( $info->new_version ) . '.+?(?:</strong>)?</\1>(.+?)<p>~is';
 
 				preg_match( $regex, $sections['changelog'], $matches );
-				//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+				// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 			}
 
 			// Check if If changelog is found for the current version.
@@ -574,7 +574,7 @@ HERERDOC;
 				}
 			}
 		}
-		//--> END Changelog
+		// --> END Changelog
 
 		echo '<p class="cn-update-message-p-clear-before">'; // Required to open a </p> tag that exists when this action is run.
 	}
@@ -711,7 +711,7 @@ HERERDOC;
 		} elseif ( isset( $data->success ) && true === $data->success ) {
 
 			// Get the status if the item's license key.
-			//$status = self::status( $license->name, $license->key );
+			// $status = self::status( $license->name, $license->key );
 
 			// If there was no error message, display the current license status.
 			switch ( $data->license ) {
@@ -847,7 +847,7 @@ HERERDOC;
 		$size   = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 		// Get the status if the item's license key.
-		//$status = self::status( $field['title'], $value );
+		// $status = self::status( $field['title'], $value );
 		$status = self::statusMessage( $this );
 
 		// Render the text input.
@@ -940,7 +940,7 @@ HERERDOC;
 			$data[ $this->slug ] = array();
 
 			update_option( 'connections_license_data', $data, false );
-			//delete_transient( 'connections_license-' . $this->slug );
+			// delete_transient( 'connections_license-' . $this->slug );
 		}
 
 		return $settings;
@@ -972,7 +972,7 @@ HERERDOC;
 		// Run on activate button press
 		if ( isset( $_POST[ $this->slug . '-activate_license' ] ) ) {
 
-			//delete_transient( 'connections_license-' . $this->slug );
+			// delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
 			$keys = get_option( 'connections_licenses' );
@@ -991,7 +991,7 @@ HERERDOC;
 			// Save the license key.
 			update_option( 'connections_licenses', $keys, false );
 
-			//wp_clean_plugins_cache();
+			// wp_clean_plugins_cache();
 			cnPlugin_Updater::clear_cached_response();
 		}
 	}
@@ -1020,10 +1020,10 @@ HERERDOC;
 		// Run on deactivate button press
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
 
-			//delete_transient( 'connections_license-' . $this->slug );
+			// delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
-			//$keys = get_option( 'connections_licenses' );
+			// $keys = get_option( 'connections_licenses' );
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `deactivated`, no need to attempt to deactivate the key again; bail.
@@ -1032,7 +1032,7 @@ HERERDOC;
 			// Deactivate the license.
 			self::license( 'deactivate', $this->name, $this->key );
 
-			//wp_clean_plugins_cache();
+			// wp_clean_plugins_cache();
 			cnPlugin_Updater::clear_cached_response();
 		}
 	}
@@ -1165,7 +1165,7 @@ HERERDOC;
 				update_option( 'connections_license_data', $licenses, false );
 
 				// Save license data in transient.
-				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
@@ -1190,14 +1190,14 @@ HERERDOC;
 				update_option( 'connections_license_data', $licenses, false );
 
 				// Save license data in transient.
-				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
 			case 'status':
 
 				// Save license data in transient.
-				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 		}

@@ -491,7 +491,7 @@ class cnTemplatePart {
 
 		$out .= ob_get_clean();
 
-		//  This action only is required when the index is to be displayed.
+		// This action only is required when the index is to be displayed.
 		if ( ! $isSingle && ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) ) {
 
 			// The character index template part.
@@ -604,7 +604,7 @@ class cnTemplatePart {
 				printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
 			}
 
-			//  This action only is required when the index is to be displayed.
+			// This action only is required when the index is to be displayed.
 			if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
 
 				// The character index template part.
@@ -1110,7 +1110,7 @@ class cnTemplatePart {
 		$defaults = array(
 			'type'       => 'home',
 			'text'       => __( 'Go back to directory.', 'connections' ),
-			//'on_click' => 'history.back();return false;',
+			// 'on_click' => 'history.back();return false;',
 			'force_home' => $atts['force_home'],
 			'home_id'    => $atts['home_id'],
 			'return'   => false,
@@ -1217,7 +1217,7 @@ class cnTemplatePart {
 		// Get the directory home page ID.
 		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
 
-		//$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE;
+		// $addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE;
 
 		// The base post permalink is required, do not filter the permalink thru cnSEO.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink( false );
@@ -2213,7 +2213,7 @@ class cnTemplatePart {
 				$breadcrumb = '';
 			}
 
-			//$currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
+			// $currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
 
 			$html = '<span class="cn-category-breadcrumb-home">' . $home . $atts['separator'] . '</span>' . $breadcrumb . '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $current->term_id ) . '">' . esc_html( $current->name ) . '</span>';
 

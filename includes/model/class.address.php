@@ -124,9 +124,9 @@ class Address {
 			'line_4'      => null,
 			'district'    => null,
 			'county'      => null,
-			'locality'    => null, //city
-			'region'      => null, //state
-			'postal_code' => null, //zipcode
+			'locality'    => null, // city
+			'region'      => null, // state
+			'postal_code' => null, // zipcode
 			'country'     => null,
 			'coordinates' => null,
 			'bounds'      => null,

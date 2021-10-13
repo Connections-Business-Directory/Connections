@@ -78,8 +78,8 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 				'plural'   => 'email',
 				'singular' => 'email',
 				'ajax'     => false,
-				//'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
-				//'screen'   => "connections-{$this->taxonomy}",
+				// 'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
+				// 'screen'   => "connections-{$this->taxonomy}",
 			)
 		);
 	}
@@ -207,7 +207,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 			'post_parent'    => null,
 			'type'           => $type,
 			'paged'          => $this->offset,
-			//'meta_query'     => $this->get_meta_query(),
+			// 'meta_query'     => $this->get_meta_query(),
 			'posts_per_page' => $this->number,
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
@@ -526,7 +526,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$viewURL = esc_url( $viewURL );
 		$subject = esc_html( $log['subject'] );
 
-		//$action = ;
+		// $action = ;
 
 		$deleteURL = $form->tokenURL(
 			add_query_arg(

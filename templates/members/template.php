@@ -38,7 +38,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 	$member_group = new cnEntry();
 
 	// Create the popup container
-	//$member_popup_info = '<div id="popup-group-name"><span>' . $entry->getFamilyName() . '</span></div>';
+	// $member_popup_info = '<div id="popup-group-name"><span>' . $entry->getFamilyName() . '</span></div>';
 
 	// Set a counter
 	$counter = 0;
@@ -65,7 +65,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 		// List home number for family
 		foreach ( $value_homephone as $key_homenumber => $value_homenumber ) {
-			//echo "Home Key: " . $key_homenumber . " Home Value: " . $value_homenumber . "<br />";
+			// echo "Home Key: " . $key_homenumber . " Home Value: " . $value_homenumber . "<br />";
 
 			// Check for home number
 			if ( $key_homenumber == 'type' && $value_homenumber == 'homephone' ) {
@@ -85,7 +85,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 	foreach ( $entry->getAddresses() as $value_address ) {
 
 		// List all addresses
-		//foreach ( $value_addresses as $value_address) {
+		// foreach ( $value_addresses as $value_address) {
 
 		// list each address
 		if ( $value_address->type == 'home' ) {
@@ -147,7 +147,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			$member_popup_info .= '</iframe>';
 			$member_popup_info .= '</div>';
 		}
-		//}
+		// }
 	}
 
 	// Search for member info

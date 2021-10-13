@@ -506,7 +506,7 @@ final class Term {
 				'Connections_Directory/Query/Term/Get_Terms/Properties'
 			);
 
-			//$this->sql_clauses['where']['inclusions'] = 't.term_id IN ( ' . $inclusions . ' )';
+			// $this->sql_clauses['where']['inclusions'] = 't.term_id IN ( ' . $inclusions . ' )';
 		}
 
 		$exclusions = array();

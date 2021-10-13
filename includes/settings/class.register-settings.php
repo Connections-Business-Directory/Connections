@@ -1360,9 +1360,9 @@ class cnRegisterSettings {
 			'type'      => 'checkbox-group',
 			'options'   => array(
 				'prefix'       => __( 'Prefix', 'connections' ),
-				//'first'        => __( 'First Name', 'connections' ),
+				// 'first'        => __( 'First Name', 'connections' ),
 				'middle'       => __( 'Middle Name', 'connections' ),
-				//'last'         => __( 'Last Name', 'connections' ),
+				// 'last'         => __( 'Last Name', 'connections' ),
 				'suffix'       => __( 'Suffix', 'connections' ),
 				'title'        => __( 'Title', 'connections' ),
 				'organization' => __( 'Organization', 'connections' ),
@@ -1370,9 +1370,9 @@ class cnRegisterSettings {
 			),
 			'default'   => array(
 				'prefix',
-				//'first',
+				// 'first',
 				'middle',
-				//'last',
+				// 'last',
 				'suffix',
 				'title',
 				'organization',
@@ -1399,7 +1399,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox-group',
 			'options'   => array(
-				//'organization'       => __( 'Organization', 'connections' ),
+				// 'organization'       => __( 'Organization', 'connections' ),
 				'department'         => __( 'Department', 'connections' ),
 				'contact_first_name' => __( 'Contact First Name', 'connections' ),
 				'contact_last_name'  => __( 'Contact Last Name', 'connections' ),
@@ -4475,9 +4475,9 @@ class cnRegisterSettings {
 		global $wpdb;
 
 		$fields = $settings['fields'];
-		//var_dump($fields);
+		// var_dump($fields);
 
-		//$wpdb->show_errors();
+		// $wpdb->show_errors();
 
 		/*
 		 * The permitted fields that are supported for FULLTEXT searching.
@@ -4531,18 +4531,18 @@ class cnRegisterSettings {
 
 		$search['phone_number']       = in_array( 'phone_number' , $fields ) ? true : false;
 
-		//var_dump($search);
+		// var_dump($search);
 
 		/*
 		 * Drop the current FULLTEXT indexes.
 		 */
-		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
+		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE KEY_NAME = \'search\'' ); // var_dump($indexExists);
 		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' DROP INDEX search' );
 
-		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
+		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE KEY_NAME = \'search\'' ); // var_dump($indexExists);
 		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' DROP INDEX search' );
 
-		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
+		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE KEY_NAME = \'search\'' ); // var_dump($indexExists);
 		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' DROP INDEX search' );
 
 		/*
@@ -4596,9 +4596,9 @@ class cnRegisterSettings {
 				);
 			}
 		}
-		//$wpdb->hide_errors();
+		// $wpdb->hide_errors();
 
-		//die;
+		// die;
 
 		// Ensure at least keyword search enabled if user decides to try to disable both keyword and FULLTEXT searching.
 		if ( empty( $settings['fulltext_enabled'] ) && empty( $settings['keyword_enabled'] ) ) $settings['keyword_enabled'] = 1;

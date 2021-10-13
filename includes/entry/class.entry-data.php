@@ -294,7 +294,7 @@ class cnEntry {
 	 */
 	private $sortColumn;
 
-	//private $updateObjectCache = FALSE;
+	// private $updateObjectCache = FALSE;
 
 	/**
 	 * Stored the directory home page ID and whether or no to force permalinks to the directory home.
@@ -2129,7 +2129,7 @@ class cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getDates()' );
 
-		//Create the anniversary with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
+		// Create the anniversary with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
 		$this->anniversary = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1972 ) : '';
 	}
 
@@ -2185,7 +2185,7 @@ class cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry::getDates()' );
 
-		//Create the birthday with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
+		// Create the birthday with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
 		$this->birthday = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1972 ) : '';
 	}
 
@@ -2230,7 +2230,7 @@ class cnEntry {
 		 * Use date_i18n() so the date is localized.
 		 */
 		return date_i18n( $format, strtotime( gmdate( 'c', $nextUDay ) ) );
-		//return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
+		// return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
 	}
 
 	/**
@@ -2443,8 +2443,8 @@ class cnEntry {
 							array(
 								'child_of'   => $atts['child_of'],
 								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more then one level deep are not returned.
-								//'object_ids' => $id,
-								//'include'    => $term_ids,
+								// 'object_ids' => $id,
+								// 'include'    => $term_ids,
 							)
 						);
 
@@ -3274,13 +3274,13 @@ class cnEntry {
 				'family_name'        => $this->familyName,
 				'birthday'           => $this->birthday,
 				'anniversary'        => $this->anniversary,
-				//'addresses'          => $this->addresses,
-				//'phone_numbers'      => $this->phoneNumbers,
-				//'email'              => $this->emailAddresses,
-				//'im'                 => $this->im,
-				//'social'             => $this->socialMedia,
-				//'links'              => $this->links,
-				//'dates'              => $this->dates,
+				// 'addresses'          => $this->addresses,
+				// 'phone_numbers'      => $this->phoneNumbers,
+				// 'email'              => $this->emailAddresses,
+				// 'im'                 => $this->im,
+				// 'social'             => $this->socialMedia,
+				// 'links'              => $this->links,
+				// 'dates'              => $this->dates,
 				'options'            => wp_json_encode( $this->options ),
 				'bio'                => $this->bio,
 				'notes'              => $this->notes,
@@ -3311,13 +3311,13 @@ class cnEntry {
 				'%s', // family_name
 				'%s', // birthday
 				'%s', // anniversary
-				//'%s', // addresses
-				//'%s', // phone_numbers
-				//'%s', // email
-				//'%s', // im
-				//'%s', // social
-				//'%s', // links
-				//'%s', // dates
+				// '%s', // addresses
+				// '%s', // phone_numbers
+				// '%s', // email
+				// '%s', // im
+				// '%s', // social
+				// '%s', // links
+				// '%s', // dates
 				'%s', // options
 				'%s', // bio
 				'%s', // notes
@@ -3331,7 +3331,7 @@ class cnEntry {
 			)
 		);
 
-		//print_r($wpdb->last_query);
+		// print_r($wpdb->last_query);
 
 		/*
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.
@@ -3447,13 +3447,13 @@ class cnEntry {
 				'department'         => $this->department,
 				'contact_first_name' => $this->contactFirstName,
 				'contact_last_name'  => $this->contactLastName,
-				//'addresses'          => $this->addresses,
-				//'phone_numbers'      => $this->phoneNumbers,
-				//'email'              => $this->emailAddresses,
-				//'im'                 => $this->im,
-				//'social'             => $this->socialMedia,
-				//'links'              => $this->links,
-				//'dates'              => $this->dates,
+				// 'addresses'          => $this->addresses,
+				// 'phone_numbers'      => $this->phoneNumbers,
+				// 'email'              => $this->emailAddresses,
+				// 'im'                 => $this->im,
+				// 'social'             => $this->socialMedia,
+				// 'links'              => $this->links,
+				// 'dates'              => $this->dates,
 				'birthday'           => $this->birthday,
 				'anniversary'        => $this->anniversary,
 				'bio'                => $this->bio,
@@ -3484,13 +3484,13 @@ class cnEntry {
 				'%s', // department
 				'%s', // contact_first_name
 				'%s', // contact_last_name
-				//'%s', // addresses
-				//'%s', // phone_numbers
-				//'%s', // email
-				//'%s', // im
-				//'%s', // social
-				//'%s', // links
-				//'%s', // dates
+				// '%s', // addresses
+				// '%s', // phone_numbers
+				// '%s', // email
+				// '%s', // im
+				// '%s', // social
+				// '%s', // links
+				// '%s', // dates
 				'%s', // birthday
 				'%s', // anniversary
 				'%s', // bio

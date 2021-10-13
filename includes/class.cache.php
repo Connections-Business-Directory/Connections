@@ -415,7 +415,7 @@ class cnCache {
 
 			if ( true === $key ) {
 
-				//$group_key = like_escape( $group_key );
+				// $group_key = like_escape( $group_key );
 				$group_key = $wpdb->esc_like( $group_key );
 
 				$wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE option_name LIKE '_transient_{$group_key}%' OR option_name LIKE '_transient_timeout_{$group_key}%'" );
@@ -435,7 +435,7 @@ class cnCache {
 
 			if ( true === $key ) {
 
-				//$group_key = like_escape( $group_key );
+				// $group_key = like_escape( $group_key );
 				$group_key = $wpdb->esc_like( $group_key );
 
 				$wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE option_name LIKE '_site_transient_{$group_key}%' OR option_name LIKE '_site_transient_timeout_{$group_key}%'" );

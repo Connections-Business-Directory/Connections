@@ -43,11 +43,11 @@ $check = new cnRequirements_Check(
 		'file'     => __FILE__,
 		'requirements' => array(
 			'php' => array(
-				'min' => '5.6.20', //5.6.20 -- The minimum PHP version that WordPress 5.2 requires.
-				'max' => '8.0', //7.4
+				'min' => '5.6.20', // 5.6.20 -- The minimum PHP version that WordPress 5.2 requires.
+				'max' => '8.0', // 7.4
 			),
 			'wp'  => array(
-				'min' => '5.1', //4.7.12
+				'min' => '5.1', // 4.7.12
 				'max' => '5.8',
 			),
 		),

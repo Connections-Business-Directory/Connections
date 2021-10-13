@@ -51,8 +51,8 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 				 * Imagick available via the command line. Crosses fingers :/ ...
 				 */
 
-				//if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
-				//$this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
+				// if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
+				// $this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
 
 				// Add the alpha channel
 				/** @todo Text how this affects an image which already has an alpha channel. */

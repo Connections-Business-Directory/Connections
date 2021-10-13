@@ -492,10 +492,10 @@ class cnDependency {
 			// Geocoder
 			'Connections_Directory\Geocoder\Geocoder'                         => 'includes/geocoder/class.geocoder.php',
 			'Connections_Directory\Geocoder\Assert'                           => 'includes/geocoder/class.assert.php',
-			//'Connections_Directory\Geocoder\Exception\Exception'              => 'includes/geocoder/exception/interface.exception.php',
-			//'Connections_Directory\Geocoder\Exception\Invalid_Argument'       => 'includes/geocoder/exception/class.invalid-argument.php',
-			//'Connections_Directory\Geocoder\Exception\Logic_Exception'        => 'includes/geocoder/exception/class.logic-exception.php',
-			//'Connections_Directory\Geocoder\Model\Address'                    => 'includes/geocoder/model/class.address.php',
+			// 'Connections_Directory\Geocoder\Exception\Exception'              => 'includes/geocoder/exception/interface.exception.php',
+			// 'Connections_Directory\Geocoder\Exception\Invalid_Argument'       => 'includes/geocoder/exception/class.invalid-argument.php',
+			// 'Connections_Directory\Geocoder\Exception\Logic_Exception'        => 'includes/geocoder/exception/class.logic-exception.php',
+			// 'Connections_Directory\Geocoder\Model\Address'                    => 'includes/geocoder/model/class.address.php',
 			'Connections_Directory\Geocoder\Model\Address_Builder'            => 'includes/geocoder/model/class.address-builder.php',
 			'Connections_Directory\Geocoder\Query\Query'                      => 'includes/geocoder/query/interface.query.php',
 			'Connections_Directory\Geocoder\Query\Address'                    => 'includes/geocoder/query/class.address.php',
@@ -509,7 +509,7 @@ class cnDependency {
 			// Map
 			'Connections_Directory\Map\Map'                                   => 'includes/map/class.map.php',
 			'Connections_Directory\Map\Map_Object'                            => 'includes/map/interface.map-object.php',
-			//'Connections_Directory\Map\Layer'                                 => 'includes/map/class.layer.php',
+			// 'Connections_Directory\Map\Layer'                                 => 'includes/map/class.layer.php',
 			'Connections_Directory\Map\Layer\Layer'                           => 'includes/map/layer/interface.layer.php',
 			'Connections_Directory\Map\Layer\Abstract_Layer'                  => 'includes/map/layer/abstract.layer.php',
 			'Connections_Directory\Map\Layer\Group\Layer_Group'               => 'includes/map/layer/group/class.layer-group.php',
@@ -522,8 +522,8 @@ class cnDependency {
 			'Connections_Directory\Map\Control\Layer\Layer_Control'           => 'includes/map/control/layer/class.layer.php',
 			'Connections_Directory\Map\UI\Marker'                             => 'includes/map/ui/class.marker.php',
 			'Connections_Directory\Map\UI\Popup'                              => 'includes/map/ui/class.popup.php',
-			//'Connections_Directory\Map\Marker'                                => 'includes/map/class.marker.php',
-			//'Connections_Directory\Map\Marker_Collection'                     => 'includes/map/class.marker-collection.php',
+			// 'Connections_Directory\Map\Marker'                                => 'includes/map/class.marker.php',
+			// 'Connections_Directory\Map\Marker_Collection'                     => 'includes/map/class.marker-collection.php',
 			'Connections_Directory\Map\Common\Options'                        => 'includes/map/common/trait.options.php',
 			'Connections_Directory\Map\Common\Popup_Trait'                    => 'includes/map/common/trait.popup.php',
 
@@ -547,9 +547,9 @@ class cnDependency {
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
 
 			// Third Party Libraries
-			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
-			//'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
-			//'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',
+			// 'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
+			// 'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
+			// 'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',
 		);
 	}
 }

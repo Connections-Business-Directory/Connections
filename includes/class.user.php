@@ -88,7 +88,7 @@ class cnUser {
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -162,7 +162,7 @@ class cnUser {
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -205,7 +205,7 @@ class cnUser {
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -241,7 +241,7 @@ class cnUser {
 		update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -342,7 +342,7 @@ class cnUser {
 
 		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
 
-		//$user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
+		// $user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
 		cnArray::set( $user_meta, 'ui.category_div_height', absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) ) );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );

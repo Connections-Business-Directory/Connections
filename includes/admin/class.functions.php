@@ -90,8 +90,8 @@ class cnAdminFunction {
 			// if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_exists_failed' );
 			// if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_writeable_failed' );
 
-			//if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
-			//if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
+			// if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
+			// if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
 
 			// Add Settings link to the plugin actions
 			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
@@ -387,7 +387,7 @@ class cnAdminFunction {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		//$page = $instance->currentUser->getFilterPage( 'manage' );
+		// $page = $instance->currentUser->getFilterPage( 'manage' );
 		$page = $instance->user->getScreenOption(
 			'manage',
 			'pagination',
@@ -512,11 +512,11 @@ class cnAdminFunction {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		//var_dump( get_current_screen()->id );
-		//var_dump( $instance->pageHook );
+		// var_dump( get_current_screen()->id );
+		// var_dump( $instance->pageHook );
 
 		if ( in_array( get_current_screen()->id, get_object_vars( $instance->pageHook ) ) ) {
-		//if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
+		// if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
 
 			$rate_text = sprintf(
 				__(

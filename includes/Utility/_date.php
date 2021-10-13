@@ -233,7 +233,7 @@ final class _date {
 				 * No need to add the date format escaping character to the regex since it should not exist in the
 				 * supplied datetime string. Including it would cause the preg_match to fail.
 				 */
-				//$regex .= $char;
+				// $regex .= $char;
 
 			} else {
 
@@ -469,6 +469,6 @@ final class _date {
 		 * Use date_i18n() so the date is localized.
 		 */
 		return date_i18n( $format, strtotime( gmdate( 'c', $nextUDay ) ) );
-		//return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
+		// return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
 	}
 }

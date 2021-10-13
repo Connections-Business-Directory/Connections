@@ -195,7 +195,7 @@ class cnRewrite {
 		$namespace = self::$namespace;
 
 		foreach ( get_post_types( array( '_builtin' => false, 'publicly_queryable' => true, 'rewrite' => true ), 'objects' ) as $postType ) {
-			//var_dump( $postType );
+			// var_dump( $postType );
 
 			$postTypeToken = "%{$namespace}CPT_{$postType->name}%";
 
@@ -391,7 +391,7 @@ class cnRewrite {
 		$base = get_option( 'connections_permalink' );
 
 		$character    = isset( $base['character_base'] ) && $base['character_base'] ? $base['character_base'] : 'char';
-		//$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
+		// $category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
 		$country      = isset( $base['country_base'] ) && $base['country_base'] ? $base['country_base'] : 'country';
 		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
 		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
@@ -594,7 +594,7 @@ class cnRewrite {
 		$base = get_option( 'connections_permalink' );
 
 		$character    = isset( $base['character_base'] ) && $base['character_base'] ? $base['character_base'] : 'char';
-		//$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
+		// $category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
 		$country      = isset( $base['country_base'] ) && $base['country_base'] ? $base['country_base'] : 'country';
 		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
 		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';

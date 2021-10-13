@@ -126,10 +126,10 @@ class cnTerms {
 				"SELECT DISTINCT tt.term_id from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE $field = %s ",
 				$value
 			);
-			//print_r($queryTermID . '<br /><br />');
+			// print_r($queryTermID . '<br /><br />');
 
 			$termID = $wpdb->get_var( $queryTermID );
-			//print_r($termID . '<br /><br />');
+			// print_r($termID . '<br /><br />');
 
 			// If the term is a root parent, skip continue.
 			if ( empty( $termID ) ) {
@@ -146,7 +146,7 @@ class cnTerms {
 			"SELECT DISTINCT * from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE parent = %d ",
 			$termID
 		);
-		//print_r($queryChildrenIDs . '<br /><br />');
+		// print_r($queryChildrenIDs . '<br /><br />');
 
 		$terms = $wpdb->get_results( $queryChildrenIDs );
 
@@ -2381,7 +2381,7 @@ class cnTerm {
 		 */
 		// @todo Re-implement the action, currently it conflicts with the `cn_delete_category` action in:
 		// ../includes/admin/class.actions.php
-		//do_action( "cn_delete_$taxonomy", $term, $tt_id, $deleted_term );
+		// do_action( "cn_delete_$taxonomy", $term, $tt_id, $deleted_term );
 
 		return true;
 	}
@@ -2649,7 +2649,7 @@ class cnTerm {
 			$object_ids = array( $object_ids );
 		}
 
-		//$taxonomies = get_object_taxonomies( $object_type );
+		// $taxonomies = get_object_taxonomies( $object_type );
 		if ( ! is_array( $object_type ) ) {
 
 			$taxonomies = array( $object_type );
@@ -2768,7 +2768,7 @@ class cnTerm {
 			}
 
 			if ( ! $_term = wp_cache_get( $term, 'cn_' . $taxonomy ) ) {
-			//if ( TRUE ) {
+			// if ( TRUE ) {
 
 				$_term = $wpdb->get_row( $wpdb->prepare( 'SELECT t.*, tt.* FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND t.term_id = %d LIMIT 1', $taxonomy, $term ) );
 
@@ -3426,7 +3426,7 @@ class cnTerm {
 
 		if ( ! empty( $atts['search'] ) ) {
 
-			//$atts['search'] = like_escape( $atts['search'] );
+			// $atts['search'] = like_escape( $atts['search'] );
 			$atts['search'] = $wpdb->esc_like( $atts['search'] );
 			$where[]        = $wpdb->prepare( 'AND ( (t.name LIKE %s) OR (t.slug LIKE %s) )', '%' . $atts['search'] . '%', '%' . $atts['search'] . '%' );
 		}
@@ -3469,7 +3469,7 @@ class cnTerm {
 
 			case 'count':
 				$orderBy = '';
-				//$order   = '';
+				// $order   = '';
 				$select  = array( 'COUNT(*)' );
 				break;
 
@@ -4222,7 +4222,7 @@ class cnTerm {
 	public static function permalink( $term, $taxonomy = '', $atts = array() ) {
 
 		/** @var $wp_rewrite WP_Rewrite */
-		//global $wp_rewrite;
+		// global $wp_rewrite;
 
 		$defaults = array(
 			'force_home' => false,
@@ -4452,4 +4452,4 @@ class cnTerm {
 }
 
 // Make `meta_query` arguments work.
-//add_filter( 'cn_terms_clauses',  array( 'cnTerm', 'getTaxonomyTermsClauses'  ), 10, 3 );
+// add_filter( 'cn_terms_clauses',  array( 'cnTerm', 'getTaxonomyTermsClauses'  ), 10, 3 );

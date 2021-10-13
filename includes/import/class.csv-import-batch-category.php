@@ -107,7 +107,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 										 * Parent > Child > Grandchild
 										 */
 										$terms = array_map( 'trim', explode( '>', $item ) );
-										//error_log( 'Hierarchy: ' . print_r( $terms, TRUE ) );
+										// error_log( 'Hierarchy: ' . print_r( $terms, TRUE ) );
 
 										$parent_id = $this->importAncestors( $terms, $parent_id );
 
@@ -185,7 +185,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 * Name|slug
 			 */
 			$term = array_map( 'trim', explode( '|', $term ) );
-			//error_log( 'Category: ' . print_r( $term, TRUE ) );
+			// error_log( 'Category: ' . print_r( $term, TRUE ) );
 
 			/**
 			 * Since we're importing a term's ancestors, if an integer is found, assume it is a term ID of an existing
@@ -197,11 +197,11 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 */
 			$name = is_numeric( $term[0] )? absint( $term[0] ): $term[0];
 			$slug = isset( $term[1] ) && ! empty( $term[1] ) ? $term[1] : '';
-			//error_log( 'Slug: ' . print_r( $slug, TRUE ) );
-			//error_log( 'Parent ID: ' . print_r( $parent_id, TRUE ) );
+			// error_log( 'Slug: ' . print_r( $slug, TRUE ) );
+			// error_log( 'Parent ID: ' . print_r( $parent_id, TRUE ) );
 
 			$exists = $this->termExists( $name, $slug, $parent_id );
-			//error_log( 'Exists: ' . print_r( $exists, TRUE ) );
+			// error_log( 'Exists: ' . print_r( $exists, TRUE ) );
 
 			// Term does not exist, create it.
 			if ( false === $exists ) {
@@ -211,13 +211,13 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 				if ( ! is_wp_error( $result ) ) {
 
 					$parent_id = (int) $result['term_id'];
-					//error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
+					// error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
 				}
 
 			} elseif ( is_int( $exists ) ) {
 
 				$parent_id = $exists;
-				//error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
+				// error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
 			}
 		}
 

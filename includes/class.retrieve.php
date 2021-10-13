@@ -102,7 +102,7 @@ class cnRetrieve {
 		$defaults['category__not_in']      = _array::get( $atts, 'exclude_category', array() );
 		$defaults['category_name__in']     = _array::get( $atts, 'category_name', array() );
 		$defaults['category_slug__in']     = _array::get( $atts, 'category_slug', array() );
-		//$defaults['wp_current_category']   = FALSE;
+		// $defaults['wp_current_category']   = FALSE;
 		$defaults['char']                  = '';
 		$defaults['id']                    = null;
 		$defaults['id__not_in']            = null;
@@ -173,7 +173,7 @@ class cnRetrieve {
 			$atts['category__and']       = null;
 			$atts['category__not_in']    = null;
 			$atts['category__and']       = null;
-			//$atts['wp_current_category'] = NULL;
+			// $atts['wp_current_category'] = NULL;
 		}
 
 		if ( ! empty( $atts['slug'] ) ) {
@@ -220,7 +220,7 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['search_terms'] ) ) {
 			$searchResults = $this->search( array( 'terms' => $atts['search_terms'] ) );
-			//print_r($searchResults);
+			// print_r($searchResults);
 
 			// If there were no results, add a WHERE clause that will not return results when performing the whole query.
 			if ( empty( $searchResults ) ) {
@@ -331,8 +331,8 @@ class cnRetrieve {
 		/*
 		 * // START --> Geo-limit the query.
 		 */
-		//$atts['latitude'] = 40.3663671;
-		//$atts['longitude'] = -75.8876941;
+		// $atts['latitude'] = 40.3663671;
+		// $atts['longitude'] = -75.8876941;
 
 		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) {
 			$earthRadius = 6371;  // Earth's radius in (SI) km.
@@ -400,8 +400,8 @@ class cnRetrieve {
 			'state',
 			'zipcode',
 			'country',
-			//'birthday',
-			//'anniversary',
+			// 'birthday',
+			// 'anniversary',
 			'sort_column'
 		);
 
@@ -549,7 +549,7 @@ class cnRetrieve {
 				}
 			}
 		}
-		//}
+		// }
 
 		if ( ! empty( $atts['meta_query'] ) ) {
 
@@ -638,11 +638,11 @@ class cnRetrieve {
 			// print_r($sql);
 		}
 
-		//if ( ! $results = $this->results( $sql ) ) {
+		// if ( ! $results = $this->results( $sql ) ) {
 
 			$results = $wpdb->get_results( $sql );
 
-			//$this->cache( $sql, $results );
+			// $this->cache( $sql, $results );
 
 			// The most recent query to have been executed by cnRetrieve::entries
 			$instance->lastQuery      = $wpdb->last_query;
@@ -661,7 +661,7 @@ class cnRetrieve {
 			$instance->resultCountNoLimit    = $foundRows[0]->{'FOUND_ROWS()'};
 			$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
 
-		//}
+		// }
 
 		// The total number of entries based on user permissions.
 		// $instance->recordCount         = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'] ) );
@@ -947,7 +947,7 @@ class cnRetrieve {
 
 			// Store the entryIDs that are to be excluded.
 			$results = $wpdb->get_col( $sql );
-			//print_r($results);
+			// print_r($results);
 
 			if ( ! empty( $results ) ) {
 
@@ -976,7 +976,7 @@ class cnRetrieve {
 
 				// Store the entryIDs that exist on all of the supplied category IDs
 				$results = $wpdb->get_col( $sql );
-				//print_r($results);
+				// print_r($results);
 
 				if ( ! empty( $results ) ) {
 					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
@@ -1532,7 +1532,7 @@ class cnRetrieve {
 					$visibility[] = 'unlisted';
 				}
 
-				//var_dump( $visibility );
+				// var_dump( $visibility );
 				if ( empty( $visibility ) ) $visibility[] = 'none';
 
 			} else {
@@ -1544,7 +1544,7 @@ class cnRetrieve {
 			}
 
 		} else {
-			//var_dump( $connections->options->getAllowPublic() ); die;
+			// var_dump( $connections->options->getAllowPublic() ); die;
 
 			// Display the 'public' entries if the user is not required to be logged in.
 			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
@@ -1780,10 +1780,10 @@ class cnRetrieve {
 			// print_r($sql);
 
 			// At this point there is likely little need to provide backwards support, lets remove it for now.
-			//$legacy = $wpdb->get_results( $sql );
+			// $legacy = $wpdb->get_results( $sql );
 			// var_dump($legacy);
 
-			//if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
+			// if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
 		}
 
 		if ( ! empty( $upcoming ) ) {
@@ -2763,10 +2763,10 @@ class cnRetrieve {
 		if ( empty( $atts['terms'] ) ) return array();
 
 		// If value is a string, stripe the white space and covert to an array.
-		//if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ', trim( $atts['terms'] ) );
+		// if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ', trim( $atts['terms'] ) );
 
 		// Trim any white space from around the terms in the array.
-		//array_walk( $atts['terms'] , 'trim' );
+		// array_walk( $atts['terms'] , 'trim' );
 
 		$original = $atts['terms'];
 
@@ -3140,10 +3140,10 @@ class cnRetrieve {
 				$sql =  'SELECT ' . CN_ENTRY_TABLE . '.id
 									FROM ' . CN_ENTRY_TABLE . '
 									WHERE (' . implode( ') OR (' , $like ) . ')';
-				//print_r($sql);
+				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
-				//print_r($results);die;
+				// print_r($results);die;
 			}
 
 			/*
@@ -3166,10 +3166,10 @@ class cnRetrieve {
 				$sql =  'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_ADDRESS_TABLE . '
 									WHERE (' . implode( ') OR (' , $like ) . ')';
-				//print_r($sql);
+				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
-				//print_r($results);
+				// print_r($results);
 			}
 
 			/*
@@ -3192,10 +3192,10 @@ class cnRetrieve {
 				$sql =  'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_PHONE_TABLE . '
 									WHERE (' . implode( ') OR (' , $like ) . ')';
-				//print_r($sql);
+				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
-				//print_r($results);
+				// print_r($results);
 			}
 
 		}
@@ -3442,7 +3442,7 @@ class cnRetrieve {
 						$addresses = $entry->getAddresses();
 
 						foreach ( $addresses as $address ) {
-							//${$field[0]}[$key] = $address[$field[0]];
+							// ${$field[0]}[$key] = $address[$field[0]];
 							${$field[0]}[$key] = $address->$field[0];
 
 							// Only set the data from the first address.
@@ -3539,7 +3539,7 @@ class cnRetrieve {
 		// Must be pass as reference or the multisort will fail.
 		$sortParams[] = &$entries;
 
-		//$sortParams = array(&$state, SORT_ASC, SORT_REGULAR, &$zipcode, SORT_DESC, SORT_STRING, &$entries);
+		// $sortParams = array(&$state, SORT_ASC, SORT_REGULAR, &$zipcode, SORT_DESC, SORT_STRING, &$entries);
 		call_user_func_array( 'array_multisort', $sortParams );
 
 		return $entries;

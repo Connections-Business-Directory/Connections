@@ -69,7 +69,7 @@ final class Yoast_SEO {
 		}
 
 		// Do not init the core WordPress sitemaps integration.
-		//remove_action( 'init', 'Connections_Directory\Sitemaps\init', 11 );
+		// remove_action( 'init', 'Connections_Directory\Sitemaps\init', 11 );
 
 		// Sitemaps
 		add_action( 'init', array( __CLASS__, 'registerSitemapProviders' ), 12 );
@@ -133,7 +133,7 @@ final class Yoast_SEO {
 			add_filter( 'wpseo_opengraph_desc', array( __CLASS__, 'transformDescription' ), 10, 2 );
 			add_filter( 'wpseo_opengraph_url', array( __CLASS__, 'transformURL' ), 10, 2 );
 			add_filter( 'wpseo_add_opengraph_images', array( __CLASS__, 'addImage' ) );
-			//add_filter( 'wpseo_opengraph_image', array( __CLASS__, 'transformImage'), 10, 2 );
+			// add_filter( 'wpseo_opengraph_image', array( __CLASS__, 'transformImage'), 10, 2 );
 
 			add_filter( 'wpseo_twitter_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
 			add_filter( 'wpseo_twitter_description', array( __CLASS__, 'transformDescription' ), 10, 2 );

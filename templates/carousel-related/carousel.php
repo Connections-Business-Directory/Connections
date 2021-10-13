@@ -60,7 +60,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Related_Carousel' ) ) {
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
-				//'parts'       => array( 'css' => 'styles.css' ),
+				// 'parts'       => array( 'css' => 'styles.css' ),
 			);
 
 			cnTemplateFactory::register( $atts );

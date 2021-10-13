@@ -73,7 +73,7 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 	public function getData() {
 
 		/** @var wpdb $wpdb */
-		//global $wpdb;
+		// global $wpdb;
 
 		$data   = array();
 		$offset = $this->limit * ( $this->step - 1 );
@@ -135,7 +135,7 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 
 		foreach ( $terms as $term ) {
 
-			//$text = "{$term->name}|{$term->slug}";
+			// $text = "{$term->name}|{$term->slug}";
 			$text = '';
 
 			$this->_buildHierarchy( $term, $text );

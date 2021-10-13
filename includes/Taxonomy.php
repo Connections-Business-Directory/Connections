@@ -366,10 +366,10 @@ final class Taxonomy {
 			'hierarchical'                => false,
 			'show_ui'                     => null,
 			'show_in_menu'                => null,
-			//'show_in_nav_menus'           => null,
-			//'show_tagcloud'               => null,
-			//'show_in_quick_edit'          => null,
-			//'show_admin_column'           => false,
+			// 'show_in_nav_menus'           => null,
+			// 'show_tagcloud'               => null,
+			// 'show_in_quick_edit'          => null,
+			// 'show_admin_column'           => false,
 			'register_content_block'      => true,
 			'register_widget'             => true,
 			'content_block_props'         => array(),
@@ -531,7 +531,7 @@ final class Taxonomy {
 			$namespace = cnRewrite::$namespace;
 
 			$tag   = "%{$namespace}_{$this->name}%";
-			$query = $this->query_var ? "{$this->query_var}=" : "taxonomy={$this->name}&term="; //@todo The "taxonomy={$this->name}&term=" is not likely needed.
+			$query = $this->query_var ? "{$this->query_var}=" : "taxonomy={$this->name}&term="; // @todo The "taxonomy={$this->name}&term=" is not likely needed.
 
 			if ( $this->hierarchical && $this->rewrite['hierarchical'] ) {
 				$regex = '(.+?)';
@@ -540,7 +540,7 @@ final class Taxonomy {
 			}
 
 			add_rewrite_tag( $tag, $regex, $query );
-			//add_permastruct( $name, "%pagename%/{$this->rewrite['slug']}/%{$name}%/country/%Connections_Directory\country%", $this->rewrite );
+			// add_permastruct( $name, "%pagename%/{$this->rewrite['slug']}/%{$name}%/country/%Connections_Directory\country%", $this->rewrite );
 
 			// Add filter that add the rewrite rules.
 			add_filter( 'Connections_Directory/Rewrite/Root_Rules/Taxonomy', array( $this, 'addRootRewriteRules' ), 10, 2 );
@@ -579,7 +579,7 @@ final class Taxonomy {
 		if ( false !== $this->rewrite ) {
 
 			remove_rewrite_tag( $tag );
-			//remove_permastruct( $name );
+			// remove_permastruct( $name );
 
 			remove_filter( 'Connections_Directory/Rewrite/Root_Rules/Taxonomy', array( $this , 'addRootRewriteRules' ) );
 			remove_filter( 'Connections_Directory/Rewrite/Page_Rules/Taxonomy', array( $this , 'addPageRewriteRules' ) );
@@ -658,7 +658,7 @@ final class Taxonomy {
 		remove_filter( 'cn_submenu', array( $this, 'registerAdminMenu' ) );
 		remove_filter( "Connections_Directory/Taxonomy/{$this->name}/Sanitize_Terms", $this->meta_box_sanitize_cb );
 		remove_action( "Connections_Directory/Attach/Taxonomy/{$this->name}", array( $this, 'attachTerms' ) );
-		//remove_filter( 'map_meta_cap', array( $this, 'mapCapabilities' ) );
+		// remove_filter( 'map_meta_cap', array( $this, 'mapCapabilities' ) );
 		remove_filter( 'user_has_cap', array( $this, 'userHasCapability' ) );
 		remove_action( 'init', array( $this, 'registerContentBlock' ), 18 );
 		remove_action( 'Connections_Directory/Content_Blocks/Register', array( $this, 'registerContentBlock' ) );
@@ -1160,7 +1160,7 @@ final class Taxonomy {
 		$defaults['all_items']      = $defaults['menu_name'];
 		$defaults['archives']       = $defaults['all_items'];
 
-		//$defaults = clone ( (object) $core );
+		// $defaults = clone ( (object) $core );
 
 		/**
 		 * Filters the labels of a specific taxonomy.
@@ -1441,7 +1441,7 @@ final class Taxonomy {
 
 		$block->setProperties( $this->content_block_render_props );
 
-		//Content_Blocks::instance()->add( $block );
+		// Content_Blocks::instance()->add( $block );
 		$registry->add( $block );
 	}
 
@@ -1825,7 +1825,7 @@ final class Taxonomy {
 		// Do not set term relationships if $termIDs is empty because if updating, it will delete existing relationships.
 		if ( ! empty( $termIDs ) ) {
 
-			//Connections_Directory()->term->setTermRelationships( $id, $termIDs, $taxonomy );
+			// Connections_Directory()->term->setTermRelationships( $id, $termIDs, $taxonomy );
 			$this->attachTerms( $entry, $termIDs );
 		}
 	}

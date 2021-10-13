@@ -178,7 +178,7 @@ class cnTemplate {
 		$this->thumbnail   = $atts->thumbnail;
 		$this->functions   = $atts->functions;
 		$this->parts       = $atts->parts;
-		//$this->supports    = $atts->supports;
+		// $this->supports    = $atts->supports;
 
 		/**
 		 * @todo This code is commented out for now because it was implemented in @see cnTemplate_Customizer().
@@ -192,7 +192,7 @@ class cnTemplate {
 
 		// This filter will add the minified CSS and JS to the search paths if SCRIPT_DEBUG is not defined
 		// or set to FALSE.
-		//add_filter( 'cn_template_file_names-' . $this->slug, array( $this, 'minifiedFileNames' ), 11, 5 );
+		// add_filter( 'cn_template_file_names-' . $this->slug, array( $this, 'minifiedFileNames' ), 11, 5 );
 
 		// This will locate the template card to be used.
 		$templatePath = $this->locate( $this->fileNames( 'card' ) );
@@ -205,7 +205,7 @@ class cnTemplate {
 			if ( ! has_action( 'cn_template-' . $this->slug ) ) {
 
 				// Add the action which will include the template file. The action is executed in cnTemplate_Part::cards().
-				//add_action( 'cn_template-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
+				// add_action( 'cn_template-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
 				add_action(
 					'cn_template-' . $this->slug,
 					function( $entry, $template, $atts ) use ( $templatePath ) {
@@ -217,7 +217,7 @@ class cnTemplate {
 				);
 
 				// @todo This is a legacy action that should be removed at some point in the future. 04.11.2014
-				//add_action( 'cn_action_card-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
+				// add_action( 'cn_action_card-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
 				add_action(
 					'cn_action_card-' . $this->slug,
 					function( $entry, $template, $atts ) use ( $templatePath ) {
@@ -686,7 +686,7 @@ class cnTemplate {
 				// var_dump( $absolutePath );
 
 				if ( file_exists( $absolutePath ) ) {
-					//var_dump( $absolutePath );
+					// var_dump( $absolutePath );
 
 					return $absolutePath;
 				}
@@ -923,7 +923,7 @@ class cnTemplate {
 		$name = array_filter( $name );
 		$name = implode( '-', $name ) . '.' . $ext;
 
-		//return strtolower( sanitize_file_name( $name ) );
+		// return strtolower( sanitize_file_name( $name ) );
 		return strtolower( $name );
 	}
 

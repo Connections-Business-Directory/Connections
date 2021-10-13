@@ -1005,7 +1005,7 @@ class cnEntryMetabox {
 		$region  = $autofillRegion ? $defaultRegion : '';
 		$country = $autofillCountry ? $defaultCountry : '';
 
-		//var_dump( array_fill_keys()$addressTypes );
+		// var_dump( array_fill_keys()$addressTypes );
 		echo '<div class="widgets-sortables ui-sortable" id="addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -1017,7 +1017,7 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$addresses = $entry->getAddresses( array(), false, false, 'edit' );
-		//print_r($addresses);
+		// print_r($addresses);
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
@@ -1114,7 +1114,7 @@ class cnEntryMetabox {
 								'id'       => 'address[' . $token . '][type]',
 								'options'  => $addressTypes,
 								'required' => false,
-								//'before'   => '',
+								// 'before'   => '',
 								'label'    => __( 'Address Type', 'connections' ),
 								'return'   => false,
 							),
@@ -1128,9 +1128,9 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'address[' . $token . '][type]',
-								//'options'  => $addressTypes,
-								//'required' => FALSE,
-								//'before'   => '',
+								// 'options'  => $addressTypes,
+								// 'required' => FALSE,
+								// 'before'   => '',
 								'label'    => __( 'Address Type', 'connections' ),
 								'return'   => false,
 							),
@@ -1542,8 +1542,8 @@ class cnEntryMetabox {
 							'type'     => 'hidden',
 							'class'    => '',
 							'id'       => 'phone[' . $token . '][type]',
-							//'options'  => $phoneTypes,
-							//'required' => FALSE,
+							// 'options'  => $phoneTypes,
+							// 'required' => FALSE,
 							'label'    => __( 'Phone Type', 'connections' ),
 							'return'   => false,
 						),
@@ -1757,8 +1757,8 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'email[' . $token . '][type]',
-								//'options'  => $emailTypes,
-								//'required' => FALSE,
+								// 'options'  => $emailTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'Email Type', 'connections' ),
 								'return'   => false,
 							),
@@ -1971,8 +1971,8 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'im[' . $token . '][type]',
-								//'options'  => $messengerTypes,
-								//'required' => FALSE,
+								// 'options'  => $messengerTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'IM Type', 'connections' ),
 								'return'   => false,
 							),
@@ -2183,8 +2183,8 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'social[' . $token . '][type]',
-								//'options'  => $socialTypes,
-								//'required' => FALSE,
+								// 'options'  => $socialTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'Social Network', 'connections' ),
 								'return'   => false,
 							),
@@ -2402,8 +2402,8 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'link[' . $token . '][type]',
-								//'options'  => $linkTypes,
-								//'required' => FALSE,
+								// 'options'  => $linkTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'Type', 'connections' ),
 								'return'   => false,
 							),

@@ -47,9 +47,9 @@ class cnPlugin_Updater {
 	public static function register( $file, array $data ) {
 
 		$defaults = array(
-			//'file'      => '',
-			//'basename'  => '',
-			//'slug'      => '',
+			// 'file'      => '',
+			// 'basename'  => '',
+			// 'slug'      => '',
 			'item_id'   => 0,
 			'item_name' => '',
 			'author'    => '',
@@ -70,7 +70,7 @@ class cnPlugin_Updater {
 			return new WP_Error( 'plugin_version_not_provided', esc_html__( 'Plugin version is required.', 'connections' ), $plugin );
 		}
 
-		//$plugin['file']     = $file;
+		// $plugin['file']     = $file;
 		$plugin['basename'] = plugin_basename( $file );
 		$plugin['slug']     = basename( $file, '.php' );
 		$plugin['item_id']  = absint( $plugin['item_id'] );
@@ -134,7 +134,7 @@ class cnPlugin_Updater {
 	public static function init() {
 
 		// Uncomment for testing.
-		//delete_site_transient( 'update_plugins' );
+		// delete_site_transient( 'update_plugins' );
 
 		self::hooks();
 	}
@@ -161,7 +161,7 @@ class cnPlugin_Updater {
 		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 9 );
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
-		//add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
+		// add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
 		add_action( 'admin_init', array( __CLASS__, 'update_plugins_clear' ) );
 	}
 
@@ -359,7 +359,7 @@ class cnPlugin_Updater {
 					$no_update[ $plugin->plugin ] = $plugin;
 				}
 
-				//$transient->checked[ $plugin->plugin ] = self::$plugins[ $plugin->plugin ]['version'];
+				// $transient->checked[ $plugin->plugin ] = self::$plugins[ $plugin->plugin ]['version'];
 			}
 
 			/*
@@ -367,7 +367,7 @@ class cnPlugin_Updater {
 			 */
 			self::set_cached_response( $update, $no_update, $checked );
 
-			//if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
+			// if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
 		}
 
 		// Update the license statuses.

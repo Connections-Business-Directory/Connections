@@ -343,7 +343,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -532,7 +532,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 			 */
 			$email = apply_filters( 'cn_email-pre_setup', $email );
 
-			//$this->add( cnEmail_Address::create( $email ) );
+			// $this->add( cnEmail_Address::create( $email ) );
 			$this->items->push( cnEmail_Address::create( $email ) );
 
 			$order++;

@@ -72,7 +72,7 @@ function cn_enqueue_enfold_css_override() {
 	}
 }
 
-//add_action( 'wp', 'cn_enqueue_enfold_css_override', 11 ); // Priority 11 to run after core CSS.
+// add_action( 'wp', 'cn_enqueue_enfold_css_override', 11 ); // Priority 11 to run after core CSS.
 
 /**
  * Dequeue the Striking theme CSS on the Connections admin pages.

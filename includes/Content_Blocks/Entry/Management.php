@@ -30,8 +30,8 @@ class Management extends Content_Block {
 
 		$atts = array(
 			'name'                => __( 'Entry Management', 'connections' ),
-			//'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Javascript',
-			//'style_handle'        => 'wp-jquery-ui-dialog',
+			// 'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Javascript',
+			// 'style_handle'        => 'wp-jquery-ui-dialog',
 			'permission_callback' => array( $this, 'permission' ),
 		);
 

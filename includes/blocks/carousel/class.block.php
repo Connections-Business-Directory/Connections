@@ -29,11 +29,11 @@ class Carousel {
 				'attributes'      => array(
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
+				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
-				//'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				//'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
+				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
+				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
@@ -587,7 +587,7 @@ class Carousel {
 		/**
 		 * @link https://iandunn.name/2016/10/22/accessing-post-meta-and-more-via-post-meta_key/
 		 */
-		//$post = get_queried_object();
+		// $post = get_queried_object();
 		$meta = \cnFunction::decodeJSON( $post->_cbd_carousel_blocks, true );
 
 		if ( is_wp_error( $meta ) ) {
@@ -630,7 +630,7 @@ class Carousel {
 			'autoplay'         => cnArray::get( $carousel, 'autoplay', false ),
 			'autoplaySpeed'    => cnArray::get( $carousel, 'autoplaySpeed', 3000 ),
 			'dots'             => cnArray::get( $carousel, 'dots', true ),
-			//'cssEase'          => 'ease',
+			// 'cssEase'          => 'ease',
 			'infinite'         => cnArray::get( $carousel, 'infinite', false ),
 			'lazyLoad'         => false,
 			'pauseOnFocus'     => cnArray::get( $carousel, 'pause', true ),

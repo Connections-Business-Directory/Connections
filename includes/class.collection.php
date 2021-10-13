@@ -1202,14 +1202,14 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 
 		$results = array();
 
-		//$callback = $this->valueRetriever( $callback );
+		// $callback = $this->valueRetriever( $callback );
 
 		// First we will loop through the items and get the comparator from a callback
 		// function which we were given. Then, we will sort the returned values and
 		// and grab the corresponding values for the sorted keys from this array.
 		foreach ( $this->items as $key => $value ) {
 
-			//$results[ $key ] = $callback( $value, $key );
+			// $results[ $key ] = $callback( $value, $key );
 
 			$results[ $key ] = $this->useAsCallable( $callback ) ? $callback( $value, $key ) : cnArray::data_get( $value, $callback );
 		}

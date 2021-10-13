@@ -134,7 +134,7 @@ class cnEntry_HTML extends cnEntry {
 	public function getImage( $atts = array() ) {
 
 		$displayImage  = false;
-		//$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+		// $cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 		$tag           = array();
 		$srcset        = array();
@@ -226,7 +226,7 @@ class cnEntry_HTML extends cnEntry {
 
 							// Since this is a custom size of an image we can not know which crop mode to use.
 							// Set the crop mode the the value set in $atts['zc'].
-							//$cropMode = $atts['zc'];
+							// $cropMode = $atts['zc'];
 
 							// Add the image to the scrset.
 							$srcset['image_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -257,7 +257,7 @@ class cnEntry_HTML extends cnEntry {
 							} else {
 
 								// Set the crop mode to the value saved in the settings.
-								//$cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+								// $cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 								// Add the image to the scrset.
 								$srcset[ 'image_' . $size ] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -296,7 +296,7 @@ class cnEntry_HTML extends cnEntry {
 					$atts['class'] = 'cn-image logo';
 					$atts['alt']   = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
 					$atts['title'] = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
-					//$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+					// $cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 					$atts['alt']   = apply_filters( 'cn_logo_alt', $atts['alt'], $this );
 					$atts['title'] = apply_filters( 'cn_logo_title', $atts['title'], $this );
@@ -1782,7 +1782,7 @@ class cnEntry_HTML extends cnEntry {
 			'preferred' => null,
 			'type'      => null,
 			'format'    => '',
-			//'style'     => 'wpzoom',
+			// 'style'     => 'wpzoom',
 			'size'      => 32,
 			'separator' => ':',
 			'before'    => '',
@@ -1806,31 +1806,31 @@ class cnEntry_HTML extends cnEntry {
 		$networks = $this->getSocialMedia( $atts, $cached );
 		$search   = array( '%label%', '%url%', '%icon%', '%separator%' );
 
-		//$iconStyles = array( 'wpzoom' );
+		// $iconStyles = array( 'wpzoom' );
 		$iconSizes = array( 16, 24, 32, 48, 64 );
 
 		/*
 		 * Ensure the supplied icon style and size are valid, if not reset to the default values.
 		 */
-		//$iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
+		// $iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
 		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
 		if ( empty( $networks ) ) return '';
 
-		//$out = '<span class="social-media-block">' . PHP_EOL;
+		// $out = '<span class="social-media-block">' . PHP_EOL;
 
 		$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
 
 		foreach ( $networks as $network ) {
 			$replace   = array();
-			//$iconClass = array();
+			// $iconClass = array();
 
 			/*
 			 * Create the icon image class. This array will implode to a string.
 			 */
-			//$iconClass[] = $network->type;
-			//$iconClass[] = $iconStyle;
-			//$iconClass[] = 'sz-' . $iconSize;
+			// $iconClass[] = $network->type;
+			// $iconClass[] = $iconStyle;
+			// $iconClass[] = 'sz-' . $iconSize;
 
 			$iconSlug = isset( $socialNetworks[ $network->type ]['slug'] ) ? $socialNetworks[ $network->type ]['slug'] : $network->type;
 
@@ -1847,7 +1847,7 @@ class cnEntry_HTML extends cnEntry {
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" rel="noopener noreferrer nofollow" title="' . $network->name . '">' . $network->url . '</a>';
 
-			//$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
+			// $icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
 			$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" rel="noopener noreferrer nofollow" title="' . $network->name . '"><i class="' . implode( ' ', $classes ) . '"></i></a>';
 
 			$replace[] = $icon;
@@ -1865,11 +1865,11 @@ class cnEntry_HTML extends cnEntry {
 			$rows[] = apply_filters( 'cn_output_social_media_link', cnString::replaceWhatWith( $row, ' ' ), $network, $this, $atts );
 		}
 
-		//$out .= '</span>' . PHP_EOL;
+		// $out .= '</span>' . PHP_EOL;
 
-		//$out = cnString::replaceWhatWith( $out, ' ' );
+		// $out = cnString::replaceWhatWith( $out, ' ' );
 
-		//$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		// $out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		$block = '<span class="social-media-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
 
@@ -2471,14 +2471,14 @@ class cnEntry_HTML extends cnEntry {
 
 		$order  = isset( $settings['order'] ) ? $settings['order'] : array_keys( cnArray::get( $registered, 'items', array() ) );
 		$active = isset( $settings['active'] ) ? $settings['active'] : array();
-		//$exclude = empty( $include ) ? $order : array();
+		// $exclude = empty( $include ) ? $order : array();
 		$titles = array();
 
 		$defaults = array(
 			'id'            => '',
 			'order'         => $order,
 			'exclude'       => array(),
-			'include'       => $active, //array_intersect( $active, $order ),
+			'include'       => $active, // array_intersect( $active, $order ),
 			'layout'        => 'list',
 			'container_tag' => 'div',
 			'block_tag'     => 'div',
@@ -2510,7 +2510,7 @@ class cnEntry_HTML extends cnEntry {
 
 		// Remove any blocks from the `include` parameter which are explicitly stated to be excluded by the `excluded` parameter.
 		// Do this only if the `include` parameter is not empty.
-		//$atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
+		// $atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
 		$atts['include'] = empty( $atts['include'] ) ? $atts['include'] : array_diff( $atts['include'], $atts['exclude'] );
 
 		// Cleanup user input, convert to lowercase.

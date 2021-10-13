@@ -317,7 +317,7 @@ final class _format {
 			}
 		}
 
-		//If the escaping is still open, make sure to close it. So formatting like this will work: `H\h i\m\i\n`.
+		// If the escaping is still open, make sure to close it. So formatting like this will work: `H\h i\m\i\n`.
 		if ( $escaping ) $format .= '\'';
 
 		return $format;

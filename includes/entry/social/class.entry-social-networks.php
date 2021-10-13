@@ -342,7 +342,7 @@ final class cnEntry_Social_Networks extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -528,7 +528,7 @@ final class cnEntry_Social_Networks extends cnEntry_Object_Collection {
 			 */
 			$network = apply_filters( 'cn_social_network-pre_setup', $network );
 
-			//$this->add( cnEntry_Social_Network::create( $network ) );
+			// $this->add( cnEntry_Social_Network::create( $network ) );
 			$this->items->push( cnEntry_Social_Network::create( $network ) );
 
 			$order++;

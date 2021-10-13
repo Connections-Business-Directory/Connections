@@ -103,7 +103,7 @@ class cnSEO {
 			 * That would eliminate issues like this:
 			 * @link https://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
 			 */
-			//add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
+			// add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 			add_filter( 'get_canonical_url', array( __CLASS__, 'transformCanonical' ), 10, 2 );
 
 			/*
@@ -136,7 +136,7 @@ class cnSEO {
 			add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
 
 			// Trigger 404 if entry is not found.
-			//add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_noShortcode' ) );
+			// add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_noShortcode' ) );
 			add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_entryNotFound' ) );
 
 			// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
@@ -769,7 +769,7 @@ class cnSEO {
 								)
 							);
 
-							//$description = As_String::format( $address );
+							// $description = As_String::format( $address );
 							$description = implode( ' | ', $pieces );
 						}
 

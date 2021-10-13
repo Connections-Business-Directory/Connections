@@ -92,7 +92,7 @@ final class cnRequirements_Check {
 			add_action( 'admin_head-plugins.php', array( $this, 'scripts' ) );
 			add_filter( "plugin_action_links_{$this->basename}", array( $this, 'plugin_row_links' ) );
 			add_action( "after_plugin_row_{$this->basename}", array( $this, 'plugin_row_notice' ) );
-			//add_action( 'admin_notices', array( $this, 'deactivate' ) );
+			// add_action( 'admin_notices', array( $this, 'deactivate' ) );
 		}
 
 		if ( ! $this->passed( 'php' ) ) {

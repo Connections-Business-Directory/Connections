@@ -526,7 +526,7 @@ final class cnEntry_Addresses implements cnToArray {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -900,7 +900,7 @@ final class cnEntry_Addresses implements cnToArray {
 			 */
 			$address = apply_filters( 'cn_address-pre_setup', $address );
 
-			//$this->add( cnAddress::create( $address ) );
+			// $this->add( cnAddress::create( $address ) );
 			$this->items->push( cnAddress::create( $address ) );
 
 			$order++;

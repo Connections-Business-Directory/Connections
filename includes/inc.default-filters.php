@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * NOTE: Disabled in favor of using @see wp_unslash() for the "display" context in
  * cnSanitize::field() for the bio and notes field.
  */
-//add_filter( 'cn_bio', 'wp_kses_stripslashes', 9 );
-//add_filter( 'cn_notes', 'wp_kses_stripslashes', 9 );
+// add_filter( 'cn_bio', 'wp_kses_stripslashes', 9 );
+// add_filter( 'cn_notes', 'wp_kses_stripslashes', 9 );
 
 if ( isset( $GLOBALS['wp_embed'] ) ) {
 
@@ -38,7 +38,7 @@ add_filter( 'cn_output_bio', 'convert_smilies' );
 add_filter( 'cn_output_bio', 'convert_chars' );
 add_filter( 'cn_output_bio', 'wpautop' );
 add_filter( 'cn_output_bio', 'shortcode_unautop' );
-//add_filter( 'cn_output_bio', 'prepend_attachment' );
+// add_filter( 'cn_output_bio', 'prepend_attachment' );
 
 add_filter( 'cn_output_bio', 'capital_P_dangit', 11 );
 add_filter( 'cn_output_bio', 'do_shortcode', 11 ); // AFTER wpautop()
@@ -50,7 +50,7 @@ add_filter( 'cn_output_notes', 'convert_smilies' );
 add_filter( 'cn_output_notes', 'convert_chars' );
 add_filter( 'cn_output_notes', 'wpautop' );
 add_filter( 'cn_output_notes', 'shortcode_unautop' );
-//add_filter( 'cn_output_notes', 'prepend_attachment' );
+// add_filter( 'cn_output_notes', 'prepend_attachment' );
 
 add_filter( 'cn_output_notes', 'capital_P_dangit', 11 );
 add_filter( 'cn_output_notes', 'do_shortcode', 11 ); // AFTER wpautop()
@@ -62,7 +62,7 @@ add_filter( 'cn_output_excerpt', 'convert_smilies' );
 add_filter( 'cn_output_excerpt', 'convert_chars' );
 add_filter( 'cn_output_excerpt', 'wpautop' );
 add_filter( 'cn_output_excerpt', 'shortcode_unautop' );
-//add_filter( 'cn_output_excerpt', 'prepend_attachment' );
+// add_filter( 'cn_output_excerpt', 'prepend_attachment' );
 
 add_filter( 'cn_output_excerpt', 'capital_P_dangit', 11 );
 add_filter( 'cn_output_excerpt', 'do_shortcode', 11 ); // AFTER wpautop()

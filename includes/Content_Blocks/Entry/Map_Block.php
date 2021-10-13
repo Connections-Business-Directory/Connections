@@ -168,7 +168,7 @@ class Map_Block extends Content_Block {
 				 * Adding a base layer, creates a layer switch control, add base map tiles as a normal layer to
 				 * prevent a the empty layer control from being displayed.
 				 */
-				//$layerControl->addBaseLayer( $baseMap );
+				// $layerControl->addBaseLayer( $baseMap );
 				$layers[] = $baseMap;
 			}
 

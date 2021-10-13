@@ -123,7 +123,7 @@ class cnGeo {
 			'from'          => 'km',
 			'to'            => 'mi',
 			'format'        => true,
-			//'suffix'        => true,
+			// 'suffix'        => true,
 			'decimals'      => 2,
 			'dec_point'     => '.',
 			'thousands_sep' => ',',
@@ -357,12 +357,12 @@ class cnGeo {
 				$translation = 'native_name';
 		}
 
-		$countries = cnCountries::getAll(); //var_dump( $countries );
-		//$sortBy    = wp_list_pluck( $countries, 'iso_3166_1_alpha3' );
+		$countries = cnCountries::getAll(); // var_dump( $countries );
+		// $sortBy    = wp_list_pluck( $countries, 'iso_3166_1_alpha3' );
 		$countries = wp_list_pluck( $countries, $translation, 'iso_3166_1_alpha2' );
 		natsort( $countries );
-		//ksort( $countries, SORT_NATURAL );
-		//array_multisort( $sortBy, $countries );
+		// ksort( $countries, SORT_NATURAL );
+		// array_multisort( $sortBy, $countries );
 
 		// Push a few select countries to the top of the list.
 		$countries = array_replace( array( 'US' => '', 'CA' => '', 'GB' => '' ), $countries );

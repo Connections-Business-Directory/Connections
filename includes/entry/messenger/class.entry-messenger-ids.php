@@ -343,7 +343,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -529,7 +529,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 			 */
 			$messenger = apply_filters( 'cn_im-pre_setup', $messenger );
 
-			//$this->add( cnMessenger::create( $messenger ) );
+			// $this->add( cnMessenger::create( $messenger ) );
 			$this->items->push( cnMessenger::create( $messenger ) );
 
 			$order++;
@@ -585,8 +585,8 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 
 				if ( is_array( $messenger ) ) {
 
-					//$id     = $messenger['id'];
-					//$userID = $messenger['uid'];
+					// $id     = $messenger['id'];
+					// $userID = $messenger['uid'];
 
 					$id     = cnArray::get( $messenger, 'id', '' );
 					$userID = cnArray::get( $messenger, 'uid', '' );

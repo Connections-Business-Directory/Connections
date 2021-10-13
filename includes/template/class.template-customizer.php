@@ -63,22 +63,22 @@ class cnTemplate_Customizer {
 	 */
 	public function hooks() {
 
-		//add_action( 'wp_head', array( $this', 'remove_head_actions'), -1 );
+		// add_action( 'wp_head', array( $this', 'remove_head_actions'), -1 );
 
 		add_filter( 'admin_url', array( $this, 'admin_url'), 10, 3 );
 		add_filter( 'cn_permalink', array( $this, 'permalink' ), 10, 2 );
 
 		add_filter( 'cn_template_customizer_template', array( $this, 'getTemplate' ) );
 
-		//add_action( 'customize_controls_enqueue_scripts', $this->customizer, 'enqueue_scripts' );
-		//add_action( 'customize_preview_init', $this->customizer, 'enqueue_template_scripts', 99 );
+		// add_action( 'customize_controls_enqueue_scripts', $this->customizer, 'enqueue_scripts' );
+		// add_action( 'customize_preview_init', $this->customizer, 'enqueue_template_scripts', 99 );
 
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'themeCompatibility' ), 9999 );
 
-		//add_action( 'wp_print_styles', array( $this', 'remove_all_styles'), 9999 );
-		//add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
+		// add_action( 'wp_print_styles', array( $this', 'remove_all_styles'), 9999 );
+		// add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
 
-		//add_action( 'template_include', array( $this, 'customizerPage' ) );
+		// add_action( 'template_include', array( $this, 'customizerPage' ) );
 		add_action( 'customize_register', array( $this, 'registerControls') );
 		add_action( 'customize_register', array( $this, 'registerSections') );
 		add_action( 'customize_register', array( $this, 'registerTemplateControls') );
@@ -98,7 +98,7 @@ class cnTemplate_Customizer {
 		add_action( 'cn_action_list_before', array( $this, 'singleView' ) );
 		add_action( 'cn_action_list_before', array( $this, 'categoryMessage' ) );
 
-		//add_action( 'get_footer', array( $this, 'remove_footer_actions'), 9999 );
+		// add_action( 'get_footer', array( $this, 'remove_footer_actions'), 9999 );
 	}
 
 	/**
@@ -472,7 +472,7 @@ class cnTemplate_Customizer {
 			'cn_template_customizer_section_search',
 			array(
 				'title'       => __( 'Search', 'connections' ),
-				//'description' => __( '', 'connections' ),
+				// 'description' => __( '', 'connections' ),
 				'panel'       => 'cn_template',
 				'priority'    => 5,
 				'capability'  => 'edit_theme_options',
@@ -620,8 +620,8 @@ class cnTemplate_Customizer {
 				'default'              => 0,
 				'transport'            => 'refresh',
 				'capability'           => 'edit_theme_options',
-				//'sanitize_callback'    => 'sanitize_text_field',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_callback'    => 'sanitize_text_field',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 		$wp_customize->add_control(
@@ -645,8 +645,8 @@ class cnTemplate_Customizer {
 				'default'              => 0,
 				'transport'            => 'refresh',
 				'capability'           => 'edit_theme_options',
-				//'sanitize_callback'    => 'sanitize_text_field',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_callback'    => 'sanitize_text_field',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 		$wp_customize->add_control(
@@ -670,8 +670,8 @@ class cnTemplate_Customizer {
 				'default'              => 0,
 				'transport'            => 'refresh',
 				'capability'           => 'edit_theme_options',
-				//'sanitize_callback'    => 'sanitize_text_field',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_callback'    => 'sanitize_text_field',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 		$wp_customize->add_control(
@@ -749,7 +749,7 @@ class cnTemplate_Customizer {
 
 			$base = 'connections_template';
 			$slug = $template->slug;
-			//$id   = 'cn_card_border_width';
+			// $id   = 'cn_card_border_width';
 
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][category_select]",
@@ -758,8 +758,8 @@ class cnTemplate_Customizer {
 					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -784,8 +784,8 @@ class cnTemplate_Customizer {
 					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -810,8 +810,8 @@ class cnTemplate_Customizer {
 					'default'              => false,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -891,7 +891,7 @@ class cnTemplate_Customizer {
 
 			$base = 'connections_template';
 			$slug = $template->slug;
-			//$id   = 'cn_card_border_width';
+			// $id   = 'cn_card_border_width';
 
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][search]",
@@ -900,8 +900,8 @@ class cnTemplate_Customizer {
 					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -981,7 +981,7 @@ class cnTemplate_Customizer {
 
 			$base = 'connections_template';
 			$slug = $template->slug;
-			//$id   = 'cn_card_border_width';
+			// $id   = 'cn_card_border_width';
 
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][pagination]",
@@ -990,8 +990,8 @@ class cnTemplate_Customizer {
 					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1017,7 +1017,7 @@ class cnTemplate_Customizer {
 					'transport'  => 'refresh',
 					'capability' => 'edit_theme_options',
 					'sanitize_callback'    => 'absint',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1090,8 +1090,8 @@ class cnTemplate_Customizer {
 					'default'    => true,
 					'transport'  => 'refresh',
 					'capability' => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1144,8 +1144,8 @@ class cnTemplate_Customizer {
 							'default'              => 'photo',
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1183,7 +1183,7 @@ class cnTemplate_Customizer {
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
 							'sanitize_callback'    => 'absint',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1213,7 +1213,7 @@ class cnTemplate_Customizer {
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
 							'sanitize_callback'    => 'absint',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1242,8 +1242,8 @@ class cnTemplate_Customizer {
 							'default'              => '1',
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1287,8 +1287,8 @@ class cnTemplate_Customizer {
 							'default'              => true,
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1315,12 +1315,12 @@ class cnTemplate_Customizer {
 							'default'              => __( 'No Image Available', 'connections' ),
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
-					//$option = "{$base}_{$slug}[{$view}][image_{$feature}_string]";
+					// $option = "{$base}_{$slug}[{$view}][image_{$feature}_string]";
 
 					$wp_customize->add_control(
 						new WP_Customize_Control(
@@ -1371,8 +1371,8 @@ class cnTemplate_Customizer {
 					'default'              => $args['default'],
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1425,8 +1425,8 @@ class cnTemplate_Customizer {
 					'default'              => '',
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1707,7 +1707,7 @@ class cnTemplate_Customizer {
 	public function removeSections( $active, $section ) {
 
 		$exemptions = array(
-			//'themes',
+			// 'themes',
 			'cn_template_customizer_section_category_select',
 			'cn_template_customizer_section_search',
 			'cn_template_customizer_section_pagination',
@@ -1810,7 +1810,7 @@ class cnTemplate_Customizer {
 
 		$exceptions = array(
 			'jquery',
-			//'query-monitor',
+			// 'query-monitor',
 			'customize-base',
 			'customize-loader',
 			'customize-preview',

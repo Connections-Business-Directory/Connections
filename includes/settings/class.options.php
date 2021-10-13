@@ -1002,7 +1002,7 @@ class cnOptions {
 
 			foreach ( $networks as $slug => $network ) {
 
-				//$options[ $slug ] = __( $network['name'], 'connections' );
+				// $options[ $slug ] = __( $network['name'], 'connections' );
 				$options[ $slug ] = __( cnArray::get( $network, 'name', $network ), 'connections' );
 			}
 		}

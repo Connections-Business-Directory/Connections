@@ -165,7 +165,7 @@ final class Algolia implements Provider {
 		}
 
 		$query = array(
-			//'type'        => 'address',
+			// 'type'        => 'address',
 			'hitsPerPage' => $limit,
 			'language'    => $locale,
 		);

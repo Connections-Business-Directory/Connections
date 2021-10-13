@@ -160,14 +160,14 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			!function_exists( 'imagecolorallocatealpha' ) ||
 			!function_exists( 'imagesetpixel' )) return false;
 
-		//get image width and height
+		// get image width and height
 		$w = imagesx( $image );
 		$h = imagesy( $image );
 
-		//turn alpha blending off
+		// turn alpha blending off
 		imagealphablending( $image, false );
 
-		//find the most opaque pixel in the image (the one with the smallest alpha value)
+		// find the most opaque pixel in the image (the one with the smallest alpha value)
 		$minalpha = 127;
 		for ($x = 0; $x < $w; $x++) {
 			for ($y = 0; $y < $h; $y++) {
@@ -178,21 +178,21 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			}
 		}
 
-		//loop through image pixels and modify alpha for each
+		// loop through image pixels and modify alpha for each
 		for ( $x = 0; $x < $w; $x++ ) {
 			for ( $y = 0; $y < $h; $y++ ) {
-				//get current alpha value (represents the TANSPARENCY!)
+				// get current alpha value (represents the TANSPARENCY!)
 				$colorxy = imagecolorat( $image, $x, $y );
 				$alpha = ( $colorxy >> 24 ) & 0xFF;
-				//calculate new alpha
+				// calculate new alpha
 				if ( $minalpha !== 127 ) {
 					$alpha = 127 + 127 * $opacity * ( $alpha - 127 ) / ( 127 - $minalpha );
 				} else {
 					$alpha += 127 * $opacity;
 				}
-				//get the color index with new alpha
+				// get the color index with new alpha
 				$alphacolorxy = imagecolorallocatealpha( $image, ( $colorxy >> 16 ) & 0xFF, ( $colorxy >> 8 ) & 0xFF, $colorxy & 0xFF, $alpha );
-				//set pixel with the new color + opacity
+				// set pixel with the new color + opacity
 				if(!imagesetpixel( $image, $x, $y, $alphacolorxy )) {
 					return false;
 				}

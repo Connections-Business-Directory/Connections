@@ -356,7 +356,7 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -603,7 +603,7 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 			 */
 			$link = apply_filters( 'cn_link-pre_setup', $link );
 
-			//$this->add( cnMessenger::create( $messenger ) );
+			// $this->add( cnMessenger::create( $messenger ) );
 			$this->items->push( cnLink::create( $link ) );
 
 			$order++;

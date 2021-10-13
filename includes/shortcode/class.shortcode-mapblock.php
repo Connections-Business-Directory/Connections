@@ -114,7 +114,7 @@ class mapBlock {
 		$content = $this->parseLayers( $content );
 		$content = $this->parseMarkers( $content );
 
-		//$this->map->addLayers( $this->layerControl->getBaseLayers() );
+		// $this->map->addLayers( $this->layerControl->getBaseLayers() );
 		$this->map->addLayers( $this->layerControl->getOverlays() );
 
 		if ( $atts['marker'] ) {

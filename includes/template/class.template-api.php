@@ -103,7 +103,7 @@ class cnTemplateFactory {
 	 */
 	public static function restInit() {
 
-		//error_log( json_encode( defined( 'REST_REQUEST' ), 128 ) );
+		// error_log( json_encode( defined( 'REST_REQUEST' ), 128 ) );
 
 		self::registerLegacy();
 		self::activate();
@@ -396,7 +396,7 @@ class cnTemplateFactory {
 			if ( ! $templateDirectories = @opendir( $templatePath ) ) continue;
 			// var_dump($templatePath);
 
-			//$templateDirectories = opendir($templatePath);
+			// $templateDirectories = opendir($templatePath);
 
 			while ( ( $templateDirectory = readdir( $templateDirectories ) ) !== false ) {
 
@@ -435,7 +435,7 @@ class cnTemplateFactory {
 				}
 			}
 
-			//var_dump($templateDirectories);
+			// var_dump($templateDirectories);
 			@closedir( $templateDirectories );
 		}
 		/**
@@ -460,7 +460,7 @@ class cnTemplateFactory {
 		delete_transient( 'cn_legacy_templates' );
 
 		self::registerLegacy();
-		//self::activateOLD();
+		// self::activateOLD();
 
 		// Convert to an array.
 		if ( ! is_array( $types ) ) {

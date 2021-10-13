@@ -45,7 +45,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 			'name'   => 'editterm',
 			'class'  => 'validate',
 			'id'     => 'edittag',
-			//'action' => '',
+			// 'action' => '',
 			'method' => 'post',
 		)
 	);
@@ -104,7 +104,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 						'exclude_tree'     => $term->term_id,
 						'hierarchical'     => true,
 						'show_option_none' => __( 'None', 'connections' ),
-						//'return'           => TRUE,
+						// 'return'           => TRUE,
 					)
 				);
 				?>

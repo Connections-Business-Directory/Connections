@@ -197,7 +197,7 @@ class cnHTML {
 				return self::input( $atts, $value );
 
 			default:
-				# todo Put action and or filter here.
+				// todo Put action and or filter here.
 				return '';
 		}
 	}

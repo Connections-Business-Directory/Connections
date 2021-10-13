@@ -101,7 +101,7 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		 * // END -- Compatibility for previous versions.
 		 */
 
-		//$this->name = $types[ $this->type ];
+		// $this->name = $types[ $this->type ];
 		$this->name = array_key_exists( $this->type, $types ) ? $types[ $this->type ] : $default[ $this->type ];
 
 		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.

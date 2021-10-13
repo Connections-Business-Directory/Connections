@@ -401,7 +401,7 @@ final class _ {
 	 */
 	public static function remapRange( $x, $oMin, $oMax, $nMin, $nMax ) {
 
-		#range check
+		// range check
 		if ( $oMin == $oMax ) {
 
 			return false;
@@ -412,7 +412,7 @@ final class _ {
 			return false;
 		}
 
-		#check reversed input range
+		// check reversed input range
 		$reverseInput = false;
 		$oldMin       = min( $oMin, $oMax );
 		$oldMax       = max( $oMin, $oMax );
@@ -422,7 +422,7 @@ final class _ {
 			$reverseInput = true;
 		}
 
-		#check reversed output range
+		// check reversed output range
 		$reverseOutput = false;
 		$newMin        = min( $nMin, $nMax );
 		$newMax        = max( $nMin, $nMax );
@@ -465,7 +465,7 @@ final class _ {
 
 			for ( $i = 0; $i < func_num_args(); ++$i ) {
 
-				//error_log( var_export( func_get_arg( $i ), true ) );
+				// error_log( var_export( func_get_arg( $i ), true ) );
 
 				ob_start();
 

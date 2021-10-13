@@ -55,7 +55,7 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
-				//'parts'       => array( 'css' => 'styles.css' ),
+				// 'parts'       => array( 'css' => 'styles.css' ),
 			);
 
 			cnTemplateFactory::register( $atts );

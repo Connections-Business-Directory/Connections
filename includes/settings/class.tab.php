@@ -67,10 +67,10 @@ class Tab {
 		$this->pluginID = $pluginID;
 
 		$defaults = array(
-			//'id'        => '',
+			// 'id'        => '',
 			'position'  => 10,
 			'title'     => '',
-			//'page_hook' => '',
+			// 'page_hook' => '',
 		);
 
 		$this->options = wp_parse_args( $options, $defaults );

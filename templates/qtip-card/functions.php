@@ -26,7 +26,7 @@ if ( ! class_exists( 'qTipCard' ) ) {
 
 			wp_enqueue_style( 'connections-qtip' );
 
-			//Update the permitted shortcode attribute the user may use and overrride the template defaults as needed.
+			// Update the permitted shortcode attribute the user may use and overrride the template defaults as needed.
 			add_filter( 'cn_list_atts_permitted-qtip-card' , array( &$this, 'initShortcodeAtts' ) );
 			add_filter( 'cn_list_atts-qtip-card' , array( &$this, 'initTemplateOptions' ) );
 
@@ -45,7 +45,7 @@ if ( ! class_exists( 'qTipCard' ) ) {
 		 * @version 1.0
 		 */
 		public function initShortcodeAtts( $permittedAtts = array() ) {
-			//$permittedAtts['cnvcard_test'] ='init';
+			// $permittedAtts['cnvcard_test'] ='init';
 
 			return $permittedAtts;
 		}
@@ -57,12 +57,12 @@ if ( ! class_exists( 'qTipCard' ) ) {
 		 * @version 1.0
 		 */
 		public function initTemplateOptions( $atts ) {
-			//$convert = new cnFormatting();
-			//$atts['cnvcard-test'] ='true';
+			// $convert = new cnFormatting();
+			// $atts['cnvcard-test'] ='true';
 			return $atts;
 		}
 	}
 
-	//print_r($this);
+	// print_r($this);
 	$this->qTipCard = new qTipCard();
 }

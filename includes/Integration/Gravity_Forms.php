@@ -23,7 +23,9 @@ final class Gravity_Forms {
 	/**
 	 * @since 10.2
 	 */
-	public function __constructor() {  /* Do nothing here */ }
+	public function __constructor() {
+		/* Do nothing here */
+	}
 
 	/**
 	 * Callback for the `plugins_loaded` action.
@@ -37,9 +39,9 @@ final class Gravity_Forms {
 	public static function init() {
 
 		if ( ! isset( self::$instance ) &&
-		     ! ( self::$instance instanceof self ) &&
-		     method_exists( 'GF_Fields', 'register' ) &&
-		     class_exists( '\Connections_Directory\Connector\Gravity_Forms\Field\Taxonomy', false )
+			 ! ( self::$instance instanceof self ) &&
+			 method_exists( 'GF_Fields', 'register' ) &&
+			 class_exists( '\Connections_Directory\Connector\Gravity_Forms\Field\Taxonomy', false )
 		) {
 
 			self::$instance = $self = new self();
@@ -87,7 +89,9 @@ final class Gravity_Forms {
 
 				\GF_Fields::register( new \Connections_Directory\Connector\Gravity_Forms\Field\Taxonomy( $taxonomy->getSlug(), $atts ) );
 
-			} catch( \Exception $e ) {}
+			} catch ( \Exception $e ) {
+				/* Do nothing here */
+			}
 		}
 
 	}

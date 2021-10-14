@@ -40,9 +40,9 @@ cnText_Domain::register( 'connections', plugin_basename( __FILE__ ), 1 );
 
 $check = new cnRequirements_Check(
 	array(
-		'name'     => 'Connections Business Directory',
-		'basename' => plugin_basename( __FILE__ ),
-		'file'     => __FILE__,
+		'name'         => 'Connections Business Directory',
+		'basename'     => plugin_basename( __FILE__ ),
+		'file'         => __FILE__,
 		'requirements' => array(
 			'php' => array(
 				'min' => '5.6.20', // 5.6.20 -- The minimum PHP version that WordPress 5.2 requires.

@@ -327,8 +327,8 @@ class Map {
 			'style',
 			array(
 				'display' => 'block',
-				'width' => $this->getWidth(),
-				'height' => $this->getHeight()
+				'width'   => $this->getWidth(),
+				'height'  => $this->getHeight(),
 			)
 		);
 		$html .= $this->dataAttributes();

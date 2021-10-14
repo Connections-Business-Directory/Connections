@@ -770,7 +770,7 @@ class cnSEO {
 							$pieces = array_filter(
 								array(
 									'street'  => implode( ', ', $street ),
-									'region'  => implode( ' ',  array( implode( ', ', $region ),  $address->getPostalCode() ) ),
+									'region'  => implode( ' ',  array( implode( ', ', $region ), $address->getPostalCode() ) ),
 									'country' => $address->getCountry(),
 								)
 							);

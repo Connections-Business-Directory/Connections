@@ -1238,8 +1238,8 @@ class cnMetabox_Render {
 
 					wp_enqueue_script( 'jquery-ui-datepicker' );
 					wp_enqueue_style( 'cn-admin-jquery-datepicker' );
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
-					add_action( 'wp_footer' , array( __CLASS__ , 'datepickerJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'datepickerJS' ) );
+					add_action( 'wp_footer', array( __CLASS__, 'datepickerJS' ) );
 
 					Field\Description::create()
 									 ->addClass( 'description' )
@@ -1269,7 +1269,7 @@ class cnMetabox_Render {
 					if ( is_admin() ) {
 
 						wp_enqueue_script( 'wp-color-picker' );
-						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'colorpickerJS' ) );
+						add_action( 'admin_print_footer_scripts', array( __CLASS__, 'colorpickerJS' ) );
 
 					} else {
 
@@ -1304,7 +1304,7 @@ class cnMetabox_Render {
 
 						wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );
 
-						add_action( 'wp_footer' , array( __CLASS__ , 'colorpickerJS' ) );
+						add_action( 'wp_footer', array( __CLASS__, 'colorpickerJS' ) );
 					}
 
 					break;
@@ -1316,7 +1316,7 @@ class cnMetabox_Render {
 						'min'   => 0,
 						'max'   => 100,
 						'step'  => 1,
-						'value' => 0
+						'value' => 0,
 					);
 
 					$field['options'] = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
@@ -1339,8 +1339,8 @@ class cnMetabox_Render {
 					self::$slider[ $field['id'] ] = $field['options'];
 
 					wp_enqueue_script( 'jquery-ui-slider' );
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sliderJS' ) );
-					add_action( 'wp_footer' , array( __CLASS__ , 'sliderJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'sliderJS' ) );
+					add_action( 'wp_footer', array( __CLASS__, 'sliderJS' ) );
 
 					break;
 
@@ -1366,8 +1366,8 @@ class cnMetabox_Render {
 					self::$quickTagIDs[] = esc_attr( $field['id'] );
 
 					wp_enqueue_script( 'jquery' );
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-					add_action( 'wp_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
+					add_action( 'wp_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
 
 					break;
 
@@ -1381,7 +1381,7 @@ class cnMetabox_Render {
 
 					// Set the rte defaults.
 					$defaults = array(
-						'textarea_name' => sprintf( '%1$s' , $field['id'] ),
+						'textarea_name' => sprintf( '%1$s', $field['id'] ),
 					);
 
 					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );

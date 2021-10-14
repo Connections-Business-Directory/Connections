@@ -9,7 +9,7 @@
  */
 
 $date_format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
-$search      = array( '%label%' , '%date%' , '%separator%' );
+$search      = array( '%label%', '%date%', '%separator%' );
 $out         = '<span class="date-block">' . PHP_EOL;
 
 foreach ( $dates as $date ) {

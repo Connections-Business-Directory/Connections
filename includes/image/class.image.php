@@ -1849,7 +1849,7 @@ class cnImage {
 				'height' => '',
 				'size'   => '',
 				'mime'   => '',
-				'type'   => ''
+				'type'   => '',
 			);
 
 			/**
@@ -1958,7 +1958,7 @@ class cnImage {
 				'height' => '',
 				'size'   => '',
 				'mime'   => '',
-				'type'   => ''
+				'type'   => '',
 			);
 
 			/**

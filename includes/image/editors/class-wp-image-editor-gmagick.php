@@ -161,8 +161,8 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		if ( ! $width || ! $height ) {
 			try {
 				$size = array(
-					'width' => $this->image->getimagewidth(),
-					'height' => $this->image->getimageheight()
+					'width'  => $this->image->getimagewidth(),
+					'height' => $this->image->getimageheight(),
 				);
 			}
 			catch ( Exception $e ) {

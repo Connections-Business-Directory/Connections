@@ -136,7 +136,7 @@ $params = array(
 	'sslverify'  => cnHTTP::verifySSL(),
 	'timeout'    => 60,
 	'user-agent' => 'CN/' . CN_CURRENT_VERSION,
-	'body'       => '_notify-validate'
+	'body'       => '_notify-validate',
 );
 
 $response = wp_remote_post( 'https://www.paypal.com/cgi-bin/webscr', $params );

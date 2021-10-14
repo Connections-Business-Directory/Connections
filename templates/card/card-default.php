@@ -94,7 +94,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 									'link_format',
 									'link_types',
 									'date_format',
-									'date_types'
+									'date_types',
 								),
 							),
 							'single' => array(
@@ -135,7 +135,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 									'link_format',
 									'link_types',
 									'date_format',
-									'date_types'
+									'date_types',
 								),
 							),
 						),
@@ -212,7 +212,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 					'border_width'          => 1,
 					'border_color'          => '#E3E3E3',
 					'border_radius'         => 4,
-				)
+				),
 			);
 
 			$fields[] = array(
@@ -221,28 +221,28 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 				'id'        => 'single',
 				'type'      => 'customizer',
 				'default'   => array(
-					'show_title'         => true,
-					'show_org'           => true,
-					'show_dept'          => true,
-					'show_contact_name'  => true,
-					'show_family'        => true,
-					'show_addresses'     => true,
-					'show_phone_numbers' => true,
-					'show_email'         => true,
-					'show_im'            => true,
-					'show_social_media'  => true,
-					'show_links'         => true,
-					'show_dates'         => true,
-					'show_bio'           => true,
-					'show_notes'         => false,
-					'show_categories'    => true,
-					'show_last_updated'  => true,
-					'show_return_to_top' => false,
-					'image_type'         => 'photo',
-					'image_width'        => null,
-					'image_height'       => null,
-					'image_crop_mode'    => '1',
-					'image_fallback'     => false,
+					'show_title'            => true,
+					'show_org'              => true,
+					'show_dept'             => true,
+					'show_contact_name'     => true,
+					'show_family'           => true,
+					'show_addresses'        => true,
+					'show_phone_numbers'    => true,
+					'show_email'            => true,
+					'show_im'               => true,
+					'show_social_media'     => true,
+					'show_links'            => true,
+					'show_dates'            => true,
+					'show_bio'              => true,
+					'show_notes'            => false,
+					'show_categories'       => true,
+					'show_last_updated'     => true,
+					'show_return_to_top'    => false,
+					'image_type'            => 'photo',
+					'image_width'           => null,
+					'image_height'          => null,
+					'image_crop_mode'       => '1',
+					'image_fallback'        => false,
 					'image_fallback_string' => __( 'No Image Available', 'connections' ),
 					'name_format'           => '',
 					'contact_name_format'   => '',
@@ -256,7 +256,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 					'date_types'            => '',
 					'link_format'           => '',
 					'link_types'            => '',
-				)
+				),
 			);
 
 			return $fields;

@@ -974,7 +974,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					self::$quickTagIDs[] = $name;
 
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
 
 					break;
 
@@ -1230,7 +1230,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					self::$sortableIDs[] = $name;
 
 					// Add the script to the admin footer.
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'sortableJS' ) );
 
 					// Enqueue the jQuery UI Sortable Library.
 					wp_enqueue_script( 'jquery-ui-sortable' );
@@ -1432,7 +1432,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					self::$sortableIDs[] = $name;
 
 					// Add the script to the admin footer.
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'sortableJS' ) );
 
 					wp_enqueue_script( 'cn-setting-sortable-repeatable-input-list' );
 
@@ -1796,7 +1796,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					// Add the script to the admin footer.
 					add_action( 'admin_footer', array( __CLASS__, 'socialMediaIconOptions' ) );
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'sortableJS' ) );
 
 					wp_enqueue_style( 'wp-color-picker' );
 					wp_enqueue_script( 'wp-color-picker' );
@@ -1824,7 +1824,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					);
 
 					wp_enqueue_script( 'wp-color-picker' );
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'colorpickerJS' ) );
+					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'colorpickerJS' ) );
 
 					break;
 

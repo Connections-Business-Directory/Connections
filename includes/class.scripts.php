@@ -132,8 +132,8 @@ class cnScript {
 		wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), null, false );
 		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, true );
 
-		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', true );
-		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', true );
+		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery', 'cn-google-maps-api' ), '1.3.3', true );
+		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery', 'cn-google-maps-api', 'jquery-gomap' ), '2.1.2', true );
 
 		// The Quform unregisters this script, so lets ensure its registered so it can be enqueued.
 		if ( ! wp_script_is( 'jquery-form', 'registered' ) ) {
@@ -558,9 +558,9 @@ class cnScript {
 
 			do_action( 'cn_admin_enqueue_metabox_scripts', $pageHook );
 
-			add_action( 'admin_footer-' . $instance->pageHook->dashboard, array( __CLASS__ , 'adminFooterScript' ) );
-			add_action( 'admin_footer-' . $instance->pageHook->manage, array( __CLASS__ , 'adminFooterScript' ) );
-			add_action( 'admin_footer-' . $instance->pageHook->add, array( __CLASS__ , 'adminFooterScript' ) );
+			add_action( 'admin_footer-' . $instance->pageHook->dashboard, array( __CLASS__, 'adminFooterScript' ) );
+			add_action( 'admin_footer-' . $instance->pageHook->manage, array( __CLASS__, 'adminFooterScript' ) );
+			add_action( 'admin_footer-' . $instance->pageHook->add, array( __CLASS__, 'adminFooterScript' ) );
 		}
 	}
 

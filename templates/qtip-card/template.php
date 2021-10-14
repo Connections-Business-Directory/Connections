@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="cn-entry">
 	<div style="width:49%; float:left">
-		<?php $entry->getImage( array( 'width' => 225 , 'zc' => 2 ) ); ?>
+		<?php $entry->getImage( array( 'width' => 225, 'zc' => 2 ) ); ?>
 	</div>
 
 	<div align="right">

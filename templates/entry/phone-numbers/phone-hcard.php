@@ -11,7 +11,7 @@
  */
 
 $rows         = array();
-$search       = array( '%label%' , '%number%' , '%separator%' );
+$search       = array( '%label%', '%number%', '%separator%' );
 
 foreach ( $phoneNumbers as $phone ) {
 	$replace = array();

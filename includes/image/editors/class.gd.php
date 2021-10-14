@@ -500,10 +500,10 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		if ( function_exists( 'imageconvolution' ) ) {
 
-			$matrix = array (
-				array (-1,-1,-1),
-				array (-1,16,-1),
-				array (-1,-1,-1),
+			$matrix = array(
+				array( -1, -1, -1 ),
+				array( -1, 16, -1 ),
+				array( -1, -1, -1 ),
 			);
 
 			$divisor = 8;

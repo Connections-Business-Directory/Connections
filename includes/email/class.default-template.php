@@ -76,26 +76,26 @@ class cnEmail_DefaultTemplates {
 	public static function register() {
 
 		$atts = array(
-				'name'        => 'Default',
-				'type'        => 'html',
-				'version'     => '1.0',
-				'author'      => 'Steven A. Zahm',
-				'authorURL'   => 'connections-pro.com',
-				'description' => 'The default email template.',
-				'parts'       => array( 'body' => array( __CLASS__, 'defaultBody' ) )
-				);
+			'name'        => 'Default',
+			'type'        => 'html',
+			'version'     => '1.0',
+			'author'      => 'Steven A. Zahm',
+			'authorURL'   => 'connections-pro.com',
+			'description' => 'The default email template.',
+			'parts'       => array( 'body' => array( __CLASS__, 'defaultBody' ) ),
+		);
 
 		cnEmail_Template::register( $atts );
 
 		$atts = array(
-				'name'        => 'Plain Text',
-				'slug'        => 'text',
-				'type'        => 'text',
-				'version'     => '1.0',
-				'author'      => 'Steven A. Zahm',
-				'authorURL'   => 'connections-pro.com',
-				'description' => 'The plain text email template.',
-				);
+			'name'        => 'Plain Text',
+			'slug'        => 'text',
+			'type'        => 'text',
+			'version'     => '1.0',
+			'author'      => 'Steven A. Zahm',
+			'authorURL'   => 'connections-pro.com',
+			'description' => 'The plain text email template.',
+		);
 
 		cnEmail_Template::register( $atts );
 	}

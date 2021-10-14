@@ -71,7 +71,7 @@ class cnRole extends WP_Roles {
 			'connections_edit_categories'      => __( 'Edit Categories', 'connections' ),
 			'connections_change_settings'      => __( 'Change Settings', 'connections' ),
 			'connections_manage_template'      => __( 'Manage Templates', 'connections' ),
-			'connections_change_roles'         => __( 'Change Role Capabilities', 'connections' )
+			'connections_change_roles'         => __( 'Change Role Capabilities', 'connections' ),
 		);
 	}
 

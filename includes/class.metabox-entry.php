@@ -114,8 +114,8 @@ class cnEntryMetabox {
 					'inline_styles'     => true,
 					'relative_urls'     => false,
 					'remove_linebreaks' => false,
-					'plugins'           => implode( ',', $tinymcePlugins )
-				)
+					'plugins'           => implode( ',', $tinymcePlugins ),
+				),
 			);
 		}
 
@@ -1351,7 +1351,7 @@ class cnEntryMetabox {
 			cnHTML::field(
 				array(
 					'type'     => in_array( 'country', $activeFields ) ? ( $autocompleteCountry ? 'select' : 'text' ) : 'hidden',
-					'class'    => $autocompleteCountry && in_array( 'country', $activeFields ) ? 'enhanced-select' : '' ,
+					'class'    => $autocompleteCountry && in_array( 'country', $activeFields ) ? 'enhanced-select' : '',
 					'id'       => 'address[' . $token . '][country]',
 					'style'    => $autocompleteCountry ? array( 'width' => '100%' ) : array(),
 					'required' => false,

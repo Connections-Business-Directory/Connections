@@ -152,7 +152,7 @@ class cnCategory {
 			'container_tag' => 'div',
 			'before'        => '',
 			'after'         => '',
-			'return'        => false
+			'return'        => false,
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_cat_desc' , $defaults );
@@ -196,7 +196,7 @@ class cnCategory {
 
 		$defaults = array(
 			'length' => apply_filters( 'cn_cat_excerpt_length', 55 ),
-			'more'   => apply_filters( 'cn_cat_excerpt_more', '&hellip;' )
+			'more'   => apply_filters( 'cn_cat_excerpt_more', '&hellip;' ),
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );

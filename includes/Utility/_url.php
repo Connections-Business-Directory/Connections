@@ -414,7 +414,7 @@ final class _url {
 					// requested that the entry slug is being used so urlencode() will not be use as not to double encode it.
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] );
 				} else {
-					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ) , $permalink );
 				}
 
 				break;
@@ -424,7 +424,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/detail' );
 				} else {
-					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ) , $permalink );
 				}
 
 				break;

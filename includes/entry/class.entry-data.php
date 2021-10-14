@@ -594,7 +594,7 @@ class cnEntry {
 
 			$options = array(
 				get_option( 'date_format', 'm/d/Y' ),
-				get_option( 'time_format', 'g:ia' )
+				get_option( 'time_format', 'g:ia' ),
 			);
 
 			$format = implode( ' ', $options );
@@ -643,7 +643,7 @@ class cnEntry {
 
 			$options = array(
 				get_option( 'date_format', 'm/d/Y' ),
-				get_option( 'time_format', 'g:ia' )
+				get_option( 'time_format', 'g:ia' ),
 			);
 
 			$format = implode( ' ', $options );
@@ -3530,7 +3530,7 @@ class cnEntry {
 				'dates'         => serialize( $dates ),
 			),
 			array( 'id' => $this->id ),
-			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', ),
+			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' ),
 			array( '%d' )
 		);
 	}
@@ -3629,7 +3629,7 @@ class cnEntry {
 				'%d', // edited_by
 				'%d', // owner
 				'%d', // user
-				'%s'  // status
+				'%s', // status
 			)
 		);
 

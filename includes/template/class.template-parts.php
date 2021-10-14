@@ -312,7 +312,7 @@ class cnTemplatePart {
 	public static function returnToTopTarget( $atts = array() ) {
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -345,7 +345,7 @@ class cnTemplatePart {
 		global $wp_rewrite;
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		/**
@@ -445,7 +445,7 @@ class cnTemplatePart {
 	public static function formClose( $atts = array() ) {
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -475,7 +475,7 @@ class cnTemplatePart {
 	public static function header( $atts, $results, $template ) {
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts     = wp_parse_args( $atts, $defaults );
@@ -523,7 +523,7 @@ class cnTemplatePart {
 	public static function body( $atts, $results, $template ) {
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -560,7 +560,7 @@ class cnTemplatePart {
 				array(
 					'atts'     => $atts,
 					'results'  => $results,
-					'template' => $template
+					'template' => $template,
 				)
 			);
 
@@ -687,7 +687,7 @@ class cnTemplatePart {
 	public static function cards( $atts, $results, $template ) {
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -851,7 +851,7 @@ class cnTemplatePart {
 	public static function footer( $atts, $results, $template ) {
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -892,7 +892,7 @@ class cnTemplatePart {
 		$out = '';
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -925,7 +925,7 @@ class cnTemplatePart {
 		$out = '';
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -961,7 +961,7 @@ class cnTemplatePart {
 			'before-item'   => '',
 			'after-item'    => '',
 			'after'         => '',
-			'return'        => false
+			'return'        => false,
 		);
 
 		$atts = wp_parse_args( $atts, apply_filters( 'cn_list_actions_atts', $defaults ) );
@@ -1060,7 +1060,7 @@ class cnTemplatePart {
 			'before-item'   => '',
 			'after-item'    => '',
 			'after'         => '',
-			'return'        => false
+			'return'        => false,
 		);
 
 		$atts = wp_parse_args( $atts, apply_filters( 'cn_entry_actions_atts', $defaults ) );
@@ -1127,7 +1127,7 @@ class cnTemplatePart {
 			// 'on_click' => 'history.back();return false;',
 			'force_home' => $atts['force_home'],
 			'home_id'    => $atts['home_id'],
-			'return'   => false,
+			'return'     => false,
 		);
 
 		$atts = cnSanitize::args( apply_filters( 'cn_entry_action_back_atts', $defaults ), $defaults );
@@ -1173,7 +1173,7 @@ class cnTemplatePart {
 		$defaults = array(
 			'before' => '',
 			'after'  => '',
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1225,7 +1225,7 @@ class cnTemplatePart {
 			'before-item'   => '',
 			'after-item'    => '',
 			'after'         => '',
-			'return'        => false
+			'return'        => false,
 		);
 
 		$atts = wp_parse_args( $atts, apply_filters( 'cn_search_results_atts', $defaults ) );
@@ -1297,14 +1297,14 @@ class cnTemplatePart {
 			// If value is a string, string the white space and covert to an array.
 			if ( ! is_array( $queryVars['cn-s'] ) ) {
 
-				$originalString = array( $queryVars['cn-s'] );
+				$originalString    = array( $queryVars['cn-s'] );
 				$queryVars['cn-s'] = cnFunction::parseStringList( $queryVars['cn-s'], '\s' );
 				$queryVars['cn-s'] = array_merge( $originalString, $queryVars['cn-s'] );
 				$queryVars['cn-s'] = array_unique( $queryVars['cn-s'] );
 			}
 
 			// Trim any white space from around the terms in the array.
-			array_walk( $queryVars['cn-s'] , 'trim' );
+			array_walk( $queryVars['cn-s'], 'trim' );
 
 			$messages['cn-s'] = sprintf(
 				__( 'You are searching for the keyword(s): %s', 'connections' ),
@@ -1462,16 +1462,16 @@ class cnTemplatePart {
 			'message' => __( 'No results.', 'connections' ),
 			'before'  => '',
 			'after'   => '',
-			'return'  => false
+			'return'  => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$atts['message'] = apply_filters( 'cn_list_no_result_message' , $atts['message'] );
+		$atts['message'] = apply_filters( 'cn_list_no_result_message', $atts['message'] );
 
 		if ( $template instanceof cnTemplate ) {
 
-			$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
+			$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug(), $atts['message'] );
 		}
 
 		$out = sprintf(
@@ -1536,7 +1536,7 @@ class cnTemplatePart {
 			'contact_name'   => array(
 				'full'  => $entry->getContactName(),
 				'first' => $entry->getContactFirstName(),
-				'last'  => $entry->getContactLastName()
+				'last'  => $entry->getContactLastName(),
 			),
 			'family_name'    => $entry->getFamilyName(),
 			'family_members' => $entry->getFamilyMembers(),
@@ -1611,7 +1611,7 @@ class cnTemplatePart {
 			'text'   => '<img src="' . CN_URL . 'assets/images/uparrow.gif" alt="' . __( 'Return to top.', 'connections' ) . '"/>',
 			'before' => '',
 			'after'  => '',
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1620,7 +1620,7 @@ class cnTemplatePart {
 
 		$anchor = '<a href="' . $atts['href'] . '" title="' . $atts['title'] . '">' . $atts['text'] . '</a>';
 
-		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? $styles : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? $styles : '' ) . '>' . $anchor . '</' . $atts['tag'] . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -1645,12 +1645,12 @@ class cnTemplatePart {
 		$out = '';
 
 		$defaults = array(
-			'timestamp'   => '',
-			'tag'         => 'span',
-			'style'       => array(),
-			'before'      => '',
-			'after'       => '',
-			'return'      => false
+			'timestamp' => '',
+			'tag'       => 'span',
+			'style'     => array(),
+			'before'    => '',
+			'after'     => '',
+			'return'    => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1683,7 +1683,7 @@ class cnTemplatePart {
 
 		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp', true ) ) );
 
-		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? $styles : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? $styles : '' ) . '>' . $updated . '</' . $atts['tag'] . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -1711,11 +1711,11 @@ class cnTemplatePart {
 		_deprecated_function( __METHOD__, '9.11', 'cnTemplatePart::index()' );
 
 		static $out = '';
-		$links = array();
-		$alphaindex = range( "A", "Z" );
+		$links      = array();
+		$alphaindex = range( 'A', 'Z' );
 
 		$defaults = array(
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1734,7 +1734,7 @@ class cnTemplatePart {
 		$requestedURL .= $_SERVER['HTTP_HOST'];
 		$requestedURL .= $_SERVER['REQUEST_URI'];
 
-		$parsedURL   = @parse_url( $requestedURL );
+		$parsedURL = @parse_url( $requestedURL );
 
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = $redirectURL[0];
@@ -1749,7 +1749,7 @@ class cnTemplatePart {
 		// Add back on to the URL any remaining query string values.
 		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
 			parse_str( $parsedURL['query'], $_parsed_query );
-			$_parsed_query = array_map( 'rawurlencode_deep',  $_parsed_query );
+			$_parsed_query = array_map( 'rawurlencode_deep', $_parsed_query );
 		}
 
 		foreach ( $alphaindex as $letter ) {
@@ -1786,7 +1786,7 @@ class cnTemplatePart {
 
 		$defaults = array(
 			'show_label' => true,
-			'return'     => false
+			'return'     => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1836,7 +1836,7 @@ class cnTemplatePart {
 		$defaults = array(
 			'name'   => '',
 			'value'  => __( 'Submit', 'connections' ),
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1911,14 +1911,14 @@ class cnTemplatePart {
 
 				$url = cnURL::permalink(
 					array(
-					'type'       => 'character',
-					'slug'       => $char,
-					'title'      => $char,
-					'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
-					'text'       => $char,
-					'home_id'    => _array::get( $atts, 'home_id', cnShortcode::getHomeID() ),
-					'force_home' => _array::get( $atts, 'force_home', false ),
-					'return'     => true,
+						'type'       => 'character',
+						'slug'       => $char,
+						'title'      => $char,
+						'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
+						'text'       => $char,
+						'home_id'    => _array::get( $atts, 'home_id', cnShortcode::getHomeID() ),
+						'force_home' => _array::get( $atts, 'force_home', false ),
+						'return'     => true,
 					)
 				);
 
@@ -1927,7 +1927,7 @@ class cnTemplatePart {
 
 		}
 
-		$out = '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? $styles : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . PHP_EOL;
+		$out = '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? $styles : '' ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -1949,13 +1949,13 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function currentCharacter( $atts = array() ) {
-		$out = '';
+		$out     = '';
 		$current = '';
 
 		$defaults = array(
 			'type'   => 'input', // Reserved for future use. Will define the type of output to render. In this case a form input.
 			'hidden' => true,
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2055,14 +2055,14 @@ class cnTemplatePart {
 		 */
 		$defaults = apply_filters( 'cn_pagination_default_atts', $defaults );
 
-		$atts     = wp_parse_args( $atts, $defaults );
+		$atts = wp_parse_args( $atts, $defaults );
 
 		/**
 		 * Filter the user supplied attributes.
 		 *
 		 * @since 8.5.14
 		 */
-		$atts     = apply_filters( 'cn_pagination_atts', $atts );
+		$atts = apply_filters( 'cn_pagination_atts', $atts );
 
 		$total     = $connections->retrieve->resultCountNoLimit;
 		$pageCount = absint( $atts['limit'] ) ? ceil( $total / $atts['limit'] ) : 0;
@@ -2202,7 +2202,7 @@ class cnTemplatePart {
 					'add_fragment'       => $atts['add_fragment'],
 					'before_page_number' => $atts['before_page_number'],
 					'after_page_number'  => $atts['after_page_number'],
-					);
+				);
 
 			} else {
 
@@ -2240,7 +2240,7 @@ class cnTemplatePart {
 					'add_fragment'       => $atts['add_fragment'],
 					'before_page_number' => $atts['before_page_number'],
 					'after_page_number'  => $atts['after_page_number'],
-					);
+				);
 
 			}
 
@@ -2694,7 +2694,7 @@ class cnTemplatePart {
 			'exclude'    => array(),
 			'layout'     => 'list',
 			'columns'    => 3,
-			'return'     => false
+			'return'     => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2903,7 +2903,7 @@ class cnTemplatePart {
 			'exclude'    => array(),
 			'layout'     => 'list',
 			'columns'    => 3,
-			'return'     => false
+			'return'     => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

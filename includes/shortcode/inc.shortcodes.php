@@ -242,7 +242,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 						$entry->name = $entry->getName(
 							array(
-								'format' => $atts['name_format']
+								'format' => $atts['name_format'],
 							)
 						);
 
@@ -295,7 +295,7 @@ function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard'
 		return '';
 	}
 
-	$qTipContent = '<span class="cn-qtip-content-vcard" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'] , 'template' => 'qtip-vcard' ) ) . '</span>';
+	$qTipContent = '<span class="cn-qtip-content-vcard" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'], 'template' => 'qtip-vcard' ) ) . '</span>';
 
 	return '<span class="cn-qtip-vcard">' . $content . $qTipContent . '</span>';
 }
@@ -314,7 +314,7 @@ function _connections_qtip( $atts , $content = null, $tag = 'connections_qtip' )
 		return '';
 	}
 
-	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'] , 'template' => 'qtip-card' ) ) . '</span>';
+	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'], 'template' => 'qtip-card' ) ) . '</span>';
 
 	return '<span class="cn-qtip-card">' . $content . $qTipContent . '</span>';
 }

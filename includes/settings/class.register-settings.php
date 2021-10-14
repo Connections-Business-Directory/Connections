@@ -34,52 +34,52 @@ class cnRegisterSettings {
 
 		// Register the core tab banks.
 		$tabs[] = array(
-			'id'        => 'general' ,
-			'position'  => 10 ,
-			'title'     => __( 'General' , 'connections' ) ,
-			'page_hook' => $settings
+			'id'        => 'general',
+			'position'  => 10,
+			'title'     => __( 'General', 'connections' ),
+			'page_hook' => $settings,
 		);
 
 		$tabs[] = array(
-			'id'        => 'display' ,
-			'position'  => 15 ,
-			'title'     => __( 'Display' , 'connections' ) ,
-			'page_hook' => $settings
+			'id'        => 'display',
+			'position'  => 15,
+			'title'     => __( 'Display', 'connections' ),
+			'page_hook' => $settings,
 		);
 
 		$tabs[] = array(
 			'id'        => 'field-configuration',
 			'position'  => 18,
-			'title'     => __( 'Fieldset Configuration' , 'connections' ),
-			'page_hook' => $settings
+			'title'     => __( 'Fieldset Configuration', 'connections' ),
+			'page_hook' => $settings,
 		);
 
 		$tabs[] = array(
-			'id'        => 'images' ,
-			'position'  => 20 ,
-			'title'     => __( 'Images' , 'connections' ) ,
-			'page_hook' => $settings
+			'id'        => 'images',
+			'position'  => 20,
+			'title'     => __( 'Images', 'connections' ),
+			'page_hook' => $settings,
 		);
 
 		$tabs[] = array(
-			'id'        => 'search' ,
-			'position'  => 30 ,
-			'title'     => __( 'Search' , 'connections' ) ,
-			'page_hook' => $settings
+			'id'        => 'search',
+			'position'  => 30,
+			'title'     => __( 'Search', 'connections' ),
+			'page_hook' => $settings,
 		);
 
 		$tabs[] = array(
-			'id'        => 'seo' ,
-			'position'  => 40 ,
-			'title'     => __( 'SEO' , 'connections' ) ,
-			'page_hook' => $settings
+			'id'        => 'seo',
+			'position'  => 40,
+			'title'     => __( 'SEO', 'connections' ),
+			'page_hook' => $settings,
 		);
 
 		$tabs[] = array(
-			'id'        => 'advanced' ,
-			'position'  => 60 ,
-			'title'     => __( 'Advanced' , 'connections' ) ,
-			'page_hook' => $settings
+			'id'        => 'advanced',
+			'position'  => 60,
+			'title'     => __( 'Advanced', 'connections' ),
+			'page_hook' => $settings,
 		);
 
 		return $tabs;
@@ -745,14 +745,14 @@ class cnRegisterSettings {
 		);
 
 		$sections[] = array(
-			'tab'       => 'advanced',
-			'id'        => 'connections_debug',
-			'position'  => 30,
-			'title'     => __( 'Debug' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings,
+			'tab'          => 'advanced',
+			'id'           => 'connections_debug',
+			'position'     => 30,
+			'title'        => __( 'Debug', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
 			'show_in_rest' => true,
-			'schema' => array( 'type' => 'object' ),
+			'schema'       => array( 'type' => 'object' ),
 		);
 
 		return $sections;
@@ -803,12 +803,12 @@ class cnRegisterSettings {
 			'help'              => '',
 			'type'              => $homePageType,
 			'options'           => array(
-				'exclude_cpt'       => $excludeCPT,
-				'include_cpt'       => $includeCPT,
+				'exclude_cpt' => $excludeCPT,
+				'include_cpt' => $includeCPT,
 			),
 			'show_option_none'  => __( 'Select Page', 'connections' ),
 			'option_none_value' => '0',
-			'schema'    => array( 'type' => 'string' ),
+			'schema'            => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -828,7 +828,7 @@ class cnRegisterSettings {
 			'default'           => 0,
 			// Only need to add this once on this tab, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'setAllowPublic' ),
-			'schema'    => array( 'type' => 'integer' ),
+			'schema'            => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -879,7 +879,7 @@ class cnRegisterSettings {
 			'default'           => 'US',
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'setGEOBase' ),
-			'schema'    => array( 'type' => 'string' ),
+			'schema'            => array( 'type' => 'string' ),
 		);
 
 		// cnGEO::getRegions() when called without the $country code @param
@@ -921,7 +921,7 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
 		);
 
 		$fields[] = array(
@@ -938,7 +938,7 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
 		);
 
 		/*
@@ -1077,7 +1077,7 @@ class cnRegisterSettings {
 				'view_all' => __(
 					'Show a "View All" link. When this option is enabled a "View All" link will be displayed.',
 					'connections'
-				)
+				),
 			)
 		);
 		$listActionsOptions['required'] = apply_filters( 'cn_list_action_options_required', array() );
@@ -1098,7 +1098,7 @@ class cnRegisterSettings {
 			'type'      => 'sortable_checklist',
 			'options'   => $listActionsOptions,
 			'default'   => 0,
-			'schema' => array(
+			'schema'    => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -1127,7 +1127,7 @@ class cnRegisterSettings {
 						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
 						'connections'
 					),
-					array(  'a' => array( 'href' => array(), 'target' => array() ) )
+					array( 'a' => array( 'href' => array(), 'target' => array() ) )
 				),
 				esc_url( 'https://connections-pro.com/documentation/settings/#Content_Blocks' )
 			),
@@ -1135,7 +1135,7 @@ class cnRegisterSettings {
 			'type'      => 'sortable_checklist',
 			'options'   => cnOptions::getContentBlocks( null, 'list' ),
 			'default'   => 0,
-			'schema' => array(
+			'schema'    => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -1187,7 +1187,7 @@ class cnRegisterSettings {
 					'vcard',
 				),
 			),
-			'schema' => array(
+			'schema'    => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -1241,7 +1241,7 @@ class cnRegisterSettings {
 			'type'      => 'sortable_checklist',
 			'options'   => cnOptions::getContentBlocks( null, 'single' ),
 			'default'   => 0,
-			'schema' => array(
+			'schema'    => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -1287,9 +1287,9 @@ class cnRegisterSettings {
 					'individual',
 					'organization',
 					'family',
-				)
+				),
 			),
-			'schema' => array(
+			'schema'    => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -2867,7 +2867,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 80,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2883,7 +2883,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 54,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2910,10 +2910,10 @@ class cnRegisterSettings {
 					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 					'connections'
 				),
-				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' ),
 			),
 			'default'   => 'crop',
-			'schema' => array(
+			'schema'    => array(
 				'type' => 'enum',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
@@ -2956,7 +2956,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 225,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2972,7 +2972,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 150,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2999,10 +2999,10 @@ class cnRegisterSettings {
 					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 					'connections'
 				),
-				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' ),
 			),
 			'default'   => 'crop',
-			'schema' => array(
+			'schema'    => array(
 				'type' => 'enum',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
@@ -3045,7 +3045,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 300,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -3061,7 +3061,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 225,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -3088,10 +3088,10 @@ class cnRegisterSettings {
 					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 					'connections'
 				),
-				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' ),
 			),
 			'default'   => 'crop',
-			'schema' => array(
+			'schema'    => array(
 				'type' => 'enum',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
@@ -3134,7 +3134,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 225,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -3150,7 +3150,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 150,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -3177,10 +3177,10 @@ class cnRegisterSettings {
 					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 					'connections'
 				),
-				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' ),
 			),
 			'default'   => 'fill',
-			'schema' => array(
+			'schema'    => array(
 				'type' => 'enum',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
@@ -3190,7 +3190,7 @@ class cnRegisterSettings {
 		 * The Search tab fields.
 		 */
 
-		$searchOptions['items']    = apply_filters(
+		$searchOptions['items'] = apply_filters(
 			'cn_search_field_options',
 			array(
 				'family_name'        => __( 'Family Name', 'connections' ),
@@ -3214,7 +3214,7 @@ class cnRegisterSettings {
 				'address_state'      => __( 'Address State', 'connections' ),
 				'address_zipcode'    => __( 'Address Zip Code', 'connections' ),
 				'address_country'    => __( 'Address Country', 'connections' ),
-				'phone_number'       => __( 'Phone Number', 'connections' )
+				'phone_number'       => __( 'Phone Number', 'connections' ),
 			)
 		);
 
@@ -3243,7 +3243,7 @@ class cnRegisterSettings {
 					'address_state',
 					'address_zipcode',
 					'address_country',
-					'phone_number'
+					'phone_number',
 				)
 			);
 
@@ -4374,8 +4374,8 @@ class cnRegisterSettings {
 			'quality' => 80,
 			'height'  => 150,
 			'width'   => 225,
-			'ratio'   => 'crop'
-			);
+			'ratio'   => 'crop',
+		);
 
 		$settings = cnSanitize::args( $settings, $defaults );
 

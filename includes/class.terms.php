@@ -1573,7 +1573,7 @@ class cnTerm {
 				 */
 				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms" ) + 1;
 
-				cnTerm::update( $alias->term_id, $taxonomy, array( 'term_group' => $term_group, ) );
+				cnTerm::update( $alias->term_id, $taxonomy, array( 'term_group' => $term_group ) );
 			}
 		}
 
@@ -1581,7 +1581,7 @@ class cnTerm {
 		 * Prevent the creation of terms with duplicate names at the same level of a taxonomy hierarchy,
 		 * unless a unique slug has been explicitly provided.
 		 */
-		$name_matches = self::getTaxonomyTerms( $taxonomy, array( 'name' => $name, 'hide_empty' => false, 'parent' => $args['parent'], ) );
+		$name_matches = self::getTaxonomyTerms( $taxonomy, array( 'name' => $name, 'hide_empty' => false, 'parent' => $args['parent'] ) );
 
 		/*
 		 * The `name` match in `self::getTaxonomyTerms()` doesn't differentiate accented characters,
@@ -1946,7 +1946,7 @@ class cnTerm {
 				 */
 				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms" ) + 1;
 
-				cnTerm::update( $alias->term_id, $taxonomy, array( 'term_group' => $term_group, ) );
+				cnTerm::update( $alias->term_id, $taxonomy, array( 'term_group' => $term_group ) );
 			}
 
 			$parsed_args['term_group'] = $term_group;

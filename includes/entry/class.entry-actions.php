@@ -1310,10 +1310,10 @@ class cnEntry_Action {
 						'id'     => 'cn-edit-entry',
 						'title'  => __( 'Edit Entry', 'connections' ),
 						'href'   => admin_url( wp_nonce_url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry[0]->id, 'entry_edit_' . $entry[0]->id ) ),
-						'meta'  => array(
+						'meta'   => array(
 							// 'class' => 'edit',
-							'title' => __( 'Edit Entry', 'connections' )
-							),
+							'title' => __( 'Edit Entry', 'connections' ),
+						),
 					)
 				);
 

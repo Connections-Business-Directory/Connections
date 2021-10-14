@@ -857,24 +857,31 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.8', '<' ) ) {
-			$fields['fields_entry'] = array( 'family_name' ,
-				'first_name' ,
-				'middle_name' ,
-				'last_name' ,
-				'title' ,
-				'organization' ,
-				'department' ,
-				'contact_first_name' ,
-				'contact_last_name' ,
-				'bio' ,
-				'notes' );
-			$fields['fields_address'] = array( 'line_1' ,
-				'line_2' ,
-				'line_3' ,
-				'city' ,
-				'state' ,
-				'zipcode' ,
-				'country' );
+
+			$fields['fields_entry'] = array(
+				'family_name',
+				'first_name',
+				'middle_name',
+				'last_name',
+				'title',
+				'organization',
+				'department',
+				'contact_first_name',
+				'contact_last_name',
+				'bio',
+				'notes',
+			);
+
+			$fields['fields_address'] = array(
+				'line_1',
+				'line_2',
+				'line_3',
+				'city',
+				'state',
+				'zipcode',
+				'country',
+			);
+
 			$fields['fields_phone'] = array( 'number' );
 
 			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.8.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";

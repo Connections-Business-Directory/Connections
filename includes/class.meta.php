@@ -335,7 +335,8 @@ class cnMeta {
 			array(
 				$column      => $id,
 				'meta_key'   => $key,
-				'meta_value' => _::maybeJSONencode( $value ) )
+				'meta_value' => _::maybeJSONencode( $value ),
+			)
 		);
 
 		if ( ! $result ) {
@@ -806,7 +807,7 @@ class cnMeta {
 			// Format the data query arguments.
 			$data = array(
 				'meta_key'   => $key,
-				'meta_value' => $value
+				'meta_value' => $value,
 			);
 
 			// Format the where query arguments.

@@ -160,7 +160,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 				'GEO',
 				array(
 					'latitude'  => $preferred->getLatitude(),
-					'longitude' => $preferred->getLongitude()
+					'longitude' => $preferred->getLongitude(),
 				)
 			);
 
@@ -170,7 +170,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 				'GEO',
 				array(
 					'latitude'  => $first->getLatitude(),
-					'longitude' => $first->getLongitude()
+					'longitude' => $first->getLongitude(),
 				)
 			);
 		}

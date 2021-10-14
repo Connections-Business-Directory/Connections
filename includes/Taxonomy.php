@@ -581,9 +581,9 @@ final class Taxonomy {
 			remove_rewrite_tag( $tag );
 			// remove_permastruct( $name );
 
-			remove_filter( 'Connections_Directory/Rewrite/Root_Rules/Taxonomy', array( $this , 'addRootRewriteRules' ) );
-			remove_filter( 'Connections_Directory/Rewrite/Page_Rules/Taxonomy', array( $this , 'addPageRewriteRules' ) );
-			remove_filter( 'Connections_Directory/Rewrite/CPT_Rules/Taxonomy', array( $this , 'addCPTRewriteRules' ) );
+			remove_filter( 'Connections_Directory/Rewrite/Root_Rules/Taxonomy', array( $this, 'addRootRewriteRules' ) );
+			remove_filter( 'Connections_Directory/Rewrite/Page_Rules/Taxonomy', array( $this, 'addPageRewriteRules' ) );
+			remove_filter( 'Connections_Directory/Rewrite/CPT_Rules/Taxonomy', array( $this, 'addCPTRewriteRules' ) );
 			remove_filter( 'Connections_Directory/Rewrite/Permalink_Slugs', array( $this, 'addRewriteSlug' ) );
 			remove_filter( 'cn_register_settings_fields', array( $this, 'registerSettingsFields' ) );
 		}

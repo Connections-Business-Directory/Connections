@@ -301,7 +301,7 @@ final class _color {
 
 		} elseif ( preg_match( "/^[0-9]+(,| |.)+[0-9]+(,| |.)+[0-9]+$/i", $color ) ) {
 
-			$spr = str_replace( array( ',',' ','.' ), ':', $color );
+			$spr = str_replace( array( ',', ' ', '.' ), ':', $color );
 			$e   = explode( ':', $spr );
 
 			if ( 3 != count( $e ) ) {

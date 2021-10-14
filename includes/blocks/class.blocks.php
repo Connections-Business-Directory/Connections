@@ -90,7 +90,7 @@ class Blocks {
 					),
 					'entryTypes' => \cnOptions::getEntryTypeOptions(),
 					'dateTypes'  => \cnOptions::getDateTypeOptions(),
-				)
+				),
 			)
 		);
 

@@ -109,7 +109,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 									'link_format',
 									'link_types',
 									'date_format',
-									'date_types'
+									'date_types',
 								),
 							),
 						),
@@ -163,7 +163,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 					'border_width'          => 1,
 					'border_color'          => '#E3E3E3',
 					'border_radius'         => 4,
-				)
+				),
 			);
 
 			$fields[] = array(
@@ -206,7 +206,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 					'date_types'            => '',
 					'link_format'           => '',
 					'link_types'            => '',
-				)
+				),
 			);
 
 			return $fields;

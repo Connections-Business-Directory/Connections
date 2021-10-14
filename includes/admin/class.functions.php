@@ -245,10 +245,10 @@ class cnAdminFunction {
 					'last_updated' => false,
 					'homepage'     => false,
 					'tags'         => false,
-					'sections'     => true
-					)
-				)
-        );
+					'sections'     => true,
+				),
+			)
+		);
 		// echo '<p>' . print_r( $plugin, TRUE ) .  '</p>';
 		// echo '<p>' . print_r( $plugin->sections['changelog'], TRUE ) .  '</p>';
 

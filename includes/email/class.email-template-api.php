@@ -113,8 +113,8 @@ class cnEmail_Template {
 			'path'        => '',
 			'url'         => '',
 			'thumbnail'   => '',
-			'parts'       => array()
-			);
+			'parts'       => array(),
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 

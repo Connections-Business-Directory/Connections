@@ -65,20 +65,20 @@ class cnGeo {
 	public static function distance( $origin , $destination , $atts = array() ) {
 		$defaultOrig = array(
 			'lat' => 0,
-			'lng' => 0
+			'lng' => 0,
 		);
 
 		$orig = wp_parse_args( $origin, $defaultOrig );
 
 		$defaultDest = array(
 			'lat' => 0,
-			'lng' => 0
+			'lng' => 0,
 		);
 
 		$dest = wp_parse_args( $destination, $defaultDest );
 
 		$defaults = array(
-			'return' => true
+			'return' => true,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

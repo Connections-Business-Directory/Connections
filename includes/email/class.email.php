@@ -388,7 +388,7 @@ class cnEmail {
 				'subject'     => $this->subject,
 				'message'     => $this->message,
 				'headers'     => $this->header,
-				'attachments' => $this->attachments
+				'attachments' => $this->attachments,
 			)
 		);
 

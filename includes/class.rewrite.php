@@ -41,9 +41,9 @@ class cnRewrite {
 		// remove_filter('template_redirect', 'redirect_canonical');
 		add_filter( 'redirect_canonical', array( __CLASS__, 'frontPageCanonicalRedirect' ), 10, 2 );
 
-		add_filter( 'query_vars', array( __CLASS__ , 'queryVars' ) );
-		add_filter( 'root_rewrite_rules', array( __CLASS__ , 'addRootRewriteRules' ) );
-		add_filter( 'page_rewrite_rules', array( __CLASS__ , 'addPageRewriteRules' ) );
+		add_filter( 'query_vars', array( __CLASS__, 'queryVars' ) );
+		add_filter( 'root_rewrite_rules', array( __CLASS__, 'addRootRewriteRules' ) );
+		add_filter( 'page_rewrite_rules', array( __CLASS__, 'addPageRewriteRules' ) );
 		// add_action( 'template_redirect', array( __CLASS__ , 'canonicalRedirectAction' ) );
 		// add_filter( 'redirect_canonical', array( __CLASS__ , 'canonicalRedirectFilter') , 10, 2 );
 

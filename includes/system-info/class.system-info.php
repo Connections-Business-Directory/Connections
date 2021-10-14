@@ -249,7 +249,7 @@ class cnSystem_Info {
 		$view[ self::LOG_TYPE ] = array(
 			'id'       => self::LOG_TYPE,
 			'name'     => __( 'System Info Email', 'connections' ),
-			'callback' => array( 'cnLog_Email', 'viewLogs' )
+			'callback' => array( 'cnLog_Email', 'viewLogs' ),
 		);
 
 		return $view;

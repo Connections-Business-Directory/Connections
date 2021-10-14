@@ -599,7 +599,7 @@ final class cnLog {
 			'post_title'   => $title,
 			'post_content' => $message,
 			'post_parent'  => $parent,
-			'type'         => $type
+			'type'         => $type,
 		);
 
 		return self::insert( $data );
@@ -634,7 +634,7 @@ final class cnLog {
 			'ping_status'    => 'closed',
 			'post_parent'    => 0,
 			'post_content'   => '',
-			'type'           => false
+			'type'           => false,
 		);
 
 		$data = wp_parse_args( $data, $defaults );
@@ -684,7 +684,7 @@ final class cnLog {
 		$defaults = array(
 			'post_type'   => self::POST_TYPE,
 			'post_status' => 'publish',
-			'post_parent' => 0
+			'post_parent' => 0,
 		);
 
 		$data = wp_parse_args( $data, $defaults );
@@ -734,7 +734,7 @@ final class cnLog {
 			'post_type'      => self::POST_TYPE,
 			'posts_per_page' => -1,
 			'post_status'    => 'publish',
-			'fields'         => 'ids'
+			'fields'         => 'ids',
 		);
 
 		if ( ! empty( $type ) && self::valid( $type ) ) {
@@ -744,7 +744,7 @@ final class cnLog {
 					'taxonomy' => self::TAXONOMY,
 					'field'    => 'slug',
 					'terms'    => $type,
-				)
+				),
 			);
 		}
 
@@ -822,7 +822,7 @@ final class cnLog {
 			'posts_per_page' => 20,
 			'post_status'    => 'publish',
 			'paged'          => cnQuery::getVar( 'paged' ),
-			'type'           => false
+			'type'           => false,
 		);
 
 		$query = wp_parse_args( $atts, $defaults );
@@ -855,8 +855,8 @@ final class cnLog {
 					array(
 						'taxonomy' => self::TAXONOMY,
 						'field'    => 'slug',
-						'terms'    => $types
-					)
+						'terms'    => $types,
+					),
 				);
 
 			}
@@ -894,7 +894,7 @@ final class cnLog {
 			'post_parent'    => $id,
 			'post_type'      => self::POST_TYPE,
 			'posts_per_page' => -1,
-			'post_status'    => 'publish'
+			'post_status'    => 'publish',
 		);
 
 		if ( ! empty( $type ) ) {
@@ -923,8 +923,8 @@ final class cnLog {
 				array(
 					'taxonomy' => self::TAXONOMY,
 					'field'    => 'slug',
-					'terms'    => $types
-				)
+					'terms'    => $types,
+				),
 			);
 
 		}
@@ -1010,8 +1010,8 @@ final class cnLog {
 				array(
 					'column' => 'post_date',
 					'before' => (string) $how_old,
-				)
-			)
+				),
+			),
 		);
 
 		$logs = get_posts( apply_filters( 'cn_log_purge_query_atts', $atts ) );

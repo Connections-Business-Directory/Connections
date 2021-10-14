@@ -354,15 +354,15 @@ HERERDOC;
 		$tabs[] = array(
 			'id'        => 'licenses',
 			'position'  => 50,
-			'title'     => __( 'Licenses' , 'connections' ),
-			'page_hook' => 'connections_page_connections_settings'
+			'title'     => __( 'Licenses', 'connections' ),
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		$tabs[] = array(
 			'id'        => 'beta',
 			'position'  => 50.1,
-			'title'     => __( 'Beta Versions' , 'connections' ),
-			'page_hook' => 'connections_page_connections_settings'
+			'title'     => __( 'Beta Versions', 'connections' ),
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		return $tabs;
@@ -392,7 +392,7 @@ HERERDOC;
 					'connections'
 				) , '</p>';
 			},
-			'page_hook' => 'connections_page_connections_settings'
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		$sections[] = array(
@@ -407,7 +407,7 @@ HERERDOC;
 					'connections'
 				) , '</p>';
 			},
-			'page_hook' => 'connections_page_connections_settings'
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		return $sections;
@@ -1154,7 +1154,7 @@ HERERDOC;
 			'edd_action' => $eddAction,
 			'license'    => $license,
 			'item_name'  => urlencode( $name ),
-			'url'        => home_url()
+			'url'        => home_url(),
 		);
 
 		// Call the API

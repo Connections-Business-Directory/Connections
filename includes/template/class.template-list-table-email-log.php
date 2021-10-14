@@ -319,7 +319,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 	protected function get_hidden_columns() {
 
 		$columns = array(
-			'id'
+			'id',
 		);
 
 		/**
@@ -521,7 +521,8 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$viewURL = add_query_arg(
 			array(
 				'action' => 'cn_log_email_view',
-				'log_id' => $log['id'] ),
+				'log_id' => $log['id'],
+			),
 			admin_url( 'admin.php' )
 		);
 

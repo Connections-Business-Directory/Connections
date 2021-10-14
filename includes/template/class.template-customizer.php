@@ -637,7 +637,7 @@ class cnTemplate_Customizer {
 					'type'        => 'checkbox',
 					'section'     => 'cn_template_customizer_section_global_display',
 					'settings'    => 'connections_display_results[index]',
-					'description' => __( 'Show the character index at the top of the results list.', 'connections' )
+					'description' => __( 'Show the character index at the top of the results list.', 'connections' ),
 				)
 			)
 		);
@@ -662,7 +662,7 @@ class cnTemplate_Customizer {
 					'type'        => 'checkbox',
 					'section'     => 'cn_template_customizer_section_global_display',
 					'settings'    => 'connections_display_results[index_repeat]',
-					'description' => __( 'Repeat the character index at the beginning of each character group.', 'connections' )
+					'description' => __( 'Repeat the character index at the beginning of each character group.', 'connections' ),
 				)
 			)
 		);
@@ -687,7 +687,7 @@ class cnTemplate_Customizer {
 					'type'        => 'checkbox',
 					'section'     => 'cn_template_customizer_section_global_display',
 					'settings'    => 'connections_display_results[show_current_character]',
-					'description' => __( 'Show the current character at the beginning of each character group.', 'connections' )
+					'description' => __( 'Show the current character at the beginning of each character group.', 'connections' ),
 				)
 			)
 		);
@@ -776,7 +776,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_category_select',
 						'settings'    => "{$base}_{$slug}[card][category_select]",
-						'description' => __( 'Whether or not to enable the category select drop down.', 'connections' )
+						'description' => __( 'Whether or not to enable the category select drop down.', 'connections' ),
 					)
 				)
 			);
@@ -802,7 +802,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_category_select',
 						'settings'    => "{$base}_{$slug}[card][show_empty_categories]",
-						'description' => __( 'Whether or not to display categories which have not entries assigned.', 'connections' )
+						'description' => __( 'Whether or not to display categories which have not entries assigned.', 'connections' ),
 					)
 				)
 			);
@@ -828,7 +828,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_category_select',
 						'settings'    => "{$base}_{$slug}[card][show_category_count]",
-						'description' => __( 'Whether or not to display the number of entries assigned to the categories.', 'connections' )
+						'description' => __( 'Whether or not to display the number of entries assigned to the categories.', 'connections' ),
 					)
 				)
 			);
@@ -918,7 +918,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_search',
 						'settings'    => "{$base}_{$slug}[card][search]",
-						'description' => __( 'Whether or not to display the search control', 'connections' )
+						'description' => __( 'Whether or not to display the search control', 'connections' ),
 					)
 				)
 			);
@@ -1008,7 +1008,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_pagination',
 						'settings'    => "{$base}_{$slug}[card][pagination]",
-						'description' => __( 'Whether or not to enable pagination support.', 'connections' )
+						'description' => __( 'Whether or not to enable pagination support.', 'connections' ),
 					)
 				)
 			);
@@ -1274,7 +1274,7 @@ class cnTemplate_Customizer {
 										'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 										'connections'
 									),
-									'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
+									'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' ),
 								),
 							)
 						)
@@ -1925,7 +1925,7 @@ class cnTemplate_Customizer {
 			array(
 				'type' => 'home',
 				'text' => __( 'Go Back', 'connections' ),
-				'return' => false
+				'return' => false,
 			)
 		);
 

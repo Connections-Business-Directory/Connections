@@ -48,7 +48,7 @@ final class cnRequirements_Check {
 			'checked' => false,
 			'passed'  => false,
 			'tested'  => false,
-		)
+		),
 	);
 
 	/**

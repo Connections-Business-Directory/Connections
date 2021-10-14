@@ -209,7 +209,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 					array(
 						'hide_empty' => false,
 						'search'     => $this->search,
-						'fields'     => 'count'
+						'fields'     => 'count',
 					)
 				),
 				'per_page'    => $per_page,

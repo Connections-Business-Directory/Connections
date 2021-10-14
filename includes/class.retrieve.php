@@ -408,7 +408,7 @@ class cnRetrieve {
 			'country',
 			// 'birthday',
 			// 'anniversary',
-			'sort_column'
+			'sort_column',
 		);
 
 		$orderFlags = array(
@@ -1442,7 +1442,7 @@ class cnRetrieve {
 			'status'                => array( 'approved' ),
 			'visibility'            => array(),
 			'allow_public_override' => false,
-			'private_override'      => false
+			'private_override'      => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1489,7 +1489,7 @@ class cnRetrieve {
 			'status'                => array( 'approved' ),
 			'visibility'            => array(),
 			'allow_public_override' => false,
-			'private_override'      => false
+			'private_override'      => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1532,7 +1532,7 @@ class cnRetrieve {
 			'table'                 => CN_ENTRY_TABLE,
 			'visibility'            => array(),
 			'allow_public_override' => false,
-			'private_override'      => false
+			'private_override'      => false,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1623,7 +1623,7 @@ class cnRetrieve {
 		$valid     = array( 'approved', 'pending' );
 		$permitted = array( 'approved' );
 		$defaults  = array(
-			'status' => array( 'approved' )
+			'status' => array( 'approved' ),
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -3496,7 +3496,7 @@ class cnRetrieve {
 			'zipcode',
 			'country',
 			'birthday',
-			'anniversary'
+			'anniversary',
 		);
 
 		$sortFlags = array(
@@ -3506,7 +3506,7 @@ class cnRetrieve {
 			'SORT_DESC' => SORT_DESC,
 			'SORT_REGULAR' => SORT_REGULAR,
 			'SORT_NUMERIC' => SORT_NUMERIC,
-			'SORT_STRING' => SORT_STRING
+			'SORT_STRING' => SORT_STRING,
 		);
 
 		$specifiedIDOrder = false;

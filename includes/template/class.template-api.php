@@ -374,7 +374,7 @@ class cnTemplateFactory {
 		/**
 		 * --> START <-- Find the available templates
 		 */
-		$templatePaths = array( CN_TEMPLATE_PATH , CN_CUSTOM_TEMPLATE_PATH );
+		$templatePaths = array( CN_TEMPLATE_PATH, CN_CUSTOM_TEMPLATE_PATH );
 		$templates     = new stdClass();
 		$baseDirs      = array();
 

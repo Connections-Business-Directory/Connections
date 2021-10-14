@@ -258,7 +258,7 @@ class Directory {
 			$orderBy = array(
 				'sort_column' . '|' . strtoupper( $attributes['order'] ),
 				'last_name',
-				'first_name'
+				'first_name',
 			);
 		}
 

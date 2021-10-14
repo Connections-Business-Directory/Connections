@@ -291,8 +291,8 @@ class cnOptions {
 		$options = array(
 			'public'   => __( 'Public', 'connections' ),
 			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
+			'unlisted' => __( 'Unlisted', 'connections' ),
+		);
 
 		foreach ( $options as $key => $option ) {
 
@@ -428,41 +428,41 @@ class cnOptions {
 	public function getDefaultFamilyRelationValues() {
 
 		$options = array(
-			'aunt'             => __( 'Aunt', 'connections' ),
-			'brother'          => __( 'Brother', 'connections' ),
-			'brotherinlaw'     => __( 'Brother-in-law', 'connections' ),
-			'cousin'           => __( 'Cousin', 'connections' ),
-			'daughter'         => __( 'Daughter', 'connections' ),
-			'daughterinlaw'    => __( 'Daughter-in-law', 'connections' ),
-			'father'           => __( 'Father', 'connections' ),
-			'fatherinlaw'      => __( 'Father-in-law', 'connections' ),
-			'friend'           => __( 'Friend', 'connections' ),
-			'granddaughter'    => __( 'Grand Daughter', 'connections' ),
-			'grandfather'      => __( 'Grand Father', 'connections' ),
-			'grandmother'      => __( 'Grand Mother', 'connections' ),
-			'grandson'         => __( 'Grand Son', 'connections' ),
-			'greatgrandmother' => __( 'Great Grand Mother', 'connections' ),
-			'greatgrandfather' => __( 'Great Grand Father', 'connections' ),
-			'husband'          => __( 'Husband', 'connections' ),
-			'mother'           => __( 'Mother', 'connections' ),
-			'motherinlaw'      => __( 'Mother-in-law', 'connections' ),
-			'nephew'           => __( 'Nephew', 'connections' ),
-			'niece'            => __( 'Niece', 'connections' ),
-			'partner'          => __( 'Partner', 'connections' ),
-			'significant_other'=> __( 'Significant Other', 'connections' ),
-			'sister'           => __( 'Sister', 'connections' ),
-			'sisterinlaw'      => __( 'Sister-in-law', 'connections' ),
-			'spouse'           => __( 'Spouse', 'connections' ),
-			'son'              => __( 'Son', 'connections' ),
-			'soninlaw'         => __( 'Son-in-law', 'connections' ),
-			'stepbrother'      => __( 'Step Brother', 'connections' ),
-			'stepdaughter'     => __( 'Step Daughter', 'connections' ),
-			'stepfather'       => __( 'Step Father', 'connections' ),
-			'stepmother'       => __( 'Step Mother', 'connections' ),
-			'stepsister'       => __( 'Step Sister', 'connections' ),
-			'stepson'          => __( 'Step Son', 'connections' ),
-			'uncle'            => __( 'Uncle', 'connections' ),
-			'wife'             => __( 'Wife', 'connections' )
+			'aunt'              => __( 'Aunt', 'connections' ),
+			'brother'           => __( 'Brother', 'connections' ),
+			'brotherinlaw'      => __( 'Brother-in-law', 'connections' ),
+			'cousin'            => __( 'Cousin', 'connections' ),
+			'daughter'          => __( 'Daughter', 'connections' ),
+			'daughterinlaw'     => __( 'Daughter-in-law', 'connections' ),
+			'father'            => __( 'Father', 'connections' ),
+			'fatherinlaw'       => __( 'Father-in-law', 'connections' ),
+			'friend'            => __( 'Friend', 'connections' ),
+			'granddaughter'     => __( 'Grand Daughter', 'connections' ),
+			'grandfather'       => __( 'Grand Father', 'connections' ),
+			'grandmother'       => __( 'Grand Mother', 'connections' ),
+			'grandson'          => __( 'Grand Son', 'connections' ),
+			'greatgrandmother'  => __( 'Great Grand Mother', 'connections' ),
+			'greatgrandfather'  => __( 'Great Grand Father', 'connections' ),
+			'husband'           => __( 'Husband', 'connections' ),
+			'mother'            => __( 'Mother', 'connections' ),
+			'motherinlaw'       => __( 'Mother-in-law', 'connections' ),
+			'nephew'            => __( 'Nephew', 'connections' ),
+			'niece'             => __( 'Niece', 'connections' ),
+			'partner'           => __( 'Partner', 'connections' ),
+			'significant_other' => __( 'Significant Other', 'connections' ),
+			'sister'            => __( 'Sister', 'connections' ),
+			'sisterinlaw'       => __( 'Sister-in-law', 'connections' ),
+			'spouse'            => __( 'Spouse', 'connections' ),
+			'son'               => __( 'Son', 'connections' ),
+			'soninlaw'          => __( 'Son-in-law', 'connections' ),
+			'stepbrother'       => __( 'Step Brother', 'connections' ),
+			'stepdaughter'      => __( 'Step Daughter', 'connections' ),
+			'stepfather'        => __( 'Step Father', 'connections' ),
+			'stepmother'        => __( 'Step Mother', 'connections' ),
+			'stepsister'        => __( 'Step Sister', 'connections' ),
+			'stepson'           => __( 'Step Son', 'connections' ),
+			'uncle'             => __( 'Uncle', 'connections' ),
+			'wife'              => __( 'Wife', 'connections' ),
 		);
 
 		return apply_filters( 'cn_family_relation_options', $options );
@@ -495,10 +495,10 @@ class cnOptions {
 	public static function getCoreAddressTypes() {
 
 		$types = array(
-			'home'   => __( 'Home' , 'connections' ),
-			'work'   => __( 'Work' , 'connections' ),
-			'school' => __( 'School' , 'connections' ),
-			'other'  => __( 'Other' , 'connections' )
+			'home'   => __( 'Home', 'connections' ),
+			'work'   => __( 'Work', 'connections' ),
+			'school' => __( 'School', 'connections' ),
+			'other'  => __( 'Other', 'connections' ),
 		);
 
 		// Return all registered types, including the "core" types.
@@ -527,19 +527,19 @@ class cnOptions {
 
 			$registered = self::getCoreAddressTypes();
 
-			$type    = cnArray::get( $options, 'address-types.type', $registered );
-			$active  = cnArray::get( $options, 'address-types.active', array_flip( $registered ) );
-			$order   = cnArray::get( $options, 'address-types.order', array() );
+			$type   = cnArray::get( $options, 'address-types.type', $registered );
+			$active = cnArray::get( $options, 'address-types.active', array_flip( $registered ) );
+			$order  = cnArray::get( $options, 'address-types.order', array() );
 
 			// Add active address types registered via the `cn_address_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_address_options` filter.
-			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_address_options', $active ) ) ) );
+			$active = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_address_options', $active ) ) ) );
 
 			// Remove address types from the order if they do not exist in the registered address types to account for removed address types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
@@ -640,11 +640,11 @@ class cnOptions {
 	public static function getCorePhoneTypes() {
 
 		$types = array(
-			'homephone' => __( 'Home Phone' , 'connections' ),
-			'homefax'   => __( 'Home Fax' , 'connections' ),
-			'cellphone' => __( 'Cell Phone' , 'connections' ),
-			'workphone' => __( 'Work Phone' , 'connections' ),
-			'workfax'   => __( 'Work Fax' , 'connections' )
+			'homephone' => __( 'Home Phone', 'connections' ),
+			'homefax'   => __( 'Home Fax', 'connections' ),
+			'cellphone' => __( 'Cell Phone', 'connections' ),
+			'workphone' => __( 'Work Phone', 'connections' ),
+			'workfax'   => __( 'Work Fax', 'connections' ),
 		);
 
 		// Return all registered types, including the "core" types.
@@ -673,19 +673,19 @@ class cnOptions {
 
 			$registered = self::getCorePhoneTypes();
 
-			$type    = cnArray::get( $options, 'phone-types.type', $registered );
-			$active  = cnArray::get( $options, 'phone-types.active', array_flip( $registered ) );
-			$order   = cnArray::get( $options, 'phone-types.order', array() );
+			$type   = cnArray::get( $options, 'phone-types.type', $registered );
+			$active = cnArray::get( $options, 'phone-types.active', array_flip( $registered ) );
+			$order = cnArray::get( $options, 'phone-types.order', array() );
 
 			// Add active phone type registered via the `cn_phone_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_phone_options` filter.
-			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_phone_options', $active ) ) ) );
+			$active = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_phone_options', $active ) ) ) );
 
 			// Remove phone types from the order if they do not exist in the registered phone types to account for removed phone types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
@@ -785,8 +785,8 @@ class cnOptions {
 	public static function getCoreEmailTypes() {
 
 		$types = array(
-			'personal' => __( 'Personal Email' , 'connections' ),
-			'work'     => __( 'Work Email' , 'connections' )
+			'personal' => __( 'Personal Email', 'connections' ),
+			'work'     => __( 'Work Email', 'connections' ),
 		);
 
 		// Return all registered types, including the "core" types.
@@ -815,19 +815,19 @@ class cnOptions {
 
 			$registered = self::getCoreEmailTypes();
 
-			$type    = cnArray::get( $options, 'email-types.type', $registered );
-			$active  = cnArray::get( $options, 'email-types.active', array_flip( $registered ) );
-			$order   = cnArray::get( $options, 'email-types.order', array() );
+			$type   = cnArray::get( $options, 'email-types.type', $registered );
+			$active = cnArray::get( $options, 'email-types.active', array_flip( $registered ) );
+			$order  = cnArray::get( $options, 'email-types.order', array() );
 
 			// Add active email type registered via the `cn_email_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_email_options` filter.
-			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_email_options', $active ) ) ) );
+			$active = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_email_options', $active ) ) ) );
 
 			// Remove email types from the order if they do not exist in the registered email types to account for removed email types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
@@ -956,7 +956,7 @@ class cnOptions {
 			'vimeo'         => 'vimeo',
 			'vk'            => 'VK',
 			'yelp'          => 'Yelp',
-			'youtube'       => 'YouTube'
+			'youtube'       => 'YouTube',
 		);
 
 		// Return all registered types, including the "core" types.
@@ -984,19 +984,19 @@ class cnOptions {
 
 			$registered = self::getCoreSocialNetworkTypes();
 
-			$type    = cnArray::get( $options, 'social-network-types.icon', $registered );
-			$active  = cnArray::get( $options, 'social-network-types.active', array_flip( $registered ) );
-			$order   = cnArray::get( $options, 'social-network-types.order', array() );
+			$type   = cnArray::get( $options, 'social-network-types.icon', $registered );
+			$active = cnArray::get( $options, 'social-network-types.active', array_flip( $registered ) );
+			$order  = cnArray::get( $options, 'social-network-types.order', array() );
 
 			// Add active types registered via the `cn_social_network_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_social_network_options` filter.
-			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_social_network_options', $active ) ) ) );
+			$active = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_social_network_options', $active ) ) ) );
 
 			// Remove types from the order if they do not exist in the registered types to account for removed types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$networks = array_intersect_key( $type, array_flip( $active ) );
@@ -1099,7 +1099,7 @@ class cnOptions {
 			'jabber'    => 'Jabber / Google Talk',
 			'messenger' => 'Live Messenger',
 			'skype'     => 'Skype',
-			'icq'       => 'ICQ'
+			'icq'       => 'ICQ',
 		);
 
 		// Return all registered types, including the "core" types.
@@ -1128,19 +1128,19 @@ class cnOptions {
 
 			$registered = self::getCoreMessengerTypes();
 
-			$type    = cnArray::get( $options, 'messenger-types.type', $registered );
-			$active  = cnArray::get( $options, 'messenger-types.active', array_flip( $registered ) );
-			$order   = cnArray::get( $options, 'messenger-types.order', array() );
+			$type   = cnArray::get( $options, 'messenger-types.type', $registered );
+			$active = cnArray::get( $options, 'messenger-types.active', array_flip( $registered ) );
+			$order  = cnArray::get( $options, 'messenger-types.order', array() );
 
 			// Add active IM types registered via the `cn_instant_messenger_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_instant_messenger_options` filter.
-			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_instant_messenger_options', $active ) ) ) );
+			$active = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_instant_messenger_options', $active ) ) ) );
 
 			// Remove IM types from the order if they do not exist in the registered IM types to account for removed IM types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
@@ -1240,8 +1240,8 @@ class cnOptions {
 	public static function getCoreLinkTypes() {
 
 		$types = array(
-			'website' => __( 'Website' , 'connections' ),
-			'blog'    => __( 'Blog' , 'connections' ),
+			'website' => __( 'Website', 'connections' ),
+			'blog'    => __( 'Blog', 'connections' ),
 		);
 
 		// Return all registered types, including the "core" types.
@@ -1270,19 +1270,19 @@ class cnOptions {
 
 			$registered = self::getCoreLinkTypes();
 
-			$type    = cnArray::get( $options, 'link-types.type', $registered );
-			$active  = cnArray::get( $options, 'link-types.active', array_flip( $registered ) );
-			$order   = cnArray::get( $options, 'link-types.order', array() );
+			$type   = cnArray::get( $options, 'link-types.type', $registered );
+			$active = cnArray::get( $options, 'link-types.active', array_flip( $registered ) );
+			$order  = cnArray::get( $options, 'link-types.order', array() );
 
 			// Add active link types registered via the `cn_link_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_link_options` filter.
-			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_link_options', $active ) ) ) );
+			$active = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_link_options', $active ) ) ) );
 
 			// Remove link types from the order if they do not exist in the registered link types to account for removed link types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
@@ -1382,16 +1382,16 @@ class cnOptions {
 	public static function getCoreDateTypes() {
 
 		$types = array(
-			'anniversary'          => __( 'Anniversary' , 'connections' ),
-			'baptism'              => __( 'Baptism' , 'connections' ),
-			'birthday'             => __( 'Birthday' , 'connections' ),
-			'deceased'             => __( 'Deceased' , 'connections' ),
-			'certification'        => __( 'Certification' , 'connections' ),
-			'employment'           => __( 'Employment' , 'connections' ),
-			'membership'           => __( 'Membership' , 'connections' ),
-			'graduate_high_school' => __( 'Graduate High School' , 'connections' ),
-			'graduate_college'     => __( 'Graduate College' , 'connections' ),
-			'ordination'           => __( 'Ordination' , 'connections' )
+			'anniversary'          => __( 'Anniversary', 'connections' ),
+			'baptism'              => __( 'Baptism', 'connections' ),
+			'birthday'             => __( 'Birthday', 'connections' ),
+			'deceased'             => __( 'Deceased', 'connections' ),
+			'certification'        => __( 'Certification', 'connections' ),
+			'employment'           => __( 'Employment', 'connections' ),
+			'membership'           => __( 'Membership', 'connections' ),
+			'graduate_high_school' => __( 'Graduate High School', 'connections' ),
+			'graduate_college'     => __( 'Graduate College', 'connections' ),
+			'ordination'           => __( 'Ordination', 'connections' ),
 		);
 
 		// Return all registered types, including the "core" types.
@@ -1420,19 +1420,19 @@ class cnOptions {
 
 			$registered = self::getCoreDateTypes();
 
-			$type    = cnArray::get( $options, 'date-types.type', $registered );
-			$active  = cnArray::get( $options, 'date-types.active', array_flip( $registered ) );
-			$order   = cnArray::get( $options, 'date-types.order', array() );
+			$type   = cnArray::get( $options, 'date-types.type', $registered );
+			$active = cnArray::get( $options, 'date-types.active', array_flip( $registered ) );
+			$order  = cnArray::get( $options, 'date-types.order', array() );
 
 			// Add active date types registered via the `cn_date_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_date_options` filter.
-			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_date_options', $active ) ) ) );
+			$active = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_date_options', $active ) ) ) );
 
 			// Remove types from the order if they do not exist in the registered types to account for removed types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
@@ -1742,8 +1742,8 @@ class cnOptions {
 	public static function getBaseGeoCoordinates() {
 
 		$coordinates = array(
-			'latitude'       => 39.8283,
-			'longitude'      => -98.5795,
+			'latitude'  => 39.8283,
+			'longitude' => -98.5795,
 		);
 
 		$countryCode = self::getBaseCountry();

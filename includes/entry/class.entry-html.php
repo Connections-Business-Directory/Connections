@@ -68,7 +68,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
 
-		$this->getImage( array( 'image' => 'photo' , 'preset' => 'profile' ) );
+		$this->getImage( array( 'image' => 'photo', 'preset' => 'profile' ) );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
 
-		$this->getImage( array( 'image' => 'photo' , 'preset' => 'thumbnail' ) );
+		$this->getImage( array( 'image' => 'photo', 'preset' => 'thumbnail' ) );
 	}
 
 	/**
@@ -693,7 +693,7 @@ class cnEntry_HTML extends cnEntry {
 			'target' => 'name',
 			'before' => '',
 			'after'  => '',
-			'return' => false
+			'return' => false,
 		);
 
 		/**
@@ -718,6 +718,7 @@ class cnEntry_HTML extends cnEntry {
 			'%middle_initial%',
 			'%last_initial%',
 		);
+
 		$replace         = array();
 		$honorificPrefix = $this->getHonorificPrefix();
 		$first           = $this->getFirstName();
@@ -965,7 +966,7 @@ class cnEntry_HTML extends cnEntry {
 			'tag'    => 'span',
 			'before' => '',
 			'after'  => '',
-			'return' => false
+			'return' => false,
 		);
 
 		/**
@@ -1024,9 +1025,9 @@ class cnEntry_HTML extends cnEntry {
 			'show_dept' => true,
 			'link'      => array(
 				'organization' => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
-				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
+				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' ),
 			),
-			'return'    => false
+			'return'    => false,
 		);
 
 		/**
@@ -1058,7 +1059,7 @@ class cnEntry_HTML extends cnEntry {
 							'text'       => $org,
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => true
+							'return'     => true,
 						)
 					);
 
@@ -1083,7 +1084,7 @@ class cnEntry_HTML extends cnEntry {
 							'text'       => $dept,
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => true
+							'return'     => true,
 						)
 					);
 
@@ -1159,7 +1160,7 @@ class cnEntry_HTML extends cnEntry {
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => false
+			'return'    => false,
 		);
 
 		/**
@@ -1856,7 +1857,7 @@ class cnEntry_HTML extends cnEntry {
 
 			$iconClass = array(
 				"cn-brandicon-{$iconSlug}",
-				"cn-brandicon-size-{$iconSize}"
+				"cn-brandicon-size-{$iconSize}",
 			);
 
 			$classes = array_map( 'sanitize_html_class', $iconClass );
@@ -1912,7 +1913,7 @@ class cnEntry_HTML extends cnEntry {
 		/*
 		 * Set some defaults so the result resembles how the previous rendered.
 		 */
-		return $this->getLinkBlock( array( 'format' => '%label%%separator% %url%' , 'type' => array( 'personal', 'website' ) , 'return' => true ) );
+		return $this->getLinkBlock( array( 'format' => '%label%%separator% %url%', 'type' => array( 'personal', 'website' ), 'return' => true ) );
 	}
 
 	/**
@@ -2112,25 +2113,25 @@ class cnEntry_HTML extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults = array();
-		$defaults['format'] = '';
+		$defaults                = array();
+		$defaults['format']      = '';
 		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
 		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
 
 		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = false;
+		$defaults['before']    = '';
+		$defaults['after']     = '';
+		$defaults['return']    = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$search = array( '%label%' , '%date%' , '%separator%' );
+		$out     = '';
+		$search  = array( '%label%', '%date%', '%separator%' );
 		$replace = array();
 
 		if ( ! $this->getBirthday() ) {
@@ -2197,24 +2198,24 @@ class cnEntry_HTML extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults = array();
-		$defaults['format'] = '';
+		$defaults                = array();
+		$defaults['format']      = '';
 		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
 		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = false;
+		$defaults['separator']   = ':';
+		$defaults['before']      = '';
+		$defaults['after']       = '';
+		$defaults['return']      = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$search = array( '%label%' , '%date%' , '%separator%' );
+		$out     = '';
+		$search  = array( '%label%', '%date%', '%separator%' );
 		$replace = array();
 
 		if ( ! $this->getAnniversary() ) {
@@ -2266,9 +2267,9 @@ class cnEntry_HTML extends cnEntry {
 	public function getNotesBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '',
-			'after'     => '',
-			'return'    => false
+			'before' => '',
+			'after'  => '',
+			'return' => false,
 		);
 
 		/**
@@ -2304,9 +2305,9 @@ class cnEntry_HTML extends cnEntry {
 	public function getBioBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '',
-			'after'     => '',
-			'return'    => false
+			'before' => '',
+			'after'  => '',
+			'return' => false,
 		);
 
 		/**
@@ -2339,11 +2340,11 @@ class cnEntry_HTML extends cnEntry {
 	public function excerpt( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '',
-			'after'     => '',
-			'length'    => apply_filters( 'cn_excerpt_length', 55 ),
-			'more'      => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
-			'return'    => false
+			'before' => '',
+			'after'  => '',
+			'length' => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'   => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
+			'return' => false,
 		);
 
 		/**
@@ -2509,8 +2510,8 @@ class cnEntry_HTML extends cnEntry {
 			'header_tag'    => 'h3',
 			'before'        => '',
 			'after'         => '',
-			'return'        => false
-			);
+			'return'        => false,
+		);
 
 		$atts = wp_parse_args(
 			apply_filters( 'cn_output_content_block_atts', $atts ),
@@ -2785,7 +2786,7 @@ class cnEntry_HTML extends cnEntry {
 			'slug'   => '',
 			'before' => '',
 			'after'  => '',
-			'return' => false
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts , $defaults );

@@ -324,7 +324,7 @@ final class Connections_Directory {
 		add_filter( 'cn_register_settings_fields', array( 'cnRegisterSettings', 'registerSettingsFields' ), 10, 1 );
 
 		// cnAdminMenu must load before the cnMetaboxAPI so the admin page hooks are defined.
-		add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
+		add_action( 'admin_menu', array( 'cnAdminMenu', 'init' ) );
 
 		// Register the core entry metabox and fields.
 		add_action( 'cn_metabox', array( 'cnEntryMetabox', 'init' ), 1 );
@@ -450,8 +450,8 @@ final class Connections_Directory {
 						update_option(
 							'connections_visibility',
 							array(
-								'allow_public_override' => $options['settings']['allow_public_override'],
-								'allow_private_override' => $options['settings']['allow_private_override']
+								'allow_public_override'  => $options['settings']['allow_public_override'],
+								'allow_private_override' => $options['settings']['allow_private_override'],
 							)
 						);
 					}

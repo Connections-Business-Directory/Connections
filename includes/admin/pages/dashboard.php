@@ -64,7 +64,7 @@ function connectionsShowDashboardPage() {
 		<?php
 		$attr = array(
 			'action' => '',
-			'method' => 'get'
+			'method' => 'get',
 		);
 
 		$form->open( $attr );

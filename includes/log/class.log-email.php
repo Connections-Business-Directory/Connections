@@ -161,7 +161,7 @@ final class cnLog_Email {
 		$view[ self::LOG_TYPE ] = array(
 			'id'       => self::LOG_TYPE,
 			'name'     => __( 'System Email', 'connections' ),
-			'callback' => array( __CLASS__, 'viewLogs' )
+			'callback' => array( __CLASS__, 'viewLogs' ),
 		);
 
 		return $view;
@@ -197,7 +197,7 @@ final class cnLog_Email {
 			'email-log',
 			array(
 				'screen' => get_current_screen()->id,
-				'type' => $type
+				'type'   => $type,
 			)
 		);
 

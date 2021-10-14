@@ -162,7 +162,7 @@ $notes = $entry->getNotes();
 							'font-size'    => '10px',
 							'font-variant' => 'small-caps',
 							'margin-right' => '10px',
-						)
+						),
 					)
 				);
 			}

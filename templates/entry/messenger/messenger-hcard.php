@@ -11,7 +11,7 @@
  */
 
 $rows   = array();
-$search = array( '%label%' , '%id%' , '%separator%' );
+$search = array( '%label%', '%id%', '%separator%' );
 
 foreach ( $networks as $messenger ) {
 	$replace = array();

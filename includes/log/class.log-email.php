@@ -254,9 +254,9 @@ final class cnLog_Email {
 
 		wp_enqueue_style( 'cn-admin' );
 
-		require_once( ABSPATH . 'wp-admin/admin-header.php' );
-		require_once( CN_PATH . 'includes/log/inc.log-email-detail.php' );
-		require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+		require_once ABSPATH . 'wp-admin/admin-header.php';
+		require_once CN_PATH . 'includes/log/inc.log-email-detail.php';
+		require_once ABSPATH . 'wp-admin/admin-footer.php';
 	}
 
 	/**

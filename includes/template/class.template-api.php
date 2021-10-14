@@ -419,7 +419,7 @@ class cnTemplateFactory {
 					if ( file_exists( $path . 'meta.php' ) && file_exists( $path . 'template.php' ) ) {
 
 						$template = new stdClass();
-						include( $path . 'meta.php' );
+						include $path . 'meta.php';
 						$template->slug = $templateDirectory;
 
 						if ( ! isset( $template->type ) ) {

@@ -212,7 +212,7 @@ class cnTemplate {
 					'cn_template-' . $this->slug,
 					function( $entry, $template, $atts ) use ( $templatePath ) {
 
-						include( $templatePath );
+						include $templatePath;
 					},
 					10,
 					3
@@ -224,7 +224,7 @@ class cnTemplate {
 					'cn_action_card-' . $this->slug,
 					function( $entry, $template, $atts ) use ( $templatePath ) {
 
-						include( $templatePath );
+						include $templatePath;
 					},
 					10,
 					3
@@ -1108,7 +1108,7 @@ class cnTemplate {
 	public function includeFunctions() {
 
 		// var_dump( $this->path . $this->functions );
-		include_once( $this->path . $this->functions );
+		include_once $this->path . $this->functions;
 	}
 
 	/**

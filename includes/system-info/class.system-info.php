@@ -128,8 +128,8 @@ class cnSystem_Info {
 		if ( $queryValue == $token ) {
 
 			/** WordPress Plugin Administration API */
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			require_once( ABSPATH . 'wp-admin/includes/update.php' );
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			require_once ABSPATH . 'wp-admin/includes/update.php';
 
 			echo '<pre>';
 			self::display();

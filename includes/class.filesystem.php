@@ -457,7 +457,7 @@ class cnUpload {
 		remove_all_filters( 'wp_handle_upload' );
 
 		if ( ! function_exists( 'wp_handle_upload' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
 		// Add filter to change the file upload destination directory.

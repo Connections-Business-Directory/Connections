@@ -180,11 +180,11 @@ class cnTemplatePart {
 
 		if ( $require_once ) {
 
-			$result = require_once( $file );
+			$result = require_once $file;
 
 		} else {
 
-			$result = require( $file );
+			$result = require $file;
 		}
 
 		$result = $result === false ? $result : true;
@@ -213,7 +213,7 @@ class cnTemplatePart {
 
 		if ( array_key_exists( $type, $table ) ) {
 
-			require_once( CN_PATH . 'includes/template/class.template-list-table-' . $type . '.php' );
+			require_once CN_PATH . 'includes/template/class.template-list-table-' . $type . '.php';
 
 			return new $table[ $type ]( $args );
 		}
@@ -245,7 +245,7 @@ class cnTemplatePart {
 
 		if ( array_key_exists( $type, $walker ) ) {
 
-			require_once( CN_PATH . 'includes/template/class.template-walker-' . $type . '.php' );
+			require_once CN_PATH . 'includes/template/class.template-walker-' . $type . '.php';
 
 			return call_user_func( array( $walker[ $type ], 'render' ), $args );
 		}

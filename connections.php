@@ -25,8 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-include( dirname( __FILE__ ) . '/includes/class.requirements-check.php' );
-include( dirname( __FILE__ ) . '/includes/class.text-domain.php' );
+require dirname( __FILE__ ) . '/includes/class.requirements-check.php';
+require dirname( __FILE__ ) . '/includes/class.text-domain.php';
 
 /**
  * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
@@ -58,7 +58,7 @@ $check = new cnRequirements_Check(
 
 if ( $check->passes() ) {
 
-	include( dirname( __FILE__ ) . '/includes/class.connections-directory.php' );
+	include dirname( __FILE__ ) . '/includes/class.connections-directory.php';
 
 	// Start Connections.
 	if ( class_exists( 'Connections_Directory' ) ) {

@@ -447,7 +447,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			// Output stream of image content
 			header( "Content-Type: $mime_type" );
-			print $this->image->getimageblob();
+			print $this->image->getImageBlob(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			// Reset Image to original Format
 			$this->image->setimageformat( $this->get_extension( $this->mime_type ) );

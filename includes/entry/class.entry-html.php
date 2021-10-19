@@ -2837,7 +2837,7 @@ class cnEntry_HTML extends cnEntry {
 
 		$out = '<span class="vcard-block">';
 
-		$replace[] = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
+		$replace[] = '<a ' . implode( ' ', $piece ) . '>' . esc_html( $atts['text'] ) . '</a>';
 
 		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . esc_url( CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png' ) . '" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 

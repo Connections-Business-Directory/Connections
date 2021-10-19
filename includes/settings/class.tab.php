@@ -18,37 +18,43 @@ class Tab {
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var string
 	 */
 	private $pluginID;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var string
 	 */
 	private $id;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var string
 	 */
 	private $pageHook;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var array
 	 */
 	private $options;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var Section[]
 	 */
 	private $sections = array();
 
 	/**
 	 * 8.30
-	 * @var
+	 *
+	 * @var array
 	 */
 	private $fields = array();
 

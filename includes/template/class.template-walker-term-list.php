@@ -184,7 +184,7 @@ class CN_Walker_Term_List extends Walker {
 
 			if ( ! empty( $atts['show_option_all'] ) ) {
 
-				$out .= '<li class="cat-item-all"><a href="' . cnURL::permalink( array( 'type' => 'home', 'data' => 'url', 'return' => true ) )  . '">' . $atts['show_option_all'] . '</a></li>';
+				$out .= '<li class="cat-item-all"><a href="' . cnURL::permalink( array( 'type' => 'home', 'data' => 'url', 'return' => true ) ) . '">' . $atts['show_option_all'] . '</a></li>';
 			}
 
 			$out .= $walker->walk( $terms, $atts['depth'], $atts );

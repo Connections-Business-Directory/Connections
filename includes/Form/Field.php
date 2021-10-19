@@ -140,7 +140,7 @@ abstract class Field implements Interfaces\Field {
 	 */
 	public function render() {
 
-		echo $this->getHTML();
+		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

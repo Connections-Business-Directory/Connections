@@ -16,7 +16,10 @@
  */
 class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
-	protected $image = null; // Gmagick Object
+	/**
+	 * @var Gmagick
+	 */
+	protected $image = null;
 
 	function __destruct() {
 		if ( $this->image instanceof Gmagick ) {

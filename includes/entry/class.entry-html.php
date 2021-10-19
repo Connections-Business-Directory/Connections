@@ -42,7 +42,7 @@ class cnEntry_HTML extends cnEntry {
 
 		} else {
 
-			echo $html;
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return '';
 		}
 	}
@@ -622,9 +622,15 @@ class cnEntry_HTML extends cnEntry {
 			return;
 		}
 
-		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . esc_html( $atts['text'] ) . '</a>';
+		$html = apply_filters(
+			'cn_entry_edit_permalink',
+			'<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . esc_html( $atts['text'] ) . '</a>',
+			$url,
+			$atts,
+			$this
+		);
 
-		echo apply_filters( 'cn_entry_edit_permalink', $link, $url, $atts, $this );
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -654,7 +660,9 @@ class cnEntry_HTML extends cnEntry {
 
 		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . esc_html__( 'Delete', 'connections' ) . ' ' . $this->getName() . '">' . esc_html( $atts['text'] ) . '</a>';
 
-		echo apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
+		$html = apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

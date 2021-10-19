@@ -1839,7 +1839,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 			}
 
-			echo $out;
+			echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		/**

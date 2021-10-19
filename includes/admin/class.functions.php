@@ -539,7 +539,7 @@ class cnAdminFunction {
 				'https://wordpress.org/support/plugin/connections/reviews/?filter=5#new-post'
 			);
 
-			return str_replace( '</span>', '', $text ) . ' | ' . $rate_text . '</span>';
+			return str_replace( '</span>', '', $text ) . ' | ' . wp_kses_post( $rate_text ) . '</span>';
 
 		} else {
 

@@ -314,17 +314,17 @@ final class _url {
 		$atts['permalink_root'] = $permalink;
 
 		if ( ! empty( $atts['class'] ) ) {
-			$piece['class'] = 'class="' . $atts['class'] . '"';
+			$piece['class'] = 'class="' . _escape::classNames( $atts['class'] ) . '"';
 		}
 
 		// if ( ! empty( $atts['slug'] ) ) $piece['id']        = 'id="' . $atts['slug'] .'"';
 
 		if ( ! empty( $atts['title'] ) ) {
-			$piece['title'] = 'title="' . $atts['title'] . '"';
+			$piece['title'] = 'title="' . _escape::attribute( $atts['title'] ) . '"';
 		}
 
 		if ( ! empty( $atts['target'] ) ) {
-			$piece['target'] = 'target="' . $atts['target'] . '"';
+			$piece['target'] = 'target="' . _escape::attribute( $atts['target'] ) . '"';
 		}
 
 		if ( ! $atts['follow'] ) {
@@ -332,11 +332,11 @@ final class _url {
 		}
 
 		if ( ! empty( $atts['rel'] ) ) {
-			$piece['rel'] = 'rel="' . $atts['rel'] . '"';
+			$piece['rel'] = 'rel="' . _escape::attribute( $atts['rel'] ) . '"';
 		}
 
 		if ( ! empty( $atts['on_click'] ) ) {
-			$piece['on_click'] = 'onClick="' . $atts['on_click'] . '"';
+			$piece['on_click'] = 'onClick="' . esc_js( $atts['on_click'] ) . '"';
 		}
 
 		/*
@@ -585,7 +585,7 @@ final class _url {
 			return $out;
 		}
 
-		echo $out;
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 }

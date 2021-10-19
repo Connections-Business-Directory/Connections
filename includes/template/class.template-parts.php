@@ -1973,7 +1973,7 @@ class cnTemplatePart {
 
 		// Only output if there is a current character set in the query string.
 		if ( 0 < strlen( $current ) ) {
-			$out .= '<input class="cn-current-char-input" name="cn-char" title="' . __( 'Current Character', 'connections' ) . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
+			$out .= '<input class="cn-current-char-input" name="cn-char" title="' . esc_attr( __( 'Current Character', 'connections' ) ) . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
 		}
 
 		return self::echoOrReturn( $atts['return'], $out );

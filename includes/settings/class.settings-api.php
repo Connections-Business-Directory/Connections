@@ -1008,11 +1008,11 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					$out .= wp_dropdown_pages(
 						array(
-							'name'              => $name,
+							'name'              => esc_html( $name ),
 							'echo'              => 0,
-							'show_option_none'  => $field['show_option_none'],
-							'option_none_value' => $field['option_none_value'],
-							'selected'          => $value,
+							'show_option_none'  => esc_html( $field['show_option_none'] ),
+							'option_none_value' => esc_html( $field['option_none_value'] ),
+							'selected'          => absint( $value ),
 						)
 					);
 

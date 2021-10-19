@@ -504,7 +504,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		static $class = '';
 
-		$class = $class == '' ? ' class="alternate"' : '';
+		$class = '' === $class ? ' class="alternate"' : '';
 
 		$this->level = $level;
 

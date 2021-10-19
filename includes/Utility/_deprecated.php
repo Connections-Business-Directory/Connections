@@ -33,7 +33,7 @@ function _argument( $argument, $version, $message = '' ) {
 
 	} else {
 
-		_deprecated_argument( $argument, $version, $message );
+		_deprecated_argument( esc_html( $argument ), esc_html( $version ), esc_html( $message ) );
 	}
 }
 
@@ -109,7 +109,7 @@ function _func( $function, $version, $replacement = '' ) {
 
 	} else {
 
-		_deprecated_function( $function, $version, $replacement );
+		_deprecated_function( esc_html( $function ), esc_html( $version ), esc_html( $replacement ) );
 	}
 
 }
@@ -145,6 +145,6 @@ function _hook( $hook, $version, $replacement = '', $message = '' ) {
 
 	} else {
 
-		_deprecated_hook( $hook, $version, $replacement, $message );
+		_deprecated_hook( esc_html( $hook ), esc_html( $version ), esc_html( $replacement ), esc_html( $message ) );
 	}
 }

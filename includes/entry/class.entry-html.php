@@ -2815,7 +2815,7 @@ class cnEntry_HTML extends cnEntry {
 		}
 
 		if ( ! empty( $atts['title'] ) ) {
-			$piece[] = 'title="' . $atts['title'] . '"';
+			$piece[] = 'title="' . esc_attr( $atts['title'] ) . '"';
 		}
 
 		if ( ! empty( $atts['target'] ) ) {

@@ -495,8 +495,8 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 *
 	 * @staticvar string $class
 	 *
-	 * @param object $term
-	 * @param int    $level
+	 * @param Taxonomy\Term $term
+	 * @param int           $level
 	 */
 	public function single_row( $term, $level = 0 ) {
 

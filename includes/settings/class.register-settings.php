@@ -115,7 +115,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'The WordPress Page set as the directory home page.',
 					'connections'
 				),
@@ -132,7 +132,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Whether or not a login is required to view the directory. If login is required, the message to display to the user.',
 					'connections'
 				),
@@ -150,7 +150,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'The default category to assign to entries if none is selected when adding an entry.',
 					'connections'
 				),
@@ -168,7 +168,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'The base country and region.',
 					'connections'
 				),
@@ -202,7 +202,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'The displayed date format.',
 					'connections'
 				),
@@ -219,7 +219,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'The display settings for the directory results list.',
 					'connections'
 				),
@@ -242,7 +242,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Enable or disable various actions that are displayed above the result list.',
 					'connections'
 				),
@@ -264,7 +264,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Enable or disable the content blocks to be displayed in the results list view.',
 					'connections'
 				),
@@ -287,7 +287,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type' => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Enable or disable various actions that are shown above the single entry in the detail view.',
 					'connections'
 				),
@@ -309,7 +309,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Enable or disable the content blocks to be displayed in the single entry view.',
 					'connections'
 				),
@@ -330,7 +330,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Choose which entry types are displayed as options.',
 					'connections'
 				),
@@ -353,7 +353,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Select the which name fields are to be displayed for each entry type.',
 					'connections'
 				),
@@ -371,7 +371,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the address fieldset options.',
 					'connections'
 				),
@@ -389,7 +389,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the phone fieldset options.',
 					'connections'
 				),
@@ -407,7 +407,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the email fieldset options.',
 					'connections'
 				),
@@ -425,7 +425,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the instant messenger fieldset options.',
 					'connections'
 				),
@@ -443,7 +443,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the link fieldset options.',
 					'connections'
 				),
@@ -461,7 +461,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the date fieldset options.',
 					'connections'
 				),
@@ -479,7 +479,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the social media network fieldset options.',
 					'connections'
 				),
@@ -504,7 +504,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the thumbnail image settings.',
 					'connections'
 				),
@@ -526,7 +526,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the medium image settings.',
 					'connections'
 				),
@@ -548,7 +548,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the large image settings.',
 					'connections'
 				),
@@ -570,7 +570,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the logo image settings.',
 					'connections'
 				),
@@ -604,7 +604,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'The fields to search when performing a query.',
 					'connections'
 				),
@@ -624,7 +624,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the page meta tags.',
 					'connections'
 				),
@@ -641,7 +641,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Whether or not to dynamically update the page title.',
 					'connections'
 				),
@@ -666,7 +666,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Configure the permalink base strings.',
 					'connections'
 				),
@@ -688,7 +688,7 @@ class cnRegisterSettings {
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Whether or not certain entry data to become links which can be clicked to filter the displayed results.',
 					'connections'
 				),
@@ -700,12 +700,12 @@ class cnRegisterSettings {
 			'tab'          => 'advanced',
 			'id'           => 'cpt',
 			'position'     => 18,
-			'title'        => esc_html__( 'Custom Post Type Support', 'connections' ),
+			'title'        => __( 'Custom Post Type Support', 'connections' ),
 			'page_hook'    => $settings,
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Enable support for Custom Post Type rewrite rules.',
 					'connections'
 				),
@@ -717,12 +717,12 @@ class cnRegisterSettings {
 			'tab'          => 'advanced',
 			'id'           => 'google_maps_geocoding_api',
 			'position'     => 19,
-			'title'        => esc_html__( 'Google Maps Geocoding API', 'connections' ),
+			'title'        => __( 'Google Maps Geocoding API', 'connections' ),
 			'page_hook'    => $settings,
 			'show_in_rest' => true,
 			'schema'       => array(
 				'type'        => 'object',
-				'description' => esc_html__(
+				'description' => __(
 					'Google Maps API keys.',
 					'connections'
 				),
@@ -3826,8 +3826,8 @@ class cnRegisterSettings {
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'cpt',
-			'title'     => esc_html__( 'Enable?', 'connections' ),
-			'desc'      => esc_html__(
+			'title'     => __( 'Enable?', 'connections' ),
+			'desc'      => __(
 				'To add support for Custom Post Types, enable this option.',
 				'connections'
 			),
@@ -3850,7 +3850,7 @@ class cnRegisterSettings {
 			'page_hook'         => $settings,
 			'tab'               => 'advanced',
 			'section'           => 'cpt',
-			'title'             => esc_html__( 'Enable support for:', 'connections' ),
+			'title'             => __( 'Enable support for:', 'connections' ),
 			'help'              => '',
 			'type'              => 'cpt-checkbox-group',
 			'options'           => array(),
@@ -3872,7 +3872,7 @@ class cnRegisterSettings {
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'google_maps_geocoding_api',
-			'title'     => esc_html__( 'Server Key', 'connections' ),
+			'title'     => __( 'Server Key', 'connections' ),
 			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Server Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/geocoding/get-api-key' ),
 			'help'      => '',
 			'type'      => 'text',
@@ -3888,7 +3888,7 @@ class cnRegisterSettings {
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'google_maps_geocoding_api',
-			'title'     => esc_html__( 'Browser Key', 'connections' ),
+			'title'     => __( 'Browser Key', 'connections' ),
 			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/javascript/get-api-key' ),
 			'help'      => '',
 			'type'      => 'text',

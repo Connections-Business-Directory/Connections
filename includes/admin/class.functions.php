@@ -223,7 +223,7 @@ class cnAdminFunction {
 		if ( isset( $r->upgrade_notice ) ) {
 
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
-			echo '<ul><li>' . strip_tags( $r->upgrade_notice ) . '</li></ul>';
+			echo '<ul><li>' . wp_strip_all_tags( $r->upgrade_notice ) . '</li></ul>';
 		}
 
 		// Grab the plugin info using the WordPress.org Plugins API.

@@ -1477,7 +1477,7 @@ class cnTemplatePart {
 		$out = sprintf(
 			'<%1$s class="cn-list-no-results">%2$s</%1$s>',
 			$atts['tag'],
-			$atts['message']
+			esc_html( $atts['message'] )
 		);
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;

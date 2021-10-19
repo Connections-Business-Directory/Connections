@@ -571,7 +571,7 @@ final class _url {
 
 			$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
 
-			$out = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
+			$out = '<a ' . implode( ' ', $piece ) . '>' . esc_html( $atts['text'] ) . '</a>';
 
 		}
 

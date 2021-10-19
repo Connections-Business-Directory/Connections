@@ -11,6 +11,7 @@
  */
 
 use Connections_Directory\Taxonomy\Term;
+use Connections_Directory\Utility\_escape;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -145,9 +146,8 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array $atts  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_list_class', array( 'cn-cat-tree' ), $terms, $atts );
-		$class = cnHTML::escapeClassnames( $class );
 
-		$out .= '<ul class="' . $class . '">' . PHP_EOL;
+		$out .= '<ul class="' . _escape::classNames( $class ) . '">' . PHP_EOL;
 
 		if ( empty( $terms ) ) {
 

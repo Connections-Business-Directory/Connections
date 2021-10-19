@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Taxonomy\_getTermHierarchy as _get_term_hierarchy;
 
 /**
@@ -503,13 +504,16 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		/** @var Taxonomy\Term $term */
 		$term = sanitize_term( $term, 'cn_' . $this->taxonomy );
 
-		static $class = '';
-
-		$class = '' === $class ? ' class="alternate"' : '';
-
 		$this->level = $level;
 
-		echo '<tr id="tag-' . $term->term_id . '"' . $class . '>';
+		if ( $term->parent ) {
+			$count = count( cnTerm::getAncestors( $term->term_id, $this->taxonomy ) );
+			$level = 'level-' . $count;
+		} else {
+			$level = 'level-0';
+		}
+
+		echo '<tr id="' . esc_attr( "tag-{$term->term_id}" ) . '" class="' . _escape::classNames( $level ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$this->single_row_columns( $term );
 		echo '</tr>';
 	}

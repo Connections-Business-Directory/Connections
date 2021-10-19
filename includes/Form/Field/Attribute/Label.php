@@ -73,7 +73,7 @@ trait Label {
 	 */
 	public function labelHTML() {
 
-		echo $this->getLabelHTML();
+		echo $this->getLabelHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		return $this;
 	}

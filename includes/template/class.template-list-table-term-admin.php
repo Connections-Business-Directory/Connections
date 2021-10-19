@@ -500,6 +500,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	public function single_row( $term, $level = 0 ) {
 
+		/** @var Taxonomy\Term $term */
 		$term = sanitize_term( $term, 'cn_' . $this->taxonomy );
 
 		static $class = '';

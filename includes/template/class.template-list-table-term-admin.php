@@ -388,7 +388,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		if ( empty( $this->items ) ) {
 
-			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
+			echo '<tr class="no-items"><td class="colspanchange" colspan="' . esc_attr( $this->get_column_count() ) . '">';
 			$this->no_items();
 			echo '</td></tr>';
 

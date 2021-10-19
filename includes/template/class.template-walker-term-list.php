@@ -197,7 +197,7 @@ class CN_Walker_Term_List extends Walker {
 			return $out;
 		}
 
-		echo $out;
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

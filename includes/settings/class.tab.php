@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+
 /**
  * Class Tab
  *
@@ -156,7 +158,7 @@ class Tab {
 
 			$options['callback'] = function() use ( $options ) {
 
-				echo $options['desc'];
+				echo _escape::html( $options['desc'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			};
 		}
 

@@ -117,7 +117,7 @@ final class Registry {
 		if ( empty( $slug ) || strlen( $slug ) > 32 ) {
 			_doing_it_wrong(
 				__METHOD__,
-				__( 'Taxonomy names must be between 1 and 32 characters in length.', 'connections' ),
+				esc_html__( 'Taxonomy names must be between 1 and 32 characters in length.', 'connections' ),
 				'10.2'
 			);
 

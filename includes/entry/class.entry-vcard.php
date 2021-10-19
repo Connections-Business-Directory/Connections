@@ -550,7 +550,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 				// Die if no entry was found.
 				if ( empty( $entry ) ) {
 
-					wp_die( __( 'vCard not available for download.', 'connections' ) );
+					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
 				$vCard = new cnEntry_vCard( $entry ); // var_dump($vCard);die;
@@ -562,7 +562,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 				// Die if no entry was found.
 				if ( empty( $entry ) ) {
 
-					wp_die( __( 'vCard not available for download.', 'connections' ) );
+					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
 				$vCard = new cnEntry_vCard( $entry[0] ); // var_dump($vCard);die;

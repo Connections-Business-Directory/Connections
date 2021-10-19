@@ -208,7 +208,7 @@ final class cnLog_Email {
 		<?php do_action( 'cn_logs_email_top' ); ?>
 		<form id="cn-email-logs-filter" method="get">
 			<?php
-			$table->search_box( __( 'Search', 'connections' ), self::LOG_TYPE );
+			$table->search_box( esc_html__( 'Search', 'connections' ), self::LOG_TYPE );
 			$table->display();
 			?>
 			<input type="hidden" name="cn-action" value="log_bulk_actions">
@@ -618,7 +618,7 @@ final class cnLog_Email {
 
 				if ( empty( $value ) ) {
 
-					$value = '<p>' . __( 'None', 'connections' ) . '</p>';
+					$value = '<p>' . esc_html__( 'None', 'connections' ) . '</p>';
 
 				} else {
 
@@ -636,7 +636,7 @@ final class cnLog_Email {
 
 				if ( empty( $value ) ) {
 
-					$value = '<p>' . __( 'None', 'connections' ) . '</p>';
+					$value = '<p>' . esc_html__( 'None', 'connections' ) . '</p>';
 
 				} else {
 
@@ -654,7 +654,7 @@ final class cnLog_Email {
 				break;
 
 			case 'response':
-				$value = '<p>' . ( 'success' == $value ? __( 'Successfully', 'connections' ) : __( 'Failed', 'connections' ) ) . '</p>';
+				$value = '<p>' . ( 'success' == $value ? esc_html__( 'Successfully', 'connections' ) : esc_html__( 'Failed', 'connections' ) ) . '</p>';
 				break;
 		}
 

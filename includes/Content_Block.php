@@ -329,7 +329,7 @@ class Content_Block {
 
 		} else {
 
-			printf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
+			printf( esc_html__( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
 		}
 	}
 

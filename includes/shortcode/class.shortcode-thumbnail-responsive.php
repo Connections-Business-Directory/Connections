@@ -55,7 +55,7 @@ class cnThumb_Responsive extends cnShortcode {
 
 		if ( ! in_array( $atts['type'], $permitted ) ) {
 
-			return __( 'Valid image source type not supplied.', 'connections' );
+			return esc_html__( 'Valid image source type not supplied.', 'connections' );
 		}
 
 		/*
@@ -79,7 +79,7 @@ class cnThumb_Responsive extends cnShortcode {
 
 		if ( empty( $atts['sizes'] ) ) {
 
-			return __( 'No image sizes were supplied or supplied values were invalid.', 'connections' );
+			return esc_html__( 'No image sizes were supplied or supplied values were invalid.', 'connections' );
 		}
 
 		switch ( $atts['type'] ) {
@@ -157,7 +157,7 @@ class cnThumb_Responsive extends cnShortcode {
 
 			} elseif ( $image === false ) {
 
-				return __( 'An error has occured while creating the thumbnail.', 'connections' );
+				return esc_html__( 'An error has occured while creating the thumbnail.', 'connections' );
 			}
 
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {

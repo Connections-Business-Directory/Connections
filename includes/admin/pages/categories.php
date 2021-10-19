@@ -255,7 +255,7 @@ function connectionsShowCategoriesPage() {
 				<form class="search-form" action="" method="get">
 
 					<input type="hidden" name="page" value="<?php echo esc_attr( $page ); ?>"/>
-					<?php $table->search_box( __( 'Search Categories', 'connections' ), 'category' ); ?>
+					<?php $table->search_box( esc_html__( 'Search Categories', 'connections' ), 'category' ); ?>
 
 				</form>
 				<br class="clear"/>

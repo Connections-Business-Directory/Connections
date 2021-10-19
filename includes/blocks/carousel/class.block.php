@@ -583,7 +583,7 @@ class Carousel {
 
 		if ( ! $template instanceof Template ) {
 
-			return '<p>' . __( 'Template not found.', 'connections' ) . '</p>';
+			return '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 		}
 
 		/**
@@ -624,7 +624,7 @@ class Carousel {
 
 		if ( 0 >= count( $queryResults ) ) {
 
-			return '<p>' . __( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
+			return '<p>' . esc_html__( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
 		}
 
 		$settings = array(
@@ -726,7 +726,7 @@ class Carousel {
 
 		if ( false === $html ) {
 
-			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
+			$html = '<p>' . esc_html__( 'Error rendering template.', 'connections' ) . '</p>';
 		}
 
 		return $html;

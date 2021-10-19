@@ -459,23 +459,23 @@ class cnEntryMetabox {
 				case ( $action ==  'edit_entry' || $action == 'edit' ):
 
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
-					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a></div>';
+					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , esc_html__( 'Update', 'connections' ) , '" /></div>';
 
 					break;
 
 				case ( $action == 'copy_entry' || $action == 'copy' ):
 
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
-					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a>';
+					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_html__( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;
 
 				default:
 
 					echo '<input type="hidden" name="cn-action" value="add_entry"/>';
-					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
+					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_html__( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;
 			}
@@ -802,7 +802,7 @@ class cnEntryMetabox {
 			$html .= '</textarea>';
 			// --> End template for Family <-- \\
 
-			$html .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
+			$html .= '<label for="family_name">' . esc_html__( 'Family Name', 'connections' ) . ':</label>';
 			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
 
 			$html .= '<ul id="cn-relations">';
@@ -841,7 +841,7 @@ class cnEntryMetabox {
 								$relationData['relation']
 							);
 
-							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
+							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . esc_html__( 'Remove', 'connections' ) . '</a>';
 
 						$html .= '</li>';
 					}
@@ -850,7 +850,7 @@ class cnEntryMetabox {
 
 			$html .= '</ul>';
 
-			$html .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
+			$html .= '<p class="add"><a id="add-relation" class="button">' . esc_html__( 'Add Relation', 'connections' ) . '</a></p>';
 
 		$html .= '</div>';
 
@@ -920,11 +920,11 @@ class cnEntryMetabox {
 			echo '</div>';
 		}
 
-		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
+		echo '<label for="original_image">' , esc_html__( 'Select Image', 'connections' ) , ':';
 		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
-			printf( __( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
+			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}
 
@@ -986,11 +986,11 @@ class cnEntryMetabox {
 			echo '</div>';
 		}
 
-		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
+		echo '<label for="original_logo">' , esc_html__( 'Select Logo', 'connections' ) , ':';
 		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
-			printf( __( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
+			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}
 
@@ -1076,7 +1076,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , esc_html__( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -1501,7 +1501,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">', __( 'Add Phone Number', 'connections' ), '</a></p>', PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">', esc_html__( 'Add Phone Number', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -1715,7 +1715,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , esc_html__( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 
 	}
@@ -1930,7 +1930,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , esc_html__( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -2142,7 +2142,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">', __( 'Add Social Media ID', 'connections' ), '</a></p>', PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">', esc_html__( 'Add Social Media ID', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -2356,7 +2356,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , esc_html__( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -2654,7 +2654,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , esc_html__( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -2834,7 +2834,7 @@ class cnEntryMetabox {
 
 		}
 
-		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>' );
+		array_unshift( $options, '<option value="-1">&mdash; ' . esc_html__( 'Select', 'connections' ) . ' &mdash;</option>' );
 		$options = implode( PHP_EOL, $options );
 
 		// echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';

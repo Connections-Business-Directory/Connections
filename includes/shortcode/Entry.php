@@ -75,7 +75,7 @@ class Entry extends cnShortcode {
 
 		} else {
 
-			$this->html = '<p>' . __( 'Entry not found.', 'connections' ) . '</p>';
+			$this->html = '<p>' . esc_html__( 'Entry not found.', 'connections' ) . '</p>';
 			return;
 		}
 
@@ -259,7 +259,7 @@ class Entry extends cnShortcode {
 
 		if ( false === $html ) {
 
-			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
+			$html = '<p>' . esc_html__( 'Error rendering template.', 'connections' ) . '</p>';
 		}
 
 		return $html;

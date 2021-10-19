@@ -288,19 +288,19 @@ class cnMessage extends WP_Error {
 
 			case 'error':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
+					echo '<div id="message" class="error"><p><strong>' . esc_html__( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
 				};
 				break;
 
 			case 'success':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
+					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
 				};
 				break;
 
 			case 'notice':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
+					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
 				};
 				break;
 
@@ -336,15 +336,15 @@ class cnMessage extends WP_Error {
 
 		switch ( $type ) {
 			case 'error':
-				echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				echo '<div id="message" class="error"><p><strong>' . esc_html__( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
 				break;
 
 			case 'success':
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
 				break;
 
 			case 'notice':
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
 				break;
 
 			default:

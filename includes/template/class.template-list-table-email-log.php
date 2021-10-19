@@ -409,7 +409,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$subject = esc_attr( $log['subject'] );
 		$id      = esc_attr( $log['id'] );
 
-		return '<label class="screen-reader-text" for="cb-select-' . $id . '">' . sprintf( __( 'Select %s', 'connections' ), $subject ) . '</label>' .
+		return '<label class="screen-reader-text" for="cb-select-' . $id . '">' . sprintf( esc_html__( 'Select %s', 'connections' ), $subject ) . '</label>' .
 		       '<input type="checkbox" name="log[]" value="' . $id . '" id="cb-select-' . $id . '" />';
 	}
 
@@ -546,10 +546,10 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		);
 
 		$out .= '<strong><a class="row-title" href="' . $viewURL . '" title="' .
-		        esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
+		        esc_attr( sprintf( esc_html__( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
 
-		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . __( 'Delete', 'connections' ) . "</a>";
-		$actions['view']   = '<a href="' . $viewURL . '">' . __( 'View', 'connections' ) . '</a>';
+		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . "</a>";
+		$actions['view']   = '<a href="' . $viewURL . '">' . esc_html__( 'View', 'connections' ) . '</a>';
 
 		$out .= $this->row_actions( $actions );
 

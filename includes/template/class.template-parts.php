@@ -295,7 +295,7 @@ class cnTemplatePart {
 
 		$atts = shortcode_atts( $defaults, $atts );
 
-		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
+		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( esc_html__( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
 	}
 
 	/**
@@ -1426,7 +1426,7 @@ class cnTemplatePart {
 			$html .= sprintf(
 				'<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>' . PHP_EOL,
 				esc_url( $permalink ),
-				__( 'Clear Search', 'connections' )
+				esc_html__( 'Clear Search', 'connections' )
 			);
 
 			// Wrap it all in a <div>.
@@ -1807,7 +1807,7 @@ class cnTemplatePart {
 				if ( $atts['show_label'] ) {
 					$out .= '<label for="cn-search-input">Search Directory</label>';
 				}
-				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( wp_unslash( $searchValue ) ) . '" placeholder="' . __( 'Search', 'connections' ) . '"/>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( wp_unslash( $searchValue ) ) . '" placeholder="' . esc_html__( 'Search', 'connections' ) . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
 			$out .= '</span>';
 

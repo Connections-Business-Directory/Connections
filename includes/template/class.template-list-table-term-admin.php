@@ -527,7 +527,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		if ( $term->term_id != $this->default_term ) {
 
 			return '<label class="screen-reader-text" for="cb-select-' . $term->term_id . '">' .
-			      sprintf( __( 'Select %s', 'connections' ), $term->name ) .
+			      sprintf( esc_html__( 'Select %s', 'connections' ), $term->name ) .
 			       '</label>' . '<input type="checkbox" name="' . $this->taxonomy . '[]" value="' . $term->term_id . '" id="cb-select-' . $term->term_id . '" />';
 		}
 
@@ -590,9 +590,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		);
 
 		$out .= '<strong><a class="row-title" href="' . esc_url( $editURL ) . '" title="' .
-		        esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
+		        esc_attr( sprintf( esc_html__( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
-		$actions['edit']   = '<a href="' . esc_url( $editURL ) . '">' . __( 'Edit', 'connections' ) . '</a>';
+		$actions['edit']   = '<a href="' . esc_url( $editURL ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 
 		if ( $term->term_id != $this->default_term ) {
 
@@ -601,7 +601,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'term_delete_' . $term->term_id
 			);
 
-			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . __( 'Delete', 'connections' ) . "</a>";
+			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . "</a>";
 		}
 
 		$homeID   = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );
@@ -609,7 +609,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		if ( $homeID && $taxonomy instanceof Taxonomy && $taxonomy->isPublic() ) {
 
-			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
+			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . esc_html__( 'View', 'connections' ) . '</a>';
 		}
 
 		/**

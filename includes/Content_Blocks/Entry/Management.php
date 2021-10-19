@@ -135,7 +135,7 @@ class Management extends Content_Block {
 			return $actions;
 		}
 
-		$actions['edit'] = '<a class="cn-edit-entry" href="' . esc_url( $url ) . '">' . __( 'Edit', 'connections' ) . '</a>';
+		$actions['edit'] = '<a class="cn-edit-entry" href="' . esc_url( $url ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 
 		return $actions;
 	}
@@ -157,7 +157,7 @@ class Management extends Content_Block {
 			return $actions;
 		}
 
-		$actions['delete'] = '<a class="cn-rest-action cn-delete-entry" href="' . esc_url( $url ) . '">' . __( 'Delete', 'connections' ) . '</a>';
+		$actions['delete'] = '<a class="cn-rest-action cn-delete-entry" href="' . esc_url( $url ) . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
 
 		return $actions;
 	}

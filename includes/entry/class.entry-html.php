@@ -201,8 +201,8 @@ class cnEntry_HTML extends cnEntry {
 
 					$displayImage  = true;
 					$atts['class'] = 'cn-image photo';
-					$atts['alt']   = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
-					$atts['title'] = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
+					$atts['alt']   = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
+					$atts['title'] = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
 
 					$atts['alt']   = apply_filters( 'cn_photo_alt', $atts['alt'], $this );
 					$atts['title'] = apply_filters( 'cn_photo_title', $atts['title'], $this );
@@ -281,7 +281,7 @@ class cnEntry_HTML extends cnEntry {
 							$displayImage = false;
 
 							$atts['fallback']['type']   = 'block';
-							$atts['fallback']['string'] = sprintf( __( 'Photo present %s is not valid.', 'connections' ), $size );
+							$atts['fallback']['string'] = sprintf( esc_html__( 'Photo present %s is not valid.', 'connections' ), $size );
 						}
 					}
 				}
@@ -304,8 +304,8 @@ class cnEntry_HTML extends cnEntry {
 
 					$displayImage  = true;
 					$atts['class'] = 'cn-image logo';
-					$atts['alt']   = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
-					$atts['title'] = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
+					$atts['alt']   = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
+					$atts['title'] = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
 					// $cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 					$atts['alt']   = apply_filters( 'cn_logo_alt', $atts['alt'], $this );
@@ -2145,7 +2145,7 @@ class cnEntry_HTML extends cnEntry {
 		 */
 		$out .= '<div class="vevent"><span class="birthday">';
 
-		$replace[] = '<span class="date-name">' . __( 'Birthday', 'connections' ) . '</span>';
+		$replace[] = '<span class="date-name">' . esc_html__( 'Birthday', 'connections' ) . '</span>';
 		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -2156,7 +2156,7 @@ class cnEntry_HTML extends cnEntry {
 		);
 
 		$out .= '<span class="bday" style="display:none">' . $this->getBirthday( 'Y-m-d' ) . '</span>';
-		$out .= '<span class="summary" style="display:none">' . __( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
+		$out .= '<span class="summary" style="display:none">' . esc_html__( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
 
 		$out .= '</div>';
 
@@ -2229,7 +2229,7 @@ class cnEntry_HTML extends cnEntry {
 		 */
 		$out .= '<div class="vevent"><span class="anniversary">';
 
-		$replace[] = '<span class="date-name">' . __( 'Anniversary', 'connections' ) . '</span>';
+		$replace[] = '<span class="date-name">' . esc_html__( 'Anniversary', 'connections' ) . '</span>';
 		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -2242,7 +2242,7 @@ class cnEntry_HTML extends cnEntry {
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
-		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
+		$out .= '<span class="summary" style="display:none">' . esc_html__( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
 
 		$out .= '</div>';
 

@@ -184,7 +184,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 
 		<a class="button button-warning" href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $referer ), admin_url( "admin.php?page=connections_manage_{$taxonomy->getSlug()}_terms" ) ) ); ?>"><?php _e( 'Cancel', 'connections' ); ?></a>
 
-		<?php submit_button( __( 'Update', 'connections' ), 'primary', null, false ); ?>
+		<?php submit_button( esc_html__( 'Update', 'connections' ), 'primary', null, false ); ?>
 
 		<?php if ( current_user_can( $taxonomy->getCapabilities()->delete_terms, $term->term_id ) ) : ?>
 			<span id="delete-link">

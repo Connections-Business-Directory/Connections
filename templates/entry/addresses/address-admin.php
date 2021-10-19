@@ -63,7 +63,7 @@ foreach ( $addresses as $address ) {
 	}
 
 	if ( ! empty( $address->latitude ) && ! empty( $address->longitude ) ) {
-		echo '<span style="display: block">', '<strong>', __( 'Latitude', 'connections' ), ':</strong>', ' ', $address->latitude, ' ', '<strong>', __( 'Longitude', 'connections' ), ':</strong>', ' ', $address->longitude, '</span>';
+		echo '<span style="display: block">', '<strong>', esc_html__( 'Latitude', 'connections' ), ':</strong>', ' ', $address->latitude, ' ', '<strong>', esc_html__( 'Longitude', 'connections' ), ':</strong>', ' ', $address->longitude, '</span>';
 	}
 
 	echo '</div>';

@@ -185,15 +185,15 @@ class cnAdminFunction {
 
 			$title = apply_filters(
 				'Connections_Directory/Admin/Menu/Submenu/Support/Title',
-				__( 'Support', 'connections' )
+				esc_html__( 'Support', 'connections' )
 			);
 
 			$title     = esc_html( $title );
 			$permalink = esc_url( $permalink );
 
-			$links[] = '<a href="https://connections-pro.com/?page_id=29" target="_blank">' . __( 'Extensions', 'connections' ) . '</a>';
-			$links[] = '<a href="https://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
-			$links[] = '<a href="https://connections-pro.com/documentation/contents/" target="_blank">' . __( 'Documentation', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/?page_id=29" target="_blank">' . esc_html__( 'Extensions', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/?page_id=419" target="_blank">' . esc_html__( 'Templates', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/documentation/contents/" target="_blank">' . esc_html__( 'Documentation', 'connections' ) . '</a>';
 			$links[] = '<a href="' . $permalink . '" target="_blank">' . $title . '</a>';
 		}
 
@@ -222,7 +222,7 @@ class cnAdminFunction {
 		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
 
-			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( __( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
+			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
 			echo '<ul><li>' . strip_tags( $r->upgrade_notice ) . '</li></ul>';
 		}
 
@@ -274,7 +274,7 @@ class cnAdminFunction {
 
 					if ( ! $ul ) {
 
-						echo '<p class="cn-update-message-p-clear-before"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+						echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
 						echo '<ul class="cn-changelog">';
 						$ul = true;
 					}
@@ -406,7 +406,7 @@ class cnAdminFunction {
 			array( 'current' => 1, 'limit' => 50 )
 		);
 
-		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . __( 'Entries', 'connections' ) . '</label>';
+		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . esc_html__( 'Entries', 'connections' ) . '</label>';
 		$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
 		$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
 

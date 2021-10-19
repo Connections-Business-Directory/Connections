@@ -41,7 +41,7 @@ class Related extends Content_Block {
 
 		if ( ! $template instanceof Template ) {
 
-			// echo '<p>' . __( 'Template not found.', 'connections' ) . '</p>';
+			// echo '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 			return;
 		}
 
@@ -54,7 +54,7 @@ class Related extends Content_Block {
 
 		if ( 0 >= count( $related ) ) {
 
-			// echo '<p>' . __( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
+			// echo '<p>' . esc_html__( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
 			return;
 		}
 
@@ -165,7 +165,7 @@ class Related extends Content_Block {
 
 		if ( false === $html ) {
 
-			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
+			$html = '<p>' . esc_html__( 'Error rendering template.', 'connections' ) . '</p>';
 		}
 
 		return $html;

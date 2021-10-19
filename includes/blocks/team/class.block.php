@@ -232,7 +232,7 @@ class Team {
 
 		if ( ! $template instanceof Template ) {
 
-			return '<p>' . __( 'Template not found.', 'connections' ) . '</p>';
+			return '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 		}
 
 		$entryTypes = \cnOptions::getEntryTypeOptions();
@@ -297,7 +297,7 @@ class Team {
 
 		if ( 0 >= count( $results ) ) {
 
-			return '<p>' . __( 'No entries found.', 'connections' ) . '</p>';
+			return '<p>' . esc_html__( 'No entries found.', 'connections' ) . '</p>';
 		}
 
 		$id = self::createID( $attributes );
@@ -414,7 +414,7 @@ class Team {
 
 		if ( false === $html ) {
 
-			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
+			$html = '<p>' . esc_html__( 'Error rendering template.', 'connections' ) . '</p>';
 		}
 
 		return $html;

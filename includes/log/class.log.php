@@ -1054,7 +1054,7 @@ final class cnLog {
 
 		if ( empty( $results ) ) {
 
-			echo '<p>' . __( 'No log meta found.', 'connections' ) . '</p>';
+			echo '<p>' . esc_html__( 'No log meta found.', 'connections' ) . '</p>';
 
 		} else {
 
@@ -1077,7 +1077,7 @@ final class cnLog {
 
 					if ( empty( $value ) ) {
 
-						echo '<dd><p>' . __( 'No meta value.', 'connections' ) . '</p></dd>';
+						echo '<dd><p>' . esc_html__( 'No meta value.', 'connections' ) . '</p></dd>';
 
 					} else {
 

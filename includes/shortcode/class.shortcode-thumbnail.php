@@ -55,7 +55,7 @@ class cnThumb extends cnShortcode {
 
 		if ( ! in_array( $atts['type'], $permitted ) ) {
 
-			return __( 'Valid image source type not supplied.', 'connections' );
+			return esc_html__( 'Valid image source type not supplied.', 'connections' );
 		}
 
 		/*
@@ -145,7 +145,7 @@ class cnThumb extends cnShortcode {
 
 		} elseif ( $image === false ) {
 
-			return __( 'An error has occured while creating the thumbnail.', 'connections' );
+			return esc_html__( 'An error has occured while creating the thumbnail.', 'connections' );
 		}
 
 

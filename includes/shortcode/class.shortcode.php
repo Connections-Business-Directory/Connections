@@ -617,14 +617,14 @@ class cnShortcode {
 
 				} else {
 
-					return '<p>' . __( 'Future home of front end submissions.', 'connections' ) . '</p>';
+					return '<p>' . esc_html__( 'Future home of front end submissions.', 'connections' ) . '</p>';
 				}
 
 				break;
 
 			case 'landing':
 
-				return '<p>' . __( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
+				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
 
 				break;
 
@@ -640,7 +640,7 @@ class cnShortcode {
 
 				} else {
 
-					return '<p>' . __( 'Future home of the search page.', 'connections' ) . '</p>';
+					return '<p>' . esc_html__( 'Future home of the search page.', 'connections' ) . '</p>';
 				}
 
 				break;
@@ -657,7 +657,7 @@ class cnShortcode {
 
 				} else {
 
-					return '<p>' . __( 'Future home of the search results landing page.', 'connections' ) . '</p>';
+					return '<p>' . esc_html__( 'Future home of the search results landing page.', 'connections' ) . '</p>';
 				}
 
 				break;
@@ -717,7 +717,7 @@ class cnShortcode {
 
 								if ( ! current_user_can( 'connections_edit_entry' ) && $results[0]->status == 'pending' ) {
 
-									echo '<p>' . __( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
+									echo '<p>' . esc_html__( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
 								}
 
 								do_action( 'cn_edit_entry_form', $atts, $content, $tag );
@@ -726,7 +726,7 @@ class cnShortcode {
 
 							} else {
 
-								return __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' );
+								return esc_html__( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' );
 							}
 
 						}

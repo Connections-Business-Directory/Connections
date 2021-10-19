@@ -253,8 +253,8 @@ class cnDashboardMetabox {
 							$link = substr( $link, 1 );
 						}
 
-						$link  = esc_url( strip_tags( $link ) );
-						$title = esc_attr( strip_tags( $item->get_title() ) );
+						$link  = wp_strip_all_tags( $link );
+						$title = wp_strip_all_tags( $item->get_title() );
 
 						if ( empty( $title ) ) {
 							$title = __( 'Untitled', 'connections' );
@@ -263,19 +263,16 @@ class cnDashboardMetabox {
 						$desc = str_replace(
 							array( "\n", "\r" ),
 							' ',
-							esc_attr(
-								strip_tags(
-									@html_entity_decode(
-										$item->get_description(),
-										ENT_QUOTES,
-										get_option( 'blog_charset' )
-									)
+							wp_strip_all_tags(
+								@html_entity_decode(
+									$item->get_description(),
+									ENT_QUOTES,
+									get_option( 'blog_charset' )
 								)
 							)
 						);
 
 						$desc = wp_html_excerpt( $desc, 360 );
-						$desc = esc_html( $desc );
 
 						//$date = $item->get_date();
 						//$diff = '';
@@ -285,8 +282,8 @@ class cnDashboardMetabox {
 						//}
 						?>
 						<li>
-							<h3 class="rss-title"><a title="" href='<?php echo $link; ?>'><?php echo $title; ?></a></h3>
-							<div class="rss-summary"><?php echo $desc; ?></div>
+							<h3 class="rss-title"><a title="" href='<?php echo esc_url( $link ); ?>'><?php echo esc_html( $title ); ?></a></h3>
+							<div class="rss-summary"><?php echo esc_html( $desc ); ?></div>
 						</li>
 						<?php
 					}

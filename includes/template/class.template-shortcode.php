@@ -304,13 +304,13 @@ class cnTemplate_Shortcode {
 			// The one exception is the `cn_card` shortcode.
 			if ( is_string( $m[5] ) && ! empty( $m[5] ) && $m[2] != 'cn_card' ) {
 
-				echo $this->do_shortcode( $m[5] );
+				echo $this->do_shortcode( $m[5] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			} else {
 
 				// enclosing tag - extra parameter
 				// return $m[1] . call_user_func( $tag['callback'], $atts, $m[5], $m[2] ) . $m[6];
-				echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, $m[5], $m[2] ) . $m[6];
+				echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, $m[5], $m[2] ) . $m[6]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			}
 
@@ -318,7 +318,7 @@ class cnTemplate_Shortcode {
 
 			// self-closing tag
 			// return $m[1] . call_user_func( $tag['callback'], $atts, NULL,  $m[2] ) . $m[6];
-			echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, null, $m[2] ) . $m[6];
+			echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, null, $m[2] ) . $m[6]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return ob_get_clean();
@@ -400,7 +400,7 @@ class cnTemplate_Shortcode {
 
 		foreach ( $results as $row ) {
 
-			echo cnEntry_Shortcode::process( new cnEntry( $row ), $content );
+			echo cnEntry_Shortcode::process( new cnEntry( $row ), $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

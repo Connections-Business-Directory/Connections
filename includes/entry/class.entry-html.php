@@ -622,7 +622,7 @@ class cnEntry_HTML extends cnEntry {
 			return;
 		}
 
-		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . $atts['text'] . '</a>';
+		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . esc_html( $atts['text'] ) . '</a>';
 
 		echo apply_filters( 'cn_entry_edit_permalink', $link, $url, $atts, $this );
 	}

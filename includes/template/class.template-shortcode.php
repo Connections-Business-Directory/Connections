@@ -384,7 +384,7 @@ class cnTemplate_Shortcode {
 
 	/**
 	 * This is the callback ran for the `cn_card` shortcode that will process its
-	 * content the the cnEntry_Shortcode processor.
+	 * content the cnEntry_Shortcode processor.
 	 *
 	 * @access private
 	 * @since  0.8
@@ -393,8 +393,6 @@ class cnTemplate_Shortcode {
 	 * @param  array  $results  The cnRetrieve query results.
 	 * @param  object $template An instance of the cnTemplate object.
 	 * @param  string $content  The content of the `cn_card` shortcode.
-	 *
-	 * @return string           The result of the $content being run thru cnEntry_Shortcode::process().
 	 */
 	public static function processEntry( $atts, $results, $template, $content ) {
 

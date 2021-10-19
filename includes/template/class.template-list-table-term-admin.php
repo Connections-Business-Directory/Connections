@@ -503,6 +503,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		$term = sanitize_term( $term, 'cn_' . $this->taxonomy );
 
 		static $class = '';
+
 		$class = $class == '' ? ' class="alternate"' : '';
 
 		$this->level = $level;

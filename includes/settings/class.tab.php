@@ -143,9 +143,9 @@ class Tab {
 	public function addSection( $id, $options ) {
 
 		$defaults = array(
-			'position'  => 10,
-			'title'     => '',
-			'desc'      => '',
+			'position' => 10,
+			'title'    => '',
+			'desc'     => '',
 		);
 
 		$options = wp_parse_args( $options, $defaults );
@@ -178,12 +178,12 @@ class Tab {
 	public function addField( $id, $field ) {
 
 		$defaults = array(
-			'position'  => 10,
-			'title'     => '',
-			'desc'      => '',
-			'help'      => '',
-			'type'      => '',
-			'section'   => 'default',
+			'position' => 10,
+			'title'    => '',
+			'desc'     => '',
+			'help'     => '',
+			'type'     => '',
+			'section'  => 'default',
 		);
 
 		$field = wp_parse_args( $field, $defaults );

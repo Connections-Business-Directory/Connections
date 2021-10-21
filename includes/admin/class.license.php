@@ -907,18 +907,15 @@ HERERDOC;
 	}
 
 	/**
-	 * The filter applied to the sanitize license key when the settings are saved.
+	 * The filter applied to sanitize the license key when the settings are saved.
 	 * This will also attempt to activate/deactivate license keys.
 	 *
 	 * @access private
-	 * @since  0.8
-	 * @uses   get_option()
-	 * @uses   update_option()
-	 * @uses   delete_transient()
-	 * @uses   sanitize_text_field()
-	 * @param  array  $settings The settings options array.
+	 * @since 0.8
 	 *
-	 * @return array            The settings options array.
+	 * @param array $settings The settings option array.
+	 *
+	 * @return array The settings option array.
 	 */
 	public function sanitizeKey( $settings ) {
 

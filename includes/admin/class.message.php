@@ -232,7 +232,7 @@ class cnMessage extends WP_Error {
 	private static function setUserID() {
 
 		if ( ! isset( self::$id ) ) {
-			// Setup the current user object
+			// Set up the current user object.
 			$current_user = wp_get_current_user();
 			self::$id = $current_user->ID;
 		}

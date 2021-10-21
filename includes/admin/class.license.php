@@ -268,7 +268,7 @@ class cnLicense {
 
 HERERDOC;
 
-		echo $style;
+		echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

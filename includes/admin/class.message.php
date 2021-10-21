@@ -65,7 +65,9 @@ class cnMessage extends WP_Error {
 	 * @see cnMessage::getInstance()
 	 * @see cnMessage();
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
 	 * Setup the class, if it has already been initialized, return the initialized instance.

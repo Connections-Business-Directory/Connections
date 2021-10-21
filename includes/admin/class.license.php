@@ -534,7 +534,7 @@ HERERDOC;
 		// Show the upgrade notice if it exists.
 		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
 
-			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $info->new_version ) . '</strong></p>';
+			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $info->new_version ) ) . '</strong></p>';
 			echo '<ul><li>' . wp_strip_all_tags( $info->upgrade_notice ) . '</li></ul>';
 		}
 

@@ -165,14 +165,23 @@ class cnMessage extends WP_Error {
 		$instance->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
 		$instance->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 
-		$instance->add( 'image_path_exists_failed', sprintf( __( "The %s folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/' ) );
-		$instance->add( 'image_path_writeable_failed', sprintf( __( "The %s folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-is-not-writable/' ) );
+		/* translators: %s: folder path to images */
+		$instance->add( 'image_path_exists_failed', sprintf( __( 'The %1$s folder does not exist. <a class="button-primary" href="%2$s">Read more.</a>', 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/' ) );
 
-		$instance->add( 'template_path_exists_failed', sprintf( __( "The connections_templates folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-does-not-exist/' ) );
-		$instance->add( 'template_path_writeable_failed', sprintf( __( "The connections_templates folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-is-not-writable/' ) );
+		/* translators: %s: whether the image folder path is writeable */
+		$instance->add( 'image_path_writeable_failed', sprintf( __( 'The %1$s folder is not writable. <a class="button-primary" href="%2$s">Read more.</a>', 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-is-not-writable/' ) );
 
-		$instance->add( 'cache_path_exists_failed', sprintf( __( "The cache folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-does-not-exist/' ) );
-		$instance->add( 'cache_path_writeable_failed', sprintf( __( "The cache folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-is-not-writable/' ) );
+		/* translators: %s: folder path to templates */
+		$instance->add( 'template_path_exists_failed', sprintf( __( 'The connections_templates folder does not exist. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-does-not-exist/' ) );
+
+		/* translators: %s: whether the template's folder path is writeable */
+		$instance->add( 'template_path_writeable_failed', sprintf( __( 'The connections_templates folder is not writable. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-is-not-writable/' ) );
+
+		/* translators: %s: folder path to cache */
+		$instance->add( 'cache_path_exists_failed', sprintf( __( 'The cache folder does not exist. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-does-not-exist/' ) );
+
+		/* translators: %s: whether the cache folder path is writeable */
+		$instance->add( 'cache_path_writeable_failed', sprintf( __( 'The cache folder is not writable. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-is-not-writable/' ) );
 
 		$instance->add( 'home_page_set_failed', __( 'The Connections directory home page has not been set. Please set it now on the Connections : Settings page under the General tab.', 'connections' ) );
 

@@ -858,7 +858,7 @@ HERERDOC;
 	public function field( $name, $value, $field ) {
 
 		// The field size. Valid values are: small | regular | large
-		$size   = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
+		$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 		// Get the status if the item's license key.
 		// $status = self::status( $field['title'], $value );

@@ -33,7 +33,7 @@ class cnMessage extends WP_Error {
 	 * @since  0.7.5
 	 *
 	 * @var cnMessage
-	*/
+	 */
 	private static $instance;
 
 	/**

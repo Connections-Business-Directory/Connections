@@ -16,10 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Class cnMessage
+ *
  * @todo Incorporate Persist Admin notice Dismissals
  * @link https://github.com/collizo4sky/persist-admin-notices-dismissal
  *
- * Class cnMessage
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnMessage extends WP_Error {
 

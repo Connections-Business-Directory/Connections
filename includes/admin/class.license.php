@@ -876,7 +876,6 @@ HERERDOC;
 		switch ( $status['code'] ) {
 
 			case 'valid':
-
 				printf(
 					'<input type="submit" class="button-secondary" name="%1$s-deactivate_license" value="%2$s">',
 					esc_attr( $field['id'] ),
@@ -886,7 +885,6 @@ HERERDOC;
 				break;
 
 			default:
-
 				printf(
 					'<input type="submit" class="button-secondary" name="%1$s-activate_license" value="%2$s">',
 					esc_attr( $field['id'] ),

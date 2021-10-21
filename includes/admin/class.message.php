@@ -243,10 +243,7 @@ class cnMessage extends WP_Error {
 	/**
 	 * Display the stored action/error messages.
 	 *
-	 * @access private
-	 * @since  0.7.5
-	 *
-	 * @return string The action/error message created to match the admin notices style.
+	 * @since 0.7.5
 	 */
 	private static function display() {
 
@@ -428,10 +425,9 @@ class cnMessage extends WP_Error {
 	/**
 	 * Store the message in the current user meta.
 	 *
-	 * @access private
-	 * @since  0.7.5
+	 * @since 0.7.5
 	 *
-	 * @param string $message
+	 * @param string[] $message
 	 *
 	 * @return int|bool
 	 */

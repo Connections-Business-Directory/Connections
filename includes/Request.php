@@ -37,7 +37,9 @@ final class Request {
 	 *
 	 * @since 10.3
 	 */
-	protected function __construct() { /* Do nothing here */ }
+	protected function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
 	 * Initialize.
@@ -129,7 +131,7 @@ final class Request {
 					break;
 
 				case 'cn-char':
-					$value = ! empty( $value ) ? wp_unslash( urldecode( $value ) ): '';
+					$value = ! empty( $value ) ? wp_unslash( urldecode( $value ) ) : '';
 					break;
 
 				case 'cn-s':

@@ -560,7 +560,7 @@ HERERDOC;
 				// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 			}
 
-			// Check if If changelog is found for the current version.
+			// Check if the changelog is found for the current version.
 			if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
 
 				preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );

@@ -272,7 +272,7 @@ class cnTemplatePart {
 
 		} else {
 
-			echo $html;
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return '';
 		}
 	}
@@ -567,7 +567,7 @@ class cnTemplatePart {
 			// If one was found, lets include it. If not, run the core function.
 			if ( $part ) {
 
-				echo $part;
+				echo $part; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			} else {
 

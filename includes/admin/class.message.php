@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for registering and displaying action/error messages.
  *

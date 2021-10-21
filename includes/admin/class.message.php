@@ -389,7 +389,6 @@ class cnMessage extends WP_Error {
 		switch ( $type ) {
 
 			case 'error':
-
 				// If the error message is already stored, no need to store it twice.
 				if ( ! in_array( array( 'error' => $code ) , $messages ) ) {
 
@@ -399,7 +398,6 @@ class cnMessage extends WP_Error {
 				break;
 
 			case 'success':
-
 				// If the success message is already stored, no need to store it twice.
 				if ( ! in_array( array( 'success' => $code ) , $messages ) ) {
 
@@ -409,7 +407,6 @@ class cnMessage extends WP_Error {
 				break;
 
 			case 'notice':
-
 				// If the notice message is already stored, no need to store it twice.
 				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) {
 

@@ -303,6 +303,9 @@ function connectionsShowViewPage( $action = null ) {
 					$retrieveAttr['char'] = _sanitize::character( wp_unslash( $_REQUEST['cn-char'] ) );
 				}
 
+				// $searchTerms = \Connections_Directory\Request\Search::input();
+				// $value       = $searchTerms->get();
+
 				if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
 
 					$retrieveAttr['search_terms'] = _sanitize::search( wp_unslash( $_REQUEST['s'] ) );

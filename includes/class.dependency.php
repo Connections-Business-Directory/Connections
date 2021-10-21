@@ -210,7 +210,10 @@ class cnDependency {
 			'cnUser'                   => 'includes/class.user.php',
 
 			// Request API.
-			'Connections_Directory\Request'                     => 'includes/Request.php',
+			'Connections_Directory\Request'                => 'includes/Request.php',
+			// 'Connections_Directory\Request\Nonce'          => 'includes/Request/Nonce.php',
+			// 'Connections_Directory\Request\Search'         => 'includes/Request/Search.php',
+			// 'Connections_Directory\Request\Variable'       => 'includes/Request/Variable.php',
 
 			// Taxonomy API.
 			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',

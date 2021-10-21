@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+
 /**
  * Class cnLicense
  */
@@ -867,7 +869,7 @@ HERERDOC;
 			'<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
 			$size,
 			$name,
-			isset( $value ) ? $value : ''
+			isset( $value ) ? esc_attr( $value ) : ''
 		);
 
 		// Render either the "Activate" or "Deactivate" button base on the current license status.
@@ -877,8 +879,8 @@ HERERDOC;
 
 				printf(
 					'<input type="submit" class="button-secondary" name="%1$s-deactivate_license" value="%2$s">',
-					$field['id'],
-					esc_html__( 'Deactivate', 'connections' )
+					esc_attr( $field['id'] ),
+					esc_attr( __( 'Deactivate', 'connections' ) )
 				);
 
 				break;
@@ -887,8 +889,8 @@ HERERDOC;
 
 				printf(
 					'<input type="submit" class="button-secondary" name="%1$s-activate_license" value="%2$s">',
-					$field['id'],
-					esc_html__( 'Activate', 'connections' )
+					esc_attr( $field['id'] ),
+					esc_attr( __( 'Activate', 'connections' ) )
 				);
 		}
 
@@ -898,7 +900,7 @@ HERERDOC;
 			printf(
 				'<span class="description update-message notice inline notice-%1$s">%2$s</span>',
 				sanitize_html_class( $status['type'] ),
-				$status['message']
+				_escape::html( $status['message'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
 	}

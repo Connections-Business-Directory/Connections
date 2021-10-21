@@ -545,7 +545,7 @@ HERERDOC;
 
 			// Create the regex that'll parse the changelog for the latest version.
 			// NOTE: regex to support readme.txt parsing support in EDD-SL.
-			$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
+			$regex = '~<h([1-6])>\s*' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
 
 			preg_match( $regex, $sections['changelog'], $matches );
 			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';

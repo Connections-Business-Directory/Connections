@@ -581,7 +581,7 @@ HERERDOC;
 							$ul = true;
 						}
 
-						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
+						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . _escape::html( $line ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( $ul ) {

@@ -222,7 +222,7 @@ class cnMessage extends WP_Error {
 	}
 
 	/**
-	 * Setup the current user ID.
+	 * Set up the current user ID.
 	 *
 	 * @access private
 	 * @since  0.7.5

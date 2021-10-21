@@ -222,7 +222,7 @@ class cnAdminFunction {
 		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
 
-			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
+			echo '<div class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $r->new_version ) ) . '</strong></div>';
 			echo '<ul><li>' . esc_html( wp_strip_all_tags( $r->upgrade_notice ) ) . '</li></ul>';
 		}
 
@@ -274,7 +274,7 @@ class cnAdminFunction {
 
 					if ( ! $ul ) {
 
-						echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+						echo '<div class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></div>';
 						echo '<ul class="cn-changelog">';
 						$ul = true;
 					}

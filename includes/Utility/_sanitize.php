@@ -89,7 +89,7 @@ final class _sanitize {
 	public static function search( $term ) {
 
 		// Fairly large, potentially too large, upper bound for search string lengths.
-		if ( ! is_scalar( $term ) || ( ! empty( $term ) && strlen( $term ) > 1600 ) ) {
+		if ( ! is_scalar( $term ) || ( ! empty( $term ) && mb_strlen( $term ) > 1600 ) ) {
 			$term = '';
 		}
 

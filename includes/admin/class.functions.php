@@ -223,7 +223,7 @@ class cnAdminFunction {
 		if ( isset( $r->upgrade_notice ) ) {
 
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
-			echo '<ul><li>' . wp_strip_all_tags( $r->upgrade_notice ) . '</li></ul>';
+			echo '<ul><li>' . esc_html( wp_strip_all_tags( $r->upgrade_notice ) ) . '</li></ul>';
 		}
 
 		// Grab the plugin info using the WordPress.org Plugins API.
@@ -279,7 +279,7 @@ class cnAdminFunction {
 						$ul = true;
 					}
 
-					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
+					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . wp_kses_post( $line ) . '</li>';
 				}
 
 				if ( $ul ) {

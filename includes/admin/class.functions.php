@@ -441,13 +441,13 @@ class cnAdminFunction {
 		$value = Connections_Directory()->user->getScreenOption( 'manage', 'thumbnail', 'photo' );
 
 		$html .= Field\Radio_Group::create()
-		                          ->setId( 'wp_screen_options[image_thumbnail]' )
-		                          ->addClass( 'radio' )
-		                          ->setName( 'wp_screen_options[image_thumbnail]' )
-		                          ->createInputsFromArray( $options )
-		                          ->setValue( $value )
-		                          ->setContainer( 'span' )
-		                          ->getHTML();
+								  ->setId( 'wp_screen_options[image_thumbnail]' )
+								  ->addClass( 'radio' )
+								  ->setName( 'wp_screen_options[image_thumbnail]' )
+								  ->createInputsFromArray( $options )
+								  ->setValue( $value )
+								  ->setContainer( 'span' )
+								  ->getHTML();
 
 		$html .= '<input type="submit" name="screen-options-apply" id="entry-image-thumbnail-apply" class="button" value="Apply" />';
 

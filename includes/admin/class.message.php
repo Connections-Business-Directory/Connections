@@ -310,7 +310,7 @@ class cnMessage extends WP_Error {
 				};
 		}
 
-		add_action( 'admin_notices' , $lambda );
+		add_action( 'admin_notices', $lambda );
 
 		return $lambda;
 	}

@@ -783,7 +783,7 @@ class cnTemplatePart {
 			echo PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . esc_html( $entry->getSlug() ) . ' -->' : '' ) . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			// After entry actions.
-			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
+			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
 			do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );

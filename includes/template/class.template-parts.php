@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -605,7 +606,7 @@ class cnTemplatePart {
 
 			if ( ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) || $atts['show_alphahead'] ) {
 
-				printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
+				printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', esc_html( $currentLetter ) );
 			}
 
 			// This action only is required when the index is to be displayed.
@@ -617,12 +618,12 @@ class cnTemplatePart {
 
 			if ( $atts['show_alphahead'] ) {
 
-				printf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
+				printf( '<h4 class="cn-alphahead">%1$s</h4>', esc_html( $currentLetter ) );
 			}
 
 			if ( ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) || $atts['show_alphahead'] ) {
 
-				echo '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
+				echo '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . esc_html( $currentLetter ) . ' -->' : '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 
 		}
@@ -771,15 +772,15 @@ class cnTemplatePart {
 
 			printf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
-				implode( ' ', self::cardClass( $entry, $template, $isSingle, ++$rowCount ) ),
-				$entry->getEntryType(),
-				$entry->getSlug(),
-				$entry->getId()
+				_escape::classNames( implode( ' ', self::cardClass( $entry, $template, $isSingle, ++$rowCount ) ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				esc_attr( $entry->getEntryType() ),
+				esc_attr( $entry->getSlug() ),
+				absint( $entry->getId() )
 			);
 
 			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
 
-			echo PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
+			echo PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . esc_html( $entry->getSlug() ) . ' -->' : '' ) . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			// After entry actions.
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );

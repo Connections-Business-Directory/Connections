@@ -79,7 +79,7 @@ class cnMessage extends WP_Error {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			/*
 			 * Add the error codes and messages.

@@ -492,21 +492,24 @@ HERERDOC;
 			$is_active = is_plugin_active( $file );
 		}
 
-		$class = $is_active ? 'active' : 'inactive';
+		$class   = array( 'plugin-update-tr' );
+		$class[] = $is_active ? 'active' : 'inactive';
 
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin['update'] ) ) {
 
-			$class .= ' update';
+			$class[] = 'update';
 		}
 
-		printf( '<tr class="plugin-update-tr %s cn-license-status">', $class );
+		$class[] = 'cn-license-status';
+
+		printf( '<tr class="%s">', _escape::classNames( $class ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		printf( '<td colspan="%d" class="plugin-update">', esc_attr( $wp_list_table->get_column_count() ) );
 
 		printf(
 			'<div class="update-message notice inline notice-%s"><p>%s</p></div>',
 			sanitize_html_class( $type ),
-			$message
+			_escape::html( $message ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
 
 		echo '</td></tr>';

@@ -535,7 +535,7 @@ HERERDOC;
 		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
 
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $info->new_version ) ) . '</strong></p>';
-			echo '<ul><li>' . wp_strip_all_tags( $info->upgrade_notice ) . '</li></ul>';
+			echo '<ul><li>' . _escape::html( wp_strip_all_tags( $info->upgrade_notice ) ) . '</li></ul>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		$sections = maybe_unserialize( $info->sections );

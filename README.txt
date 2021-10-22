@@ -249,7 +249,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
-= 10.4.4 10/22/2021 =
+= 10.4.5 10/22/2021 =
 * NOTICE: Requires at least WordPress 5.2.
 * NEW: Introduce `Utility\_sanitize`.
 * NEW: Introduce `_validate::isCSV()`.
@@ -842,5 +842,5 @@ It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >
 = 10.4.3 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
-= 10.4.3 =
+= 10.4.5 =
 It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

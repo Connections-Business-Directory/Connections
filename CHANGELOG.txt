@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 10.4.4 10/22/2021 =
+= 10.4.5 10/22/2021 =
 * NOTICE: Requires at least WordPress 5.2.
 * NEW: Introduce `Utility\_sanitize`.
 * NEW: Introduce `_validate::isCSV()`.

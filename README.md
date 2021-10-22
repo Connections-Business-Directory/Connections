@@ -247,7 +247,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
-= 10.4.4 10/22/2021 =
+= 10.4.5 10/22/2021 =
 
 * NOTICE: Requires at least WordPress 5.2.
 * NEW: Introduce `Utility\_sanitize`.

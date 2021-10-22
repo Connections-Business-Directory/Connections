@@ -486,7 +486,7 @@ function connectionsShowCategoriesPage() {
 											),
 										)
 									);
-									// phpcs:enable
+									// phpcs:enable WordPress.Arrays.MultipleStatementAlignment
 
 									echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									?>

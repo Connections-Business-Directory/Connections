@@ -10,7 +10,7 @@
  * @copyright  2019 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Widget Pack - Template
+ * _lugin Name:       Connections Widget Pack - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       The Recently Added Widget Template.
  * Version:           1.0

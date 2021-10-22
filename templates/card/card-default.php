@@ -9,7 +9,7 @@
  * @copyright  2013 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Card - Template
+ * _lugin Name:       Connections Card - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       The default template.
  * Version:           3.0

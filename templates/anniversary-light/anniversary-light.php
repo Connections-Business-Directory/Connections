@@ -9,7 +9,7 @@
  * @copyright  2013 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Anniversary Light - Template
+ * _lugin Name:       Connections Anniversary Light - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       Default anniversary template with a light background in a table like format.
  * Version:           2.0.1

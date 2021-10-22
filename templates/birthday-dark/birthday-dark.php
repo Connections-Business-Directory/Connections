@@ -9,7 +9,7 @@
  * @copyright  2013 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Birthday Dark - Template
+ * _lugin Name:       Connections Birthday Dark - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       Default birthday template with a black background in a table like format.
  * Version:           2.0.1

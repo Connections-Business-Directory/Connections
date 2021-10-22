@@ -9,7 +9,7 @@
  * @copyright  2013 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Names - Template
+ * _lugin Name:       Connections Names - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       A simple responsive template which outputs a list of every name within the directory in a column format if the browser supports it. This template is not recommended for very large directories.
  * Version:           1.0.1

@@ -9,7 +9,7 @@
  * @copyright  2015 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Profile - Template
+ * _lugin Name:       Connections Profile - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       This will show the entries in a profile format.
  * Version:           3.0

@@ -10,7 +10,7 @@
  * @copyright  2019 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Business Directory Template : Carousel
+ * _lugin Name:       Connections Business Directory Template : Carousel
  * Plugin URI:        https://connections-pro.com
  * Description:       Carousel template for the block editor.
  * Version:           1.0

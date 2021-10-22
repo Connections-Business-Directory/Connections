@@ -12,6 +12,8 @@
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
  * Version:           10.4.3
+ * Requires at least: 5.2
+ * Requires PHP:      5.6.20
  * Author:            Steven A. Zahm
  * Author URI:        https://connections-pro.com/
  * License:           GPL-2.0+

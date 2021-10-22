@@ -26,7 +26,10 @@
         "install-codestandards": [
             "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
         ],
-        "lint:php": "phpcs --report-file=PHPCS-report.txt --standard=WordPress-Extra **/*.php"
+        "lint:php": "phpcs --report-file=PHPCS-report.txt",
+        "phpcs": "phpcs",
+        "phpcsi": "phpcs -i",
+        "phpcbf": "phpcbf"
     },
     "support": {
         "issues": "https://wordpress.org/support/plugin/connections",

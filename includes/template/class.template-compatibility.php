@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Add various actions and filters to ensure proper backward compatibilty
@@ -34,18 +36,26 @@ class cnTemplate_Compatibility {
 
 	public static function enqueueChosen( $required ) {
 
-		if ( ! in_array( 'jquery-chosen', $required ) ) $required[] = 'jquery-chosen';
+		if ( ! in_array( 'jquery-chosen', $required ) ) {
+			$required[] = 'jquery-chosen';
+		}
 
-		if ( $key = array_search( 'jquery-chosen-min', $required ) ) unset( $required[ $key ] );
+		if ( $key = array_search( 'jquery-chosen-min', $required ) ) {
+			unset( $required[ $key ] );
+		}
 
 		return $required;
 	}
 
 	public static function enqueuegoMap( $required ) {
 
-		if ( ! in_array( 'jquery-gomap', $required ) ) $required[] = 'jquery-gomap';
+		if ( ! in_array( 'jquery-gomap', $required ) ) {
+			$required[] = 'jquery-gomap';
+		}
 
-		if ( $key = array_search( 'jquery-gomap-min', $required ) ) unset( $required[ $key ] );
+		if ( $key = array_search( 'jquery-gomap-min', $required ) ) {
+			unset( $required[ $key ] );
+		}
 
 		return $required;
 	}

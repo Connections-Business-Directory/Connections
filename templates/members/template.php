@@ -38,7 +38,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 	$member_group = new cnEntry();
 
 	// Create the popup container
-	//$member_popup_info = '<div id="popup-group-name"><span>' . $entry->getFamilyName() . '</span></div>';
+	// $member_popup_info = '<div id="popup-group-name"><span>' . $entry->getFamilyName() . '</span></div>';
 
 	// Set a counter
 	$counter = 0;
@@ -65,7 +65,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 		// List home number for family
 		foreach ( $value_homephone as $key_homenumber => $value_homenumber ) {
-			//echo "Home Key: " . $key_homenumber . " Home Value: " . $value_homenumber . "<br />";
+			// echo "Home Key: " . $key_homenumber . " Home Value: " . $value_homenumber . "<br />";
 
 			// Check for home number
 			if ( $key_homenumber == 'type' && $value_homenumber == 'homephone' ) {
@@ -85,7 +85,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 	foreach ( $entry->getAddresses() as $value_address ) {
 
 		// List all addresses
-		//foreach ( $value_addresses as $value_address) {
+		// foreach ( $value_addresses as $value_address) {
 
 		// list each address
 		if ( $value_address->type == 'home' ) {
@@ -147,7 +147,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			$member_popup_info .= '</iframe>';
 			$member_popup_info .= '</div>';
 		}
-		//}
+		// }
 	}
 
 	// Search for member info
@@ -166,7 +166,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 		// List family member, add link to personal profile
 		$member_name = "<br />" . $member_group->getFullFirstLastName(
-			) . ":<br />"; // @todo: Would like to link to person profile
+        ) . ":<br />"; // @todo: Would like to link to person profile
 		$mobile_member_name .= "<br />" . $member_group->getFullFirstLastName() . ":<br />";
 
 		// Check for family member and display all info
@@ -227,9 +227,9 @@ if ( $member_list_first_names != '' ) {
 
 // Add group name
 $member_listing .= "<a class='contact' id='" . $entry->getId(
-	) . "' title='" . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . "</a>";
+) . "' title='" . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . "</a>";
 $mobile_member_info = "<span class='m-contact' id='" . $entry->getId() . "'><b>" . $entry->getFamilyName(
-	) . $member_list_first_names . "</b></span><br />" . $mobile_member_listing;
+) . $member_list_first_names . "</b></span><br />" . $mobile_member_listing;
 
 // Close the Info Div header
 $member_listing .= '</strong></span><br />';
@@ -240,7 +240,7 @@ $member_listing .= '</div><div style="clear:both;"></div></div>';
 $mobile_member_info .= '</div><div style="clear:both;"></div></div><hr />';
 
 // This works for the mobile browser check with the MobilePress plugin
-if ( isset( $_SESSION['SESS_MOBILE_ACTIVE'] ) && $_SESSION['SESS_MOBILE_ACTIVE'] == TRUE ) {
+if ( isset( $_SESSION['SESS_MOBILE_ACTIVE'] ) && $_SESSION['SESS_MOBILE_ACTIVE'] == true ) {
 	echo $mobile_member_info;
 } else {
 	// Display Family Listing

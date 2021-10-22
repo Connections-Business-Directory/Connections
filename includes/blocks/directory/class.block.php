@@ -36,7 +36,7 @@ class Directory {
 					),
 					'characterIndex'       => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'city'                 => array(
 						'type'    => 'array',
@@ -79,7 +79,7 @@ class Directory {
 					),
 					'forceHome'            => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'fullName'             => array(
 						'type'    => 'array',
@@ -94,11 +94,11 @@ class Directory {
 					),
 					'inCategories'         => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'lastName'             => array(
 						'type'    => 'array',
@@ -121,7 +121,7 @@ class Directory {
 					),
 					'orderRandom'          => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'organization'         => array(
 						'type'    => 'array',
@@ -132,15 +132,15 @@ class Directory {
 					),
 					'parseQuery'           => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'repeatCharacterIndex' => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'sectionHead'          => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'state'                => array(
 						'type'    => 'array',
@@ -169,11 +169,11 @@ class Directory {
 					),
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
+				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
-				//'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				//'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
+				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
+				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
@@ -191,21 +191,21 @@ class Directory {
 	 */
 	public static function render( $attributes ) {
 
-		//error_log( '$atts ' .  json_encode( $attributes, 128 ) );
+		// error_log( '$atts ' .  json_encode( $attributes, 128 ) );
 
 		$entryTypes = \cnOptions::getEntryTypeOptions();
 		$dateTypes  = \cnOptions::getDateTypeOptions();
 
 		if ( ! array_key_exists( $attributes['listType'], $entryTypes ) ) {
 
-			$attributes['listType'] = NULL;
+			$attributes['listType'] = null;
 		}
 
 		$categories = \cnFunction::decodeJSON( $attributes['categories'] );
 
 		if ( is_wp_error( $categories ) ) {
 
-			$attributes['categories'] = NULL;
+			$attributes['categories'] = null;
 
 		} else {
 
@@ -218,7 +218,7 @@ class Directory {
 
 		if ( is_wp_error( $excludeCategories ) ) {
 
-			$attributes['excludeCategories'] = NULL;
+			$attributes['excludeCategories'] = null;
 
 		} else {
 
@@ -258,7 +258,7 @@ class Directory {
 			$orderBy = array(
 				'sort_column' . '|' . strtoupper( $attributes['order'] ),
 				'last_name',
-				'first_name'
+				'first_name',
 			);
 		}
 
@@ -291,7 +291,7 @@ class Directory {
 			$options['home_id'] = $attributes['homePage'];
 		}
 
-		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );
+		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
 
 		if ( is_array( $other ) && ! empty( $other ) ) {
 
@@ -304,9 +304,9 @@ class Directory {
 			$options['limit'] = 10;
 		}
 
-		//error_log( '$options ' .  json_encode( $options, 128 ) );
+		// error_log( '$options ' .  json_encode( $options, 128 ) );
 
-		//$html = \cnShortcode_Connections::shortcode( $options );
+		// $html = \cnShortcode_Connections::shortcode( $options );
 		$html = \cnShortcode::view( $options );
 
 		// Strip link URL/s, only in editor preview.

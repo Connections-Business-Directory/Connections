@@ -19,12 +19,12 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	 */
 	public function get( $id ) {
 
-		if ( FALSE !== $key = $this->getItemKeyByID( $id ) ) {
+		if ( false !== $key = $this->getItemKeyByID( $id ) ) {
 
 			return apply_filters( 'cn_date', $this->items->get( $key ) );
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -72,17 +72,17 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			}
 		);
 
-		if ( FALSE !== $key ) {
+		if ( false !== $key ) {
 
 			$this->items->put( $key, apply_filters( 'cn_set_date', $date ) );
 
 			//// Reset the filters so both the filtered and unfiltered collections are the same after updating a date.
 			//$this->resetFilters();
 
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -96,7 +96,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	public function updateFromArray( $data ) {
 
 		$new               = cnEntry_Dates::createFromArray( $this->id, $data )->getCollection();
-		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : NULL;
+		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : null;
 		$existingPreferred = $this->getPreferred();
 
 		/** @var cnEntry_Date $date */
@@ -222,9 +222,11 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	 *                          Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
 	 *                          NULL will be returned when the filtered collection is empty.
 	 */
-	public function render( $template = 'hcard', $atts = array(), $load = TRUE, $buffer = FALSE, $require_once = FALSE ) {
+	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return NULL;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'dates' . DIRECTORY_SEPARATOR . 'date',
@@ -248,7 +250,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	 *
 	 * @return cnCollection
 	 */
-	public function getCollection( $limit = NULL ) {
+	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_date' )
 		     ->applyFilter( 'cn_dates' )
@@ -270,7 +272,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	 *
 	 * @return array
 	 */
-	public function getCollectionAsArray( $limit = NULL ) {
+	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_date' )
 		     ->applyFilter( 'cn_dates' )
@@ -342,7 +344,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -358,7 +360,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	 */
 	public function getPreferred() {
 
-		return apply_filters( 'cn_date', $this->filtered->where( 'preferred', '===', TRUE )->first() );
+		return apply_filters( 'cn_date', $this->filtered->where( 'preferred', '===', true )->first() );
 	}
 
 	/**
@@ -388,7 +390,9 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all dates will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -445,10 +449,12 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			 * Set saving as true to force the query of all entries filtered per supplied attributes.
 			 * This will reflect who it function when the table manager and query classes are implemented.
 			 */
-			$data = Connections_Directory()->retrieve->dates( $options, TRUE );
+			$data = Connections_Directory()->retrieve->dates( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -496,18 +502,22 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 		 * If the `preferred` array key is set, the date will be set based on the array key value.
 		 * If it is not, the preferred date value will be retained using the `preferred` key within each date.
 		 */
-		$preferred  = cnArray::pull( $data, 'preferred', NULL );
+		$preferred  = cnArray::pull( $data, 'preferred', null );
 		$collection = new cnCollection( $data );
 		$order      = $collection->max( 'order' );
 
 		foreach ( $collection as $key => $date ) {
 
-			if ( empty( $date ) ) continue;
+			if ( empty( $date ) ) {
+				continue;
+			}
 
 			/*
 			 * If the date is empty, no need to store it.
 			 */
-			if ( 0 >= strlen( $date['date'] ) ) continue;
+			if ( 0 >= strlen( $date['date'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $date['order'] ) ) {
 
@@ -516,7 +526,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 
 			if ( ! is_null( $preferred ) ) {
 
-				$date['preferred'] = $key == $preferred ? TRUE : FALSE;
+				$date['preferred'] = $key == $preferred ? true : false;
 			}
 
 			/**
@@ -528,7 +538,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 			 */
 			$date = apply_filters( 'cn_date-pre_setup', $date );
 
-			//$this->add( cnEntry_Date::create( $date ) );
+			// $this->add( cnEntry_Date::create( $date ) );
 
 			$item = cnEntry_Date::create( $date );
 

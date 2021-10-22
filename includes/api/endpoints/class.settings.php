@@ -133,7 +133,7 @@ class Settings extends WP_REST_Settings_Controller {
 		}
 
 		$name = $request['option'];
-		$args = cnArray::get( $options, $name, NULL );
+		$args = cnArray::get( $options, $name, null );
 
 		/**
 		 * Filters the value of a setting recognized by the REST API.
@@ -240,7 +240,7 @@ class Settings extends WP_REST_Settings_Controller {
 			);
 		}
 
-		$args = cnArray::get( $options, $name, NULL );
+		$args = cnArray::get( $options, $name, null );
 
 		/**
 		 * Filters whether to preempt a setting value update.
@@ -258,7 +258,7 @@ class Settings extends WP_REST_Settings_Controller {
 		 * @param mixed  $value  Updated setting value.
 		 * @param array  $args   Arguments passed to register_setting() for this setting.
 		 */
-		$updated = apply_filters( 'rest_pre_update_setting', FALSE, $name, $params, $args );
+		$updated = apply_filters( 'rest_pre_update_setting', false, $name, $params, $args );
 
 		if ( $updated ) {
 
@@ -283,7 +283,7 @@ class Settings extends WP_REST_Settings_Controller {
 			 * delete all options that have invalid values from the
 			 * database.
 			 */
-			if ( is_wp_error( rest_validate_value_from_schema( get_option( $args['option_name'], FALSE ), $args['schema'] ) ) ) {
+			if ( is_wp_error( rest_validate_value_from_schema( get_option( $args['option_name'], false ), $args['schema'] ) ) ) {
 				return new WP_Error(
 					'rest_invalid_stored_value',
 					sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ),
@@ -341,7 +341,7 @@ class Settings extends WP_REST_Settings_Controller {
 		}
 
 		$name = $request['option'];
-		$args = cnArray::get( $options, $name, NULL );
+		$args = cnArray::get( $options, $name, null );
 
 		$response = new WP_REST_Response();
 		$response->set_data(

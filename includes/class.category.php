@@ -28,17 +28,44 @@ class cnCategory {
 	private $count;
 	private $children;
 
-	function __construct( $data = NULL ) {
+	function __construct( $data = null ) {
 		if ( isset( $data ) ) {
-			if ( isset( $data->term_id ) ) $this->id = $data->term_id;
-			if ( isset( $data->name ) ) $this->name = $data->name;
-			if ( isset( $data->slug ) ) $this->slug = $data->slug;
-			if ( isset( $data->term_group ) ) $this->termGroup = $data->term_group;
-			if ( isset( $data->taxonomy ) ) $this->taxonomy = $data->taxonomy;
-			if ( isset( $data->description ) ) $this->description = $data->description;
-			if ( isset( $data->parent ) ) $this->parent = $data->parent;
-			if ( isset( $data->count ) ) $this->count = $data->count;
-			if ( isset( $data->children ) ) $this->children = $data->children;
+
+			if ( isset( $data->term_id ) ) {
+				$this->id = $data->term_id;
+			}
+
+			if ( isset( $data->name ) ) {
+				$this->name = $data->name;
+			}
+
+			if ( isset( $data->slug ) ) {
+				$this->slug = $data->slug;
+			}
+
+			if ( isset( $data->term_group ) ) {
+				$this->termGroup = $data->term_group;
+			}
+
+			if ( isset( $data->taxonomy ) ) {
+				$this->taxonomy = $data->taxonomy;
+			}
+
+			if ( isset( $data->description ) ) {
+				$this->description = $data->description;
+			}
+
+			if ( isset( $data->parent ) ) {
+				$this->parent = $data->parent;
+			}
+
+			if ( isset( $data->count ) ) {
+				$this->count = $data->count;
+			}
+
+			if ( isset( $data->children ) ) {
+				$this->children = $data->children;
+			}
 		}
 	}
 
@@ -86,7 +113,7 @@ class cnCategory {
 	 * @see cnCategory::$description
 	 */
 	public function getDescription() {
-		return cnSanitize::sanitizeString( $this->description, TRUE );
+		return cnSanitize::sanitizeString( $this->description, true );
 	}
 
 	/**
@@ -125,7 +152,7 @@ class cnCategory {
 			'container_tag' => 'div',
 			'before'        => '',
 			'after'         => '',
-			'return'        => FALSE
+			'return'        => false,
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_cat_desc' , $defaults );
@@ -136,12 +163,16 @@ class cnCategory {
 
 		$out = do_shortcode( $out );
 
-		$out = sprintf( '<%1$s class="cn-cat-description">%2$s</%1$s>',
-				$atts['container_tag'],
-				$out
-			);
+		$out = sprintf(
+			'<%1$s class="cn-cat-description">%2$s</%1$s>',
+			$atts['container_tag'],
+			$out
+		);
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		if ( $atts['return'] ) {
+			return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		}
+
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
 
@@ -165,7 +196,7 @@ class cnCategory {
 
 		$defaults = array(
 			'length' => apply_filters( 'cn_cat_excerpt_length', 55 ),
-			'more'   => apply_filters( 'cn_cat_excerpt_more', '&hellip;' )
+			'more'   => apply_filters( 'cn_cat_excerpt_more', '&hellip;' ),
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -308,12 +339,12 @@ class cnCategory {
 		if ( is_wp_error( $result ) ) {
 
 			cnMessage::set( 'error', $result->get_error_message() );
-			return FALSE;
+			return false;
 
 		} else {
 
 			cnMessage::set( 'success', 'category_added' );
-			return TRUE;
+			return true;
 		}
 
 	}
@@ -338,7 +369,7 @@ class cnCategory {
 		if ( $this->id === $this->parent ) {
 
 			cnMessage::set( 'error', 'category_self_parent' );
-			return FALSE;
+			return false;
 		}
 
 		remove_filter( 'pre_term_description', 'wp_filter_kses' );
@@ -347,12 +378,12 @@ class cnCategory {
 		if ( is_wp_error( $result ) ) {
 
 			cnMessage::set( 'error', $result->get_error_message() );
-			return FALSE;
+			return false;
 
 		} else {
 
 			cnMessage::set( 'success', 'category_updated' );
-			return TRUE;
+			return true;
 		}
 
 	}
@@ -369,7 +400,7 @@ class cnCategory {
 		if ( $this->id == $default ) {
 
 			cnMessage::set( 'error', 'category_delete_default' );
-			return FALSE;
+			return false;
 		}
 
 		$result = cnTerm::delete( $this->id, 'category' );
@@ -377,12 +408,12 @@ class cnCategory {
 		if ( is_wp_error( $result ) ) {
 
 			cnMessage::set( 'error', $result->get_error_message() );
-			return FALSE;
+			return false;
 
 		} else {
 
 			cnMessage::set( 'success', 'category_deleted' );
-			return TRUE;
+			return true;
 		}
 
 	}
@@ -398,7 +429,7 @@ class cnCategory {
 	 */
 	public static function getCurrent() {
 
-		$current = FALSE;
+		$current = false;
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
@@ -440,7 +471,7 @@ class cnCategory {
 			// cnTerm::getBy() can return NULL || an instance of WP_Error, so, lets check for that.
 			if ( ! $current instanceof Term ) {
 
-				$current = FALSE;
+				$current = false;
 			}
 
 		}

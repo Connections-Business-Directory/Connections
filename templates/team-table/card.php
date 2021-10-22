@@ -20,7 +20,7 @@
 	</div>
 	<div class="cn-table-cell cn-team-member-name">
 		<?php
-		$entry->getNameBlock( array( 'link' => FALSE ) );
+		$entry->getNameBlock( array( 'link' => false ) );
 		?>
 		<?php if ( $atts['displayTitle'] ) : ?>
 			<?php $entry->getTitleBlock(); ?>
@@ -36,8 +36,8 @@
 	<?php if ( $atts['displayPhone'] ) : ?>
 		<div class="cn-table-cell cn-team-member-phone">
 			<?php
-			//$entry->getPhoneNumberBlock( array( 'format' => '%number%' ) );
-			$number = $entry->getPhoneNumberBlock( array( 'preferred' => TRUE, 'format' => '%number%', 'return' => TRUE ) );
+			// $entry->getPhoneNumberBlock( array( 'format' => '%number%' ) );
+			$number = $entry->getPhoneNumberBlock( array( 'preferred' => true, 'format' => '%number%', 'return' => true ) );
 
 			if ( $number ) {
 
@@ -55,8 +55,8 @@
 	<?php if ( $atts['displayEmail'] ) : ?>
 		<div class="cn-table-cell cn-team-member-email">
 			<?php
-			//$entry->getEmailAddressBlock( array( 'format' => '%address%' ) );
-			$email = $entry->getEmailAddressBlock( array( 'preferred' => TRUE, 'format' => '%address%', 'return' => TRUE ) );
+			// $entry->getEmailAddressBlock( array( 'format' => '%address%' ) );
+			$email = $entry->getEmailAddressBlock( array( 'preferred' => true, 'format' => '%address%', 'return' => true ) );
 
 			if ( $email ) {
 

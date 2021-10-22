@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Form\Field;
 
@@ -71,12 +73,14 @@ class cnAdminFunction {
 			 */
 			$directoryHome = $instance->settings->get( 'connections', 'connections_home_page', 'page_id' );
 
-			if ( ! $directoryHome ) cnMessage::create( 'notice', 'home_page_set_failed' );
+			if ( ! $directoryHome ) {
+				cnMessage::create( 'notice', 'home_page_set_failed' );
+			}
 
 			// Check if the db requires updating, display message if it does.
 			if ( version_compare( $instance->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
 
-				$instance->dbUpgrade = TRUE;
+				$instance->dbUpgrade = true;
 
 				add_action( 'current_screen', array( __CLASS__, 'displayDBUpgradeNotice' ) );
 			}
@@ -84,14 +88,19 @@ class cnAdminFunction {
 			/*
 			 * Add admin notices if required directories are not present or not writeable.
 			 */
-			if ( ! file_exists( CN_IMAGE_PATH ) ) cnMessage::create( 'notice', 'image_path_exists_failed' );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) cnMessage::create( 'notice', 'image_path_writeable_failed' );
+			if ( ! file_exists( CN_IMAGE_PATH ) ) {
+				cnMessage::create( 'notice', 'image_path_exists_failed' );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				cnMessage::create( 'notice', 'image_path_writeable_failed' );
+			}
 
 			// if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_exists_failed' );
 			// if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_writeable_failed' );
 
-			//if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
-			//if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
+			// if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
+			// if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
 
 			// Add Settings link to the plugin actions
 			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
@@ -176,15 +185,15 @@ class cnAdminFunction {
 
 			$title = apply_filters(
 				'Connections_Directory/Admin/Menu/Submenu/Support/Title',
-				__( 'Support', 'connections' )
+				esc_html__( 'Support', 'connections' )
 			);
 
 			$title     = esc_html( $title );
 			$permalink = esc_url( $permalink );
 
-			$links[] = '<a href="https://connections-pro.com/?page_id=29" target="_blank">' . __( 'Extensions', 'connections' ) . '</a>';
-			$links[] = '<a href="https://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
-			$links[] = '<a href="https://connections-pro.com/documentation/contents/" target="_blank">' . __( 'Documentation', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/?page_id=29" target="_blank">' . esc_html__( 'Extensions', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/?page_id=419" target="_blank">' . esc_html__( 'Templates', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/documentation/contents/" target="_blank">' . esc_html__( 'Documentation', 'connections' ) . '</a>';
 			$links[] = '<a href="' . $permalink . '" target="_blank">' . $title . '</a>';
 		}
 
@@ -213,32 +222,33 @@ class cnAdminFunction {
 		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
 
-			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( __( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
-			echo '<ul><li>' . strip_tags( $r->upgrade_notice ) . '</li></ul>';
+			echo '<div class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $r->new_version ) ) . '</strong></div>';
+			echo '<ul><li>' . esc_html( wp_strip_all_tags( $r->upgrade_notice ) ) . '</li></ul>';
 		}
 
 		// Grab the plugin info using the WordPress.org Plugins API.
 		// First, check to see if the function exists, if it doesn't, include the file which contains it.
-		if ( ! function_exists( 'plugins_api' ) )
+		if ( ! function_exists( 'plugins_api' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+		}
 
 		$plugin = plugins_api(
 			'plugin_information',
 			array(
 				'slug'   => 'connections',
 				'fields' => array(
-					'tested'       => TRUE,
-					'requires'     => FALSE,
-					'rating'       => FALSE,
-					'downloaded'   => FALSE,
-					'downloadlink' => FALSE,
-					'last_updated' => FALSE,
-					'homepage'     => FALSE,
-					'tags'         => FALSE,
-					'sections'     => TRUE
-					)
-				)
-			);
+					'tested'       => true,
+					'requires'     => false,
+					'rating'       => false,
+					'downloaded'   => false,
+					'downloadlink' => false,
+					'last_updated' => false,
+					'homepage'     => false,
+					'tags'         => false,
+					'sections'     => true,
+				),
+			)
+		);
 		// echo '<p>' . print_r( $plugin, TRUE ) .  '</p>';
 		// echo '<p>' . print_r( $plugin->sections['changelog'], TRUE ) .  '</p>';
 
@@ -257,19 +267,19 @@ class cnAdminFunction {
 			// Make sure the change items were found and not empty before proceeding.
 			if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-				$ul = FALSE;
+				$ul = false;
 
 				// Finally, lets render the changelog list.
 				foreach ( $matches[1] as $key => $line ) {
 
 					if ( ! $ul ) {
 
-						echo '<p class="cn-update-message-p-clear-before"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+						echo '<div class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></div>';
 						echo '<ul class="cn-changelog">';
-						$ul = TRUE;
+						$ul = true;
 					}
 
-					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
+					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . wp_kses_post( $line ) . '</li>';
 				}
 
 				if ( $ul ) {
@@ -303,7 +313,9 @@ class cnAdminFunction {
 		 * This is to prevent the Screen Layout options in the Screen Options tab from being displayed on the Manage
 		 * admin page when viewing the manage entries table.
 		 */
-		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) return $columns;
+		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+			return $columns;
+		}
 
 		$columns[ $instance->pageHook->dashboard ] = 2;
 		$columns[ $instance->pageHook->manage ] = 2;
@@ -335,7 +347,7 @@ class cnAdminFunction {
 		 * PHP notices when attempting to access them. If the menus have been added then the
 		 * properties will exist so it will be safe to add the actions using the properties.
 		 */
-		if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu') ) {
+		if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu' ) ) {
 
 			/*
 			 * The Screen Layout options in the Screen Option tab only needs to be added on the manage page when NOT performing an action to an entry.
@@ -387,14 +399,14 @@ class cnAdminFunction {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		//$page = $instance->currentUser->getFilterPage( 'manage' );
+		// $page = $instance->currentUser->getFilterPage( 'manage' );
 		$page = $instance->user->getScreenOption(
 			'manage',
 			'pagination',
 			array( 'current' => 1, 'limit' => 50 )
 		);
 
-		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . __( 'Entries', 'connections' ) . '</label>';
+		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . esc_html__( 'Entries', 'connections' ) . '</label>';
 		$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
 		$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
 
@@ -429,13 +441,13 @@ class cnAdminFunction {
 		$value = Connections_Directory()->user->getScreenOption( 'manage', 'thumbnail', 'photo' );
 
 		$html .= Field\Radio_Group::create()
-		                          ->setId( 'wp_screen_options[image_thumbnail]' )
-		                          ->addClass( 'radio' )
-		                          ->setName( 'wp_screen_options[image_thumbnail]' )
-		                          ->createInputsFromArray( $options )
-		                          ->setValue( $value )
-		                          ->setContainer( 'span' )
-		                          ->getHTML();
+								  ->setId( 'wp_screen_options[image_thumbnail]' )
+								  ->addClass( 'radio' )
+								  ->setName( 'wp_screen_options[image_thumbnail]' )
+								  ->createInputsFromArray( $options )
+								  ->setValue( $value )
+								  ->setContainer( 'span' )
+								  ->getHTML();
 
 		$html .= '<input type="submit" name="screen-options-apply" id="entry-image-thumbnail-apply" class="button" value="Apply" />';
 
@@ -489,7 +501,7 @@ class cnAdminFunction {
 		Connections_Directory()->user->setScreenOptions( 'manage', $meta );
 
 		// cnUser::setScreenOptions() saves the user meta, return FALSE to short circuit set_screen_options().
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -512,11 +524,11 @@ class cnAdminFunction {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		//var_dump( get_current_screen()->id );
-		//var_dump( $instance->pageHook );
+		// var_dump( get_current_screen()->id );
+		// var_dump( $instance->pageHook );
 
 		if ( in_array( get_current_screen()->id, get_object_vars( $instance->pageHook ) ) ) {
-		//if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
+		// if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
 
 			$rate_text = sprintf(
 				__(
@@ -527,7 +539,7 @@ class cnAdminFunction {
 				'https://wordpress.org/support/plugin/connections/reviews/?filter=5#new-post'
 			);
 
-			return str_replace( '</span>', '', $text ) . ' | ' . $rate_text . '</span>';
+			return str_replace( '</span>', '', $text ) . ' | ' . wp_kses_post( $rate_text ) . '</span>';
 
 		} else {
 

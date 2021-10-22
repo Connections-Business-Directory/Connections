@@ -29,7 +29,7 @@ $style  = array(
 			$entry->getImage(
 				array(
 					'image'    => $atts['image_type'],
-					'preset'   => empty( $atts['image_width'] ) && empty( $atts['image_height'] ) ? 'profile' : NULL,
+					'preset'   => empty( $atts['image_width'] ) && empty( $atts['image_height'] ) ? 'profile' : null,
 					'width'    => $atts['image_width'],
 					'height'   => $atts['image_height'],
 					'zc'       => $atts['image_crop_mode'],
@@ -52,7 +52,9 @@ $style  = array(
 		<div style="margin-bottom: 20px;">
 			<?php
 
-			if ( $atts['show_title'] ) $entry->getTitleBlock();
+			if ( $atts['show_title'] ) {
+				$entry->getTitleBlock();
+			}
 
 			if ( $atts['show_org'] || $atts['show_dept'] ) {
 				$entry->getOrgUnitBlock(
@@ -97,7 +99,7 @@ $style  = array(
 							'font-size'    => '10px',
 							'font-variant' => 'small-caps',
 							'margin-right' => '10px',
-						)
+						),
 					)
 				);
 			}

@@ -136,7 +136,7 @@ class Google_Static_Map extends Content_Block {
 			return;
 		}
 
-		//$address = $this->getAddress( $entry );
+		// $address = $this->getAddress( $entry );
 		$address = Entry_Helper::getAddress( $entry );
 
 		if ( ! $address instanceof cnAddress ) {
@@ -235,7 +235,7 @@ class Google_Static_Map extends Content_Block {
 		$query['size']    = $this->get( 'width', 640 ) . 'x' . $this->get( 'height', 400 );
 		$query['maptype'] = strtoupper( $this->get( 'maptype', 'ROADMAP' ) );
 		$query['zoom']    = $this->get( 'zoom', 13 );
-		//$query['scale'] = 2;
+		// $query['scale'] = 2;
 		$query['format']  = 'png';
 		$query['key']     = $key;
 

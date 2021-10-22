@@ -84,7 +84,7 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 					'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 					'args'                => array(
 						'force' => array(
-							'default'     => FALSE,
+							'default'     => false,
 							'description' => __( 'Required to be true, as resource does not support trashing.', 'connections' ),
 						),
 					),
@@ -216,7 +216,7 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 					'description' => __( 'Unique identifier for the object.', 'connections' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => TRUE,
+					'readonly'    => true,
 				),
 				'name' => array(
 					'description' => __( 'The name of the object.', 'connections' ),

@@ -9,12 +9,12 @@
  */
 
 $date_format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
-$search      = array( '%label%' , '%date%' , '%separator%' );
+$search      = array( '%label%', '%date%', '%separator%' );
 $out         = '<span class="date-block">' . PHP_EOL;
 
 foreach ( $dates as $date ) {
 
-	if ( FALSE === $date->date ) {
+	if ( false === $date->date ) {
 
 		continue;
 	}
@@ -24,7 +24,7 @@ foreach ( $dates as $date ) {
 	$out .= "\t" . '<span class="cn-date' . ( $date->preferred ? ' cn-preferred cn-date-preferred' : '' ) . '">';
 
 	$replace[] = ( empty( $date->name ) ) ? '' : '<span class="date-name">' . $date->name . '</span>';
-	$replace[] = ( empty( $date->date ) ) ? '' : '<span>' . date_i18n( $date_format, $date->date->getTimestamp() , FALSE ) . '</span>';
+	$replace[] = ( empty( $date->date ) ) ? '' : '<span>' . date_i18n( $date_format, $date->date->getTimestamp() , false ) . '</span>';
 	$replace[] = '<span class="cn-separator">:</span>';
 
 	$out .= str_ireplace(

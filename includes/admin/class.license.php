@@ -13,7 +13,12 @@
  * @since       0.8
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class cnLicense
@@ -22,42 +27,49 @@ class cnLicense {
 
 	/**
 	 * Plugin basename.
+	 *
 	 * @var string
 	 */
 	private $file;
 
 	/**
 	 * Plugin ID (download ID).
+	 *
 	 * @var int
 	 */
 	private $id = 0;
 
 	/**
 	 * Plugin name.
+	 *
 	 * @var string
 	 */
 	private $name;
 
 	/**
 	 * Plugin slug.
+	 *
 	 * @var string
 	 */
 	private $slug;
 
 	/**
 	 * Plugin version.
+	 *
 	 * @var string
 	 */
 	private $version;
 
 	/**
 	 * Plugin author.
+	 *
 	 * @var string
 	 */
 	private $author;
 
 	/**
 	 * Plugin license key.
+	 *
 	 * @var string
 	 */
 	private $key;
@@ -74,7 +86,7 @@ class cnLicense {
 	 * @param string $author    The plugin author.
 	 * @param string $updateURL The EDD SL API Updater URL.
 	 */
-	public function __construct( $file, $name, $version, $author, $updateURL = NULL ) {
+	public function __construct( $file, $name, $version, $author, $updateURL = null ) {
 
 		// Create a slug from the $name var. This will be used as the settings ID when registering the settings field.
 		// NOTE: Based on WP function sanitize_key().
@@ -82,7 +94,7 @@ class cnLicense {
 
 		// Grab the licenses from the db. Have to use get_option because this
 		// is being run before cnSettingsAPI has been init/d.
-		$licenses = get_option( 'connections_licenses', FALSE );
+		$licenses = get_option( 'connections_licenses', false );
 		$key      = isset( $licenses[ $slug ] ) ? $licenses[ $slug ] : '';
 
 		$this->file      = $file;
@@ -110,8 +122,13 @@ class cnLicense {
 	 */
 	private function includes() {
 
-		if ( ! class_exists( 'cnPlugin_Updater' ) ) require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
-		if ( ! class_exists( 'cnLicense_Status' ) ) require_once CN_PATH . 'includes/admin/class.license-status.php';
+		if ( ! class_exists( 'cnPlugin_Updater' ) ) {
+			require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
+		}
+
+		if ( ! class_exists( 'cnLicense_Status' ) ) {
+			require_once CN_PATH . 'includes/admin/class.license-status.php';
+		}
 	}
 
 	/**
@@ -134,7 +151,11 @@ class cnLicense {
 		 * The did_action( `cn_register_licenses_tab`) action will ensure that they are.
 		 */
 		add_action( 'cn_register_licenses_tab', array( __CLASS__, 'registerSettingsTabSection' ) );
-		if ( did_action( 'cn_register_licenses_tab' ) === 0 ) do_action( 'cn_register_licenses_tab' );
+
+		if ( did_action( 'cn_register_licenses_tab' ) === 0 ) {
+			do_action( 'cn_register_licenses_tab' );
+		}
+
 		add_filter( 'cn_register_settings_fields', array( $this, 'registerSettingsFields' ) );
 
 		// Activate license key on settings save
@@ -212,10 +233,10 @@ class cnLicense {
 	 * Do this via JS because this can not be done with CSS. :(
 	 */
 	jQuery(document).ready( function($) {
-		
-		/** 
+
+		/**
 		 * Deal with the "live" search introduced in WP 4.6.
-		 * @link http://stackoverflow.com/a/19401707/5351316 
+		 * @link http://stackoverflow.com/a/19401707/5351316
 		 */
 		var body = $('body');
 		var observer = new MutationObserver( function( mutations ) {
@@ -227,14 +248,14 @@ class cnLicense {
 		        }
 		    });
 		});
-		
+
 		observer.observe( body[0], {
 		    attributes: true
 		});
-		
+
 		cnReStyle();
 	});
-	
+
 	function cnReStyle() {
 		jQuery('.plugin-update-tr.cn-license-status')
 			.prev().find('th, td')
@@ -247,7 +268,7 @@ class cnLicense {
 
 HERERDOC;
 
-		echo $style;
+		echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -295,7 +316,7 @@ HERERDOC;
 	public function isBetaSupportEnabled() {
 
 		$beta    = get_option( 'connections_beta', array() );
-		$enabled = cnArray::get( $beta, $this->slug, FALSE );
+		$enabled = cnArray::get( $beta, $this->slug, false );
 
 		return cnFormatting::toBoolean( $enabled );
 	}
@@ -335,15 +356,15 @@ HERERDOC;
 		$tabs[] = array(
 			'id'        => 'licenses',
 			'position'  => 50,
-			'title'     => __( 'Licenses' , 'connections' ),
-			'page_hook' => 'connections_page_connections_settings'
+			'title'     => __( 'Licenses', 'connections' ),
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		$tabs[] = array(
 			'id'        => 'beta',
 			'position'  => 50.1,
-			'title'     => __( 'Beta Versions' , 'connections' ),
-			'page_hook' => 'connections_page_connections_settings'
+			'title'     => __( 'Beta Versions', 'connections' ),
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		return $tabs;
@@ -373,7 +394,7 @@ HERERDOC;
 					'connections'
 				) , '</p>';
 			},
-			'page_hook' => 'connections_page_connections_settings'
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		$sections[] = array(
@@ -388,7 +409,7 @@ HERERDOC;
 					'connections'
 				) , '</p>';
 			},
-			'page_hook' => 'connections_page_connections_settings'
+			'page_hook' => 'connections_page_connections_settings',
 		);
 
 		return $sections;
@@ -433,7 +454,7 @@ HERERDOC;
 			'help'              => '',
 			'type'              => 'checkbox',
 			'default'           => '',
-			//'sanitize_callback' => array( $this, 'sanitizeBeta' ),
+			// 'sanitize_callback' => array( $this, 'sanitizeBeta' ),
 		);
 
 		return $fields;
@@ -471,21 +492,24 @@ HERERDOC;
 			$is_active = is_plugin_active( $file );
 		}
 
-		$class = $is_active ? 'active' : 'inactive';
+		$class   = array( 'plugin-update-tr' );
+		$class[] = $is_active ? 'active' : 'inactive';
 
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin['update'] ) ) {
 
-			$class .= ' update';
+			$class[] = 'update';
 		}
 
-		printf( '<tr class="plugin-update-tr %s cn-license-status">', $class );
+		$class[] = 'cn-license-status';
+
+		printf( '<tr class="%s">', _escape::classNames( $class ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		printf( '<td colspan="%d" class="plugin-update">', esc_attr( $wp_list_table->get_column_count() ) );
 
 		printf(
 			'<div class="update-message notice inline notice-%s"><p>%s</p></div>',
 			sanitize_html_class( $type ),
-			$message
+			_escape::html( $message ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
 
 		echo '</td></tr>';
@@ -510,33 +534,33 @@ HERERDOC;
 		// Show the upgrade notice if it exists.
 		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
 
-			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $info->new_version ) . '</strong></p>';
-			echo '<ul><li>' . strip_tags( $info->upgrade_notice ) . '</li></ul>';
+			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $info->new_version ) ) . '</strong></p>';
+			echo '<ul><li>' . _escape::html( wp_strip_all_tags( $info->upgrade_notice ) ) . '</li></ul>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		$sections = maybe_unserialize( $info->sections );
 
-		//--> START Changelog
+		// --> START Changelog
 		if ( isset( $sections['changelog'] ) && ! empty( $sections['changelog'] ) ) {
 
 			// Create the regex that'll parse the changelog for the latest version.
 			// NOTE: regex to support readme.txt parsing support in EDD-SL.
-			$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
+			$regex = '~<h([1-6])>\s*' . preg_quote( $info->new_version, '/' ) . '.+?</h\1>(.+?)<h[1-6]>~is';
 
 			preg_match( $regex, $sections['changelog'], $matches );
-			//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
 			// NOTE: If readme.txt support was not enabled for plugin, parse the changelog meta added by EDD-SL.
 			if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) {
 
 				// Create the regex that'll parse the changelog for the latest version.
-				$regex = '~<(p)>(?:<strong>)?=\s' . preg_quote( $info->new_version ) . '.+?(?:</strong>)?</\1>(.+?)<p>~is';
+				$regex = '~<(p)>(?:<strong>)?=\s' . preg_quote( $info->new_version, '/' ) . '.+?(?:</strong>)?</\1>(.+?)<p>~is';
 
 				preg_match( $regex, $sections['changelog'], $matches );
-				//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+				// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 			}
 
-			// Check if If changelog is found for the current version.
+			// Check if the changelog is found for the current version.
 			if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
 
 				preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
@@ -545,7 +569,7 @@ HERERDOC;
 				// Make sure the change items were found and not empty before proceeding.
 				if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-					$ul = FALSE;
+					$ul = false;
 
 					// Finally, lets render the changelog list.
 					foreach ( $matches[1] as $key => $line ) {
@@ -554,10 +578,10 @@ HERERDOC;
 
 							echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
 							echo '<ul class="cn-changelog">';
-							$ul = TRUE;
+							$ul = true;
 						}
 
-						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
+						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . _escape::html( $line ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( $ul ) {
@@ -567,7 +591,7 @@ HERERDOC;
 				}
 			}
 		}
-		//--> END Changelog
+		// --> END Changelog
 
 		echo '<p class="cn-update-message-p-clear-before">'; // Required to open a </p> tag that exists when this action is run.
 	}
@@ -620,7 +644,7 @@ HERERDOC;
 		}
 
 		// If there was an error message in the EDD SL API response, set the description to the error message.
-		if ( isset( $data->success ) && FALSE === $data->success ) {
+		if ( isset( $data->success ) && false === $data->success ) {
 
 			// $status = isset( $data[ $slug ] ) && isset( $data[ $slug ]->license ) ? $data[ $slug ]->license : 'unknown';
 			$error  = isset( $data->error ) ? $data->error : 'unknown';
@@ -701,10 +725,10 @@ HERERDOC;
 					break;
 			}
 
-		} elseif ( isset( $data->success ) && TRUE === $data->success ) {
+		} elseif ( isset( $data->success ) && true === $data->success ) {
 
 			// Get the status if the item's license key.
-			//$status = self::status( $license->name, $license->key );
+			// $status = self::status( $license->name, $license->key );
 
 			// If there was no error message, display the current license status.
 			switch ( $data->license ) {
@@ -773,7 +797,7 @@ HERERDOC;
 
 					$expiryDate = strtotime( $data->expires );
 
-					if ( $expiryDate !== FALSE ) {
+					if ( $expiryDate !== false ) {
 
 						$message = sprintf( esc_html__( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date( 'F jS Y', $expiryDate ) );
 
@@ -837,38 +861,37 @@ HERERDOC;
 	public function field( $name, $value, $field ) {
 
 		// The field size. Valid values are: small | regular | large
-		$size   = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
+		$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 		// Get the status if the item's license key.
-		//$status = self::status( $field['title'], $value );
+		// $status = self::status( $field['title'], $value );
 		$status = self::statusMessage( $this );
 
 		// Render the text input.
-		printf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
+		printf(
+			'<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
 			$size,
 			$name,
-			isset( $value ) ? $value : ''
+			isset( $value ) ? esc_attr( $value ) : ''
 		);
 
 		// Render either the "Activate" or "Deactivate" button base on the current license status.
 		switch ( $status['code'] ) {
 
 			case 'valid':
-
 				printf(
 					'<input type="submit" class="button-secondary" name="%1$s-deactivate_license" value="%2$s">',
-					$field['id'],
-					esc_html__( 'Deactivate', 'connections' )
+					esc_attr( $field['id'] ),
+					esc_attr( __( 'Deactivate', 'connections' ) )
 				);
 
 				break;
 
 			default:
-
 				printf(
 					'<input type="submit" class="button-secondary" name="%1$s-activate_license" value="%2$s">',
-					$field['id'],
-					esc_html__( 'Activate', 'connections' )
+					esc_attr( $field['id'] ),
+					esc_attr( __( 'Activate', 'connections' ) )
 				);
 		}
 
@@ -878,24 +901,21 @@ HERERDOC;
 			printf(
 				'<span class="description update-message notice inline notice-%1$s">%2$s</span>',
 				sanitize_html_class( $status['type'] ),
-				$status['message']
+				_escape::html( $status['message'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
 	}
 
 	/**
-	 * The filter applied to the sanitize license key when the settings are saved.
+	 * The filter applied to sanitize the license key when the settings are saved.
 	 * This will also attempt to activate/deactivate license keys.
 	 *
 	 * @access private
-	 * @since  0.8
-	 * @uses   get_option()
-	 * @uses   update_option()
-	 * @uses   delete_transient()
-	 * @uses   sanitize_text_field()
-	 * @param  array  $settings The settings options array.
+	 * @since 0.8
 	 *
-	 * @return array            The settings options array.
+	 * @param array $settings The settings option array.
+	 *
+	 * @return array The settings option array.
 	 */
 	public function sanitizeKey( $settings ) {
 
@@ -904,20 +924,24 @@ HERERDOC;
 		$data = get_option( 'connections_license_data' );
 
 		// Retrieve the old key from the options.
-		$oldKey = isset( $keys[ $this->slug ] ) ? $keys[ $this->slug ] : FALSE;
+		$oldKey = isset( $keys[ $this->slug ] ) ? $keys[ $this->slug ] : false;
 
 		// Retrieve the new key from the user submitted value.
 		$newKey = isset( $settings[ $this->slug ] ) ? $settings[ $this->slug ] : '';
 
 		// Sanitize the new key.
-		if ( isset( $settings[ $this->slug ] ) ) $settings[ $this->slug ] = sanitize_text_field( $newKey );
+		if ( isset( $settings[ $this->slug ] ) ) {
+			$settings[ $this->slug ] = sanitize_text_field( $newKey );
+		}
 
 		// If the old key does not equal the new key, deactivate the old key and activate the new key; if supplied.
 		if ( $oldKey && $oldKey != $newKey ) {
 
 			self::license( 'deactivate', $this->name, $oldKey );
 
-			if ( ! empty( $newKey ) ) self::license( 'activate', $this->name, $newKey );
+			if ( ! empty( $newKey ) ) {
+				self::license( 'activate', $this->name, $newKey );
+			}
 		}
 
 		// If the old key was empty and the new is not, activate the new key.
@@ -931,8 +955,8 @@ HERERDOC;
 
 			$data[ $this->slug ] = array();
 
-			update_option( 'connections_license_data', $data, FALSE );
-			//delete_transient( 'connections_license-' . $this->slug );
+			update_option( 'connections_license_data', $data, false );
+			// delete_transient( 'connections_license-' . $this->slug );
 		}
 
 		return $settings;
@@ -964,14 +988,16 @@ HERERDOC;
 		// Run on activate button press
 		if ( isset( $_POST[ $this->slug . '-activate_license' ] ) ) {
 
-			//delete_transient( 'connections_license-' . $this->slug );
+			// delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
 			$keys = get_option( 'connections_licenses' );
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `valid`, no need to attempt to activate the key again; bail.
-			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'valid' ) return;
+			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'valid' ) {
+				return;
+			}
 
 			$key = sanitize_text_field( $_POST['connections_licenses'][ $this->slug ] );
 
@@ -981,9 +1007,9 @@ HERERDOC;
 			self::license( 'activate', $this->name, $key );
 
 			// Save the license key.
-			update_option( 'connections_licenses', $keys, FALSE );
+			update_option( 'connections_licenses', $keys, false );
 
-			//wp_clean_plugins_cache();
+			// wp_clean_plugins_cache();
 			cnPlugin_Updater::clear_cached_response();
 		}
 	}
@@ -1012,19 +1038,21 @@ HERERDOC;
 		// Run on deactivate button press
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
 
-			//delete_transient( 'connections_license-' . $this->slug );
+			// delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
-			//$keys = get_option( 'connections_licenses' );
+			// $keys = get_option( 'connections_licenses' );
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `deactivated`, no need to attempt to deactivate the key again; bail.
-			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'deactivated' ) return;
+			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'deactivated' ) {
+				return;
+			}
 
 			// Deactivate the license.
 			self::license( 'deactivate', $this->name, $this->key );
 
-			//wp_clean_plugins_cache();
+			// wp_clean_plugins_cache();
 			cnPlugin_Updater::clear_cached_response();
 		}
 	}
@@ -1064,8 +1092,8 @@ HERERDOC;
 
 						update_option(
 							'cn_update_plugins_clear_cache',
-							TRUE,
-							FALSE
+							true,
+							false
 						);
 					}
 				}
@@ -1094,13 +1122,13 @@ HERERDOC;
 	 *
 	 * @return object|WP_Error The EDD SL response for the item on success or WP_Error on fail.
 	 */
-	public static function license( $action, $name, $license, $url = NULL ) {
+	public static function license( $action, $name, $license, $url = null ) {
 
 		$licenses = get_option( 'connections_license_data' );
 		$slug     = self::getSlug( $name );
 		$url      = is_null( $url ) ? CN_UPDATE_URL : esc_url( $url );
 
-		$licenses = ( $licenses === FALSE ) ? array() : $licenses;
+		$licenses = ( $licenses === false ) ? array() : $licenses;
 
 		// Set the EDD SL API action.
 		switch ( $action ) {
@@ -1126,7 +1154,7 @@ HERERDOC;
 			'edd_action' => $eddAction,
 			'license'    => $license,
 			'item_name'  => urlencode( $name ),
-			'url'        => home_url()
+			'url'        => home_url(),
 		);
 
 		// Call the API
@@ -1154,10 +1182,10 @@ HERERDOC;
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses, FALSE );
+				update_option( 'connections_license_data', $licenses, false );
 
 				// Save license data in transient.
-				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
@@ -1172,24 +1200,24 @@ HERERDOC;
 
 					$data = self::license( 'status', $name, $license, $url );
 
-					$data->success = FALSE;
+					$data->success = false;
 					$data->error   = $data->license;
 				}
 
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses, FALSE );
+				update_option( 'connections_license_data', $licenses, false );
 
 				// Save license data in transient.
-				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
 			case 'status':
 
 				// Save license data in transient.
-				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 		}

@@ -126,11 +126,11 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 		 *
 		 * @return cnGoogleMapsTimeZone
 		 */
-		public function __construct( $latitude = 0.0, $longitude = 0.0, $timestamp = NULL ) {
+		public function __construct( $latitude = 0.0, $longitude = 0.0, $timestamp = null ) {
 
-			if ( NULL === $timestamp ) {
+			if ( null === $timestamp ) {
 
-				$timestamp = current_time( 'timestamp', TRUE );
+				$timestamp = current_time( 'timestamp', true );
 			}
 
 			$this->setLatitudeLongitude( $latitude, $longitude )->setTimestamp( $timestamp );
@@ -173,7 +173,7 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( $latitude && $longitude ) {
 				return $latitude . ',' . $longitude;
 			} else {
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -460,7 +460,7 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 
 			$decodedSigningKey = self::base64DecodeUrlSafe( $this->getSigningKey() );
 
-			$signature = hash_hmac( 'sha1', $pathQueryString, $decodedSigningKey, TRUE );
+			$signature = hash_hmac( 'sha1', $pathQueryString, $decodedSigningKey, true );
 			$signature = self::base64EncodeUrlSafe( $signature );
 
 			return $signature;
@@ -544,14 +544,15 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 		 *
 		 * @return cnTimezone|string|WP_Error
 		 */
-		public function queryTimeZone( $raw = FALSE ) {
+		public function queryTimeZone( $raw = false ) {
 
 			$key = $this->getLatitudeLongitude();
 
-			if ( FALSE === $key || 0 === strlen( $key ) ) {
+			if ( false === $key || 0 === strlen( $key ) ) {
 
 				return new WP_Error(
-					'no_latitude_or_longitude', __( 'No latitude or longitude supplied.', 'connections' ),
+					'no_latitude_or_longitude',
+					__( 'No latitude or longitude supplied.', 'connections' ),
 					$key
 				);
 			}
@@ -570,7 +571,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( empty( $content ) ) {
 
 				return new WP_Error(
-					'empty_response', __( 'Empty response received.', 'connections' ),
+					'empty_response',
+					__( 'Empty response received.', 'connections' ),
 					$request
 				);
 			}
@@ -578,7 +580,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( 403 == wp_remote_retrieve_response_code( $request ) ) {
 
 				return new WP_Error(
-					'response_message', wp_remote_retrieve_response_message( $request ),
+					'response_message',
+					wp_remote_retrieve_response_message( $request ),
 					$request
 				);
 			}
@@ -588,7 +591,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			if ( is_null( $response ) ) {
 
 				return new WP_Error(
-					'empty_response', __( 'Response could not be decoded.', 'connections' ),
+					'empty_response',
+					__( 'Response could not be decoded.', 'connections' ),
 					$request
 				);
 			}
@@ -601,7 +605,8 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 				case 'ZERO_RESULTS':
 
 					return new WP_Error(
-						'no_results', __( 'Returned zero results.', 'connections' ),
+						'no_results',
+						__( 'Returned zero results.', 'connections' ),
 						$response->errorMessage
 					);
 
@@ -620,7 +625,9 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 				case 'REQUEST_DENIED':
 
 					return new WP_Error(
-						'request_denied', __( 'Request has been denied.', 'connections' ), $response->errorMessage
+						'request_denied',
+						__( 'Request has been denied.', 'connections' ),
+						$response->errorMessage
 					);
 
 					break;
@@ -638,7 +645,9 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 				case 'UNKNOWN_ERROR':
 
 					return new WP_Error(
-						'unknown_error', __( 'An unknown error has occurred.', 'connections' ), $response->errorMessage
+						'unknown_error',
+						__( 'An unknown error has occurred.', 'connections' ),
+						$response->errorMessage
 					);
 
 					break;

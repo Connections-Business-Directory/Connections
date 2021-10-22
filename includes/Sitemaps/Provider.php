@@ -114,7 +114,7 @@ final class Provider extends WP_Sitemaps_Provider {
 			$lastModified = new DateTime( $data->ts );
 
 			$sitemap_entry = array(
-				//'changefreq' => '',
+				// 'changefreq' => '',
 				'lastmod'    => $lastModified->format( DATE_W3C ),
 				'loc'        => _url::permalink(
 					array(
@@ -126,7 +126,7 @@ final class Provider extends WP_Sitemaps_Provider {
 						'slug'       => $data->slug,
 					)
 				),
-				//'priority'   => .5,
+				// 'priority'   => .5,
 			);
 
 			/**
@@ -268,7 +268,7 @@ final class Provider extends WP_Sitemaps_Provider {
 			'limit'             => wp_sitemaps_get_max_urls( $this->object_type ),
 			'lock'              => true,
 			'order_by'          => array( 'id' ),
-			//'process_user_caps' => false,
+			// 'process_user_caps' => false,
 			'status'            => array( 'approved' ),
 			'visibility'        => array( 'public' ),
 		);

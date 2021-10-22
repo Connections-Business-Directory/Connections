@@ -114,7 +114,9 @@ class Custom_Fields extends Content_Block {
 
 			// Do not render any private keys; ie. ones that begin with an underscore
 			// or any fields registered as part of a custom metabox.
-			if ( cnMeta::isPrivate( $key, 'entry' ) ) continue;
+			if ( cnMeta::isPrivate( $key, 'entry' ) ) {
+				continue;
+			}
 
 			$html .= apply_filters(
 				'cn_entry_output_meta_key',

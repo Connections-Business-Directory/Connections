@@ -34,21 +34,21 @@ final class cnRequirements_Check {
 			'name'    => 'PHP',
 			'min'     => '5.2.4',
 			'max'     => '7.2',
-			'current' => FALSE,
-			'checked' => FALSE,
-			'passed'  => FALSE,
-			'tested'  => FALSE,
+			'current' => false,
+			'checked' => false,
+			'passed'  => false,
+			'tested'  => false,
 		),
 		// WordPress
 		'wp' => array(
 			'name'    => 'WordPress',
 			'min'     => '3.8',
 			'max'     => '10',
-			'current' => FALSE,
-			'checked' => FALSE,
-			'passed'  => FALSE,
-			'tested'  => FALSE,
-		)
+			'current' => false,
+			'checked' => false,
+			'passed'  => false,
+			'tested'  => false,
+		),
 	);
 
 	/**
@@ -92,7 +92,7 @@ final class cnRequirements_Check {
 			add_action( 'admin_head-plugins.php', array( $this, 'scripts' ) );
 			add_filter( "plugin_action_links_{$this->basename}", array( $this, 'plugin_row_links' ) );
 			add_action( "after_plugin_row_{$this->basename}", array( $this, 'plugin_row_notice' ) );
-			//add_action( 'admin_notices', array( $this, 'deactivate' ) );
+			// add_action( 'admin_notices', array( $this, 'deactivate' ) );
 		}
 
 		if ( ! $this->passed( 'php' ) ) {
@@ -142,7 +142,7 @@ final class cnRequirements_Check {
 					break;
 				// Unknown
 				default :
-					$version = FALSE;
+					$version = false;
 					break;
 			}
 
@@ -153,7 +153,7 @@ final class cnRequirements_Check {
 					$this->requirements[ $dependency ],
 					array(
 						'current' => $version,
-						'checked' => TRUE,
+						'checked' => true,
 						'passed'  => version_compare( $version, $properties['min'], '>=' ),
 						'tested'  => version_compare( substr( $version, 0, strlen( $properties['max'] ) ), $properties['max'], '<=' ),
 					)
@@ -174,7 +174,7 @@ final class cnRequirements_Check {
 	public function passes() {
 
 		// Default to true (any false below wins).
-		$passes  = TRUE;
+		$passes  = true;
 
 		$dependencies = wp_list_pluck( $this->requirements, 'passed' );
 
@@ -183,7 +183,7 @@ final class cnRequirements_Check {
 
 			if ( empty( $passed ) ) {
 
-				$passes = FALSE;
+				$passes = false;
 				continue;
 			}
 		}

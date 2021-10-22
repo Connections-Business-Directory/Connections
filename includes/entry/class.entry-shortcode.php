@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnEntry_Shortcode {
 
@@ -110,7 +112,9 @@ class cnEntry_Shortcode {
 	public function shortcode( $atts, $content = '', $tag = 'cn_entry' ) {
 
 		// Bail if self::$entry is not set because an instance of the cnEntry object is required.
-		if ( is_null( $this->entry ) ) return '';
+		if ( is_null( $this->entry ) ) {
+			return '';
+		}
 
 		$defaults = array(
 			'part' => '',
@@ -122,7 +126,7 @@ class cnEntry_Shortcode {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// All the core methods in the cnEntry_HTML class echo by default, make sure to return instead.
-		$atts['return'] = TRUE;
+		$atts['return'] = true;
 
 		switch ( $atts['part'] ) {
 
@@ -255,12 +259,12 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
-			'city'      => NULL,
-			'state'     => NULL,
-			'zipcode'   => NULL,
-			'country'   => NULL,
+			'preferred' => false,
+			'type'      => null,
+			'city'      => null,
+			'state'     => null,
+			'zipcode'   => null,
+			'country'   => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -317,8 +321,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -349,8 +353,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -392,8 +396,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -435,8 +439,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -478,8 +482,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -523,8 +527,8 @@ class cnEntry_Shortcode {
 		$out = '';
 
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred' => false,
+			'type'      => null,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );

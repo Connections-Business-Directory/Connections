@@ -13,7 +13,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Utility\_;
 
@@ -45,18 +47,18 @@ class cnMeta {
 	 *
 	 * @return bool|string|array Single metadata value, or array of values.
 	 */
-	public static function get( $type, $id, $key = '', $single = FALSE ) {
+	public static function get( $type, $id, $key = '', $single = false ) {
 
 		if ( ! $type || ! is_numeric( $id ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		$id = absint( $id );
 
 		if ( ! $id ) {
 
-			return FALSE;
+			return false;
 		}
 
 		/**
@@ -72,9 +74,9 @@ class cnMeta {
 		 * @param string            $key       Meta key.
 		 * @param string|array      $single    Meta value, or an array of values.
 		 */
-		$check = apply_filters( "cn_get_{$type}_metadata", NULL, $id, $key, $single );
+		$check = apply_filters( "cn_get_{$type}_metadata", null, $id, $key, $single );
 
-		if ( NULL !== $check ) {
+		if ( null !== $check ) {
 
 			if ( $single && is_array( $check ) ) {
 
@@ -107,7 +109,7 @@ class cnMeta {
 
 			} else {
 
-				return array_map( array( 'cnFormatting', 'maybeJSONdecode' ), $meta_cache[ $key ] );
+				return array_map( array( 'Connections_Directory\Utility\_', 'maybeJSONdecode' ), $meta_cache[ $key ] );
 			}
 		}
 
@@ -149,16 +151,16 @@ class cnMeta {
 		global $wpdb;
 
 		if ( ! $type || ! $object_ids ) {
-			return FALSE;
+			return false;
 		}
 
 		$table  = self::tableName( $type );
-		$column = sanitize_key( $type . '_id');
+		$column = sanitize_key( $type . '_id' );
 
 		if ( ! is_array( $object_ids ) ) {
 
-			$object_ids = preg_replace('|[^0-9,]|', '', $object_ids );
-			$object_ids = explode(',', $object_ids);
+			$object_ids = preg_replace( '|[^0-9,]|', '', $object_ids );
+			$object_ids = explode( ',', $object_ids );
 		}
 
 		$object_ids = array_map( 'intval', $object_ids );
@@ -171,7 +173,7 @@ class cnMeta {
 
 			$cached_object = wp_cache_get( $id, $cache_key );
 
-			if ( FALSE === $cached_object ) {
+			if ( false === $cached_object ) {
 
 				$ids[] = $id;
 
@@ -259,18 +261,18 @@ class cnMeta {
 	 *
 	 * @return mixed          int|bool The metadata ID on successful insert or FALSE on failure.
 	 */
-	public static function add( $type, $id, $key, $value, $unique = FALSE ) {
+	public static function add( $type, $id, $key, $value, $unique = false ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		if ( ! $type || ! $key || ! is_numeric( $id ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$id = absint( $id );
 		if ( ! $id ) {
-			return FALSE;
+			return false;
 		}
 
 		$table  = self::tableName( $type );
@@ -296,22 +298,22 @@ class cnMeta {
 		 * @param bool      $unique Whether the specified meta key should be unique
 		 *                          for the object. Optional. Default false.
 		 */
-		$check = apply_filters( "cn_add_{$type}_metadata", NULL, $id, $key, $value, $unique );
+		$check = apply_filters( "cn_add_{$type}_metadata", null, $id, $key, $value, $unique );
 
-		if ( NULL !== $check ) {
+		if ( null !== $check ) {
 			return $check;
 		}
 
 		if ( $unique && $wpdb->get_var(
-				$wpdb->prepare(
-					"SELECT COUNT(*) FROM " . $table . " WHERE meta_key = %s AND $column = %d",
-					$key,
-					$id
-				)
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM " . $table . " WHERE meta_key = %s AND $column = %d",
+				$key,
+				$id
 			)
+		)
 		) {
 
-			return FALSE;
+			return false;
 		}
 
 		/**
@@ -333,11 +335,12 @@ class cnMeta {
 			array(
 				$column      => $id,
 				'meta_key'   => $key,
-				'meta_value' => _::maybeJSONencode( $value ) )
+				'meta_value' => _::maybeJSONencode( $value ),
+			)
 		);
 
 		if ( ! $result ) {
-			return FALSE;
+			return false;
 		}
 
 		$metaID = (int) $wpdb->insert_id;
@@ -404,12 +407,12 @@ class cnMeta {
 		global $wpdb;
 
 		if ( ! $type || ! $key || ! is_numeric( $id ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$id = absint( $id );
 		if ( ! $id ) {
-			return FALSE;
+			return false;
 		}
 
 		$table  = self::tableName( $type );
@@ -440,13 +443,13 @@ class cnMeta {
 		 */
 		$check = apply_filters(
 			"cn_update_{$type}_metadata",
-			NULL,
+			null,
 			$id,
 			$key,
 			$value,
 			$prev_value
 		);
-		if ( NULL !== $check ) {
+		if ( null !== $check ) {
 			return (bool) $check;
 		}
 
@@ -459,7 +462,7 @@ class cnMeta {
 
 				if ( $old_value[0] === $value ) {
 
-					return FALSE;
+					return false;
 				}
 			}
 		}
@@ -505,7 +508,7 @@ class cnMeta {
 
 		if ( ! $result ) {
 
-			return FALSE;
+			return false;
 		}
 
 		wp_cache_delete( $id, 'cn_' . $type . '_meta' );
@@ -526,7 +529,7 @@ class cnMeta {
 			do_action( "cn_updated_{$type}_meta", $meta_id, $id, $key, $_meta_value );
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -563,18 +566,18 @@ class cnMeta {
 	 *
 	 * @return bool              TRUE on successful delete, FALSE on failure.
 	 */
-	public static function delete( $type, $id, $key, $value = '', $delete_all = FALSE ) {
+	public static function delete( $type, $id, $key, $value = '', $delete_all = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		if ( ! $type || ! $key || ! is_numeric( $id ) && ! $delete_all ) {
-			return FALSE;
+			return false;
 		}
 
 		$id = absint( $id );
 		if ( ! $id && ! $delete_all ) {
-			return FALSE;
+			return false;
 		}
 
 		$table = self::tableName( $type );
@@ -600,8 +603,8 @@ class cnMeta {
 		 *                              ignoring the specified $id.
 		 *                              Default FALSE.
 		 */
-		$check = apply_filters( "cn_delete_{$type}_metadata", NULL, $id, $key, $value, $delete_all );
-		if ( NULL !== $check ) {
+		$check = apply_filters( "cn_delete_{$type}_metadata", null, $id, $key, $value, $delete_all );
+		if ( null !== $check ) {
 			return (bool) $check;
 		}
 
@@ -620,7 +623,7 @@ class cnMeta {
 
 		$meta_ids = $wpdb->get_col( $query );
 		if ( ! count( $meta_ids ) ) {
-			return FALSE;
+			return false;
 		}
 
 		if ( $delete_all ) {
@@ -648,7 +651,7 @@ class cnMeta {
 		$count = $wpdb->query( $query );
 
 		if ( ! $count ) {
-			return FALSE;
+			return false;
 		}
 
 		if ( $delete_all && isset( $object_ids ) ) {
@@ -677,7 +680,7 @@ class cnMeta {
 		 */
 		do_action( "cn_deleted_{$type}_meta", $meta_ids, $id, $key, $_meta_value );
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -708,12 +711,12 @@ class cnMeta {
 		global $wpdb;
 
 		if ( ! $type || ! is_numeric( $id ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$id = absint( $id );
 		if ( ! $id ) {
-			return FALSE;
+			return false;
 		}
 
 		$table = self::tableName( $type );
@@ -721,12 +724,12 @@ class cnMeta {
 		$meta = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table WHERE meta_id = %d", $id ) );
 
 		if ( empty( $meta ) ) {
-			return FALSE;
+			return false;
 		}
 
 		if ( isset( $meta->meta_value ) ) {
 
-			$meta->meta_value = cnFormatting::maybeJSONdecode( $meta->meta_value );
+			$meta->meta_value = _::maybeJSONdecode( $meta->meta_value );
 		}
 
 		return $meta;
@@ -758,7 +761,7 @@ class cnMeta {
 	 *
 	 * @return bool         TRUE on successful update, FALSE on failure.
 	 */
-	public static function updateByID( $type, $id, $value, $key = FALSE ) {
+	public static function updateByID( $type, $id, $value, $key = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -766,12 +769,12 @@ class cnMeta {
 		// Make sure everything is valid.
 		if ( ! $type || ! is_numeric( $id ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		$id = absint( $id );
 		if ( ! $id ) {
-			return FALSE;
+			return false;
 		}
 
 		$table     = self::tableName( $type );
@@ -786,13 +789,13 @@ class cnMeta {
 
 			// If a new meta_key (last parameter) was specified, change the meta key,
 			// otherwise use the original key in the update statement.
-			if ( FALSE === $key ) {
+			if ( false === $key ) {
 
 				$key = $original_key;
 
 			} elseif ( ! is_string( $key ) ) {
 
-				return FALSE;
+				return false;
 			}
 
 			// Sanitize the meta
@@ -804,7 +807,7 @@ class cnMeta {
 			// Format the data query arguments.
 			$data = array(
 				'meta_key'   => $key,
-				'meta_value' => $value
+				'meta_value' => $value,
 			);
 
 			// Format the where query arguments.
@@ -817,7 +820,7 @@ class cnMeta {
 			// Run the update query, all fields in $data are %s, $where is a %d.
 			$result = $wpdb->update( $table, $data, $where, '%s', '%d' );
 			if ( ! $result ) {
-				return FALSE;
+				return false;
 			}
 
 			// Clear the caches.
@@ -826,11 +829,11 @@ class cnMeta {
 			/** This action is documented in includes/class.meta.php */
 			do_action( "cn_updated_{$type}_meta", $id, $object_id, $key, $_meta_value );
 
-			return TRUE;
+			return true;
 		}
 
 		// And if the meta was not found.
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -863,12 +866,12 @@ class cnMeta {
 
 		// Make sure everything is valid.
 		if ( ! $type || ! is_numeric( $id ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$id = absint( $id );
 		if ( ! $id ) {
-			return FALSE;
+			return false;
 		}
 
 		$table = cnMeta::tableName( $type );
@@ -896,7 +899,7 @@ class cnMeta {
 			return $result;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -924,18 +927,23 @@ class cnMeta {
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
 		// The query will not retrieve any meta key that begin with an '_' [underscore].
-		$sql = $wpdb->prepare( 'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %d',
-				//empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
+		$sql = $wpdb->prepare(
+			'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %d',
+				// empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
 				absint( $limit )
-			);
+		);
 
 		$keys = $wpdb->get_col( $sql );
 
-		if ( $keys ) natcasesort( $keys );
+		if ( $keys ) {
+			natcasesort( $keys );
+		}
 
 		foreach ( $keys as $i => $key ) {
 
-			if ( self::isPrivate( $key ) ) unset( $keys[ $i ] );
+			if ( self::isPrivate( $key ) ) {
+				unset( $keys[ $i ] );
+			}
 		}
 
 		return $keys;
@@ -952,9 +960,9 @@ class cnMeta {
 	 *
 	 * @return boolean
 	 */
-	public static function isPrivate( $key, $type = NULL ) {
+	public static function isPrivate( $key, $type = null ) {
 
-		$private = FALSE;
+		$private = false;
 
 		if ( is_string( $key ) && strlen( $key ) > 0 ) {
 
@@ -978,7 +986,7 @@ class cnMeta {
 						if ( $field['id'] == $key ) {
 
 							// Field found, it's private ... exit loop.
-							$private = TRUE;
+							$private = true;
 							continue;
 						}
 					}
@@ -993,7 +1001,7 @@ class cnMeta {
 							if ( $field['id'] == $key ) {
 
 								// Field found, it's private ... exit the loops.
-								$private = TRUE;
+								$private = true;
 								continue(2);
 							}
 						}

@@ -69,7 +69,7 @@ final class _url {
 		 * @todo Refactor to use @see set_url_scheme()
 		 */
 
-		return parse_url( $url, PHP_URL_SCHEME ) === NULL ? $protocol . $url : $url;
+		return parse_url( $url, PHP_URL_SCHEME ) === null ? $protocol . $url : $url;
 	}
 
 	/**
@@ -247,7 +247,9 @@ final class _url {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink( false );
+		}
 
 		// The anchor attributes.
 		$piece = array();
@@ -256,15 +258,15 @@ final class _url {
 			'class'      => '',
 			'text'       => '',
 			'title'      => '',
-			'follow'     => TRUE,
+			'follow'     => true,
 			'rel'        => '',
 			'slug'       => '',
 			'on_click'   => '',
 			'type'       => 'name',
 			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-			'force_home' => FALSE,
+			'force_home' => false,
 			'data'       => 'tag', // Valid: 'tag' | 'url'
-			'return'     => FALSE,
+			'return'     => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -304,20 +306,38 @@ final class _url {
 
 			} else {
 
-				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => FALSE  ), get_permalink( $homeID ) );
+				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => false  ), get_permalink( $homeID ) );
 			}
 
 		}
 
 		$atts['permalink_root'] = $permalink;
 
-		if ( ! empty( $atts['class'] ) ) $piece['class']       = 'class="' . $atts['class'] .'"';
+		if ( ! empty( $atts['class'] ) ) {
+			$piece['class'] = 'class="' . _escape::classNames( $atts['class'] ) . '"';
+		}
+
 		// if ( ! empty( $atts['slug'] ) ) $piece['id']        = 'id="' . $atts['slug'] .'"';
-		if ( ! empty( $atts['title'] ) ) $piece['title']       = 'title="' . $atts['title'] .'"';
-		if ( ! empty( $atts['target'] ) ) $piece['target']     = 'target="' . $atts['target'] .'"';
-		if ( ! $atts['follow'] ) $piece['follow']              = 'rel="nofollow"';
-		if ( ! empty( $atts['rel'] ) ) $piece['rel']           = 'rel="' . $atts['rel'] .'"';
-		if ( ! empty( $atts['on_click'] ) ) $piece['on_click'] = 'onClick="' . $atts['on_click'] .'"';
+
+		if ( ! empty( $atts['title'] ) ) {
+			$piece['title'] = 'title="' . _escape::attribute( $atts['title'] ) . '"';
+		}
+
+		if ( ! empty( $atts['target'] ) ) {
+			$piece['target'] = 'target="' . _escape::attribute( $atts['target'] ) . '"';
+		}
+
+		if ( ! $atts['follow'] ) {
+			$piece['follow'] = 'rel="nofollow"';
+		}
+
+		if ( ! empty( $atts['rel'] ) ) {
+			$piece['rel'] = 'rel="' . _escape::attribute( $atts['rel'] ) . '"';
+		}
+
+		if ( ! empty( $atts['on_click'] ) ) {
+			$piece['on_click'] = 'onClick="' . esc_js( $atts['on_click'] ) . '"';
+		}
 
 		/*
 		 * NOTE: Use `rawurlencode()` when encoding the permalink for department, organization, district, county,
@@ -364,7 +384,7 @@ final class _url {
 
 				$result = Connections_Directory()->retrieve->entry( $atts['slug'] );
 
-				if ( FALSE !== $result ) {
+				if ( false !== $result ) {
 
 					$actionURL  = 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $result->id;
 					$actionName = 'entry_edit_' . $result->id;
@@ -377,7 +397,7 @@ final class _url {
 
 				$result = Connections_Directory()->retrieve->entry( $atts['slug'] );
 
-				if ( FALSE !== $result ) {
+				if ( false !== $result ) {
 
 					$actionURL  = 'admin.php?cn-action=delete_entry&id=' . $result->id;
 					$actionName = 'entry_delete_' . $result->id;
@@ -394,7 +414,7 @@ final class _url {
 					// requested that the entry slug is being used so urlencode() will not be use as not to double encode it.
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] );
 				} else {
-					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ) , $permalink );
 				}
 
 				break;
@@ -404,7 +424,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/detail' );
 				} else {
-					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ) , $permalink );
 				}
 
 				break;
@@ -551,16 +571,21 @@ final class _url {
 
 			$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
 
-			$out = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
+			$out = '<a ' . implode( ' ', $piece ) . '>' . esc_html( $atts['text'] ) . '</a>';
 
 		}
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink( TRUE );
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink( true );
+		}
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( $atts['return'] ) {
+			return $out;
+		}
+
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 }

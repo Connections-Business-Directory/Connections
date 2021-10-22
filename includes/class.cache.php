@@ -14,7 +14,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnCache {
 
@@ -46,14 +48,14 @@ class cnCache {
 	 *
 	 * @return bool|mixed|NULL|void
 	 */
-	public static function get( $key, $mode = 'transient', $group = self::PREFIX, $callback = NULL ) {
+	public static function get( $key, $mode = 'transient', $group = self::PREFIX, $callback = null ) {
 
-		$object_cache = FALSE;
+		$object_cache = false;
 		$group_key    = '';
 
 		if ( isset( $GLOBALS['wp_object_cache'] ) && is_object( $GLOBALS['wp_object_cache'] ) ) {
 
-			$object_cache = TRUE;
+			$object_cache = true;
 		}
 
 		if ( ! in_array( $mode, self::$modes ) ) {
@@ -79,13 +81,13 @@ class cnCache {
 			}
 		}
 
-		$value  = NULL;
-		$called = FALSE;
+		$value  = null;
+		$called = false;
 
 		$nocache     = array();
-		$get_nocache = isset( $_GET['nocache'] ) ? $_GET['nocache'] : NULL;
+		$get_nocache = isset( $_GET['nocache'] ) ? $_GET['nocache'] : null;
 
-		if ( is_admin() && NULL !== $get_nocache ) {
+		if ( is_admin() && null !== $get_nocache ) {
 
 			if ( 1 < strlen( $get_nocache ) ) {
 
@@ -98,7 +100,7 @@ class cnCache {
 
 		}
 
-		if ( apply_filters( 'cn_cache_get', FALSE, $mode, $group_key . $key, $original_key, $group ) ) {
+		if ( apply_filters( 'cn_cache_get', false, $mode, $group_key . $key, $original_key, $group ) ) {
 
 			$value = apply_filters( 'cn_cache_get_value', $value, $mode, $group_key . $key, $original_key, $group );
 
@@ -118,9 +120,9 @@ class cnCache {
 
 			global $_wp_using_ext_object_cache;
 
-			$pre = apply_filters( 'pre_transient_' . $key, FALSE );
+			$pre = apply_filters( 'pre_transient_' . $key, false );
 
-			if ( FALSE !== $pre ) {
+			if ( false !== $pre ) {
 
 				$value = $pre;
 
@@ -136,16 +138,16 @@ class cnCache {
 						// Callback function should do it's own set/update for cache
 						$callback_value = call_user_func( $callback, $original_key, $group, $mode );
 
-						if ( NULL !== $callback_value && FALSE !== $callback_value ) {
+						if ( null !== $callback_value && false !== $callback_value ) {
 
 							$value = $callback_value;
 						}
 
-						$called = TRUE;
+						$called = true;
 
 					} else {
 
-						$value = FALSE;
+						$value = false;
 
 						wp_cache_delete( $key, ( empty( $group ) ? 'cn_option_cache' : $group ) );
 						wp_cache_delete( '_timeout_' . $key, ( empty( $group ) ? 'cn_option_cache' : $group ) );
@@ -167,16 +169,16 @@ class cnCache {
 						// Callback function should do it's own set/update for cache
 						$callback_value = call_user_func( $callback, $original_key, $group, $mode );
 
-						if ( NULL !== $callback_value && FALSE !== $callback_value ) {
+						if ( null !== $callback_value && false !== $callback_value ) {
 
 							$value = $callback_value;
 						}
 
-						$called = TRUE;
+						$called = true;
 
 					} else {
 
-						$value = FALSE;
+						$value = false;
 
 						delete_option( $transient_option );
 						delete_option( $transient_timeout );
@@ -184,22 +186,22 @@ class cnCache {
 				}
 			}
 
-			if ( FALSE !== $value ) {
+			if ( false !== $value ) {
 
 				$value = apply_filters( 'transient_' . $key, $value );
 			}
 
 		} else {
 
-			$value = FALSE;
+			$value = false;
 		}
 
-		if ( FALSE === $value && is_callable( $callback ) && ! $called ) {
+		if ( false === $value && is_callable( $callback ) && ! $called ) {
 
 			// Callback function should do it's own set/update for cache
 			$callback_value = call_user_func( $callback, $original_key, $group, $mode );
 
-			if ( NULL !== $callback_value && FALSE !== $callback_value ) {
+			if ( null !== $callback_value && false !== $callback_value ) {
 
 				$value = $callback_value;
 			}
@@ -226,12 +228,12 @@ class cnCache {
 	 */
 	public static function set( $key, $value, $expires = 0, $mode = 'transient', $group = self::PREFIX ) {
 
-		$object_cache = FALSE;
+		$object_cache = false;
 		$group_key    = '';
 
 		if ( isset( $GLOBALS['wp_object_cache'] ) && is_object( $GLOBALS['wp_object_cache'] ) ) {
 
-			$object_cache = TRUE;
+			$object_cache = true;
 		}
 
 		if ( ! in_array( $mode, self::$modes ) ) {
@@ -257,7 +259,7 @@ class cnCache {
 			}
 		}
 
-		if ( apply_filters( 'cn_cache_set', FALSE, $mode, $group_key . $key, $original_key, $value, $expires, $group ) ) {
+		if ( apply_filters( 'cn_cache_set', false, $mode, $group_key . $key, $original_key, $value, $expires, $group ) ) {
 
 			return $value;
 
@@ -293,7 +295,7 @@ class cnCache {
 				$transient_timeout = '_cn_option_timeout_' . $key;
 				$key               = '_cn_option_' . $key;
 
-				if ( FALSE === get_option( $key ) ) {
+				if ( false === get_option( $key ) ) {
 
 					if ( $expires ) {
 
@@ -367,14 +369,14 @@ class cnCache {
 	 *
 	 * @return bool
 	 */
-	public static function clear( $key = TRUE, $mode = 'transient', $group = '' ) {
+	public static function clear( $key = true, $mode = 'transient', $group = '' ) {
 		global $wpdb;
 
-		$object_cache = FALSE;
+		$object_cache = false;
 
 		if ( isset( $GLOBALS['wp_object_cache'] ) && is_object( $GLOBALS['wp_object_cache'] ) ) {
 
-			$object_cache = TRUE;
+			$object_cache = true;
 		}
 
 		if ( ! in_array( $mode, self::$modes ) ) {
@@ -391,7 +393,7 @@ class cnCache {
 
 		$full_key = $original_key = $key;
 
-		if ( TRUE !== $key ) {
+		if ( true !== $key ) {
 
 			// Patch for limitations in DB
 			if ( 40 < strlen( $group_key . $key ) ) {
@@ -407,15 +409,15 @@ class cnCache {
 			$full_key = $group_key . $key;
 		}
 
-		if ( apply_filters( 'cn_cache_clear', FALSE, $mode, $full_key, $original_key, '', 0, $group ) ) {
+		if ( apply_filters( 'cn_cache_clear', false, $mode, $full_key, $original_key, '', 0, $group ) ) {
 
-			return TRUE;
+			return true;
 
 		} elseif ( 'transient' == $mode ) {
 
-			if ( TRUE === $key ) {
+			if ( true === $key ) {
 
-				//$group_key = like_escape( $group_key );
+				// $group_key = like_escape( $group_key );
 				$group_key = $wpdb->esc_like( $group_key );
 
 				$wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE option_name LIKE '_transient_{$group_key}%' OR option_name LIKE '_transient_timeout_{$group_key}%'" );
@@ -433,9 +435,9 @@ class cnCache {
 
 		} elseif ( 'site-transient' == $mode ) {
 
-			if ( TRUE === $key ) {
+			if ( true === $key ) {
 
-				//$group_key = like_escape( $group_key );
+				// $group_key = like_escape( $group_key );
 				$group_key = $wpdb->esc_like( $group_key );
 
 				$wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE option_name LIKE '_site_transient_{$group_key}%' OR option_name LIKE '_site_transient_timeout_{$group_key}%'" );
@@ -453,7 +455,7 @@ class cnCache {
 
 		} elseif ( 'cache' == $mode && $object_cache ) {
 
-			if ( TRUE === $key ) {
+			if ( true === $key ) {
 
 				wp_cache_flush();
 
@@ -497,7 +499,7 @@ class cnCache {
 
 		do_action( 'cn_cache_clear_' . $mode, $original_key, $group );
 
-		return TRUE;
+		return true;
 	}
 
 }
@@ -562,15 +564,15 @@ class cnFragment {
 
 		$fragment = cnCache::get( $this->key, 'transient', $this->group );
 
-		if ( $fragment !== FALSE ) {
+		if ( $fragment !== false ) {
 
 			echo $fragment;
-			return TRUE;
+			return true;
 
 		} else {
 
 			ob_start();
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -585,7 +587,7 @@ class cnFragment {
 	 *
 	 * @return void
 	 */
-	public function save( $ttl = NULL ) {
+	public function save( $ttl = null ) {
 
 		$ttl = is_null( $ttl ) ? $this->ttl : $ttl;
 
@@ -604,7 +606,7 @@ class cnFragment {
 	 */
 	public static function clear( $key, $group = '' ) {
 
-		if ( TRUE !== $key ) {
+		if ( true !== $key ) {
 
 			cnCache::clear( $key, 'transient', self::PREFIX );
 
@@ -612,7 +614,7 @@ class cnFragment {
 
 			$group_key = empty( $group ) ? self::PREFIX : $group;
 
-			cnCache::clear( TRUE, 'transient', $group_key );
+			cnCache::clear( true, 'transient', $group_key );
 		}
 
 	}

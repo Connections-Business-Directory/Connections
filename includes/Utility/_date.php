@@ -163,9 +163,9 @@ final class _date {
 	 * @return string|false The name of the timezone ( eg. 'Asia/Tokyo', 'Europe/Paris', ... ) or
 	 *                      FALSE if it can not be determined from the offset.
 	 */
-	public static function getTimezoneFromOffset( $offset, $isDst = NULL ) {
+	public static function getTimezoneFromOffset( $offset, $isDst = null ) {
 
-		if ( NULL === $isDst ) {
+		if ( null === $isDst ) {
 
 			$isDst = (int) date( 'I' );
 		}
@@ -173,7 +173,7 @@ final class _date {
 		$offset   *= HOUR_IN_SECONDS;
 		$timezone = timezone_name_from_abbr( '', $offset, $isDst );
 
-		if ( FALSE === $timezone ) {
+		if ( false === $timezone ) {
 
 			foreach ( timezone_abbreviations_list() as $abbr ) {
 
@@ -189,7 +189,7 @@ final class _date {
 					}
 				}
 
-				if ( FALSE !== $timezone ) {
+				if ( false !== $timezone ) {
 
 					break;
 				}
@@ -233,7 +233,7 @@ final class _date {
 				 * No need to add the date format escaping character to the regex since it should not exist in the
 				 * supplied datetime string. Including it would cause the preg_match to fail.
 				 */
-				//$regex .= $char;
+				// $regex .= $char;
 
 			} else {
 
@@ -262,18 +262,18 @@ final class _date {
 
 		/** Setup the default values to be returned, matching @see date_parse_from_format() */
 		$dt = array(
-			'year'          => FALSE,
-			'month'         => FALSE,
-			'day'           => FALSE,
-			'hour'          => FALSE,
-			'minute'        => FALSE,
-			'second'        => FALSE,
-			'fraction'      => FALSE,
+			'year'          => false,
+			'month'         => false,
+			'day'           => false,
+			'hour'          => false,
+			'minute'        => false,
+			'second'        => false,
+			'fraction'      => false,
 			'warning_count' => 0,
 			'warnings'      => array(),
 			'error_count'   => 0,
 			'errors'        => array(),
-			'is_localtime'  => FALSE,
+			'is_localtime'  => false,
 			'zone_type'     => 0,
 			'zone'          => 0,
 			'is_dst'        => '',
@@ -342,7 +342,7 @@ final class _date {
 		$chars = str_split( $format );
 
 		// Setup default datetime values based on time now or Unix epoch based on if `!` if present in $format.
-		if ( FALSE !== $pos ) {
+		if ( false !== $pos ) {
 
 			$datetime = array(
 				'year'          => '1970',
@@ -381,7 +381,7 @@ final class _date {
 
 				// Existing value exists in supplied parsed date.
 				if ( array_key_exists( $keys[ $char ][0], $parsed ) &&
-				     FALSE !== $parsed[ $keys[ $char ][0] ]
+				     false !== $parsed[ $keys[ $char ][0] ]
 				) {
 
 					/*
@@ -389,7 +389,7 @@ final class _date {
 					 * an `!` was found within the supplied $format and its position is
 					 * greater than the current $format character position.
 					 */
-					if ( ! ( FALSE !== $pos && $pos > $n ) ) {
+					if ( ! ( false !== $pos && $pos > $n ) ) {
 
 						$datetime[ $keys[ $char ][0] ] = $parsed[ $keys[ $char ][0] ];
 					}
@@ -426,7 +426,7 @@ final class _date {
 		// Sanity check to make sure the datetime is valid.
 		if ( ! strtotime( $formatted ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		// Return a new DateTime instance.
@@ -469,6 +469,6 @@ final class _date {
 		 * Use date_i18n() so the date is localized.
 		 */
 		return date_i18n( $format, strtotime( gmdate( 'c', $nextUDay ) ) );
-		//return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
+		// return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
 	}
 }

@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Utility\_;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -62,7 +64,9 @@ class cnEntryMetabox {
 		}
 
 		// Set the "Visibility" options that can be set by the current user.
-		if ( is_user_logged_in() ) self::$visibility = $instance->options->getVisibilityOptions();
+		if ( is_user_logged_in() ) {
+			self::$visibility = $instance->options->getVisibilityOptions();
+		}
 
 		// Hide the "Custom Metadata Fields" metabox by default for users.
 		add_filter( 'cn_admin_default_metabox_page_hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
@@ -99,7 +103,7 @@ class cnEntryMetabox {
 
 		} else {
 
-			$showMediaButton = current_user_can( 'unfiltered_html' ) ? TRUE : FALSE;
+			$showMediaButton = current_user_can( 'unfiltered_html' ) ? true : false;
 
 			$rteOptions = array(
 				'media_buttons' => apply_filters( 'cn_metabox_rte_show_media_button', $showMediaButton ),
@@ -107,11 +111,11 @@ class cnEntryMetabox {
 					'editor_selector'   => 'tinymce',
 					'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
 					'toolbar2'          => '',
-					'inline_styles'     => TRUE,
-					'relative_urls'     => FALSE,
-					'remove_linebreaks' => FALSE,
-					'plugins'           => implode( ',', $tinymcePlugins )
-				)
+					'inline_styles'     => true,
+					'relative_urls'     => false,
+					'remove_linebreaks' => false,
+					'plugins'           => implode( ',', $tinymcePlugins ),
+				),
 			);
 		}
 
@@ -357,7 +361,7 @@ class cnEntryMetabox {
 		global $plugin_page;
 
 		$defaults = array(
-			'action'     => NULL,
+			'action'     => null,
 			'entry_type' => cnOptions::getEntryTypes(),
 			'default'    => array(
 				'type'       => 'individual',
@@ -450,28 +454,28 @@ class cnEntryMetabox {
 
 		echo '<div id="major-publishing-actions">';
 
-			switch ( TRUE ) {
+			switch ( true ) {
 
 				case ( $action ==  'edit_entry' || $action == 'edit' ):
 
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
-					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a></div>';
+					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , esc_html__( 'Update', 'connections' ) , '" /></div>';
 
 					break;
 
 				case ( $action == 'copy_entry' || $action == 'copy' ):
 
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
-					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a>';
+					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_html__( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;
 
 				default:
 
 					echo '<input type="hidden" name="cn-action" value="add_entry"/>';
-					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
+					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_html__( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;
 			}
@@ -522,9 +526,17 @@ class cnEntryMetabox {
 		$orgClasses  = array( 'cn-organization' );
 		$deptClasses = array();
 
-		if ( in_array( 'organization', $individualNameFields ) ) $orgClasses[] = 'cn-individual';
-		if ( in_array( 'department', $individualNameFields ) ) $deptClasses[] = 'cn-individual';
-		if ( in_array( 'department', $organizationNameFields ) ) $deptClasses[] = 'cn-organization';
+		if ( in_array( 'organization', $individualNameFields ) ) {
+			$orgClasses[] = 'cn-individual';
+		}
+
+		if ( in_array( 'department', $individualNameFields ) ) {
+			$deptClasses[] = 'cn-individual';
+		}
+
+		if ( in_array( 'department', $organizationNameFields ) ) {
+			$deptClasses[] = 'cn-organization';
+		}
 
 		$fieldset = array(
 			'sections' => array(
@@ -537,12 +549,12 @@ class cnEntryMetabox {
 							// Each field must have an unique ID. Duplicates will be discarded.
 							'id'       => 'honorific_prefix',
 							// Whether or not to render the field.
-							'show'     => TRUE,
+							'show'     => true,
 							// The field label if supplied.
 							'label'    => __( 'Prefix', 'connections' ),
 							// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
 							// This will be used by jQuery Validate.
-							'required' => FALSE,
+							'required' => false,
 							// The field type.
 							'type'     => in_array( 'prefix', $individualNameFields ) ? 'text' : 'hidden',
 							// The field value.
@@ -552,9 +564,9 @@ class cnEntryMetabox {
 						),
 						'first'  => array(
 							'id'       => 'first_name',
-							'show'     => TRUE,
+							'show'     => true,
 							'label'    => __( 'First Name', 'connections' ),
-							'required' => TRUE,
+							'required' => true,
 							'type'     => 'text',
 							'value'    => strlen( $entry->getFirstName() ) > 0 ? $entry->getFirstName( 'edit' ) : '',
 							'before'   => '<span id="cn-name-first">',
@@ -562,9 +574,9 @@ class cnEntryMetabox {
 						),
 						'middle' => array(
 							'id'       => 'middle_name',
-							'show'     => TRUE,
+							'show'     => true,
 							'label'    => __( 'Middle Name', 'connections' ),
-							'required' => FALSE,
+							'required' => false,
 							'type'     => in_array( 'middle', $individualNameFields ) ? 'text' : 'hidden',
 							'value'    => strlen( $entry->getMiddleName() ) > 0 ? $entry->getMiddleName( 'edit' ) : '',
 							'before'   => in_array( 'middle', $individualNameFields ) ? '<span id="cn-name-middle">' : '',
@@ -572,9 +584,9 @@ class cnEntryMetabox {
 						),
 						'last'   => array(
 							'id'       => 'last_name',
-							'show'     => TRUE,
+							'show'     => true,
 							'label'    => __( 'Last Name', 'connections' ),
-							'required' => TRUE,
+							'required' => true,
 							'type'     => 'text',
 							'value'    => strlen( $entry->getLastName() ) > 0 ? $entry->getLastName( 'edit' ) : '',
 							'before'   => '<span id="cn-name-last">',
@@ -582,9 +594,9 @@ class cnEntryMetabox {
 						),
 						'suffix' => array(
 							'id'       => 'honorific_suffix',
-							'show'     => TRUE,
+							'show'     => true,
 							'label'    => __( 'Suffix', 'connections' ),
-							'required' => FALSE,
+							'required' => false,
 							'type'     => in_array( 'suffix', $individualNameFields ) ? 'text' : 'hidden',
 							'value'    => strlen( $entry->getHonorificSuffix() ) > 0 ? $entry->getHonorificSuffix( 'edit' ) : '',
 							'before'   => in_array( 'suffix', $individualNameFields ) ? '<span id="cn-name-suffix">' : '',
@@ -598,9 +610,9 @@ class cnEntryMetabox {
 					'fields' => array(
 						'title' => array(
 							'id'        => 'title',
-							'show'      => TRUE,
+							'show'      => true,
 							'label'     => _x( 'Title', 'A name that describes someone\'s position or job.', 'connections' ),
-							'required'  => FALSE,
+							'required'  => false,
 							'type'      => in_array( 'title', $individualNameFields ) ? 'text' : 'hidden',
 							'value'     => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
 						),
@@ -612,9 +624,9 @@ class cnEntryMetabox {
 					'fields' => array(
 						'organization' => array(
 							'id'        => 'organization',
-							'show'      => TRUE,
+							'show'      => true,
 							'label'     => __( 'Organization' , 'connections' ),
-							'required'  => FALSE,
+							'required'  => false,
 							'type'      => 'text',
 							'value'     => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
 						),
@@ -626,9 +638,9 @@ class cnEntryMetabox {
 					'fields' => array(
 						'department' => array(
 							'id'        => 'department',
-							'show'      => TRUE,
+							'show'      => true,
 							'label'     => __( 'Department' , 'connections' ),
-							'required'  => FALSE,
+							'required'  => false,
 							'type'      => 'text',
 							'value'     => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
 						),
@@ -640,9 +652,9 @@ class cnEntryMetabox {
 					'fields' => array(
 						'contact_first_name' => array(
 							'id'        => 'contact_first_name',
-							'show'      => TRUE,
+							'show'      => true,
 							'label'     => __( 'Contact First Name' , 'connections' ),
-							'required'  => FALSE,
+							'required'  => false,
 							'type'      => in_array( 'contact_first_name', $organizationNameFields ) ? 'text' : 'hidden',
 							'value'     => strlen( $entry->getContactFirstName() ) > 0 ? $entry->getContactFirstName( 'edit' ) : '',
 							'before'    => in_array( 'contact_first_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-first-name">' : '',
@@ -650,9 +662,9 @@ class cnEntryMetabox {
 						),
 						'contact_last_name' => array(
 							'id'        => 'contact_last_name',
-							'show'      => TRUE,
+							'show'      => true,
 							'label'     => __( 'Contact Last Name' , 'connections' ),
-							'required'  => FALSE,
+							'required'  => false,
 							'type'      => in_array( 'contact_last_name', $organizationNameFields ) ? 'text' : 'hidden',
 							'value'     => strlen( $entry->getContactLastName() ) > 0 ? $entry->getContactLastName( 'edit' ) : '',
 							'before'    => in_array( 'contact_last_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-last-name">' : '',
@@ -697,11 +709,11 @@ class cnEntryMetabox {
 						'style'    => array(),
 						'options'  => array(),
 						'value'    => '',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => '',
 						'before'   => '',
 						'after'    => '',
-						'return'   => TRUE,
+						'return'   => true,
 					);
 
 					$field = wp_parse_args( $field, $defaults );
@@ -717,7 +729,7 @@ class cnEntryMetabox {
 							'label'    => $field['label'],
 							'before'   => $field['before'],
 							'after'    => $field['after'],
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						$field['value']
 					);
@@ -748,7 +760,7 @@ class cnEntryMetabox {
 		$id   = $entry->getId();
 		$ckey = $entry->getId() ? 'relative_select_entry_' . $id : 'relative_select_user_' . $instance->currentUser->getID();
 
-		if ( FALSE !== ( $cache = cnCache::get( $ckey, 'transient' ) ) ) {
+		if ( false !== ( $cache = cnCache::get( $ckey, 'transient' ) ) ) {
 
 			echo $cache;
 			return;
@@ -771,8 +783,8 @@ class cnEntryMetabox {
 					'id'       => 'family_member[::FIELD::][entry_id]',
 					'default'  => __( 'Select Entry', 'connections' ),
 					'options'  => $individuals,
-					'enhanced' => TRUE,
-					'return'   => TRUE,
+					'enhanced' => true,
+					'return'   => true,
 				)
 			);
 
@@ -782,15 +794,15 @@ class cnEntryMetabox {
 					'id'       => 'family_member[::FIELD::][relation]',
 					'default'  => __( 'Select Relation', 'connections' ),
 					'options'  => $options,
-					'enhanced' => TRUE,
-					'return'   => TRUE,
+					'enhanced' => true,
+					'return'   => true,
 				)
 			);
 
 			$html .= '</textarea>';
 			// --> End template for Family <-- \\
 
-			$html .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
+			$html .= '<label for="family_name">' . esc_html__( 'Family Name', 'connections' ) . ':</label>';
 			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
 
 			$html .= '<ul id="cn-relations">';
@@ -811,8 +823,8 @@ class cnEntryMetabox {
 									'id'       => 'family_member[' . $token . '][entry_id]',
 									'default'  => __( 'Select Entry', 'connections' ),
 									'options'  => $individuals,
-									'enhanced' => TRUE,
-									'return'   => TRUE,
+									'enhanced' => true,
+									'return'   => true,
 									),
 								$relationData['entry_id']
 							);
@@ -823,13 +835,13 @@ class cnEntryMetabox {
 									'id'       => 'family_member[' . $token . '][relation]',
 									'default'  => __( 'Select Relation', 'connections' ),
 									'options'  => $options,
-									'enhanced' => TRUE,
-									'return'   => TRUE,
+									'enhanced' => true,
+									'return'   => true,
 									),
 								$relationData['relation']
 							);
 
-							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
+							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . esc_html__( 'Remove', 'connections' ) . '</a>';
 
 						$html .= '</li>';
 					}
@@ -838,7 +850,7 @@ class cnEntryMetabox {
 
 			$html .= '</ul>';
 
-			$html .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
+			$html .= '<p class="add"><a id="add-relation" class="button">' . esc_html__( 'Add Relation', 'connections' ) . '</a></p>';
 
 		$html .= '</div>';
 
@@ -908,11 +920,11 @@ class cnEntryMetabox {
 			echo '</div>';
 		}
 
-		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
+		echo '<label for="original_image">' , esc_html__( 'Select Image', 'connections' ) , ':';
 		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
-			printf( __( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
+			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}
 
@@ -974,11 +986,11 @@ class cnEntryMetabox {
 			echo '</div>';
 		}
 
-		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
+		echo '<label for="original_logo">' , esc_html__( 'Select Logo', 'connections' ) , ':';
 		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
-			printf( __( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
+			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}
 
@@ -1005,7 +1017,7 @@ class cnEntryMetabox {
 		$region  = $autofillRegion ? $defaultRegion : '';
 		$country = $autofillCountry ? $defaultCountry : '';
 
-		//var_dump( array_fill_keys()$addressTypes );
+		// var_dump( array_fill_keys()$addressTypes );
 		echo '<div class="widgets-sortables ui-sortable" id="addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -1016,8 +1028,8 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$addresses = $entry->getAddresses( array(), FALSE, FALSE, 'edit' );
-		//print_r($addresses);
+		$addresses = $entry->getAddresses( array(), false, false, 'edit' );
+		// print_r($addresses);
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
@@ -1030,7 +1042,7 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $addressTypes ) === NULL ) { reset( $addressTypes ); }
+				if ( key( $addressTypes ) === null ) { reset( $addressTypes ); }
 				$type = key( $addressTypes );
 				next( $addressTypes );
 
@@ -1064,7 +1076,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , esc_html__( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -1113,10 +1125,10 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'address[' . $token . '][type]',
 								'options'  => $addressTypes,
-								'required' => FALSE,
-								//'before'   => '',
+								'required' => false,
+								// 'before'   => '',
 								'label'    => __( 'Address Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $address->type ) && array_key_exists( $address->type, $addressTypes ) ? $address->type : key( $defaultType )
 						);
@@ -1128,11 +1140,11 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'address[' . $token . '][type]',
-								//'options'  => $addressTypes,
-								//'required' => FALSE,
-								//'before'   => '',
+								// 'options'  => $addressTypes,
+								// 'required' => FALSE,
+								// 'before'   => '',
 								'label'    => __( 'Address Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $address->type ) && array_key_exists( $address->type, $addressTypes ) ? $address->type : key( $defaultType )
 						);
@@ -1145,10 +1157,10 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'address[preferred]',
 							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
+							'required' => false,
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $address->preferred ) && $address->preferred ? $token : ''
 					);
@@ -1165,10 +1177,10 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'address[' . $token . '][visibility]',
 								'options'  => self::$visibility,
-								'required' => FALSE,
+								'required' => false,
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $address->visibility ) ? $address->visibility : 'public'
 						);
@@ -1192,11 +1204,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][line_1]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Address Line 1', 'connections' ),
 						'before'   => '<div class="address-line">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->line_1 ) ? $address->line_1 : ''
 				);
@@ -1206,11 +1218,11 @@ class cnEntryMetabox {
 						'type'     => in_array( 'line_2', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][line_2]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Address Line 2', 'connections' ),
 						'before'   => '<div class="address-line">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->line_2 ) ? $address->line_2 : ''
 				);
@@ -1220,11 +1232,11 @@ class cnEntryMetabox {
 						'type'     => in_array( 'line_3', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][line_3]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Address Line 3', 'connections' ),
 						'before'   => '<div class="address-line">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->line_3 ) ? $address->line_3 : ''
 				);
@@ -1234,11 +1246,11 @@ class cnEntryMetabox {
 						'type'     => in_array( 'line_4', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][line_4]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Address Line 4', 'connections' ),
 						'before'   => '<div class="address-line">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->line_4 ) ? $address->line_4 : ''
 				);
@@ -1256,11 +1268,11 @@ class cnEntryMetabox {
 						'type'     => in_array( 'district', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][district]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'District', 'connections' ),
 						'before'   => '<div class="address-district">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->district ) ? $address->district : ''
 				);
@@ -1270,11 +1282,11 @@ class cnEntryMetabox {
 						'type'     => in_array( 'county', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][county]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'County', 'connections' ),
 						'before'   => '<div class="address-county">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->county ) ? $address->county : ''
 				);
@@ -1292,11 +1304,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][city]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'City', 'connections' ),
 						'before'   => '<div class="address-city">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->city ) ? $address->city : ''
 				);
@@ -1306,11 +1318,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][state]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'State', 'connections' ),
 						'before'   => '<div class="address-state">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->state ) && 0 < strlen( $address->state ) ? $address->state : $region
 				);
@@ -1320,11 +1332,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][zipcode]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Zipcode', 'connections' ),
 						'before'   => '<div class="address-zipcode">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->zipcode ) ? $address->zipcode : ''
 				);
@@ -1339,15 +1351,15 @@ class cnEntryMetabox {
 			cnHTML::field(
 				array(
 					'type'     => in_array( 'country', $activeFields ) ? ( $autocompleteCountry ? 'select' : 'text' ) : 'hidden',
-					'class'    => $autocompleteCountry && in_array( 'country', $activeFields ) ? 'enhanced-select' : '' ,
+					'class'    => $autocompleteCountry && in_array( 'country', $activeFields ) ? 'enhanced-select' : '',
 					'id'       => 'address[' . $token . '][country]',
 					'style'    => $autocompleteCountry ? array( 'width' => '100%' ) : array(),
-					'required' => FALSE,
+					'required' => false,
 					'label'    => __( 'Country', 'connections' ),
 					'before'   => '<div class="address-country">',
 					'after'    => '</div>',
 					'options'  => array_combine( cnGeo::getCountries(), cnGeo::getCountries() ),
-					'return'   => FALSE,
+					'return'   => false,
 				),
 				isset( $address->country ) && 0 < strlen( $address->country ) ? $address->country : $country
 			);
@@ -1363,11 +1375,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][latitude]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Latitude', 'connections' ),
 						'before'   => '<div class="address-latitude">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->latitude ) ? $address->latitude : ''
 				);
@@ -1377,11 +1389,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][longitude]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Longitude', 'connections' ),
 						'before'   => '<div class="address-longitude">',
 						'after'    => '</div>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $address->longitude ) ? $address->longitude : ''
 				);
@@ -1443,7 +1455,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$phoneNumbers = $entry->getPhoneNumbers( array(), FALSE, FALSE, 'edit' );
+		$phoneNumbers = $entry->getPhoneNumbers( array(), false, false, 'edit' );
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
@@ -1456,7 +1468,7 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $phoneTypes ) === NULL ) { reset( $phoneTypes ); }
+				if ( key( $phoneTypes ) === null ) { reset( $phoneTypes ); }
 				$type = key( $phoneTypes );
 				next( $phoneTypes );
 
@@ -1489,7 +1501,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">', __( 'Add Phone Number', 'connections' ), '</a></p>', PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">', esc_html__( 'Add Phone Number', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -1528,9 +1540,9 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'phone[' . $token . '][type]',
 							'options'  => $phoneTypes,
-							'required' => FALSE,
+							'required' => false,
 							'label'    => __( 'Phone Type', 'connections' ),
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $phone->type ) && array_key_exists( $phone->type, $phoneTypes ) ? $phone->type : key( $defaultType )
 					);
@@ -1542,10 +1554,10 @@ class cnEntryMetabox {
 							'type'     => 'hidden',
 							'class'    => '',
 							'id'       => 'phone[' . $token . '][type]',
-							//'options'  => $phoneTypes,
-							//'required' => FALSE,
+							// 'options'  => $phoneTypes,
+							// 'required' => FALSE,
 							'label'    => __( 'Phone Type', 'connections' ),
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $phone->type ) && array_key_exists( $phone->type, $phoneTypes ) ? $phone->type : key( $defaultType )
 					);
@@ -1558,10 +1570,10 @@ class cnEntryMetabox {
 						'class'    => '',
 						'id'       => 'phone[preferred]',
 						'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-						'required' => FALSE,
+						'required' => false,
 						'before'   => '<span class="preferred">',
 						'after'    => '</span>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $phone->preferred ) && $phone->preferred ? $token : ''
 				);
@@ -1576,10 +1588,10 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'phone[' . $token . '][visibility]',
 							'options'  => self::$visibility,
-							'required' => FALSE,
+							'required' => false,
 							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 							'after'    => '</span>',
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $phone->visibility ) ? $phone->visibility : 'public'
 					);
@@ -1603,11 +1615,11 @@ class cnEntryMetabox {
 					'type'     => 'text',
 					'class'    => '',
 					'id'       => 'phone[' . $token . '][number]',
-					'required' => FALSE,
+					'required' => false,
 					'label'    => __( 'Phone Number', 'connections' ),
 					'before'   => '',
 					'after'    => '',
-					'return'   => FALSE,
+					'return'   => false,
 				),
 				isset( $phone->number ) ? $phone->number : ''
 			);
@@ -1658,7 +1670,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$emailAddresses = $entry->getEmailAddresses( array(), FALSE );
+		$emailAddresses = $entry->getEmailAddresses( array(), false );
 
 		/*
 		 * Add "dummy" email objects to the results to equal the number of email fieldset which are to be
@@ -1670,7 +1682,7 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $emailTypes ) === NULL ) { reset( $emailTypes ); }
+				if ( key( $emailTypes ) === null ) { reset( $emailTypes ); }
 				$type = key( $emailTypes );
 				next( $emailTypes );
 
@@ -1703,7 +1715,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , esc_html__( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 
 	}
@@ -1743,9 +1755,9 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'email[' . $token . '][type]',
 								'options'  => $emailTypes,
-								'required' => FALSE,
+								'required' => false,
 								'label'    => __( 'Email Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $email->type ) && array_key_exists( $email->type, $emailTypes ) ? $email->type : key( $defaultType )
 						);
@@ -1757,10 +1769,10 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'email[' . $token . '][type]',
-								//'options'  => $emailTypes,
-								//'required' => FALSE,
+								// 'options'  => $emailTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'Email Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $email->type ) && array_key_exists( $email->type, $emailTypes ) ? $email->type : key( $defaultType )
 						);
@@ -1773,10 +1785,10 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'email[preferred]',
 							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
+							'required' => false,
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $email->preferred ) && $email->preferred ? $token : ''
 					);
@@ -1791,10 +1803,10 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'email[' . $token . '][visibility]',
 								'options'  => self::$visibility,
-								'required' => FALSE,
+								'required' => false,
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $email->visibility ) ? $email->visibility : 'public'
 						);
@@ -1818,11 +1830,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'email[' . $token . '][address]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Email Address', 'connections' ),
 						'before'   => '',
 						'after'    => '',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $email->address ) ? $email->address : ''
 				);
@@ -1873,7 +1885,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$imIDs = $entry->getIm( array(), FALSE );
+		$imIDs = $entry->getIm( array(), false );
 
 		/*
 		 * Add "dummy" IM objects to the results to equal the number of IM fieldset which are to be
@@ -1885,7 +1897,7 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $imTypes ) === NULL ) { reset( $imTypes ); }
+				if ( key( $imTypes ) === null ) { reset( $imTypes ); }
 				$type = key( $imTypes );
 				next( $imTypes );
 
@@ -1918,7 +1930,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , esc_html__( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -1957,9 +1969,9 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'im[' . $token . '][type]',
 								'options'  => $messengerTypes,
-								'required' => FALSE,
+								'required' => false,
 								'label'    => __( 'IM Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $messengerTypes ) ? $network->type : key( $defaultType )
 						);
@@ -1971,10 +1983,10 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'im[' . $token . '][type]',
-								//'options'  => $messengerTypes,
-								//'required' => FALSE,
+								// 'options'  => $messengerTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'IM Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $messengerTypes ) ? $network->type : key( $defaultType )
 						);
@@ -1987,10 +1999,10 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'im[preferred]',
 							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
+							'required' => false,
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $network->preferred ) && $network->preferred ? $token : ''
 					);
@@ -2005,10 +2017,10 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'im[' . $token . '][visibility]',
 								'options'  => self::$visibility,
-								'required' => FALSE,
+								'required' => false,
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $network->visibility ) ? $network->visibility : 'public'
 						);
@@ -2032,11 +2044,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'im[' . $token . '][id]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'IM Network ID', 'connections' ),
 						'before'   => '',
 						'after'    => '',
-						'return'   => FALSE,
+						'return'   => false,
 						),
 					! empty( $network->id ) ? $network->id : ''
 				);
@@ -2087,7 +2099,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$socialNetworks = $entry->getSocialMedia( array(), FALSE );
+		$socialNetworks = $entry->getSocialMedia( array(), false );
 
 		/*
 		 * Add "dummy" social network objects to the results to equal the number of social network fieldset which are to be
@@ -2099,7 +2111,7 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $socialTypes ) === NULL ) { reset( $socialTypes ); }
+				if ( key( $socialTypes ) === null ) { reset( $socialTypes ); }
 				$type = key( $socialTypes );
 				next( $socialTypes );
 
@@ -2130,7 +2142,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">', __( 'Add Social Media ID', 'connections' ), '</a></p>', PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">', esc_html__( 'Add Social Media ID', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -2169,9 +2181,9 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'social[' . $token . '][type]',
 								'options'  => $socialTypes,
-								'required' => FALSE,
+								'required' => false,
 								'label'    => __( 'Social Network', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $socialTypes ) ? $network->type : key( $defaultType )
 						);
@@ -2183,10 +2195,10 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'social[' . $token . '][type]',
-								//'options'  => $socialTypes,
-								//'required' => FALSE,
+								// 'options'  => $socialTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'Social Network', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $socialTypes ) ? $network->type : key( $defaultType )
 						);
@@ -2199,10 +2211,10 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'social[preferred]',
 							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
+							'required' => false,
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $network->preferred ) && $network->preferred ? $token : ''
 					);
@@ -2217,10 +2229,10 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'social[' . $token . '][visibility]',
 								'options'  => self::$visibility,
-								'required' => FALSE,
+								'required' => false,
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $network->visibility ) ? $network->visibility : 'public'
 						);
@@ -2244,11 +2256,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'social[' . $token . '][url]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'URL', 'connections' ),
 						'before'   => '',
 						'after'    => '',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $network->url ) ? $network->url : ''
 				);
@@ -2299,7 +2311,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$links = $entry->getLinks( array(), FALSE, FALSE, 'edit' );
+		$links = $entry->getLinks( array(), false, false, 'edit' );
 
 		/*
 		 * Add "dummy" link objects to the results to equal the number of link fieldset which are to be
@@ -2311,7 +2323,7 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $linkTypes ) === NULL ) { reset( $linkTypes ); }
+				if ( key( $linkTypes ) === null ) { reset( $linkTypes ); }
 				$type = key( $linkTypes );
 				next( $linkTypes );
 
@@ -2344,7 +2356,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , esc_html__( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -2388,9 +2400,9 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'link[' . $token . '][type]',
 								'options'  => $linkTypes,
-								'required' => FALSE,
+								'required' => false,
 								'label'    => __( 'Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $link->type ) && array_key_exists( $link->type, $linkTypes ) ? $link->type : key( $defaultType )
 						);
@@ -2402,10 +2414,10 @@ class cnEntryMetabox {
 								'type'     => 'hidden',
 								'class'    => '',
 								'id'       => 'link[' . $token . '][type]',
-								//'options'  => $linkTypes,
-								//'required' => FALSE,
+								// 'options'  => $linkTypes,
+								// 'required' => FALSE,
 								'label'    => __( 'Type', 'connections' ),
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $link->type ) && array_key_exists( $link->type, $linkTypes ) ? $link->type : key( $defaultType )
 						);
@@ -2418,10 +2430,10 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'link[preferred]',
 							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
+							'required' => false,
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $link->preferred ) && $link->preferred ? $token : ''
 					);
@@ -2436,10 +2448,10 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'link[' . $token . '][visibility]',
 								'options'  => self::$visibility,
-								'required' => FALSE,
+								'required' => false,
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $link->visibility ) ? $link->visibility : 'public'
 						);
@@ -2463,11 +2475,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'link[' . $token . '][title]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => _x( 'Title', 'A link (or hyperlink, or web link) title attribute.', 'connections' ),
 						'before'   => '',
 						'after'    => '',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $link->title ) ? $link->title : ''
 				);
@@ -2485,11 +2497,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => '',
 						'id'       => 'link[' . $token . '][url]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'URL', 'connections' ),
 						'before'   => '',
 						'after'    => '',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $link->url ) ? $link->url : ''
 				);
@@ -2511,11 +2523,11 @@ class cnEntryMetabox {
 							'new'  => __( 'New Window', 'connections' ),
 							'same' => __( 'Same Window', 'connections' ),
 						),
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Target', 'connections' ),
 						'before'   => '<span class="target">',
 						'after'    => '</span>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $link->target ) ? $link->target : $target
 				);
@@ -2529,11 +2541,11 @@ class cnEntryMetabox {
 							'nofollow' => 'nofollow',
 							'dofollow' => 'dofollow',
 						),
-						'required' => FALSE,
+						'required' => false,
 						'label'    => '',
 						'before'   => '<span class="follow">',
 						'after'    => '</span>',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $link->followString ) ? $link->followString : $follow
 				);
@@ -2546,11 +2558,11 @@ class cnEntryMetabox {
 			<div class="link-assignment">
 
 				<label>
-					<input type="radio" name="link[image]" value="<?php echo $token; ?>" <?php if ( isset( $link->image ) ) checked( $link->image, TRUE ); ?>>
+					<input type="radio" name="link[image]" value="<?php echo $token; ?>" <?php if ( isset( $link->image ) ) { checked( $link->image, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the image.', 'connections' ); ?>
 				</label>
 				<label>
-					<input type="radio" name="link[logo]" value="<?php echo $token; ?>" <?php if ( isset( $link->logo ) ) checked( $link->logo, TRUE ); ?>>
+					<input type="radio" name="link[logo]" value="<?php echo $token; ?>" <?php if ( isset( $link->logo ) ) { checked( $link->logo, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the logo.', 'connections' ); ?>
 				</label>
 
@@ -2599,7 +2611,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$dates = $entry->getDates( array(), FALSE );
+		$dates = $entry->getDates( array(), false );
 
 		/*
 		 * Add "dummy" date objects to the results to equal the number of date fieldset which are to be
@@ -2611,7 +2623,7 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $dateTypes ) === NULL ) { reset( $dateTypes ); }
+				if ( key( $dateTypes ) === null ) { reset( $dateTypes ); }
 				$type = key( $dateTypes );
 				next( $dateTypes );
 
@@ -2642,7 +2654,7 @@ class cnEntryMetabox {
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , esc_html__( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -2679,9 +2691,9 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'date[' . $token . '][type]',
 							'options'  => $dateTypes,
-							'required' => FALSE,
+							'required' => false,
 							'label'    => __( 'Type', 'connections' ),
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $date->type ) && array_key_exists( $date->type, $dateTypes ) ? $date->type : key( $defaultType )
 					);
@@ -2693,10 +2705,10 @@ class cnEntryMetabox {
 							'class'    => '',
 							'id'       => 'date[preferred]',
 							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
+							'required' => false,
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
-							'return'   => FALSE,
+							'return'   => false,
 						),
 						isset( $date->preferred ) && $date->preferred ? $token : ''
 					);
@@ -2711,10 +2723,10 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'date[' . $token . '][visibility]',
 								'options'  => self::$visibility,
-								'required' => FALSE,
+								'required' => false,
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
-								'return'   => FALSE,
+								'return'   => false,
 							),
 							isset( $date->visibility ) ? $date->visibility : 'public'
 						);
@@ -2738,11 +2750,11 @@ class cnEntryMetabox {
 						'type'     => 'text',
 						'class'    => 'datepicker',
 						'id'       => 'date[' . $token . '][date]',
-						'required' => FALSE,
+						'required' => false,
 						'label'    => __( 'Date', 'connections' ),
 						'before'   => '',
 						'after'    => '',
-						'return'   => FALSE,
+						'return'   => false,
 					),
 					isset( $date->date ) ? date( 'Y-m-d', strtotime( $date->date ) ) : ''
 				);
@@ -2782,9 +2794,13 @@ class cnEntryMetabox {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
-			FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
-			ORDER BY meta_key,meta_id", $entry->getId()), ARRAY_A );
+		$results =  $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT meta_key, meta_value, meta_id, entry_id FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d ORDER BY meta_key,meta_id",
+				$entry->getId()
+			),
+			ARRAY_A
+		);
 
 		$metabox = $metabox['args'];
 		$keys    = cnMeta::key( 'entry' );
@@ -2795,7 +2811,9 @@ class cnEntryMetabox {
 
 			foreach ( $results as $metaID => $meta ) {
 
-				if ( cnMeta::isPrivate( $meta['meta_key'] ) ) unset( $results[ $metaID ] );
+				if ( cnMeta::isPrivate( $meta['meta_key'] ) ) {
+					unset( $results[ $metaID ] );
+				}
 			}
 		}
 
@@ -2816,7 +2834,7 @@ class cnEntryMetabox {
 
 		}
 
-		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
+		array_unshift( $options, '<option value="-1">&mdash; ' . esc_html__( 'Select', 'connections' ) . ' &mdash;</option>' );
 		$options = implode( PHP_EOL, $options );
 
 		// echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
@@ -2940,7 +2958,8 @@ class cnEntryMetabox {
 
 		if ( isset( $metabox['desc'] ) && ! empty( $metabox['desc'] ) ) {
 
-			printf( '<p>%1$s</p>',
+			printf(
+                '<p>%1$s</p>',
 				esc_html( $metabox['desc'] )
 			);
 		}

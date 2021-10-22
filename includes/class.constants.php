@@ -16,7 +16,7 @@ class cnConstants {
 
 		if ( ! defined( 'CN_LOG' ) ) {
 			/** @var string CN_LOG Whether or not to log actions and results for debugging. */
-			define( 'CN_LOG', FALSE );
+			define( 'CN_LOG', false );
 		}
 
 		/** @var string CN_CURRENT_VERSION The current version. */
@@ -64,7 +64,7 @@ class cnConstants {
 		if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
 
 			/** @var int CN_ADMIN_MENU_POSITION */
-			define( 'CN_ADMIN_MENU_POSITION', NULL );
+			define( 'CN_ADMIN_MENU_POSITION', null );
 		}
 
 		/*
@@ -79,12 +79,12 @@ class cnConstants {
 			if ( is_multisite() ) {
 
 				/** @var bool CN_MULTISITE_ENABLED */
-				define( 'CN_MULTISITE_ENABLED', TRUE );
+				define( 'CN_MULTISITE_ENABLED', true );
 
 			} else {
 
 				/** @var bool CN_MULTISITE_ENABLED */
-				define( 'CN_MULTISITE_ENABLED', FALSE );
+				define( 'CN_MULTISITE_ENABLED', false );
 			}
 		}
 

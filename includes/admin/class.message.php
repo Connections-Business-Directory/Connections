@@ -1,24 +1,28 @@
 <?php
-
 /**
  * Class for registering and displaying action/error messages.
  *
  * @package     Connections
  * @subpackage  Messages
- * @uses		WP_Error
+ * @uses        WP_Error
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.7.5
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
+ * Class cnMessage
+ *
  * @todo Incorporate Persist Admin notice Dismissals
  * @link https://github.com/collizo4sky/persist-admin-notices-dismissal
  *
- * Class cnMessage
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnMessage extends WP_Error {
 
@@ -29,7 +33,7 @@ class cnMessage extends WP_Error {
 	 * @since  0.7.5
 	 *
 	 * @var cnMessage
-	*/
+	 */
 	private static $instance;
 
 	/**
@@ -61,10 +65,12 @@ class cnMessage extends WP_Error {
 	 * @see cnMessage::getInstance()
 	 * @see cnMessage();
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
-	 * Setup the class, if it has already been initialized, return the initialized instance.
+	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @access public
 	 * @since  0.7.5
@@ -73,7 +79,7 @@ class cnMessage extends WP_Error {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			/*
 			 * Add the error codes and messages.
@@ -159,14 +165,23 @@ class cnMessage extends WP_Error {
 		$instance->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
 		$instance->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 
-		$instance->add( 'image_path_exists_failed', sprintf( __( "The %s folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/'  ) );
-		$instance->add( 'image_path_writeable_failed', sprintf( __( "The %s folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-is-not-writable/' ) );
+		/* translators: %s: folder path to images */
+		$instance->add( 'image_path_exists_failed', sprintf( __( 'The %1$s folder does not exist. <a class="button-primary" href="%2$s">Read more.</a>', 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/' ) );
 
-		$instance->add( 'template_path_exists_failed', sprintf( __( "The connections_templates folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-does-not-exist/' ) );
-		$instance->add( 'template_path_writeable_failed', sprintf( __( "The connections_templates folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-is-not-writable/' ) );
+		/* translators: %s: whether the image folder path is writeable */
+		$instance->add( 'image_path_writeable_failed', sprintf( __( 'The %1$s folder is not writable. <a class="button-primary" href="%2$s">Read more.</a>', 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-is-not-writable/' ) );
 
-		$instance->add( 'cache_path_exists_failed', sprintf( __( "The cache folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-does-not-exist/' ) );
-		$instance->add( 'cache_path_writeable_failed', sprintf( __( "The cache folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-is-not-writable/' ) );
+		/* translators: %s: folder path to templates */
+		$instance->add( 'template_path_exists_failed', sprintf( __( 'The connections_templates folder does not exist. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-does-not-exist/' ) );
+
+		/* translators: %s: whether the template's folder path is writeable */
+		$instance->add( 'template_path_writeable_failed', sprintf( __( 'The connections_templates folder is not writable. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-connections_templates-folder-is-not-writable/' ) );
+
+		/* translators: %s: folder path to cache */
+		$instance->add( 'cache_path_exists_failed', sprintf( __( 'The cache folder does not exist. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-does-not-exist/' ) );
+
+		/* translators: %s: whether the cache folder path is writeable */
+		$instance->add( 'cache_path_writeable_failed', sprintf( __( 'The cache folder is not writable. <a class="button-primary" href="%s">Read more.</a>', 'connections' ), 'https://connections-pro.com/faqs/the-cache-folder-is-not-writable/' ) );
 
 		$instance->add( 'home_page_set_failed', __( 'The Connections directory home page has not been set. Please set it now on the Connections : Settings page under the General tab.', 'connections' ) );
 
@@ -211,12 +226,12 @@ class cnMessage extends WP_Error {
 		/*
 		 * DB update message.
 		 */
-		$instance->add( 'db_update_required', __( 'Connections database requires updating.', 'connections' ) . ' ' . '<a class="button" href="admin.php?page=connections_manage">' . __( 'START', 'connections' )  . '</a>' );
+		$instance->add( 'db_update_required', __( 'Connections database requires updating.', 'connections' ) . ' <a class="button" href="admin.php?page=connections_manage">' . __( 'START', 'connections' ) . '</a>' );
 
 	}
 
 	/**
-	 * Setup the current user ID.
+	 * Set up the current user ID.
 	 *
 	 * @access private
 	 * @since  0.7.5
@@ -226,9 +241,9 @@ class cnMessage extends WP_Error {
 	private static function setUserID() {
 
 		if ( ! isset( self::$id ) ) {
-			// Setup the current user object
+			// Set up the current user object.
 			$current_user = wp_get_current_user();
-			self::$id = $current_user->ID;
+			self::$id     = $current_user->ID;
 		}
 
 		return self::$id;
@@ -237,10 +252,7 @@ class cnMessage extends WP_Error {
 	/**
 	 * Display the stored action/error messages.
 	 *
-	 * @access private
-	 * @since  0.7.5
-	 *
-	 * @return string The action/error message created to match the admin notices style.
+	 * @since 0.7.5
 	 */
 	private static function display() {
 
@@ -286,29 +298,29 @@ class cnMessage extends WP_Error {
 
 			case 'error':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
+					echo '<div id="message" class="error"><p><strong>' . esc_html__( 'ERROR', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
 				};
 				break;
 
 			case 'success':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
+					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'SUCCESS', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
 				};
 				break;
 
 			case 'notice':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
+					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'NOTICE', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
 				};
 				break;
 
 			default:
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p>' . $message . '</p></div>';
+					echo '<div id="message" class="updated fade"><p>' . esc_html( $message ) . '</p></div>';
 				};
 		}
 
-		add_action( 'admin_notices' , $lambda );
+		add_action( 'admin_notices', $lambda );
 
 		return $lambda;
 	}
@@ -328,23 +340,25 @@ class cnMessage extends WP_Error {
 		$instance = self::getInstance();
 
 		// Check to see if $message is one of the registered message codes and if it is, set $message to the actual message rather than the message code.
-		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) $message = $instance->get_error_message( $message );
+		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) {
+			$message = $instance->get_error_message( $message );
+		}
 
 		switch ( $type ) {
 			case 'error':
-				echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				echo '<div id="message" class="error"><p><strong>' . esc_html__( 'ERROR', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
 				break;
 
 			case 'success':
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'SUCCESS', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
 				break;
 
 			case 'notice':
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'NOTICE', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
 				break;
 
 			default:
-				echo '<div id="message" class="updated fade"><p>' . $message . '</p></div>';
+				echo '<div id="message" class="updated fade"><p>' . esc_html( $message ) . '</p></div>';
 				break;
 		}
 	}
@@ -379,14 +393,13 @@ class cnMessage extends WP_Error {
 	public static function set( $type, $code ) {
 
 		$messages = self::get();
-		$result   = FALSE;
+		$result   = false;
 
 		switch ( $type ) {
 
 			case 'error':
-
 				// If the error message is already stored, no need to store it twice.
-				if ( ! in_array( array( 'error' => $code ) , $messages ) ) {
+				if ( ! in_array( array( 'error' => $code ), $messages ) ) {
 
 					$result = self::store( array( 'error' => $code ) );
 				}
@@ -394,9 +407,8 @@ class cnMessage extends WP_Error {
 				break;
 
 			case 'success':
-
 				// If the success message is already stored, no need to store it twice.
-				if ( ! in_array( array( 'success' => $code ) , $messages ) ) {
+				if ( ! in_array( array( 'success' => $code ), $messages ) ) {
 
 					$result = self::store( array( 'success' => $code ) );
 				}
@@ -404,9 +416,8 @@ class cnMessage extends WP_Error {
 				break;
 
 			case 'notice':
-
 				// If the notice message is already stored, no need to store it twice.
-				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) {
+				if ( ! in_array( array( 'notice' => $code ), $messages ) ) {
 
 					$result = self::store( array( 'notice' => $code ) );
 				}
@@ -420,23 +431,22 @@ class cnMessage extends WP_Error {
 	/**
 	 * Store the message in the current user meta.
 	 *
-	 * @access private
-	 * @since  0.7.5
+	 * @since 0.7.5
 	 *
-	 * @param string $message
+	 * @param string[] $message
 	 *
 	 * @return int|bool
 	 */
 	private static function store( $message ) {
 
 		/** @var array|string|false $meta */
-		$meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		$meta = get_user_meta( self::$id, self::$meta_key, true );
 
 		/*
 		 * Since get_user_meta() can return array|string|false but we expect only an array,
 		 * check for the other possible return values and if found setup the array.
 		 */
-		if ( is_string( $meta ) || FALSE === $meta ) {
+		if ( is_string( $meta ) || false === $meta ) {
 
 			$meta = array( 'messages' => array() );
 		}
@@ -467,7 +477,7 @@ class cnMessage extends WP_Error {
 	 */
 	public static function get() {
 
-		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		$user_meta = get_user_meta( self::$id, self::$meta_key, true );
 		$messages  = array();
 
 		if ( isset( $user_meta['messages'] ) && ! empty( $user_meta['messages'] ) ) {
@@ -486,7 +496,7 @@ class cnMessage extends WP_Error {
 	 */
 	public static function reset() {
 
-		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		$user_meta = get_user_meta( self::$id, self::$meta_key, true );
 
 		if ( isset( $user_meta['messages'] ) ) {
 

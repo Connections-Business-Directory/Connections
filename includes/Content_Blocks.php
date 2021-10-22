@@ -105,12 +105,12 @@ class Content_Blocks {
 	 */
 	public function remove( $id ) {
 
-		$success = FALSE;
+		$success = false;
 
 		if ( array_key_exists( $id, $this->blocks ) ) {
 
 			unset( $this->blocks[ $id ] );
-			$success = TRUE;
+			$success = true;
 		}
 
 		return $success;
@@ -162,7 +162,7 @@ class Content_Blocks {
 
 			$block->set( 'option_filter', $filter );
 
-			switch ( $block->get( 'context') ) {
+			switch ( $block->get( 'context' ) ) {
 
 				case 'list':
 					add_filter( 'cn_content_blocks-list', $filter );

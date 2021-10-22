@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Template part loader.
@@ -45,7 +47,7 @@ class cnLocate {
 	 */
 	public static function file( $files, $return = 'path' ) {
 
-		$path  = FALSE;
+		$path  = false;
 		$files = array_filter( (array) $files );
 
 		// Try locating this template file by looping through the template paths.
@@ -147,7 +149,7 @@ class cnLocate {
 	 *
 	 * @return array        An indexed array of file names to search for.
 	 */
-	public static function fileNames( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
+	public static function fileNames( $base, $name = null, $slug = null, $ext = 'php' ) {
 
 		$files = array();
 
@@ -164,14 +166,14 @@ class cnLocate {
 				$files[] = self::fileName( $base, 'category', $term->slug, $ext );
 			}
 
-			$files[] = self::fileName( $base, 'category', NULL, $ext );
+			$files[] = self::fileName( $base, 'category', null, $ext );
 			// var_dump( $files );
 		}
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-			$files[] = self::fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug'), $ext );
-			$files[] = self::fileName( $base, 'category', NULL, $ext );
+			$files[] = self::fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug' ), $ext );
+			$files[] = self::fileName( $base, 'category', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -180,7 +182,7 @@ class cnLocate {
 			$country = self::queryVarSlug( cnQuery::getVar( 'cn-country' ) );
 
 			$files[] = self::fileName( $base, 'country', $country, $ext );
-			$files[] = self::fileName( $base, 'country', NULL, $ext );
+			$files[] = self::fileName( $base, 'country', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -189,7 +191,7 @@ class cnLocate {
 			$region  = self::queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = self::fileName( $base, 'region', $region, $ext );
-			$files[] = self::fileName( $base, 'region', NULL, $ext );
+			$files[] = self::fileName( $base, 'region', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -198,7 +200,7 @@ class cnLocate {
 			$zipcode = self::queryVarSlug( cnQuery::getVar( 'cn-postal-code' ) );
 
 			$files[] = self::fileName( $base, 'postal-code', $zipcode, $ext );
-			$files[] = self::fileName( $base, 'postal-code', NULL, $ext );
+			$files[] = self::fileName( $base, 'postal-code', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -207,7 +209,7 @@ class cnLocate {
 			$locality = self::queryVarSlug( cnQuery::getVar( 'cn-locality' ) );
 
 			$files[] = self::fileName( $base, 'locality', $locality, $ext );
-			$files[] = self::fileName( $base, 'locality', NULL, $ext );
+			$files[] = self::fileName( $base, 'locality', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -216,7 +218,7 @@ class cnLocate {
 			$organization = self::queryVarSlug( cnQuery::getVar( 'cn-organization' ) );
 
 			$files[] = self::fileName( $base, 'organization', $organization, $ext );
-			$files[] = self::fileName( $base, 'organization', NULL, $ext );
+			$files[] = self::fileName( $base, 'organization', null, $ext );
 			// var_dump( $files );
 		}
 
@@ -225,22 +227,24 @@ class cnLocate {
 			$department = self::queryVarSlug( cnQuery::getVar( 'cn-department' ) );
 
 			$files[] = self::fileName( $base, 'department', $department, $ext );
-			$files[] = self::fileName( $base, 'department', NULL, $ext );
+			$files[] = self::fileName( $base, 'department', null, $ext );
 			// var_dump( $files );
 		}
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$files[] = self::fileName( $base, NULL, cnQuery::getVar( 'cn-entry-slug'), $ext );
-			$files[] = self::fileName( $base, 'single', NULL, $ext );
+			$files[] = self::fileName( $base, null, cnQuery::getVar( 'cn-entry-slug' ), $ext );
+			$files[] = self::fileName( $base, 'single', null, $ext );
 			// var_dump( $files );
 		}
 
 		// If `$name` was supplied, add it to the files to search for.
-		if ( ! is_null( $name ) ) $files[] = self::fileName( $base, $name, NULL, $ext );
+		if ( ! is_null( $name ) ) {
+			$files[] = self::fileName( $base, $name, null, $ext );
+		}
 
 		// Add the base as the least priority, since it is required.
-		$files[] = self::fileName( $base, NULL, NULL, $ext );
+		$files[] = self::fileName( $base, null, null, $ext );
 
 		/**
 		 * Allow template choices to be filtered.
@@ -272,13 +276,13 @@ class cnLocate {
 	 *
 	 * @return string       The file name.
 	 */
-	private static function fileName( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
+	private static function fileName( $base, $name = null, $slug = null, $ext = 'php' ) {
 
 		$name = array( $base, $name, $slug );
 		$name = array_filter( $name );
 		$name = implode( '-', $name ) . '.' . $ext;
 
-		//return strtolower( sanitize_file_name( $name ) );
+		// return strtolower( sanitize_file_name( $name ) );
 		return strtolower( $name );
 	}
 

@@ -9,13 +9,13 @@ use Connections_Directory\Utility\_array;
 
 if ( ! $taxonomy->showUI() ) {
 
-	wp_die( __( 'Sorry, you are not allowed to edit terms in this taxonomy.', 'connections' ) );
+	wp_die( esc_html__( 'Sorry, you are not allowed to edit terms in this taxonomy.', 'connections' ) );
 }
 
 if ( ! current_user_can( $taxonomy->getCapabilities()->manage_terms ) ) {
 
 	wp_die(
-		'<h1>' . __( 'You need a higher level of permission.', 'connections' ) . '</h1>' . '<p>' . __(
+		'<h1>' . esc_html__( 'You need a higher level of permission.', 'connections' ) . '</h1>' . '<p>' . esc_html__(
 			'Sorry, you are not allowed to manage terms in this taxonomy.',
 			'connections'
 		) . '</p>',
@@ -49,7 +49,7 @@ $table->prepare_items();
 		echo '<span class="subtitle">';
 		printf(
 			/* translators: %s: Search query. */
-			__( 'Search results for: %s' ),
+			esc_html__( 'Search results for: %s' ),
 			'<strong>' . esc_html( wp_unslash( $_REQUEST['s'] ) ) . '</strong>'
 		);
 		echo '</span>';
@@ -92,7 +92,7 @@ $table->prepare_items();
 						array(
 							'class'  => 'validate',
 							'id'     => 'addtag',
-							//'action' => '',
+							// 'action' => '',
 							'method' => 'post',
 						)
 					);
@@ -290,7 +290,7 @@ $table->prepare_items();
 
 								printf(
 									/* translators: %s: Default category. */
-									__( 'Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the default category %s. The default category cannot be deleted.', 'connections' ),
+									esc_html__( 'Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the default category %s. The default category cannot be deleted.', 'connections' ),
 									'<strong>' . $category->name . '</strong>'
 								);
 							}

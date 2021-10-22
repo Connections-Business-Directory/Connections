@@ -4,8 +4,8 @@ namespace Connections_Directory\API\REST\Endpoint;
 
 use CN_REST_Entry_Controller;
 use cnArray;
-use cnFormatting;
 use cnOutput;
+use Connections_Directory\Utility\_;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -74,8 +74,8 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 	protected function getRecent() {
 
 		$cookie = cnArray::get( $_COOKIE, 'cnRecentlyViewed', '[]' );
-		$recent = cnFormatting::maybeJSONdecode( html_entity_decode( stripslashes( $cookie ) ) );
-		//error_log( var_export( $recent, true ) );
+		$recent = _::maybeJSONdecode( html_entity_decode( stripslashes( $cookie ) ) );
+		// error_log( var_export( $recent, true ) );
 
 		if ( ! is_array( $recent ) ) {
 

@@ -9,7 +9,7 @@
  * @copyright  2015 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Profile - Template
+ * _lugin Name:       Connections Profile - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       This will show the entries in a profile format.
  * Version:           3.0
@@ -20,7 +20,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'CN_Profile_Template' ) ) {
 
@@ -42,7 +44,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This will show the entries in a profile format.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',
@@ -107,7 +109,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 									'link_format',
 									'link_types',
 									'date_format',
-									'date_types'
+									'date_types',
 								),
 							),
 						),
@@ -146,22 +148,22 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 				'id'        => 'card',
 				'type'      => 'customizer',
 				'default'   => array(
-					'show_title'            => TRUE,
-					'show_org'              => TRUE,
-					'show_dept'             => TRUE,
-					'show_categories'       => FALSE,
-					'show_last_updated'     => FALSE,
+					'show_title'            => true,
+					'show_org'              => true,
+					'show_dept'             => true,
+					'show_categories'       => false,
+					'show_last_updated'     => false,
 					'image_type'            => 'photo',
-					'image_width'           => NULL,
-					'image_height'          => NULL,
+					'image_width'           => null,
+					'image_height'          => null,
 					'image_crop_mode'       => '1',
-					'image_fallback'        => FALSE,
+					'image_fallback'        => false,
 					'image_fallback_string' => __( 'No Image Available', 'connections' ),
 					'name_format'           => '',
 					'border_width'          => 1,
 					'border_color'          => '#E3E3E3',
 					'border_radius'         => 4,
-				)
+				),
 			);
 
 			$fields[] = array(
@@ -170,27 +172,27 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 				'id'        => 'single',
 				'type'      => 'customizer',
 				'default'   => array(
-					'show_title'         => TRUE,
-					'show_org'           => TRUE,
-					'show_dept'          => TRUE,
-					'show_contact_name'  => TRUE,
-					'show_family'        => TRUE,
-					'show_addresses'     => TRUE,
-					'show_phone_numbers' => TRUE,
-					'show_email'         => TRUE,
-					'show_im'            => TRUE,
-					'show_social_media'  => TRUE,
-					'show_links'         => TRUE,
-					'show_dates'         => TRUE,
-					'show_bio'           => TRUE,
-					'show_notes'         => FALSE,
-					'show_categories'    => TRUE,
-					'show_last_updated'  => TRUE,
+					'show_title'         => true,
+					'show_org'           => true,
+					'show_dept'          => true,
+					'show_contact_name'  => true,
+					'show_family'        => true,
+					'show_addresses'     => true,
+					'show_phone_numbers' => true,
+					'show_email'         => true,
+					'show_im'            => true,
+					'show_social_media'  => true,
+					'show_links'         => true,
+					'show_dates'         => true,
+					'show_bio'           => true,
+					'show_notes'         => false,
+					'show_categories'    => true,
+					'show_last_updated'  => true,
 					'image_type'         => 'photo',
-					'image_width'        => NULL,
-					'image_height'       => NULL,
+					'image_width'        => null,
+					'image_height'       => null,
 					'image_crop_mode'    => '1',
-					'image_fallback'     => FALSE,
+					'image_fallback'     => false,
 					'image_fallback_string' => __( 'No Image Available', 'connections' ),
 					'name_format'           => '',
 					'contact_name_format'   => '',
@@ -204,7 +206,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 					'date_types'            => '',
 					'link_format'           => '',
 					'link_types'            => '',
-				)
+				),
 			);
 
 			return $fields;
@@ -271,7 +273,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 
 			if ( isset( $_REQUEST['cn-template'] ) && self::SLUG == $_REQUEST['cn-template'] ) {
 
-				//require_once CN_PATH . 'templates/profile/class.customizer.php';
+				// require_once CN_PATH . 'templates/profile/class.customizer.php';
 				require_once plugin_dir_path( __FILE__ ) . 'class.customizer.php';
 			}
 		}

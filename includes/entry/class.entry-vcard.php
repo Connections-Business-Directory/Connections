@@ -39,7 +39,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 	 */
 	private function setvCardData() {
 
-		$this->vCard = File_IMC::build('vCard' );
+		$this->vCard = File_IMC::build( 'vCard' );
 
 		// Set the structured representation of the name. REQUIRED.
 		$this->vCard->set(
@@ -133,11 +133,13 @@ class cnEntry_vCard extends cnEntry_HTML {
 	 *
 	 * @return string
 	 */
-	protected function getGroupName( $new = NULL ) {
+	protected function getGroupName( $new = null ) {
 
 		static $i = 0;
 
-		if ( ! is_null( $new ) ) $i++;
+		if ( ! is_null( $new ) ) {
+			$i++;
+		}
 
 		return "item$i";
 	}
@@ -158,7 +160,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 				'GEO',
 				array(
 					'latitude'  => $preferred->getLatitude(),
-					'longitude' => $preferred->getLongitude()
+					'longitude' => $preferred->getLongitude(),
 				)
 			);
 
@@ -168,7 +170,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 				'GEO',
 				array(
 					'latitude'  => $first->getLatitude(),
-					'longitude' => $first->getLongitude()
+					'longitude' => $first->getLongitude(),
 				)
 			);
 		}
@@ -417,21 +419,21 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 	private function setvCardDates() {
 
-		$anniversary = NULL;
-		$birthday    = NULL;
+		$anniversary = null;
+		$birthday    = null;
 
 		$day = $this->getDates( array( 'type' => 'anniversary' ) );
 
 		if ( ! empty( $day ) ) {
 
-			$anniversary = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
+			$anniversary = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), true );
 		}
 
 		$day = $this->getDates( array( 'type' => 'birthday' ) );
 
 		if ( ! empty( $day ) ) {
 
-			$birthday = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
+			$birthday = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), true );
 		}
 
 		// Set the anniversary.
@@ -490,7 +492,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 		$this->vCard->set( 'CLASS', 'PUBLIC' );
 
 		// Set the timestamp (ISO 8601 formatted UTC date/time) for the last time the vCard was updated.
-		//$this->vCard->set( 'REV', date( 'Ymd\THis\Z', $this->getUnixTimeStamp() ) );
+		// $this->vCard->set( 'REV', date( 'Ymd\THis\Z', $this->getUnixTimeStamp() ) );
 
 		// Set the time zone of the vCard.
 		$this->vCard->set( 'TZ', $this->getUTCOffset() );
@@ -529,7 +531,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		if ( 'vcard' === $process ) {
 
-			$slug = cnQuery::getVar( 'cn-entry-slug' ); //var_dump($slug);
+			$slug = cnQuery::getVar( 'cn-entry-slug' ); // var_dump($slug);
 
 			/*
 			 * If the token and id values were set, the link was likely from the admin.
@@ -548,31 +550,31 @@ class cnEntry_vCard extends cnEntry_HTML {
 				// Die if no entry was found.
 				if ( empty( $entry ) ) {
 
-					wp_die( __( 'vCard not available for download.', 'connections' ) );
+					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry ); //var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry ); // var_dump($vCard);die;
 
 			} else {
 
-				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); //var_dump($entry);die;
+				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); // var_dump($entry);die;
 
 				// Die if no entry was found.
 				if ( empty( $entry ) ) {
 
-					wp_die( __( 'vCard not available for download.', 'connections' ) );
+					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry[0] ); //var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry[0] ); // var_dump($vCard);die;
 			}
 
-			$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
+			$filename = sanitize_file_name( $vCard->getName() ); // var_dump($filename);
 			$data     = $vCard->data()->fetch();
 
 			header( 'Content-Description: File Transfer' );
 			header( 'Content-Type: application/octet-stream' );
 			header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
-			//header( 'Content-Length: ' . strlen( $data ) );
+			// header( 'Content-Length: ' . strlen( $data ) );
 			header( 'Pragma: public' );
 			header( "Pragma: no-cache" );
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );

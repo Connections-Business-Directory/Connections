@@ -10,7 +10,7 @@
  * @copyright  2019 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Widget Pack - Template
+ * _lugin Name:       Connections Widget Pack - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       The Recently Added Widget Template.
  * Version:           1.0
@@ -51,11 +51,11 @@ if ( ! class_exists( 'CN_Block_Team_List_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'https://connections-pro.com',
 				'description' => 'List layout.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
-				//'parts'       => array( 'css' => 'styles.css' ),
+				// 'parts'       => array( 'css' => 'styles.css' ),
 			);
 
 			cnTemplateFactory::register( $atts );
@@ -83,8 +83,8 @@ if ( ! class_exists( 'CN_Block_Team_List_Template' ) ) {
 		 */
 		public function inlineCSS( $attributes, $id ) {
 
-			//$columns           = absint( $attributes['columns'] );
-			//$gutterWidth       = absint( $attributes['gutterWidth'] );
+			// $columns           = absint( $attributes['columns'] );
+			// $gutterWidth       = absint( $attributes['gutterWidth'] );
 			$borderColor       = \cnSanitize::hexColor( $attributes['borderColor'] );
 			$borderRadius      = absint( $attributes['borderRadius'] );
 			$borderWidth       = absint( $attributes['borderWidth'] );

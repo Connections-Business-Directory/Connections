@@ -38,7 +38,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 * @param int               $id   The entry ID to create the object collection for.
 	 * @param null|array|string $data The data used to create the collection with.
 	 */
-	public function __construct( $id = NULL, $data = NULL ) {
+	public function __construct( $id = null, $data = null ) {
 
 		$this->id       = $id;
 		$this->items    = new cnCollection();
@@ -112,7 +112,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		//// Reset the filters just in case filters have been applied to the collection.
 		//$this->resetFilters();
 
-		if ( FALSE !== $key = $this->getItemKeyByID( $id ) ) {
+		if ( false !== $key = $this->getItemKeyByID( $id ) ) {
 
 			$this->items->forget( $key );
 		}
@@ -222,7 +222,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 *                          Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
 	 *                          NULL will be returned when the filtered collection is empty.
 	 */
-	abstract public function render( $template = 'hcard', $atts = array(), $load = TRUE, $buffer = FALSE, $require_once = FALSE );
+	abstract public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false );
 
 	/**
 	 * Return the objects as an instance of @see cnCollection.
@@ -234,7 +234,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 *
 	 * @return cnCollection
 	 */
-	abstract public function getCollection( $limit = NULL );
+	abstract public function getCollection( $limit = null );
 
 	/**
 	 * Return the object collection as an indexed array where the object is an associative array.
@@ -248,7 +248,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 *
 	 * @return array
 	 */
-	abstract public function getCollectionAsArray( $limit = NULL );
+	abstract public function getCollectionAsArray( $limit = null );
 
 	/**
 	 * Return object collection as an array of stdClass objects.
@@ -262,7 +262,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 *
 	 * @return array
 	 */
-	public function getCollectionAsObjects( $limit = NULL ) {
+	public function getCollectionAsObjects( $limit = null ) {
 
 		return array_map(
 			function( $item ) {
@@ -312,7 +312,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		$this->items->transform(
 			function( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
-				return $id == $item->getID() ? $item->setPreferred( TRUE ) : $item->setPreferred( FALSE );
+				return $id == $item->getID() ? $item->setPreferred( true ) : $item->setPreferred( false );
 			}
 		);
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The role capability admin page.
  *
@@ -10,15 +9,18 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 function connectionsShowRolesPage() {
 	/*
 	 * Check whether user can edit roles
 	 */
-	if ( !current_user_can( 'connections_change_roles' ) ) {
-		wp_die( '<p id="error-page" style="-moz-background-clip:border;
+	if ( ! current_user_can( 'connections_change_roles' ) ) {
+		wp_die(
+			'<p id="error-page" style="-moz-background-clip:border;
 				-moz-border-radius:11px;
 				background:#FFFFFF none repeat scroll 0 0;
 				border:1px solid #DFDFDF;
@@ -29,27 +31,27 @@ function connectionsShowRolesPage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
-	}
-	else {
-		global $connections, $wp_roles;
+				width:700px">' . esc_html__( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
+		);
+	} else {
+		global $connections;
 
 		$form = new cnFormObjects();
 
-?>
+		?>
 		<div class="wrap cn-roles">
 
 			<h1>Connections : <?php _e( 'Roles &amp; Capabilities', 'connections' ); ?></h1>
 
 			<?php
-		$attr = array(
-			'action' => '',
-			'method' => 'post',
-		);
+			$attr = array(
+				'action' => '',
+				'method' => 'post',
+			);
 
-		$form->open( $attr );
-		$form->tokenField( 'update_role_settings' );
-?>
+			$form->open( $attr );
+			$form->tokenField( 'update_role_settings' );
+			?>
 
 			<div id="poststuff" class="metabox-holder has-right-sidebar">
 
@@ -83,45 +85,64 @@ function connectionsShowRolesPage() {
 				<div class="has-sidebar" id="post-body">
 					<div class="has-sidebar-content" id="post-body-content">
 						<?php
-		$editable_roles = get_editable_roles();
+						$editable_roles = get_editable_roles();
 
-		foreach ( $editable_roles as $role => $details ) {
-			$name = translate_user_role( $details['name'] );
+						foreach ( $editable_roles as $role => $details ) {
+							$name = translate_user_role( $details['name'] );
 
-			// the admininistrator should always have all capabilities
-			if ( $role == 'administrator' ) continue;
+							// The administrator should always have all capabilities.
+							if ( 'administrator' === $role ) {
 
-			$capabilies = cnRole::capabilities();
+								continue;
+							}
 
-			echo '<div class="postbox">';
+							$capabilities = cnRole::capabilities();
 
-			echo '<h3 class="hndle" style="cursor: auto;"><span>' , $name , '</span></h3>';
+							echo '<div class="postbox">';
 
-			echo '<div class="inside">';
+							echo '<h3 class="hndle" style="cursor: auto;"><span>' , esc_html( $name ) , '</span></h3>';
 
-			foreach ( $capabilies as $capability => $capabilityName ) {
-				// if unregistered users are permitted to view the entry list there is no need for setting this capability
-				if ( $capability == 'connections_view_public' && $connections->options->getAllowPublic() == true ) continue;
+							echo '<div class="inside">';
 
-				echo '<span style="display: block;"><label for="' . $role . '_' . $capability . '">';
-				echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';
-				echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" ';
+							foreach ( $capabilities as $capability => $capabilityName ) {
+								// If unregistered users are permitted to view the entry list there is no need for setting this capability.
+								if ( 'connections_view_public' === $capability && $connections->options->getAllowPublic() == true ) {
 
-				if ( cnRole::hasCapability( $role, $capability ) ) echo 'CHECKED ';
-				// the admininistrator should always have all capabilities
-				if ( $role == 'administrator' ) echo 'DISABLED ';
-				echo '/> ' . $capabilityName . '</label></span>' . "\n";
+									continue;
+								}
 
-			}
+								echo '<span style="display: block;"><label for="' . esc_attr( "{$role}_{$capability}" ) . '">';
+								echo '<input type="hidden" name="' . esc_attr( "roles[{$role}][capabilities][{$capability}]" ) . '" value="false" />';
+								echo '<input type="checkbox" id="' . esc_attr( $role . '_' . $capability ) . '" name="' . esc_attr( "roles[{$role}][capabilities][{$capability}]" ) . '" value="true" ';
 
-			echo '<span style="display: block;"><label for="' . $role . '_reset_capabilities">';
-			echo '<input type="checkbox" id="' . $role . '_reset_capabilities" name="reset[' . $role . ']" value="' . $name . '" /> ';
-			echo sprintf( __( 'Reset %s Capabilities', 'connections' ) , $name ) . '</label></span>' . "\n";
+								if ( cnRole::hasCapability( $role, $capability ) ) {
 
-			echo '</div>';
-			echo '</div>';
-		}
-?>
+									echo 'CHECKED ';
+								}
+
+								// The administrator should always have all capabilities.
+								if ( 'administrator' === $role ) {
+
+									echo 'DISABLED ';
+								}
+
+								echo '/> ' . esc_html( $capabilityName ) . '</label></span>' . "\n";
+
+							}
+
+							echo '<span style="display: block;"><label for="' . esc_attr( "{$role}_reset_capabilities" ) . '">';
+							echo '<input type="checkbox" id="' . esc_attr( "{$role}_reset_capabilities" ) . '" name="' . esc_attr( "reset[{$role}]" ) . '" value="' . esc_attr( $name ) . '" /> ';
+							echo sprintf(
+								// translators: The Role name.
+								esc_html__( 'Reset %s Capabilities', 'connections' ),
+								esc_html( $name )
+							);
+							echo '</label></span>' . "\n";
+
+							echo '</div>';
+							echo '</div>';
+						}
+						?>
 					</div>
 				</div>
 			</div>

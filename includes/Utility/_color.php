@@ -200,11 +200,11 @@ final class _color {
 	 *
 	 * @return mixed  array|string  RGB will be turned as an array unless $returnAsString is TRUE.
 	 */
-	public static function name2rgb( $name, $returnAsString = FALSE, $separator = ',' ) {
+	public static function name2rgb( $name, $returnAsString = false, $separator = ',' ) {
 
 		$name = strtolower( $name );
 
-		$rgb = isset( self::$colors[ $name ] ) ? self::$colors[ $name ] : FALSE;
+		$rgb = isset( self::$colors[ $name ] ) ? self::$colors[ $name ] : false;
 
 		if ( $rgb ) {
 
@@ -213,7 +213,7 @@ final class _color {
 
 		} else {
 
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -231,7 +231,7 @@ final class _color {
 	public static function name2hex( $name ) {
 
 		$name = strtolower( $name );
-		$rgb  = self::name2rgb( $name, TRUE );
+		$rgb  = self::name2rgb( $name, true );
 
 		if ( $rgb ) {
 
@@ -239,7 +239,7 @@ final class _color {
 
 		} else {
 
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -259,9 +259,11 @@ final class _color {
 	 *
 	 * @return mixed  array|bool|string HEX to RGB will be turned as an array unless $returnAsString is TRUE. RGB to HEX will be returned as a string. False on failure.
 	 */
-	public static function rgb2hex2rgb( $color, $returnAsString = FALSE, $separator = ',' ) {
+	public static function rgb2hex2rgb( $color, $returnAsString = false, $separator = ',' ) {
 
-		if ( ! $color ) return FALSE;
+		if ( ! $color ) {
+			return false;
+		}
 
 		$color = trim( $color );
 
@@ -294,17 +296,17 @@ final class _color {
 				// Invalid hex color code.
 			} else {
 
-				$out = FALSE;
+				$out = false;
 			}
 
 		} elseif ( preg_match( "/^[0-9]+(,| |.)+[0-9]+(,| |.)+[0-9]+$/i", $color ) ) {
 
-			$spr = str_replace( array( ',',' ','.' ), ':', $color );
+			$spr = str_replace( array( ',', ' ', '.' ), ':', $color );
 			$e   = explode( ':', $spr );
 
 			if ( 3 != count( $e ) ) {
 
-				return FALSE;
+				return false;
 			}
 
 			$out = '#';
@@ -323,7 +325,7 @@ final class _color {
 
 		} else {
 
-			$out = FALSE;
+			$out = false;
 		}
 
 		return $out;

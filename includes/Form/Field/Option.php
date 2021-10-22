@@ -130,7 +130,7 @@ class Option {
 	 */
 	public function render() {
 
-		echo $this->getHTML();
+		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

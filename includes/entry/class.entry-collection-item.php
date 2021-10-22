@@ -88,13 +88,13 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 
 			$name = $this->properties[ $key ];
 
-			if ( property_exists( $this, $name ) && NULL !== $this->__get( $key ) ) {
+			if ( property_exists( $this, $name ) && null !== $this->__get( $key ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -114,7 +114,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 			return $this->{ $this->methods[ $key ] }();
 		}
 
-		return NULL;
+		return null;
 	}
 
 	/**

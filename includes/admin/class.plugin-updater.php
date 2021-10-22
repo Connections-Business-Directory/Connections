@@ -11,7 +11,10 @@
  * @since       8.5.27
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'cnPlugin_Updater' ) ) :
 
@@ -47,15 +50,15 @@ class cnPlugin_Updater {
 	public static function register( $file, array $data ) {
 
 		$defaults = array(
-			//'file'      => '',
-			//'basename'  => '',
-			//'slug'      => '',
+			// 'file'      => '',
+			// 'basename'  => '',
+			// 'slug'      => '',
 			'item_id'   => 0,
 			'item_name' => '',
 			'author'    => '',
 			'version'   => '',
 			'license'   => '',
-			'beta'      => FALSE,
+			'beta'      => false,
 		);
 
 		$plugin = cnSanitize::args( $data, $defaults );
@@ -70,14 +73,14 @@ class cnPlugin_Updater {
 			return new WP_Error( 'plugin_version_not_provided', esc_html__( 'Plugin version is required.', 'connections' ), $plugin );
 		}
 
-		//$plugin['file']     = $file;
+		// $plugin['file']     = $file;
 		$plugin['basename'] = plugin_basename( $file );
 		$plugin['slug']     = basename( $file, '.php' );
 		$plugin['item_id']  = absint( $plugin['item_id'] );
 
 		self::$plugins[ $plugin['basename'] ] = $plugin;
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -97,7 +100,7 @@ class cnPlugin_Updater {
 			return self::$plugins[ $basename ];
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -120,7 +123,7 @@ class cnPlugin_Updater {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -134,7 +137,7 @@ class cnPlugin_Updater {
 	public static function init() {
 
 		// Uncomment for testing.
-		//delete_site_transient( 'update_plugins' );
+		// delete_site_transient( 'update_plugins' );
 
 		self::hooks();
 	}
@@ -161,7 +164,7 @@ class cnPlugin_Updater {
 		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 9 );
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
-		//add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
+		// add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
 		add_action( 'admin_init', array( __CLASS__, 'update_plugins_clear' ) );
 	}
 
@@ -204,7 +207,7 @@ class cnPlugin_Updater {
 			return $r;
 		}
 
-		$plugins = json_decode( $r['body']['plugins'], TRUE );
+		$plugins = json_decode( $r['body']['plugins'], true );
 
 		if ( ! is_array( $plugins ) || ! array_key_exists( 'active', $plugins ) ) {
 
@@ -293,7 +296,7 @@ class cnPlugin_Updater {
 		if ( $time_not_changed ) {
 
 			$plugins        = get_plugins();
-			$plugin_changed = FALSE;
+			$plugin_changed = false;
 
 			foreach ( $plugins as $file => $p ) {
 
@@ -303,7 +306,7 @@ class cnPlugin_Updater {
 				     && array_key_exists( $file, self::$plugins ) /* Skip all plugins not registered with this class. */
 				) {
 
-					$plugin_changed = TRUE;
+					$plugin_changed = true;
 				}
 			}
 
@@ -315,7 +318,7 @@ class cnPlugin_Updater {
 					     && array_key_exists( $plugin_file, self::$plugins ) /* Skip all plugins not registered with this class. */
 					) {
 
-						$plugin_changed = TRUE;
+						$plugin_changed = true;
 						break;
 					}
 				}
@@ -337,7 +340,7 @@ class cnPlugin_Updater {
 
 		$response = self::request();
 
-		if ( FALSE !== $response && is_array( $response ) ) {
+		if ( false !== $response && is_array( $response ) ) {
 
 			$update    = array();
 			$no_update = array();
@@ -359,7 +362,7 @@ class cnPlugin_Updater {
 					$no_update[ $plugin->plugin ] = $plugin;
 				}
 
-				//$transient->checked[ $plugin->plugin ] = self::$plugins[ $plugin->plugin ]['version'];
+				// $transient->checked[ $plugin->plugin ] = self::$plugins[ $plugin->plugin ]['version'];
 			}
 
 			/*
@@ -367,7 +370,7 @@ class cnPlugin_Updater {
 			 */
 			self::set_cached_response( $update, $no_update, $checked );
 
-			//if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
+			// if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
 		}
 
 		// Update the license statuses.
@@ -399,7 +402,7 @@ class cnPlugin_Updater {
 		global $pagenow;
 
 		$timeout    = 0;
-		$clearCache = get_option( 'cn_update_plugins_clear_cache', FALSE );
+		$clearCache = get_option( 'cn_update_plugins_clear_cache', false );
 
 		/**
 		 * If the check update plugins flag has been set, triggered by updating a addon, return `0` as the timeout
@@ -464,9 +467,9 @@ class cnPlugin_Updater {
 
 		$timeout = self::get_update_check_timeout();
 
-		$cached = get_option( 'cn_update_plugins', FALSE );
+		$cached = get_option( 'cn_update_plugins', false );
 
-		if ( FALSE !== $cached ) {
+		if ( false !== $cached ) {
 
 			$last_checked = isset( $cached['last_checked'] ) && ! empty( $cached['last_checked'] ) ? $cached['last_checked'] : time();
 
@@ -507,7 +510,7 @@ class cnPlugin_Updater {
 				'checked'      => $checked,
 				'last_checked' => time(),
 			),
-			FALSE
+			false
 		);
 	}
 
@@ -535,14 +538,14 @@ class cnPlugin_Updater {
 	 */
 	public static function update_plugins_clear() {
 
-		$clearCache = get_option( 'cn_update_plugins_clear_cache', FALSE );
+		$clearCache = get_option( 'cn_update_plugins_clear_cache', false );
 
 		if ( $clearCache ) {
 
 			update_option(
 				'cn_update_plugins_clear_cache',
-				FALSE,
-				FALSE
+				false,
+				false
 			);
 		}
 	}
@@ -589,11 +592,11 @@ class cnPlugin_Updater {
 		// Get the transient where we store the api request for this plugin for 1 hour.
 		$transient = get_site_transient( $cache_key );
 
-		if ( FALSE === $transient && FALSE !== $plugin ) {
+		if ( false === $transient && false !== $plugin ) {
 
 			$response = self::request( $plugin );
 
-			if ( FALSE !== $response ) {
+			if ( false !== $response ) {
 
 				// Expires in 1 hour.
 				set_site_transient( $cache_key, $response, HOUR_IN_SECONDS );
@@ -619,7 +622,7 @@ class cnPlugin_Updater {
 	 */
 	private static function request( $plugin = array() ) {
 
-		$response = FALSE;
+		$response = false;
 
 		/**
 		 * Timeout logic base on WP core.

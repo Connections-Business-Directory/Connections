@@ -291,14 +291,14 @@ function parseProviders( $post ) {
 
 				if ( ! array_key_exists( _array::get( $attributes, 'listType', null ), $entryTypes ) ) {
 
-					$attributes['listType'] = NULL;
+					$attributes['listType'] = null;
 				}
 
 				$categories = _::decodeJSON( _array::get( $attributes, 'categories', '' ) );
 
 				if ( is_wp_error( $categories ) ) {
 
-					$attributes['categories'] = NULL;
+					$attributes['categories'] = null;
 
 				} else {
 
@@ -311,7 +311,7 @@ function parseProviders( $post ) {
 
 				if ( is_wp_error( $excludeCategories ) ) {
 
-					$attributes['excludeCategories'] = NULL;
+					$attributes['excludeCategories'] = null;
 
 				} else {
 

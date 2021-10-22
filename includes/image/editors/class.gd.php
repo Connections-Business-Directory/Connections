@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class CN_Image_Editor_GD
@@ -31,13 +33,14 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		$resized = $this->_resize_padded( $canvas_w, $canvas_h, $canvas_color, $width, $height, $orig_w, $orig_h, $origin_x, $origin_y );
 
-		if ( is_resource( $resized ) ) {
+		if ( is_gd_image( $resized ) ) {
 			imagedestroy( $this->image );
 			$this->image = $resized;
 			return true;
 
-		} elseif ( is_wp_error( $resized ) )
+		} elseif ( is_wp_error( $resized ) ) {
 			return $resized;
+		}
 
 		return new WP_Error( 'image_resize_error', __( 'Image resize failed.', 'connections' ), $this->file );
 	}
@@ -54,13 +57,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		// calculate x or y coordinate and width or height of source
 		if ($cmp_x > $cmp_y) {
 
-			$src_w = round ($orig_w / $cmp_x * $cmp_y);
-			$src_x = round (($orig_w - ($orig_w / $cmp_x * $cmp_y)) / 2);
+			$src_w = round( $orig_w / $cmp_x * $cmp_y );
+			$src_x = round( ($orig_w - ($orig_w / $cmp_x * $cmp_y)) / 2 );
 
 		} else if ($cmp_y > $cmp_x) {
 
-			$src_h = round ($orig_h / $cmp_y * $cmp_x);
-			$src_y = round (($orig_h - ($orig_h / $cmp_y * $cmp_x)) / 2);
+			$src_h = round( $orig_h / $cmp_y * $cmp_x );
+			$src_y = round( ($orig_h - ($orig_h / $cmp_y * $cmp_x)) / 2 );
 
 		}
 
@@ -81,16 +84,16 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		imagefill( $resized, 0, 0, $color );
 
 		// Restore transparency.
-		imagesavealpha( $resized, TRUE );
+		imagesavealpha( $resized, true );
 
 		imagecopyresampled( $resized, $this->image, $origin_x, $origin_y, $src_x, $src_y, $width, $height, $src_w, $src_h );
 
-		if ( is_resource( $resized ) ) {
+		if ( is_gd_image( $resized ) ) {
 			$this->update_size( $width, $height );
 			return $resized;
 		}
 
-		return new WP_Error( 'image_resize_error', __( 'Image resize failed.', 'connections' ), $this->file );
+		return new WP_Error( 'image_resize_error', __( '_Image resize failed.', 'connections' ), $this->file );
 	}
 
 	/**
@@ -105,14 +108,14 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 * @return boolean|WP_Error
 	 */
 	public function rotate( $angle ) {
-		if ( function_exists('imagerotate') ) {
+		if ( function_exists( 'imagerotate' ) ) {
 			$rotated = imagerotate( $this->image, $angle, 0 );
 
 			// Add alpha blending
-			imagealphablending($rotated, true);
-			imagesavealpha($rotated, true);
+			imagealphablending( $rotated, true );
+			imagesavealpha( $rotated, true );
 
-			if ( is_resource( $rotated ) ) {
+			if ( is_gd_image( $rotated ) ) {
 				imagedestroy( $this->image );
 				$this->image = $rotated;
 				$this->update_size();
@@ -134,18 +137,18 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function opacity( $level ) {
 
-		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 100 ) ) ) !== FALSE ) {
+		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 100 ) ) ) !== false ) {
 
 			$level /= 100;
 
 			$filtered = $this->_opacity( $this->image, $level );
 
-			if ( is_resource( $filtered ) ) {
+			if ( is_gd_image( $filtered ) ) {
 
 				// imagedestroy($this->image);
 				$this->image = $filtered;
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -155,51 +158,53 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	// from: http://php.net/manual/en/function.imagefilter.php
 	// params: image resource id, opacity (eg. 0.0-1.0)
 	protected function _opacity($image, $opacity) {
-		if (!function_exists('imagealphablending') ||
-			!function_exists('imagecolorat') ||
-			!function_exists('imagecolorallocatealpha') ||
-			!function_exists('imagesetpixel')) return false;
+		if (!function_exists( 'imagealphablending' ) ||
+			!function_exists( 'imagecolorat' ) ||
+			!function_exists( 'imagecolorallocatealpha' ) ||
+			!function_exists( 'imagesetpixel' )) {
+			return false;
+		}
 
-		//get image width and height
+		// get image width and height
 		$w = imagesx( $image );
 		$h = imagesy( $image );
 
-		//turn alpha blending off
+		// turn alpha blending off
 		imagealphablending( $image, false );
 
-		//find the most opaque pixel in the image (the one with the smallest alpha value)
+		// find the most opaque pixel in the image (the one with the smallest alpha value)
 		$minalpha = 127;
 		for ($x = 0; $x < $w; $x++) {
 			for ($y = 0; $y < $h; $y++) {
-				$alpha = (imagecolorat($image, $x, $y) >> 24 ) & 0xFF;
+				$alpha = (imagecolorat( $image, $x, $y ) >> 24 ) & 0xFF;
 				if( $alpha < $minalpha ) {
 					$minalpha = $alpha;
 				}
 			}
 		}
 
-		//loop through image pixels and modify alpha for each
+		// loop through image pixels and modify alpha for each
 		for ( $x = 0; $x < $w; $x++ ) {
 			for ( $y = 0; $y < $h; $y++ ) {
-				//get current alpha value (represents the TANSPARENCY!)
+				// get current alpha value (represents the TANSPARENCY!)
 				$colorxy = imagecolorat( $image, $x, $y );
 				$alpha = ( $colorxy >> 24 ) & 0xFF;
-				//calculate new alpha
+				// calculate new alpha
 				if ( $minalpha !== 127 ) {
 					$alpha = 127 + 127 * $opacity * ( $alpha - 127 ) / ( 127 - $minalpha );
 				} else {
 					$alpha += 127 * $opacity;
 				}
-				//get the color index with new alpha
+				// get the color index with new alpha
 				$alphacolorxy = imagecolorallocatealpha( $image, ( $colorxy >> 16 ) & 0xFF, ( $colorxy >> 8 ) & 0xFF, $colorxy & 0xFF, $alpha );
-				//set pixel with the new color + opacity
-				if(!imagesetpixel($image, $x, $y, $alphacolorxy)) {
+				// set pixel with the new color + opacity
+				if(!imagesetpixel( $image, $x, $y, $alphacolorxy )) {
 					return false;
 				}
 			}
 		}
 
-		imagesavealpha($image, true);
+		imagesavealpha( $image, true );
 
 		return $image;
 	}
@@ -222,23 +227,23 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			return new WP_Error( 'image_colorize_error', __( 'Value passed to ' . get_class( $this ) . '::colorize() is an invalid hex color.', 'connections' ), $this->file );
 		}
 
-		if ( function_exists('imagefilter') &&
-			 function_exists('imagesavealpha') &&
-			 function_exists('imagealphablending') ) {
+		if ( function_exists( 'imagefilter' ) &&
+			 function_exists( 'imagesavealpha' ) &&
+			 function_exists( 'imagealphablending' ) ) {
 
 			$hexColor = preg_replace( '#^\##', '', $hexColor );
 
-			$r = hexdec ( substr( $hexColor, 0, 2 ) );
-			$g = hexdec ( substr( $hexColor, 2, 2 ) );
-			$b = hexdec ( substr( $hexColor, 2, 2 ) );
+			$r = hexdec( substr( $hexColor, 0, 2 ) );
+			$g = hexdec( substr( $hexColor, 2, 2 ) );
+			$b = hexdec( substr( $hexColor, 2, 2 ) );
 
-			imagealphablending( $this->image, FALSE );
+			imagealphablending( $this->image, false );
 
 			if ( imagefilter( $this->image, IMG_FILTER_COLORIZE, $r, $g, $b, 0 ) ) {
 
-				imagesavealpha( $this->image, TRUE );
+				imagesavealpha( $this->image, true );
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -255,11 +260,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function grayscale() {
 
-		if ( function_exists('imagefilter') ) {
+		if ( function_exists( 'imagefilter' ) ) {
 
 			if ( imagefilter( $this->image, IMG_FILTER_GRAYSCALE ) ) {
 
-				return TRUE;
+				return true;
 			}
 
 		}
@@ -277,11 +282,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function negate() {
 
-		if ( function_exists('imagefilter') ) {
+		if ( function_exists( 'imagefilter' ) ) {
 
 			if ( imagefilter( $this->image, IMG_FILTER_NEGATE ) ) {
 
-				return TRUE;
+				return true;
 			}
 
 		}
@@ -300,13 +305,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function brightness( $level = 0 ) {
 
-		if ( filter_var( (int) $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -255, 'max_range' => 255 ) ) ) !== FALSE ) {
+		if ( filter_var( (int) $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -255, 'max_range' => 255 ) ) ) !== false ) {
 
-			if ( function_exists('imagefilter') ) {
+			if ( function_exists( 'imagefilter' ) ) {
 
 				if ( imagefilter( $this->image, IMG_FILTER_BRIGHTNESS, $level ) ) {
 
-					return TRUE;
+					return true;
 				}
 			}
 
@@ -333,13 +338,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		// Ensure we round up rather than down. This is to prevent over/under $level values.
 		$level = $level >= 0 ? (int) ceil( $level ) : (int) floor( $level );
 
-		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -100, 'max_range' => 80 ) ) ) !== FALSE ) {
+		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => -100, 'max_range' => 80 ) ) ) !== false ) {
 
-			if ( function_exists('imagefilter') ) {
+			if ( function_exists( 'imagefilter' ) ) {
 
 				if ( imagefilter( $this->image, IMG_FILTER_CONTRAST, $level ) ) {
 
-					return TRUE;
+					return true;
 				}
 			}
 
@@ -358,11 +363,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function detect_edges() {
 
-		if ( function_exists('imagefilter') ) {
+		if ( function_exists( 'imagefilter' ) ) {
 
 			if ( imagefilter( $this->image, IMG_FILTER_EDGEDETECT ) && imagefilter( $this->image, IMG_FILTER_GRAYSCALE ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -379,11 +384,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function emboss() {
 
-		if ( function_exists('imagefilter') ) {
+		if ( function_exists( 'imagefilter' ) ) {
 
 			if ( imagefilter( $this->image, IMG_FILTER_EMBOSS ) && imagefilter( $this->image, IMG_FILTER_GRAYSCALE ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -400,11 +405,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function gaussian_blur() {
 
-		if ( function_exists('imagefilter') ) {
+		if ( function_exists( 'imagefilter' ) ) {
 
 			if ( imagefilter( $this->image, IMG_FILTER_GAUSSIAN_BLUR ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -421,11 +426,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function blur() {
 
-		if ( function_exists('imagefilter') ) {
+		if ( function_exists( 'imagefilter' ) ) {
 
 			if ( imagefilter( $this->image, IMG_FILTER_SELECTIVE_BLUR ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -442,11 +447,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function sketchy() {
 
-		if ( function_exists('imagefilter') ) {
+		if ( function_exists( 'imagefilter' ) ) {
 
 			if ( imagefilter( $this->image, IMG_FILTER_MEAN_REMOVAL ) ) {
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -467,13 +472,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		$level = (float) cnUtility::remapRange( $level, -100, 100, -8, 8 );
 
-		if ( ( $level >= -8 ) && ( $level <= 8 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== FALSE ) ) {
+		if ( ( $level >= -8 ) && ( $level <= 8 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 
-			if ( function_exists('imagefilter') ) {
+			if ( function_exists( 'imagefilter' ) ) {
 
 				if ( imagefilter( $this->image, IMG_FILTER_SMOOTH, $level ) ) {
 
-					return TRUE;
+					return true;
 				}
 			}
 
@@ -493,12 +498,12 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function sharpen() {
 
-		if ( function_exists('imageconvolution') ) {
+		if ( function_exists( 'imageconvolution' ) ) {
 
-			$matrix = array (
-				array (-1,-1,-1),
-				array (-1,16,-1),
-				array (-1,-1,-1),
+			$matrix = array(
+				array( -1, -1, -1 ),
+				array( -1, 16, -1 ),
+				array( -1, -1, -1 ),
 			);
 
 			$divisor = 8;
@@ -506,7 +511,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			if ( imageconvolution( $this->image, $matrix, $divisor, $offset ) ) {
 
-				return TRUE;
+				return true;
 			}
 
 		}

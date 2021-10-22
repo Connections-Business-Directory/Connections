@@ -2,8 +2,12 @@
 
 namespace Connections_Directory\Settings;
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Tab
@@ -16,37 +20,43 @@ class Tab {
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var string
 	 */
 	private $pluginID;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var string
 	 */
 	private $id;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var string
 	 */
 	private $pageHook;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var array
 	 */
 	private $options;
 
 	/**
 	 * @since 8.30
+	 *
 	 * @var Section[]
 	 */
 	private $sections = array();
 
 	/**
 	 * 8.30
-	 * @var
+	 *
+	 * @var array
 	 */
 	private $fields = array();
 
@@ -67,10 +77,10 @@ class Tab {
 		$this->pluginID = $pluginID;
 
 		$defaults = array(
-			//'id'        => '',
+			// 'id'        => '',
 			'position'  => 10,
 			'title'     => '',
-			//'page_hook' => '',
+			// 'page_hook' => '',
 		);
 
 		$this->options = wp_parse_args( $options, $defaults );
@@ -135,9 +145,9 @@ class Tab {
 	public function addSection( $id, $options ) {
 
 		$defaults = array(
-			'position'  => 10,
-			'title'     => '',
-			'desc'      => '',
+			'position' => 10,
+			'title'    => '',
+			'desc'     => '',
 		);
 
 		$options = wp_parse_args( $options, $defaults );
@@ -148,7 +158,7 @@ class Tab {
 
 			$options['callback'] = function() use ( $options ) {
 
-				echo $options['desc'];
+				echo _escape::html( $options['desc'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			};
 		}
 
@@ -170,12 +180,12 @@ class Tab {
 	public function addField( $id, $field ) {
 
 		$defaults = array(
-			'position'  => 10,
-			'title'     => '',
-			'desc'      => '',
-			'help'      => '',
-			'type'      => '',
-			'section'   => 'default',
+			'position' => 10,
+			'title'    => '',
+			'desc'     => '',
+			'help'     => '',
+			'type'     => '',
+			'section'  => 'default',
 		);
 
 		$field = wp_parse_args( $field, $defaults );

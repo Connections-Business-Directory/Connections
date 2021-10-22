@@ -17,7 +17,7 @@ foreach ( $dates as $date ) {
 
 	$replace = array();
 
-	if ( FALSE === $date->date ) {
+	if ( false === $date->date ) {
 
 		continue;
 	}
@@ -26,7 +26,7 @@ foreach ( $dates as $date ) {
 
 	// Hidden elements are to maintain hCalendar spec compatibility
 	$replace[] = ( empty( $date->name ) ) ? '' : '<span class="date-name">' . $date->name . '</span>';
-	$replace[] = ( empty( $date->date ) ) ? '' : '<abbr class="dtstart" title="' . $date->date->format( 'Ymd' ) .'">' . date_i18n( $atts['date_format'], $date->date->getTimestamp(), FALSE ) . '</abbr>
+	$replace[] = ( empty( $date->date ) ) ? '' : '<abbr class="dtstart" title="' . $date->date->format( 'Ymd' ) .'">' . date_i18n( $atts['date_format'], $date->date->getTimestamp(), false ) . '</abbr>
                                                   <span class="summary" style="display:none">' . $date->name . ' - ' . $entry->getName( array( 'format' => $atts['name_format'] ) ) . '</span>
                                                   <span class="uid" style="display:none">' . $date->date->format( 'YmdHis' ) . '</span>';
 	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';

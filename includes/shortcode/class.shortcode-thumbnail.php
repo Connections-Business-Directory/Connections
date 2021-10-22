@@ -1,8 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The [cn_thumnb] shortcode.
@@ -24,37 +25,37 @@ class cnThumb extends cnShortcode {
 		$permitted = array( 'attachment', 'featured', 'path', 'url', 'logo', 'photo' );
 		$defaults  = array(
 			'type'          => 'url',
-			'source'        => NULL,
+			'source'        => null,
 			'align'         => 'alignnone',
 			'height'        => 0,
 			'width'         => 0,
-			'negate'        => FALSE,
-			'grayscale'     => FALSE,
+			'negate'        => false,
+			'grayscale'     => false,
 			'brightness'    => 0,
-			'colorize'      => NULL,
+			'colorize'      => null,
 			'contrast'      => 0,
-			'detect_edges'  => FALSE,
-			'emboss'        => FALSE,
-			'gaussian_blur' => FALSE,
-			'blur'          => FALSE,
-			'sketchy'       => FALSE,
-			'sharpen'       => FALSE,
-			'smooth'        => NULL,
+			'detect_edges'  => false,
+			'emboss'        => false,
+			'gaussian_blur' => false,
+			'blur'          => false,
+			'sketchy'       => false,
+			'sharpen'       => false,
+			'smooth'        => null,
 			'opacity'       => 100,
 			'crop_mode'     => 1,
 			'crop_focus'    => array( .5, .5 ),
-			'crop_only'     => FALSE,
+			'crop_only'     => false,
 			'canvas_color'  => '#FFFFFF',
 			'quality'       => 90,
 		);
 
 		$defaults = apply_filters( 'cn_thumb_shortcode_atts', $defaults );
 
-		$atts = shortcode_atts( $defaults, $atts, $tag ) ;
+		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		if ( ! in_array( $atts['type'], $permitted ) ) {
 
-			return __( 'Valid image source type not supplied.', 'connections' );
+			return esc_html__( 'Valid image source type not supplied.', 'connections' );
 		}
 
 		/*
@@ -142,9 +143,9 @@ class cnThumb extends cnShortcode {
 			// Display the error messages.
 			return implode( PHP_EOL, $image->get_error_messages() );
 
-		} elseif ( $image === FALSE ) {
+		} elseif ( $image === false ) {
 
-			return __( 'An error has occured while creating the thumbnail.', 'connections' );
+			return esc_html__( 'An error has occured while creating the thumbnail.', 'connections' );
 		}
 
 
@@ -156,7 +157,7 @@ class cnThumb extends cnShortcode {
 			'<img class="cn-image" src="' . $image['url'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />' . $content
 		);
 
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 
 			$out = $out . '<pre>' . $image['log'] . '</pre>';
 		}

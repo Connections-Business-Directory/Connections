@@ -27,7 +27,7 @@ class Categories extends Content_Block {
 	// * @since 9.7
 	// * @var array
 	// */
-	//private $properties = array();
+	// private $properties = array();
 
 	/**
 	 * Entry_Categories constructor.
@@ -92,12 +92,12 @@ class Categories extends Content_Block {
 			'label'            => __( 'Categories:', 'connections' ) . ' ',
 			'separator'        => ', ',
 			'parent_separator' => ' &raquo; ',
-			//'before'           => '',
-			//'after'            => '',
-			'link'             => FALSE,
-			'parents'          => FALSE,
+			// 'before'           => '',
+			// 'after'            => '',
+			'link'             => false,
+			'parents'          => false,
 			'child_of'         => 0,
-			//'return'           => FALSE,
+			// 'return'           => FALSE,
 		);
 
 		return apply_filters(

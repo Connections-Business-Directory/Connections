@@ -44,7 +44,9 @@ class cnTemplate_Customizer {
 	 */
 	public function __construct() {
 
-		if ( ! isset( $_REQUEST['cn-template'] ) ) return;
+		if ( ! isset( $_REQUEST['cn-template'] ) ) {
+			return;
+		}
 
 		$this->setSlug();
 		$this->setView();
@@ -63,22 +65,22 @@ class cnTemplate_Customizer {
 	 */
 	public function hooks() {
 
-		//add_action( 'wp_head', array( $this', 'remove_head_actions'), -1 );
+		// add_action( 'wp_head', array( $this', 'remove_head_actions'), -1 );
 
 		add_filter( 'admin_url', array( $this, 'admin_url'), 10, 3 );
 		add_filter( 'cn_permalink', array( $this, 'permalink' ), 10, 2 );
 
 		add_filter( 'cn_template_customizer_template', array( $this, 'getTemplate' ) );
 
-		//add_action( 'customize_controls_enqueue_scripts', $this->customizer, 'enqueue_scripts' );
-		//add_action( 'customize_preview_init', $this->customizer, 'enqueue_template_scripts', 99 );
+		// add_action( 'customize_controls_enqueue_scripts', $this->customizer, 'enqueue_scripts' );
+		// add_action( 'customize_preview_init', $this->customizer, 'enqueue_template_scripts', 99 );
 
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'themeCompatibility' ), 9999 );
 
-		//add_action( 'wp_print_styles', array( $this', 'remove_all_styles'), 9999 );
-		//add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
+		// add_action( 'wp_print_styles', array( $this', 'remove_all_styles'), 9999 );
+		// add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
 
-		//add_action( 'template_include', array( $this, 'customizerPage' ) );
+		// add_action( 'template_include', array( $this, 'customizerPage' ) );
 		add_action( 'customize_register', array( $this, 'registerControls') );
 		add_action( 'customize_register', array( $this, 'registerSections') );
 		add_action( 'customize_register', array( $this, 'registerTemplateControls') );
@@ -98,7 +100,7 @@ class cnTemplate_Customizer {
 		add_action( 'cn_action_list_before', array( $this, 'singleView' ) );
 		add_action( 'cn_action_list_before', array( $this, 'categoryMessage' ) );
 
-		//add_action( 'get_footer', array( $this, 'remove_footer_actions'), 9999 );
+		// add_action( 'get_footer', array( $this, 'remove_footer_actions'), 9999 );
 	}
 
 	/**
@@ -180,7 +182,9 @@ class cnTemplate_Customizer {
 
 		}
 
-		if ( $this->template->supports ) $this->setupTemplateFeatures( $this->template->supports );
+		if ( $this->template->supports ) {
+			$this->setupTemplateFeatures( $this->template->supports );
+		}
 	}
 
 	/**
@@ -203,14 +207,14 @@ class cnTemplate_Customizer {
 
 				} else {
 
-					$this->supports[ $options ] = TRUE;
+					$this->supports[ $options ] = true;
 				}
 
 			}
 
 		} else {
 
-			$this->supports[ $features ] = TRUE;
+			$this->supports[ $features ] = true;
 		}
 	}
 
@@ -248,7 +252,7 @@ class cnTemplate_Customizer {
 			return $this->supports[ $feature ];
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -272,7 +276,7 @@ class cnTemplate_Customizer {
 
 			$features = $this->getSupportsOptions( 'customizer' );
 
-			if ( FALSE !== $features ) {
+			if ( false !== $features ) {
 
 				$this->registerFeatures( $features, $wp_customize );
 			}
@@ -472,7 +476,7 @@ class cnTemplate_Customizer {
 			'cn_template_customizer_section_search',
 			array(
 				'title'       => __( 'Search', 'connections' ),
-				//'description' => __( '', 'connections' ),
+				// 'description' => __( '', 'connections' ),
 				'panel'       => 'cn_template',
 				'priority'    => 5,
 				'capability'  => 'edit_theme_options',
@@ -620,8 +624,8 @@ class cnTemplate_Customizer {
 				'default'              => 0,
 				'transport'            => 'refresh',
 				'capability'           => 'edit_theme_options',
-				//'sanitize_callback'    => 'sanitize_text_field',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_callback'    => 'sanitize_text_field',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 		$wp_customize->add_control(
@@ -633,7 +637,7 @@ class cnTemplate_Customizer {
 					'type'        => 'checkbox',
 					'section'     => 'cn_template_customizer_section_global_display',
 					'settings'    => 'connections_display_results[index]',
-					'description' => __( 'Show the character index at the top of the results list.', 'connections' )
+					'description' => __( 'Show the character index at the top of the results list.', 'connections' ),
 				)
 			)
 		);
@@ -645,8 +649,8 @@ class cnTemplate_Customizer {
 				'default'              => 0,
 				'transport'            => 'refresh',
 				'capability'           => 'edit_theme_options',
-				//'sanitize_callback'    => 'sanitize_text_field',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_callback'    => 'sanitize_text_field',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 		$wp_customize->add_control(
@@ -658,7 +662,7 @@ class cnTemplate_Customizer {
 					'type'        => 'checkbox',
 					'section'     => 'cn_template_customizer_section_global_display',
 					'settings'    => 'connections_display_results[index_repeat]',
-					'description' => __( 'Repeat the character index at the beginning of each character group.', 'connections' )
+					'description' => __( 'Repeat the character index at the beginning of each character group.', 'connections' ),
 				)
 			)
 		);
@@ -670,8 +674,8 @@ class cnTemplate_Customizer {
 				'default'              => 0,
 				'transport'            => 'refresh',
 				'capability'           => 'edit_theme_options',
-				//'sanitize_callback'    => 'sanitize_text_field',
-				//'sanitize_js_callback' => '',
+				// 'sanitize_callback'    => 'sanitize_text_field',
+				// 'sanitize_js_callback' => '',
 			)
 		);
 		$wp_customize->add_control(
@@ -683,7 +687,7 @@ class cnTemplate_Customizer {
 					'type'        => 'checkbox',
 					'section'     => 'cn_template_customizer_section_global_display',
 					'settings'    => 'connections_display_results[show_current_character]',
-					'description' => __( 'Show the current character at the beginning of each character group.', 'connections' )
+					'description' => __( 'Show the current character at the beginning of each character group.', 'connections' ),
 				)
 			)
 		);
@@ -749,17 +753,17 @@ class cnTemplate_Customizer {
 
 			$base = 'connections_template';
 			$slug = $template->slug;
-			//$id   = 'cn_card_border_width';
+			// $id   = 'cn_card_border_width';
 
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][category_select]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -772,7 +776,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_category_select',
 						'settings'    => "{$base}_{$slug}[card][category_select]",
-						'description' => __( 'Whether or not to enable the category select drop down.', 'connections' )
+						'description' => __( 'Whether or not to enable the category select drop down.', 'connections' ),
 					)
 				)
 			);
@@ -781,11 +785,11 @@ class cnTemplate_Customizer {
 				"{$base}_{$slug}[card][show_empty_categories]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -798,7 +802,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_category_select',
 						'settings'    => "{$base}_{$slug}[card][show_empty_categories]",
-						'description' => __( 'Whether or not to display categories which have not entries assigned.', 'connections' )
+						'description' => __( 'Whether or not to display categories which have not entries assigned.', 'connections' ),
 					)
 				)
 			);
@@ -807,11 +811,11 @@ class cnTemplate_Customizer {
 				"{$base}_{$slug}[card][show_category_count]",
 				array(
 					'type'                 => 'option',
-					'default'              => FALSE,
+					'default'              => false,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -824,7 +828,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_category_select',
 						'settings'    => "{$base}_{$slug}[card][show_category_count]",
-						'description' => __( 'Whether or not to display the number of entries assigned to the categories.', 'connections' )
+						'description' => __( 'Whether or not to display the number of entries assigned to the categories.', 'connections' ),
 					)
 				)
 			);
@@ -891,17 +895,17 @@ class cnTemplate_Customizer {
 
 			$base = 'connections_template';
 			$slug = $template->slug;
-			//$id   = 'cn_card_border_width';
+			// $id   = 'cn_card_border_width';
 
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][search]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -914,7 +918,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_search',
 						'settings'    => "{$base}_{$slug}[card][search]",
-						'description' => __( 'Whether or not to display the search control', 'connections' )
+						'description' => __( 'Whether or not to display the search control', 'connections' ),
 					)
 				)
 			);
@@ -981,17 +985,17 @@ class cnTemplate_Customizer {
 
 			$base = 'connections_template';
 			$slug = $template->slug;
-			//$id   = 'cn_card_border_width';
+			// $id   = 'cn_card_border_width';
 
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][pagination]",
 				array(
 					'type'                 => 'option',
-					'default'              => TRUE,
+					'default'              => true,
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1004,7 +1008,7 @@ class cnTemplate_Customizer {
 						'type'        => 'checkbox',
 						'section'     => 'cn_template_customizer_section_pagination',
 						'settings'    => "{$base}_{$slug}[card][pagination]",
-						'description' => __( 'Whether or not to enable pagination support.', 'connections' )
+						'description' => __( 'Whether or not to enable pagination support.', 'connections' ),
 					)
 				)
 			);
@@ -1017,7 +1021,7 @@ class cnTemplate_Customizer {
 					'transport'  => 'refresh',
 					'capability' => 'edit_theme_options',
 					'sanitize_callback'    => 'absint',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1087,11 +1091,11 @@ class cnTemplate_Customizer {
 				$option,
 				array(
 					'type'       => 'option',
-					'default'    => TRUE,
+					'default'    => true,
 					'transport'  => 'refresh',
 					'capability' => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1144,8 +1148,8 @@ class cnTemplate_Customizer {
 							'default'              => 'photo',
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1183,7 +1187,7 @@ class cnTemplate_Customizer {
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
 							'sanitize_callback'    => 'absint',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1213,7 +1217,7 @@ class cnTemplate_Customizer {
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
 							'sanitize_callback'    => 'absint',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1242,8 +1246,8 @@ class cnTemplate_Customizer {
 							'default'              => '1',
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1270,7 +1274,7 @@ class cnTemplate_Customizer {
 										'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 										'connections'
 									),
-									'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
+									'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' ),
 								),
 							)
 						)
@@ -1284,11 +1288,11 @@ class cnTemplate_Customizer {
 						$option,
 						array(
 							'type'                 => 'option',
-							'default'              => TRUE,
+							'default'              => true,
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
@@ -1315,12 +1319,12 @@ class cnTemplate_Customizer {
 							'default'              => __( 'No Image Available', 'connections' ),
 							'transport'            => 'refresh',
 							'capability'           => 'edit_theme_options',
-							//'sanitize_callback'    => 'sanitize_text_field',
-							//'sanitize_js_callback' => '',
+							// 'sanitize_callback'    => 'sanitize_text_field',
+							// 'sanitize_js_callback' => '',
 						)
 					);
 
-					//$option = "{$base}_{$slug}[{$view}][image_{$feature}_string]";
+					// $option = "{$base}_{$slug}[{$view}][image_{$feature}_string]";
 
 					$wp_customize->add_control(
 						new WP_Customize_Control(
@@ -1371,8 +1375,8 @@ class cnTemplate_Customizer {
 					'default'              => $args['default'],
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1425,8 +1429,8 @@ class cnTemplate_Customizer {
 					'default'              => '',
 					'transport'            => 'refresh',
 					'capability'           => 'edit_theme_options',
-					//'sanitize_callback'    => 'sanitize_text_field',
-					//'sanitize_js_callback' => '',
+					// 'sanitize_callback'    => 'sanitize_text_field',
+					// 'sanitize_js_callback' => '',
 				)
 			);
 
@@ -1707,7 +1711,7 @@ class cnTemplate_Customizer {
 	public function removeSections( $active, $section ) {
 
 		$exemptions = array(
-			//'themes',
+			// 'themes',
 			'cn_template_customizer_section_category_select',
 			'cn_template_customizer_section_search',
 			'cn_template_customizer_section_pagination',
@@ -1739,7 +1743,7 @@ class cnTemplate_Customizer {
 
 			if ( ! in_array( $section->id, $exemptions ) ) {
 
-				$active = FALSE;
+				$active = false;
 			}
 		}
 
@@ -1775,11 +1779,11 @@ class cnTemplate_Customizer {
 			if ( cnString::startsWith( "cn_{$this->slug}_{$this->view}", $control->id ) ||
 			     in_array( $control->section, $exemptions ) ) {
 
-				$active = TRUE;
+				$active = true;
 
 			} else {
 
-				$active = FALSE;
+				$active = false;
 			}
 
 		}
@@ -1806,11 +1810,13 @@ class cnTemplate_Customizer {
 	public function remove_all_scripts() {
 		global $wp_scripts;
 
-		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) return;
+		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) {
+			return;
+		}
 
 		$exceptions = array(
 			'jquery',
-			//'query-monitor',
+			// 'query-monitor',
 			'customize-base',
 			'customize-loader',
 			'customize-preview',
@@ -1879,7 +1885,9 @@ class cnTemplate_Customizer {
 	public function remove_footer_actions() {
 		global $wp_filter;
 
-		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) return;
+		if ( ! isset( $_REQUEST['cn-customize-template'] ) ) {
+			return;
+		}
 
 		$exceptions = array(
 			'wp_print_footer_scripts',
@@ -1917,7 +1925,7 @@ class cnTemplate_Customizer {
 			array(
 				'type' => 'home',
 				'text' => __( 'Go Back', 'connections' ),
-				'return' => FALSE
+				'return' => false,
 			)
 		);
 

@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 function connectionsShowUpgradePage() {
 
@@ -19,7 +21,8 @@ function connectionsShowUpgradePage() {
 	 * Check whether user can access.
 	 */
 	if ( ! current_user_can( 'connections_manage' ) ) {
-		wp_die( '<p id="error-page" style="-moz-background-clip:border;
+		wp_die(
+            '<p id="error-page" style="-moz-background-clip:border;
 				-moz-border-radius:11px;
 				background:#FFFFFF none repeat scroll 0 0;
 				border:1px solid #DFDFDF;
@@ -30,7 +33,8 @@ function connectionsShowUpgradePage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
+				width:700px">' . esc_html__( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
+		);
 	} else {
 
 		$url = add_query_arg(
@@ -76,64 +80,93 @@ function cnRunDBUpgrade() {
 
 	$urlPath = admin_url() . 'admin.php?page=' . $_GET['page'];
 
-	if ( ! empty( $wpdb->charset ) )
+	if ( ! empty( $wpdb->charset ) ) {
 		$charsetCollate = "DEFAULT CHARACTER SET $wpdb->charset";
-	if ( ! empty( $wpdb->collate ) )
+	}
+
+	if ( ! empty( $wpdb->collate ) ) {
 		$charsetCollate .= " COLLATE $wpdb->collate";
+	}
 
 	// Check to ensure that the table exists
 	if ( $wpdb->get_var( "SHOW TABLES LIKE 'CN_ENTRY_TABLE'" ) != CN_ENTRY_TABLE ) {
-		echo '<h3>' , __( 'Upgrade the database structure...', 'connections' ) , '</h3>' . "\n";
+		echo '<h3>' , esc_html__( 'Upgrade the database structure...', 'connections' ) , '</h3>' . "\n";
 		$wpdb->show_errors();
 
 		$dbVersion = $connections->options->getDBVersion();
 
 		if ( version_compare( $dbVersion, '0.1.0', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.0.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.0.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 
-			echo '<li>' , __( 'Changing "id" type-length/values to BIGINT(20)', 'connections' ) , "</li>\n";
-			if ( !$wpdb->query( "ALTER TABLE " . CN_ENTRY_TABLE . " CHANGE id id BIGINT(20) NOT NULL AUTO_INCREMENT" ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Changing "id" type-length/values to BIGINT(20)', 'connections' ) , "</li>\n";
+			if ( ! $wpdb->query( "ALTER TABLE " . CN_ENTRY_TABLE . " CHANGE id id BIGINT(20) NOT NULL AUTO_INCREMENT" ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "date_added"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'date_added', 'tinytext NOT NULL AFTER ts' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "date_added"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'date_added', 'tinytext NOT NULL AFTER ts' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "entry_type"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'entry_type', 'tinytext NOT NULL AFTER date_added' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "entry_type"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'entry_type', 'tinytext NOT NULL AFTER date_added' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "honorable_prefix"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'honorable_prefix', 'tinytext NOT NULL AFTER entry_type' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "honorable_prefix"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'honorable_prefix', 'tinytext NOT NULL AFTER entry_type' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "middle_name"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'middle_name', 'tinytext NOT NULL AFTER first_name' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "middle_name"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'middle_name', 'tinytext NOT NULL AFTER first_name' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "honorable_suffix"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'honorable_suffix', 'tinytext NOT NULL AFTER last_name' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "honorable_suffix"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'honorable_suffix', 'tinytext NOT NULL AFTER last_name' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "social"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'social', 'longtext NOT NULL AFTER im' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "social"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'social', 'longtext NOT NULL AFTER im' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "added_by"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'added_by', 'bigint(20) NOT NULL AFTER options' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "added_by"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'added_by', 'bigint(20) NOT NULL AFTER options' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "edited_by"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'edited_by', 'bigint(20) NOT NULL AFTER added_by' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "edited_by"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'edited_by', 'bigint(20) NOT NULL AFTER added_by' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "owner"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'owner', 'bigint(20) NOT NULL AFTER edited_by' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "owner"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'owner', 'bigint(20) NOT NULL AFTER edited_by' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "status"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'status', 'varchar(20) NOT NULL AFTER owner' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "status"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'status', 'varchar(20) NOT NULL AFTER owner' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "contact_first_name"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'contact_first_name', 'tinytext NOT NULL AFTER department' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "contact_first_name"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'contact_first_name', 'tinytext NOT NULL AFTER department' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding Column... "contact_last_name"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'contact_last_name', 'tinytext NOT NULL AFTER contact_first_name' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding Column... "contact_last_name"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'contact_last_name', 'tinytext NOT NULL AFTER contact_first_name' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 			echo '</ul>';
 
-			echo '<h4>' , __( 'Adding default term relationship.', 'connections' ) , '</h4>';
+			echo '<h4>' , esc_html__( 'Adding default term relationship.', 'connections' ) , '</h4>';
 
 			// Add the Uncategorized category to all previous entries.
 			$term = $connections->term->getTermBy( 'slug', 'uncategorized', 'category' );
@@ -153,9 +186,9 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.1', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.1.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.1.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
-			echo '<h4>' , __( 'Setting all current entries to the "approved" status.', 'connections' ) , "</h4>\n";
+			echo '<h4>' , esc_html__( 'Setting all current entries to the "approved" status.', 'connections' ) , "</h4>\n";
 
 			$wpdb->query( 'UPDATE ' . CN_ENTRY_TABLE . ' SET status = \'approved\'' );
 
@@ -166,9 +199,9 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.2', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.2.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.2.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
-			echo '<h4>' , __( 'Setting all current entries `entry_type` column.', 'connections' ) , "</h4>\n";
+			echo '<h4>' , esc_html__( 'Setting all current entries `entry_type` column.', 'connections' ) , "</h4>\n";
 
 			$sql = 'SELECT DISTINCT `id`, `options` FROM ' . CN_ENTRY_TABLE;
 
@@ -195,11 +228,13 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.3', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.3.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.3.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
-			echo '<li>' , __( 'Changing column name from group_name to family_name...', 'connections' ) , "</li>\n";
-			if ( cnAlterTable( CN_ENTRY_TABLE, 'family_name' , 'CHANGE COLUMN group_name family_name tinytext NOT NULL' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Changing column name from group_name to family_name...', 'connections' ) , "</li>\n";
+			if ( cnAlterTable( CN_ENTRY_TABLE, 'family_name', 'CHANGE COLUMN group_name family_name tinytext NOT NULL' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
 			echo '</ul>';
 
@@ -210,14 +245,18 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.4', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.4.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.4.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
-			echo '<li>' , __( 'Changing column name from honorable_prefix to honorific_prefix...', 'connections' ) , "</li>\n";
-			if ( cnAlterTable( CN_ENTRY_TABLE, 'honorific_prefix' , 'CHANGE COLUMN honorable_prefix honorific_prefix tinytext NOT NULL' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Changing column name from honorable_prefix to honorific_prefix...', 'connections' ) , "</li>\n";
+			if ( cnAlterTable( CN_ENTRY_TABLE, 'honorific_prefix', 'CHANGE COLUMN honorable_prefix honorific_prefix tinytext NOT NULL' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Changing column name from honorable_suffix to honorific_suffix...', 'connections' ) , "</li>\n";
-			if ( cnAlterTable( CN_ENTRY_TABLE, 'honorific_suffix' , 'CHANGE COLUMN honorable_suffix honorific_suffix tinytext NOT NULL' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Changing column name from honorable_suffix to honorific_suffix...', 'connections' ) , "</li>\n";
+			if ( cnAlterTable( CN_ENTRY_TABLE, 'honorific_suffix', 'CHANGE COLUMN honorable_suffix honorific_suffix tinytext NOT NULL' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
 			echo '</ul>';
 
@@ -228,12 +267,12 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.5', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.5.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.5.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_TABLE_META . "'" ) != CN_ENTRY_TABLE_META ) {
-				echo '<li>' , __( 'Add the entry meta table.', 'connections' ) , "</li>\n";
+				echo '<li>' , esc_html__( 'Add the entry meta table.', 'connections' ) , "</li>\n";
 
 				$entryTableMeta = "CREATE TABLE " . CN_ENTRY_TABLE_META . " (
 			        meta_id bigint(20) unsigned NOT NULL auto_increment,
@@ -257,12 +296,12 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.6', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.6.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.6.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_ADDRESS_TABLE . "'" ) != CN_ENTRY_ADDRESS_TABLE ) {
-				echo '<li>' , __( 'Add the entry address table.', 'connections' ) , "</li>\n";
+				echo '<li>' , esc_html__( 'Add the entry address table.', 'connections' ) , "</li>\n";
 
 				$entryTableAddress = "CREATE TABLE " . CN_ENTRY_ADDRESS_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -286,7 +325,7 @@ function cnRunDBUpgrade() {
 				dbDelta( $entryTableAddress );
 			}
 
-			echo '<li>' , __( 'Porting addresses...', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Porting addresses...', 'connections' ) , "</li>\n";
 
 			$sql = 'SELECT DISTINCT `id`, `addresses` FROM ' . CN_ENTRY_TABLE;
 
@@ -298,9 +337,12 @@ function cnRunDBUpgrade() {
 					$order = 0;
 
 					foreach ( (array) $addresses as $key => $address ) {
-						if ( empty( $address['type'] ) ) $address['type'] = 'other';
+						if ( empty( $address['type'] ) ) {
+							$address['type'] = 'other';
+						}
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -328,7 +370,8 @@ function cnRunDBUpgrade() {
 							$address['country'],
 							$address['latitude'],
 							$address['longitude'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -353,7 +396,7 @@ function cnRunDBUpgrade() {
 				dbDelta( $entryTablePhone );
 			}
 
-			echo '<li>' , __( 'Porting phone numbers...', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Porting phone numbers...', 'connections' ) , "</li>\n";
 
 			$sql = 'SELECT DISTINCT `id`, `phone_numbers` FROM ' . CN_ENTRY_TABLE;
 
@@ -365,11 +408,16 @@ function cnRunDBUpgrade() {
 					$order = 0;
 
 					foreach ( (array) $phoneNumbers as $key => $phone ) {
-						if ( empty( $phone['number'] ) ) continue;
+						if ( empty( $phone['number'] ) ) {
+							continue;
+						}
 
-						if ( empty( $phone['type'] ) ) $phone['type'] = 'homephone';
+						if ( empty( $phone['type'] ) ) {
+							$phone['type'] = 'homephone';
+						}
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -381,7 +429,8 @@ function cnRunDBUpgrade() {
 							0,
 							$phone['type'],
 							$phone['number'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -390,7 +439,7 @@ function cnRunDBUpgrade() {
 			}
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_EMAIL_TABLE . "'" ) != CN_ENTRY_EMAIL_TABLE ) {
-				echo '<li>' , __( 'Add the entry email table.', 'connections' ) , "</li>\n";
+				echo '<li>' , esc_html__( 'Add the entry email table.', 'connections' ) , "</li>\n";
 
 				$entryTableEmail = "CREATE TABLE " . CN_ENTRY_EMAIL_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -406,7 +455,7 @@ function cnRunDBUpgrade() {
 				dbDelta( $entryTableEmail );
 			}
 
-			echo '<li>' , __( 'Porting email addresses...', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Porting email addresses...', 'connections' ) , "</li>\n";
 
 			$sql = 'SELECT DISTINCT `id`, `email` FROM ' . CN_ENTRY_TABLE;
 
@@ -418,11 +467,16 @@ function cnRunDBUpgrade() {
 					$order = 0;
 
 					foreach ( (array) $emailAddresses as $key => $email ) {
-						if ( empty( $email['address'] ) ) continue;
+						if ( empty( $email['address'] ) ) {
+							continue;
+						}
 
-						if ( empty( $email['type'] ) ) $email['type'] = 'personal';
+						if ( empty( $email['type'] ) ) {
+							$email['type'] = 'personal';
+						}
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -434,7 +488,8 @@ function cnRunDBUpgrade() {
 							0,
 							$email['type'],
 							$email['address'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -443,7 +498,7 @@ function cnRunDBUpgrade() {
 			}
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_MESSENGER_TABLE . "'" ) != CN_ENTRY_MESSENGER_TABLE ) {
-				echo '<li>' , __( 'Add the entry messenger table.', 'connections' ) , "</li>\n";
+				echo '<li>' , esc_html__( 'Add the entry messenger table.', 'connections' ) , "</li>\n";
 
 				$entryTableMessenger = "CREATE TABLE " . CN_ENTRY_MESSENGER_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -459,7 +514,7 @@ function cnRunDBUpgrade() {
 				dbDelta( $entryTableMessenger );
 			}
 
-			echo '<li>' , __( 'Porting IM IDs...', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Porting IM IDs...', 'connections' ) , "</li>\n";
 
 			$sql = 'SELECT DISTINCT `id`, `im` FROM ' . CN_ENTRY_TABLE;
 
@@ -471,9 +526,12 @@ function cnRunDBUpgrade() {
 					$order = 0;
 
 					foreach ( (array) $imIDs as $key => $network ) {
-						if ( empty( $network['id'] ) ) continue;
+						if ( empty( $network['id'] ) ) {
+							continue;
+						}
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -485,7 +543,8 @@ function cnRunDBUpgrade() {
 							0,
 							$network['type'],
 							$network['id'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -494,7 +553,7 @@ function cnRunDBUpgrade() {
 			}
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_SOCIAL_TABLE . "'" ) != CN_ENTRY_SOCIAL_TABLE ) {
-				echo '<li>' , __( 'Add the entry social media table.', 'connections' ) , "</li>\n";
+				echo '<li>' , esc_html__( 'Add the entry social media table.', 'connections' ) , "</li>\n";
 
 				$entryTableSocialMedia = "CREATE TABLE " . CN_ENTRY_SOCIAL_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -510,7 +569,7 @@ function cnRunDBUpgrade() {
 				dbDelta( $entryTableSocialMedia );
 			}
 
-			echo '<li>' , __( 'Porting Social Media IDs...', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Porting Social Media IDs...', 'connections' ) , "</li>\n";
 
 			$sql = 'SELECT DISTINCT `id`, `social` FROM ' . CN_ENTRY_TABLE;
 
@@ -522,9 +581,12 @@ function cnRunDBUpgrade() {
 					$order = 0;
 
 					foreach ( (array) $socialMediaIDs as $key => $network ) {
-						if ( empty( $network['url'] ) ) continue;
+						if ( empty( $network['url'] ) ) {
+							continue;
+						}
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -536,7 +598,8 @@ function cnRunDBUpgrade() {
 							0,
 							$network['type'],
 							$network['url'],
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -545,7 +608,7 @@ function cnRunDBUpgrade() {
 			}
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_LINK_TABLE . "'" ) != CN_ENTRY_LINK_TABLE ) {
-				echo '<li>' , __( 'Add the entry link table.', 'connections' ) , "</li>\n";
+				echo '<li>' , esc_html__( 'Add the entry link table.', 'connections' ) , "</li>\n";
 
 				$entryTableLink = "CREATE TABLE " . CN_ENTRY_LINK_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -564,7 +627,7 @@ function cnRunDBUpgrade() {
 				dbDelta( $entryTableLink );
 			}
 
-			echo '<li>' , __( 'Porting websites...', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Porting websites...', 'connections' ) , "</li>\n";
 
 			$sql = 'SELECT DISTINCT `id`, `websites` FROM ' . CN_ENTRY_TABLE;
 
@@ -576,9 +639,12 @@ function cnRunDBUpgrade() {
 					$order = 0;
 
 					foreach ( (array) $websites as $key => $website ) {
-						if ( empty( $website['address'] ) ) continue;
+						if ( empty( $website['address'] ) ) {
+							continue;
+						}
 
-						$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
+						$sql = $wpdb->prepare(
+                            'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -596,7 +662,8 @@ function cnRunDBUpgrade() {
 							$website['address'],
 							'new',
 							0,
-							'public' );
+							'public'
+						);
 
 						$wpdb->query( $sql );
 						$order++;
@@ -604,13 +671,17 @@ function cnRunDBUpgrade() {
 				}
 			}
 
-			echo '<li>' , __( 'Changing column name from websites to links...', 'connections' ) , "</li>\n";
-			if ( cnAlterTable( CN_ENTRY_TABLE , 'links' , 'CHANGE COLUMN websites links longtext NOT NULL' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Changing column name from websites to links...', 'connections' ) , "</li>\n";
+			if ( cnAlterTable( CN_ENTRY_TABLE, 'links', 'CHANGE COLUMN websites links longtext NOT NULL' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding column... "slug"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'slug', 'tinytext NOT NULL AFTER visibility' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding column... "slug"', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'slug', 'tinytext NOT NULL AFTER visibility' ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding entry slugs...', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Adding entry slugs...', 'connections' ) , "</li>\n";
 
 			$sql = 'SELECT id,
 						CASE entry_type
@@ -650,40 +721,111 @@ function cnRunDBUpgrade() {
 			 * Not a db upgrade but we'll drop this in here to make it simple.
 			 * This file is no longer needed so we'll try to remove it.
 			 */
-			if ( file_exists( ABSPATH . 'download.vCard.php' ) ) @unlink( ABSPATH . 'download.vCard.php' );
+			if ( file_exists( ABSPATH . 'download.vCard.php' ) ) {
+				@unlink( ABSPATH . 'download.vCard.php' );
+			}
 
 			// Create the cache folder.
 			wp_mkdir_p( CN_CACHE_PATH );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0746 );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0747 );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0756 );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0757 );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0764 );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0765 );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0766 );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0767 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0746 );
+			}
+
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0747 );
+			}
+
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0756 );
+			}
+
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0757 );
+			}
+
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0764 );
+			}
+
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0765 );
+			}
+
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0766 );
+			}
+
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) {
+				@chmod( CN_CACHE_PATH, 0767 );
+			}
 
 			// Create the images folder.
 			// wp_mkdir_p( CN_IMAGE_PATH );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0746 );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0747 );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0756 );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0757 );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0764 );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0765 );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0766 );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0767 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0746 );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0747 );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0756 );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0757 );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0764 );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0765 );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0766 );
+			}
+
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
+				@chmod( CN_IMAGE_PATH, 0767 );
+			}
 
 			// Create the custom template folder.
 			wp_mkdir_p( CN_CUSTOM_TEMPLATE_PATH );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0746 );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0747 );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0756 );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0757 );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0764 );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0765 );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0766 );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0767 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0746 );
+			}
+
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0747 );
+			}
+
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0756 );
+			}
+
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0757 );
+			}
+
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0764 );
+			}
+
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0765 );
+			}
+
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0766 );
+			}
+
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+				@chmod( CN_CUSTOM_TEMPLATE_PATH, 0767 );
+			}
 
 			$connections->options->setDBVersion( '0.1.6' );
 
@@ -692,15 +834,19 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.7', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.7.', 'connections'  ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.7.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 
-			echo '<li>' , __( 'Adding column "image" to the links table.', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'image', "tinyint unsigned NOT NULL default '0' AFTER follow" ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding column "image" to the links table.', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'image', "tinyint unsigned NOT NULL default '0' AFTER follow" ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding column "logo" to the links table.', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'logo', "tinyint unsigned NOT NULL default '0' AFTER image" ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding column "logo" to the links table.', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'logo', "tinyint unsigned NOT NULL default '0' AFTER image" ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
 			echo '</ul>';
 
@@ -711,31 +857,38 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.8', '<' ) ) {
-			$fields['fields_entry'] = array( 'family_name' ,
-				'first_name' ,
-				'middle_name' ,
-				'last_name' ,
-				'title' ,
-				'organization' ,
-				'department' ,
-				'contact_first_name' ,
-				'contact_last_name' ,
-				'bio' ,
-				'notes' );
-			$fields['fields_address'] = array( 'line_1' ,
-				'line_2' ,
-				'line_3' ,
-				'city' ,
-				'state' ,
-				'zipcode' ,
-				'country' );
+
+			$fields['fields_entry'] = array(
+				'family_name',
+				'first_name',
+				'middle_name',
+				'last_name',
+				'title',
+				'organization',
+				'department',
+				'contact_first_name',
+				'contact_last_name',
+				'bio',
+				'notes',
+			);
+
+			$fields['fields_address'] = array(
+				'line_1',
+				'line_2',
+				'line_3',
+				'city',
+				'state',
+				'zipcode',
+				'country',
+			);
+
 			$fields['fields_phone'] = array( 'number' );
 
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.8.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.8.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
-			echo '<p><strong>' , __( 'NOTE', 'connections' ) , ':</strong> ' , __( 'You might receive this error: "The used table type doesn\'t support FULLTEXT indexes".', 'connections' ) , '</p>';
+			echo '<p><strong>' , esc_html__( 'NOTE', 'connections' ) , ':</strong> ' , esc_html__( 'You might receive this error: "The used table type doesn\'t support FULLTEXT indexes".', 'connections' ) , '</p>';
 
-			echo '<p>' , __( 'This is not a critical error. What this means is that the database does not support FULLTEXT query statments. Connections will perform a secondary search query in order to return search results.', 'connections' ) , '</p>';
+			echo '<p>' , esc_html__( 'This is not a critical error. What this means is that the database does not support FULLTEXT query statments. Connections will perform a secondary search query in order to return search results.', 'connections' ) , '</p>';
 			echo '<ul>';
 
 			echo '<li>Adding FULLTEXT to ' . CN_ENTRY_TABLE . ' ' . "</li>\n";
@@ -749,14 +902,18 @@ function cnRunDBUpgrade() {
 
 			echo '</ul>';
 
-			echo '<p>' , __( 'The activate action for Connections 0.7.2.2 was not properly updated which created a fatal bug for new installations of Connections. Checking for the missing table columns in the Links table and add them, if missing.', 'connections' ) , '</p>';
+			echo '<p>' , esc_html__( 'The activate action for Connections 0.7.2.2 was not properly updated which created a fatal bug for new installations of Connections. Checking for the missing table columns in the Links table and add them, if missing.', 'connections' ) , '</p>';
 			echo '<ul>';
 
-			echo '<li>' , __( 'Adding, if missing, column "image" to the links table.', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'image', "tinyint unsigned NOT NULL default '0' AFTER follow" ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding, if missing, column "image" to the links table.', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'image', "tinyint unsigned NOT NULL default '0' AFTER follow" ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
-			echo '<li>' , __( 'Adding, if missing, column "logo" to the links table.', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'logo', "tinyint unsigned NOT NULL default '0' AFTER image" ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			echo '<li>' , esc_html__( 'Adding, if missing, column "logo" to the links table.', 'connections' ) , "</li>\n";
+			if ( cnAddTableColumn( CN_ENTRY_LINK_TABLE, 'logo', "tinyint unsigned NOT NULL default '0' AFTER image" ) ) {
+				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
+			}
 
 			echo '</ul>';
 
@@ -767,13 +924,13 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.9', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.9.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.9.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_DATE_TABLE . "'" ) != CN_ENTRY_DATE_TABLE ) {
 
-				echo '<li>' , __( 'Add the date table.', 'connections' ) , "</li>\n";
+				echo '<li>' , esc_html__( 'Add the date table.', 'connections' ) , "</li>\n";
 
 				$entryTableDate = "CREATE TABLE " . CN_ENTRY_DATE_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -790,18 +947,18 @@ function cnRunDBUpgrade() {
 				dbDelta( $entryTableDate );
 			}
 
-			echo '<li>' , __( 'Adding column... "user"', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Adding column... "user"', 'connections' ) , "</li>\n";
 
 			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'user', 'tinytext NOT NULL AFTER owner' ) ) {
 
-				echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+				echo '<ul><li>' , esc_html__( 'SUCCESS', 'connections' ) , '</li></ul>';
 			}
 
-			echo '<li>' , __( 'Adding column... "dates"', 'connections' ) , "</li>\n";
+			echo '<li>' , esc_html__( 'Adding column... "dates"', 'connections' ) , "</li>\n";
 
 			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'dates', 'longtext NOT NULL AFTER links' ) ) {
 
-				echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+				echo '<ul><li>' , esc_html__( 'SUCCESS', 'connections' ) , '</li></ul>';
 			}
 
 			echo '</ul>';
@@ -906,8 +1063,8 @@ function cnRunDBUpgrade() {
 			echo '</ul>' . PHP_EOL;
 		}
 
-		echo '<h4>' , __( 'Upgrade completed.', 'connections' ) , "</h4>\n";
-		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
+		echo '<h4>' , esc_html__( 'Upgrade completed.', 'connections' ) , "</h4>\n";
+		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , esc_html__( 'Continue', 'connections' ) , '</a></h4>';
 
 		$wpdb->hide_errors();
 	}
@@ -917,7 +1074,9 @@ function cnAlterTable( $tableName, $columnName, $sql ) {
 	global $wpdb;
 
 	foreach ( $wpdb->get_col( "SHOW COLUMNS FROM $tableName" ) as $column ) {
-		if ( $column == $columnName ) return TRUE;
+		if ( $column == $columnName ) {
+			return true;
+		}
 	}
 
 	// didn't find it try to create it.
@@ -939,7 +1098,9 @@ function cnAddTableColumn( $tableName, $columnName, $sql ) {
 	global $wpdb;
 
 	foreach ( $wpdb->get_col( "SHOW COLUMNS FROM $tableName" ) as $column ) {
-		if ( $column == $columnName ) return TRUE;
+		if ( $column == $columnName ) {
+			return true;
+		}
 	}
 
 	// didn't find it try to create it.
@@ -947,10 +1108,12 @@ function cnAddTableColumn( $tableName, $columnName, $sql ) {
 
 	// we cannot directly tell that whether this succeeded!
 	foreach ( $wpdb->get_col( "SHOW COLUMNS FROM $tableName" ) as $column ) {
-		if ( $column == $columnName ) return TRUE;
+		if ( $column == $columnName ) {
+			return true;
+		}
 	}
 
-	echo '<ul><li><strong>' , sprintf( __( 'Could not add column %1$s in table %2$s.', 'connections' ), $columnName, $tableName ), "</li></strong></ul>\n";
+	echo '<ul><li><strong>' , sprintf( esc_html__( 'Could not add column %1$s in table %2$s.', 'connections' ), $columnName, $tableName ), "</li></strong></ul>\n";
 
-	return FALSE;
+	return false;
 }

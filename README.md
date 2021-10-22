@@ -247,6 +247,148 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.4 10/22/2021 =
+
+* NOTICE: Requires at least WordPress 5.2.
+* NEW: Introduce `Utility\_sanitize`.
+* NEW: Introduce `_validate::isCSV()`.
+* NEW: Introduce `_sanitize::filePath()`.
+* NEW: Introduce `phpcs.xml`.
+* TWEAK: Discard current character query variable if supplied string is longer than a single character.
+* TWEAK: Use `absint()` instead of `esc_attr()` when using the Entry ID query var on the Manage admin page.
+* TWEAK: Escape html of setting description.
+* TWEAK: Process echoed JavaScript through `esc_js()`.
+* TWEAK: Process map pin popup through `wp_kses_post()`.
+* TWEAK: Remove unnecessary newlines.
+* TWEAK: Delete commented out code.
+* TWEAK: Refactor tabbed sub-panels on the Templates admin page to eliminate several phpcs WPCS warnings.
+* TWEAK: Remove HTML URL from translation.
+* TWEAK: Add `target="_blank"` to template author URL.
+* TWEAK: Change a couple private method to public so they can be access in filter callback.
+* TWEAK: Utilize the collection renderer to render the social networks on the manage admin page.
+* TWEAK: Correct send by AJAX check.
+* TWEAK: Set `json_decode()` to return associative array instead of object.
+* TWEAK: Use wp_json_encode() instead.
+* TWEAK: Increment operators should be used where possible.
+* TWEAK: Use `CN_parseCSV` version 1.1 during category import for PHP8 compatibility.
+* TWEAK: Introduce mapping method to map CSV data to new structure on CN_parseCSV 1.1.
+* TWEAK: Force balanced tags in `_escape::html()`.
+* TWEAK: Utilize `wp_safe_redirect()` instead of `wp_redirect()`.
+* TWEAK: Remove incorrect use of `esc_html__()` when registering settings.
+* TWEAK: Change the upgrade notice and changelog from `p` tags to `div` tags on the Plugins admin page.
+* TWEAK: Passing the $delimiter as the second parameter to `preg_quote()` is strongly recommended.
+* SECURITY: Validate and sanitize `$_GET['page']`.
+* SECURITY: Validate and sanitize `$_GET['cn-action']`.
+* SECURITY: Sanitize usage of a non-sanitized input variable.
+* SECURITY: All translated strings should be run through an escaping function.
+* SECURITY: Sanitize usage of a non-sanitized input variable.
+* SECURITY: All output should be run through an escaping function.
+* SECURITY: Use `esc_html__` instead of `__()`.
+* SECURITY: Sanitize admin keyword search field.
+* SECURITY: Sanitize current character request query variable.
+* SECURITY: Process the status filter links through `wp_kses()`.
+* SECURITY: Sanitize search query variable for pagination links.
+* SECURITY: Correct class name escaping.
+* SECURITY: Wrong escaping function, using `esc_attr()` in a context outside of HTML attributes may not escape properly.
+* SECURITY: Use isset() or empty() to check the index exists before using it and sanitize request variable.
+* SECURITY: Sanitize CSV file upload path.
+* SECURITY: Validate if file is a CSV file.
+* SECURITY: scape anchor text when outputting an anchor permalink.
+* SECURITY: Process the rank string through `wp_kses_post()` before outputting.
+* SECURITY: Escape edit permalink string.
+* SECURITY: Escape delete entry permalink string.
+* SECURITY: Escape permalink title attribute for vCard anchors.
+* SECURITY: Correctly strip tags and escape dashboard widget text.
+* SECURITY: Escape vCard permalink string.
+* SECURITY: Escape the no results string.
+* SECURITY: Escape the submit button title attribute.
+* SECURITY: Escape the title attribute of the current character.
+* SECURITY: Escape term list options.
+* SECURITY: Escape classnames.
+* SECURITY: Escape arguments passed to `_deprecated_argument()`, `_deprecated_function()`, and `_deprecated_hook()`.
+* SECURITY: Escape attributes when generating a permalink using `_url::permalink()`.
+* SECURITY: Escape arguments passed to `wp_dropdown_pages()`.
+* SECURITY: Escape plugin upgrade notice and changelog on Plugin admins page.
+* SECURITY: Escape admin notices.
+* COMPATIBILITY: Backport `is_gd_image()` from WordPress 5.6 to fix issues with resizing images using the GD library.
+* OTHER: Replace quotes.
+* OTHER: Correct typos.
+* OTHER: A gettext call containing placeholders was found, but was not accompanied by a "translators:" comment on the
+  line above to clarify the meaning of the placeholders.
+* OTHER: Remove extra parenthesis.
+* OTHER: Remove `error_log()` call.
+* DEV: Update `composer.json`.
+* DEV: Correct function spacing in passed arguments.
+* DEV: Ignore global override warning.
+* DEV: When a multi-item array uses associative keys, each value should start on a new line.
+* DEV: Inline control structures are not allowed.
+* DEV: Use of `extract()` is not recommended.
+* DEV: Parenthesis should always be used when instantiating a new object.
+* DEV: Opening brace must be the last content on the line.
+* DEV: There must be no blank lines before the file comment.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Use Yoda Condition checks, you must.
+* DEV: Use isset() or empty() to check the index exists before using it.
+* DEV: Each array item in a multi-line array declaration must end in a comma.
+* DEV: Inline PHP statement must end with a semicolon.
+* DEV: Opening/closing PHP tags must be on a line by themselves.
+* DEV: TRUE, FALSE and NULL must be lowercase.
+* DEV: Ignore instance of WordPress.NamingConventions.PrefixAllGlobals.
+* DEV: Ignore instance of WordPress.Security.EscapeOutput.OutputNotEscaped.
+* DEV: Ignore instance of WordPress.Arrays.MultipleStatementAlignment.
+* DEV: Ignore instance of WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound.
+* DEV: Ignore instance of phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital.
+* DEV: Opening PHP tag must be on a line by itself.
+* DEV: Closing PHP tag must be on a line by itself.
+* DEV: Ignore instance of WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound.
+* DEV: Add composer script.
+* DEV: Ignore instance of Generic.Commenting.DocComment.SpacingBeforeTags.
+* DEV: The CASE body must start on the line following the statement.
+* DEV: Detected usage of a possibly undefined superglobal array index: $_GET['id']. Use isset() or empty() to check the
+  index exists before using it.
+* DEV: The DEFAULT body must start on the line following the statement.
+* DEV: Equals sign not aligned with surrounding assignments.
+* DEV: Add inline code comments and doc block.
+* DEV: Use `mb_strlen()` instead of `strlen()`.
+* DEV: Ignore instance of WordPress.Security.ValidatedSanitizedInput.InputNotSanitized.
+* DEV: Remove instances of deprecated functions.
+* DEV: Array double arrow not aligned correctly.
+* DEV: Tabs must be used to indent lines; spaces are not allowed.
+* DEV: Missing short description in doc comment.
+* DEV: Concat operator must be surrounded by a single space.
+* DEV: HTTP links are not secure.
+* DEV: String concat is not required here; use a single string instead.
+* DEV: Ignore instance of Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps.
+* DEV: String "<td>" does not require double quotes; use single quotes instead.
+* DEV: Swap quotes.
+* DEV: Assignments must be the first block of code on a line.
+* DEV: Remove `esc_url()` from link since it escaped later.
+* DEV: Opening/closing parenthesis of a multi-line function call must be the last content on the line.
+* DEV: Remove unused local variable `$wp_roles`.
+* DEV: Ignore instance of phpcs:ignore WordPress.Security.NonceVerification.Recommended.
+* DEV: Ignore instance of phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
+* DEV: Correct array code alignment.
+* DEV: Remove unnecessary escaping.
+* DEV: phpDoc updates.
+* DEV: Ignore instance of phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+* DEV: Ignore instance of phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
+* DEV: Check variables are set before access.
+* DEV: Ignore instance of phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps.
+* DEV: Ignore instance of phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
+* DEV: Remove unnecessary validation when processing category CSV import.
+* DEV: Ignore instance of phpcs:ignore WordPress.Security.NonceVerification.Missing
+* DEV: Remove commented out code.
+* DEV: Check array key exists before access.
+* DEV: Ignore instance of phpcs:ignore
+  WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized.
+* DEV: Correct ternary syntax.
+* DEV: Remove unnecessary conditional.
+* DEV: Logical operator "or" is prohibited; use "||" instead.
+* DEV: "include" is a statement not a function; no parentheses are required.
+* DEV: WPCS fixes.
+* DEV: .gitignore PHPCS-report.txt.
+* DEV: Add "Requires at least" and "Requires PHP" to the plugin header.
+
 = 10.4.3 09/27/2021 =
 
 * SECURITY: Entry data on the Manage admin page should be escaped to prevent high level WordPress Users to perform
@@ -623,59 +765,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update Travis testing matrix.
 * DEV: Update min/max WP version in requirements check.
 * DEV: Update the dist files.
-
-= 9.9.1 07/22/2020 =
-* TWEAK: Set the related Content Block margin to 0 to ensure margins are not inherited from theme, plugins, and such.
-* BUG: Correct usage of the `cn_load_template` filter.
-* DEV: Update the dist files.
-
-= 9.9 07/17/2020 =
-* FEATURE: Introduce the Entries Nearby Content Block.
-* NEW: Introduce `cnArray::push()` helper method.
-* TWEAK: Make the image not available placeholder responsive friendly while retaining the aspect ratio.
-* TWEAK: Add a few basic styles to the Entry Actions vs relying on theme styling for lists.
-* TWEAK: Add a few basic styles for the Content Block layout for better more consistent presentation.
-* TWEAK: Introduce additional related carousel parameters that can be adjusted via a filter.
-* TWEAK: Add CSS to make the "image not available" placeholder responsive friendly while maintaining aspect ratio.
-* TWEAK: Make a few carousel CSS selectors a bit more specific to help ensure they are not easily overridden.
-* TWEAK: If the Content Block order has not yet been saved, fetch them via `cnOptions::getContentBlocks()`.
-* TWEAK: Flipped the logic when Content Blocks should be included/excluded.
-* TWEAK: Remove the hardcoded limit with querying related Entries. Instead, use the supplied attribute.
-* BUG: Prevent output of empty heading tags in Content Blocks.
-* BUG: The `$blocks` variable should always be defined.
-* OTHER: Readme.txt tweaks.
-* DEV: Update the dist files.
-
-= 9.8.2 07/11/2020 =
-* TWEAK: Remove unnecessary `trim` of Content Block IDs.
-* TWEAK: Simplify logic for excluding/including Content Blocks.
-* TWEAK: Include/exclude Content Blocks before setting up the block ID to avoid unnecessary processing.
-* TWEAK: Simplify the default parameters for Content Blocks.
-
-= 9.8.1 07/09/2020 =
-* BUG: Correct logic for the include parameter for Content Blocks.
-* BUG: Content Blocks need to default to the order of the `active` blocks and not the `order` of the `active` blocks.
-* OTHER: Add link to blog post in changelog.
-* I18N: Update POT file.
-* I18N: Update MO files.
-
-= 9.8 07/07/2020 =
-* FEATURE: Add 10 "Related To Entry" Content Blocks.
-* NEW: Add `id__not_in` parameter to `cnRetrieve::entries()`
-* NEW: Introduce `cnUtility::numHash()`.
-* NEW: Introduce the `cn_entry_query_random_seed` filter.
-* NEW: Add Entry helper functions class. Includes the `relatedTo()` helper method.
-* TWEAK: Pass the entry object in the bio, excerpt and note filter.
-* TWEAK: `Content_Block::content()` should echo not return string.
-* TWEAK: Correct `implode()` parameters.
-* TWEAK: Make carousels show one slide and scroll one slide in mobile.
-* TWEAK: Ensure uniform Content Block ID attribute when rendered via action or thru the Content Block API.
-* TWEAK: Set called class short-name property when constructing a Content Block to utilize in dynamic hooks.
-* TWEAK: Update hooks to make them dynamic utilizing the called class short-name.
-* TWEAK: Move the HTML markup from the `heading()` method in the Content Block to the `render()` method for uniformity with other class methods. This also allows for easier setting of the heading parameter to allow for dynamic Content Block headings.
-* TWEAK: Update the Static Google Maps Content Block to utilize the Entry helper functions class.
-* OTHER: Correct misspelling.
-* DEV: Add phpDoc.
-* DEV: Update rinvex/countries to version 7.0.1.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

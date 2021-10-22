@@ -269,7 +269,7 @@ class cnCSV_Export {
 		header( 'Content-Disposition: attachment; filename=cn-export-' . $this->type . '-' . date( 'm-d-Y' ) . '.csv' );
 		header( "Expires: 0" );
 
-		$addBOM = apply_filters( 'cn_export_add_bom', TRUE );
+		$addBOM = apply_filters( 'cn_export_add_bom', true );
 
 		if ( $addBOM ) {
 
@@ -302,8 +302,8 @@ class cnCSV_Export {
 
 		if ( ! $this->can_export() ) {
 			wp_die(
-				__( 'You do not have permission to export data.', 'connections' ),
-				__( 'Error', 'connections' ),
+				esc_html__( 'You do not have permission to export data.', 'connections' ),
+				esc_html__( 'Error', 'connections' ),
 				array( 'response' => 403 )
 			);
 		}

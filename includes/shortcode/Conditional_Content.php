@@ -405,7 +405,7 @@ class Conditional_Content extends cnShortcode {
 	 *
 	 * @return bool
 	 */
-	private function isCategory( $parameter ) {
+	public function isCategory( $parameter ) {
 
 		$condition  = false;
 		$queryValue = cnQuery::getVar( 'cn-cat', cnQuery::getVar( 'cn-cat-slug', false ) );
@@ -477,7 +477,7 @@ class Conditional_Content extends cnShortcode {
 	 *
 	 * @return bool
 	 */
-	private function isSearch() {
+	public function isSearch() {
 
 		return cnQuery::getVar( 'cn-s' ) ? true : false;
 	}

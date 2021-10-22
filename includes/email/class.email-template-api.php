@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnEmail_Template
@@ -111,8 +113,8 @@ class cnEmail_Template {
 			'path'        => '',
 			'url'         => '',
 			'thumbnail'   => '',
-			'parts'       => array()
-			);
+			'parts'       => array(),
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
@@ -122,10 +124,14 @@ class cnEmail_Template {
 		extract( $atts );
 
 		// Since the template slug is optional, but required, we'll create the slug from the template's name.
-		if ( empty( $slug ) ) $slug = $atts['slug'] = sanitize_title_with_dashes( $name, '', 'save' );
+		if ( empty( $slug ) ) {
+			$slug = $atts['slug'] = sanitize_title_with_dashes( $name, '', 'save' );
+		}
 
 		// PHP 5.4 warning fix.
-		if ( ! isset( self::$templates->{ $slug } ) ) self::$templates->{ $slug } = new stdClass();
+		if ( ! isset( self::$templates->{$slug} ) ) {
+			self::$templates->{$slug} = new stdClass();
+		}
 
 		self::$templates->{ $slug } = (object) $atts;
 	}
@@ -140,7 +146,7 @@ class cnEmail_Template {
 	 */
 	public static function get( $slug ) {
 
-		return isset( self::$templates->{ $slug } ) ? self::$templates->{ $slug } : FALSE;
+		return isset( self::$templates->{ $slug } ) ? self::$templates->{ $slug } : false;
 
 	}
 
@@ -246,7 +252,7 @@ class cnEmail_Template {
 
 		$tags = array('</p>', '<br />', '<br/>', '<br>', '<hr />', '<hr>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</tr>');
 
-		$content = wpautop( $content, TRUE );
+		$content = wpautop( $content, true );
 
 		$content = str_ireplace( $tags, "\r\n", $content );
 

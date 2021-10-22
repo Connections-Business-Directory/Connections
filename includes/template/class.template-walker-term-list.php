@@ -11,6 +11,7 @@
  */
 
 use Connections_Directory\Taxonomy\Term;
+use Connections_Directory\Utility\_escape;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -82,17 +83,17 @@ class CN_Walker_Term_List extends Walker {
 			'show_option_none' => __( 'No categories', 'connections' ),
 			'orderby'          => 'name',
 			'order'            => 'ASC',
-			'show_count'       => FALSE,
-			'hide_empty'       => FALSE,
+			'show_count'       => false,
+			'hide_empty'       => false,
 			'child_of'         => 0,
 			'exclude'          => array(),
-			'hierarchical'     => TRUE,
+			'hierarchical'     => true,
 			'depth'            => 0,
 			'parent_id'        => array(),
 			'taxonomy'         => 'category',
-			'force_home'       => FALSE,
+			'force_home'       => false,
 			'home_id'          => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-			'return'           => FALSE,
+			'return'           => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -116,7 +117,9 @@ class CN_Walker_Term_List extends Walker {
 			// so the term tree will be properly constructed.
 			foreach ( $terms as $term ) {
 
-				if ( 0 !== $term->parent ) $term->parent = 0;
+				if ( 0 !== $term->parent ) {
+					$term->parent = 0;
+				}
 			}
 
 			foreach ( $atts['parent_id'] as $termID ) {
@@ -143,13 +146,12 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array $atts  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_list_class', array( 'cn-cat-tree' ), $terms, $atts );
-		$class = cnHTML::escapeClassnames( $class );
 
-		$out .= '<ul class="' . $class . '">' . PHP_EOL;
+		$out .= '<ul class="' . _escape::classNames( $class ) . '">' . PHP_EOL;
 
 		if ( empty( $terms ) ) {
 
-			$out .= '<li class="cat-item-none">' . $atts['show_option_none'] . '</li>';
+			$out .= '<li class="cat-item-none">' . esc_html( $atts['show_option_none'] ) . '</li>';
 
 		} else {
 
@@ -182,7 +184,7 @@ class CN_Walker_Term_List extends Walker {
 
 			if ( ! empty( $atts['show_option_all'] ) ) {
 
-				$out .= '<li class="cat-item-all"><a href="' . cnURL::permalink( array( 'type' => 'home', 'data' => 'url', 'return' => TRUE ) )  . '">' . $atts['show_option_all'] . '</a></li>';
+				$out .= '<li class="cat-item-all"><a href="' . cnURL::permalink( array( 'type' => 'home', 'data' => 'url', 'return' => true ) ) . '">' . esc_html( $atts['show_option_all'] ) . '</a></li>';
 			}
 
 			$out .= $walker->walk( $terms, $atts['depth'], $atts );
@@ -195,7 +197,7 @@ class CN_Walker_Term_List extends Walker {
 			return $out;
 		}
 
-		echo $out;
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -295,7 +297,7 @@ class CN_Walker_Term_List extends Walker {
 			$term->taxonomy,
 			array(
 				'parent'     => $term->term_id,
-				'hide_empty' => FALSE,
+				'hide_empty' => false,
 				'fields'     => 'count',
 				)
 		);

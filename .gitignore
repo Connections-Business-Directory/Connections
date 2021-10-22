@@ -91,3 +91,4 @@ composer.lock
 /vendor/phpdocumentor/
 /vendor/phpspec/
 /vendor/webmozart/
+/PHPCS-report.txt

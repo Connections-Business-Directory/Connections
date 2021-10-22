@@ -105,7 +105,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 					'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 					'args'                => array(
 						'force' => array(
-							'default'     => FALSE,
+							'default'     => false,
 							'description' => __( 'Required to be true, as terms do not support trashing.', 'connections' ),
 						),
 					),
@@ -136,7 +136,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			);
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -172,9 +172,9 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			$prepared_args['offset'] = ( $request['page'] - 1 ) * $prepared_args['number'];
 		}
 
-		//$taxonomy_obj = get_taxonomy( $this->taxonomy );
+		// $taxonomy_obj = get_taxonomy( $this->taxonomy );
 
-		//if ( $taxonomy_obj->hierarchical && isset( $request['parent'] ) ) {
+		// if ( $taxonomy_obj->hierarchical && isset( $request['parent'] ) ) {
 		if ( 0 === $request['parent'] ) {
 			// Only query top-level terms.
 			$prepared_args['parent'] = 0;
@@ -183,7 +183,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 				$prepared_args['parent'] = $request['parent'];
 			}
 		}
-		//}
+		// }
 
 		/**
 		 * Filter the query arguments, before passing them to `cnTerm::getTaxonomyTerms()`.
@@ -211,7 +211,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			$count_args = $prepared_args;
 			unset( $count_args['number'] );
 			unset( $count_args['offset'] );
-			$count_args['hide_empty'] = FALSE;
+			$count_args['hide_empty'] = false;
 			$count_args['fields']     = 'count';
 			$total_terms = cnTerm::getTaxonomyTerms( $this->taxonomy, $count_args );
 
@@ -293,7 +293,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			);
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -445,7 +445,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_cannot_update', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -493,7 +493,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		$term = cnTerm::get( (int) $request['id'], $this->taxonomy );
 
 		/* This action is documented in lib/endpoints/class-wp-rest-terms-controller.php */
-		do_action( "cn_rest_insert_{$this->taxonomy}", $term, $request, FALSE );
+		do_action( "cn_rest_insert_{$this->taxonomy}", $term, $request, false );
 
 		$fields_update = $this->update_additional_fields_for_object( $term, $request );
 
@@ -533,7 +533,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_cannot_delete', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -548,7 +548,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	 */
 	public function delete_item( $request ) {
 
-		$force = isset( $request['force'] ) ? (bool) $request['force'] : FALSE;
+		$force = isset( $request['force'] ) ? (bool) $request['force'] : false;
 
 		// We don't support trashing for this type, error out
 		if ( ! $force ) {
@@ -741,7 +741,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 				$links['up'] = array(
 					'href'       => rest_url( trailingslashit( $base ) . $parent_term->term_id ),
-					'embeddable' => TRUE,
+					'embeddable' => true,
 				);
 			}
 		}
@@ -866,7 +866,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	public function get_collection_params() {
 
 		$query_params = parent::get_collection_params();
-		//$taxonomy = get_taxonomy( $this->taxonomy );
+		// $taxonomy = get_taxonomy( $this->taxonomy );
 
 		$query_params['context']['default'] = 'view';
 
@@ -923,7 +923,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		$query_params['hide_empty'] = array(
 			'description'           => __( 'Whether to hide resources not assigned to any posts.', 'connections' ),
 			'type'                  => 'boolean',
-			'default'               => FALSE,
+			'default'               => false,
 			'validate_callback'     => 'rest_validate_request_arg',
 		);
 
@@ -937,7 +937,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		$query_params['post'] = array(
 			'description'           => __( 'Limit result set to resources assigned to a specific post.', 'connections' ),
 			'type'                  => 'integer',
-			'default'               => NULL,
+			'default'               => null,
 			'validate_callback'     => 'rest_validate_request_arg',
 		);
 

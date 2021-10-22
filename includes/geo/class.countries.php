@@ -20,7 +20,7 @@ class cnCountries {
 	 *
 	 * @return array|WP_Error
 	 */
-	public static function getAll( $detailed = FALSE, $return = OBJECT ) {
+	public static function getAll( $detailed = false, $return = OBJECT ) {
 
 		$list = $detailed ? 'longlist' : 'shortlist';
 
@@ -28,7 +28,7 @@ class cnCountries {
 
 			self::$countries[ $list ] = json_decode(
 				self::getFile( CN_PATH . 'vendor/rinvex/resources/data/' . $list . '.json' ),
-				TRUE
+				true
 			);
 		}
 
@@ -74,7 +74,7 @@ class cnCountries {
 
 			if ( ! is_wp_error( $file ) ) {
 
-				$json = json_decode( $file, TRUE );
+				$json = json_decode( $file, true );
 
 				if ( is_null( $json ) ) {
 

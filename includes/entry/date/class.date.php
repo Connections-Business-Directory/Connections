@@ -70,7 +70,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 
 		$this->id         = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred        = cnArray::get( $data, 'preferred', FALSE );
+		$preferred        = cnArray::get( $data, 'preferred', false );
 
 		$type             = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
@@ -78,7 +78,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		//$this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
+		// $this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
 
 		$this->date       = date_create(
 			cnArray::get( $data, 'date', '' ),
@@ -92,7 +92,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		 * // END -- Compatibility for previous versions.
 		 */
 
-		//$this->name = $types[ $this->type ];
+		// $this->name = $types[ $this->type ];
 		$this->name = array_key_exists( $this->type, $types ) ? $types[ $this->type ] : $default[ $this->type ];
 
 		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.
@@ -133,7 +133,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$self->visibility = cnSanitize::field( 'attribute', $self->visibility, $context );
 		$self->order      = absint( $self->order );
 		$self->preferred  = cnFormatting::toBoolean( $self->preferred );
-		//$self->date       = cnSanitize::field( 'date', $self->date, $context );
+		// $self->date       = cnSanitize::field( 'date', $self->date, $context );
 
 		return $self;
 	}
@@ -159,7 +159,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 	 */
 	public function setDate( $date ) {
 
-		//$this->date = cnSanitize::field( 'date', $date, 'raw' );
+		// $this->date = cnSanitize::field( 'date', $date, 'raw' );
 
 		$this->date = date_create( $date, new DateTimeZone( 'UTC' ) );
 

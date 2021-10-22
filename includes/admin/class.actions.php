@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for processing admin action.
  *
@@ -10,9 +9,13 @@
  * @since       0.7.5
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+use Connections_Directory\Utility\_sanitize;
+use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\categoryManagement;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\deleteCategory;
@@ -22,53 +25,51 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 
 /**
  * Class cnAdminActions
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnAdminActions {
 
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
 	 * @since 0.7.5
-	 * @var (object)
-	*/
+	 * @var static
+	 */
 	private static $instance;
 
 	/**
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
-	 * @access public
 	 * @since 0.7.5
-	 * @see cnAdminActions::init()
-	 * @see cnAdminActions();
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
-	 * Setup the class, if it has already been initialized, return the initialized instance.
+	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
-	 * @access public
+	 * @see cnAdminFunction::init()
+	 *
 	 * @since 0.7.5
-	 * @see cnAdminActions()
 	 */
 	public static function init() {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			self::register();
 			self::doActions();
-
 		}
-
 	}
 
 	/**
 	 * Return an instance of the class.
 	 *
-	 * @access public
-	 * @since  0.7.5
+	 * @since 0.7.5
 	 *
 	 * @return cnAdminActions
 	 */
@@ -80,16 +81,11 @@ class cnAdminActions {
 	/**
 	 * Register admin actions.
 	 *
-	 * @access private
-	 * @since  0.7.5
-	 *
-	 * @uses   add_action()
-	 *
-	 * @return void
+	 * @since 0.7.5
 	 */
 	private static function register() {
 
-		// Entry Actions
+		// Entry Actions.
 		add_action( 'cn_add_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_update_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_duplicate_entry', array( __CLASS__, 'processEntry' ) );
@@ -97,34 +93,34 @@ class cnAdminActions {
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
 
 		// Process entry categories. - Deprecated since 10.2, no longer used.
-		//add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
+		// add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
 
-		// Entry Meta Action
+		// Entry Meta Action.
 		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
 
 		// Save the user's manage admin page actions.
 		add_action( 'cn_manage_actions', array( __CLASS__, 'entryManagement' ) );
 		add_action( 'cn_filter', array( __CLASS__, 'userFilter' ) );
 
-		// Role Actions
+		// Role Actions.
 		add_action( 'cn_update_role_capabilities', array( __CLASS__, 'updateRoleCapabilities' ) );
 
 		// Category Actions - Deprecated since 10.2, no longer used.
-		//add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
-		//add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
-		//add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
-		//add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
+		// add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
+		// add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
+		// add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
+		// add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
 
-		// Term Actions
+		// Term Actions.
 		add_action( 'cn_add-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'addTerm' ) );
 		add_action( 'cn_update-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'updateTerm' ) );
 		add_action( 'cn_delete-term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTerm' ) );
 		add_action( 'cn_bulk-term-action', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'bulkTerm' ) );
 
-		// Term Meta Actions
+		// Term Meta Actions.
 		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
 
-		// Template Actions
+		// Template Actions.
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
 		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
 
@@ -160,39 +156,32 @@ class cnAdminActions {
 		// Add the Connections Tab to the Add Plugins admin page.
 		add_filter( 'install_plugins_tabs', array( __CLASS__, 'installTab' ) );
 
-		// Setup the plugins_api() arguments.
+		// Set up the plugins_api() arguments.
 		add_filter( 'install_plugins_table_api_args_connections', array( __CLASS__, 'installArgs' ) );
 	}
 
 	/**
 	 * Run admin actions.
 	 *
-	 * @access private
-	 * @since  0.7.5
-	 *
-	 * @uses   do_action()
-	 *
-	 * @return void
+	 * @since 0.7.5
 	 */
 	private static function doActions() {
 
-		if ( isset( $_POST['cn-action'] ) ) {
+		if ( isset( $_POST['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			do_action( 'cn_' . $_POST['cn-action'] );
+			do_action( 'cn_' . sanitize_key( $_POST['cn-action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		}
 
-		if ( isset( $_GET['cn-action'] ) ) {
+		if ( isset( $_GET['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-			do_action( 'cn_' . $_GET['cn-action'] );
+			do_action( 'cn_' . sanitize_key( $_GET['cn-action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 	}
 
 	/**
 	 * AJAX callback used to download the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 */
 	public static function downloadSystemInfo() {
 
@@ -209,9 +198,7 @@ class cnAdminActions {
 	/**
 	 * AJAX callback to email the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 */
 	public static function emailSystemInfo() {
 
@@ -226,22 +213,25 @@ class cnAdminActions {
 
 		/**
 		 * Since email is sent via an ajax request, let's check for the appropriate header.
-		 * @link http://davidwalsh.name/detect-ajax
+		 *
+		 * @link https://davidwalsh.name/detect-ajax
 		 */
-		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || 'xmlhttprequest' != strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && 'xmlhttprequest' !== strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 			wp_send_json( -3 );
 		}
 
 		$user = wp_get_current_user();
 
+		// phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 		$atts = array(
 			'from_email' => $user->user_email,
 			'from_name'  => $user->display_name,
-			'to_email'   => $_POST['email'],
-			'subject'    => $_POST['subject'],
-			'message'    => $_POST['message'],
+			'to_email'   => isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '',
+			'subject'    => isset( $_POST['subject'] ) ? sanitize_text_field( $_POST['subject'] ) : '',
+			'message'    => isset( $_POST['message'] ) ? sanitize_textarea_field( $_POST['message'] ) : '',
 		);
+		// phpcs:enable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
 		$response = cnSystem_Info::email( $atts );
 
@@ -255,7 +245,9 @@ class cnAdminActions {
 			/** @var PHPMailer $phpmailer */
 			global $phpmailer;
 
+			// phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 			wp_send_json( $phpmailer->ErrorInfo );
+			// phpcs:enable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 		}
 	}
 
@@ -264,11 +256,10 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function generateSystemInfoURL() {
 
-		if ( ! check_ajax_referer( 'generate_remote_system_info_url', FALSE, FALSE ) ) {
+		if ( ! check_ajax_referer( 'generate_remote_system_info_url', false, false ) ) {
 
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
@@ -293,7 +284,7 @@ class cnAdminActions {
 
 		wp_send_json_success(
 			array(
-				'url' => $url,
+				'url'     => $url,
 				'message' => __( 'Secret URL has been created.', 'connections' ),
 			)
 		);
@@ -304,11 +295,10 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function revokeSystemInfoURL() {
 
-		if ( ! check_ajax_referer( 'revoke_remote_system_info_url', FALSE, FALSE ) ) {
+		if ( ! check_ajax_referer( 'revoke_remote_system_info_url', false, false ) ) {
 
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
@@ -328,7 +318,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function downloadSettings() {
 
@@ -347,7 +336,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
 	 */
 	public static function importSettings() {
 
@@ -358,22 +346,24 @@ class cnAdminActions {
 			wp_send_json( __( 'You do not have sufficient permissions to import the settings.', 'connections' ) );
 		}
 
-		if ( 'json' != pathinfo( $_FILES['import_file']['name'], PATHINFO_EXTENSION ) ) {
+		$file = sanitize_text_field( wp_unslash( $_FILES['import_file']['name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+
+		if ( 'json' !== pathinfo( $file, PATHINFO_EXTENSION ) ) {
 
 			wp_send_json( __( 'Please upload a .json file.', 'connections' ) );
 		}
 
-		$file = $_FILES['import_file']['tmp_name'];
+		$file = sanitize_text_field( wp_unslash( $_FILES['import_file']['tmp_name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		if ( empty( $file ) ) {
 
 			wp_send_json( __( 'Please select a file to import.', 'connections' ) );
 		}
 
-		$json   = file_get_contents( $file );
+		$json   = file_get_contents( $file ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
 		$result = cnSettingsAPI::import( $json );
 
-		if ( TRUE === $result ) {
+		if ( true === $result ) {
 
 			wp_send_json( __( 'Settings have been imported.', 'connections' ) );
 
@@ -388,24 +378,15 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   do_action()
-	 * @uses   wp_verify_nonce()
-	 * @uses   wp_die()
-	 * @uses   __()
-	 * @uses   cnCSV_Batch_Export_Addresses()
-	 * @uses   cnCSV_Batch_Export_Phone_Numbers()
-	 * @uses   cnCSV_Batch_Export_Email()
-	 * @uses   cnCSV_Batch_Export_Dates()
 	 */
 	public static function csvExportBatchDownload() {
 
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'cn-batch-export-download' ) ) {
+		if ( ! isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), 'cn-batch-export-download' ) ) {
 
-			wp_die( __( 'Nonce verification failed.', 'connections' ), __( 'Error', 'connections' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Nonce verification failed.', 'connections' ), esc_html__( 'Error', 'connections' ), array( 'response' => 403 ) );
 		}
 
-		$type = esc_attr( $_REQUEST['type'] );
+		$type = isset( $_REQUEST['type'] ) ? sanitize_key( $_REQUEST['type'] ) : '';
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -413,7 +394,6 @@ class cnAdminActions {
 		switch ( $type ) {
 
 			case 'address':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
 
 				$export = new cnCSV_Batch_Export_Addresses();
@@ -421,7 +401,6 @@ class cnAdminActions {
 				break;
 
 			case 'phone':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
 
 				$export = new cnCSV_Batch_Export_Phone_Numbers();
@@ -429,7 +408,6 @@ class cnAdminActions {
 				break;
 
 			case 'email':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
 
 				$export = new cnCSV_Batch_Export_Email();
@@ -437,7 +415,6 @@ class cnAdminActions {
 				break;
 
 			case 'date':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
 
 				$export = new cnCSV_Batch_Export_Dates();
@@ -445,7 +422,6 @@ class cnAdminActions {
 				break;
 
 			case 'category':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
 
 				$export = new cnCSV_Batch_Export_Term();
@@ -453,7 +429,6 @@ class cnAdminActions {
 				break;
 
 			case 'all':
-
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
 
 				$export = new cnCSV_Batch_Export_All();
@@ -461,7 +436,6 @@ class cnAdminActions {
 				break;
 
 			default:
-
 				/**
 				 * All plugins to run their own download callback function.
 				 *
@@ -479,12 +453,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Addresses()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportAddresses() {
 
@@ -494,7 +462,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Addresses();
 		$nonce  = wp_create_nonce( 'export_csv_addresses' );
 
@@ -513,7 +481,7 @@ class cnAdminActions {
 
 		check_ajax_referer( 'set_category_div_height' );
 
-		$height = absint( $_POST['height'] );
+		$height = isset( $_POST['height'] ) ? absint( $_POST['height'] ) : 200;
 
 		if ( Connections_Directory()->currentUser->setCategoryDivHeight( $height ) ) {
 
@@ -571,18 +539,18 @@ class cnAdminActions {
 			'page'     => $paged,
 			'per_page' => $per_page,
 			'fields'   => array(
-				'last_updated'    => TRUE,
-				'icons'           => TRUE,
-				'active_installs' => TRUE,
+				'last_updated'    => true,
+				'icons'           => true,
+				'active_installs' => true,
 			),
-			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
+			// Send the locale and installed plugin slugs to the API, so it can provide context-sensitive results.
 			'locale'   => get_user_locale(),
-			//'installed_plugins' => $this->get_installed_plugin_slugs(),
+			// 'installed_plugins' => $this->get_installed_plugin_slugs(),
 		);
 
 		$args['installed_plugins'] = array( 'connections' );
-		$args['author'] = 'shazahm1hotmailcom';
-		//$args['search'] = 'Connections Business Directory';
+		$args['author']            = 'shazahm1hotmailcom';
+		// $args['search'] = 'Connections Business Directory';
 
 		add_action( 'install_plugins_connections', array( __CLASS__, 'installResults' ), 9, 1 );
 
@@ -609,27 +577,39 @@ class cnAdminActions {
 			if ( is_array( $item ) ) {
 
 				// Remove the core plugin.
-				if ( 'connections' === $item['slug'] ) unset( $wp_list_table->items[ $key ] );
+				if ( 'connections' === $item['slug'] ) {
+
+					unset( $wp_list_table->items[ $key ] );
+				}
 
 				// Remove any items which do not have Connections in its name.
-				if ( FALSE === strpos( $item['name'], 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+				if ( false === strpos( $item['name'], 'Connections' ) ) {
+
+					unset( $wp_list_table->items[ $key ] );
+				}
 
 			} elseif ( is_object( $item ) ) {
 
-				if ( 'connections' === $item->slug ) unset( $wp_list_table->items[ $key ] );
+				if ( 'connections' === $item->slug ) {
 
-				if ( FALSE === strpos( $item->name, 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+					unset( $wp_list_table->items[ $key ] );
+				}
+
+				if ( false === strpos( $item->name, 'Connections' ) ) {
+
+					unset( $wp_list_table->items[ $key ] );
+				}
 			}
-
 		}
 
 		// Save the items from the original query.
-		$core            = $wp_list_table->items;
+		$core = $wp_list_table->items;
 
 		// Affiliate URL and preg replace pattern.
 		$tslAffiliateURL = 'https://tinyscreenlabs.com/?tslref=connections';
 		$pattern         = "/(?<=href=(\"|'))[^\"']+(?=(\"|'))/";
 
+		// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 		//$mam = plugins_api(
 		//	'plugin_information',
 		//	array(
@@ -643,21 +623,23 @@ class cnAdminActions {
 		//		'installed_plugins' => array( 'connections' ),
 		//	)
 		//);
+		// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 		$offers = plugins_api(
 			'plugin_information',
 			array(
 				'slug'              => 'connections-business-directory-offers',
 				'fields'            => array(
-					'last_updated'    => TRUE,
-					'icons'           => TRUE,
-					'active_installs' => TRUE,
+					'last_updated'    => true,
+					'icons'           => true,
+					'active_installs' => true,
 				),
 				'locale'            => get_user_locale(),
 				'installed_plugins' => array( 'connections' ),
 			)
 		);
 
+		// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 		//$tsl = plugins_api(
 		//	'query_plugins',
 		//	array(
@@ -692,11 +674,12 @@ class cnAdminActions {
 		//		}
 		//	}
 		//}
+		// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 		?>
 		<form id="plugin-filter" method="post">
 			<?php
-			//$wp_list_table->display();
+			// $wp_list_table->display();
 			$wp_list_table->_pagination_args = array();
 
 			if ( 0 < count( $core ) ) {
@@ -704,6 +687,7 @@ class cnAdminActions {
 				self::installDisplayGroup( 'Free' );
 			}
 
+			// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 			//if ( ! is_wp_error( $mam ) ) {
 			//
 			//	// Update the links to TSL to use the affiliate URL.
@@ -713,12 +697,13 @@ class cnAdminActions {
 			//	$wp_list_table->items = array( $mam );
 			//	self::installDisplayGroup( 'Mobile App' );
 			//}
+			// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 			if ( ! is_wp_error( $offers ) ) {
 
 				// Update the links to TSL to use the affiliate URL.
 				$offers->homepage = $tslAffiliateURL;
-				$offers->author = preg_replace( $pattern, $tslAffiliateURL, $offers->author );
+				$offers->author   = preg_replace( $pattern, $tslAffiliateURL, $offers->author );
 
 				$wp_list_table->items = array( $offers );
 				self::installDisplayGroup( 'Third Party' );
@@ -744,7 +729,7 @@ class cnAdminActions {
 		/** @var WP_Plugin_Install_List_Table $wp_list_table */
 		global $wp_list_table;
 
-		// needs an extra wrapping div for nth-child selectors to work
+		// Needs an extra wrapping div for nth-child selectors to work.
 		?>
 		<div class="plugin-group"><h3> <?php echo esc_html( $name ); ?></h3>
 			<div class="plugin-items">
@@ -760,12 +745,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Phone_Numbers()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportPhoneNumbers() {
 
@@ -775,7 +754,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Phone_Numbers();
 		$nonce  = wp_create_nonce( 'export_csv_phone_numbers' );
 
@@ -787,12 +766,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Email()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportEmail() {
 
@@ -802,7 +775,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Email();
 		$nonce  = wp_create_nonce( 'export_csv_email' );
 
@@ -814,12 +787,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportDates() {
 
@@ -829,7 +796,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Dates();
 		$nonce  = wp_create_nonce( 'export_csv_dates' );
 
@@ -841,12 +808,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportTerm() {
 
@@ -856,7 +817,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_Term();
 		$nonce  = wp_create_nonce( 'export_csv_term' );
 
@@ -868,18 +829,12 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5.5
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvImportTerm() {
 
 		check_ajax_referer( 'import_csv_term' );
 
-		if ( ! wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'import_csv_term' ) ) {
+		if ( ! isset( $_REQUEST['_ajax_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['_ajax_nonce'] ), 'import_csv_term' ) ) {
 
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'connections' ) ) );
 		}
@@ -893,8 +848,9 @@ class cnAdminActions {
 			);
 		}
 
-		if ( empty( $_REQUEST['file']['type'] ) ||
-		     ( ! in_array( wp_unslash( $_REQUEST['file']['type'] ), array( 'text/csv', 'text/plain' ), TRUE ) ) ) {
+		$path = isset( $_REQUEST['file']['path'] ) ? _sanitize::filePath( wp_unslash( $_REQUEST['file']['path'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		if ( empty( $path ) || ! file_exists( $path ) || ! _validate::isCSV( $path ) ) {
 			wp_send_json_error(
 				array(
 					'message' => __( 'The uploaded file does not appear to be a CSV file.', 'connections' ),
@@ -903,23 +859,11 @@ class cnAdminActions {
 			);
 		}
 
-		if ( ! file_exists( $_REQUEST['file']['path'] ) ) {
-			wp_send_json_error(
-				array(
-					'message' => __(
-						'Something went wrong during the upload process, please try again.',
-						'connections'
-					),
-					'request' => $_REQUEST,
-				)
-			);
-		}
-
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 		require_once CN_PATH . 'includes/import/class.csv-import-batch-category.php';
 
-		$step   = absint( $_REQUEST['step'] );
-		$import = new cnCSV_Batch_Import_Term( $_REQUEST['file']['path'] );
+		$step   = isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1;
+		$import = new cnCSV_Batch_Import_Term( $path );
 		$nonce  = wp_create_nonce( 'import_csv_term' );
 
 		self::csvBatchImport( $import, 'category', $step, $nonce );
@@ -930,12 +874,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5.1
-	 *
-	 * @uses   check_ajax_referer()
-	 * @uses   absint()
-	 * @uses   cnCSV_Batch_Export_Dates()
-	 * @uses   wp_create_nonce()
-	 * @uses   cnAdminActions::csvBatchExport()
 	 */
 	public static function csvExportAll() {
 
@@ -945,7 +883,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
 
-		$step   = absint( $_POST['step'] );
+		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
 		$export = new cnCSV_Batch_Export_All();
 		$nonce  = wp_create_nonce( 'export_csv_all' );
 
@@ -957,12 +895,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.5
-	 *
-	 * @uses   wp_send_json_error()
-	 * @uses   is_wp_error()
-	 * @uses   wp_send_json_success()
-	 * @uses   wp_create_nonce()
-	 * @uses   self_admin_url()
 	 *
 	 * @param cnCSV_Batch_Export $export
 	 * @param string             $type
@@ -1007,11 +939,9 @@ class cnAdminActions {
 
 		if ( $result ) {
 
-			$step += 1;
-
 			wp_send_json_success(
 				array(
-					'step'       => $step,
+					'step'       => ++$step,
 					'count'      => $count,
 					'exported'   => $exported,
 					'remaining'  => $remaining,
@@ -1020,11 +950,11 @@ class cnAdminActions {
 				)
 			);
 
-		} elseif ( TRUE === $export->is_empty ) {
+		} elseif ( true === $export->is_empty ) {
 
 			wp_send_json_error(
 				array(
-					'message' => __( 'No data found for export parameters.', 'connections' )
+					'message' => __( 'No data found for export parameters.', 'connections' ),
 				)
 			);
 
@@ -1047,21 +977,22 @@ class cnAdminActions {
 		}
 	}
 
+	/**
+	 * Callback for the `wp_ajax_csv_upload` action.
+	 *
+	 * @access private
+	 * @since  unknown
+	 */
 	public static function uploadCSV() {
-
-		//if ( ! function_exists( 'wp_handle_upload' ) ) {
-		//
-		//	require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		//}
 
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'csv_upload' ) ) {
+		if ( ! isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), 'csv_upload' ) ) {
 
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => __( 'Nonce verification failed', 'connections' )
+					'message' => __( 'Nonce verification failed', 'connections' ),
 				)
 			);
 		}
@@ -1071,7 +1002,7 @@ class cnAdminActions {
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => __( 'You do not have permission to import data.', 'connections' )
+					'message' => __( 'You do not have permission to import data.', 'connections' ),
 				)
 			);
 		}
@@ -1087,7 +1018,8 @@ class cnAdminActions {
 		}
 
 		$upload = new cnUpload(
-			$_FILES['cn-import-file'],
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$_FILES['cn-import-file'], // Uses `wp_handle_upload()` internally.
 			array(
 				'mimes' => array(
 					'csv' => 'text/csv',
@@ -1104,8 +1036,6 @@ class cnAdminActions {
 			$headers = $import->getHeaders();
 
 			if ( is_wp_error( $headers ) ) {
-
-				error_log( print_r( $headers, TRUE ) );
 
 				wp_send_json_error(
 					array(
@@ -1136,7 +1066,7 @@ class cnAdminActions {
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => $result->get_error_message()
+					'message' => $result->get_error_message(),
 				)
 			);
 		}
@@ -1150,12 +1080,6 @@ class cnAdminActions {
 	 * @access private
 	 * @since  8.5.5
 	 *
-	 * @uses   wp_send_json_error()
-	 * @uses   is_wp_error()
-	 * @uses   wp_send_json_success()
-	 * @uses   wp_create_nonce()
-	 * @uses   self_admin_url()
-	 *
 	 * @param cnCSV_Batch_Import $import
 	 * @param string             $taxonomy
 	 * @param int                $step
@@ -1167,7 +1091,7 @@ class cnAdminActions {
 
 			wp_send_json_error(
 				array(
-					'form'    => $_POST,
+					'form'    => $_POST, // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					'message' => __( 'You do not have permission to export data.', 'connections' ),
 				)
 			);
@@ -1176,11 +1100,26 @@ class cnAdminActions {
 		/**
 		 * Prevent the taxonomy hierarchy from being purged and built after each term insert because
 		 * it severely slows down the import as the number of terms being imported increases.
+		 *
 		 * @see cnTerm::cleanCache()
 		 */
 		add_filter( "pre_option_cn_{$taxonomy}_children", '__return_empty_array' );
 
-		$import->setMap( json_decode( wp_unslash( $_REQUEST['map'] ) ) );
+		if ( ! isset( $_REQUEST['map'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			wp_send_json_error(
+				array(
+					'form'    => $_POST, // phpcs:ignore WordPress.Security.NonceVerification.Missing
+					'message' => 'Invalid CSV to field map provided.',
+				)
+			);
+
+		} else {
+
+			$map = json_decode( sanitize_text_field( wp_unslash( $_REQUEST['map'] ) ), true ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		$import->setMap( $map );
 
 		$result = $import->process( $step );
 
@@ -1188,7 +1127,7 @@ class cnAdminActions {
 
 			wp_send_json_error(
 				array(
-					'form'    => $_POST,
+					'form'    => $_POST, // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					'message' => $result->get_error_message(),
 				)
 			);
@@ -1201,12 +1140,10 @@ class cnAdminActions {
 			$remaining  = 0 < $count - $imported ? $count - $imported : 0;
 			$percentage = $import->getPercentageComplete();
 
-			$step += 1;
-
 			wp_send_json_success(
 				array(
-					'map'        => json_encode( $import->getMap() ),
-					'step'       => $step,
+					'map'        => wp_json_encode( $import->getMap() ),
+					'step'       => ++$step,
 					'count'      => $count,
 					'imported'   => $imported,
 					'remaining'  => $remaining,
@@ -1217,7 +1154,13 @@ class cnAdminActions {
 
 		} else {
 
-			$url = add_query_arg( array( 'page' => 'connections_tools', 'tab' => 'import' ), self_admin_url( 'admin.php' ) );
+			$url = add_query_arg(
+				array(
+					'page' => 'connections_tools',
+					'tab'  => 'import',
+				),
+				self_admin_url( 'admin.php' )
+			);
 
 			wp_send_json_success(
 				array(
@@ -1235,15 +1178,11 @@ class cnAdminActions {
 	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @uses   wp_redirect()
-	 * @uses   get_admin_url()
-	 * @uses   get_current_blog_id()
-	 *
 	 * @return void
 	 */
 	public static function entryManagement() {
 
-		$form = new cnFormObjects();
+		$form     = new cnFormObjects();
 		$queryVar = array();
 
 		check_admin_referer( $form->getNonce( 'cn_manage_actions' ), '_cn_wpnonce' );
@@ -1252,77 +1191,72 @@ class cnAdminActions {
 		 * Run user requested actions.
 		 */
 
-		// Process user selected filters
+		// Process user selected filters.
 		self::saveUserFilters();
 
 		// Grab the bulk action requested by user.
-		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? $_POST['action'] : 'none';
+		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? sanitize_key( $_POST['action'] ) : 'none';
 
 		switch ( $action ) {
 
 			case 'delete':
-
 				// Bulk delete entries.
 				self::deleteEntryBulk();
 				break;
 
 			case 'approve':
-
 				// Bulk approve entries.
 				self::setEntryStatusBulk( 'approved' );
 				break;
 
 			case 'unapprove':
-
 				// Bulk unapprove entries.
 				self::setEntryStatusBulk( 'pending' );
 				break;
 
 			case 'public':
-
 				// Set entries to public visibility in bulk.
 				self::setEntryVisibilityBulk( 'public' );
 				break;
 
 			case 'private':
-
 				// Set entries to private visibility in bulk.
 				self::setEntryVisibilityBulk( 'private' );
 				break;
 
 			case 'unlisted':
-
 				// Set entries to unlisted visibility in bulk.
 				self::setEntryVisibilityBulk( 'unlisted' );
 				break;
 
 			default:
-
 				/* None, blank intentionally. */
-
 				break;
 		}
 
 		/*
-		 * Setup the redirect.
+		 * Set up the redirect.
 		 */
 
 		if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
 
-			$queryVar['s'] = urlencode( wp_unslash( $_REQUEST['s'] ) );
+			$queryVar['s'] = urlencode( _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
-		// if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) )
-		// 	$queryVar['s'] = urlencode( $_GET['s'] );
+		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) )
-			$queryVar['cn-char'] = urlencode( $_GET['cn-char'] );
+			$queryVar['cn-char'] = urlencode( _sanitize::character( wp_unslash( $_GET['cn-char'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		}
 
 		/*
 		 * Do the redirect.
 		 */
-
-		wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryVar, 'admin.php?page=connections_manage' ) ) );
+		wp_safe_redirect(
+			get_admin_url(
+				get_current_blog_id(),
+				add_query_arg( $queryVar, 'admin.php?page=connections_manage' )
+			)
+		);
 
 		exit();
 	}
@@ -1333,25 +1267,19 @@ class cnAdminActions {
 	 * @access public
 	 * @since  0.7.8
 	 *
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 *
 	 * @return void
 	 */
 	public static function processEntry() {
 
-		$form  = new cnFormObjects();
+		$form   = new cnFormObjects();
+		$action = isset( $_REQUEST['cn-action'] ) ? sanitize_key( $_REQUEST['cn-action'] ) : '';
 
-		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
-
-		// Setup the redirect URL.
-		$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
+		// Set up the redirect URL.
+		$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_add';
 
 		switch ( $action ) {
 
 			case 'add_entry':
-
 				/*
 				 * Check whether the current user can add an entry.
 				 */
@@ -1369,15 +1297,14 @@ class cnAdminActions {
 				break;
 
 			case 'copy_entry':
-
 				/*
 				 * Check whether the current user can add an entry.
 				 */
-				if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) ) {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					cnEntry_Action::copy( $_GET['id'], $_POST );
+					cnEntry_Action::copy( absint( $_GET['id'] ), $_POST );
 
 				} else {
 
@@ -1387,18 +1314,17 @@ class cnAdminActions {
 				break;
 
 			case 'update_entry':
-
-				// Setup the redirect URL.
-				$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';
+				// Set up the redirect URL.
+				$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_manage';
 
 				/*
 				 * Check whether the current user can edit an entry.
 				 */
-				if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) ) {
 
 					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 
-					cnEntry_Action::update( $_GET['id'], $_POST );
+					cnEntry_Action::update( absint( $_GET['id'] ), $_POST );
 
 				} else {
 
@@ -1408,10 +1334,7 @@ class cnAdminActions {
 				break;
 		}
 
-		// do_action( 'cn_process_meta-entry', $action, $id );
-		// do_action( 'cn_process_meta-entry-' . $action, $action, $id );
-
-		wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), $redirect ) );
 
 		exit();
 	}
@@ -1449,14 +1372,17 @@ class cnAdminActions {
 	 * @param  string $action The action to being performed to an entry.
 	 * @param  int    $id     The entry ID.
 	 *
-	 * @return mixed          array | bool  An array of meta IDs or FALSE on failure.
+	 * @return array|false An array of meta IDs or FALSE on failure.
 	 */
 	public static function processEntryMeta( $action, $id ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		if ( ! $id = absint( $id ) ) return FALSE;
+		if ( ! $id = absint( $id ) ) {
+
+			return false;
+		}
 
 		$meta       = array();
 		$newmeta    = array();
@@ -1466,21 +1392,23 @@ class cnAdminActions {
 		switch ( $action ) {
 
 			case 'add':
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
-
-					foreach ( $_POST['newmeta'] as $row ) {
+					foreach ( $_POST['newmeta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						$newmeta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
 				}
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+				if ( isset( $_POST['metakeyselect'] ) && '-1' !== $_POST['metakeyselect'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
@@ -1488,27 +1416,35 @@ class cnAdminActions {
 				break;
 
 			case 'copy':
-
 				// Copy any meta associated with the source entry to the new entry.
-				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) {
+				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					foreach ( $_POST['meta'] as $row ) {
+					foreach ( $_POST['meta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						// Add the meta except for those that the user deleted for this entry.
-						if ( $row['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+						if ( '::DELETED::' !== $row['value'] ) {
+
+							$meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+						}
 					}
 				}
 
 				// Lastly, add any new meta the user may have added.
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					foreach ( $_POST['newmeta'] as $row ) {
+					foreach ( $_POST['newmeta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -1516,9 +1452,9 @@ class cnAdminActions {
 					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
 				}
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+				if ( isset( $_POST['metakeyselect'] ) && '-1' !== $_POST['metakeyselect'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				}
 
 				$metaIDs['added'] = array_merge( $meta, $newmeta, $metaSelect );
@@ -1526,19 +1462,24 @@ class cnAdminActions {
 				break;
 
 			case 'update':
-
 				// Query the meta associated to the entry.
-				//$results = cnMeta::get( 'entry', $id );
-				$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
-							FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
-							ORDER BY meta_key,meta_id", $id ), ARRAY_A );
+				$results = $wpdb->get_results(
+					$wpdb->prepare(
+						'SELECT meta_key, meta_value, meta_id, entry_id FROM ' . CN_ENTRY_TABLE_META . ' WHERE entry_id = %d ORDER BY meta_key,meta_id',
+						$id
+					),
+					ARRAY_A
+				);
 
-				if ( $results !== FALSE ) {
+				if ( false !== $results ) {
 
 					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {
 
-						if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $row['meta_id'] ] );
+						if ( cnMeta::isPrivate( $row['meta_key'] ) ) {
+
+							unset( $results[ $row['meta_id'] ] );
+						}
 					}
 
 					// Loop thru the associated meta and update any that may have been changed.
@@ -1546,37 +1487,39 @@ class cnAdminActions {
 					foreach ( $results as $metaID => $row ) {
 
 						// Update the entry meta if it differs.
-						if ( ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] !== $row['meta_value'] ) ||
-							 ( isset( $_POST['meta'][ $row['meta_id'] ]['key'] )   && $_POST['meta'][ $row['meta_id'] ]['key']   !== $row['meta_key']   ) &&
-							 ( $_POST['meta'][ $row['meta_id'] ]['value'] !== '::DELETED::' ) ) {
+						if ( ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] !== $row['meta_value'] ) || // phpcs:ignore WordPress.Security.NonceVerification.Missing
+							 ( isset( $_POST['meta'][ $row['meta_id'] ]['key'] ) && $_POST['meta'][ $row['meta_id'] ]['key'] !== $row['meta_key'] ) && // phpcs:ignore WordPress.Security.NonceVerification.Missing
+							 ( '::DELETED::' !== $_POST['meta'][ $row['meta_id'] ]['value'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 							// If the key begins with an underscore, remove it because those are private.
-							//if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+							// if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
-							//cnMeta::update( 'entry', $id, $_POST['meta'][ $row['meta_id'] ]['key'], $_POST['meta'][ $row['meta_id'] ]['value'], $row['meta_value'], $row['meta_key'], $row['meta_id'] );
-							cnMeta::updateByID( 'entry', $row['meta_id'], $_POST['meta'][ $row['meta_id'] ]['value'], $_POST['meta'][ $row['meta_id'] ]['key'] );
+							// cnMeta::update( 'entry', $id, $_POST['meta'][ $row['meta_id'] ]['key'], $_POST['meta'][ $row['meta_id'] ]['value'], $row['meta_value'], $row['meta_key'], $row['meta_id'] );
+							cnMeta::updateByID( 'entry', $row['meta_id'], $_POST['meta'][ $row['meta_id'] ]['value'], $_POST['meta'][ $row['meta_id'] ]['key'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing
 
 							$metaIDs['updated'] = $row['meta_id'];
 						}
 
-						if ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) {
+						if ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && '::DELETED::' === $_POST['meta'][ $row['meta_id'] ]['value'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 							// Record entry meta to be deleted.
 							cnMeta::deleteByID( 'entry', $row['meta_id'] );
 
 							$metaIDs['deleted'] = $row['meta_id'];
 						}
-
 					}
 				}
 
 				// Lastly, add any new meta the user may have added.
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					foreach ( $_POST['newmeta'] as $row ) {
+					foreach ( $_POST['newmeta'] as $row ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) {
+
+							$row['key'] = substr( $row['key'], 1 );
+						}
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -1584,9 +1527,9 @@ class cnAdminActions {
 					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
 				}
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+				if ( isset( $_POST['metakeyselect'] ) && '-1' !== $_POST['metakeyselect'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
@@ -1600,18 +1543,11 @@ class cnAdminActions {
 	/**
 	 * Set the entry status to pending or approved.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @uses absint()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 *
-	 * @param int $id [optional] Entry ID.
-	 * @param string $status [optional] The entry status to be assigned.
-	 *
-	 * @return void
+	 * @param int    $id     Entry ID.
+	 * @param string $status The entry status to be assigned.
 	 */
 	public static function setEntryStatus( $id = 0, $status = '' ) {
 
@@ -1625,13 +1561,13 @@ class cnAdminActions {
 		 */
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			//  The permitted statuses.
+			// The permitted statuses.
 			$permitted = array( 'pending', 'approved' );
 
 			// If `status` was not supplied, check $_GET.
 			if ( ( empty( $status ) ) && ( isset( $_GET['status'] ) && ! empty( $_GET['status'] ) ) ) {
 
-				$status = $_GET['status'];
+				$status = sanitize_key( $_GET['status'] );
 
 			}
 
@@ -1644,12 +1580,10 @@ class cnAdminActions {
 			switch ( $status ) {
 
 				case 'pending':
-
 					cnMessage::set( 'success', 'form_entry_pending' );
 					break;
 
 				case 'approve':
-
 					cnMessage::set( 'success', 'form_entry_approve' );
 					break;
 			}
@@ -1659,7 +1593,7 @@ class cnAdminActions {
 			cnMessage::set( 'error', 'capability_edit' );
 		}
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
 
 		exit();
 	}
@@ -1667,12 +1601,10 @@ class cnAdminActions {
 	/**
 	 * Set the approval status of entries in bulk.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @param  string $status The entry status that should be set.
-	 *
-	 * @return void
+	 * @param string $status The entry status that should be set.
 	 */
 	public static function setEntryStatusBulk( $status ) {
 
@@ -1683,19 +1615,20 @@ class cnAdminActions {
 
 			$permitted = array( 'pending', 'approved' );
 
-			if ( ! in_array( $status, $permitted ) ) return;
+			if ( ! in_array( $status, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			cnEntry_Action::status( $status, $_POST['id'] );
+				return;
+			}
+
+			cnEntry_Action::status( $status, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			switch ( $status ) {
 
 				case 'pending':
-
 					cnMessage::set( 'success', 'form_entry_pending_bulk' );
 					break;
 
 				case 'approved':
-
 					cnMessage::set( 'success', 'form_entry_approve_bulk' );
 					break;
 			}
@@ -1709,14 +1642,12 @@ class cnAdminActions {
 	/**
 	 * Set the visibility status of entries in bulk.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @param  string $visibility The entry visibility that should be set.
-	 *
-	 * @return void
+	 * @param string $visibility The entry visibility that should be set.
 	 */
-	static public function setEntryVisibilityBulk( $visibility ) {
+	public static function setEntryVisibilityBulk( $visibility ) {
 
 		/*
 		 * Check whether the current user can edit entries.
@@ -1725,9 +1656,12 @@ class cnAdminActions {
 
 			$permitted = array( 'public', 'private', 'unlisted' );
 
-			if ( ! in_array( $visibility, $permitted ) ) return;
+			if ( ! in_array( $visibility, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			cnEntry_Action::visibility( $visibility, $_POST['id'] );
+				return;
+			}
+
+			cnEntry_Action::visibility( $visibility, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			cnMessage::set( 'success', 'form_entry_visibility_bulk' );
 
@@ -1740,22 +1674,15 @@ class cnAdminActions {
 	/**
 	 * Delete an entry.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
 	 *
-	 * @uses absint()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 *
-	 * @param int $id [optional] Entry ID.
-	 *
-	 * @return void
+	 * @param int $id Entry ID.
 	 */
 	public static function deleteEntry( $id = 0 ) {
 
 		// If no entry ID was supplied, check $_GET.
-		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? $_GET['id'] : $id;
+		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : $id;
 
 		check_admin_referer( 'entry_delete_' . $id );
 
@@ -1773,7 +1700,7 @@ class cnAdminActions {
 			cnMessage::set( 'error', 'capability_delete' );
 		}
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
 
 		exit();
 	}
@@ -1781,10 +1708,8 @@ class cnAdminActions {
 	/**
 	 * Delete entries in bulk.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
-	 *
-	 * @return void
 	 */
 	public static function deleteEntryBulk() {
 
@@ -1794,9 +1719,12 @@ class cnAdminActions {
 		if ( current_user_can( 'connections_delete_entry' ) ) {
 
 			// @TODO $POST['id'] should be passed to the method as an attribute.
-			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) return;
+			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			cnEntry_Action::delete( $_POST['id'] );
+				return;
+			}
+
+			cnEntry_Action::delete( absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 
@@ -1810,15 +1738,8 @@ class cnAdminActions {
 	/**
 	 * Process user filters.
 	 *
-	 * @access public
+	 * @access private
 	 * @since 0.7.8
-	 *
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 *
-	 * @return void
 	 */
 	public static function userFilter() {
 
@@ -1829,22 +1750,30 @@ class cnAdminActions {
 		self::saveUserFilters();
 
 		/*
-		 * Setup the redirect.
+		 * Set up the redirect.
 		 */
-
 		if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
-			$queryVar['s'] = urlencode( $_REQUEST['s'] );
+
+			$queryVar['s'] = urlencode( _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
-		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {
-			$queryVar['cn-char'] = urlencode( $_GET['cn-char'] );
+		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+			$queryVar['cn-char'] = urlencode( _sanitize::character( wp_unslash( $_GET['cn-char'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
 		/*
 		 * Do the redirect.
 		 */
-
-		wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryVar, 'admin.php?page=connections_manage' ) ) );
+		wp_safe_redirect(
+			get_admin_url(
+				get_current_blog_id(),
+				add_query_arg(
+					$queryVar,
+					'admin.php?page=connections_manage'
+				)
+			)
+		);
 
 		exit();
 	}
@@ -1852,10 +1781,8 @@ class cnAdminActions {
 	/**
 	 * Save user filters.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.7.8
-	 *
-	 * @return void
 	 */
 	public static function saveUserFilters() {
 
@@ -1863,37 +1790,56 @@ class cnAdminActions {
 		global $connections;
 
 		// Set the moderation filter for the current user if set in the query string.
-		if ( isset( $_GET['status'] ) ) $connections->currentUser->setFilterStatus( $_GET['status'] );
+		if ( isset( $_GET['status'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
-		if ( isset( $_POST['entry_type'] ) ) $connections->currentUser->setFilterEntryType( esc_attr( $_POST['entry_type'] ) );
-		if ( isset( $_POST['visibility_type'] ) ) $connections->currentUser->setFilterVisibility( esc_attr( $_POST['visibility_type'] ) );
+			$connections->currentUser->setFilterStatus( sanitize_key( $_GET['status'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
 
-		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_POST['category'] ) );
-		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_GET['category'] ) );
+		if ( isset( $_POST['entry_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 
-		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) {
+			$connections->currentUser->setFilterEntryType( sanitize_key( $_POST['entry_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		if ( isset( $_POST['visibility_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+
+			$connections->currentUser->setFilterVisibility( sanitize_key( $_POST['visibility_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
+
+			$connections->currentUser->setFilterCategory( absint( $_POST['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
+
+			$connections->currentUser->setFilterCategory( absint( $_GET['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+
 			$page = new stdClass();
 
-			$page->name = 'manage';
-			$page->current = absint( $_POST['pg'] );
+			$page->name    = 'manage';
+			$page->current = absint( $_POST['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$connections->currentUser->setFilterPage( $page );
 		}
 
-		if ( isset( $_GET['pg'] ) && ! empty( $_GET['pg'] ) ) {
+		if ( isset( $_GET['pg'] ) && ! empty( $_GET['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+
 			$page = new stdClass();
 
-			$page->name = 'manage';
-			$page->current = absint( $_GET['pg'] );
+			$page->name    = 'manage';
+			$page->current = absint( $_GET['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$connections->currentUser->setFilterPage( $page );
 		}
 
-		if ( isset( $_POST['settings']['page']['limit'] ) ) {
+		if ( isset( $_POST['settings']['page']['limit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+
 			$page = new stdClass();
 
-			$page->name = 'manage';
-			$page->limit = $_POST['settings']['page']['limit'];
+			$page->name  = 'manage';
+			$page->limit = absint( $_POST['settings']['page']['limit'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$connections->currentUser->setFilterPage( $page );
 		}
@@ -1988,30 +1934,25 @@ class cnAdminActions {
 	 * Activate a template.
 	 *
 	 * @access public
-	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses delete_transient()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @uses add_query_arg()
-	 * @return void
+	 * @since  0.7.7
 	 */
 	public static function activateTemplate() {
 
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		/*
 		 * Check whether user can manage Templates
 		 */
-		if ( current_user_can( 'connections_manage_template' ) ) {
+		if ( current_user_can( 'connections_manage_template' ) &&
+			 isset( $_GET['template'] ) &&
+			 isset( $_GET['type'] )
+		) {
 
-			$templateName = esc_attr( $_GET['template'] );
-			check_admin_referer( 'activate_' . $templateName );
+			$type = sanitize_key( $_GET['type'] );
+			$slug = sanitize_key( $_GET['template'] );
 
-			$type = esc_attr( $_GET['type'] );
-			$slug = esc_attr( $_GET['template'] );
+			check_admin_referer( "activate_{$slug}" );
 
 			$connections->options->setActiveTemplate( $type, $slug );
 
@@ -2021,9 +1962,17 @@ class cnAdminActions {
 
 			delete_transient( 'cn_legacy_templates' );
 
-			! isset( $_GET['type'] ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-
-			wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
+			wp_safe_redirect(
+				get_admin_url(
+					get_current_blog_id(),
+					add_query_arg(
+						array(
+							'type' => $type,
+						),
+						'admin.php?page=connections_templates'
+					)
+				)
+			);
 
 			exit();
 
@@ -2036,62 +1985,73 @@ class cnAdminActions {
 	/**
 	 * Delete a template.
 	 *
-	 * @TODO Move the delete to a generic method in cnFileSystem()
+	 * @TODO Move delete to a generic method in cnFileSystem()
 	 *
 	 * @access public
-	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses delete_transient()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @uses add_query_arg()
-	 * @return void
+	 * @since  0.7.7
 	 */
 	public static function deleteTemplate() {
 
 		/*
 		 * Check whether user can manage Templates
 		 */
-		if ( current_user_can( 'connections_manage_template' ) ) {
+		if ( current_user_can( 'connections_manage_template' ) &&
+			 isset( $_GET['template'] ) &&
+			 isset( $_GET['type'] )
+		) {
 
-			$templateName = esc_attr( $_GET['template'] );
-			check_admin_referer( 'delete_' . $templateName );
+			$type = sanitize_key( $_GET['type'] );
+			$slug = sanitize_key( $_GET['template'] );
 
+			check_admin_referer( "delete_{$slug}" );
+
+			/**
+			 * Delete a directory.
+			 *
+			 * @param string $directory The path to delete.
+			 *
+			 * @return bool
+			 */
 			function removeDirectory( $directory ) {
-				$deleteError = FALSE;
+
+				$deleteError      = false;
 				$currentDirectory = opendir( $directory );
 
-				while ( ( $file = readdir( $currentDirectory ) ) !== FALSE ) {
+				while ( ( $file = readdir( $currentDirectory ) ) !== false ) {
 
-					if ( $file != "." && $file != ".." ) {
+					if ( '.' !== $file && '..' !== $file ) {
 
-						chmod( $directory . $file, 0777 );
+						chmod( $directory . $file, 0777 ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
 
 						if ( is_dir( $directory . $file ) ) {
 
 							chdir( '.' );
 							removeDirectory( $directory . $file . '/' );
-							rmdir( $directory . $file ) or $deleteError = TRUE;
+							rmdir( $directory . $file ) || $deleteError = true; // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
 
 						} else {
 
-							@unlink( $directory . $file ) or $deleteError = TRUE;
+							@unlink( $directory . $file ) || $deleteError = true;
 						}
 
-						if ( $deleteError ) return FALSE;
+						if ( $deleteError ) {
+
+							return false;
+						}
 					}
 				}
 
 				closedir( $currentDirectory );
 
-				if ( ! rmdir( $directory ) ) return FALSE;
+				if ( ! rmdir( $directory ) ) { // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
 
-				return TRUE;
+					return false;
+				}
+
+				return true;
 			}
 
-			if ( removeDirectory( CN_CUSTOM_TEMPLATE_PATH . '/' . $templateName . '/' ) ) {
+			if ( removeDirectory( CN_CUSTOM_TEMPLATE_PATH . '/' . $slug . '/' ) ) {
 				cnMessage::set( 'success', 'template_deleted' );
 			} else {
 				cnMessage::set( 'error', 'template_delete_failed' );
@@ -2099,9 +2059,17 @@ class cnAdminActions {
 
 			delete_transient( 'cn_legacy_templates' );
 
-			! isset( $_GET['type'] ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-
-			wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
+			wp_safe_redirect(
+				get_admin_url(
+					get_current_blog_id(),
+					add_query_arg(
+						array(
+							'type' => $type,
+						),
+						'admin.php?page=connections_templates'
+					)
+				)
+			);
 
 			exit();
 
@@ -2115,13 +2083,7 @@ class cnAdminActions {
 	 * Update the role settings.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return void
+	 * @since  0.7.5
 	 */
 	public static function updateRoleCapabilities() {
 
@@ -2142,30 +2104,50 @@ class cnAdminActions {
 				// Cycle thru each role available because checkboxes do not report a value when not checked.
 				foreach ( $wp_roles->get_names() as $role => $name ) {
 
-					if ( ! isset( $_POST['roles'][ $role ] ) ) continue;
+					if ( ! isset( $_POST['roles'][ $role ] ) ) {
 
-					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
+						continue;
+					}
 
-						// the administrator should always have all capabilities
-						if ( $role == 'administrator' ) continue;
+					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
-						if ( $grant == 'true' ) {
-							cnRole::add( esc_attr( $role ), esc_attr( $capability ) );
-						} else {
-							cnRole::remove( esc_attr( $role ), esc_attr( $capability ) );
+						// The administrator should always have all capabilities.
+						if ( 'administrator' === $role ) {
+
+							continue;
 						}
 
+						if ( 'true' === $grant ) {
+
+							cnRole::add( $role, sanitize_key( $capability ) );
+
+						} else {
+
+							cnRole::remove( $role, sanitize_key( $capability ) );
+						}
 					}
 				}
 			}
 
-			if ( isset( $_POST['reset'] ) ) cnRole::reset( array_map( 'esc_attr', $_POST['reset'] ) );
+			if ( isset( $_POST['reset'] ) ) {
 
-			if ( isset( $_POST['reset_all'] ) ) cnRole::reset();
+				cnRole::reset( array_map( 'sanitize_key', $_POST['reset'] ) );
+			}
+
+			if ( isset( $_POST['reset_all'] ) ) {
+
+				cnRole::reset();
+			}
 
 			cnMessage::set( 'success', 'role_settings_updated' );
 
-			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_roles' ) );
+			wp_safe_redirect(
+				get_admin_url(
+					get_current_blog_id(),
+					'admin.php?page=connections_roles'
+				)
+			);
+
 			exit();
 
 		} else {
@@ -2180,15 +2162,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   check_admin_referer()
-	 * @uses   cnLog::delete()
-	 * @uses   cnMessage::set()
-	 * @uses   add_query_arg()
-	 * @uses   wp_get_referer()
-	 * @uses   wp_safe_redirect()
 	 */
 	public static function logManagement() {
 
@@ -2198,23 +2171,21 @@ class cnAdminActions {
 
 			if ( isset( $_GET['action'] ) && '-1' !== $_GET['action'] ) {
 
-				$action = $_GET['action'];
+				$action = sanitize_key( $_GET['action'] );
 
 			} elseif ( isset( $_GET['action2'] ) && '-1' !== $_GET['action2'] ) {
 
-				$action = $_GET['action2'];
-
+				$action = sanitize_key( $_GET['action2'] );
 			}
 
 			switch ( $action ) {
 
 				case 'delete':
-
 					check_admin_referer( 'bulk-email' );
 
-					foreach ( $_GET['log'] as $id ) {
+					foreach ( $_GET['log'] as $id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
-						cnLog::delete( $id );
+						cnLog::delete( absint( $id ) );
 					}
 
 					cnMessage::set( 'success', 'log_bulk_delete' );
@@ -2229,10 +2200,10 @@ class cnAdminActions {
 
 		$url = add_query_arg(
 			array(
-				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
-				'cn-action' => FALSE,
-				'action'    => FALSE,
-				'action2'   => FALSE,
+				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? sanitize_key( $_GET['type'] ) : false,
+				'cn-action' => false,
+				'action'    => false,
+				'action2'   => false,
 			),
 			wp_get_referer()
 		);
@@ -2246,15 +2217,6 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   check_admin_referer()
-	 * @uses   cnLog::delete()
-	 * @uses   cnMessage::set()
-	 * @uses   add_query_arg()
-	 * @uses   wp_get_referer()
-	 * @uses   wp_safe_redirect()
 	 */
 	public static function deleteLog() {
 
@@ -2275,7 +2237,7 @@ class cnAdminActions {
 
 			$url = add_query_arg(
 				array(
-					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
+					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? sanitize_key( $_GET['type'] ) : false,
 				),
 				wp_get_referer()
 			);

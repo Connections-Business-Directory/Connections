@@ -15,7 +15,9 @@
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Create custom HTML forms.
@@ -33,7 +35,9 @@ class cnFormObjects {
 		 * Create the visibility option array based on the current user capability.
 		 */
 		foreach ( $this->visibiltyOptions as $key => $option ) {
-			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) unset( $this->visibiltyOptions[$key] );
+			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) {
+				unset( $this->visibiltyOptions[ $key ] );
+			}
 		}
 	}
 
@@ -46,14 +50,37 @@ class cnFormObjects {
 	 */
 	public function open( $attr ) {
 
-		if ( isset( $attr['class'] ) ) $attr['class'] = 'class="' . esc_attr( $attr['class'] ) . '" ';
-		if ( isset( $attr['id'] ) ) $attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
-		if ( isset( $attr['name'] ) ) $attr['name'] = 'name="' . esc_attr( $attr['name'] ) . '" ';
-		if ( isset( $attr['action'] ) ) $attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';
-		if ( isset( $attr['accept'] ) ) $attr['accept'] = 'accept="' . esc_attr( $attr['accept'] ) . '" ';
-		if ( isset( $attr['accept-charset'] ) ) $attr['accept-charset'] = 'accept-charset="' . esc_attr( $attr['accept-charset'] ) . '" ';
-		if ( isset( $attr['enctype'] ) ) $attr['enctype'] = 'enctype="' . esc_attr( $attr['enctype'] ) . '" ';
-		if ( isset( $attr['method'] ) ) $attr['method'] = 'method="' . esc_attr( $attr['method'] ) . '" ';
+		if ( isset( $attr['class'] ) ) {
+			$attr['class'] = 'class="' . esc_attr( $attr['class'] ) . '" ';
+		}
+
+		if ( isset( $attr['id'] ) ) {
+			$attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
+		}
+
+		if ( isset( $attr['name'] ) ) {
+			$attr['name'] = 'name="' . esc_attr( $attr['name'] ) . '" ';
+		}
+
+		if ( isset( $attr['action'] ) ) {
+			$attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';
+		}
+
+		if ( isset( $attr['accept'] ) ) {
+			$attr['accept'] = 'accept="' . esc_attr( $attr['accept'] ) . '" ';
+		}
+
+		if ( isset( $attr['accept-charset'] ) ) {
+			$attr['accept-charset'] = 'accept-charset="' . esc_attr( $attr['accept-charset'] ) . '" ';
+		}
+
+		if ( isset( $attr['enctype'] ) ) {
+			$attr['enctype'] = 'enctype="' . esc_attr( $attr['enctype'] ) . '" ';
+		}
+
+		if ( isset( $attr['method'] ) ) {
+			$attr['method'] = 'method="' . esc_attr( $attr['method'] ) . '" ';
+		}
 
 		$out = '<form ';
 
@@ -73,8 +100,8 @@ class cnFormObjects {
 		echo '</form>';
 	}
 
-	//Function inspired from:
-	//http://www.melbournechapter.net/wordpress/programming-languages/php/cman/2006/06/16/php-form-input-and-cross-site-attacks/
+	// Function inspired from:
+	// http://www.melbournechapter.net/wordpress/programming-languages/php/cman/2006/06/16/php-form-input-and-cross-site-attacks/
 	/**
 	 * Creates a random token.
 	 *
@@ -82,7 +109,7 @@ class cnFormObjects {
 	 *
 	 * @return string
 	 */
-	public function token( $formId = NULL ) {
+	public function token( $formId = null ) {
 		$token = md5( uniqid( rand(), true ) );
 
 		return $token;
@@ -98,19 +125,21 @@ class cnFormObjects {
 	 * @param bool    $echo    [optional] Whether to display or return the hidden form field.
 	 * @return string
 	 */
-	public function tokenField( $action, $item = FALSE, $name = '_cn_wpnonce', $referer = TRUE, $echo = TRUE ) {
+	public function tokenField( $action, $item = false, $name = '_cn_wpnonce', $referer = true, $echo = true ) {
 		$name = esc_attr( $name );
 
-		if ( $item === FALSE ) {
+		if ( $item === false ) {
 
-			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, FALSE );
+			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, false );
 
 		} else {
 
-			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, $referer, FALSE );
+			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, $referer, false );
 		}
 
-		if ( $echo ) echo $token;
+		if ( $echo ) {
+			echo $token;
+		}
 
 		// if ( $referer ) wp_referer_field( $echo, 'previous' );
 
@@ -136,9 +165,9 @@ class cnFormObjects {
 	 * @param bool    $item   [optional] Item name. Use when protecting multiple items on the same page.
 	 * @return string
 	 */
-	public function getNonce( $action, $item = FALSE ) {
+	public function getNonce( $action, $item = false ) {
 
-		if ( $item === FALSE ) {
+		if ( $item === false ) {
 
 			$nonce = $this->nonceBase . '_' . $action;
 
@@ -177,9 +206,9 @@ class cnFormObjects {
 				'class'    => $class,
 				'id'       => $name,
 				'options'  => $options,
-				'required' => FALSE,
+				'required' => false,
 				'label'    => '',
-				'return'   => TRUE,
+				'return'   => true,
 			),
 			$value
 		);
@@ -213,8 +242,8 @@ class cnFormObjects {
 				'class'    => '',
 				'id'       => $name,
 				'options'  => array_flip( $options ), // The options array is flipped to preserve backward compatibility.
-				'required' => FALSE,
-				'return'   => TRUE,
+				'required' => false,
+				'return'   => true,
 			),
 			$value
 		);

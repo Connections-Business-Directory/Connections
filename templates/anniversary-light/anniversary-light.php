@@ -9,7 +9,7 @@
  * @copyright  2013 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Anniversary Light - Template
+ * _lugin Name:       Connections Anniversary Light - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       Default anniversary template with a light background in a table like format.
  * Version:           2.0.1
@@ -20,7 +20,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 
@@ -37,7 +39,7 @@ if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'Default anniversary template with a light background in a table like format.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',

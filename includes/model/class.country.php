@@ -70,7 +70,7 @@ final class cnCountry {
 	 *
 	 * @return mixed
 	 */
-	public function get( $key, $default = NULL ) {
+	public function get( $key, $default = null ) {
 
 		return cnArray::get( $this->attributes, $key, $default );
 	}
@@ -90,7 +90,7 @@ final class cnCountry {
 			return cnArray::get( $this->attributes, $key );
 		}
 
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -231,12 +231,12 @@ final class cnCountry {
 	public function getGeoJson() {
 
 		if ( ! ( $code = $this->getIsoAlpha2() ) ) {
-			return NULL;
+			return null;
 		}
 
 		return file_exists(
 			$file = CN_PATH . 'vendor/rinvex/resources/geodata/' . strtolower( $code ) . '.json'
-		) ? json_decode( file_get_contents( $file ) ) : NULL;
+		) ? json_decode( file_get_contents( $file ) ) : null;
 	}
 
 	/**
@@ -250,12 +250,12 @@ final class cnCountry {
 	public function getFlag() {
 
 		if ( ! ( $code = $this->getIsoAlpha2() ) ) {
-			return NULL;
+			return null;
 		}
 
 		return file_exists(
 			$file = CN_PATH . 'vendor/rinvex/resources/flags/' . strtolower( $code ) . '.svg'
-		) ? file_get_contents( $file ) : NULL;
+		) ? file_get_contents( $file ) : null;
 	}
 
 	/**
@@ -269,12 +269,12 @@ final class cnCountry {
 	public function getDivisions() {
 
 		if ( ! ( $code = $this->getIsoAlpha2() ) ) {
-			return NULL;
+			return null;
 		}
 
 		return file_exists(
 			$file = CN_PATH . 'vendor/rinvex/resources/divisions/' . strtolower( $code ) . '.json'
-		) ? json_decode( file_get_contents( $file ), TRUE ) : NULL;
+		) ? json_decode( file_get_contents( $file ), true ) : null;
 	}
 
 	/**
@@ -291,7 +291,7 @@ final class cnCountry {
 
 		$divisions = $this->getDivisions();
 
-		return ! empty( $divisions ) && isset( $divisions[ $division ] ) ? $divisions[ $division ] : NULL;
+		return ! empty( $divisions ) && isset( $divisions[ $division ] ) ? $divisions[ $division ] : null;
 	}
 
 	/**

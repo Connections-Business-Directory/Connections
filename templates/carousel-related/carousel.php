@@ -15,7 +15,7 @@ use cnTemplateFactory;
  * @copyright  2019 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Business Directory Template : Carousel
+ * _lugin Name:       Connections Business Directory Template : Carousel
  * Plugin URI:        https://connections-pro.com
  * Description:       Carousel template for the block editor.
  * Version:           1.0
@@ -56,11 +56,11 @@ if ( ! class_exists( __NAMESPACE__ . '\Related_Carousel' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'https://connections-pro.com',
 				'description' => 'Carousel',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
-				//'parts'       => array( 'css' => 'styles.css' ),
+				// 'parts'       => array( 'css' => 'styles.css' ),
 			);
 
 			cnTemplateFactory::register( $atts );

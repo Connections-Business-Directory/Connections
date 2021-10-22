@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnRole extends WP_Roles {
 
@@ -69,7 +71,7 @@ class cnRole extends WP_Roles {
 			'connections_edit_categories'      => __( 'Edit Categories', 'connections' ),
 			'connections_change_settings'      => __( 'Change Settings', 'connections' ),
 			'connections_manage_template'      => __( 'Manage Templates', 'connections' ),
-			'connections_change_roles'         => __( 'Change Role Capabilities', 'connections' )
+			'connections_change_roles'         => __( 'Change Role Capabilities', 'connections' ),
 		);
 	}
 
@@ -83,12 +85,14 @@ class cnRole extends WP_Roles {
 	 * @param (bool) $grant Whether or no to grant the capability to the roloe or not.
 	 * @return void
 	 */
-	public static function add( $role, $cap, $grant = TRUE ) {
+	public static function add( $role, $cap, $grant = true ) {
 
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
 
-		if ( ! self::hasCapability( $role, $cap ) ) $instance->add_cap( $role, $cap, $grant );
+		if ( ! self::hasCapability( $role, $cap ) ) {
+			$instance->add_cap( $role, $cap, $grant );
+		}
 	}
 
 	/**
@@ -105,7 +109,9 @@ class cnRole extends WP_Roles {
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
 
-		if ( self::hasCapability( $role, $cap ) ) $instance->remove_cap( $role, $cap );
+		if ( self::hasCapability( $role, $cap ) ) {
+			$instance->remove_cap( $role, $cap );
+		}
 	}
 
 	/**
@@ -122,7 +128,9 @@ class cnRole extends WP_Roles {
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
 
-		if ( ! isset( $instance->roles[ $role ] ) ) return FALSE;
+		if ( ! isset( $instance->roles[ $role ] ) ) {
+			return false;
+		}
 
 		$wp_role = new WP_Role( $role, $instance->roles[ $role ]['capabilities'] );
 
@@ -154,34 +162,40 @@ class cnRole extends WP_Roles {
 		 * If no roles are supplied to the method to reset; the method
 		 * will reset the capabilities of all roles defined.
 		 */
-		if ( empty( $roles ) ) $roles = $instance->get_names();
+		if ( empty( $roles ) ) {
+			$roles = $instance->get_names();
+		}
 
 		$capabilities = self::capabilities();
 
 		foreach ( $roles as $role => $key ) {
 
 			// If the current role is one of the defined core roles, grant them all capabilities
-			$grant = in_array( $role, $coreRoles ) ? TRUE : FALSE;
+			$grant = in_array( $role, $coreRoles ) ? true : false;
 
 			if ( in_array( $role, $coreRoles ) ) {
 
 				foreach ( $capabilities as $cap => $name ) {
 
-					if ( ! self::hasCapability( $role, $cap ) ) $instance->add_cap( $role, $cap, $grant );
+					if ( ! self::hasCapability( $role, $cap ) ) {
+						$instance->add_cap( $role, $cap, $grant );
+					}
 				}
 
 			} else {
 
 				foreach ( $capabilities as $cap => $name ) {
 
-					if ( self::hasCapability( $role, $cap ) ) $instance->remove_cap( $role, $cap );
+					if ( self::hasCapability( $role, $cap ) ) {
+						$instance->remove_cap( $role, $cap );
+					}
 
 				}
 
 			}
 
 			// Ensure all roles can view public entries.
-			$instance->add_cap( $role, 'connections_view_public', TRUE );
+			$instance->add_cap( $role, 'connections_view_public', true );
 		}
 
 	}
@@ -204,7 +218,9 @@ class cnRole extends WP_Roles {
 
 			foreach ( self::capabilities() as $cap => $name ) {
 
-				if ( self::hasCapability( $role, $cap ) ) $instance->remove_cap( $role, $cap );
+				if ( self::hasCapability( $role, $cap ) ) {
+					$instance->remove_cap( $role, $cap );
+				}
 			}
 		}
 	}

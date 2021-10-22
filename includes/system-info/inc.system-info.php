@@ -20,7 +20,9 @@ Host:                       <?php echo $host; ?>
 <?php
 
 $mySQLMode = $wpdb->get_results( 'SELECT @@sql_mode' );
-if ( is_array( $mySQLMode ) ) $sqlMode = $mySQLMode[0]->{'@@sql_mode'};
+if ( is_array( $mySQLMode ) ) {
+	$sqlMode = $mySQLMode[0]->{'@@sql_mode'};
+}
 ?>
 
 Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8?>&nbsp;Bit)
@@ -120,7 +122,7 @@ Parent Theme:               <?php echo $parent_theme . PHP_EOL; ?>
 <?php endif; ?>
 Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; ?>
 <?php
-//Only show page specs if front page is set to 'page'
+// Only show page specs if front page is set to 'page'
 if ( 'page' == get_option( 'show_on_front' ) ) :
 $front_page_id = get_option( 'page_on_front' );
 $blog_page_id  = get_option( 'page_for_posts' );
@@ -134,7 +136,7 @@ $params = array(
 	'sslverify'  => cnHTTP::verifySSL(),
 	'timeout'    => 60,
 	'user-agent' => 'CN/' . CN_CURRENT_VERSION,
-	'body'       => '_notify-validate'
+	'body'       => '_notify-validate',
 );
 
 $response = wp_remote_post( 'https://www.paypal.com/cgi-bin/webscr', $params );
@@ -158,7 +160,7 @@ Registered Post Stati:      <?php echo implode( ', ', get_post_stati() ) . PHP_E
 Version:                    <?php echo $instance->options->getVersion() . PHP_EOL; ?>
 DB Version:                 <?php echo $instance->options->getDBVersion() . PHP_EOL; ?>
 
-CN_MULTISITE_ENABLED:       <?php echo CN_MULTISITE_ENABLED ? __( 'TRUE', 'connections') . PHP_EOL : __( 'FALSE', 'connections' ) . PHP_EOL; ?>
+CN_MULTISITE_ENABLED:       <?php echo CN_MULTISITE_ENABLED ? esc_html__( 'TRUE', 'connections' ) . PHP_EOL : esc_html__( 'FALSE', 'connections' ) . PHP_EOL; ?>
 CN_DIR_NAME:                <?php echo CN_DIR_NAME . PHP_EOL; ?>
 CN_BASE_NAME:               <?php echo CN_BASE_NAME . PHP_EOL; ?>
 CN_PATH:                    <?php echo CN_PATH . PHP_EOL; ?>

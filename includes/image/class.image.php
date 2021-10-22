@@ -77,12 +77,12 @@ class cnImage {
 
 		$atts = array( 'mime_type' => 'image/jpeg' );
 
-		if ( wp_image_editor_supports( $atts ) !== TRUE ) {
+		if ( wp_image_editor_supports( $atts ) !== true ) {
 
 			cnMessage::create( 'error', 'image_edit_support_failed' );
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -250,19 +250,19 @@ class cnImage {
 
 				$atts['crop_focus'] = array( 'center', 'center' );
 
-				if ( strpos( cnQuery::getVar( 'a' ), 't' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 't' ) !== false ) {
 					$atts['crop_focus'][1] = 'top';
 				}
 
-				if ( strpos( cnQuery::getVar( 'a' ), 'r' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 'r' ) !== false ) {
 					$atts['crop_focus'][0] = 'right';
 				}
 
-				if ( strpos( cnQuery::getVar( 'a' ), 'b' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 'b' ) !== false ) {
 					$atts['crop_focus'][1] = 'bottom';
 				}
 
-				if ( strpos( cnQuery::getVar( 'a' ), 'l' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 'l' ) !== false ) {
 					$atts['crop_focus'][0] = 'left';
 				}
 
@@ -281,7 +281,7 @@ class cnImage {
 
 						if ( ! isset( $param[ $i ] ) ) {
 
-							$param[ $i ] = NULL;
+							$param[ $i ] = null;
 
 						} else {
 
@@ -292,11 +292,11 @@ class cnImage {
 					switch ( $param[0] ) {
 
 						case '1':
-							$atts['negate'] = TRUE;
+							$atts['negate'] = true;
 							break;
 
 						case '2':
-							$atts['grayscale'] = TRUE;
+							$atts['grayscale'] = true;
 							break;
 
 						case '3':
@@ -312,23 +312,23 @@ class cnImage {
 							break;
 
 						case '6':
-							$atts['detect_edges'] = TRUE;
+							$atts['detect_edges'] = true;
 							break;
 
 						case '7':
-							$atts['emboss'] = TRUE;
+							$atts['emboss'] = true;
 							break;
 
 						case '8':
-							$atts['gaussian_blur'] = TRUE;
+							$atts['gaussian_blur'] = true;
 							break;
 
 						case '9':
-							$atts['blur'] = TRUE;
+							$atts['blur'] = true;
 							break;
 
 						case '10':
-							$atts['sketchy'] = TRUE;
+							$atts['sketchy'] = true;
 							break;
 
 						case '11':
@@ -338,7 +338,7 @@ class cnImage {
 			}
 
 			if ( cnQuery::getVar( 's' ) && cnQuery::getVar( 's' ) === '1' ) {
-				$atts['sharpen'] = TRUE;
+				$atts['sharpen'] = true;
 			}
 
 			if ( cnQuery::getVar( 'o' ) ) {
@@ -378,11 +378,7 @@ class cnImage {
 			$quality = cnQuery::getVar( 'q' ) ? cnQuery::getVar( 'q' ) : 90;
 
 			// Ensure valid value for $quality. If invalid valid is supplied reset to the default of 90, matching WP core.
-			if ( filter_var(
-				     (int) $quality,
-				     FILTER_VALIDATE_INT,
-				     array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) )
-			     ) === FALSE ) {
+			if ( filter_var( (int) $quality, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) ) ) === false ) {
 
 				$quality = 90;
 			}
@@ -527,22 +523,22 @@ class cnImage {
 		$defaults = array(
 			'width'         => 0,
 			'height'        => 0,
-			'negate'        => FALSE,
-			'grayscale'     => FALSE,
+			'negate'        => false,
+			'grayscale'     => false,
 			'brightness'    => 0,
-			'colorize'      => NULL,
+			'colorize'      => null,
 			'contrast'      => 0,
-			'detect_edges'  => FALSE,
-			'emboss'        => FALSE,
-			'gaussian_blur' => FALSE,
-			'blur'          => FALSE,
-			'sketchy'       => FALSE,
-			'sharpen'       => FALSE,
-			'smooth'        => NULL,
+			'detect_edges'  => false,
+			'emboss'        => false,
+			'gaussian_blur' => false,
+			'blur'          => false,
+			'sketchy'       => false,
+			'sharpen'       => false,
+			'smooth'        => null,
 			'opacity'       => 100,
 			'crop_mode'     => 1,
 			'crop_focus'    => array( .5, .5 ),
-			'crop_only'     => FALSE,
+			'crop_only'     => false,
 			'canvas_color'  => '#FFFFFF',
 			'quality'       => 82,
 			'sub_dir'       => '',
@@ -601,11 +597,11 @@ class cnImage {
 		}
 
 		if ( ! is_bool( $negate ) ) {
-			$negate = FALSE;
+			$negate = false;
 		}
 
 		if ( ! is_bool( $grayscale ) ) {
-			$grayscale = FALSE;
+			$grayscale = false;
 		}
 
 		if ( ! is_numeric( $brightness ) || empty( $brightness ) ) {
@@ -628,7 +624,7 @@ class cnImage {
 				$colorize = cnColor::name2hex( $colorize );
 
 				// If $colorize is not a named color, unset it.
-				if ( $colorize === FALSE ) {
+				if ( $colorize === false ) {
 
 					unset( $colorize );
 				}
@@ -640,27 +636,27 @@ class cnImage {
 		}
 
 		if ( ! is_bool( $detect_edges ) ) {
-			$detect_edges = FALSE;
+			$detect_edges = false;
 		}
 
 		if ( ! is_bool( $emboss ) ) {
-			$emboss = FALSE;
+			$emboss = false;
 		}
 
 		if ( ! is_bool( $gaussian_blur ) ) {
-			$gaussian_blur = FALSE;
+			$gaussian_blur = false;
 		}
 
 		if ( ! is_bool( $blur ) ) {
-			$blur = FALSE;
+			$blur = false;
 		}
 
 		if ( ! is_bool( $sketchy ) ) {
-			$sketchy = FALSE;
+			$sketchy = false;
 		}
 
 		if ( ! is_bool( $sharpen ) ) {
-			$sharpen = FALSE;
+			$sharpen = false;
 		}
 
 		if ( ! is_numeric( $smooth ) || is_null( $smooth ) ) {
@@ -673,11 +669,7 @@ class cnImage {
 		}
 
 		// Ensure valid value for crop mode.
-		if ( filter_var(
-			     (int) $crop_mode,
-			     FILTER_VALIDATE_INT,
-			     array( 'options' => array( 'min_range' => 0, 'max_range' => 3 ) )
-		     ) === FALSE ) {
+		if ( filter_var( (int) $crop_mode, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 3 ) ) ) === false ) {
 
 			$crop_mode = 1;
 		}
@@ -688,7 +680,7 @@ class cnImage {
 		if ( is_array( $crop_focus ) || is_string( $crop_focus ) ) {
 
 			// If $crop_focus is a string, lets check if is a positional crop and convert to an array.
-			if ( is_string( $crop_focus ) && stripos( $crop_focus, ',' ) !== FALSE ) {
+			if ( is_string( $crop_focus ) && stripos( $crop_focus, ',' ) !== false ) {
 
 				$crop_focus = explode( ',', $crop_focus );
 				array_walk( $crop_focus, 'trim' );
@@ -740,12 +732,12 @@ class cnImage {
 			} else {
 
 				if ( ( ! $crop_focus[0] >= 0 || ! $crop_focus <= 1 ) &&
-				     ( filter_var( (float) $crop_focus[0], FILTER_VALIDATE_FLOAT ) === FALSE ) ) {
+				     ( filter_var( (float) $crop_focus[0], FILTER_VALIDATE_FLOAT ) === false ) ) {
 					$crop_focus[0] = .5;
 				}
 
 				if ( ( ! $crop_focus[1] >= 0 || ! $crop_focus <= 1 ) &&
-				     ( filter_var( (float) $crop_focus[1], FILTER_VALIDATE_FLOAT ) === FALSE ) ) {
+				     ( filter_var( (float) $crop_focus[1], FILTER_VALIDATE_FLOAT ) === false ) ) {
 					$crop_focus[1] = .5;
 				}
 
@@ -756,11 +748,11 @@ class cnImage {
 		} else {
 
 			// If $crop_focus is not an array, it must be a (bool) FALSE and if it is not, set $crop_focus to FALSE.
-			$crop_focus = FALSE;
+			$crop_focus = false;
 		}
 
 		if ( ! is_bool( $crop_only ) ) {
-			$crop_only = FALSE;
+			$crop_only = false;
 		}
 
 		// If $canvas_color is a HEX color, ensure it is hashed.
@@ -780,7 +772,7 @@ class cnImage {
 				$canvas_color = cnColor::name2hex( $canvas_color );
 
 				// Not a named color, set the default.
-				if ( $canvas_color === FALSE ) {
+				if ( $canvas_color === false ) {
 
 					$canvas_color = '#FFFFFF';
 				}
@@ -789,11 +781,7 @@ class cnImage {
 		}
 
 		// Ensure valid value for $quality. If invalid valid is supplied reset to the default of 90, matching WP core.
-		if ( filter_var(
-			     (int) $quality,
-			     FILTER_VALIDATE_INT,
-			     array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) )
-		     ) === FALSE ) {
+		if ( filter_var( (int) $quality, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) ) ) === false ) {
 
 			$quality = 82;
 		}
@@ -833,7 +821,7 @@ class cnImage {
 		// Support percentage dimensions. Compute percentage based on the original dimensions.
 		if ( is_string( $width ) && ! is_numeric( $width ) ) {
 
-			if ( stripos( $width, '%' ) !== FALSE ) {
+			if ( stripos( $width, '%' ) !== false ) {
 
 				$log->add( 'image_width_percentage', 'Width set as percentage.' );
 
@@ -850,7 +838,7 @@ class cnImage {
 
 		if ( is_string( $height ) && ! is_numeric( $height ) ) {
 
-			if ( stripos( $height, '%' ) !== FALSE ) {
+			if ( stripos( $height, '%' ) !== false ) {
 
 				$log->add( 'image_height_percentage', 'Height set as percentage.' );
 
@@ -868,7 +856,7 @@ class cnImage {
 		// The only purpose of this is to determine the final width and height
 		// without performing any actual image manipulation. This will be used
 		// to check whether a resize was done previously.
-		if ( ( ! empty( $width ) || ! empty( $height ) ) && $crop_only === FALSE ) {
+		if ( ( ! empty( $width ) || ! empty( $height ) ) && $crop_only === false ) {
 
 			switch ( $crop_mode ) {
 
@@ -877,9 +865,9 @@ class cnImage {
 					$dims  = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
-						( empty( $width ) ? NULL : $width ),
-						( empty( $height ) ? NULL : $height ),
-						FALSE
+						( empty( $width ) ? null : $width ),
+						( empty( $height ) ? null : $height ),
+						false
 					);
 
 					$dst_w = $dims[4];
@@ -892,9 +880,9 @@ class cnImage {
 					$dims  = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
-						( empty( $width ) ? NULL : $width ),
-						( empty( $height ) ? NULL : $height ),
-						( is_array( $crop_focus ) ? $crop_focus : TRUE )
+						( empty( $width ) ? null : $width ),
+						( empty( $height ) ? null : $height ),
+						( is_array( $crop_focus ) ? $crop_focus : true )
 					);
 
 					$dst_w = $dims[4];
@@ -966,9 +954,9 @@ class cnImage {
 					$dims  = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
-						( empty( $width ) ? NULL : $width ),
-						( empty( $height ) ? NULL : $height ),
-						FALSE
+						( empty( $width ) ? null : $width ),
+						( empty( $height ) ? null : $height ),
+						false
 					);
 
 					$dst_w = $dims[4];
@@ -981,7 +969,7 @@ class cnImage {
 			$log->add( 'image_resize_height', 'Resize height: ' . ( $dst_h === 0 ? '0' : $dst_h ) );
 
 		// Do not resize, only a crop in the image.
-		} elseif ( $crop_only === TRUE ) {
+		} elseif ( $crop_only === true ) {
 
 			// get x position to start cropping
 			$src_x = ( isset( $crop_x ) ) ? $crop_x : 0;
@@ -1024,7 +1012,7 @@ class cnImage {
 
 			} else {
 
-				$dst_w = NULL;
+				$dst_w = null;
 			}
 
 			// set the height resize with the crop
@@ -1034,13 +1022,13 @@ class cnImage {
 
 			} else {
 
-				$dst_h = NULL;
+				$dst_h = null;
 			}
 
 			// allow percentages
 			if ( isset( $dst_w ) ) {
 
-				if ( stripos( $dst_w, '%' ) !== FALSE ) {
+				if ( stripos( $dst_w, '%' ) !== false ) {
 
 					$dst_w = (int) ( (float) str_replace( '%', '', $dst_w ) / 100 * $orig_w );
 				}
@@ -1048,22 +1036,22 @@ class cnImage {
 
 			if ( isset( $dst_h ) ) {
 
-				if ( stripos( $dst_h, '%' ) !== FALSE ) {
+				if ( stripos( $dst_h, '%' ) !== false ) {
 
 					$dst_h = (int) ( (float) str_replace( '%', '', $dst_h ) / 100 * $orig_h );
 				}
 			}
 
-			$dims  = image_resize_dimensions( $src_w, $src_h, $dst_w, $dst_h, FALSE );
+			$dims  = image_resize_dimensions( $src_w, $src_h, $dst_w, $dst_h, false );
 			$dst_w = $dims[4];
 			$dst_h = $dims[5];
 
 			// Make the pos x and pos y work with percentages
-			if ( stripos( $src_x, '%' ) !== FALSE ) {
+			if ( stripos( $src_x, '%' ) !== false ) {
 				$src_x = (int) ( (float) str_replace( '%', '', $width ) / 100 * $orig_w );
 			}
 
-			if ( stripos( $src_y, '%' ) !== FALSE ) {
+			if ( stripos( $src_y, '%' ) !== false ) {
 				$src_y = (int) ( (float) str_replace( '%', '', $height ) / 100 * $orig_h );
 			}
 
@@ -1098,12 +1086,12 @@ class cnImage {
 			( $crop_focus ? ( is_array( $crop_focus ) ? str_replace( '.', '', join( '', $crop_focus ) ) : '1' ) : '0' ) .
 			$crop_mode .
 			( $crop_only ? '1' : '0' ) .
-			(isset($src_x) ? str_pad((string)$src_x, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($src_y) ? str_pad((string)$src_y, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($src_w) ? str_pad((string)$src_w, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($src_h) ? str_pad((string)$src_h, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($dst_w) ? str_pad((string)$dst_w, 5, '0', STR_PAD_LEFT) : '00000') .
-			(isset($dst_h) ? str_pad((string)$dst_h, 5, '0', STR_PAD_LEFT) : '00000') .
+			(isset( $src_x ) ? str_pad( (string)$src_x, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $src_y ) ? str_pad( (string)$src_y, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $src_w ) ? str_pad( (string)$src_w, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $src_h ) ? str_pad( (string)$src_h, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $dst_w ) ? str_pad( (string)$dst_w, 5, '0', STR_PAD_LEFT ) : '00000') .
+			(isset( $dst_h ) ? str_pad( (string)$dst_h, 5, '0', STR_PAD_LEFT ) : '00000') .
 			str_pad( preg_replace( '#^\##', '', $canvas_color ), 8, '0', STR_PAD_LEFT ) .
 			str_pad( (string) $quality, 3, '0', STR_PAD_LEFT );
 
@@ -1152,23 +1140,71 @@ class cnImage {
 
 			// Setup the $methods var to be passed to wp_get_image_editor()
 			// so the correct image editor engine can be chosen for processing the image.
-			if ( $negate ) $methods['methods'][]              = 'negate';
-			if ( $grayscale ) $methods['methods'][]           = 'grayscale';
-			if ( isset( $brightness ) ) $methods['methods'][] = 'brightness';
-			if ( isset( $colorize ) ) $methods['methods'][]   = 'colorize';
-			if ( isset( $contrast ) ) $methods['methods'][]   = 'contrast';
-			if ( $detect_edges ) $methods['methods'][]        = 'detect_edges';
-			if ( $emboss ) $methods['methods'][]              = 'emboss';
-			if ( $gaussian_blur ) $methods['methods'][]       = 'gaussian_blur';
-			if ( $blur ) $methods['methods'][]                = 'blur';
-			if ( $sketchy ) $methods['methods'][]             = 'sketchy';
-			if ( $sharpen ) $methods['methods'][]             = 'sharpen';
-			if ( isset( $smooth ) ) $methods['methods'][]     = 'smooth';
-			if ( isset( $opacity ) ) $methods['methods'][]    = 'opacity';
-			if ( $crop_focus ) $methods['methods'][]          = 'crop';
-			if ( $crop_mode == 2 ) $methods['methods'][]      = 'resize_padded';
-			if ( $crop_only ) $methods['methods'][]           = 'resize';
-			$methods['methods'][]                             = 'set_quality';
+			if ( $negate ) {
+				$methods['methods'][] = 'negate';
+			}
+
+			if ( $grayscale ) {
+				$methods['methods'][] = 'grayscale';
+			}
+
+			if ( isset( $brightness ) ) {
+				$methods['methods'][] = 'brightness';
+			}
+
+			if ( isset( $colorize ) ) {
+				$methods['methods'][] = 'colorize';
+			}
+
+			if ( isset( $contrast ) ) {
+				$methods['methods'][] = 'contrast';
+			}
+
+			if ( $detect_edges ) {
+				$methods['methods'][] = 'detect_edges';
+			}
+
+			if ( $emboss ) {
+				$methods['methods'][] = 'emboss';
+			}
+
+			if ( $gaussian_blur ) {
+				$methods['methods'][] = 'gaussian_blur';
+			}
+
+			if ( $blur ) {
+				$methods['methods'][] = 'blur';
+			}
+
+			if ( $sketchy ) {
+				$methods['methods'][] = 'sketchy';
+			}
+
+			if ( $sharpen ) {
+				$methods['methods'][] = 'sharpen';
+			}
+
+			if ( isset( $smooth ) ) {
+				$methods['methods'][] = 'smooth';
+			}
+
+			if ( isset( $opacity ) ) {
+				$methods['methods'][] = 'opacity';
+			}
+
+			if ( $crop_focus ) {
+				$methods['methods'][] = 'crop';
+			}
+
+			if ( $crop_mode == 2 ) {
+				$methods['methods'][] = 'resize_padded';
+			}
+
+			if ( $crop_only ) {
+				$methods['methods'][] = 'resize';
+			}
+
+			$methods['methods'][] = 'set_quality';
 
 			// Perform resizing and other filters.
 			/** @var CN_Image_Editor_GD $editor */
@@ -1186,7 +1222,7 @@ class cnImage {
 			/*
 			 * Perform image manipulations.
 			 */
-			if ( $crop_only === FALSE ) {
+			if ( $crop_only === false ) {
 
 				if ( ( ! empty( $width ) && $width ) || ( ! empty( $height ) && $height ) ) {
 
@@ -1196,9 +1232,9 @@ class cnImage {
 
 							if ( is_wp_error(
 								$result = $editor->resize(
-									( empty( $width ) ? NULL : $width ),
-									( empty( $height ) ? NULL : $height ),
-									FALSE
+									( empty( $width ) ? null : $width ),
+									( empty( $height ) ? null : $height ),
+									false
 								)
 							) ) {
 
@@ -1213,9 +1249,9 @@ class cnImage {
 
 							if ( is_wp_error(
 								$result = $editor->resize(
-									( empty( $width ) ? NULL : $width ),
-									( empty( $height ) ? NULL : $height ),
-									( is_array( $crop_focus ) ? $crop_focus : TRUE )
+									( empty( $width ) ? null : $width ),
+									( empty( $height ) ? null : $height ),
+									( is_array( $crop_focus ) ? $crop_focus : true )
 								)
 							) ) {
 
@@ -1240,8 +1276,8 @@ class cnImage {
 									$canvas_w,
 									$canvas_h,
 									$canvas_color,
-									( empty( $width ) ? NULL : $width ),
-									( empty( $height ) ? NULL : $height ),
+									( empty( $width ) ? null : $width ),
+									( empty( $height ) ? null : $height ),
 									$orig_w,
 									$orig_h,
 									( empty( $origin_x ) ? 0 : $origin_x ),
@@ -1260,9 +1296,9 @@ class cnImage {
 
 							if ( is_wp_error(
 								$result = $editor->resize(
-									( empty( $width ) ? NULL : $width ),
-									( empty( $height ) ? NULL : $height ),
-									FALSE
+									( empty( $width ) ? null : $width ),
+									( empty( $height ) ? null : $height ),
+									false
 								)
 							) ) {
 
@@ -1482,7 +1518,7 @@ class cnImage {
 					'size'   => 'height="' . ( isset( $dst_h ) ? $dst_h : $orig_h ) . '" width="' . ( isset( $dst_w ) ? $dst_w : $orig_w ) . '"',
 					'mime'   => isset( $mime_type ) ? $mime_type : $orig_mime_type,
 					'type'   => $image_info[2],
-					'log'    => defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ? $log : __( 'WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image processing log.', 'connections' ),
+					'log'    => defined( 'WP_DEBUG' ) && WP_DEBUG === true ? $log : __( 'WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image processing log.', 'connections' ),
 				);
 				break;
 
@@ -1534,7 +1570,7 @@ class cnImage {
 	 *
 	 * @return bool|array         Returned array matches parameters for `imagecopyresampled()`.
 	 */
-	public static function resize_dimensions( $payload, $orig_w, $orig_h, $dest_w, $dest_h, $crop = FALSE ) {
+	public static function resize_dimensions( $payload, $orig_w, $orig_h, $dest_w, $dest_h, $crop = false ) {
 
 		if ( $crop ) {
 			// crop the largest possible portion of the original image that we can size to $dest_w x $dest_h
@@ -1642,26 +1678,26 @@ class cnImage {
 
 			// Ensure the supplied path is in either the WP_CONTENT/UPLOADS directory or
 			// the STYLESHEETPATH directory.
-			if ( strpos( $source, $upload_info['base_path'] ) !== FALSE || strpos( $source, $theme_dir ) !== FALSE ) {
+			if ( strpos( $source, $upload_info['base_path'] ) !== false || strpos( $source, $theme_dir ) !== false ) {
 
 				$img_path = $source;
 
 			} else {
 
-				$img_path = FALSE;
+				$img_path = false;
 			}
 
 		} else {
 
 			// find the path of the image. Perform 2 checks:
 			// #1 check if the image is in the uploads folder
-			if ( strpos( $source, $upload_info['base_url'] ) !== FALSE ) {
+			if ( strpos( $source, $upload_info['base_url'] ) !== false ) {
 
 				$rel_path = str_replace( $upload_info['base_url'], '', $source );
 				$img_path = $upload_info['base_path'] . $rel_path;
 
 				// #2 check if the image is in the current theme folder
-			} else if ( strpos( $source, $theme_url ) !== FALSE ) {
+			} else if ( strpos( $source, $theme_url ) !== false ) {
 
 				$rel_path = str_replace( $theme_url, '', $source );
 				$img_path = $theme_dir . $rel_path;
@@ -1691,7 +1727,7 @@ class cnImage {
 		}
 
 		// Check if img path exists, and is an image.
-		if ( ( $image_info = getimagesize( $img_path ) ) === FALSE ) {
+		if ( ( $image_info = getimagesize( $img_path ) ) === false ) {
 
 			return new WP_Error(
 				'image_not_image',
@@ -1813,7 +1849,7 @@ class cnImage {
 				'height' => '',
 				'size'   => '',
 				'mime'   => '',
-				'type'   => ''
+				'type'   => '',
 			);
 
 			/**
@@ -1900,7 +1936,7 @@ class cnImage {
 		$file['size']     = filesize( $path . $filename );
 		$file['tmp_name'] = $path . $filename;
 		$file['error']    = 0;
-		//var_dump( $file );
+		// var_dump( $file );
 
 		$sideload = new cnUpload( $file, $atts );
 
@@ -1922,7 +1958,7 @@ class cnImage {
 				'height' => '',
 				'size'   => '',
 				'mime'   => '',
-				'type'   => ''
+				'type'   => '',
 			);
 
 			/**
@@ -1964,9 +2000,9 @@ class cnImage {
 	private static function insertIntoMediaLibrary( $url ) {
 
 		/** Require dependencies */
-		require_once( ABSPATH . 'wp-admin/includes/image.php' );
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
 
 		// Save as a temporary file
 		$tmp = download_url( $url );
@@ -1999,7 +2035,7 @@ class cnImage {
 		);
 
 		$id = media_handle_sideload( $file_array, 0 );
-		//$attachment_url = wp_get_attachment_url( $id );
+		// $attachment_url = wp_get_attachment_url( $id );
 
 		// Check for handle sideload errors:
 		if ( is_wp_error( $id ) ) {
@@ -2111,7 +2147,7 @@ class cnImage {
 				$maxHeight
 			);
 
-			$result = $editor->resize( $newWidth, $newHeight, FALSE );
+			$result = $editor->resize( $newWidth, $newHeight, false );
 
 			if ( is_wp_error( $result ) ) {
 
@@ -2126,14 +2162,14 @@ class cnImage {
 				return $saved;
 			}
 
-			//$image['name'] = ''; Does not change because it is being overwritten.
+			// $image['name'] = ''; Does not change because it is being overwritten.
 			$image['path'] = $saved['path'];
-			//$image['url'] = ''; @todo This may need updated if the file name has changed.
+			// $image['url'] = ''; @todo This may need updated if the file name has changed.
 			$image['width']  = $saved['width'];
 			$image['height'] = $saved['height'];
 			$image['size']   = "width=\"{$saved['width']}\" height=\"{$saved['height']}\"";
 			$image['mime']   = $saved['mime-type'];
-			//$image['type'] = 0; @todo This might need to be updated if the image type has changed.
+			// $image['type'] = 0; @todo This might need to be updated if the image type has changed.
 
 		}
 

@@ -89,7 +89,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 *
 	 * @var bool
 	 */
-	public $is_writable = TRUE;
+	public $is_writable = true;
 
 	/**
 	 *  Is the export file empty
@@ -99,7 +99,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 *
 	 * @var bool
 	 */
-	public $is_empty = FALSE;
+	public $is_empty = false;
 
 	/**
 	 * Init class.
@@ -118,7 +118,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 
 		if ( ! is_writeable( $upload_dir['basedir'] ) ) {
 
-			$this->is_writable = FALSE;
+			$this->is_writable = false;
 		}
 	}
 
@@ -155,12 +155,12 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 
 		$rows = $this->writeRows();
 
-		if ( FALSE === $rows ) {
+		if ( false === $rows ) {
 
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -225,7 +225,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 			return $row_data;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -250,7 +250,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 		$default_cols = $this->getColumns();
 		$default_cols = empty( $default_cols ) ? 0 : 1;
 
-		$this->is_empty = count( $file_rows ) == $default_cols ? TRUE : FALSE;
+		$this->is_empty = count( $file_rows ) == $default_cols ? true : false;
 	}
 
 	/**
@@ -307,7 +307,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 		if ( @file_exists( $this->file ) ) {
 
 			if ( ! is_writeable( $this->file ) ) {
-				$this->is_writable = FALSE;
+				$this->is_writable = false;
 			}
 
 			$file = @file_get_contents( $this->file );
@@ -333,7 +333,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	public function download() {
 
 		// Clear the fields and types query caches.
-		cnCache::clear( TRUE, 'transient', 'cn-csv' );
+		cnCache::clear( true, 'transient', 'cn-csv' );
 
 		$this->headers();
 

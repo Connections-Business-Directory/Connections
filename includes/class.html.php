@@ -197,7 +197,7 @@ class cnHTML {
 				return self::input( $atts, $value );
 
 			default:
-				# todo Put action and or filter here.
+				// todo Put action and or filter here.
 				return '';
 		}
 	}
@@ -239,7 +239,7 @@ class cnHTML {
 
 		$atts['type']    = 'checkbox';
 		$atts['layout']  = '%field%%label%';
-		$atts['checked'] = checked( '1', $value, FALSE );
+		$atts['checked'] = checked( '1', $value, false );
 
 		return self::input( $atts, '1' );
 	}
@@ -517,7 +517,7 @@ class cnHTML {
 			'id'     => '',
 			'style'  => array(),
 			'label'  => '',
-			'return' => FALSE,
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -557,17 +557,17 @@ class cnHTML {
 			'name'         => '',
 			'style'        => array(),
 			'data'         => array(),
-			'autocomplete' => FALSE,
+			'autocomplete' => false,
 			'checked'      => '',
-			'readonly'     => FALSE,
-			'disabled'     => FALSE,
-			'required'     => FALSE,
+			'readonly'     => false,
+			'disabled'     => false,
+			'required'     => false,
 			'label'        => '',
 			'before'       => '',
 			'after'        => '',
 			'parts'        => array( '%label%', '%field%' ),
 			'layout'       => '%label%%field%',
-			'return'       => FALSE,
+			'return'       => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -630,7 +630,7 @@ class cnHTML {
 		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array( 'required' ) ) : $atts['class'];
 
 		// Create the field label, if supplied.
-		$replace[] = ! empty( $atts['label'] ) && 'hidden' !== $atts['type'] ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
+		$replace[] = ! empty( $atts['label'] ) && 'hidden' !== $atts['type'] ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';
 
 		$replace[] = sprintf(
 			'<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s %11$s/>',
@@ -644,7 +644,7 @@ class cnHTML {
 			self::attribute( 'autocomplete', $atts['autocomplete'] ),
 			! empty( $atts['checked'] ) ? $atts['checked'] : '',
 			$atts['readonly'] ? 'readonly="readonly"' : '',
-			disabled( $atts['disabled'], TRUE, FALSE )
+			disabled( $atts['disabled'], true, false )
 		);
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
@@ -670,16 +670,16 @@ class cnHTML {
 			'rows'        => '',
 			'maxlength'   => 0,
 			'style'       => array(),
-			'readonly'    => FALSE,
-			'disabled'    => FALSE,
-			'required'    => FALSE,
+			'readonly'    => false,
+			'disabled'    => false,
+			'required'    => false,
 			'placeholder' => '',
 			'label'       => '',
 			'before'      => '',
 			'after'       => '',
 			'parts'       => array( '%label%', '%field%' ),
 			'layout'      => '%label%%field%',
-			'return'      => FALSE,
+			'return'      => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -711,7 +711,7 @@ class cnHTML {
 		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array( 'required' ) ) : $atts['class'];
 
 		// Create the field label, if supplied.
-		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
+		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';
 
 		$replace[] = sprintf(
 			'<textarea %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s>%11$s</textarea>',
@@ -723,7 +723,7 @@ class cnHTML {
 			! empty( $atts['maxlength'] ) ? absint( $atts['maxlength'] ) : '',
 			self::attribute( 'style', $atts['style'] ),
 			$atts['readonly'] ? 'readonly="readonly"' : '',
-			disabled( $atts['disabled'], TRUE, FALSE ),
+			disabled( $atts['disabled'], true, false ),
 			! empty( $atts['placeholder'] ) ? $atts['placeholder'] : '',
 			esc_textarea( $value )
 		);
@@ -757,15 +757,15 @@ class cnHTML {
 			'id'       => '',
 			'style'    => array(),
 			'options'  => array(),
-			'readonly' => FALSE,
-			'required' => FALSE,
+			'readonly' => false,
+			'required' => false,
 			'label'    => '',
 			'before'   => '',
 			'after'    => '',
 			'display'  => 'inline',
 			'parts'    => array( '%label%', '%field%' ),
 			'layout'   => '%field%%label%',
-			'return'   => FALSE,
+			'return'   => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -841,7 +841,7 @@ class cnHTML {
 			$out .= "\t" . '<' . $tag . ' class="cn-' . esc_attr( $atts['type'] ) . '-option">';
 
 			// Create the field label, if supplied.
-			$replace[] = ! empty( $label ) ? self::label( array( 'for' => $atts['id'] . '[' . $key . ']', 'label' => $label, 'return' => TRUE ) ) : '';
+			$replace[] = ! empty( $label ) ? self::label( array( 'for' => $atts['id'] . '[' . $key . ']', 'label' => $label, 'return' => true ) ) : '';
 
 			$replace[] = self::input(
 				array(
@@ -853,8 +853,8 @@ class cnHTML {
 					'style'    => $atts['style'],
 					'readonly' => $atts['readonly'],
 					'value'    => $value,
-					'checked'  => checked( TRUE, in_array( $key, (array) $value ), FALSE ),
-					'return'   => TRUE,
+					'checked'  => checked( true, in_array( $key, (array) $value ), false ),
+					'return'   => true,
 				),
 				$key
 			);
@@ -895,16 +895,16 @@ class cnHTML {
 			'style'    => array(),
 			'default'  => '',
 			'options'  => array(),
-			'readonly' => FALSE,
-			'required' => FALSE,
+			'readonly' => false,
+			'required' => false,
 			'data'     => array(),
-			'enhanced' => FALSE,
+			'enhanced' => false,
 			'label'    => '',
 			'before'   => '',
 			'after'    => '',
 			'parts'    => array( '%label%', '%field%' ),
 			'layout'   => '%label%%field%',
-			'return'   => FALSE,
+			'return'   => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -945,7 +945,7 @@ class cnHTML {
 		}
 
 		// Create the field label, if supplied.
-		$replace['label'] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
+		$replace['label'] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';
 
 		// Open the select.
 		$replace['field'] = sprintf(
@@ -976,7 +976,7 @@ class cnHTML {
 			$replace['field'] .= sprintf(
 				'<option value="%1$s" %2$s>%3$s</option>',
 				esc_attr( $key ),
-				selected( $value, $key, FALSE ),
+				selected( $value, $key, false ),
 				esc_html( $label )
 			);
 		}

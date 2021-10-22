@@ -1,8 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The [cn_thumnb] shortcode.
@@ -26,23 +27,23 @@ class cnThumb_Responsive extends cnShortcode {
 		$permitted = array( 'attachment', 'featured', 'path', 'url', 'logo', 'photo' );
 		$defaults  = array(
 			'type'          => 'url',
-			'source'        => NULL,
-			'negate'        => FALSE,
-			'grayscale'     => FALSE,
+			'source'        => null,
+			'negate'        => false,
+			'grayscale'     => false,
 			'brightness'    => 0,
-			'colorize'      => NULL,
+			'colorize'      => null,
 			'contrast'      => 0,
-			'detect_edges'  => FALSE,
-			'emboss'        => FALSE,
-			'gaussian_blur' => FALSE,
-			'blur'          => FALSE,
-			'sketchy'       => FALSE,
-			'sharpen'       => FALSE,
-			'smooth'        => NULL,
+			'detect_edges'  => false,
+			'emboss'        => false,
+			'gaussian_blur' => false,
+			'blur'          => false,
+			'sketchy'       => false,
+			'sharpen'       => false,
+			'smooth'        => null,
 			'opacity'       => 100,
 			'crop_mode'     => 1,
 			'crop_focus'    => array( .5, .5 ),
-			'crop_only'     => FALSE,
+			'crop_only'     => false,
 			'canvas_color'  => '#FFFFFF',
 			'quality'       => 90,
 			'sizes'         => '1024|640|320',
@@ -54,7 +55,7 @@ class cnThumb_Responsive extends cnShortcode {
 
 		if ( ! in_array( $atts['type'], $permitted ) ) {
 
-			return __( 'Valid image source type not supplied.', 'connections' );
+			return esc_html__( 'Valid image source type not supplied.', 'connections' );
 		}
 
 		/*
@@ -76,9 +77,9 @@ class cnThumb_Responsive extends cnShortcode {
 		array_map( 'trim', $atts['sizes'] );
 		array_map( 'absint', $atts['sizes'] );
 
-		if ( empty( $atts['sizes']) ) {
+		if ( empty( $atts['sizes'] ) ) {
 
-			return __( 'No image sizes were supplied or supplied values were invalid.', 'connections' );
+			return esc_html__( 'No image sizes were supplied or supplied values were invalid.', 'connections' );
 		}
 
 		switch ( $atts['type'] ) {
@@ -154,12 +155,12 @@ class cnThumb_Responsive extends cnShortcode {
 				// Display the error messages.
 				return implode( PHP_EOL, $image->get_error_messages() );
 
-			} elseif ( $image === FALSE ) {
+			} elseif ( $image === false ) {
 
-				return __( 'An error has occured while creating the thumbnail.', 'connections' );
+				return esc_html__( 'An error has occured while creating the thumbnail.', 'connections' );
 			}
 
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 
 				$log[] = '<pre>' . $image['log'] . '</pre>';
 			}
@@ -167,12 +168,13 @@ class cnThumb_Responsive extends cnShortcode {
 			$srcset[] = $image['url'] . ' ' . $width . 'w';
 		}
 
-		$out = sprintf( '<img class="cn-image" srcset="%1$s" sizes="100vw"%2$s />',
+		$out = sprintf(
+			'<img class="cn-image" srcset="%1$s" sizes="100vw"%2$s />',
 			implode( ',', $srcset ),
 			empty( $content ) ? '' : ' alt="' . esc_attr( $content ) . '"'
-			);
+		);
 
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
 
 			$out .= implode( '', $log );
 		}

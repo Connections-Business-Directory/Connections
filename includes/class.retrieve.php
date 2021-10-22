@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Query\Taxonomy as Taxonomy_Query;
 use Connections_Directory\Request;
@@ -89,50 +91,50 @@ class cnRetrieve {
 		$where[]              = 'WHERE 1=1';
 		$having               = array();
 		$orderBy              = array();
-		$random               = FALSE;
+		$random               = false;
 		$visibility           = array();
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['list_type']             = NULL;
-		$defaults['category']              = NULL;
+		$defaults['list_type']             = null;
+		$defaults['category']              = null;
 		// Map category attributes to new attribute names and set defaults.
 		$defaults['category__and']         = _array::get( $atts, 'category_in', array() );
 		$defaults['category__not_in']      = _array::get( $atts, 'exclude_category', array() );
 		$defaults['category_name__in']     = _array::get( $atts, 'category_name', array() );
 		$defaults['category_slug__in']     = _array::get( $atts, 'category_slug', array() );
-		//$defaults['wp_current_category']   = FALSE;
+		// $defaults['wp_current_category']   = FALSE;
 		$defaults['char']                  = '';
-		$defaults['id']                    = NULL;
-		$defaults['id__not_in']            = NULL;
-		$defaults['slug']                  = NULL;
-		$defaults['family_name']           = NULL;
-		$defaults['last_name']             = NULL;
-		$defaults['title']                 = NULL;
-		$defaults['organization']          = NULL;
-		$defaults['department']            = NULL;
-		$defaults['district']              = NULL;
-		$defaults['county']                = NULL;
-		$defaults['city']                  = NULL;
-		$defaults['state']                 = NULL;
-		$defaults['zip_code']              = NULL;
-		$defaults['country']               = NULL;
-		$defaults['visibility']            = NULL;
-		$defaults['process_user_caps']     = TRUE;
+		$defaults['id']                    = null;
+		$defaults['id__not_in']            = null;
+		$defaults['slug']                  = null;
+		$defaults['family_name']           = null;
+		$defaults['last_name']             = null;
+		$defaults['title']                 = null;
+		$defaults['organization']          = null;
+		$defaults['department']            = null;
+		$defaults['district']              = null;
+		$defaults['county']                = null;
+		$defaults['city']                  = null;
+		$defaults['state']                 = null;
+		$defaults['zip_code']              = null;
+		$defaults['country']               = null;
+		$defaults['visibility']            = null;
+		$defaults['process_user_caps']     = true;
 		$defaults['status']                = array( 'approved' );
 		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
-		$defaults['limit']                 = NULL;
+		$defaults['limit']                 = null;
 		$defaults['offset']                = 0;
 		$defaults['meta_query']            = array();
-		$defaults['allow_public_override'] = FALSE;
-		$defaults['private_override']      = FALSE;
-		$defaults['search_terms']          = NULL;
+		$defaults['allow_public_override'] = false;
+		$defaults['private_override']      = false;
+		$defaults['search_terms']          = null;
 
 		// $atts vars to support showing entries within a specified radius.
-		$defaults['near_addr']             = NULL;
-		$defaults['latitude']              = NULL;
-		$defaults['longitude']             = NULL;
+		$defaults['near_addr']             = null;
+		$defaults['latitude']              = null;
+		$defaults['longitude']             = null;
 		$defaults['radius']                = 10;
 		$defaults['unit']                  = 'mi';
 
@@ -168,20 +170,20 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['slug'] ) || ! empty( $atts['category_slug__in'] ) ) {
 
-			$atts['list_type']           = NULL;
-			$atts['category']            = NULL;
+			$atts['list_type']           = null;
+			$atts['category']            = null;
 			$atts['category__and']       = null;
 			$atts['category__not_in']    = null;
 			$atts['category__and']       = null;
-			//$atts['wp_current_category'] = NULL;
+			// $atts['wp_current_category'] = NULL;
 		}
 
 		if ( ! empty( $atts['slug'] ) ) {
 
-			$atts['list_type'] = NULL;
-			$atts['near_addr'] = NULL;
-			$atts['latitude']  = NULL;
-			$atts['longitude'] = NULL;
+			$atts['list_type'] = null;
+			$atts['near_addr'] = null;
+			$atts['latitude']  = null;
+			$atts['longitude'] = null;
 			$atts['radius']    = 10;
 			$atts['unit']      = 'mi';
 		}
@@ -220,7 +222,7 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['search_terms'] ) ) {
 			$searchResults = $this->search( array( 'terms' => $atts['search_terms'] ) );
-			//print_r($searchResults);
+			// print_r($searchResults);
 
 			// If there were no results, add a WHERE clause that will not return results when performing the whole query.
 			if ( empty( $searchResults ) ) {
@@ -290,7 +292,9 @@ class cnRetrieve {
 
 		if ( ! empty( $atts['district'] ) || ! empty( $atts['county'] ) || ! empty( $atts['city'] ) || ! empty( $atts['state'] ) || ! empty( $atts['zip_code'] ) || ! empty( $atts['country'] ) ) {
 
-			if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+			if ( ! isset( $join['address'] ) ) {
+				$join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+			}
 
 			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'district', 'value' => $atts['district'] ) );
 			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'county', 'value' => $atts['county'] ) );
@@ -331,8 +335,8 @@ class cnRetrieve {
 		/*
 		 * // START --> Geo-limit the query.
 		 */
-		//$atts['latitude'] = 40.3663671;
-		//$atts['longitude'] = -75.8876941;
+		// $atts['latitude'] = 40.3663671;
+		// $atts['longitude'] = -75.8876941;
 
 		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) {
 			$earthRadius = 6371;  // Earth's radius in (SI) km.
@@ -359,7 +363,9 @@ class cnRetrieve {
 			array_unshift( $from, $geoSubselect );
 
 			// Add the JOIN for the address table. NOTE: This JOIN is also set in the ORDER BY section. The 'address' index is to make sure it doea not get added to the query twice.
-			if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+			if ( ! isset( $join['address'] ) ) {
+				$join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+			}
 
 			// Add the WHERE statement to limit the query to a geographic circle per the defined radius.
 			$where[] = $wpdb->prepare( 'AND acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 < %f' , $atts['latitude'] , $atts['latitude'] , $atts['longitude'] , $atts['radius'] );
@@ -400,9 +406,9 @@ class cnRetrieve {
 			'state',
 			'zipcode',
 			'country',
-			//'birthday',
-			//'anniversary',
-			'sort_column'
+			// 'birthday',
+			// 'anniversary',
+			'sort_column',
 		);
 
 		$orderFlags = array(
@@ -450,12 +456,16 @@ class cnRetrieve {
 			// Check to make sure the supplied field is one of the valid fields to order by.
 			if ( in_array( $field[0], $orderFields ) || cnString::startsWith( 'meta_key:', $field[0] ) ) {
 				// The date_modified actually maps to the `ts` column in the db.
-				if ( $field[0] == 'date_modified' ) $field[0] = 'ts';
+				if ( $field[0] == 'date_modified' ) {
+					$field[0] = 'ts';
+				}
 
 				// If one of the order fields is an address region add the INNER JOIN to the CN_ENTRY_ADDRESS_TABLE
 				if ( $field[0] == 'city' || $field[0] == 'state' || $field[0] == 'zipcode' || $field[0] == 'country' ) {
 
-					if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+					if ( ! isset( $join['address'] ) ) {
+						$join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+					}
 				}
 
 				if ( cnString::startsWith( 'meta_key:', $field[0] ) ) {
@@ -489,7 +499,10 @@ class cnRetrieve {
 
 				if ( in_array( $field[0], $dateTypes ) ) {
 
-					if ( ! isset( $join['date'] ) ) $join['date'] = 'INNER JOIN ' . CN_ENTRY_DATE_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_DATE_TABLE . '.entry_id )';
+					if ( ! isset( $join['date'] ) ) {
+						$join['date'] = 'INNER JOIN ' . CN_ENTRY_DATE_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_DATE_TABLE . '.entry_id )';
+					}
+
 					$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_DATE_TABLE . '.type = %s', $field[0] );
 
 					$field[0] = 'date';
@@ -507,7 +520,9 @@ class cnRetrieve {
 						 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
 						 * Set the default sort flag if it was use on any other sort field than id.
 						 */
-						if ( ( $orderFlags[$field[1]] == 'SPECIFIED' || $orderFlags[$field[1]] == 'RANDOM' ) && $field[0] != 'id' ) $field[1] = 'SORT_ASC';
+						if ( ( $orderFlags[ $field[1] ] == 'SPECIFIED' || $orderFlags[ $field[1] ] == 'RANDOM' ) && $field[0] != 'id' ) {
+							$field[1] = 'SORT_ASC';
+						}
 
 						switch ( $orderFlags[$field[1]] ) {
 
@@ -526,7 +541,7 @@ class cnRetrieve {
 							 */
 							case 'RANDOM':
 
-								$random   = TRUE;
+								$random   = true;
 								break;
 
 								/*
@@ -549,7 +564,7 @@ class cnRetrieve {
 				}
 			}
 		}
-		//}
+		// }
 
 		if ( ! empty( $atts['meta_query'] ) ) {
 
@@ -638,11 +653,11 @@ class cnRetrieve {
 			// print_r($sql);
 		}
 
-		//if ( ! $results = $this->results( $sql ) ) {
+		// if ( ! $results = $this->results( $sql ) ) {
 
 			$results = $wpdb->get_results( $sql );
 
-			//$this->cache( $sql, $results );
+			// $this->cache( $sql, $results );
 
 			// The most recent query to have been executed by cnRetrieve::entries
 			$instance->lastQuery      = $wpdb->last_query;
@@ -661,7 +676,7 @@ class cnRetrieve {
 			$instance->resultCountNoLimit    = $foundRows[0]->{'FOUND_ROWS()'};
 			$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
 
-		//}
+		// }
 
 		// The total number of entries based on user permissions.
 		// $instance->recordCount         = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'] ) );
@@ -782,7 +797,7 @@ class cnRetrieve {
 
 				case 'cn-pg':
 					$atts['offset'] = ( ! empty( $queryVar ) ) ? ( $queryVar - 1 ) * $atts['limit'] : $atts['offset'];
-					$atts['offset'] = ( $atts['offset'] > 0 ) ? $atts['offset'] : NULL;
+					$atts['offset'] = ( $atts['offset'] > 0 ) ? $atts['offset'] : null;
 					break;
 
 				case 'cn-entry-slug':
@@ -859,7 +874,9 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the name if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categoryNames ) ) $categoryNames[] = $wpdb->prepare( '%s', $term->name );
+					if ( ! in_array( $term->name, $categoryNames ) ) {
+						$categoryNames[] = $wpdb->prepare( '%s', $term->name );
+					}
 				}
 			}
 		}
@@ -884,7 +901,9 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the slug if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categorySlugs ) ) $categorySlugs[] = sanitize_title( $term->slug );
+					if ( ! in_array( $term->name, $categorySlugs ) ) {
+						$categorySlugs[] = sanitize_title( $term->slug );
+					}
 				}
 			}
 		}
@@ -918,7 +937,10 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category__not_in'] ) ) {
 
-			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+			if ( ! isset( $categoryIDs ) ) {
+				$categoryIDs = array();
+			}
+
 			$categoryExcludeIDs = array();
 
 			$atts['category__not_in'] = wp_parse_id_list( $atts['category__not_in'] );
@@ -947,7 +969,7 @@ class cnRetrieve {
 
 			// Store the entryIDs that are to be excluded.
 			$results = $wpdb->get_col( $sql );
-			//print_r($results);
+			// print_r($results);
 
 			if ( ! empty( $results ) ) {
 
@@ -976,7 +998,7 @@ class cnRetrieve {
 
 				// Store the entryIDs that exist on all of the supplied category IDs
 				$results = $wpdb->get_col( $sql );
-				//print_r($results);
+				// print_r($results);
 
 				if ( ! empty( $results ) ) {
 					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
@@ -1335,7 +1357,7 @@ class cnRetrieve {
 
 		if ( ! in_array( $field, $validFields ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		switch ( $field ) {
@@ -1357,7 +1379,7 @@ class cnRetrieve {
 
 		if ( is_null( $result ) ) {
 
-			return FALSE;
+			return false;
 
 		} else {
 
@@ -1395,7 +1417,7 @@ class cnRetrieve {
 
 		if ( is_null( $result ) ) {
 
-			return FALSE;
+			return false;
 
 		} else {
 
@@ -1419,8 +1441,8 @@ class cnRetrieve {
 		$defaults = array(
 			'status'                => array( 'approved' ),
 			'visibility'            => array(),
-			'allow_public_override' => FALSE,
-			'private_override'      => FALSE
+			'allow_public_override' => false,
+			'private_override'      => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1466,8 +1488,8 @@ class cnRetrieve {
 		$defaults = array(
 			'status'                => array( 'approved' ),
 			'visibility'            => array(),
-			'allow_public_override' => FALSE,
-			'private_override'      => FALSE
+			'allow_public_override' => false,
+			'private_override'      => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1509,8 +1531,8 @@ class cnRetrieve {
 		$defaults = array(
 			'table'                 => CN_ENTRY_TABLE,
 			'visibility'            => array(),
-			'allow_public_override' => FALSE,
-			'private_override'      => FALSE
+			'allow_public_override' => false,
+			'private_override'      => false,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1524,7 +1546,9 @@ class cnRetrieve {
 					$visibility[] = 'public';
 				}
 
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
+				if ( current_user_can( 'connections_view_private' ) ) {
+					$visibility[] = 'private';
+				}
 
 				if ( current_user_can( 'connections_view_unlisted' ) &&
 				     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
@@ -1532,8 +1556,10 @@ class cnRetrieve {
 					$visibility[] = 'unlisted';
 				}
 
-				//var_dump( $visibility );
-				if ( empty( $visibility ) ) $visibility[] = 'none';
+				// var_dump( $visibility );
+				if ( empty( $visibility ) ) {
+					$visibility[] = 'none';
+				}
 
 			} else {
 
@@ -1544,24 +1570,35 @@ class cnRetrieve {
 			}
 
 		} else {
-			//var_dump( $connections->options->getAllowPublic() ); die;
+			// var_dump( $connections->options->getAllowPublic() ); die;
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
+			if ( ! cnOptions::loginRequired() ) {
+				$visibility[] = 'public';
+			}
 
 			// Display the 'public' entries if the public override shortcode option is enabled.
 			if ( $instance->options->getAllowPublicOverride() ) {
-				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
+				if ( $atts['allow_public_override'] == true ) {
+					$visibility[] = 'public';
+				}
 			}
 
 			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
 			if ( $instance->options->getAllowPrivateOverride() ) {
 				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
-				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
-				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
+				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == true ) {
+					$visibility[] = 'public';
+				}
+
+				if ( $atts['private_override'] == true ) {
+					$visibility[] = 'private';
+				}
 			}
 
-			if ( empty( $visibility ) ) $visibility[] = 'none';
+			if ( empty( $visibility ) ) {
+				$visibility[] = 'none';
+			}
 		}
 
 		$where[] = cnQuery::where( array( 'table' => $atts['table'], 'field' => 'visibility', 'value' => $visibility ) );
@@ -1586,7 +1623,7 @@ class cnRetrieve {
 		$valid     = array( 'approved', 'pending' );
 		$permitted = array( 'approved' );
 		$defaults  = array(
-			'status' => array( 'approved' )
+			'status' => array( 'approved' ),
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1658,12 +1695,12 @@ class cnRetrieve {
 		$defaults = array(
 			'type'                  => 'birthday',
 			'days'                  => 30,
-			'today'                 => TRUE,
+			'today'                 => true,
 			'visibility'            => array(),
-			'allow_public_override' => FALSE,
-			'private_override'      => FALSE,
+			'allow_public_override' => false,
+			'private_override'      => false,
 			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
-			'process_user_caps'     => TRUE,
+			'process_user_caps'     => true,
 			'from_timestamp'        => current_time( 'timestamp' ),
 		);
 
@@ -1748,7 +1785,9 @@ class cnRetrieve {
 				$exclude[] = $row->id;
 			}
 
-			if ( ! empty( $exclude ) ) $where[] = 'AND `id` NOT IN (\'' . implode( '\', \'', $exclude ) . '\')';
+			if ( ! empty( $exclude ) ) {
+				$where[] = 'AND `id` NOT IN (\'' . implode( '\', \'', $exclude ) . '\')';
+			}
 
 			// Only return entries in which the user has permission to view.
 			$where = self::setQueryVisibility( $where, array_merge( $atts, array( 'table' => CN_ENTRY_TABLE ) ) );
@@ -1780,10 +1819,10 @@ class cnRetrieve {
 			// print_r($sql);
 
 			// At this point there is likely little need to provide backwards support, lets remove it for now.
-			//$legacy = $wpdb->get_results( $sql );
+			// $legacy = $wpdb->get_results( $sql );
 			// var_dump($legacy);
 
-			//if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
+			// if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
 		}
 
 		if ( ! empty( $upcoming ) ) {
@@ -1878,7 +1917,7 @@ class cnRetrieve {
 
 		$terms = cnTerm::getRelationshipsCache( $id, $taxonomy );
 
-		if ( FALSE === $terms ) {
+		if ( false === $terms ) {
 
 			$terms = cnTerm::getRelationships( $id, $taxonomy, $atts );
 
@@ -1916,7 +1955,7 @@ class cnRetrieve {
 
 		if ( empty( $terms ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		return $terms;
@@ -1950,7 +1989,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function addresses( $atts = array(), $saving = FALSE ) {
+	public static function addresses( $atts = array(), $saving = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -1959,10 +1998,10 @@ class cnRetrieve {
 
 		$defaults = array(
 			'fields'      => 'all',
-			'id'          => NULL,
-			'preferred'   => FALSE,
+			'id'          => null,
+			'preferred'   => false,
 			'type'        => array(),
-			'visibility'  => NULL,
+			'visibility'  => null,
 			'district'    => array(),
 			'county'      => array(),
 			'city'        => array(),
@@ -1970,7 +2009,7 @@ class cnRetrieve {
 			'zipcode'     => array(),
 			'country'     => array(),
 			'coordinates' => array(),
-			'limit'       => NULL,
+			'limit'       => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2119,7 +2158,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function phoneNumbers( $atts = array(), $saving = FALSE ) {
+	public static function phoneNumbers( $atts = array(), $saving = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2128,10 +2167,10 @@ class cnRetrieve {
 
 		$defaults = array(
 			'fields'    => 'all',
-			'id'        => NULL,
-			'preferred' => FALSE,
+			'id'        => null,
+			'preferred' => false,
 			'type'      => array(),
-			'limit'     => NULL,
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2179,7 +2218,9 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'p' ) );
+		if ( ! $saving ) {
+			$where = self::setQueryVisibility( $where, array( 'table' => 'p' ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2214,7 +2255,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function emailAddresses( $atts = array(), $saving = FALSE ) {
+	public static function emailAddresses( $atts = array(), $saving = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2223,10 +2264,10 @@ class cnRetrieve {
 
 		$defaults = array(
 			'fields'    => 'all',
-			'id'        => NULL,
-			'preferred' => FALSE,
+			'id'        => null,
+			'preferred' => false,
 			'type'      => array(),
-			'limit'     => NULL,
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2274,7 +2315,9 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'e' ) );
+		if ( ! $saving ) {
+			$where = self::setQueryVisibility( $where, array( 'table' => 'e' ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2309,7 +2352,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function imIDs( $atts = array(), $saving = FALSE ) {
+	public static function imIDs( $atts = array(), $saving = false ) {
 
 		/**  @var wpdb $wpdb */
 		global $wpdb;
@@ -2318,10 +2361,10 @@ class cnRetrieve {
 
 		$defaults = array(
 			'fields'    => 'all',
-			'id'        => NULL,
-			'preferred' => FALSE,
+			'id'        => null,
+			'preferred' => false,
 			'type'      => array(),
-			'limit'     => NULL,
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2369,7 +2412,9 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'i' ) );
+		if ( ! $saving ) {
+			$where = self::setQueryVisibility( $where, array( 'table' => 'i' ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2404,7 +2449,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function socialMedia( $atts = array(), $saving = FALSE ) {
+	public static function socialMedia( $atts = array(), $saving = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2413,10 +2458,10 @@ class cnRetrieve {
 
 		$defaults = array(
 			'fields'    => 'all',
-			'id'        => NULL,
-			'preferred' => FALSE,
+			'id'        => null,
+			'preferred' => false,
 			'type'      => array(),
-			'limit'     => NULL,
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2464,7 +2509,9 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 's' ) );
+		if ( ! $saving ) {
+			$where = self::setQueryVisibility( $where, array( 'table' => 's' ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2499,7 +2546,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function links( $atts = array(), $saving = FALSE ) {
+	public static function links( $atts = array(), $saving = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2508,12 +2555,12 @@ class cnRetrieve {
 
 		$defaults = array(
 			'fields'    => 'all',
-			'id'        => NULL,
-			'preferred' => FALSE,
-			'image'     => FALSE,
-			'logo'      => FALSE,
+			'id'        => null,
+			'preferred' => false,
+			'image'     => false,
+			'logo'      => false,
 			'type'      => array(),
-			'limit'     => NULL,
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2573,7 +2620,9 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'l' ) );
+		if ( ! $saving ) {
+			$where = self::setQueryVisibility( $where, array( 'table' => 'l' ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2609,7 +2658,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function dates( $atts = array(), $saving = FALSE ) {
+	public static function dates( $atts = array(), $saving = false ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2618,10 +2667,10 @@ class cnRetrieve {
 
 		$defaults = array(
 			'fields'    => 'all',
-			'id'        => NULL,
-			'preferred' => FALSE,
+			'id'        => null,
+			'preferred' => false,
 			'type'      => array(),
-			'limit'     => NULL,
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2669,7 +2718,9 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'd' ) );
+		if ( ! $saving ) {
+			$where = self::setQueryVisibility( $where, array( 'table' => 'd' ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2713,37 +2764,101 @@ class cnRetrieve {
 		$fields     = apply_filters( 'cn_search_fields', $fields );
 
 		// If no search search fields are set, return an empty array.
-		if ( empty( $fields ) ) return array();
+		if ( empty( $fields ) ) {
+			return array();
+		}
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults['terms'] = array();
 
-		if ( in_array( 'family_name', $fields ) ) $defaults['fields']['entry'][]        = 'family_name';
-		if ( in_array( 'first_name', $fields ) ) $defaults['fields']['entry'][]         = 'first_name';
-		if ( in_array( 'middle_name', $fields ) ) $defaults['fields']['entry'][]        = 'middle_name';
-		if ( in_array( 'last_name', $fields ) ) $defaults['fields']['entry'][]          = 'last_name';
-		if ( in_array( 'title', $fields ) ) $defaults['fields']['entry'][]              = 'title';
-		if ( in_array( 'organization', $fields ) ) $defaults['fields']['entry'][]       = 'organization';
-		if ( in_array( 'department', $fields ) ) $defaults['fields']['entry'][]         = 'department';
-		if ( in_array( 'contact_first_name', $fields ) ) $defaults['fields']['entry'][] = 'contact_first_name';
-		if ( in_array( 'contact_last_name', $fields ) ) $defaults['fields']['entry'][]  = 'contact_last_name';
-		if ( in_array( 'bio', $fields ) ) $defaults['fields']['entry'][]                = 'bio';
-		if ( in_array( 'notes', $fields ) ) $defaults['fields']['entry'][]              = 'notes';
+		if ( in_array( 'family_name', $fields ) ) {
+			$defaults['fields']['entry'][] = 'family_name';
+		}
 
-		if ( in_array( 'address_line_1', $fields ) ) $defaults['fields']['address'][]   = 'line_1';
-		if ( in_array( 'address_line_2', $fields ) ) $defaults['fields']['address'][]   = 'line_2';
-		if ( in_array( 'address_line_3', $fields ) ) $defaults['fields']['address'][]   = 'line_3';
-		if ( in_array( 'address_line_4', $fields ) ) $defaults['fields']['address'][]   = 'line_4';
-		if ( in_array( 'address_district', $fields ) ) $defaults['fields']['address'][] = 'district';
-		if ( in_array( 'address_county', $fields ) ) $defaults['fields']['address'][]   = 'county';
-		if ( in_array( 'address_city', $fields ) ) $defaults['fields']['address'][]     = 'city';
-		if ( in_array( 'address_state', $fields ) ) $defaults['fields']['address'][]    = 'state';
-		if ( in_array( 'address_zipcode', $fields ) ) $defaults['fields']['address'][]  = 'zipcode';
-		if ( in_array( 'address_country', $fields ) ) $defaults['fields']['address'][]  = 'country';
+		if ( in_array( 'first_name', $fields ) ) {
+			$defaults['fields']['entry'][] = 'first_name';
+		}
 
-		if ( in_array( 'phone_number', $fields ) ) $defaults['fields']['phone'][]       = 'number';
+		if ( in_array( 'middle_name', $fields ) ) {
+			$defaults['fields']['entry'][] = 'middle_name';
+		}
+
+		if ( in_array( 'last_name', $fields ) ) {
+			$defaults['fields']['entry'][] = 'last_name';
+		}
+
+		if ( in_array( 'title', $fields ) ) {
+			$defaults['fields']['entry'][] = 'title';
+		}
+
+		if ( in_array( 'organization', $fields ) ) {
+			$defaults['fields']['entry'][] = 'organization';
+		}
+
+		if ( in_array( 'department', $fields ) ) {
+			$defaults['fields']['entry'][] = 'department';
+		}
+		if ( in_array( 'contact_first_name', $fields ) ) {
+			$defaults['fields']['entry'][] = 'contact_first_name';
+		}
+
+		if ( in_array( 'contact_last_name', $fields ) ) {
+			$defaults['fields']['entry'][] = 'contact_last_name';
+		}
+
+		if ( in_array( 'bio', $fields ) ) {
+			$defaults['fields']['entry'][] = 'bio';
+		}
+
+		if ( in_array( 'notes', $fields ) ) {
+			$defaults['fields']['entry'][] = 'notes';
+		}
+
+
+		if ( in_array( 'address_line_1', $fields ) ) {
+			$defaults['fields']['address'][] = 'line_1';
+		}
+
+		if ( in_array( 'address_line_2', $fields ) ) {
+			$defaults['fields']['address'][] = 'line_2';
+		}
+		if ( in_array( 'address_line_3', $fields ) ) {
+			$defaults['fields']['address'][] = 'line_3';
+		}
+
+		if ( in_array( 'address_line_4', $fields ) ) {
+			$defaults['fields']['address'][] = 'line_4';
+		}
+
+		if ( in_array( 'address_district', $fields ) ) {
+			$defaults['fields']['address'][] = 'district';
+		}
+
+		if ( in_array( 'address_county', $fields ) ) {
+			$defaults['fields']['address'][] = 'county';
+		}
+
+		if ( in_array( 'address_city', $fields ) ) {
+			$defaults['fields']['address'][] = 'city';
+		}
+
+		if ( in_array( 'address_state', $fields ) ) {
+			$defaults['fields']['address'][] = 'state';
+		}
+
+		if ( in_array( 'address_zipcode', $fields ) ) {
+			$defaults['fields']['address'][] = 'zipcode';
+		}
+
+		if ( in_array( 'address_country', $fields ) ) {
+			$defaults['fields']['address'][] = 'country';
+		}
+
+		if ( in_array( 'phone_number', $fields ) ) {
+			$defaults['fields']['phone'][] = 'number';
+		}
 
 		$defaults['fields']['meta'] = array_diff(
 			$fields,
@@ -2760,13 +2875,15 @@ class cnRetrieve {
 		 */
 
 		// If no search terms were entered, return an empty array.
-		if ( empty( $atts['terms'] ) ) return array();
+		if ( empty( $atts['terms'] ) ) {
+			return array();
+		}
 
 		// If value is a string, stripe the white space and covert to an array.
-		//if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ', trim( $atts['terms'] ) );
+		// if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ', trim( $atts['terms'] ) );
 
 		// Trim any white space from around the terms in the array.
-		//array_walk( $atts['terms'] , 'trim' );
+		// array_walk( $atts['terms'] , 'trim' );
 
 		$original = $atts['terms'];
 
@@ -2782,7 +2899,9 @@ class cnRetrieve {
 		$atts['terms'] = $this->parse_search_terms( $atts['terms'] );
 
 		// If no search terms are left after removing stop words, return an empty array.
-		if ( empty( $atts['terms'] ) ) return array();
+		if ( empty( $atts['terms'] ) ) {
+			return array();
+		}
 
 		/*
 		 * Perform search using FULLTEXT if enabled.
@@ -2980,7 +3099,9 @@ class cnRetrieve {
 				/*
 				 * If any results are returned merge them in to the $scored results.
 				 */
-				if ( ! empty( $ids ) ) $scored = array_merge( $scored, $ids );
+				if ( ! empty( $ids ) ) {
+					$scored = array_merge( $scored, $ids );
+				}
 			}
 
 			/*
@@ -3047,7 +3168,9 @@ class cnRetrieve {
 				/*
 				 * If any results are returned merge them in to the $scored results.
 				 */
-				if ( ! empty( $ids ) ) $scored = array_merge( $scored, $ids );
+				if ( ! empty( $ids ) ) {
+					$scored = array_merge( $scored, $ids );
+				}
 			}
 
 			/*
@@ -3089,7 +3212,9 @@ class cnRetrieve {
 				/*
 				 * If any results are returned merge them in to the $scored results.
 				 */
-				if ( ! empty( $ids ) ) $scored = array_merge( $scored, $ids );
+				if ( ! empty( $ids ) ) {
+					$scored = array_merge( $scored, $ids );
+				}
 			}
 
 			$scored = apply_filters( 'cn_search_scored_results', $scored, $terms );
@@ -3140,10 +3265,10 @@ class cnRetrieve {
 				$sql =  'SELECT ' . CN_ENTRY_TABLE . '.id
 									FROM ' . CN_ENTRY_TABLE . '
 									WHERE (' . implode( ') OR (' , $like ) . ')';
-				//print_r($sql);
+				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
-				//print_r($results);die;
+				// print_r($results);die;
 			}
 
 			/*
@@ -3166,10 +3291,10 @@ class cnRetrieve {
 				$sql =  'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_ADDRESS_TABLE . '
 									WHERE (' . implode( ') OR (' , $like ) . ')';
-				//print_r($sql);
+				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
-				//print_r($results);
+				// print_r($results);
 			}
 
 			/*
@@ -3192,10 +3317,10 @@ class cnRetrieve {
 				$sql =  'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_PHONE_TABLE . '
 									WHERE (' . implode( ') OR (' , $like ) . ')';
-				//print_r($sql);
+				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
-				//print_r($results);
+				// print_r($results);
 			}
 
 		}
@@ -3229,17 +3354,20 @@ class cnRetrieve {
 
 		foreach ( $terms as $term ) {
 			// keep before/after spaces when term is for exact match
-			if ( preg_match( '/^".+"$/', $term ) )
+			if ( preg_match( '/^".+"$/', $term ) ) {
 				$term = trim( $term, "\"'" );
-			else
+			} else {
 				$term = trim( $term, "\"' " );
+			}
 
 			// Avoid single A-Z.
-			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z]$/i', $term ) ) )
+			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z]$/i', $term ) ) ) {
 				continue;
+			}
 
-			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) )
+			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) ) {
 				continue;
+			}
 
 			$checked[] = $term;
 		}
@@ -3260,21 +3388,29 @@ class cnRetrieve {
 	 * @return array Stopwords.
 	 */
 	protected function get_search_stopwords() {
-		if ( isset( $this->stopwords ) )
+		if ( isset( $this->stopwords ) ) {
 			return $this->stopwords;
+		}
 
 		/* translators: This is a comma-separated list of very common words that should be excluded from a search,
 		 * like a, an, and the. These are usually called "stopwords". You should not simply translate these individual
 		 * words into your language. Instead, look for and provide commonly accepted stopwords in your language.
 		 */
-		$words = explode( ',', _x( 'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
-			'Comma-separated list of search stopwords in your language', 'connections' ) );
+		$words = explode(
+			',',
+			_x(
+				'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
+				'Comma-separated list of search stopwords in your language',
+				'connections'
+			)
+		);
 
 		$stopwords = array();
 		foreach( $words as $word ) {
 			$word = trim( $word, "\r\n\t " );
-			if ( $word )
+			if ( $word ) {
 				$stopwords[] = $word;
+			}
 		}
 
 		/**
@@ -3338,11 +3474,13 @@ class cnRetrieve {
 	 *
 	 * @return array of objects
 	 */
-	private function orderBy( &$entries, $orderBy, $suppliedIDs = NULL ) {
+	private function orderBy( &$entries, $orderBy, $suppliedIDs = null ) {
 
 		_deprecated_function( __METHOD__, '9.15' );
 
-		if ( empty( $entries ) || empty( $orderBy ) ) return $entries;
+		if ( empty( $entries ) || empty( $orderBy ) ) {
+			return $entries;
+		}
 
 		$orderFields = array(
 			'id',
@@ -3358,7 +3496,7 @@ class cnRetrieve {
 			'zipcode',
 			'country',
 			'birthday',
-			'anniversary'
+			'anniversary',
 		);
 
 		$sortFlags = array(
@@ -3368,10 +3506,10 @@ class cnRetrieve {
 			'SORT_DESC' => SORT_DESC,
 			'SORT_REGULAR' => SORT_REGULAR,
 			'SORT_NUMERIC' => SORT_NUMERIC,
-			'SORT_STRING' => SORT_STRING
+			'SORT_STRING' => SORT_STRING,
 		);
 
-		$specifiedIDOrder = FALSE;
+		$specifiedIDOrder = false;
 
 		// Build an array of each field to sort by and attributes.
 		$sortFields = explode( ',', $orderBy );
@@ -3392,7 +3530,9 @@ class cnRetrieve {
 			$field[0] = strtolower( trim( $field[0] ) );
 
 			// If a user included a sort field that is invalid/mis-spelled it is skipped since it can not be used.
-			if ( !in_array( $field[0], $orderFields ) ) continue;
+			if ( ! in_array( $field[0], $orderFields ) ) {
+				continue;
+			}
 
 			// The dynamic variable are being created and populated.
 			foreach ( $entries as $key => $row ) {
@@ -3436,7 +3576,7 @@ class cnRetrieve {
 						$addresses = $entry->getAddresses();
 
 						foreach ( $addresses as $address ) {
-							//${$field[0]}[$key] = $address[$field[0]];
+							// ${$field[0]}[$key] = $address[$field[0]];
 							${$field[0]}[$key] = $address->$field[0];
 
 							// Only set the data from the first address.
@@ -3445,7 +3585,7 @@ class cnRetrieve {
 
 					}
 					else {
-						${$field[0]}[$key] = NULL;
+						${$field[0]}[$key] = null;
 					}
 					break;
 
@@ -3471,7 +3611,9 @@ class cnRetrieve {
 				$flag = strtoupper( trim( $flag ) );
 
 				// If a user included a sort tag that is invalid/mis-spelled it is skipped since it can not be used.
-				if ( !array_key_exists( $flag, $sortFlags ) ) continue;
+				if ( ! array_key_exists( $flag, $sortFlags ) ) {
+					continue;
+				}
 
 				/*
 				 * If the order is specified set the variable to true and continue
@@ -3533,7 +3675,7 @@ class cnRetrieve {
 		// Must be pass as reference or the multisort will fail.
 		$sortParams[] = &$entries;
 
-		//$sortParams = array(&$state, SORT_ASC, SORT_REGULAR, &$zipcode, SORT_DESC, SORT_STRING, &$entries);
+		// $sortParams = array(&$state, SORT_ASC, SORT_REGULAR, &$zipcode, SORT_DESC, SORT_STRING, &$entries);
 		call_user_func_array( 'array_multisort', $sortParams );
 
 		return $entries;
@@ -3565,8 +3707,8 @@ class cnRetrieve {
 		$where[]    = 'WHERE 1=1';
 
 		$defaults = array(
-			'public_override'  => TRUE,
-			'private_override' => TRUE,
+			'public_override'  => true,
+			'private_override' => true,
 			'status'           => array(),
 		);
 
@@ -3593,7 +3735,9 @@ class cnRetrieve {
 	 */
 	public function removeUnknownDateAdded( $results ) {
 		foreach ( $results as $key => $entry ) {
-			if ( empty( $entry->date_added ) ) unset( $results[$key] );
+			if ( empty( $entry->date_added ) ) {
+				unset( $results[ $key ] );
+			}
 		}
 
 		return $results;
@@ -3675,7 +3819,7 @@ class cnRetrieve {
 
 		} else {
 
-			return FALSE;
+			return false;
 		}
 
 	}

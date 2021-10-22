@@ -49,7 +49,7 @@ class Blocks {
 	public static function enqueueEditorAssets() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		//$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
 		$path = Connections_Directory()->pluginPath();
 
@@ -76,7 +76,7 @@ class Blocks {
 			"{$url}assets/dist/js/blocks-editor.js",
 			$jsDependencies,
 			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks-editor.js" ),
-			TRUE
+			true
 		);
 
 		wp_localize_script(
@@ -90,7 +90,7 @@ class Blocks {
 					),
 					'entryTypes' => \cnOptions::getEntryTypeOptions(),
 					'dateTypes'  => \cnOptions::getDateTypeOptions(),
-				)
+				),
 			)
 		);
 
@@ -107,7 +107,7 @@ class Blocks {
 	public static function enqueueAssets() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		//$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
 		$path = Connections_Directory()->pluginPath();
 
@@ -126,7 +126,7 @@ class Blocks {
 				"{$url}assets/dist/js/blocks-public.js",
 				array( 'wp-element', 'wp-html-entities' ),
 				\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks-public.js" ),
-				TRUE
+				true
 			);
 		}
 
@@ -158,7 +158,7 @@ class Blocks {
 		$categories[] = array(
 			'slug'  => 'connections-directory',
 			'title' => 'Connections Business Directory',
-			'icon'  => NULL,
+			'icon'  => null,
 		);
 
 		return $categories;

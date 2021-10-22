@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Provides a stateless log by extending WP_Error.
@@ -37,7 +39,7 @@ class cnLog_Stateless extends WP_Error {
 	 */
 	public function add( $code, $message, $data = '' ) {
 
-		if ( ! defined( 'WP_DEBUG' ) || FALSE === WP_DEBUG ) {
+		if ( ! defined( 'WP_DEBUG' ) || false === WP_DEBUG ) {
 
 			// $this->errors and $this->error_data needs to be brought into scope too.
 			// See note below about WP 4.0.
@@ -55,15 +57,15 @@ class cnLog_Stateless extends WP_Error {
 			$this->error_data = $error_data;
 		}
 
-		$execTime = sprintf( '%.6f', microtime( TRUE ) - $this->startTime );
+		$execTime = sprintf( '%.6f', microtime( true ) - $this->startTime );
 		$tick     = sprintf( '%.6f', 0 );
 
 		if ( $this->lastBenchTime > 0 ) {
 
-			$tick = sprintf( '%.6f', microtime( TRUE ) - $this->lastBenchTime );
+			$tick = sprintf( '%.6f', microtime( true ) - $this->lastBenchTime );
 		}
 
-		$this->lastBenchTime = microtime( TRUE );
+		$this->lastBenchTime = microtime( true );
 
 		/*
 		 * WordPress >= 4.0 made the errors and error_data vars private and added magic

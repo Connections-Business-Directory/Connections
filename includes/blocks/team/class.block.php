@@ -53,7 +53,7 @@ class Team {
 					),
 					'categoriesIn'         => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'columns'              => array(
 						'type'    => 'integer',
@@ -73,27 +73,27 @@ class Team {
 					),
 					'displayEmail'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displayDropShadow'    => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displayExcerpt'       => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'displayPhone'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displaySocial'        => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'displayTitle'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'gutterWidth'          => array(
 						'type'    => 'integer',
@@ -125,7 +125,7 @@ class Team {
 					),
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'imageType'            => array(
 						'type'    => 'string',
@@ -157,11 +157,11 @@ class Team {
 					),
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
+				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
-				//'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				//'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
+				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
+				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
@@ -193,7 +193,7 @@ class Team {
 			$classes[] = "cn-{$attributes['style']}";
 		}
 
-		//$classes[] = "cn-image-shape-{$attributes['imageShape']}";
+		// $classes[] = "cn-image-shape-{$attributes['imageShape']}";
 
 		if ( $attributes['displayDropShadow'] ) {
 
@@ -232,21 +232,21 @@ class Team {
 
 		if ( ! $template instanceof Template ) {
 
-			return '<p>' . __( 'Template not found.', 'connections' ) . '</p>';
+			return '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 		}
 
 		$entryTypes = \cnOptions::getEntryTypeOptions();
 
 		if ( ! array_key_exists( $attributes['listType'], $entryTypes ) ) {
 
-			$attributes['listType'] = NULL;
+			$attributes['listType'] = null;
 		}
 
 		$categories = \cnFunction::decodeJSON( $attributes['categories'] );
 
 		if ( is_wp_error( $categories ) ) {
 
-			$attributes['categories'] = NULL;
+			$attributes['categories'] = null;
 
 		} else {
 
@@ -259,7 +259,7 @@ class Team {
 
 		if ( is_wp_error( $excludeCategories ) ) {
 
-			$attributes['categoriesExclude'] = NULL;
+			$attributes['categoriesExclude'] = null;
 
 		} else {
 
@@ -297,7 +297,7 @@ class Team {
 
 		if ( 0 >= count( $results ) ) {
 
-			return '<p>' . __( 'No entries found.', 'connections' ) . '</p>';
+			return '<p>' . esc_html__( 'No entries found.', 'connections' ) . '</p>';
 		}
 
 		$id = self::createID( $attributes );
@@ -412,9 +412,9 @@ class Team {
 
 		$html = ob_get_clean();
 
-		if ( FALSE === $html ) {
+		if ( false === $html ) {
 
-			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
+			$html = '<p>' . esc_html__( 'Error rendering template.', 'connections' ) . '</p>';
 		}
 
 		return $html;

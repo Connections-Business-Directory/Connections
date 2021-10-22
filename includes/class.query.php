@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnQuery
@@ -158,7 +160,7 @@ class cnQuery {
 	 *
 	 * @return string
 	 */
-	public static function in( $values, $format, $in = TRUE ) {
+	public static function in( $values, $format, $in = true ) {
 
 		global $wpdb;
 

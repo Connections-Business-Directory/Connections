@@ -99,10 +99,14 @@ class cnDependency {
 		require_once CN_PATH . 'includes/functions.php';
 
 		// Include the autoloader for the Pear IMC classes.
-		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';
+		if ( ! class_exists( 'File_IMC' ) ) {
+			include_once CN_PATH . 'vendor/pear/IMC.php';
+		}
 
 		// Include the Encoding class.
-		if ( ! class_exists( '\ForceUTF8\Encoding' ) ) include_once CN_PATH . 'vendor/ForceUTF8/Encoding.php';
+		if ( ! class_exists( '\ForceUTF8\Encoding' ) ) {
+			include_once CN_PATH . 'vendor/ForceUTF8/Encoding.php';
+		}
 	}
 
 	/**
@@ -187,14 +191,16 @@ class cnDependency {
 		return array(
 
 			// Utility
-			'Connections_Directory\Utility\_'       => 'includes/Utility/_.php',
-			'Connections_Directory\Utility\_array'  => 'includes/Utility/_array.php',
-			'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
-			'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
-			'Connections_Directory\Utility\_escape' => 'includes/Utility/_escape.php',
-			'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
-			'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
-			'Connections_Directory\Utility\_url'    => 'includes/Utility/_url.php',
+			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
+			'Connections_Directory\Utility\_array'          => 'includes/Utility/_array.php',
+			'Connections_Directory\Utility\_color'          => 'includes/Utility/_color.php',
+			'Connections_Directory\Utility\_date'           => 'includes/Utility/_date.php',
+			'Connections_Directory\Utility\_escape'         => 'includes/Utility/_escape.php',
+			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
+			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
+			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',
+			'Connections_Directory\Utility\_url'            => 'includes/Utility/_url.php',
+			'Connections_Directory\Utility\_validate'       => 'includes/Utility/_validate.php',
 			'Connections_Directory\Utility\Convert\_length' => 'includes/Utility/Convert/_length.php',
 
 			// Localization
@@ -204,7 +210,10 @@ class cnDependency {
 			'cnUser'                   => 'includes/class.user.php',
 
 			// Request API.
-			'Connections_Directory\Request'                     => 'includes/Request.php',
+			'Connections_Directory\Request'                => 'includes/Request.php',
+			// 'Connections_Directory\Request\Nonce'          => 'includes/Request/Nonce.php',
+			// 'Connections_Directory\Request\Search'         => 'includes/Request/Search.php',
+			// 'Connections_Directory\Request\Variable'       => 'includes/Request/Variable.php',
 
 			// Taxonomy API.
 			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',
@@ -490,10 +499,10 @@ class cnDependency {
 			// Geocoder
 			'Connections_Directory\Geocoder\Geocoder'                         => 'includes/geocoder/class.geocoder.php',
 			'Connections_Directory\Geocoder\Assert'                           => 'includes/geocoder/class.assert.php',
-			//'Connections_Directory\Geocoder\Exception\Exception'              => 'includes/geocoder/exception/interface.exception.php',
-			//'Connections_Directory\Geocoder\Exception\Invalid_Argument'       => 'includes/geocoder/exception/class.invalid-argument.php',
-			//'Connections_Directory\Geocoder\Exception\Logic_Exception'        => 'includes/geocoder/exception/class.logic-exception.php',
-			//'Connections_Directory\Geocoder\Model\Address'                    => 'includes/geocoder/model/class.address.php',
+			// 'Connections_Directory\Geocoder\Exception\Exception'              => 'includes/geocoder/exception/interface.exception.php',
+			// 'Connections_Directory\Geocoder\Exception\Invalid_Argument'       => 'includes/geocoder/exception/class.invalid-argument.php',
+			// 'Connections_Directory\Geocoder\Exception\Logic_Exception'        => 'includes/geocoder/exception/class.logic-exception.php',
+			// 'Connections_Directory\Geocoder\Model\Address'                    => 'includes/geocoder/model/class.address.php',
 			'Connections_Directory\Geocoder\Model\Address_Builder'            => 'includes/geocoder/model/class.address-builder.php',
 			'Connections_Directory\Geocoder\Query\Query'                      => 'includes/geocoder/query/interface.query.php',
 			'Connections_Directory\Geocoder\Query\Address'                    => 'includes/geocoder/query/class.address.php',
@@ -507,7 +516,7 @@ class cnDependency {
 			// Map
 			'Connections_Directory\Map\Map'                                   => 'includes/map/class.map.php',
 			'Connections_Directory\Map\Map_Object'                            => 'includes/map/interface.map-object.php',
-			//'Connections_Directory\Map\Layer'                                 => 'includes/map/class.layer.php',
+			// 'Connections_Directory\Map\Layer'                                 => 'includes/map/class.layer.php',
 			'Connections_Directory\Map\Layer\Layer'                           => 'includes/map/layer/interface.layer.php',
 			'Connections_Directory\Map\Layer\Abstract_Layer'                  => 'includes/map/layer/abstract.layer.php',
 			'Connections_Directory\Map\Layer\Group\Layer_Group'               => 'includes/map/layer/group/class.layer-group.php',
@@ -520,8 +529,8 @@ class cnDependency {
 			'Connections_Directory\Map\Control\Layer\Layer_Control'           => 'includes/map/control/layer/class.layer.php',
 			'Connections_Directory\Map\UI\Marker'                             => 'includes/map/ui/class.marker.php',
 			'Connections_Directory\Map\UI\Popup'                              => 'includes/map/ui/class.popup.php',
-			//'Connections_Directory\Map\Marker'                                => 'includes/map/class.marker.php',
-			//'Connections_Directory\Map\Marker_Collection'                     => 'includes/map/class.marker-collection.php',
+			// 'Connections_Directory\Map\Marker'                                => 'includes/map/class.marker.php',
+			// 'Connections_Directory\Map\Marker_Collection'                     => 'includes/map/class.marker-collection.php',
 			'Connections_Directory\Map\Common\Options'                        => 'includes/map/common/trait.options.php',
 			'Connections_Directory\Map\Common\Popup_Trait'                    => 'includes/map/common/trait.popup.php',
 
@@ -545,9 +554,9 @@ class cnDependency {
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
 
 			// Third Party Libraries
-			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
-			//'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
-			//'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',
+			// 'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
+			// 'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
+			// 'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',
 		);
 	}
 }

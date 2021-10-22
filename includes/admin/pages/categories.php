@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The categories admin page.
  *
@@ -10,7 +9,7 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -34,7 +33,7 @@ function connectionsShowCategoriesPage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __(
+				width:700px">' . esc_html__(
 				'You do not have sufficient permissions to access this page.',
 				'connections'
 			) . '</p>'
@@ -51,12 +50,12 @@ function connectionsShowCategoriesPage() {
 
 		if ( isset( $_GET['cn-action'] ) ) {
 
-			$action = $_GET['cn-action'];
+			$action = sanitize_key( $_GET['cn-action'] );
 		}
 
-		if ( $action === 'edit_category' ) {
+		if ( 'edit_category' === $action ) {
 
-			$id = absint( $_GET['id'] );
+			$id = isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ? absint( $_GET['id'] ) : '';
 			check_admin_referer( 'category_edit_' . $id );
 
 			$term     = $instance->retrieve->category( $id );
@@ -86,7 +85,7 @@ function connectionsShowCategoriesPage() {
 						'action' => '',
 						'method' => 'post',
 						'id'     => 'edit-term',
-						'name'   => 'updatecategory'
+						'name'   => 'updatecategory',
 					);
 
 					$form->open( $attr );
@@ -104,7 +103,7 @@ function connectionsShowCategoriesPage() {
 					?>
 
 					<div class="form-field form-required term-name-wrap">
-						<label for="category_name"><?php _e( 'Name', 'connections' ) ?></label>
+						<label for="category_name"><?php _e( 'Name', 'connections' ); ?></label>
 						<input type="text" aria-required="true" size="40" value="<?php echo esc_attr( $category->getName() ); ?>" id="category_name" name="category_name"/>
 						<input type="hidden" value="<?php echo esc_attr( $category->getID() ); ?>" id="category_id" name="category_id"/>
 
@@ -115,10 +114,14 @@ function connectionsShowCategoriesPage() {
 						<label for="category_slug"><?php _e( 'Slug', 'connections' ); ?> </label>
 						<input type="text" size="40" value="<?php echo esc_attr( $category->getSlug() ); ?>" id="category_slug" name="category_slug"/>
 
-						<p><?php _e(
+						<p>
+							<?php
+							_e(
 								'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.',
 								'connections'
-							); ?></p>
+							);
+							?>
+						</p>
 					</div>
 
 					<div class="form-field term-parent-wrap">
@@ -129,22 +132,25 @@ function connectionsShowCategoriesPage() {
 							'term-select',
 							array(
 								'hide_empty'       => 0,
-								'hide_if_empty'    => FALSE,
+								'hide_if_empty'    => false,
 								'name'             => 'category_parent',
 								'orderby'          => 'name',
 								'taxonomy'         => 'category',
 								'selected'         => $category->getParent(),
 								'exclude_tree'     => $category->getID(),
-								'hierarchical'     => TRUE,
+								'hierarchical'     => true,
 								'show_option_none' => __( 'None', 'connections' ),
-								//'return'           => TRUE,
 							)
 						);
 						?>
-						<p><?php _e(
+						<p>
+							<?php
+							_e(
 								'Categories can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.',
 								'connections'
-							); ?></p>
+							);
+							?>
+						</p>
 					</div>
 
 
@@ -164,7 +170,7 @@ function connectionsShowCategoriesPage() {
 								'paste',
 								'wordpress',
 								'wplink',
-								'wpdialogs'
+								'wpdialogs',
 							);
 
 						} else {
@@ -176,20 +182,20 @@ function connectionsShowCategoriesPage() {
 							wp_kses_post( $category->getDescription() ),
 							'category_description',
 							array(
-								'media_buttons' => FALSE,
+								'media_buttons' => false,
 								'tinymce'       => array(
 									'editor_selector'   => 'tinymce',
 									'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
 									'toolbar2'          => '',
-									'inline_styles'     => TRUE,
-									'relative_urls'     => FALSE,
-									'remove_linebreaks' => FALSE,
-									'plugins'           => implode( ',', $tinymcePlugins )
-								)
+									'inline_styles'     => true,
+									'relative_urls'     => false,
+									'remove_linebreaks' => false,
+									'plugins'           => implode( ',', $tinymcePlugins ),
+								),
 							)
 						);
 
-						echo ob_get_clean();
+						echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						?>
 					</div>
 
@@ -217,7 +223,7 @@ function connectionsShowCategoriesPage() {
 					 * @param object $tag      Current taxonomy term object.
 					 * @param string $taxonomy Current taxonomy slug.
 					 */
-					do_action( "{$taxonomy}_edit_form", $term, $taxonomy );
+					do_action( "{$taxonomy}_edit_form", $term, $taxonomy ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 					?>
 
 					<input type="hidden" name="cn-action" value="update_category"/>
@@ -231,7 +237,7 @@ function connectionsShowCategoriesPage() {
 
 				</div>
 			</div>
-		<?php
+			<?php
 		} else {
 
 			/**
@@ -239,6 +245,8 @@ function connectionsShowCategoriesPage() {
 			 */
 			$table = cnTemplatePart::table( 'term-admin', array( 'screen' => get_current_screen()->id ) );
 			$table->prepare_items();
+
+			$page = isset( $_REQUEST['page'] ) && ! empty( $_REQUEST['page'] ) ? sanitize_key( $_REQUEST['page'] ) : '';
 			?>
 			<div class="wrap nosubsub">
 
@@ -246,8 +254,8 @@ function connectionsShowCategoriesPage() {
 
 				<form class="search-form" action="" method="get">
 
-					<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>"/>
-					<?php $table->search_box( __( 'Search Categories', 'connections' ), 'category' ); ?>
+					<input type="hidden" name="page" value="<?php echo esc_attr( $page ); ?>"/>
+					<?php $table->search_box( esc_html__( 'Search Categories', 'connections' ), 'category' ); ?>
 
 				</form>
 				<br class="clear"/>
@@ -260,11 +268,10 @@ function connectionsShowCategoriesPage() {
 
 							$attr = array(
 								'action' => '',
-								'method' => 'post'
+								'method' => 'post',
 							);
 
 							$form->open( $attr );
-							//$form->tokenField( 'bulk_delete_category' );
 							?>
 							<input type="hidden" name="cn-action" value="category_bulk_actions"/>
 							<?php
@@ -292,10 +299,14 @@ function connectionsShowCategoriesPage() {
 							</script>
 
 							<div class="form-wrap">
-								<p><?php _e(
+								<p>
+									<?php
+									_e(
 										'<strong>Note:</strong><br/>Deleting a category which has been assigned to an entry will reassign that entry to the default category.',
 										'connections'
-									); ?></p>
+									);
+									?>
+								</p>
 							</div>
 
 							<?php
@@ -338,7 +349,7 @@ function connectionsShowCategoriesPage() {
 								$attr = array(
 									'id'     => 'add-term',
 									'action' => '',
-									'method' => 'post'
+									'method' => 'post',
 								);
 
 								$form->open( $attr );
@@ -365,10 +376,14 @@ function connectionsShowCategoriesPage() {
 									<label for="category_slug"><?php _e( 'Slug', 'connections' ); ?></label>
 									<input type="text" size="40" value="" id="category_slug" name="category_slug"/>
 
-									<p><?php _e(
+									<p>
+										<?php
+										_e(
 											'The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.',
 											'connections'
-										); ?></p>
+										);
+										?>
+									</p>
 								</div>
 
 								<div class="form-field term-parent-wrap">
@@ -377,11 +392,11 @@ function connectionsShowCategoriesPage() {
 									<?php
 									$dropdown_args = array(
 										'hide_empty'       => 0,
-										'hide_if_empty'    => FALSE,
+										'hide_if_empty'    => false,
 										'taxonomy'         => 'category',
 										'name'             => 'category_parent',
 										'orderby'          => 'name',
-										'hierarchical'     => TRUE,
+										'hierarchical'     => true,
 										'show_option_none' => __( 'None', 'connections' ),
 									);
 
@@ -414,10 +429,14 @@ function connectionsShowCategoriesPage() {
 									cnTemplatePart::walker( 'term-select', $dropdown_args );
 									?>
 
-									<p><?php _e(
+									<p>
+										<?php
+										_e(
 											'Categories can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.',
 											'connections'
-										); ?></p>
+										);
+										?>
+									</p>
 								</div>
 
 								<div class="form-field term-description-wrap">
@@ -436,7 +455,7 @@ function connectionsShowCategoriesPage() {
 											'paste',
 											'wordpress',
 											'wplink',
-											'wpdialogs'
+											'wpdialogs',
 										);
 
 									} else {
@@ -446,28 +465,30 @@ function connectionsShowCategoriesPage() {
 											'paste',
 											'wordpress',
 											'wplink',
-											'wpdialogs'
+											'wpdialogs',
 										);
 									}
 
+									// phpcs:disable WordPress.Arrays.MultipleStatementAlignment
 									wp_editor(
 										'',
 										'category_description',
 										array(
-											'media_buttons' => FALSE,
+											'media_buttons' => false,
 											'tinymce'       => array(
 												'editor_selector'   => 'tinymce',
 												'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
 												'toolbar2'          => '',
-												'inline_styles'     => TRUE,
-												'relative_urls'     => FALSE,
-												'remove_linebreaks' => FALSE,
-												'plugins'           => implode( ',', $tinymcePlugins )
-											)
+												'inline_styles'     => true,
+												'relative_urls'     => false,
+												'remove_linebreaks' => false,
+												'plugins'           => implode( ',', $tinymcePlugins ),
+											),
 										)
 									);
+									// phpcs:enable WordPress.Arrays.MultipleStatementAlignment
 
-									echo ob_get_clean();
+									echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									?>
 
 								</div>
@@ -509,7 +530,7 @@ function connectionsShowCategoriesPage() {
 				</div>
 				<!-- Column container -->
 			</div>
-		<?php
+			<?php
 		}
 	}
 }

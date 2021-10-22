@@ -30,8 +30,8 @@ class Management extends Content_Block {
 
 		$atts = array(
 			'name'                => __( 'Entry Management', 'connections' ),
-			//'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Javascript',
-			//'style_handle'        => 'wp-jquery-ui-dialog',
+			// 'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Javascript',
+			// 'style_handle'        => 'wp-jquery-ui-dialog',
 			'permission_callback' => array( $this, 'permission' ),
 		);
 
@@ -66,7 +66,7 @@ class Management extends Content_Block {
 	public static function registerScripts() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		wp_register_script(
@@ -74,7 +74,7 @@ class Management extends Content_Block {
 			$url . "assets/js/cn-entry-management{$min}.js",
 			array( 'jquery-ui-dialog', 'wp-api-request' ),
 			CN_CURRENT_VERSION,
-			TRUE
+			true
 		);
 	}
 
@@ -135,7 +135,7 @@ class Management extends Content_Block {
 			return $actions;
 		}
 
-		$actions['edit'] = '<a class="cn-edit-entry" href="' . esc_url( $url ) . '">' . __( 'Edit', 'connections' ) . '</a>';
+		$actions['edit'] = '<a class="cn-edit-entry" href="' . esc_url( $url ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 
 		return $actions;
 	}
@@ -157,7 +157,7 @@ class Management extends Content_Block {
 			return $actions;
 		}
 
-		$actions['delete'] = '<a class="cn-rest-action cn-delete-entry" href="' . esc_url( $url ) . '">' . __( 'Delete', 'connections' ) . '</a>';
+		$actions['delete'] = '<a class="cn-rest-action cn-delete-entry" href="' . esc_url( $url ) . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
 
 		return $actions;
 	}

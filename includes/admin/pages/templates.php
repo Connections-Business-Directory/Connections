@@ -7,9 +7,12 @@
  * @copyright   Copyright (c) 2015, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       unknown
+ *
+ * @phpcs:disable Generic.Commenting.DocComment.SpacingBeforeTags
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -38,14 +41,14 @@ function connectionsShowTemplatesPage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
+				width:700px">' . esc_html__( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
 		);
 	} else {
 
 		// Grab an instance of the Connections object.
-		$instance      = Connections_Directory();
+		$instance = Connections_Directory();
 
-		$type          = isset( $_GET['type'] ) ? esc_attr( $_GET['type'] ) : 'all';
+		$type          = isset( $_GET['type'] ) ? sanitize_key( $_GET['type'] ) : 'all'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$templates     = cnTemplateFactory::getCatalog( $type );
 		$adminURL      = self_admin_url( 'admin.php' );
 		$pageURL       = add_query_arg( 'page', 'connections_templates', $adminURL );
@@ -53,7 +56,26 @@ function connectionsShowTemplatesPage() {
 		$homeURL       = get_permalink( $homeID );
 		$customizerURL = add_query_arg( 'cn-customize-template', 'true', $homeURL );
 
+		$templateTypes = array(
+			'all'          => __( 'All', 'connections' ),
+			'individual'   => __( 'Individual', 'connections' ),
+			'organization' => __( 'Organization', 'connections' ),
+			'family'       => __( 'Family', 'connections' ),
+			'anniversary'  => __( 'Anniversary', 'connections' ),
+			'birthday'     => __( 'Birthday', 'connections' ),
+		);
 
+		$templateTypeLinks = array();
+
+		foreach ( $templateTypes as $templateType => $templateTypeLabel ) {
+
+			$templateTypeLinks[] = sprintf(
+				'<a %shref="%s">%s</a>',
+				$type === $templateType ? 'class="current" aria-current="page" ' : '',
+				add_query_arg( 'type', $templateType, esc_url( $pageURL ) ),
+				$templateTypeLabel
+			);
+		}
 		?>
 		<div class="wrap">
 
@@ -62,36 +84,9 @@ function connectionsShowTemplatesPage() {
 			</h1>
 
 			<ul class="subsubsub">
-				<li>
-					<a <?php if ( 'all' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'all', $pageURL ) ) ?>">
-						<?php _e( 'All', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'individual' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'individual', $pageURL ) ) ?>">
-						<?php _e( 'Individual', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'organization' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'organization', $pageURL ) ) ?>">
-						<?php _e( 'Organization', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'family' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'family', $pageURL ) ) ?>">
-						<?php _e( 'Family', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'anniversary' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'anniversary', $pageURL ) ) ?>">
-						<?php _e( 'Anniversary', 'connections' ); ?>
-					</a> |
-				</li>
-				<li>
-					<a <?php if ( 'birthday' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'birthday', $pageURL ) ) ?>">
-						<?php _e( 'Birthday', 'connections' ); ?>
-					</a>
-				</li>
+				<?php
+				echo wp_kses_post( '<li>' . implode( '&ensp;|&ensp;</li><li>', $templateTypeLinks ) . '</li>' );
+				?>
 			</ul>
 
 			<br class="clear">
@@ -115,9 +110,11 @@ function connectionsShowTemplatesPage() {
 									cnTemplateAuthor( $activeTemplate );
 									cnTemplateDescription( $activeTemplate );
 
-									echo '<p class="clear">' , cnTemplateCustomizerButton( $activeTemplate, $customizerURL, $pageURL ) , '</p>';
+									echo wp_kses_post(
+										'<p class="clear">' . cnTemplateCustomizerButton( $activeTemplate, $customizerURL, $pageURL ) . '</p>'
+									);
 
-									// Remove the current template so it does not show in the available templates.
+									// Remove the current template, so it does not show in the available templates.
 									unset( $templates->{$activeTemplate->getSlug()} );
 
 								} else {
@@ -135,7 +132,17 @@ function connectionsShowTemplatesPage() {
 							</p>
 
 							<p>
-								<?php printf( __( 'To learn more, please refer to the <a href="%s">documentation</a>.', 'connections' ), 'https://connections-pro.com/documentation/templates/' ); ?>
+								<?php
+								printf(
+									/* translators: %s: URL to the admin Templates screen. */
+									esc_html__( 'To learn more, please refer to the %s.', 'connections' ),
+									sprintf(
+										'<a href="%s" target="_blank">%s</a>',
+										'https://connections-pro.com/documentation/templates/',
+										esc_html__( 'documentation', 'connections' )
+									)
+								);
+								?>
 							</p>
 						</td>
 					</tr>
@@ -177,13 +184,25 @@ function connectionsShowTemplatesPage() {
 								$template = $templates->{$slug};
 
 								$class = array( 'available-theme' );
-								if ( $row == 1 ) $class[]     = 'top';
-								if ( $row == $rows ) $class[] = 'bottom';
-								if ( $col == 1 ) $class[]     = 'left';
-								if ( $col == 3 ) $class[]     = 'right';
+
+								if ( 1 == $row ) {
+									$class[] = 'top';
+								}
+
+								if ( $row == $rows ) {
+									$class[] = 'bottom';
+								}
+
+								if ( 1 == $col ) {
+									$class[] = 'left';
+								}
+
+								if ( 3 == $col ) {
+									$class[] = 'right';
+								}
 								?>
 
-								<td <?php echo cnHTML::attribute( 'class', $class ); ?>>
+								<td <?php echo cnHTML::attribute( 'class', $class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 
 									<?php
 									cnTemplateThumbnail( $template );
@@ -202,7 +221,8 @@ function connectionsShowTemplatesPage() {
 									</span>
 								</td>
 								<?php
-							} ?>
+							}
+							?>
 						</tr>
 						<?php
 					}
@@ -226,10 +246,11 @@ function cnTemplateThumbnail( $template ) {
 
 	if ( $template->getThumbnail() ) :
 
-		$thumbnail = $template->getThumbnail(); ?>
+		$thumbnail = $template->getThumbnail();
+		?>
 
 		<div class="center-thumbnail">
-			<img class="template-thumbnail" src="<?php echo esc_url( $thumbnail['url'] ) ?>" width="300" height="225">
+			<img class="template-thumbnail" src="<?php echo esc_url( $thumbnail['url'] ); ?>" width="300" height="225">
 		</div>
 
 	<?php else : ?>
@@ -240,7 +261,8 @@ function cnTemplateThumbnail( $template ) {
 			</div>
 		</div>
 
-	<?php endif;
+		<?php
+	endif;
 }
 
 /**
@@ -253,18 +275,25 @@ function cnTemplateThumbnail( $template ) {
  */
 function cnTemplateAuthor( $template ) {
 
+	$allowed_html = array(
+		'a' => array(
+			'href'   => true,
+			'target' => true,
+			'title'  => true,
+		),
+	);
+
 	if ( $template->getAuthorURL() ) {
 
-		$author = '<a title="' . __( 'Visit author\'s homepage.', 'connections' ) . '" href="' . esc_url( $template->getAuthorURL() ) . '">' .
-		          esc_html( $template->getAuthor() ) .
-		          '</a>';
+		$author = '<a title="' . esc_html__( 'Visit author\'s homepage.', 'connections' ) . '" href="' . esc_url( $template->getAuthorURL() ) . '" target="_blank">' . esc_html( $template->getAuthor() ) . '</a>';
+
 	} else {
 
 		$author = esc_html( $template->getAuthor() );
 	}
 	?>
 
-	<h3><?php echo esc_html( $template->getName() );?> <?php echo esc_html( $template->getVersion() ); ?> by <?php echo $author; ?></h3>
+	<h3><?php echo esc_html( $template->getName() ); ?> <?php echo esc_html( $template->getVersion() ); ?> by <?php echo wp_kses( $author, $allowed_html ); ?></h3>
 	<?php
 }
 
@@ -291,13 +320,13 @@ function cnTemplateDescription( $template ) {
  */
 function cnTemplateDeactivateText( $template ) {
 
-	if ( $template->isCustom() === FALSE ) {
+	if ( $template->isCustom() === false ) {
 
-		echo '<p class="description">', __( 'This a core template and can not be deleted.', 'connections' ), '</p>';
+		echo '<p class="description">' . esc_html__( 'This a core template and can not be deleted.', 'connections' ) . '</p>';
 
-	} elseif ( $template->isCustom() === TRUE && $template->isLegacy() === FALSE ) {
+	} elseif ( $template->isCustom() === true && $template->isLegacy() === false ) {
 
-		echo '<p class="description">', __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections' ), '</p>';
+		echo '<p class="description">' . esc_html__( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections' ) . '</p>';
 	}
 }
 
@@ -315,13 +344,7 @@ function cnTemplateShortcodeOverride( $template ) {
 
 	<p>
 		<?php _e( 'Shortcode Override:', 'connections' ); ?>
-		<input readonly
-		       value='template="<?php echo $template->getSlug()  ?>"'
-		       onclick="this.focus();this.select()"
-		       title="<?php _e(
-		           'To copy, click and then press Ctrl + C (PC) or Cmd + C (Mac).',
-		           'connections'
-		       ); ?>">
+		<input readonly value='template="<?php echo esc_attr( $template->getSlug() ); ?>"' onclick="this.focus();this.select()" title="<?php _e( 'To copy, click and then press Ctrl + C (PC) or Cmd + C (Mac).', 'connections' ); ?>">
 	</p>
 
 	<?php
@@ -344,11 +367,7 @@ function cnTemplateActivateButton( $template, $type = 'all' ) {
 
 	?>
 
-	<a class="button-primary"
-	   href="<?php echo esc_url( $url ); ?>"
-	   title="Activate '<?php echo esc_attr( $template->getName() ); ?>'">
-		<?php _e( 'Activate', 'connections' ); ?>
-	</a>
+	<a class="button-primary" href="<?php echo esc_url( $url ); ?>" title="Activate '<?php echo esc_attr( $template->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
 
 	<?php
 }
@@ -365,18 +384,13 @@ function cnTemplateDeleteButton( $template ) {
 
 	$form = new cnFormObjects();
 
-	if ( $template->isCustom() === TRUE && $template->isLegacy() === TRUE ) {
+	if ( $template->isCustom() === true && $template->isLegacy() === true ) {
 
 		$url = $form->tokenURL( 'admin.php?cn-action=delete_template&type=' . $template->getType() . '&template=' . $template->getSlug(), 'delete_' . $template->getSlug() );
 
 		?>
 
-		<a class="button button-warning"
-		   href="<?php echo esc_url( $url ); ?>"
-		   title="Delete '<?php echo esc_attr( $template->getName() ); ?>'"
-		   onclick="return confirm('You are about to delete this template \'<?php echo esc_attr( $template->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">
-			<?php _e( 'Delete', 'connections' ); ?>
-		</a>
+		<a class="button button-warning" href="<?php echo esc_url( $url ); ?>" title="Delete '<?php echo esc_attr( $template->getName() ); ?>'" onclick="return confirm('You are about to delete this template \'<?php echo esc_attr( $template->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');"><?php _e( 'Delete', 'connections' ); ?></a>
 		<?php
 	}
 }
@@ -405,21 +419,19 @@ function cnTemplateCustomizerButton( $template, $customizerURL, $returnURL ) {
 		);
 
 		/**
-		 * NOTE: According to the docs for the JavaScript Customizer API, you can auto focus
+		 * NOTE: According to the docs for the JavaScript Customizer API, you can auto-focus
 		 *       to the panel, section or control you wish via the URL. Which does work.
 		 *
 		 *       However, if you add this via @see add_query_arg() or escape it using
 		 *       @see esc_url() the required bracket will be removed which are required
-		 *       for auto focusing via the URL too function. This is why I added it after
+		 *       for auto-focusing via the URL to function. This is why I added it after
 		 *       escaping the URL.
 		 *
 		 * @link https://make.wordpress.org/core/2014/10/27/toward-a-complete-javascript-api-for-the-customizer/#focusing
 		 */
 
 		?>
-		<a class="button"
-		   href="<?php echo esc_url( $href ) . '&autofocus[section]=cn_template_customizer_section_display'; ?>"
-		   title="Customize '<?php echo esc_attr( $template->getName() ); ?>'"><?php _e( 'Customize', 'connections' ); ?></a>
+		<a class="button" href="<?php echo esc_url( $href ) . '&autofocus[section]=cn_template_customizer_section_display'; ?>" title="Customize '<?php echo esc_attr( $template->getName() ); ?>'"><?php _e( 'Customize', 'connections' ); ?></a>
 		<?php
 	}
 }

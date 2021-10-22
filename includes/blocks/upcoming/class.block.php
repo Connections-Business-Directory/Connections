@@ -32,7 +32,7 @@ class Upcoming {
 					),
 					'displayLastName'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'dateFormat'           => array(
 						'type'    => 'string',
@@ -48,11 +48,11 @@ class Upcoming {
 					),
 					'includeToday'         => array(
 						'type'    => 'boolean',
-						'default' => TRUE,
+						'default' => true,
 					),
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
-						'default' => FALSE,
+						'default' => false,
 					),
 					'listType'             => array(
 						'type'    => 'string',
@@ -76,11 +76,11 @@ class Upcoming {
 					),
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
+				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
-				//'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				//'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
+				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
+				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
@@ -98,7 +98,7 @@ class Upcoming {
 	 */
 	public static function render( $attributes ) {
 
-		//error_log( '$atts ' .  json_encode( $attributes, 128 ) );
+		// error_log( '$atts ' .  json_encode( $attributes, 128 ) );
 
 		$options = array(
 			'list_type'        => $attributes['listType'],
@@ -106,7 +106,7 @@ class Upcoming {
 			'include_today'    => $attributes['includeToday'],
 			'date_format'      => $attributes['dateFormat'],
 			'show_lastname'    => $attributes['displayLastName'],
-			'show_title'       => FALSE,
+			'show_title'       => false,
 			'list_title'       => $attributes['heading'],
 			'no_results'       => $attributes['noResults'],
 			'template'         => $attributes['template'],
@@ -114,7 +114,7 @@ class Upcoming {
 			'year_type'        => $attributes['yearType'],
 		);
 
-		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );
+		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
 
 		if ( is_array( $other ) && ! empty( $other ) ) {
 
@@ -123,11 +123,11 @@ class Upcoming {
 
 		if ( 0 < strlen( $options['list_title'] ) ) {
 
-			$options['show_title'] = TRUE;
+			$options['show_title'] = true;
 			$options['list_title'] = str_replace( '%d', absint( $options['days'] ), $options['list_title'] );
 		}
 
-		//error_log( '$options ' .  json_encode( $options, 128 ) );
+		// error_log( '$options ' .  json_encode( $options, 128 ) );
 
 		$html = _upcoming_list( $options );
 

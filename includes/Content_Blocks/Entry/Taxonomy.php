@@ -91,12 +91,12 @@ class Taxonomy extends Content_Block {
 			'label'            => $this->taxonomy->getLabels()->content_block_label_colon,
 			'separator'        => ', ',
 			'parent_separator' => ' &raquo; ',
-			//'before'           => '',
-			//'after'            => '',
-			'link'             => FALSE,
-			'parents'          => FALSE,
+			// 'before'           => '',
+			// 'after'            => '',
+			'link'             => false,
+			'parents'          => false,
 			'child_of'         => 0,
-			//'return'           => FALSE,
+			// 'return'           => FALSE,
 		);
 
 		return apply_filters(
@@ -284,8 +284,8 @@ class Taxonomy extends Content_Block {
 		 */
 		$items = apply_filters(
 			"Connections_Directory/Content_Block/Entry/Taxonomy/{$this->taxonomy->getSlug()}/Term/Items",
-			$items )
-		;
+			$items
+		);
 
 		if ( 'list' == $this->get( 'type' ) ) {
 

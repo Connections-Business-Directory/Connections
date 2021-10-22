@@ -1,8 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Template Shortcode API.
@@ -43,7 +44,7 @@ class cnTemplate_Shortcode {
 	 * @since  0.8
 	 * @var    mixed   [ object | bool ] An instance of cnTemplate if one was loaded or FALSE.
 	 */
-	private $template = FALSE;
+	private $template = false;
 
 	/**
 	 * The array containing the results of an entry query.
@@ -152,10 +153,12 @@ class cnTemplate_Shortcode {
 		$tags = $this->tags();
 
 		// If the requested part is in the registered template shortcode tags, return its attributes.
-		if ( $key = array_key_exists( $tag, $tags ) !== FALSE ) return $tags[ $tag ];
+		if ( $key = array_key_exists( $tag, $tags ) !== false ) {
+			return $tags[ $tag ];
+		}
 
 		// The tags was not found, return FALSE.
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -174,7 +177,7 @@ class cnTemplate_Shortcode {
 
 		$tags = array_keys( self::tags() );
 
-		if ( FALSE === strpos( $content, '[' ) ) {
+		if ( false === strpos( $content, '[' ) ) {
 
 			return $content;
 		}
@@ -211,11 +214,11 @@ class cnTemplate_Shortcode {
 	 *
 	 * @return string The shortcode search regular expression
 	 */
-	public function regex( $tags = NULL ) {
+	public function regex( $tags = null ) {
 
 		$tagnames = is_null( $tags ) ? array_keys( $this->tags() ) : $tags;
 
-		$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
+		$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
 
 		// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
 		// Also, see shortcode_unautop() and shortcode.js.
@@ -274,7 +277,7 @@ class cnTemplate_Shortcode {
 		// allow [[foo]] syntax for escaping a tag
 		if ( $m[1] == '[' && $m[6] == ']' ) {
 
-			return substr($m[0], 1, -1);
+			return substr( $m[0], 1, -1 );
 		}
 
 		$tag = $this->tag( $m[2] );
@@ -301,13 +304,13 @@ class cnTemplate_Shortcode {
 			// The one exception is the `cn_card` shortcode.
 			if ( is_string( $m[5] ) && ! empty( $m[5] ) && $m[2] != 'cn_card' ) {
 
-				echo $this->do_shortcode( $m[5] );
+				echo $this->do_shortcode( $m[5] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			} else {
 
 				// enclosing tag - extra parameter
 				// return $m[1] . call_user_func( $tag['callback'], $atts, $m[5], $m[2] ) . $m[6];
-				echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, $m[5], $m[2] ) . $m[6];
+				echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, $m[5], $m[2] ) . $m[6]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			}
 
@@ -315,7 +318,7 @@ class cnTemplate_Shortcode {
 
 			// self-closing tag
 			// return $m[1] . call_user_func( $tag['callback'], $atts, NULL,  $m[2] ) . $m[6];
-			echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, NULL, $m[2] ) . $m[6];
+			echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, null, $m[2] ) . $m[6]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return ob_get_clean();
@@ -381,7 +384,7 @@ class cnTemplate_Shortcode {
 
 	/**
 	 * This is the callback ran for the `cn_card` shortcode that will process its
-	 * content the the cnEntry_Shortcode processor.
+	 * content the cnEntry_Shortcode processor.
 	 *
 	 * @access private
 	 * @since  0.8
@@ -390,14 +393,12 @@ class cnTemplate_Shortcode {
 	 * @param  array  $results  The cnRetrieve query results.
 	 * @param  object $template An instance of the cnTemplate object.
 	 * @param  string $content  The content of the `cn_card` shortcode.
-	 *
-	 * @return string           The result of the $content being run thru cnEntry_Shortcode::process().
 	 */
 	public static function processEntry( $atts, $results, $template, $content ) {
 
 		foreach ( $results as $row ) {
 
-			echo cnEntry_Shortcode::process( new cnEntry( $row ), $content );
+			echo cnEntry_Shortcode::process( new cnEntry( $row ), $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

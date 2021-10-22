@@ -17,7 +17,7 @@ $iconSizes = array( 16, 24, 32, 48, 64 );
 // Replace the 'Name Tokens' with the entry's name.
 $name = $entry->getName(
 	array(
-		'format' => empty( $atts['title'] ) ? '%first% %last% %type% email.' : $atts['title']
+		'format' => empty( $atts['title'] ) ? '%first% %last% %type% email.' : $atts['title'],
 	)
 );
 

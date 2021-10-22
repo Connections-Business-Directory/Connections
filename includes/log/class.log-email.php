@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Log all email sent through @see cnEmail.
@@ -159,7 +161,7 @@ final class cnLog_Email {
 		$view[ self::LOG_TYPE ] = array(
 			'id'       => self::LOG_TYPE,
 			'name'     => __( 'System Email', 'connections' ),
-			'callback' => array( __CLASS__, 'viewLogs' )
+			'callback' => array( __CLASS__, 'viewLogs' ),
 		);
 
 		return $view;
@@ -195,7 +197,7 @@ final class cnLog_Email {
 			'email-log',
 			array(
 				'screen' => get_current_screen()->id,
-				'type' => $type
+				'type'   => $type,
 			)
 		);
 
@@ -206,7 +208,7 @@ final class cnLog_Email {
 		<?php do_action( 'cn_logs_email_top' ); ?>
 		<form id="cn-email-logs-filter" method="get">
 			<?php
-			$table->search_box( __( 'Search', 'connections' ), self::LOG_TYPE );
+			$table->search_box( esc_html__( 'Search', 'connections' ), self::LOG_TYPE );
 			$table->display();
 			?>
 			<input type="hidden" name="cn-action" value="log_bulk_actions">
@@ -241,7 +243,9 @@ final class cnLog_Email {
 
 		foreach ( $post_meta as $key => $value ) {
 
-			if ( FALSE === strpos( $key, cnLog::POST_META_PREFIX ) ) continue;
+			if ( false === strpos( $key, cnLog::POST_META_PREFIX ) ) {
+				continue;
+			}
 
 			$key = str_replace( cnLog::POST_META_PREFIX, '', $key );
 
@@ -250,9 +254,9 @@ final class cnLog_Email {
 
 		wp_enqueue_style( 'cn-admin' );
 
-		require_once( ABSPATH . 'wp-admin/admin-header.php' );
-		require_once( CN_PATH . 'includes/log/inc.log-email-detail.php' );
-		require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+		require_once ABSPATH . 'wp-admin/admin-header.php';
+		require_once CN_PATH . 'includes/log/inc.log-email-detail.php';
+		require_once ABSPATH . 'wp-admin/admin-footer.php';
 	}
 
 	/**
@@ -387,7 +391,7 @@ final class cnLog_Email {
 
 		foreach ( $headers as $header ) {
 
-			if ( FALSE !== strpos( $header, 'X-CN-Log-Type: ' ) ) {
+			if ( false !== strpos( $header, 'X-CN-Log-Type: ' ) ) {
 
 				$type = str_replace( 'X-CN-Log-Type: ', '', $header );
 			}
@@ -614,7 +618,7 @@ final class cnLog_Email {
 
 				if ( empty( $value ) ) {
 
-					$value = '<p>' . __( 'None', 'connections' ) . '</p>';
+					$value = '<p>' . esc_html__( 'None', 'connections' ) . '</p>';
 
 				} else {
 
@@ -632,7 +636,7 @@ final class cnLog_Email {
 
 				if ( empty( $value ) ) {
 
-					$value = '<p>' . __( 'None', 'connections' ) . '</p>';
+					$value = '<p>' . esc_html__( 'None', 'connections' ) . '</p>';
 
 				} else {
 
@@ -650,7 +654,7 @@ final class cnLog_Email {
 				break;
 
 			case 'response':
-				$value = '<p>' . ( 'success' == $value ? __( 'Successfully', 'connections' ) : __( 'Failed', 'connections' ) ) . '</p>';
+				$value = '<p>' . ( 'success' == $value ? esc_html__( 'Successfully', 'connections' ) : esc_html__( 'Failed', 'connections' ) ) . '</p>';
 				break;
 		}
 

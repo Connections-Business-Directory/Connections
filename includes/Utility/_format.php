@@ -28,7 +28,7 @@ final class _format {
 	 *
 	 * @return string
 	 */
-	public static function sanitizeString( $string, $allowHTML = FALSE, $permittedTags = array() ) {
+	public static function sanitizeString( $string, $allowHTML = false, $permittedTags = array() ) {
 
 		_deprecated_function( __METHOD__, '9.11', 'cnSanitize::sanitizeString()' );
 
@@ -87,13 +87,15 @@ final class _format {
 	public static function toBoolean( &$value ) {
 
 		// Already a bool, return it.
-		if ( is_bool( $value ) ) return $value;
+		if ( is_bool( $value ) ) {
+			return $value;
+		}
 
 		$value = filter_var( strtolower( $value ), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 
 		if ( is_null( $value ) ) {
 
-			$value = FALSE;
+			$value = false;
 		}
 
 		return $value;
@@ -149,7 +151,7 @@ final class _format {
 	 *
 	 * @return mixed
 	 */
-	public static function maybeJSONdecode( $value, $array = TRUE ) {
+	public static function maybeJSONdecode( $value, $array = true ) {
 
 		_deprecated_function( __METHOD__, '9.11', '_::maybeJSONdecode()' );
 
@@ -239,7 +241,7 @@ final class _format {
 	 *
 	 * @return string
 	 */
-	public static function toCamelCase( $string, $capitaliseInitial = FALSE ) {
+	public static function toCamelCase( $string, $capitaliseInitial = false ) {
 
 		_deprecated_function( __METHOD__, '9.11', '_string::toCamelCase()' );
 
@@ -276,7 +278,7 @@ final class _format {
 		);
 
 		$format   = '';
-		$escaping = FALSE;
+		$escaping = false;
 
 		for ( $i = 0; $i < strlen( $string ); $i++ ) {
 
@@ -296,14 +298,14 @@ final class _format {
 					$format .= '\'' . $string[ $i ];
 				}
 
-				$escaping = TRUE;
+				$escaping = true;
 
 			} else {
 
 				if ( $escaping ) {
 
 					$format .= '\'';
-					$escaping = FALSE;
+					$escaping = false;
 				}
 
 				if ( isset( $map[ $char ] ) ) {
@@ -317,8 +319,10 @@ final class _format {
 			}
 		}
 
-		//If the escaping is still open, make sure to close it. So formatting like this will work: `H\h i\m\i\n`.
-		if ( $escaping ) $format .= '\'';
+		// If the escaping is still open, make sure to close it. So formatting like this will work: `H\h i\m\i\n`.
+		if ( $escaping ) {
+			$format .= '\'';
+		}
 
 		return $format;
 	}

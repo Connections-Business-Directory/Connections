@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnDashboardMetabox {
 
@@ -35,7 +37,7 @@ class cnDashboardMetabox {
 	public static function init() {
 
 		// Bail if not in admin or doing an AJAX request.
-		if ( ! is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) {
+		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 
 			return;
 		}
@@ -147,7 +149,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Anniversaries Today', 'connections' ),
 			'list_type' => 'anniversary',
 			'days'      => 0,
-			'today'     => TRUE,
+			'today'     => true,
 		);
 
 		self::$metaboxes[] = array(
@@ -160,7 +162,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Birthdays Today', 'connections' ),
 			'list_type' => 'birthday',
 			'days'      => 0,
-			'today'     => TRUE,
+			'today'     => true,
 		);
 
 		self::$metaboxes[] = array(
@@ -173,7 +175,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Upcoming Anniversaries.', 'connections' ),
 			'list_type' => 'anniversary',
 			'days'      => 30,
-			'today'     => FALSE,
+			'today'     => false,
 		);
 
 		self::$metaboxes[] = array(
@@ -186,7 +188,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Upcoming Birthdays.', 'connections' ),
 			'list_type' => 'birthday',
 			'days'      => 30,
-			'today'     => FALSE,
+			'today'     => false,
 		);
 	}
 
@@ -233,8 +235,8 @@ class cnDashboardMetabox {
 
 				if ( is_wp_error( $rss ) ) {
 
-					echo '<p>' , sprintf( __( "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for updates.", 'connections' ), $metabox['args']['feed'] ) , '</p>';
-					echo '</div>'; //close out the rss-widget before returning.
+					echo '<p>' , sprintf( esc_html__( "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for updates.", 'connections' ), $metabox['args']['feed'] ) , '</p>';
+					echo '</div>'; // close out the rss-widget before returning.
 
 					return;
 
@@ -251,8 +253,8 @@ class cnDashboardMetabox {
 							$link = substr( $link, 1 );
 						}
 
-						$link  = esc_url( strip_tags( $link ) );
-						$title = esc_attr( strip_tags( $item->get_title() ) );
+						$link  = wp_strip_all_tags( $link );
+						$title = wp_strip_all_tags( $item->get_title() );
 
 						if ( empty( $title ) ) {
 							$title = __( 'Untitled', 'connections' );
@@ -261,19 +263,16 @@ class cnDashboardMetabox {
 						$desc = str_replace(
 							array( "\n", "\r" ),
 							' ',
-							esc_attr(
-								strip_tags(
-									@html_entity_decode(
-										$item->get_description(),
-										ENT_QUOTES,
-										get_option( 'blog_charset' )
-									)
+							wp_strip_all_tags(
+								@html_entity_decode(
+									$item->get_description(),
+									ENT_QUOTES,
+									get_option( 'blog_charset' )
 								)
 							)
 						);
 
 						$desc = wp_html_excerpt( $desc, 360 );
-						$desc = esc_html( $desc );
 
 						//$date = $item->get_date();
 						//$diff = '';
@@ -283,8 +282,8 @@ class cnDashboardMetabox {
 						//}
 						?>
 						<li>
-							<h3 class="rss-title"><a title="" href='<?php echo $link; ?>'><?php echo $title; ?></a></h3>
-							<div class="rss-summary"><?php echo $desc; ?></div>
+							<h3 class="rss-title"><a title="" href='<?php echo esc_url( $link ); ?>'><?php echo esc_html( $title ); ?></a></h3>
+							<div class="rss-summary"><?php echo esc_html( $desc ); ?></div>
 						</li>
 						<?php
 					}
@@ -323,8 +322,8 @@ class cnDashboardMetabox {
 		$atts = array(
 			'order_by'        => $metabox['args']['order_by'],
 			'template'        => $metabox['args']['template'],
-			'show_alphaindex' => FALSE,
-			'show_alphahead'  => FALSE,
+			'show_alphaindex' => false,
+			'show_alphahead'  => false,
 			'limit'           => $metabox['args']['limit'],
 			'status'          => $metabox['args']['status'],
 		);
@@ -350,11 +349,11 @@ class cnDashboardMetabox {
 			'list_type'        => $metabox['args']['list_type'],
 			'days'             => $metabox['args']['days'],
 			'include_today'    => $metabox['args']['today'],
-			'private_override' => FALSE,
+			'private_override' => false,
 			'date_format'      => cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' ),
-			'show_lastname'    => TRUE,
-			'list_title'       => NULL,
-			'show_title'       => FALSE,
+			'show_lastname'    => true,
+			'list_title'       => null,
+			'show_title'       => false,
 			'template'         => 'dashboard-upcoming',
 			'no_results'       => $metabox['args']['message'],
 		);
@@ -438,7 +437,7 @@ class cnDashboardMetabox {
 	public static function partners() {
 
 		$logo = CN_URL . 'assets/images/tsl-logo-v3.png';
-		//$url  = self_admin_url( 'plugin-install.php/?s=Connections+Business+Directory+Mobile+App+Manager+Plugin&tab=search&type=term');
+		// $url  = self_admin_url( 'plugin-install.php/?s=Connections+Business+Directory+Mobile+App+Manager+Plugin&tab=search&type=term');
 		$url  = self_admin_url( 'plugin-install.php?tab=connections' );
 		?>
 		<div class="two-third">

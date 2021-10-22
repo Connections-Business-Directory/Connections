@@ -1,7 +1,9 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class CN_Image_Editor_Imagick
@@ -20,7 +22,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 */
 	public function opacity( $level ) {
 
-		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 100 ) ) ) !== FALSE ) {
+		if ( filter_var( $level, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'max_range' => 100 ) ) ) !== false ) {
 
 			$level /= 100;
 
@@ -51,8 +53,8 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 				 * Imagick available via the command line. Crosses fingers :/ ...
 				 */
 
-				//if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
-				//$this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
+				// if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
+				// $this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
 
 				// Add the alpha channel
 				/** @todo Text how this affects an image which already has an alpha channel. */
@@ -84,7 +86,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 					$pixelIterator->syncIterator();
 				}
 
-				return TRUE;
+				return true;
 
 			} catch ( Exception $e ) {
 
@@ -160,7 +162,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 		try {
 
-			return $this->image->negateImage(FALSE);
+			return $this->image->negateImage( false );
 
 		} catch ( Exception $e ) {
 
@@ -181,7 +183,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 		$level = (float) cnUtility::remapRange( $level, -255, 255, 0, 200 );
 
-		if ( ( $level >= 0 ) && ( $level <= 200 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== FALSE ) ) {
+		if ( ( $level >= 0 ) && ( $level <= 200 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 
 			try {
 
@@ -208,11 +210,11 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 */
 	public function contrast( $level ) {
 
-		if ( ( $level >= -100 ) && ( $level <= 100 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== FALSE ) ) {
+		if ( ( $level >= -100 ) && ( $level <= 100 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 
 			try {
 
-				$sharpen  = $level <= 0 ? TRUE : FALSE;
+				$sharpen  = $level <= 0 ? true : false;
 				$midpoint = cnUtility::remapRange( $level, -100, 100, -20, 20 );
 				$quanta   = $this->image->getQuantumRange();
 
@@ -243,10 +245,10 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 			// The imagick edgeImage() function outputs a different result than GD,
 			// so process the image further for a "close enough" match.
 			$this->image->edgeImage( 1 );
-			$this->image->negateImage( FALSE );
+			$this->image->negateImage( false );
 			$this->image->modulateImage( 100, 0, 100 );
 			$this->image->colorizeImage( '#141414', 1 );
-			$this->image->negateImage( TRUE );
+			$this->image->negateImage( true );
 			$this->image->gammaImage( 3.5 );
 
 			return $this->image->adaptiveSharpenImage( 0, 1 );
@@ -272,10 +274,10 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 			// The imagick embossImage() function outputs a different result than GD,
 			// so process the image further for a "close enough" match.
 			$this->image->embossImage( 0, 1 );
-			$this->image->negateImage( FALSE );
+			$this->image->negateImage( false );
 			$this->image->modulateImage( 100, 0, 100 );
 			$this->image->colorizeImage( '#969696', 1 );
-			$this->image->negateImage( TRUE );
+			$this->image->negateImage( true );
 			// $this->image->gammaImage( 3.5 );
 
 			return $this->image->adaptiveSharpenImage( 0, 1 );

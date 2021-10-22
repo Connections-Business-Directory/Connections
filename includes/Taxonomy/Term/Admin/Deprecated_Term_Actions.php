@@ -219,7 +219,7 @@ function bulkTerm() {
 
 			$page = absint( $_REQUEST['paged'] );
 
-			$url = add_query_arg( array( 'paged' => $page ) , $url);
+			$url = add_query_arg( array( 'paged' => $page ) , $url );
 		}
 
 		wp_redirect( $url );

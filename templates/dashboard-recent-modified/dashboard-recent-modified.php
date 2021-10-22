@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 
@@ -28,7 +30,7 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'Dashboard Widget that displays the recently modified entries.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
@@ -50,7 +52,9 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 
 			if ( is_admin() ) {
 
-				if ( ! isset( $form ) ) $form = new cnFormObjects();
+				if ( ! isset( $form ) ) {
+					$form = new cnFormObjects();
+				}
 
 				$editTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
 

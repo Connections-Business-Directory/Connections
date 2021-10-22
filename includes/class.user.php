@@ -13,7 +13,9 @@
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnUser
@@ -56,9 +58,9 @@ class cnUser {
 	 */
 	public function getFilterEntryType() {
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( ! $user_meta == NULL && isset( $user_meta['filter']['entry_type'] ) ) {
+		if ( ! $user_meta == null && isset( $user_meta['filter']['entry_type'] ) ) {
 			return $user_meta['filter']['entry_type'];
 		} else {
 			return 'all';
@@ -76,19 +78,21 @@ class cnUser {
 		$entryType           = esc_attr( $entryType );
 
 		if ( ! in_array( $entryType, $permittedEntryTypes ) ) {
-			return FALSE;
+			return false;
 		}
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta,'filter.entry_type', $entryType );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -99,43 +103,43 @@ class cnUser {
 	 */
 	public function getFilterVisibility() {
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( ! $user_meta == NULL && isset( $user_meta['filter']['visibility'] ) ) {
+		if ( ! $user_meta == null && isset( $user_meta['filter']['visibility'] ) ) {
 			/*
 			 * Reset the user's cached visibility filter if they no longer have access.
 			 */
 			switch ( $user_meta['filter']['visibility'] ) {
 				case 'public':
 					if ( ! current_user_can( 'connections_view_public' ) ) {
-						return FALSE;
+						return false;
 					} else {
-						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
+						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : false;
 					}
 					break;
 
 				case 'private':
 					if ( ! current_user_can( 'connections_view_private' ) ) {
-						return FALSE;
+						return false;
 					} else {
-						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
+						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : false;
 					}
 					break;
 
 				case 'unlisted':
 					if ( ! current_user_can( 'connections_view_unlisted' ) ) {
-						return FALSE;
+						return false;
 					} else {
-						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
+						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : false;
 					}
 					break;
 
 				default:
-					return FALSE;
+					return false;
 					break;
 			}
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -150,19 +154,21 @@ class cnUser {
 		$visibility          = esc_attr( $visibility );
 
 		if ( ! in_array( $visibility, $permittedVisibility ) ) {
-			return FALSE;
+			return false;
 		}
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta, 'filter.visibility', $visibility );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -173,9 +179,9 @@ class cnUser {
 	 */
 	public function getFilterStatus() {
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( ! $user_meta == NULL && isset( $user_meta['filter']['status'] ) ) {
+		if ( ! $user_meta == null && isset( $user_meta['filter']['status'] ) ) {
 			return isset( $user_meta['filter']['status'] ) ? $user_meta['filter']['status'] : '';
 		} else {
 			return 'approved';
@@ -193,19 +199,21 @@ class cnUser {
 		$status              = esc_attr( $status );
 
 		if ( ! in_array( $status, $permittedVisibility ) ) {
-			return FALSE;
+			return false;
 		}
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta,'filter.status', $status );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -213,9 +221,9 @@ class cnUser {
 	 */
 	public function getFilterCategory() {
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( ! $user_meta == NULL && isset( $user_meta['filter'] ) ) {
+		if ( ! $user_meta == null && isset( $user_meta['filter'] ) ) {
 			return isset( $user_meta['filter']['category'] ) ? $user_meta['filter']['category'] : '';
 		} else {
 			return '';
@@ -232,16 +240,18 @@ class cnUser {
 			$id = 0;
 		}
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
 		cnArray::set( $user_meta,'filter.category', $id );
 
 		update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
-		//$this->resetFilterPage();
+		// $this->resetFilterPage();
 	}
 
 	/**
@@ -281,7 +291,7 @@ class cnUser {
 
 		// If the page name has not been supplied, no need to process further.
 		if ( ! isset( $page->name ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$screen = sanitize_title( $page->name );
@@ -310,9 +320,9 @@ class cnUser {
 	 */
 	public function getCategoryDivHeight() {
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( ! $user_meta == NULL && isset( $user_meta['ui']['category_div_height'] ) ) {
+		if ( ! $user_meta == null && isset( $user_meta['ui']['category_div_height'] ) ) {
 
 			$height = $user_meta['ui']['category_div_height'];
 
@@ -336,13 +346,17 @@ class cnUser {
 	 */
 	public function setCategoryDivHeight( $height ) {
 
-		if ( ! is_int( $height ) ) return FALSE;
+		if ( ! is_int( $height ) ) {
+			return false;
+		}
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) {
+			$user_meta = array();
+		}
 
-		//$user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
+		// $user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
 		cnArray::set( $user_meta, 'ui.category_div_height', absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) ) );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
@@ -373,7 +387,7 @@ class cnUser {
 	 *
 	 * @return mixed
 	 */
-	public function getScreenOption( $screen, $option, $default = NULL ) {
+	public function getScreenOption( $screen, $option, $default = null ) {
 
 		return cnArray::get( $this->getScreenOptions( $screen ), $option, $default );
 	}
@@ -448,7 +462,7 @@ class cnUser {
 	 */
 	public function getMeta() {
 
-		$meta = get_user_meta( $this->getID(), 'connections', TRUE );
+		$meta = get_user_meta( $this->getID(), 'connections', true );
 
 		/*
 		 * Since get_user_meta() can return array|string|false but we expect only an array,
@@ -513,7 +527,9 @@ class cnUser {
 				$visibility[] = 'public';
 			}
 
-			if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
+			if ( current_user_can( 'connections_view_private' ) ) {
+				$visibility[] = 'private';
+			}
 
 			if ( current_user_can( 'connections_view_unlisted' ) &&
 			     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
@@ -524,10 +540,17 @@ class cnUser {
 		} else {
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
+			if ( ! cnOptions::loginRequired() ) {
+				$visibility[] = 'public';
+			}
 
-			if ( Connections_Directory()->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( Connections_Directory()->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+			if ( Connections_Directory()->options->getAllowPublicOverride() ) {
+				$visibility[] = 'public';
+			}
+
+			if ( Connections_Directory()->options->getAllowPrivateOverride() ) {
+				$visibility[] = 'private';
+			}
 		}
 
 		return $visibility;
@@ -556,7 +579,7 @@ class cnUser {
 		// Ensure a valid option for $visibility.
 		if ( ! in_array( $visibility, array( 'public', 'private', 'unlisted' ) ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		if ( is_user_logged_in() ) {
@@ -577,7 +600,7 @@ class cnUser {
 
 				default:
 
-					return FALSE;
+					return false;
 			}
 
 		} else {
@@ -585,7 +608,7 @@ class cnUser {
 			// Unlisted entries are not shown on the frontend.
 			if ( 'unlisted' == $visibility ) {
 
-				return FALSE;
+				return false;
 			}
 
 			if ( cnOptions::loginRequired() ) {
@@ -602,16 +625,18 @@ class cnUser {
 
 					default:
 
-						return FALSE;
+						return false;
 				}
 
 			} else {
 
-				if ( 'public' == $visibility ) return TRUE;
+				if ( 'public' == $visibility ) {
+					return true;
+				}
 			}
 
 			// If we get here, return FALSE
-			return FALSE;
+			return false;
 		}
 	}
 }

@@ -19,12 +19,12 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	 */
 	public function get( $id ) {
 
-		if ( FALSE !== $key = $this->getItemKeyByID( $id ) ) {
+		if ( false !== $key = $this->getItemKeyByID( $id ) ) {
 
 			return apply_filters( 'cn_phone_number', $this->items->get( $key ) );
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -72,17 +72,17 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 			}
 		);
 
-		if ( FALSE !== $key ) {
+		if ( false !== $key ) {
 
 			$this->items->put( $key, apply_filters( 'cn_set_phone', $phone ) );
 
 			//// Reset the filters so both the filtered and unfiltered collections are the same after updating an phone number.
 			//$this->resetFilters();
 
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -96,7 +96,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	public function updateFromArray( $data ) {
 
 		$new               = cnEntry_Phone_Numbers::createFromArray( $this->id, $data )->getCollection();
-		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : NULL;
+		$preferred         = isset( $data['preferred'] ) ? $data['preferred'] : null;
 		$existingPreferred = $this->getPreferred();
 
 		/** @var cnPhone $phone */
@@ -223,9 +223,11 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	 *                          Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
 	 *                          NULL will be returned when the filtered collection is empty.
 	 */
-	public function render( $template = 'hcard', $atts = array(), $load = TRUE, $buffer = FALSE, $require_once = FALSE ) {
+	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
-		if ( $this->filtered->isEmpty() ) return NULL;
+		if ( $this->filtered->isEmpty() ) {
+			return null;
+		}
 
 		$html = cnTemplatePart::get(
 			'entry' . DIRECTORY_SEPARATOR . 'phone-numbers' . DIRECTORY_SEPARATOR . 'phone',
@@ -249,7 +251,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	 *
 	 * @return cnCollection
 	 */
-	public function getCollection( $limit = NULL ) {
+	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_phone_number' )
 		     ->applyFilter( 'cn_phone_numbers' )
@@ -271,7 +273,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	 *
 	 * @return array
 	 */
-	public function getCollectionAsArray( $limit = NULL ) {
+	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_phone_number' )
 		     ->applyFilter( 'cn_phone_numbers' )
@@ -343,7 +345,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 		if ( isset( $callback ) && 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform( $callback );
-			//$this->items->transform( $callback );
+			// $this->items->transform( $callback );
 		}
 
 		return $this;
@@ -359,7 +361,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	 */
 	public function getPreferred() {
 
-		return apply_filters( 'cn_phone_number', $this->filtered->where( 'preferred', '===', TRUE )->first() );
+		return apply_filters( 'cn_phone_number', $this->filtered->where( 'preferred', '===', true )->first() );
 	}
 
 	/**
@@ -389,7 +391,9 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 			cnFormatting::toBoolean( $value );
 
 			// Only apply the preferred filter if the filter is TRUE so all phone numbers will be returned if FALSE.
-			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			if ( $value ) {
+				$this->filtered = $this->filtered->where( 'preferred', '===', $value );
+			}
 
 		} elseif ( 'visibility' === $field ) {
 
@@ -449,10 +453,12 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 			 * Set saving as true to force the query of all entries filtered per supplied attributes.
 			 * This will reflect who it function when the table manager and query classes are implemented.
 			 */
-			$data = $instance->retrieve->phoneNumbers( $options, TRUE );
+			$data = $instance->retrieve->phoneNumbers( $options, true );
 		}
 
-		if ( empty( $data ) ) return $this;
+		if ( empty( $data ) ) {
+			return $this;
+		}
 
 		$this->fromArray( $data );
 
@@ -500,18 +506,22 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 		 * If the `preferred` array key is set, the preferred phone number will be set based on the array key value.
 		 * If it is not, the preferred phone number value will be retained using the `preferred` key within each phone number.
 		 */
-		$preferred  = cnArray::pull( $data, 'preferred', NULL );
+		$preferred  = cnArray::pull( $data, 'preferred', null );
 		$collection = new cnCollection( $data );
 		$order      = $collection->max( 'order' );
 
 		foreach ( $collection as $key => $phone ) {
 
-			if ( empty( $phone ) ) continue;
+			if ( empty( $phone ) ) {
+				continue;
+			}
 
 			/*
 			 * If the number is empty, no need to store it.
 			 */
-			if ( empty( $phone['number'] ) ) continue;
+			if ( empty( $phone['number'] ) ) {
+				continue;
+			}
 
 			if ( ! isset( $phone['order'] ) ) {
 
@@ -520,7 +530,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 
 			if ( ! is_null( $preferred ) ) {
 
-				$phone['preferred'] = $key == $preferred ? TRUE : FALSE;
+				$phone['preferred'] = $key == $preferred ? true : false;
 			}
 
 			/**
@@ -532,7 +542,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 			 */
 			$phone = apply_filters( 'cn_phone-pre_setup', $phone );
 
-			//$this->add( cnPhone::create( $phone ) );
+			// $this->add( cnPhone::create( $phone ) );
 			$this->items->push( cnPhone::create( $phone ) );
 
 			$order++;

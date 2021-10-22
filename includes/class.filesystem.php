@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class cnFileSystem {
 
@@ -86,7 +88,7 @@ class cnFileSystem {
 
 			$contents = @file_get_contents( $path . '.htaccess' );
 
-			if ( FALSE === strpos( $contents, 'Options -Indexes' ) || ! $contents ) {
+			if ( false === strpos( $contents, 'Options -Indexes' ) || ! $contents ) {
 
 				@file_put_contents( $path . '.htaccess', $rules );
 			}
@@ -114,21 +116,46 @@ class cnFileSystem {
 	public static function mkdirWritable( $path ) {
 		$path = untrailingslashit( $path );
 
-		if ( ! self::mkdir( $path ) ) return FALSE;
+		if ( ! self::mkdir( $path ) ) {
+			return false;
+		}
 
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0746 );
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0747 );
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0756 );
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0757 );
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0764 );
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0765 );
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0766 );
-		if ( file_exists( $path ) && ! is_writeable( $path ) ) @chmod( $path , 0767 );
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0746 );
+		}
+
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0747 );
+		}
+
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0756 );
+		}
+
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0757 );
+		}
+
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0764 );
+		}
+
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0765 );
+		}
+
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0766 );
+		}
+
+		if ( file_exists( $path ) && ! is_writeable( $path ) ) {
+			@chmod( $path, 0767 );
+		}
 
 		if ( file_exists( $path ) && is_writeable( $path ) ) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 
 	}
@@ -170,7 +197,7 @@ class cnFileSystem {
 		// Loop through the folder
 		$dir = dir( $source );
 
-		while ( FALSE !== $entry = $dir->read() ) {
+		while ( false !== $entry = $dir->read() ) {
 
 			// Skip pointers
 			if ( $entry == '.' || $entry == '..' ) {
@@ -185,7 +212,7 @@ class cnFileSystem {
 		// Clean up
 		$dir->close();
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -201,10 +228,12 @@ class cnFileSystem {
 	 *
 	 * @return void
 	 */
-	public static function xrmdir( $path, $deleteRoot = TRUE ) {
+	public static function xrmdir( $path, $deleteRoot = true ) {
 
 		// If the $path does not exist, bail.
-		if ( ! file_exists( $path ) ) return;
+		if ( ! file_exists( $path ) ) {
+			return;
+		}
 
 		// SKIP_DOTS Requires PHP >= 5.3
 		// $it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
@@ -235,7 +264,9 @@ class cnFileSystem {
 
 		}
 
-		if ( $deleteRoot ) @rmdir( $path );
+		if ( $deleteRoot ) {
+			@rmdir( $path );
+		}
 	}
 
 }
@@ -425,7 +456,9 @@ class cnUpload {
 		remove_all_filters( 'wp_handle_upload_prefilter' );
 		remove_all_filters( 'wp_handle_upload' );
 
-		if ( ! function_exists( 'wp_handle_upload' ) ) require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		if ( ! function_exists( 'wp_handle_upload' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
 
 		// Add filter to change the file upload destination directory.
 		add_filter( 'upload_dir', array( $this, 'subDirectory' ) );
@@ -438,18 +471,28 @@ class cnUpload {
 
 		// Set the sub directory/folder in which to upload the file to.
 		// If empty, it'll use the WP core default.
-		if ( ! empty( $atts['sub_dir'] ) ) $this->subDirectory = $atts['sub_dir'];
+		if ( ! empty( $atts['sub_dir'] ) ) {
+			$this->subDirectory = $atts['sub_dir'];
+		}
 
 		// Setup the wp_handle_upload() $options array.
 		// Only add values to the array that are going to be overridden.
 		// Passing options not intended to be overridden, even if pass empty causes bad things to happen to you.
 
 		$options['action']    = empty( $atts['action'] ) ? '' : $atts['action'];
-		$options['test_form'] = empty( $atts['post_action'] ) ? FALSE : $atts['post_action'];
+		$options['test_form'] = empty( $atts['post_action'] ) ? false : $atts['post_action'];
 
-		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes'] ) ) $options['mimes']  = $atts['mimes'];
-		if ( ! empty( $atts['error_callback'] ) ) $options['upload_error_handler']        = $atts['error_callback'];
-		if ( ! empty( $atts['filename_callback'] ) ) $options['unique_filename_callback'] = $atts['filename_callback'];
+		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes'] ) ) {
+			$options['mimes'] = $atts['mimes'];
+		}
+
+		if ( ! empty( $atts['error_callback'] ) ) {
+			$options['upload_error_handler'] = $atts['error_callback'];
+		}
+
+		if ( ! empty( $atts['filename_callback'] ) ) {
+			$options['unique_filename_callback'] = $atts['filename_callback'];
+		}
 
 		/**
 		 * The default overrides passed to wp_handle_uploads().
@@ -485,9 +528,17 @@ class cnUpload {
 		/*
 		 * Be a good citizen and add the filters that were hooked back to into upload_dir filter.
 		 */
-		if ( ! empty( $filter['wp_handle_upload_prefilter'] ) ) $wp_filter['wp_handle_upload_prefilter'] = $filter['wp_handle_upload_prefilter'];
-		if ( ! empty( $filter['upload_dir'] ) ) $wp_filter['upload_dir'] = $filter['upload_dir'];
-		if ( ! empty( $filter['wp_handle_upload'] ) ) $wp_filter['wp_handle_upload'] = $filter['wp_handle_upload'];
+		if ( ! empty( $filter['wp_handle_upload_prefilter'] ) ) {
+			$wp_filter['wp_handle_upload_prefilter'] = $filter['wp_handle_upload_prefilter'];
+		}
+
+		if ( ! empty( $filter['upload_dir'] ) ) {
+			$wp_filter['upload_dir'] = $filter['upload_dir'];
+		}
+
+		if ( ! empty( $filter['wp_handle_upload'] ) ) {
+			$wp_filter['wp_handle_upload'] = $filter['wp_handle_upload'];
+		}
 
 		return $this->result;
 	}

@@ -57,7 +57,7 @@ foreach ( $addresses as $address ) {
 					'text'       => $address->district,
 					'home_id'    => $entry->directoryHome['page_id'],
 					'force_home' => $entry->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 
@@ -86,7 +86,7 @@ foreach ( $addresses as $address ) {
 					'text'       => $address->county,
 					'home_id'    => $entry->directoryHome['page_id'],
 					'force_home' => $entry->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 
@@ -115,7 +115,7 @@ foreach ( $addresses as $address ) {
 					'text'       => $address->city,
 					'home_id'    => $entry->directoryHome['page_id'],
 					'force_home' => $entry->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 
@@ -144,7 +144,7 @@ foreach ( $addresses as $address ) {
 					'text'       => $address->state,
 					'home_id'    => $entry->directoryHome['page_id'],
 					'force_home' => $entry->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 
@@ -173,7 +173,7 @@ foreach ( $addresses as $address ) {
 					'text'       => $address->zipcode,
 					'home_id'    => $entry->directoryHome['page_id'],
 					'force_home' => $entry->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 
@@ -202,7 +202,7 @@ foreach ( $addresses as $address ) {
 					'text'       => $address->country,
 					'home_id'    => $entry->directoryHome['page_id'],
 					'force_home' => $entry->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 					)
 			);
 
@@ -217,8 +217,8 @@ foreach ( $addresses as $address ) {
 
 	if ( ! empty( $address->latitude ) || ! empty( $address->longitude ) ) {
 		$replace[] = '<span class="geo">' .
-		             ( empty( $address->latitude ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . __( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
-		             ( empty( $address->longitude ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . __( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
+		             ( empty( $address->latitude ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . esc_html__( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
+		             ( empty( $address->longitude ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . esc_html__( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
 		             '</span>';
 	}
 

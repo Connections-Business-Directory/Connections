@@ -15,7 +15,9 @@
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnSanitize
@@ -42,7 +44,9 @@ class cnSanitize {
 	 */
 	public static function args( $untrusted, $defaults ) {
 
-		if ( ! is_array( $defaults ) ) return $defaults;
+		if ( ! is_array( $defaults ) ) {
+			return $defaults;
+		}
 
 		if ( is_object( $untrusted ) ) {
 
@@ -57,7 +61,9 @@ class cnSanitize {
 			wp_parse_str( $untrusted, $args );
 		}
 
-		if ( ! isset( $args ) ) return $defaults;
+		if ( ! isset( $args ) ) {
+			return $defaults;
+		}
 
 		$intersect  = array_intersect_key( $args, $defaults ); // Get data for which is in the valid fields.
 		$difference = array_diff_key( $defaults, $args ); // Get default data which is not supplied.
@@ -283,7 +289,7 @@ class cnSanitize {
 						 * Match the post content sanitation before being inserted in the db.
 						 * See the `content_save_pre` filters.
 						 */
-						if ( FALSE === current_user_can( 'unfiltered_html' ) ) {
+						if ( false === current_user_can( 'unfiltered_html' ) ) {
 
 							$value = wp_filter_post_kses( $value );
 						}
@@ -384,7 +390,7 @@ class cnSanitize {
 	 *
 	 * @return mixed
 	 */
-	public static function option( $value, $options, $default = NULL ) {
+	public static function option( $value, $options, $default = null ) {
 
 		if ( array_key_exists( $value, $options ) ) {
 
@@ -424,7 +430,9 @@ class cnSanitize {
 	 */
 	public static function options( $values, $options, $defaults = array() ) {
 
-		if ( empty( $values ) ) return array();
+		if ( empty( $values ) ) {
+			return array();
+		}
 
 		// Let do a bit of array gymnastics...
 		// array_flip $values so the values are the keys.
@@ -464,12 +472,12 @@ class cnSanitize {
 	 */
 	public static function html( $string ) {
 
-		if ( FALSE === current_user_can( 'unfiltered_html' ) ) {
+		if ( false === current_user_can( 'unfiltered_html' ) ) {
 
 			$string = wp_kses_post( $string );
 		}
 
-		return balanceTags( $string, TRUE );
+		return balanceTags( $string, true );
 	}
 
 	/**
@@ -485,12 +493,12 @@ class cnSanitize {
 	 */
 	public static function quicktag( $string ) {
 
-		if ( FALSE === current_user_can( 'unfiltered_html' ) ) {
+		if ( false === current_user_can( 'unfiltered_html' ) ) {
 
 			$string = wp_kses_data( $string );
 		}
 
-		return balanceTags( $string, TRUE );
+		return balanceTags( $string, true );
 	}
 
 	/**
@@ -581,7 +589,7 @@ class cnSanitize {
 		}
 
 		// Returns 3 or 6 hex digits, or the empty string.
-		if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
 
 			return $color;
 		}
@@ -608,8 +616,9 @@ class cnSanitize {
 
 		$color = ltrim( $color, '#' );
 
-		if ( '' === $color )
+		if ( '' === $color ) {
 			return '';
+		}
 
 		return self::hexColor( '#' . $color ) ? $color : '';
 	}

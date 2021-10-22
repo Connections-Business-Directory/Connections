@@ -232,7 +232,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 
 		foreach ( $this->items as $key => $item ) {
 
-			if ( $callback( $item, $key ) === FALSE ) {
+			if ( $callback( $item, $key ) === false ) {
 				break;
 			}
 		}
@@ -293,7 +293,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function filter( $callback = NULL ) {
+	public function filter( $callback = null ) {
 
 		if ( $callback ) {
 			return new self( cnArray::where( $this->items, $callback ) );
@@ -311,7 +311,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function when( $value, $callback, $default = NULL ) {
+	public function when( $value, $callback, $default = null ) {
 
 		if ( $value ) {
 			return $callback( $this );
@@ -331,7 +331,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return static
 	 */
-	public function where( $key, $operator, $value = NULL ) {
+	public function where( $key, $operator, $value = null ) {
 
 		if ( func_num_args() == 2 ) {
 			$value = $operator;
@@ -408,7 +408,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function whereIn( $key, $values, $strict = FALSE ) {
+	public function whereIn( $key, $values, $strict = false ) {
 
 		$callback = function( $item ) use ( $key, $values, $strict ) {
 
@@ -428,7 +428,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 */
 	public function whereInStrict( $key, $values ) {
 
-		return $this->whereIn( $key, $values, TRUE );
+		return $this->whereIn( $key, $values, true );
 	}
 
 	/**
@@ -439,7 +439,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function first( callable $callback = NULL, $default = NULL ) {
+	public function first( callable $callback = null, $default = null ) {
 
 		return cnArray::first( $this->items, $callback, $default );
 	}
@@ -490,7 +490,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function get( $key, $default = NULL ) {
+	public function get( $key, $default = null ) {
 
 		if ( $this->offsetExists( $key ) ) {
 			return $this->items[ $key ];
@@ -581,7 +581,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return string
 	 */
-	public function implode( $value, $glue = NULL ) {
+	public function implode( $value, $glue = null ) {
 
 		$first = $this->first();
 
@@ -654,7 +654,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function last( callable $callback = NULL, $default = NULL ) {
+	public function last( callable $callback = null, $default = null ) {
 
 		return cnArray::last( $this->items, $callback, $default );
 	}
@@ -667,7 +667,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function pluck( $value, $key = NULL ) {
+	public function pluck( $value, $key = null ) {
 
 		return new self( cnArray::pluck( $this->items, $value, $key ) );
 	}
@@ -731,7 +731,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function max( $callback = NULL ) {
+	public function max( $callback = null ) {
 
 		$callback = $this->valueRetriever( $callback );
 
@@ -937,7 +937,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return $this
 	 */
-	public function prepend( $value, $key = NULL ) {
+	public function prepend( $value, $key = null ) {
 
 		$this->items = cnArray::prepend( $this->items, $value, $key );
 
@@ -953,7 +953,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 */
 	public function push( $value ) {
 
-		$this->offsetSet( NULL, $value );
+		$this->offsetSet( null, $value );
 
 		return $this;
 	}
@@ -966,7 +966,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function pull( $key, $default = NULL ) {
+	public function pull( $key, $default = null ) {
 
 		return cnArray::pull( $this->items, $key, $default );
 	}
@@ -1020,7 +1020,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function reduce( $callback, $initial = NULL ) {
+	public function reduce( $callback, $initial = null ) {
 
 		return array_reduce( $this->items, $callback, $initial );
 	}
@@ -1054,7 +1054,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 */
 	public function reverse() {
 
-		return new self( array_reverse( $this->items, TRUE ) );
+		return new self( array_reverse( $this->items, true ) );
 	}
 
 	/**
@@ -1065,7 +1065,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return mixed
 	 */
-	public function search( $value, $strict = FALSE ) {
+	public function search( $value, $strict = false ) {
 
 		if ( ! $this->useAsCallable( $value ) ) {
 			return array_search( $value, $this->items, $strict );
@@ -1077,7 +1077,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -1097,7 +1097,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function shuffle( $seed = NULL ) {
+	public function shuffle( $seed = null ) {
 
 		$items = $this->items;
 
@@ -1128,9 +1128,9 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function slice( $offset, $length = NULL ) {
+	public function slice( $offset, $length = null ) {
 
-		return new self( array_slice( $this->items, $offset, $length, TRUE ) );
+		return new self( array_slice( $this->items, $offset, $length, true ) );
 	}
 
 	///**
@@ -1166,7 +1166,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 
 		$chunks = array();
 
-		foreach ( array_chunk( $this->items, $size, TRUE ) as $chunk ) {
+		foreach ( array_chunk( $this->items, $size, true ) as $chunk ) {
 			$chunks[] = new self( $chunk );
 		}
 
@@ -1180,7 +1180,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function sort( callable $callback = NULL ) {
+	public function sort( callable $callback = null ) {
 
 		$items = $this->items;
 
@@ -1198,18 +1198,18 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function sortBy( $callback, $options = SORT_REGULAR, $descending = FALSE ) {
+	public function sortBy( $callback, $options = SORT_REGULAR, $descending = false ) {
 
 		$results = array();
 
-		//$callback = $this->valueRetriever( $callback );
+		// $callback = $this->valueRetriever( $callback );
 
 		// First we will loop through the items and get the comparator from a callback
 		// function which we were given. Then, we will sort the returned values and
 		// and grab the corresponding values for the sorted keys from this array.
 		foreach ( $this->items as $key => $value ) {
 
-			//$results[ $key ] = $callback( $value, $key );
+			// $results[ $key ] = $callback( $value, $key );
 
 			$results[ $key ] = $this->useAsCallable( $callback ) ? $callback( $value, $key ) : cnArray::data_get( $value, $callback );
 		}
@@ -1236,7 +1236,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 */
 	public function sortByDesc( $callback, $options = SORT_REGULAR ) {
 
-		return $this->sortBy( $callback, $options, TRUE );
+		return $this->sortBy( $callback, $options, true );
 	}
 
 	/**
@@ -1248,7 +1248,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return cnCollection
 	 */
-	public function splice( $offset, $length = NULL, $replacement = array() ) {
+	public function splice( $offset, $length = null, $replacement = array() ) {
 
 		if ( func_num_args() == 1 ) {
 			return new self( array_splice( $this->items, $offset ) );

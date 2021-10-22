@@ -1,10 +1,13 @@
 <?php
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Taxonomy\_getTermHierarchy as _get_term_hierarchy;
 
 /**
@@ -35,7 +38,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 * @since  8.2
 	 * @var string
 	 */
-	private $orderby = NULL;
+	private $orderby = null;
 
 	/**
 	 * The term to search for @see cnTerm::getTaxonomyTerms().
@@ -109,9 +112,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			array(
 				'plural'   => 'terms',
 				'singular' => 'term',
-				'ajax'     => FALSE,
-				//'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
-				//'screen'   => "connections-{$this->taxonomy}",
+				'ajax'     => false,
+				// 'screen' => isset( $args['screen'] ) ? $args['screen'] : NULL,
+				// 'screen'   => "connections-{$this->taxonomy}",
 			)
 		);
 
@@ -128,7 +131,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	public function ajax_user_can() {
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -173,7 +176,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		$args = array(
 			'page'       => $this->get_pagenum(),
 			'number'     => $per_page,
-			'hide_empty' => FALSE,
+			'hide_empty' => false,
 			'search'     => $this->search,
 		);
 
@@ -205,13 +208,13 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'total_items' => cnTerm::getTaxonomyTerms(
 					$this->taxonomy,
 					array(
-						'hide_empty' => FALSE,
+						'hide_empty' => false,
 						'search'     => $this->search,
-						'fields'     => 'count'
+						'fields'     => 'count',
 					)
 				),
 				'per_page'    => $per_page,
-				//'total_pages' => $set_me, /** This will by calculated by @see WP_List_Table::set_pagination_args() if not supplied. */
+				// 'total_pages' => $set_me, /** This will by calculated by @see WP_List_Table::set_pagination_args() if not supplied. */
 			)
 		);
 
@@ -314,10 +317,10 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	protected function get_sortable_columns() {
 
 		$columns =  array(
-			'name'        => array( 'name', FALSE ),
-			'description' => array( 'description', FALSE ),
-			'slug'        => array( 'slug', FALSE ),
-			'posts'       => array( 'count', FALSE ),
+			'name'        => array( 'name', false ),
+			'description' => array( 'description', false ),
+			'slug'        => array( 'slug', false ),
+			'posts'       => array( 'count', false ),
 		);
 
 		/**
@@ -386,7 +389,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		if ( empty( $this->items ) ) {
 
-			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
+			echo '<tr class="no-items"><td class="colspanchange" colspan="' . esc_attr( $this->get_column_count() ) . '">';
 			$this->no_items();
 			echo '</td></tr>';
 
@@ -436,11 +439,13 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		foreach ( $terms as $key => $term ) {
 
-			if ( $count >= $end )
+			if ( $count >= $end ) {
 				break;
+			}
 
-			if ( $term->parent != $parent && empty( $_REQUEST['s'] ) )
+			if ( $term->parent != $parent && empty( $_REQUEST['s'] ) ) {
 				continue;
+			}
 
 			// If the page starts in a subtree, print the parents.
 			if ( $count == $start && $term->parent > 0 && empty( $_REQUEST['s'] ) ) {
@@ -450,8 +455,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 					$my_parent = cnTerm::get( $p, $taxonomy );
 					$my_parents[] = $my_parent;
 					$p = $my_parent->parent;
-					if ( in_array( $p, $parent_ids ) ) // Prevent parent loops.
+					if ( in_array( $p, $parent_ids ) ) { // Prevent parent loops.
 						break;
+					}
 					$parent_ids[] = $p;
 				}
 				unset( $parent_ids );
@@ -473,8 +479,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 			unset( $terms[ $key ] );
 
-			if ( isset( $children[ $term->term_id ] ) && empty( $_REQUEST['s'] ) )
+			if ( isset( $children[ $term->term_id ] ) && empty( $_REQUEST['s'] ) ) {
 				$this->_rows( $taxonomy, $terms, $children, $start, $per_page, $count, $term->term_id, $level + 1 );
+			}
 		}
 	}
 
@@ -489,19 +496,24 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 *
 	 * @staticvar string $class
 	 *
-	 * @param object $term
-	 * @param int    $level
+	 * @param Taxonomy\Term $term
+	 * @param int           $level
 	 */
 	public function single_row( $term, $level = 0 ) {
 
+		/** @var Taxonomy\Term $term */
 		$term = sanitize_term( $term, 'cn_' . $this->taxonomy );
-
-		static $class = '';
-		$class = $class == '' ? ' class="alternate"' : '';
 
 		$this->level = $level;
 
-		echo '<tr id="tag-' . $term->term_id . '"' . $class . '>';
+		if ( $term->parent ) {
+			$count = count( cnTerm::getAncestors( $term->term_id, $this->taxonomy ) );
+			$level = 'level-' . $count;
+		} else {
+			$level = 'level-0';
+		}
+
+		echo '<tr id="' . esc_attr( "tag-{$term->term_id}" ) . '" class="' . _escape::classNames( $level ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		$this->single_row_columns( $term );
 		echo '</tr>';
 	}
@@ -521,7 +533,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		if ( $term->term_id != $this->default_term ) {
 
 			return '<label class="screen-reader-text" for="cb-select-' . $term->term_id . '">' .
-			      sprintf( __( 'Select %s', 'connections' ), $term->name ) .
+			      sprintf( esc_html__( 'Select %s', 'connections' ), $term->name ) .
 			       '</label>' . '<input type="checkbox" name="' . $this->taxonomy . '[]" value="' . $term->term_id . '" id="cb-select-' . $term->term_id . '" />';
 		}
 
@@ -573,7 +585,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'page'            => $_GET['page'],
 				'cn-action'       => "edit_{$this->taxonomy}",
 				'id'              => $term->term_id,
-				//'wp_http_referer' => urlencode( wp_unslash( $uri ) ),
+				// 'wp_http_referer' => urlencode( wp_unslash( $uri ) ),
 			),
 			$uri
 		);
@@ -584,9 +596,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		);
 
 		$out .= '<strong><a class="row-title" href="' . esc_url( $editURL ) . '" title="' .
-		        esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
+		        esc_attr( sprintf( esc_html__( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
-		$actions['edit']   = '<a href="' . esc_url( $editURL ) . '">' . __( 'Edit', 'connections' ) . '</a>';
+		$actions['edit']   = '<a href="' . esc_url( $editURL ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 
 		if ( $term->term_id != $this->default_term ) {
 
@@ -595,7 +607,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'term_delete_' . $term->term_id
 			);
 
-			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . __( 'Delete', 'connections' ) . "</a>";
+			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . "</a>";
 		}
 
 		$homeID   = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );
@@ -603,7 +615,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		if ( $homeID && $taxonomy instanceof Taxonomy && $taxonomy->isPublic() ) {
 
-			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
+			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . esc_html__( 'View', 'connections' ) . '</a>';
 		}
 
 		/**

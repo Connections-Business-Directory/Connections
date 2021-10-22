@@ -55,7 +55,7 @@ class Assert {
 	 */
 	public static function notNull( $value, $message = '' ) {
 
-		if ( NULL === $value ) {
+		if ( null === $value ) {
 			throw new InvalidArgumentException( sprintf( $message ? : 'Value cannot be null' ) );
 		}
 	}

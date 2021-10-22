@@ -12,7 +12,9 @@ use Connections_Directory\Map\UI\Marker;
 use Connections_Directory\Map\Layer\Group\Layer_Group;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class mapBlock
@@ -64,7 +66,7 @@ class mapBlock {
 			)
 		);
 
-		$this->layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
+		$this->layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( false );
 
 		$googleMapsAPIBrowserKey = Option::get(
 			'connections',
@@ -114,7 +116,7 @@ class mapBlock {
 		$content = $this->parseLayers( $content );
 		$content = $this->parseMarkers( $content );
 
-		//$this->map->addLayers( $this->layerControl->getBaseLayers() );
+		// $this->map->addLayers( $this->layerControl->getBaseLayers() );
 		$this->map->addLayers( $this->layerControl->getOverlays() );
 
 		if ( $atts['marker'] ) {
@@ -164,7 +166,7 @@ class mapBlock {
 			'zoom'      => 16,
 			'height'    => '400px',
 			'width'     => '100%',
-			'marker'    => TRUE,
+			'marker'    => true,
 		);
 	}
 
@@ -202,12 +204,14 @@ class mapBlock {
 			function( $match ) {
 
 				// If there is no content, then there are no markers to parse, return.
-				if ( 0 == strlen( $match[5]) ) return '';
+				if ( 0 == strlen( $match[5] ) ) {
+					return '';
+				}
 
 				$defaults = array(
 					'id'      => 'layer',
 					'name'    => '',
-					'control' => FALSE,
+					'control' => false,
 				);
 
 				$atts = $this->parseShortcodeAtts( $match[3] );
@@ -249,7 +253,7 @@ class mapBlock {
 	 *
 	 * @return string
 	 */
-	private function parseMarkers( $content, $layer = NULL ) {
+	private function parseMarkers( $content, $layer = null ) {
 
 		$pattern = get_shortcode_regex( array( 'mapmarker' ) );
 
@@ -259,8 +263,8 @@ class mapBlock {
 
 				$defaults = array(
 					'id'        => 'marker',
-					'latitude'  => NULL,
-					'longitude' => NULL,
+					'latitude'  => null,
+					'longitude' => null,
 				);
 
 				$atts = shortcode_parse_atts( $match[3] );

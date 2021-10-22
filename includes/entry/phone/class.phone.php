@@ -70,7 +70,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 
 		$this->id          = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred         = cnArray::get( $data, 'preferred', FALSE );
+		$preferred         = cnArray::get( $data, 'preferred', false );
 
 		$type              = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
@@ -101,7 +101,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 		 * // END -- Compatibility for previous versions.
 		 */
 
-		//$this->name = $types[ $this->type ];
+		// $this->name = $types[ $this->type ];
 		$this->name = array_key_exists( $this->type, $types ) ? $types[ $this->type ] : $default[ $this->type ];
 
 		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.

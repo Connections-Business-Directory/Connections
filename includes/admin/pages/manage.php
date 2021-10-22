@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The manage admin page.
  *
@@ -10,12 +9,16 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Form\Field;
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_sanitize;
 
-function connectionsShowViewPage( $action = NULL ) {
+function connectionsShowViewPage( $action = null ) {
 
 	// Grab an instance of the Connections object.
 	$instance  = Connections_Directory();
@@ -26,8 +29,7 @@ function connectionsShowViewPage( $action = NULL ) {
 	switch ( $action ) {
 
 		case 'add_entry':
-
-			echo '<h1>Connections : ' , __( 'Add Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Add Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.
@@ -47,7 +49,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connections' ),
+					'title'    => esc_html__( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -60,10 +62,10 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<div id="post-body" class="metabox-holder columns-' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '">';
 
 						wp_nonce_field( 'cn-manage-metaboxes' );
-						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
-						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
+						$form->tokenField( 'add_entry', false, '_cn_wpnonce', false );
 
 						do_action( 'cn_admin_form_add_entry_before', $entry, $form );
 
@@ -93,21 +95,20 @@ function connectionsShowViewPage( $action = NULL ) {
 
 			} else {
 
-				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
+				cnMessage::render( 'error', esc_html__( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
 
 		case 'copy_entry':
-
-			echo '<h1>Connections : ' , __( 'Copy Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Copy Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 
-				$id = esc_attr( $_GET['id'] );
+				$id = isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
 				check_admin_referer( 'entry_copy_' . $id );
 
 				$form  = new cnFormObjects();
@@ -141,7 +142,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connections' ),
+					'title'    => esc_html__( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -154,10 +155,10 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<div id="post-body" class="metabox-holder columns-' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '">';
 
 						wp_nonce_field( 'cn-manage-metaboxes' );
-						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
-						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
+						$form->tokenField( 'add_entry', false, '_cn_wpnonce', false );
 
 						do_action( 'cn_admin_form_copy_entry_before', $entry, $form );
 
@@ -187,21 +188,20 @@ function connectionsShowViewPage( $action = NULL ) {
 
 			} else {
 
-				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
+				cnMessage::render( 'error', esc_html__( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
 
 		case 'edit_entry':
-
-			echo '<h1>Connections : ' , __( 'Edit Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Edit Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether the current user can edit entries.
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-				$id = esc_attr( $_GET['id'] );
+				$id = absint( $_GET['id'] );
 				check_admin_referer( 'entry_edit_' . $id );
 
 				$form  = new cnFormObjects();
@@ -218,7 +218,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connections' ),
+					'title'    => esc_html__( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -231,10 +231,10 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<div id="post-body" class="metabox-holder columns-' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '">';
 
 						wp_nonce_field( 'cn-manage-metaboxes' );
-						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
-						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'update_entry', FALSE, '_cn_wpnonce', FALSE );
+						$form->tokenField( 'update_entry', false, '_cn_wpnonce', false );
 
 						do_action( 'cn_admin_form_edit_entry_before', $entry, $form );
 
@@ -264,41 +264,55 @@ function connectionsShowViewPage( $action = NULL ) {
 
 			} else {
 
-				cnMessage::render( 'error', __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
+				cnMessage::render( 'error', esc_html__( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
 
 		default:
-
 			$form   = new cnFormObjects();
-			$page   = (object) $instance->currentUser->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
+			$page   = (object) $instance->currentUser->getScreenOption(
+				'manage',
+				'pagination',
+				array(
+					'current' => 1,
+					'limit'   => 50,
+				)
+			);
 			$offset = ( $page->current - 1 ) * $page->limit;
 
-			echo '<h1>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h1>';
+			echo '<h1>Connections : ' , esc_html__( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , esc_html__( 'Add New', 'connections' ) , '</a></h1>';
 
 			/*
 			 * Check whether user can view the entry list
 			 */
 			if ( current_user_can( 'connections_manage' ) ) {
 
-				$retrieveAttr['list_type']  = $instance->currentUser->getFilterEntryType();
-				$retrieveAttr['category']   = $instance->currentUser->getFilterCategory();
+				$retrieveAttr['list_type'] = $instance->currentUser->getFilterEntryType();
+				$retrieveAttr['category']  = $instance->currentUser->getFilterCategory();
 
-				$retrieveAttr['char']       = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? esc_attr( $_GET['cn-char'] ) : '';
 				$retrieveAttr['visibility'] = $instance->currentUser->getFilterVisibility();
 				$retrieveAttr['status']     = $instance->currentUser->getFilterStatus();
 
-				$retrieveAttr['limit']      = $page->limit;
-				$retrieveAttr['offset']     = $offset;
+				$retrieveAttr['limit']  = $page->limit;
+				$retrieveAttr['offset'] = $offset;
+
+				// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( isset( $_REQUEST['cn-char'] ) ) {
+
+					$retrieveAttr['char'] = _sanitize::character( wp_unslash( $_REQUEST['cn-char'] ) );
+				}
+
+				// $searchTerms = \Connections_Directory\Request\Search::input();
+				// $value       = $searchTerms->get();
 
 				if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
 
-					$retrieveAttr['search_terms'] = wp_unslash( $_REQUEST['s'] );
+					$retrieveAttr['search_terms'] = _sanitize::search( wp_unslash( $_REQUEST['s'] ) );
 				}
+				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				$results = $instance->retrieve->entries( $retrieveAttr );
-				// print_r($instance->lastQuery);
 				?>
 
 				<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>
@@ -308,22 +322,44 @@ function connectionsShowViewPage( $action = NULL ) {
 					<?php
 
 					$statuses = array(
-						'all'      => __( 'All', 'connections' ),
-						'approved' => __( 'Approved', 'connections' ),
-						'pending'  => __( 'Moderate', 'connections' ),
+						'all'      => esc_html__( 'All', 'connections' ),
+						'approved' => esc_html__( 'Approved', 'connections' ),
+						'pending'  => esc_html__( 'Moderate', 'connections' ),
 					);
 
 					foreach ( $statuses as $key => $status ) {
 
-						$subsubsub[] = sprintf( '<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
+						$subsubsub[] = sprintf(
+							'<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
 							$instance->currentUser->getFilterStatus() == $key ? ' class="current" ' : ' ',
-							esc_url( $form->tokenURL( add_query_arg( array( 'page' => 'connections_manage', 'cn-action' => 'filter', 'status' => $key ) ), 'filter' ) ),
+							esc_url(
+								$form->tokenURL(
+									add_query_arg(
+										array(
+											'page'      => 'connections_manage',
+											'cn-action' => 'filter',
+											'status'    => $key,
+										)
+									),
+									'filter'
+								)
+							),
 							$status,
 							cnRetrieve::recordCount( array( 'status' => $key ) )
-						 );
+						);
 					}
 
-					echo implode( ' | ', $subsubsub );
+					echo wp_kses(
+						implode( ' | ', $subsubsub ),
+						array(
+							'a'    => array(
+								'class' => true,
+								'href'  => true,
+							),
+							'li'   => array(),
+							'span' => array(),
+						)
+					);
 
 					?>
 
@@ -333,11 +369,22 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				<form method="post">
 
-					<?php $searchTerm = isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ? $_REQUEST['s'] : ''; ?>
+					<?php
+					// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
+
+						$searchTerm = _sanitize::search( wp_unslash( $_REQUEST['s'] ) );
+
+					} else {
+
+						$searchTerm = '';
+					}
+					// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					?>
 
 					<p class="search-box">
 						<label class="screen-reader-text" for="entry-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
-						<input type="search" id="entry-search-input" name="s" value="<?php echo esc_attr( wp_unslash( $searchTerm ) ); ?>" />
+						<input type="search" id="entry-search-input" name="s" value="<?php echo esc_attr( $searchTerm ); ?>" />
 						<?php submit_button( esc_attr__( 'Search Entries', 'connections' ), '', '', false, array( 'id' => 'search-submit' ) ); ?>
 					</p>
 
@@ -354,10 +401,10 @@ function connectionsShowViewPage( $action = NULL ) {
 								'term-select',
 								array(
 									'name'            => 'category',
-									'show_option_all' => __( 'Show All Categories', 'connections' ),
-									'hide_empty'      => FALSE,
-									'hierarchical'    => TRUE,
-									'show_count'      => FALSE,
+									'show_option_all' => esc_html__( 'Show All Categories', 'connections' ),
+									'hide_empty'      => false,
+									'hierarchical'    => true,
+									'show_count'      => false,
 									'orderby'         => 'name',
 									'selected'        => $instance->currentUser->getFilterCategory(),
 								)
@@ -369,19 +416,19 @@ function connectionsShowViewPage( $action = NULL ) {
 										->createOptionsFromArray(
 											array(
 												array(
-													'label' => __( 'Show All Entries', 'connections' ),
+													'label' => esc_html__( 'Show All Entries', 'connections' ),
 													'value' => 'all',
 												),
 												array(
-													'label' => __( 'Show Individuals', 'connections' ),
+													'label' => esc_html__( 'Show Individuals', 'connections' ),
 													'value' => 'individual',
 												),
 												array(
-													'label' => __( 'Show Organizations', 'connections' ),
+													'label' => esc_html__( 'Show Organizations', 'connections' ),
 													'value' => 'organization',
 												),
 												array(
-													'label' => __( 'Show Families', 'connections' ),
+													'label' => esc_html__( 'Show Families', 'connections' ),
 													'value' => 'family',
 												),
 											)
@@ -394,24 +441,33 @@ function connectionsShowViewPage( $action = NULL ) {
 							 */
 							$visibilitySelect = array(
 								array(
-									'label' => __( 'Show All', 'connections' ),
+									'label' => esc_html__( 'Show All', 'connections' ),
 									'value' => 'all',
 								),
 							);
 
 							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) {
 
-								$visibilitySelect[] = array( 'label' => __( 'Show Public', 'connections' ), 'value' => 'public' );
+								$visibilitySelect[] = array(
+									'label' => esc_html__( 'Show Public', 'connections' ),
+									'value' => 'public',
+								);
 							}
 
 							if ( current_user_can( 'connections_view_private' ) ) {
 
-								$visibilitySelect[] = array( 'label' => __( 'Show Private', 'connections' ), 'value' => 'private' );
+								$visibilitySelect[] = array(
+									'label' => esc_html__( 'Show Private', 'connections' ),
+									'value' => 'private',
+								);
 							}
 
 							if ( current_user_can( 'connections_view_unlisted' ) ) {
 
-								$visibilitySelect[] = array( 'label' => __( 'Show Unlisted', 'connections' ), 'value' => 'unlisted' );
+								$visibilitySelect[] = array(
+									'label' => esc_html__( 'Show Unlisted', 'connections' ),
+									'value' => 'unlisted',
+								);
 							}
 
 							Field\Select::create()
@@ -430,7 +486,8 @@ function connectionsShowViewPage( $action = NULL ) {
 						<div class="tablenav-pages">
 							<?php
 
-							echo '<span class="displaying-num">' . sprintf( __( 'Displaying %1$d of %2$d entries.', 'connections' ), $instance->resultCount, $instance->resultCountNoLimit ) . '</span>';
+							/* translators: Number of items. */
+							echo '<span class="displaying-num">' . sprintf( esc_html__( 'Displaying %1$d of %2$d entries.', 'connections' ), absint( $instance->resultCount ), absint( $instance->resultCountNoLimit ) ) . '</span>';
 
 							/*
 							 * // START --> Pagination
@@ -438,7 +495,14 @@ function connectionsShowViewPage( $action = NULL ) {
 							 * Grab the pagination data again in case a filter reset the values
 							 * or the user input an invalid number which the retrieve query would have reset.
 							 */
-							$page = (object) $instance->currentUser->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
+							$page = (object) $instance->currentUser->getScreenOption(
+								'manage',
+								'pagination',
+								array(
+									'current' => 1,
+									'limit'   => 50,
+								)
+							);
 
 							$pageCount = ceil( $instance->resultCountNoLimit / $page->limit );
 
@@ -449,11 +513,10 @@ function connectionsShowViewPage( $action = NULL ) {
 								$pageValue      = array();
 								$currentPageURL = add_query_arg(
 									array(
-										'page'      => FALSE,
-										//'connections_process' => TRUE,
-										//'process' => 'manage',
+										'page'      => false,
 										'cn-action' => 'filter',
-										's'         => isset( $_REQUEST['s'] ) ? urlencode( $_REQUEST['s'] ) : '',
+										// To support quote characters, first they are decoded from &quot; entities, then URL encoded.
+										's'         => isset( $_REQUEST['s'] ) ? rawurlencode( htmlspecialchars_decode( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) ) : '',
 									)
 								);
 
@@ -500,13 +563,13 @@ function connectionsShowViewPage( $action = NULL ) {
 
 								echo '<span class="page-navigation" id="page-input">';
 
-								echo '<a href="' . $pageFilterURL['first_page'] . '" title="' . __( 'Go to the first page.', 'connections' ) . '" class="first-page button' , $pageDisabled['first_page'] , '">&laquo;</a> ';
-								echo '<a href="' . $pageFilterURL['previous_page'] . '" title="' . __( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , $pageDisabled['previous_page'] , '">&lsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['first_page'] ) . '" title="' . esc_html__( 'Go to the first page.', 'connections' ) . '" class="first-page button' , esc_attr( $pageDisabled['first_page'] ) , '">&laquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['previous_page'] ) . '" title="' . esc_html__( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , esc_attr( $pageDisabled['previous_page'] ) , '">&lsaquo;</a> ';
 
-								echo '<span class="paging-input"><input type="text" size="2" value="' . $page->current . '" name="pg" title="' . __( 'Current page', 'connections' ) . '" class="current-page"> ' . __( 'of', 'connections' ) . ' <span class="total-pages">' . $pageCount . '</span></span> ';
+								echo '<span class="paging-input"><input type="text" size="2" value="' . esc_attr( $page->current ) . '" name="pg" title="' . esc_html__( 'Current page', 'connections' ) . '" class="current-page"> ' . esc_html__( 'of', 'connections' ) . ' <span class="total-pages">' . absint( $pageCount ) . '</span></span> ';
 
-								echo '<a href="' . $pageFilterURL['next_page'] . '" title="' . __( 'Go to the next page.', 'connections' ) . '" class="next-page button' , $pageDisabled['next_page'] , '">&rsaquo;</a> ';
-								echo '<a href="' . $pageFilterURL['last_page'] . '" title="' . __( 'Go to the last page.', 'connections' ) . '" class="last-page button' , $pageDisabled['last_page'] , '">&raquo;</a>';
+								echo '<a href="' . esc_url( $pageFilterURL['next_page'] ) . '" title="' . esc_html__( 'Go to the next page.', 'connections' ) . '" class="next-page button' , esc_attr( $pageDisabled['next_page'] ) , '">&rsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['last_page'] ) . '" title="' . esc_html__( 'Go to the last page.', 'connections' ) . '" class="last-page button' , esc_attr( $pageDisabled['last_page'] ), '">&raquo;</a>';
 
 								echo '</span>';
 							}
@@ -526,30 +589,30 @@ function connectionsShowViewPage( $action = NULL ) {
 						if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_delete_entry' ) ) {
 							echo '<div class="alignleft actions">';
 							echo '<select name="action">';
-							echo '<option value="" SELECTED>' , __( 'Bulk Actions', 'connections' ) , '</option>';
+							echo '<option value="" SELECTED>' , esc_html__( 'Bulk Actions', 'connections' ) , '</option>';
 
 							$bulkActions = array();
 
-							if ( current_user_can( 'connections_edit_entry' )  || current_user_can( 'connections_edit_entry_moderated' ) ) {
-								$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
-								$bulkActions['approve']   = __( 'Approve', 'connections' );
-								$bulkActions['public']    = __( 'Set Public', 'connections' );
-								$bulkActions['private']   = __( 'Set Private', 'connections' );
-								$bulkActions['unlisted']  = __( 'Set Unlisted', 'connections' );
+							if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+								$bulkActions['unapprove'] = esc_html__( 'Unapprove', 'connections' );
+								$bulkActions['approve']   = esc_html__( 'Approve', 'connections' );
+								$bulkActions['public']    = esc_html__( 'Set Public', 'connections' );
+								$bulkActions['private']   = esc_html__( 'Set Private', 'connections' );
+								$bulkActions['unlisted']  = esc_html__( 'Set Unlisted', 'connections' );
 							}
 
 							if ( current_user_can( 'connections_delete_entry' ) ) {
-								$bulkActions['delete'] = __( 'Delete', 'connections' );
+								$bulkActions['delete'] = esc_html__( 'Delete', 'connections' );
 							}
 
 							$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
 
 							foreach ( $bulkActions as $action => $string ) {
-								echo '<option value="', $action, '">', $string, '</option>';
+								echo '<option value="', esc_attr( $action ), '">', esc_html( $string ) , '</option>';
 							}
 
 							echo '</select>';
-							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , __( 'Apply', 'connections' ) , '" />';
+							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , esc_html__( 'Apply', 'connections' ) , '" />';
 							echo '</div>';
 						}
 						?>
@@ -560,12 +623,12 @@ function connectionsShowViewPage( $action = NULL ) {
 							/*
 							 * Display the character filter control.
 							 */
-							echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
+							echo '<span class="displaying-num">' , esc_html__( 'Filter by character:', 'connections' ) , '</span>';
 							cnTemplatePart::index(
 								array(
-									'status' => $instance->currentUser->getFilterStatus(),
+									'status'     => $instance->currentUser->getFilterStatus(),
 									'visibility' => $instance->currentUser->getFilterVisibility(),
-									'tag' => 'span',
+									'tag'        => 'span',
 								)
 							);
 							cnTemplatePart::currentCharacter();
@@ -574,33 +637,31 @@ function connectionsShowViewPage( $action = NULL ) {
 					</div>
 					<div class="clear"></div>
 
-			       	<table cellspacing="0" class="widefat connections">
+					<table cellspacing="0" class="widefat connections">
 						<thead>
-				            <tr>
-				                <td class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></td>
-								<th class="col" style="width:10%;"></th>
-								<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
-								<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
-								<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
-				            </tr>
+						<tr>
+							<td class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></td>
+							<th class="col" style="width:10%;"></th>
+							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
+							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
+							<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
+						</tr>
 						</thead>
 						<tfoot>
-				            <tr>
-				                <td class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></td>
-								<th class="col" style="width:10%;"></th>
-								<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
-								<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
-								<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
-				            </tr>
+						<tr>
+							<td class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></td>
+							<th class="col" style="width:10%;"></th>
+							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
+							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
+							<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
+						</tr>
 						</tfoot>
 						<tbody>
 
 				<?php
 
 				foreach ( $results as $row ) {
-					/**
-					 *
-					 *
+					/*
 					 * @TODO: Use the Output class to show entry details.
 					 */
 					$entry = new cnOutput( $row );
@@ -608,19 +669,19 @@ function connectionsShowViewPage( $action = NULL ) {
 					/*
 					 * Generate the edit, copy and delete URLs with nonce tokens.
 					 */
-					$editTokenURL      = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() ) );
-					$copyTokenURL      = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() ) );
-					$deleteTokenURL    = esc_url( $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() ) );
-					$approvedTokenURL  = esc_url( $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() ) );
-					$unapproveTokenURL = esc_url( $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() ) );
+					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
+					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
+					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
+					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 
 					switch ( $entry->getStatus() ) {
-						case 'pending' :
-							$statusClass = ' unapproved';
+						case 'pending':
+							$statusClass = 'unapproved';
 							break;
 
-						case 'approved' :
-							$statusClass = ' approved';
+						case 'approved':
+							$statusClass = 'approved';
 							break;
 
 						default:
@@ -628,8 +689,8 @@ function connectionsShowViewPage( $action = NULL ) {
 							break;
 					}
 
-					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass .'">';
-					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='id[]'/></th> \n";
+					echo '<tr id="row-' , esc_attr( $entry->getId() ) , '" class="' . _escape::classNames( array( 'parent-row', $statusClass ) ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . esc_attr( $entry->getId() ) . "' name='id[]'/></th> \n";
 					echo '<td>';
 					$entry->getImage(
 						array(
@@ -639,14 +700,14 @@ function connectionsShowViewPage( $action = NULL ) {
 							'zc'       => 2,
 							'fallback' => array(
 								'type'   => 'block',
-								'string' => __( 'No Image Available', 'connections' ),
+								'string' => esc_html__( 'No Image Available', 'connections' ),
 							),
 						)
 					);
 					echo '</td>';
 					echo '<td  colspan="2">';
 
-					echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . CN_URL . 'assets/images/uparrow.gif" /></a></div>';
+					echo '<div style="float:right"><a href="#top" title="Return to top."><img src="' . esc_url( CN_URL . 'assets/images/uparrow.gif' ) . '" /></a></div>';
 
 					$name = $entry->getName( array( 'format' => '%last%, %first%' ) );
 
@@ -654,11 +715,11 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						echo '<a class="row-title" title="Edit ' . $name . '" href="' . $editTokenURL . '">' . $name . '</a>';
+						echo '<a class="row-title" title="Edit ' . esc_attr( $name ) . '" href="' . esc_url( $editTokenURL ) . '">' . esc_html( $name ) . '</a>';
 
 					} else {
 
-						echo $name;
+						echo esc_html( $name );
 					}
 
 					/**
@@ -672,7 +733,11 @@ function connectionsShowViewPage( $action = NULL ) {
 					if ( is_array( $entryStates ) && ! empty( $entryStates ) ) {
 
 						echo ' &mdash; ';
-						echo '<span class="post-state">' . implode( '</span>, <span class="post-state">', $entryStates ) . '</span>';
+
+						foreach ( $entryStates as $entryState ) {
+
+							echo '<span class="post-state">' . esc_html( $entryState ) . '</span>';
+						}
 					}
 
 					echo '</strong>';
@@ -683,39 +748,50 @@ function connectionsShowViewPage( $action = NULL ) {
 					$rowActions     = array();
 					$rowEditActions = array();
 
-					$rowActions['toggle_details'] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
-					$rowActions['vcard']          = $entry->vcard( array( 'text' => __( 'vCard', 'connections' ), 'return' => TRUE ) );
-					$rowActions['view']           = cnURL::permalink( array(
-							'slug' => $entry->getSlug(),
-							'title' => sprintf( __( 'View %s', 'connections' ) , $entry->getName( array( 'format' => '%first% %last%' ) ) ),
-							'text' => __( 'View', 'connections' ),
-							'return' => TRUE
+					$rowActions['toggle_details'] = '<a class="detailsbutton" id="' . esc_attr( "row-{$entry->getId()}" ) . '" title="' . esc_html__( 'Click to show details.', 'connections' ) . '" >' . esc_html__( 'Show Details', 'connections' ) . '</a>';
+
+					$rowActions['vcard'] = $entry->vcard(
+						array(
+							'text'   => esc_html__( 'vCard', 'connections' ),
+							'return' => true,
+						)
+					);
+
+					$rowActions['view'] = cnURL::permalink(
+						array(
+							'slug'   => $entry->getSlug(),
+							// translators: The directory entry name.
+							'title'  => sprintf( esc_html__( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
+							'text'   => esc_html__( 'View', 'connections' ),
+							'return' => true,
 						)
 					);
 
 					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . $unapproveTokenURL . '" title="' . __( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . __( 'Unapprove', 'connections' ) . '</a>';
+						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveTokenURL ) . '" title="' . esc_html__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
 					}
 
 					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['approve'] = '<a class="action approve" href="' . $approvedTokenURL . '" title="' . __( 'Approve', 'connections' ) . ' ' . $fullName . '">' . __( 'Approve', 'connections' ) . '</a>';
+						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedTokenURL ) . '" title="' . esc_html__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
 					}
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						$rowEditActions['edit'] = '<a class="editbutton" href="' . $editTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $fullName . '">' . __( 'Edit', 'connections' ) . '</a>';
+						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editTokenURL ) . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 					}
 
-					//if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
+					// if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 					//
-					//	$rowEditActions['copy'] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $fullName . '">' . __( 'Copy', 'connections' ) . '</a>';
-					//}
+					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . esc_url( $copyTokenURL ) . '" title="' . esc_html__( 'Copy', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Copy', 'connections' ) . '</a>';
+					// }
+					// phpcs:enable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 					if ( current_user_can( 'connections_delete_entry' ) ) {
 
-						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteTokenURL . '" title="' . __( 'Delete', 'connections' ) . ' ' . $fullName . '">' . __( 'Delete', 'connections' ) . '</a>';
+						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteTokenURL ) . '" title="' . esc_html__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
 					}
 
 					/**
@@ -736,12 +812,12 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					if ( is_array( $rowEditActions ) && ! empty( $rowEditActions ) ) {
 
-						echo implode( ' | ', $rowEditActions ) , '<br/>';
+						echo implode( ' | ', $rowEditActions ) , '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( is_array( $rowActions ) && ! empty( $rowActions ) ) {
 
-						echo implode( ' | ', $rowActions );
+						echo implode( ' | ', $rowActions ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					echo '</div>';
@@ -750,19 +826,21 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					$categories = $entry->getCategory();
 
-					if ( !empty( $categories ) ) {
+					if ( ! empty( $categories ) ) {
 						$i = 0;
 
 						foreach ( $categories as $category ) {
 							/*
 							 * Generate the category link token URL.
 							 */
-							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' );
+							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' ); //phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
-							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . $category->name . '</a>';
+							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . esc_html( $category->name ) . '</a>';
 
 							$i++;
-							if ( count( $categories ) > $i ) echo ', ';
+							if ( count( $categories ) > $i ) {
+								echo ', ';
+							}
 						}
 
 						unset( $i );
@@ -770,41 +848,45 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					echo "</td> \n";
 					echo '<td >';
-						echo '<strong>' . __( 'On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp() . '<br />';
-						echo '<strong>' . __( 'By', 'connections' ) . ':</strong> ' . $entry->getEditedBy() . '<br />';
-						echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibilityType() . '<br />';
+						echo '<strong>' . esc_html__( 'On', 'connections' ) . ':</strong> ' . esc_html( $entry->getFormattedTimeStamp() ) . '<br />';
+						echo '<strong>' . esc_html__( 'By', 'connections' ) . ':</strong> ' . esc_html( $entry->getEditedBy() ) . '<br />';
+						echo '<strong>' . esc_html__( 'Visibility', 'connections' ) . ':</strong> ' . esc_html( $entry->displayVisibilityType() ) . '<br />';
 
-						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : FALSE;
+						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : false;
 
-						/**
-						 * NOTE: WP 3.5 introduced get_edit_user_link()
-						 * REF:  http://codex.wordpress.org/Function_Reference/get_edit_user_link
-						 *
-						 * @TODO Use get_edit_user_link() to simplify this code when WP hits >= 3.9.
-						 */
-						if ( $user ) {
+					/**
+					 * NOTE: WP 3.5 introduced get_edit_user_link()
+					 *
+					 * @link https://codex.wordpress.org/Function_Reference/get_edit_user_link
+					 *
+					 * @TODO Use get_edit_user_link() to simplify this code when WP hits >= 3.9.
+					 */
+					if ( $user ) {
 
-							if ( get_current_user_id() == $user->ID ) {
+						if ( get_current_user_id() == $user->ID ) {
 
-								$editUserLink = get_edit_profile_url( $user->ID );
+							$editUserLink = get_edit_profile_url( $user->ID );
 
-							} else {
+						} else {
 
-								$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
-							}
-
-							echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="' . esc_url( $editUserLink ) .'">'. esc_attr( $user->display_name ) .'</a>';
+							$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
 						}
+
+						echo '<strong>' . esc_html__( 'Linked to:', 'connections' ) . '</strong> <a href="' . esc_url( $editUserLink ) . '">' . esc_html( $user->display_name ) . '</a>'; // phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
+					}
 
 					echo "</td> \n";
 					echo "</tr> \n";
 
-					echo "<tr class='child-row-" . $entry->getId() . " cn-entry-details' id='contact-" . $entry->getId() . "-detail' style='display:none;'>";
+					echo '<tr class="' . _escape::classNames( array( "child-row-{$entry->getId()}", 'cn-entry-details' ) ) . '" id="' . esc_attr( "contact-{$entry->getId()}-detail" ) . '" style="display: none;">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo '<td colspan="2">&nbsp;</td>' , "\n";
-					//echo "<td >&nbsp;</td> \n";
+					// phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
+					// echo "<td >&nbsp;</td> \n";
 					echo '<td colspan="2">';
 
-					if ( $relations = $entry->getFamilyMembers() ) {
+					$relations = $entry->getFamilyMembers();
+
+					if ( $relations ) {
 
 						$relationsHTML = array();
 
@@ -817,9 +899,9 @@ function connectionsShowViewPage( $action = NULL ) {
 
 								if ( current_user_can( 'connections_edit_entry' ) ) {
 
-									$editRelationTokenURL = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() ) );
+									$editRelationTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() );
 
-									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . esc_url( $editRelationTokenURL ) . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
 
 								} else {
 
@@ -828,13 +910,31 @@ function connectionsShowViewPage( $action = NULL ) {
 							}
 						}
 
-						if ( ! empty( $relationsHTML ) ) echo implode( '<br />' . PHP_EOL, $relationsHTML );
+						if ( ! empty( $relationsHTML ) ) {
+
+							echo implode( '<br />' . PHP_EOL, $relationsHTML ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						}
 					}
 
-					if ( $entry->getContactFirstName() || $entry->getContactLastName() ) echo '<strong>' . __( 'Contact', 'connections' ) . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />';
-					if ( $entry->getTitle() ) echo '<strong>' . __( 'Title', 'connections' ) . ':</strong> ' . $entry->getTitle() . '<br />';
-					if ( $entry->getOrganization() && $entry->getEntryType() !== 'organization' ) echo '<strong>' . __( 'Organization', 'connections' ) . ':</strong> ' . $entry->getOrganization() . '<br />';
-					if ( $entry->getDepartment() ) echo '<strong>' . __( 'Department', 'connections' ) . ':</strong> ' . $entry->getDepartment() . '<br />';
+					if ( $entry->getContactFirstName() || $entry->getContactLastName() ) {
+
+						echo '<strong>' . esc_html__( 'Contact', 'connections' ) . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
+
+					if ( $entry->getTitle() ) {
+
+						echo '<strong>' . esc_html__( 'Title', 'connections' ) . ':</strong> ' . $entry->getTitle() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
+
+					if ( $entry->getOrganization() && $entry->getEntryType() !== 'organization' ) {
+
+						echo '<strong>' . esc_html__( 'Organization', 'connections' ) . ':</strong> ' . $entry->getOrganization() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
+
+					if ( $entry->getDepartment() ) {
+
+						echo '<strong>' . esc_html__( 'Department', 'connections' ) . ':</strong> ' . $entry->getDepartment() . '<br />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
 
 					$entry->addresses->escapeForDisplay()->render( 'admin' );
 
@@ -845,48 +945,36 @@ function connectionsShowViewPage( $action = NULL ) {
 					$entry->phoneNumbers->escapeForDisplay()->render( 'admin' );
 					$entry->emailAddresses->escapeForDisplay()->render( 'admin' );
 					$entry->im->escapeForDisplay()->render( 'admin' );
-
-					$socialNetworks = $entry->getSocialMedia();
-
-					if ( ! empty( $socialNetworks ) ) {
-						echo '<div class="social-networks">';
-
-						foreach ( $entry->getSocialMedia() as $network ) {
-							( $network->preferred ) ? $preferred = '*' : $preferred = '';
-
-							echo '<span class="social-network"><strong>' , $network->name , ':</strong> <a target="_blank" href="' , $network->url , '">' , $network->url . '</a>' , $preferred , '</span>';
-						}
-
-						echo '</div>';
-					}
-
+					$entry->socialMedia->escapeForDisplay()->render( 'admin' );
 					$entry->links->escapeForDisplay()->render( 'admin' );
 
 					echo "</td> \n";
 
-					echo "<td>";
+					echo '<td>';
 					$entry->dates->escapeForDisplay()->render( 'admin' );
 					echo "</td> \n";
 					echo "</tr> \n";
 
-					echo "<tr class='child-row-" . $entry->getId() . " entrynotes' id='contact-" . $entry->getId() . "-detail-notes' style='display:none;'>";
+					echo '<tr class="' . _escape::classNames( array( "child-row-{$entry->getId()}", 'entrynotes' ) ) . '" id="' . esc_attr( "contact-{$entry->getId()}-detail-notes" ) . '" style="display: none;">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo "<td colspan='2'>&nbsp;</td> \n";
-					//echo "<td >&nbsp;</td> \n";
+					// phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
+					// echo "<td >&nbsp;</td> \n";
 					echo "<td colspan='3'>";
-					echo ( $entry->getBio() ) ? '<strong>' . __( 'Bio', 'connections' ) . ':</strong> ' . $entry->getBio() . '<br />' : '&nbsp;';
-					echo ( $entry->getNotes() ) ? '<strong>' . __( 'Notes', 'connections' ) . ':</strong> ' . $entry->getNotes() : '&nbsp;';
+					echo ( $entry->getBio() ) ? '<strong>' . esc_html__( 'Bio', 'connections' ) . ':</strong> ' . _escape::html( $entry->getBio() ) . '<br />' : '&nbsp;'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo ( $entry->getNotes() ) ? '<strong>' . esc_html__( 'Notes', 'connections' ) . ':</strong> ' . _escape::html( $entry->getNotes() ) : '&nbsp;';      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo "</td> \n";
 					echo '<td>
-						  <span style="display: block;"><strong>' . __( 'Entry ID', 'connections' ) . ':</strong> ' . $entry->getId() . '</span>' . '
-						  <span style="display: block;"><strong>' . __( 'Entry Slug', 'connections' ) . ':</strong> ' . $entry->getSlug() . '</span>' . '
-						  <span style="display: block;"><strong>' . __( 'Date Added', 'connections' ) . ':</strong> ' . $entry->getDateAdded() . '</span>
-						  <span style="display: block;"><strong>' . __( 'Added By', 'connections' ) . ':</strong> ' . $entry->getAddedBy() . '</span>';
-					echo '<span style="display: block;"><strong>' . __( 'Image Linked', 'connections' ) . ':</strong> ' . ( ( ! $entry->getImageLinked() ) ? __( 'No', 'connections' ) : __( 'Yes', 'connections' ) ) . '</span>';
-					echo '<span style="display: block;"><strong>' . __( 'Display', 'connections' ) . ':</strong> ' . ( ( $entry->getImageLinked() && $entry->getImageDisplay() ) ? __( 'Yes', 'connections' ) : __( 'No', 'connections' ) ) . '</span>';
+						  <span style="display: block;"><strong>' . esc_html__( 'Entry ID', 'connections' ) . ':</strong> ' . esc_html( $entry->getId() ) . '</span>
+						  <span style="display: block;"><strong>' . esc_html__( 'Entry Slug', 'connections' ) . ':</strong> ' . esc_html( $entry->getSlug() ) . '</span>
+						  <span style="display: block;"><strong>' . esc_html__( 'Date Added', 'connections' ) . ':</strong> ' . esc_html( $entry->getDateAdded() ) . '</span>
+						  <span style="display: block;"><strong>' . esc_html__( 'Added By', 'connections' ) . ':</strong> ' . esc_html( $entry->getAddedBy() ) . '</span>';
+					echo '<span style="display: block;"><strong>' . esc_html__( 'Image Linked', 'connections' ) . ':</strong> ' . ( ( ! $entry->getImageLinked() ) ? esc_html__( 'No', 'connections' ) : esc_html__( 'Yes', 'connections' ) ) . '</span>';
+					echo '<span style="display: block;"><strong>' . esc_html__( 'Display', 'connections' ) . ':</strong> ' . ( ( $entry->getImageLinked() && $entry->getImageDisplay() ) ? esc_html__( 'Yes', 'connections' ) : esc_html__( 'No', 'connections' ) ) . '</span>';
 					echo "</td> \n";
 					echo "</tr> \n";
 
-				} ?>
+				}
+				?>
 								</tbody>
 							</table>
 							</form>
@@ -917,4 +1005,4 @@ function connectionsShowViewPage( $action = NULL ) {
 	}
 
 	echo '</div> <!-- .wrap -->';
- }
+}

@@ -15,7 +15,9 @@
 use Connections_Directory\Entry\Functions as Entry_Helper;
 use Connections_Directory\Model\Format\Address\As_String;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnSEO
@@ -31,7 +33,7 @@ class cnSEO {
 	 *
 	 * @var boolean
 	 */
-	private static $filterPermalink = TRUE;
+	private static $filterPermalink = true;
 
 	/**
 	 * Register the default template actions.
@@ -103,7 +105,7 @@ class cnSEO {
 			 * That would eliminate issues like this:
 			 * @link https://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
 			 */
-			//add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
+			// add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 			add_filter( 'get_canonical_url', array( __CLASS__, 'transformCanonical' ), 10, 2 );
 
 			/*
@@ -136,7 +138,7 @@ class cnSEO {
 			add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
 
 			// Trigger 404 if entry is not found.
-			//add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_noShortcode' ) );
+			// add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_noShortcode' ) );
 			add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_entryNotFound' ) );
 
 			// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
@@ -175,8 +177,8 @@ class cnSEO {
 			$wpQueryVars = array_diff_key( (array) $wp_query->query_vars, array_flip( array( 'src', 'w', 'h', 'q', 'a', 'zc', 'f', 's', 'o', 'cc', 'ct' ) ) );
 
 			// If the shortcode is not found and a Connections query var is detected, return 404.
-			if ( FALSE === cnShortcode::find( 'connections', $post->post_content ) &&
-			     TRUE === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) ) ) {
+			if ( false === cnShortcode::find( 'connections', $post->post_content ) &&
+			     true === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) ) ) {
 
 				$wp_query->set_404();
 				status_header( 404 );
@@ -185,7 +187,7 @@ class cnSEO {
 
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -231,7 +233,7 @@ class cnSEO {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -245,7 +247,7 @@ class cnSEO {
 	 *
 	 * @return void
 	 */
-	public static function doFilterPermalink( $do = TRUE ) {
+	public static function doFilterPermalink( $do = true ) {
 
 		self::$filterPermalink = $do;
 	}
@@ -308,36 +310,37 @@ class cnSEO {
 
 			$link = trailingslashit( $link );
 
-			if ( cnQuery::getVar( 'cn-cat-slug' ) )
+			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['category_base'] . '/' . cnQuery::getVar( 'cn-cat-slug' ) ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-country' ) )
+			if ( cnQuery::getVar( 'cn-country' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['country_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-country' ) ) ) ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-region' ) )
+			if ( cnQuery::getVar( 'cn-region' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['region_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-region' ) ) ) ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-locality' ) )
+			if ( cnQuery::getVar( 'cn-locality' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['locality_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-locality' ) ) ) ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-postal-code' ) )
+			if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['postal_code_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ) ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-organization' ) )
+			if ( cnQuery::getVar( 'cn-organization' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['organization_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-organization' ) ) ) ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-department' ) )
+			if ( cnQuery::getVar( 'cn-department' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['department_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-department' ) ) ) ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-entry-slug' ) )
+			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) ) );
+			}
 
 			if ( 'page' == get_option( 'show_on_front' ) && $pageID == get_option( 'page_on_front' ) ) {
 
@@ -357,36 +360,37 @@ class cnSEO {
 
 		} else {
 
-			if ( cnQuery::getVar( 'cn-cat-slug' ) )
+			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => cnQuery::getVar( 'cn-cat-slug' ) ) , $link ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-country' ) )
+			if ( cnQuery::getVar( 'cn-country' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-country' => urldecode( cnQuery::getVar( 'cn-country' ) ) ), $link ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-region' ) )
+			if ( cnQuery::getVar( 'cn-region' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-region' => urldecode( cnQuery::getVar( 'cn-region' ) ) ), $link ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-locality' ) )
+			if ( cnQuery::getVar( 'cn-locality' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-locality' => urldecode( cnQuery::getVar( 'cn-locality' ) ) ), $link ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-postal-code' ) )
+			if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-postal-code' => urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ), $link ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-organization' ) )
+			if ( cnQuery::getVar( 'cn-organization' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-organization' => urldecode( cnQuery::getVar( 'cn-organization' ) ) ), $link ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-department' ) )
+			if ( cnQuery::getVar( 'cn-department' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-department' => urldecode( cnQuery::getVar( 'cn-department' ) ) ), $link ) );
+			}
 
-
-			if ( cnQuery::getVar( 'cn-entry-slug' ) )
+			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 				$link = esc_url( add_query_arg( array( 'cn-entry-slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ), $link ) );
+			}
 
 		}
 
@@ -616,7 +620,7 @@ class cnSEO {
 
 		$separator = html_entity_decode( $separator );
 
-		return trim( $title, " \t\n\r\0\x0B{$separator}");
+		return trim( $title, " \t\n\r\0\x0B{$separator}" );
 	}
 
 	/**
@@ -709,7 +713,9 @@ class cnSEO {
 
 		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return '';
+			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) {
+				return '';
+			}
 
 			$categoryID = cnQuery::getVar( 'cn-cat' );
 
@@ -764,12 +770,12 @@ class cnSEO {
 							$pieces = array_filter(
 								array(
 									'street'  => implode( ', ', $street ),
-									'region'  => implode( ' ',  array( implode( ', ', $region ),  $address->getPostalCode() ) ),
+									'region'  => implode( ' ',  array( implode( ', ', $region ), $address->getPostalCode() ) ),
 									'country' => $address->getCountry(),
 								)
 							);
 
-							//$description = As_String::format( $address );
+							// $description = As_String::format( $address );
 							$description = implode( ' | ', $pieces );
 						}
 
@@ -896,7 +902,7 @@ class cnSEO {
 	 */
 	public static function startNav( $args ) {
 
-		self::doFilterPermalink( FALSE );
+		self::doFilterPermalink( false );
 
 		return $args;
 	}
@@ -945,7 +951,9 @@ class cnSEO {
 		// var_dump( array_intersect( $registeredQueryVars, $wp_query->query_vars ) );
 		// var_dump( array_keys( $wp_query->query_vars ) );
 
-		if ( (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wp_query->query_vars ) ) ) remove_action( 'wp_head', 'feed_links_extra', 3 );
+		if ( (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wp_query->query_vars ) ) ) {
+			remove_action( 'wp_head', 'feed_links_extra', 3 );
+		}
 	}
 
 }

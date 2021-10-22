@@ -141,7 +141,7 @@ class Map {
 	 */
 	public function getCenter() {
 
-		return $this->getOption( 'center', NULL );
+		return $this->getOption( 'center', null );
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Map {
 	 */
 	public function getZoom() {
 
-		return $this->getOption( 'zoom', NULL );
+		return $this->getOption( 'zoom', null );
 	}
 
 	/**
@@ -327,8 +327,8 @@ class Map {
 			'style',
 			array(
 				'display' => 'block',
-				'width' => $this->getWidth(),
-				'height' => $this->getHeight()
+				'width'   => $this->getWidth(),
+				'height'  => $this->getHeight(),
 			)
 		);
 		$html .= $this->dataAttributes();

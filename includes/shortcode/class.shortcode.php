@@ -3,8 +3,9 @@
 // Exit if accessed directly
 use Connections_Directory\Utility\_array;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Common static methods that can be used across all core shortcodes.
@@ -38,7 +39,7 @@ class cnShortcode {
 		// remove_filter( 'the_content', 'wpautop' );
 
 		add_filter( 'content_save_pre',  array( __CLASS__, 'clean' ) );
-		//add_filter( 'the_content',  array( __CLASS__, 'clean' ), 5 ); // Run before cnShortcode::single()
+		// add_filter( 'the_content',  array( __CLASS__, 'clean' ), 5 ); // Run before cnShortcode::single()
 
 		add_filter( 'content_save_pre', array( __CLASS__, 'removeCodePreTags' ) );
 		add_filter( 'the_content', array( __CLASS__, 'removeCodePreTags' ), 5 ); // Run before cnShortcode::single()
@@ -105,9 +106,9 @@ class cnShortcode {
 		global $shortcode_tags;
 
 		// Exit early if the shortcode does not exist in content.
-		if ( FALSE === strpos( $content, "[$tag" ) || ! array_key_exists( $tag, $shortcode_tags ) ) {
+		if ( false === strpos( $content, "[$tag" ) || ! array_key_exists( $tag, $shortcode_tags ) ) {
 
-			return FALSE;
+			return false;
 		}
 
 		// Backup the registered shortcode tags, so they can be restored after searching for the requested shortcode.
@@ -125,7 +126,7 @@ class cnShortcode {
 
 			if ( empty( $matches ) ) {
 
-				return FALSE;
+				return false;
 			}
 
 			foreach ( $matches as $shortcode ) {
@@ -145,7 +146,7 @@ class cnShortcode {
 				// Allow [[foo]] syntax for escaping a tag.
 				if ( '[' == $shortcode[1] && ']' == $shortcode[6] ) {
 
-					//$found[] = substr( $shortcode[0], 1, -1 );
+					// $found[] = substr( $shortcode[0], 1, -1 );
 					continue;
 				}
 
@@ -184,7 +185,7 @@ class cnShortcode {
 				return $found;
 
 			default:
-				return FALSE;
+				return false;
 		}
 	}
 
@@ -209,7 +210,7 @@ class cnShortcode {
 
 		$options = '';
 
-		if ( is_array( $atts) || ! empty( $atts ) ) {
+		if ( is_array( $atts ) || ! empty( $atts ) ) {
 
 			foreach ( $atts as $key  => $value ) {
 
@@ -227,11 +228,11 @@ class cnShortcode {
 
 					$options .= $value;
 
-				} elseif ( FALSE === strpos( $value, '"' ) ) {
+				} elseif ( false === strpos( $value, '"' ) ) {
 
 					$options .= '"' . $value . '"';
 
-				} elseif ( FALSE === strpos( $value, '\'' ) ) {
+				} elseif ( false === strpos( $value, '\'' ) ) {
 
 					$options .= '\'' . $value . '\'';
 
@@ -268,7 +269,7 @@ class cnShortcode {
 
 		$original = $content;
 
-		//$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/isu', '$2', $content );
+		// $content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/isu', '$2', $content );
 		$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/iu', '$2', $content );
 
 		/*
@@ -301,8 +302,8 @@ class cnShortcode {
 	 */
 	public static function clean( $content ) {
 
-		//error_log( 'CURRENT FILTER: ' . current_filter() );
-		//error_log( 'PRE-CONTENT: ' . $content );
+		// error_log( 'CURRENT FILTER: ' . current_filter() );
+		// error_log( 'PRE-CONTENT: ' . $content );
 
 		/*
 		 * The $content is slashed in the `content_save_pre` filter, need to unslash it.
@@ -310,14 +311,14 @@ class cnShortcode {
 		$content = 'content_save_pre' == current_filter() ? wp_unslash( $content ) : $content;
 
 		$matches = cnShortcode::find( 'connections', $content, 'matches' );
-		//error_log( 'MATCHES: ' . json_encode( $matches, JSON_PRETTY_PRINT ) );
+		// error_log( 'MATCHES: ' . json_encode( $matches, JSON_PRETTY_PRINT ) );
 
 		if ( $matches ) {
 
 			foreach ( $matches as $match ) {
 
-				//$atts = shortcode_parse_atts( $match[3] );
-				//error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+				// $atts = shortcode_parse_atts( $match[3] );
+				// error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
 
 				$chr_map = array(
 					// Windows codepage 1252
@@ -352,7 +353,7 @@ class cnShortcode {
 				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, "UTF-8" ) );
 
 				$atts = shortcode_parse_atts( wp_unslash( $match[3] ) );
-				//error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+				// error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
 
 				$shortcode = cnShortcode::write( 'connections', $atts );
 
@@ -365,7 +366,7 @@ class cnShortcode {
 		 * The $content is slashed in the `content_save_pre` filter, need to slash it.
 		 */
 		$content = 'content_save_pre' == current_filter() ? wp_slash( $content ) : $content;
-		//error_log( 'POST-CONTENT: ' . $content . PHP_EOL );
+		// error_log( 'POST-CONTENT: ' . $content . PHP_EOL );
 
 		return $content;
 	}
@@ -445,7 +446,9 @@ class cnShortcode {
 
 					$atts = shortcode_parse_atts( $match[3] );
 
-					if ( ! is_array( $atts ) ) $atts = array( $atts );
+					if ( ! is_array( $atts ) ) {
+						$atts = array( $atts );
+					}
 
 					cnArray::set( $atts, 'slug', sanitize_title( $slug ) );
 
@@ -562,7 +565,9 @@ class cnShortcode {
 	public static function view( $atts, $content = '', $tag = 'connections' ) {
 
 		// Ensure that the $atts var passed from Wordpress is an array.
-		if ( ! is_array( $atts ) ) $atts = (array) $atts;
+		if ( ! is_array( $atts ) ) {
+			$atts = (array) $atts;
+		}
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -593,7 +598,7 @@ class cnShortcode {
 			return $message;
 		}
 
-		$view = cnQuery::getVar('cn-view');
+		$view = cnQuery::getVar( 'cn-view' );
 
 		switch ( $view ) {
 
@@ -612,14 +617,14 @@ class cnShortcode {
 
 				} else {
 
-					return '<p>' . __( 'Future home of front end submissions.', 'connections' ) . '</p>';
+					return '<p>' . esc_html__( 'Future home of front end submissions.', 'connections' ) . '</p>';
 				}
 
 				break;
 
 			case 'landing':
 
-				return '<p>' . __( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
+				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
 
 				break;
 
@@ -635,7 +640,7 @@ class cnShortcode {
 
 				} else {
 
-					return '<p>' . __( 'Future home of the search page.', 'connections' ) . '</p>';
+					return '<p>' . esc_html__( 'Future home of the search page.', 'connections' ) . '</p>';
 				}
 
 				break;
@@ -652,7 +657,7 @@ class cnShortcode {
 
 				} else {
 
-					return '<p>' . __( 'Future home of the search results landing page.', 'connections' ) . '</p>';
+					return '<p>' . esc_html__( 'Future home of the search results landing page.', 'connections' ) . '</p>';
 				}
 
 				break;
@@ -667,10 +672,12 @@ class cnShortcode {
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
 
-				if ( ! is_array( $atts ) ) $atts = array();
+				if ( ! is_array( $atts ) ) {
+					$atts = array();
+				}
 
 				// Disable the output of the repeat character index.
-				cnArray::set( $atts, 'repeat_alphaindex', FALSE );
+				cnArray::set( $atts, 'repeat_alphaindex', false );
 
 				// Force the use of the Names template.
 				cnArray::set( $atts, 'template', 'names' );
@@ -682,14 +689,14 @@ class cnShortcode {
 			// Show the entry detail using a template based on the entry type.
 			case 'detail':
 
-				switch ( cnQuery::getVar('cn-process') ) {
+				switch ( cnQuery::getVar( 'cn-process' ) ) {
 
 					case 'edit':
 
 						if ( has_action( 'cn_edit_entry_form' ) ) {
 
 							// Check to see if the entry has been linked to a user ID.
-							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', TRUE );
+							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', true );
 							// var_dump( $entryID );
 
 							$results = $instance->retrieve->entries( array( 'status' => 'approved,pending' ) );
@@ -710,7 +717,7 @@ class cnShortcode {
 
 								if ( ! current_user_can( 'connections_edit_entry' ) && $results[0]->status == 'pending' ) {
 
-									echo '<p>' . __( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
+									echo '<p>' . esc_html__( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
 								}
 
 								do_action( 'cn_edit_entry_form', $atts, $content, $tag );
@@ -719,7 +726,7 @@ class cnShortcode {
 
 							} else {
 
-								return __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' );
+								return esc_html__( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' );
 							}
 
 						}
@@ -729,12 +736,12 @@ class cnShortcode {
 					default:
 
 						// Ensure an array is passed the the cnRetrieve::entries method.
-						//if ( ! is_array( $atts ) ) $atts = (array) $atts;
+						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
 
 						$results = $instance->retrieve->entries( $atts );
-						//var_dump($results);
+						// var_dump($results);
 
-						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : NULL;
+						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
 
 						return cnShortcode_Connections::shortcode( $atts, $content );
 
@@ -746,7 +753,7 @@ class cnShortcode {
 			// Show the standard result list.
 			default:
 
-				//return cnShortcode_Connections::shortcode( $atts, $content );
+				// return cnShortcode_Connections::shortcode( $atts, $content );
 
 				if ( has_action( "cn_view_$view" ) ) {
 
@@ -860,7 +867,9 @@ class cnShortcode {
 		 */
 		foreach ( self::$filterRegistry as $filter ) {
 
-			if ( isset( $wp_filter[ $filter ] ) ) unset( $wp_filter[ $filter ] );
+			if ( isset( $wp_filter[ $filter ] ) ) {
+				unset( $wp_filter[ $filter ] );
+			}
 		}
 	}
 
@@ -900,14 +909,16 @@ class cnShortcode {
 	 */
 	public static function removePBR( $content ){
 
-		$content = strtr( $content, array(
-			'<p><!--'  => '<!--',
-			'--></p>'  => '-->',
-			'<p>['     => '[',
-			']</p>'    => ']',
-			'/]</p>'   => ']',
-			']<br />'  => ']',
-			'/]<br />' => ']'
+		$content = strtr(
+			$content,
+			array(
+				'<p><!--'  => '<!--',
+				'--></p>'  => '-->',
+				'<p>['     => '[',
+				']</p>'    => ']',
+				'/]</p>'   => ']',
+				']<br />'  => ']',
+				'/]<br />' => ']',
 			)
 		);
 

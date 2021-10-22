@@ -7,7 +7,10 @@
  * @since       8.6.7
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'cnHTTP' ) ) :
 
@@ -27,7 +30,7 @@ if ( ! class_exists( 'cnHTTP' ) ) :
 		 */
 		public static function verifySSL() {
 
-			return (bool) apply_filters( 'cn_sl_api_request_verify_ssl', TRUE );
+			return (bool) apply_filters( 'cn_sl_api_request_verify_ssl', true );
 		}
 	}
 

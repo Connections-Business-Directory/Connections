@@ -128,8 +128,8 @@ class cnSystem_Info {
 		if ( $queryValue == $token ) {
 
 			/** WordPress Plugin Administration API */
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			require_once( ABSPATH . 'wp-admin/includes/update.php' );
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			require_once ABSPATH . 'wp-admin/includes/update.php';
 
 			echo '<pre>';
 			self::display();
@@ -249,7 +249,7 @@ class cnSystem_Info {
 		$view[ self::LOG_TYPE ] = array(
 			'id'       => self::LOG_TYPE,
 			'name'     => __( 'System Info Email', 'connections' ),
-			'callback' => array( 'cnLog_Email', 'viewLogs' )
+			'callback' => array( 'cnLog_Email', 'viewLogs' ),
 		);
 
 		return $view;
@@ -327,19 +327,19 @@ class cnSystem_Info {
 			$host = 'ICDSoft';
 		} elseif ( 'mysqlv5' == DB_HOST ) {
 			$host = 'NetworkSolutions';
-		} elseif ( FALSE !== strpos( DB_HOST, 'ipagemysql.com' ) ) {
+		} elseif ( false !== strpos( DB_HOST, 'ipagemysql.com' ) ) {
 			$host = 'iPage';
-		} elseif ( FALSE !== strpos( DB_HOST, 'ipowermysql.com' ) ) {
+		} elseif ( false !== strpos( DB_HOST, 'ipowermysql.com' ) ) {
 			$host = 'IPower';
-		} elseif ( FALSE !== strpos( DB_HOST, '.gridserver.com' ) ) {
+		} elseif ( false !== strpos( DB_HOST, '.gridserver.com' ) ) {
 			$host = 'MediaTemple Grid';
-		} elseif ( FALSE !== strpos( DB_HOST, '.pair.com' ) ) {
+		} elseif ( false !== strpos( DB_HOST, '.pair.com' ) ) {
 			$host = 'pair Networks';
-		} elseif ( FALSE !== strpos( DB_HOST, '.stabletransit.com' ) ) {
+		} elseif ( false !== strpos( DB_HOST, '.stabletransit.com' ) ) {
 			$host = 'Rackspace Cloud';
-		} elseif ( FALSE !== strpos( DB_HOST, '.sysfix.eu' ) ) {
+		} elseif ( false !== strpos( DB_HOST, '.sysfix.eu' ) ) {
 			$host = 'SysFix.eu Power Hosting';
-		} elseif ( FALSE !== strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) ) {
+		} elseif ( false !== strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) ) {
 			$host = 'Flywheel';
 		} else {
 			// Adding a general fallback for data gathering

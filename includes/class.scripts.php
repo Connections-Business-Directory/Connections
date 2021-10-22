@@ -11,7 +11,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnScript
@@ -111,7 +113,7 @@ class cnScript {
 	public static function registerScripts() {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		$path = Connections_Directory()->pluginPath();
@@ -127,15 +129,15 @@ class cnScript {
 		/*
 		 * NOTE: See inc.plugin-compatibility regarding registration of the Google Maps JavaScript API.
 		 */
-		wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), NULL, FALSE );
-		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, TRUE );
+		wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), null, false );
+		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, true );
 
-		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', TRUE );
-		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', TRUE );
+		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery', 'cn-google-maps-api' ), '1.3.3', true );
+		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery', 'cn-google-maps-api', 'jquery-gomap' ), '2.1.2', true );
 
 		// The Quform unregisters this script, so lets ensure its registered so it can be enqueued.
-		if ( ! wp_script_is( 'jquery-form', 'registered') ) {
-			wp_register_script( 'jquery-form', "/wp-includes/js/jquery/jquery.form$min.js", array( 'jquery' ), '4.2.1', TRUE );
+		if ( ! wp_script_is( 'jquery-form', 'registered' ) ) {
+			wp_register_script( 'jquery-form', "/wp-includes/js/jquery/jquery.form$min.js", array( 'jquery' ), '4.2.1', true );
 		}
 
 		wp_register_script(
@@ -143,7 +145,7 @@ class cnScript {
 			$url . "vendor/leaflet/leaflet$min.js",
 			array(),
 			'1.6.0',
-			TRUE
+			true
 		);
 
 		wp_register_script(
@@ -151,7 +153,7 @@ class cnScript {
 			$url . "vendor/leaflet/geocoder/Control.Geocoder$min.js",
 			array( 'leaflet' ),
 			'1.11',
-			TRUE
+			true
 		);
 
 		wp_register_script(
@@ -159,7 +161,7 @@ class cnScript {
 			$url . "vendor/leaflet/layer-deferred/Layer.Deferred$min.js",
 			array( 'leaflet' ),
 			'3.0.3',
-			TRUE
+			true
 		);
 
 		//wp_register_script(
@@ -188,7 +190,7 @@ class cnScript {
 				$url . "vendor/leaflet/basemap-providers/Leaflet.GoogleMutant$min.js",
 				array( 'leaflet', 'cn-google-maps-api' ),
 				'0.8.0',
-				TRUE
+				true
 			);
 
 			wp_register_script(
@@ -196,7 +198,7 @@ class cnScript {
 				$url . "assets/js/leaflet/geocoderGoogleNative/Geocoder.Google.Native$min.js",
 				array( 'leaflet-control-geocoder', 'cn-google-maps-api' ),
 				'1.0',
-				TRUE
+				true
 			);
 
 			/*
@@ -205,7 +207,7 @@ class cnScript {
 			 *       when registering the Google Maps API related dependencies.
 			 */
 			$mapDependencies = array(
-				//'leaflet-layer-deferred',
+				// 'leaflet-layer-deferred',
 				'leaflet-basemap-googlemaps',
 				'leaflet-control-geocoder-google-native',
 			);
@@ -222,7 +224,7 @@ class cnScript {
 				$mapDependencies
 			),
 			CN_CURRENT_VERSION,
-			TRUE
+			true
 		);
 
 		if ( is_admin() ) {
@@ -241,21 +243,21 @@ class cnScript {
 					$mapDependencies
 				),
 				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/js/cn-admin{$min}.js" ),
-				TRUE
+				true
 			);
 
-			wp_register_script( 'cn-system-info', $url . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-setting-sortable-repeatable-input-list', $url . "assets/js/cn-setting-sortable-repeatable-input-list$min.js", array( 'jquery', 'jquery-ui-sortable' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-system-info', $url . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, true );
+			wp_register_script( 'cn-setting-sortable-repeatable-input-list', $url . "assets/js/cn-setting-sortable-repeatable-input-list$min.js", array( 'jquery', 'jquery-ui-sortable' ), CN_CURRENT_VERSION, true );
+			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, true );
+			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, true );
+			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, true );
 
 			wp_register_script(
 				'cn-icon-picker',
 				"{$url}assets/dist/js/icon-picker.js",
 				array( 'jquery-ui-dialog' ),
 				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/icon-picker.js" ),
-				TRUE
+				true
 			);
 
 			$strings = array(
@@ -291,7 +293,7 @@ class cnScript {
 						'group'        => 'google',
 						'name'         => 'Google Roadmap',
 						'layer'        => 'roadmap', // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
-						'key_required' => TRUE,
+						'key_required' => true,
 						'attribution'  => $backlink,
 					),
 					'osm'            => array(
@@ -299,7 +301,7 @@ class cnScript {
 						'name'         => 'OpenStreetMap',
 						'tileLayer'    => '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 						'subdomains'   => array( 'a', 'b', 'c', '' ),
-						'key_required' => FALSE,
+						'key_required' => false,
 						'attribution'  => $backlink . ' | ' . $osm,
 						'maxZoom'      => '19',
 					),
@@ -307,7 +309,7 @@ class cnScript {
 						'group'        => 'osm',
 						'name'         => 'Wikimedia',
 						'tileLayer'    => '//maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
-						'key_required' => FALSE,
+						'key_required' => false,
 						'attribution'  => $backlink . ' | ' . $wikimedia . ' | ' . $osm,
 						'maxZoom'      => '19',
 					),
@@ -353,19 +355,19 @@ class cnScript {
 
 		} else {
 
-			wp_register_script( 'cn-ui', $url . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-ui', $url . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, true );
 		}
 
-		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', TRUE );
+		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', true );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
-		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
-		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
+		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
+		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 
-		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.19.1' , TRUE );
+		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.19.1' , true );
 
-		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
-		wp_register_script( 'js-cookie', $url . "assets/vendor/js-cookie/js.cookie.js", array(), '2.2.1', TRUE );
+		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', true );
+		wp_register_script( 'js-cookie', $url . "assets/vendor/js-cookie/js.cookie.js", array(), '2.2.1', true );
 		wp_register_script(
 			'frontend',
 			"{$url}assets/dist/js/bundle.js",
@@ -401,7 +403,7 @@ class cnScript {
 		add_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		$path = Connections_Directory()->pluginPath();
@@ -430,11 +432,11 @@ class cnScript {
 		}
 
 		// This will locate the CSS file to be enqueued.
-		//$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
+		// $coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
 		// var_dump($coreCSS);
 
 		// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
-		//wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
+		// wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
 		wp_register_style(
 			'cn-public',
 			"{$url}assets/dist/css/frontend.css",
@@ -448,7 +450,7 @@ class cnScript {
 		}
 
 		// This will locate the custom CSS file to be enqueued.
-		$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', NULL, NULL, 'css' ), 'url' );
+		$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', null, null, 'css' ), 'url' );
 		// var_dump($customCSS);
 
 		// If a custom CSS file was found, lets register it.
@@ -509,8 +511,13 @@ class cnScript {
 
 		$editPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'manage' ) ) {
+			$editPageHooks[] = $instance->pageHook->manage;
+		}
+
+		if ( property_exists( $instance->pageHook, 'add' ) ) {
+			$editPageHooks[] = $instance->pageHook->add;
+		}
 
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
@@ -518,7 +525,7 @@ class cnScript {
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
-			//wp_enqueue_script( 'jquery-gomap' );
+			// wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-chosen' );
 
@@ -527,9 +534,17 @@ class cnScript {
 
 		$metaboxPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'dashboard') ) $metaboxPageHooks[] = $instance->pageHook->dashboard;
-		if ( property_exists( $instance->pageHook, 'manage') ) $metaboxPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add') ) $metaboxPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'dashboard' ) ) {
+			$metaboxPageHooks[] = $instance->pageHook->dashboard;
+		}
+
+		if ( property_exists( $instance->pageHook, 'manage' ) ) {
+			$metaboxPageHooks[] = $instance->pageHook->manage;
+		}
+
+		if ( property_exists( $instance->pageHook, 'add' ) ) {
+			$metaboxPageHooks[] = $instance->pageHook->add;
+		}
 
 		// Load the core JavaScripts required for metabox UI.
 		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', $metaboxPageHooks );
@@ -543,9 +558,9 @@ class cnScript {
 
 			do_action( 'cn_admin_enqueue_metabox_scripts', $pageHook );
 
-			add_action( 'admin_footer-' . $instance->pageHook->dashboard, array( __CLASS__ , 'adminFooterScript' ) );
-			add_action( 'admin_footer-' . $instance->pageHook->manage, array( __CLASS__ , 'adminFooterScript' ) );
-			add_action( 'admin_footer-' . $instance->pageHook->add, array( __CLASS__ , 'adminFooterScript' ) );
+			add_action( 'admin_footer-' . $instance->pageHook->dashboard, array( __CLASS__, 'adminFooterScript' ) );
+			add_action( 'admin_footer-' . $instance->pageHook->manage, array( __CLASS__, 'adminFooterScript' ) );
+			add_action( 'admin_footer-' . $instance->pageHook->add, array( __CLASS__, 'adminFooterScript' ) );
 		}
 	}
 
@@ -623,13 +638,15 @@ class cnScript {
 	 */
 	public static function jQueryFixr() {
 
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_compatibility', 'jquery' ) ) return;
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_compatibility', 'jquery' ) ) {
+			return;
+		}
 
 		wp_deregister_script( 'jquery' );
 
 		if ( self::$corejQuery['jquery-core'] && self::$corejQuery['jquery-migrate'] ) {
 
-			wp_register_script( 'jquery', FALSE, array( 'jquery-core', 'jquery-migrate' ), self::$corejQuery['jquery-core']->ver );
+			wp_register_script( 'jquery', false, array( 'jquery-core', 'jquery-migrate' ), self::$corejQuery['jquery-core']->ver );
 			wp_register_script( 'jquery-core', '/wp-includes/js/jquery/jquery.js', array(), self::$corejQuery['jquery-core']->ver );
 			wp_register_script( 'jquery-migrate', '/wp-includes/js/jquery/jquery-migrate.js', array(), self::$corejQuery['jquery-migrate']->ver );
 
@@ -656,8 +673,8 @@ class cnScript {
 	public static function storeCorejQuery( $scripts ) {
 
 		self::$corejQuery['jquery'] = $scripts->registered['jquery'];
-		self::$corejQuery['jquery-core'] = isset( $scripts->registered['jquery-core'] ) && $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : FALSE;
-		self::$corejQuery['jquery-migrate'] = isset( $scripts->registered['jquery-migrate'] ) && $scripts->registered['jquery-migrate'] ? $scripts->registered['jquery-migrate'] : FALSE;
+		self::$corejQuery['jquery-core'] = isset( $scripts->registered['jquery-core'] ) && $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : false;
+		self::$corejQuery['jquery-migrate'] = isset( $scripts->registered['jquery-migrate'] ) && $scripts->registered['jquery-migrate'] ? $scripts->registered['jquery-migrate'] : false;
 	}
 
 	/**
@@ -685,11 +702,11 @@ class cnScript {
 		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
 			wp_enqueue_style( 'cn-admin' );
-			//wp_enqueue_style( 'cn-admin-jquery-ui' );
-			//wp_enqueue_style( 'cn-admin-jquery-datepicker' );
+			// wp_enqueue_style( 'cn-admin-jquery-ui' );
+			// wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
 			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
-			//wp_enqueue_style( 'cn-brandicons' );
+			// wp_enqueue_style( 'cn-brandicons' );
 			wp_enqueue_style( 'leaflet-control-geocoder' );
 
 			if ( is_rtl() ) {
@@ -702,8 +719,13 @@ class cnScript {
 
 		$editPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
-		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+		if ( property_exists( $instance->pageHook, 'manage' ) ) {
+			$editPageHooks[] = $instance->pageHook->manage;
+		}
+
+		if ( property_exists( $instance->pageHook, 'add' ) ) {
+			$editPageHooks[] = $instance->pageHook->add;
+		}
 
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
@@ -718,7 +740,9 @@ class cnScript {
 
 		$settingsPageHooks = array();
 
-		if ( property_exists( $instance->pageHook, 'settings' ) ) $settingsPageHooks[] = $instance->pageHook->settings;
+		if ( property_exists( $instance->pageHook, 'settings' ) ) {
+			$settingsPageHooks[] = $instance->pageHook->settings;
+		}
 
 		if ( in_array( $pageHook, $settingsPageHooks ) ) {
 
@@ -766,7 +790,10 @@ class cnScript {
 
 		wp_enqueue_style( 'cn-public' );
 		wp_enqueue_style( 'cn-brandicons' );
-		if ( self::maybeEnqueueStyle() ) wp_enqueue_style( 'leaflet-control-geocoder' );
+
+		if ( self::maybeEnqueueStyle() ) {
+			wp_enqueue_style( 'leaflet-control-geocoder' );
+		}
 
 		if ( is_rtl() ) {
 
@@ -804,7 +831,9 @@ class cnScript {
 		$foreground      = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color' );
 		$foregroundHover = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color-hover' );
 
-		if ( FALSE === $networks || ( ! isset( $networks['icon'] ) || ! is_array( $networks['icon'] ) ) ) return;
+		if ( false === $networks || ( ! isset( $networks['icon'] ) || ! is_array( $networks['icon'] ) ) ) {
+			return;
+		}
 
 		$css = '';
 
@@ -873,10 +902,10 @@ class cnScript {
 				break;
 		}
 
-		//$css .= "i[class^=cn-brandicon]:before { color: #000; }" . PHP_EOL;
+		// $css .= "i[class^=cn-brandicon]:before { color: #000; }" . PHP_EOL;
 
-		//wp_register_style( 'cn-brandicons-custom', FALSE );
-		//wp_enqueue_style( 'cn-brandicons-custom' );
+		// wp_register_style( 'cn-brandicons-custom', FALSE );
+		// wp_enqueue_style( 'cn-brandicons-custom' );
 
 		if ( 0 < strlen( $css ) ) {
 
@@ -909,7 +938,9 @@ class cnScript {
 
 		// If SCRIPT_DEBUG is set and TRUE the minified file names
 		// do not need added to the $files name array.
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) return $files;
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			return $files;
+		}
 
 		if ( $ext == 'css' || $ext == 'js' ) {
 

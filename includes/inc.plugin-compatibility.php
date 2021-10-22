@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Callback for the `upload_size_limit` filter.
@@ -30,17 +32,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function cn_upload_size_limit( $bytes ) {
 
-	if ( ! defined( 'KB_IN_BYTES' ) )
+	if ( ! defined( 'KB_IN_BYTES' ) ) {
 		define( 'KB_IN_BYTES', 1024 );
+	}
 
-	if ( ! defined( 'MB_IN_BYTES' ) )
+	if ( ! defined( 'MB_IN_BYTES' ) ) {
 		define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
+	}
 
-	if ( ! defined( 'GB_IN_BYTES' ) )
+	if ( ! defined( 'GB_IN_BYTES' ) ) {
 		define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
+	}
 
-	if ( ! defined( 'TB_IN_BYTES' ) )
+	if ( ! defined( 'TB_IN_BYTES' ) ) {
 		define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
+	}
 
 	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
 	$p_bytes = wp_convert_hr_to_bytes( ini_get( 'post_max_size' ) );
@@ -324,8 +330,8 @@ add_action( 'plugins_loaded', 'cn_maps_marker_pro' );
 
 function cn_maps_marker_pro() {
 
-	if ( class_exists( 'Leafletmapsmarker', FALSE ) ||
-	     class_exists( 'MMP_Globals', FALSE ) ) {
+	if ( class_exists( 'Leafletmapsmarker', false ) ||
+	     class_exists( 'MMP_Globals', false ) ) {
 
 		add_action( 'admin_notices', 'cn_deregister_google_maps_api', 9.999 );
 		add_action( 'admin_notices', 'cn_register_google_maps_api', 10.001 );
@@ -340,7 +346,9 @@ function cn_deregister_google_maps_api() {
 function cn_register_google_maps_api() {
 
 	// If script is registered, bail.
-	if ( wp_script_is( 'cn-google-maps-api', $list = 'registered' )  ) return;
+	if ( wp_script_is( 'cn-google-maps-api', $list = 'registered' ) ) {
+		return;
+	}
 
 	$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
 	$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
@@ -355,7 +363,7 @@ function cn_register_google_maps_api() {
 		$googleMapsAPIURL,
 		array(),
 		CN_CURRENT_VERSION,
-		TRUE
+		true
 	);
 }
 
@@ -369,7 +377,7 @@ add_filter( 'autoptimize_filter_css_exclude', 'cn_ao_override_css_exclude', 10, 
 function cn_ao_override_css_exclude( $exclude ) {
 
 	// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-	$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	return $exclude . ", leaflet{$min}.css";
 }
@@ -525,3 +533,30 @@ add_action(
 	},
 	99
 );
+
+if ( ! function_exists( 'is_gd_image' ) ) :
+	/**
+	 * Determines whether the value is an acceptable type for GD image functions.
+	 *
+	 * In PHP 8.0, the GD extension uses GdImage objects for its data structures.
+	 * This function checks if the passed value is either a resource of type `gd`
+	 * or a GdImage object instance. Any other type will return false.
+	 *
+	 * NOTE: This function was added in WP 5.6. Add to be backwards compatible with previous version of WordPress.
+	 *
+	 * @since 10.4.4
+	 *
+	 * @param resource|GdImage|false $image A value to check the type for.
+	 *
+	 * @return bool True if $image is either a GD image resource or GdImage instance,
+	 *              false otherwise.
+	 */
+	function is_gd_image( $image ) {
+
+		if ( is_resource( $image ) && 'gd' === get_resource_type( $image ) || is_object( $image ) && $image instanceof GdImage ) {
+			return true;
+		}
+
+		return false;
+	}
+endif;

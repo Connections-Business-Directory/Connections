@@ -47,9 +47,9 @@ final class Nominatim implements Provider {
 	 *
 	 * @param string $providerEndpoint Root URL of the nominatim server
 	 */
-	public function __construct( $providerEndpoint = NULL ) {
+	public function __construct( $providerEndpoint = null ) {
 
-		$this->providerEndpoint = NULL === $providerEndpoint ? self::DEFAULT_PROVIDER_ENDPOINT : rtrim( $providerEndpoint, '/' );
+		$this->providerEndpoint = null === $providerEndpoint ? self::DEFAULT_PROVIDER_ENDPOINT : rtrim( $providerEndpoint, '/' );
 
 	}
 
@@ -172,7 +172,7 @@ final class Nominatim implements Provider {
 	 */
 	private function executeQuery( $url, $locale, $limit ) {
 
-		if ( NULL !== $locale ) {
+		if ( null !== $locale ) {
 
 			$url = sprintf( '%s&accept-language=%s', $url, $locale );
 		}
@@ -208,7 +208,8 @@ final class Nominatim implements Provider {
 		if ( 0 === count( $response ) ) {
 
 			return new WP_Error(
-				'geocode_provider_no_results', __( 'Returned zero results.', 'connections' ),
+				'geocode_provider_no_results',
+				__( 'Returned zero results.', 'connections' ),
 				property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 			);
 		}
@@ -236,14 +237,14 @@ final class Nominatim implements Provider {
 				$builder->setBounds( $item->boundingbox[0], $item->boundingbox[2], $item->boundingbox[1], $item->boundingbox[3] );
 			}
 
-			$builder->setStreetNumber( property_exists( $item->address, 'house_number' ) ? $item->address->house_number : NULL );
-			$builder->setStreetName( property_exists( $item->address,'road' ) ? $item->address->road : NULL );
-			$builder->setLocality( property_exists( $item->address, 'city' ) ? $item->address->city : NULL );
-			$builder->setCounty( property_exists( $item->address, 'county' ) ? $item->address->county : NULL );
-			$builder->setRegion( property_exists( $item->address, 'state' ) ? $item->address->state : NULL );
-			$builder->setPostalCode( property_exists( $item->address, 'postcode' ) ? $item->address->postcode : NULL );
-			$builder->setCountry( property_exists( $item->address, 'country' ) ? $item->address->country : NULL );
-			$builder->setCountryCode( property_exists( $item->address, 'country_code' ) ? $item->address->country_code : NULL );
+			$builder->setStreetNumber( property_exists( $item->address, 'house_number' ) ? $item->address->house_number : null );
+			$builder->setStreetName( property_exists( $item->address,'road' ) ? $item->address->road : null );
+			$builder->setLocality( property_exists( $item->address, 'city' ) ? $item->address->city : null );
+			$builder->setCounty( property_exists( $item->address, 'county' ) ? $item->address->county : null );
+			$builder->setRegion( property_exists( $item->address, 'state' ) ? $item->address->state : null );
+			$builder->setPostalCode( property_exists( $item->address, 'postcode' ) ? $item->address->postcode : null );
+			$builder->setCountry( property_exists( $item->address, 'country' ) ? $item->address->country : null );
+			$builder->setCountryCode( property_exists( $item->address, 'country_code' ) ? $item->address->country_code : null );
 
 			$results[] = $builder->build();
 

@@ -11,7 +11,9 @@
  * Plugin Name:       Connections Business Directory
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
- * Version:           10.4.3
+ * Version:           10.4.4
+ * Requires at least: 5.2
+ * Requires PHP:      5.6.20
  * Author:            Steven A. Zahm
  * Author URI:        https://connections-pro.com/
  * License:           GPL-2.0+
@@ -21,10 +23,12 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-include( dirname( __FILE__ ) . '/includes/class.requirements-check.php' );
-include( dirname( __FILE__ ) . '/includes/class.text-domain.php' );
+require dirname( __FILE__ ) . '/includes/class.requirements-check.php';
+require dirname( __FILE__ ) . '/includes/class.text-domain.php';
 
 /**
  * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
@@ -38,16 +42,16 @@ cnText_Domain::register( 'connections', plugin_basename( __FILE__ ), 1 );
 
 $check = new cnRequirements_Check(
 	array(
-		'name'     => 'Connections Business Directory',
-		'basename' => plugin_basename( __FILE__ ),
-		'file'     => __FILE__,
+		'name'         => 'Connections Business Directory',
+		'basename'     => plugin_basename( __FILE__ ),
+		'file'         => __FILE__,
 		'requirements' => array(
 			'php' => array(
-				'min' => '5.6.20', //5.6.20 -- The minimum PHP version that WordPress 5.2 requires.
-				'max' => '8.0', //7.4
+				'min' => '5.6.20', // 5.6.20 -- The minimum PHP version that WordPress 5.2 requires.
+				'max' => '8.0', // 7.4
 			),
 			'wp'  => array(
-				'min' => '5.1', //4.7.12
+				'min' => '5.2', // 4.7.12
 				'max' => '5.8',
 			),
 		),
@@ -56,7 +60,7 @@ $check = new cnRequirements_Check(
 
 if ( $check->passes() ) {
 
-	include( dirname( __FILE__ ) . '/includes/class.connections-directory.php' );
+	include dirname( __FILE__ ) . '/includes/class.connections-directory.php';
 
 	// Start Connections.
 	if ( class_exists( 'Connections_Directory' ) ) {

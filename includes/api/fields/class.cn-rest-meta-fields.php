@@ -63,7 +63,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 		foreach ( $fields as $meta_key => $args ) {
 
 			$name       = $args['name'];
-			$all_values = cnMeta::get( $this->get_meta_type(), $object_id, $meta_key, FALSE );
+			$all_values = cnMeta::get( $this->get_meta_type(), $object_id, $meta_key, false );
 
 			if ( $args['single'] ) {
 
@@ -268,7 +268,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 	 */
 	protected function update_meta_value( $object_id, $meta_key, $name, $value ) {
 		$meta_type = $this->get_meta_type();
-		if ( ! current_user_can(  "edit_{$meta_type}_meta", $object_id, $meta_key ) ) {
+		if ( ! current_user_can( "edit_{$meta_type}_meta", $object_id, $meta_key ) ) {
 			return new WP_Error(
 				'rest_cannot_update',
 				/* translators: %s: custom field key */

@@ -49,7 +49,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnEmail
@@ -175,7 +177,7 @@ class cnEmail {
 	 *
 	 * @param bool $html
 	 */
-	public function html( $html = TRUE ) {
+	public function html( $html = true ) {
 
 		if ( $html ) {
 
@@ -386,7 +388,7 @@ class cnEmail {
 				'subject'     => $this->subject,
 				'message'     => $this->message,
 				'headers'     => $this->header,
-				'attachments' => $this->attachments
+				'attachments' => $this->attachments,
 			)
 		);
 
@@ -449,11 +451,25 @@ class cnEmail {
 		/*
 		 * Be a good citizen and add the filters that were hooked back to the wp_mail filters.
 		 */
-		if ( ! empty( $filter['param'] ) ) $wp_filter['wp_mail']               = $filter['param'];
-		if ( ! empty( $filter['type'] ) ) $wp_filter['wp_mail_content_type']   = $filter['type'];
-		if ( ! empty( $filter['charset'] ) ) $wp_filter['wp_mail_charset']     = $filter['charset'];
-		if ( ! empty( $filter['from_name'] ) ) $wp_filter['wp_mail_from_name'] = $filter['from_name'];
-		if ( ! empty( $filter['from_email'] ) ) $wp_filter['wp_mail_from']     = $filter['from_email'];
+		if ( ! empty( $filter['param'] ) ) {
+			$wp_filter['wp_mail'] = $filter['param'];
+		}
+
+		if ( ! empty( $filter['type'] ) ) {
+			$wp_filter['wp_mail_content_type'] = $filter['type'];
+		}
+
+		if ( ! empty( $filter['charset'] ) ) {
+			$wp_filter['wp_mail_charset'] = $filter['charset'];
+		}
+
+		if ( ! empty( $filter['from_name'] ) ) {
+			$wp_filter['wp_mail_from_name'] = $filter['from_name'];
+		}
+
+		if ( ! empty( $filter['from_email'] ) ) {
+			$wp_filter['wp_mail_from'] = $filter['from_email'];
+		}
 
 		/**
 		 * wp_mail() returns a (bool), so lets return the result.
@@ -593,7 +609,7 @@ class cnEmail {
 
 				$this->header = array();
 				$this->charset = get_bloginfo( 'charset' );
-				$this->html( FALSE );
+				$this->html( false );
 				break;
 
 			case 'to':
@@ -625,7 +641,7 @@ class cnEmail {
 
 				$this->header = array();
 				$this->charset = get_bloginfo( 'charset' );
-				$this->html( FALSE );
+				$this->html( false );
 
 				$this->to = array();
 				$this->cc = array();

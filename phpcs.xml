@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="connections" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+	<description>Custom ruleset for Connections Business Directory plugin.</description>
+
+	<!-- For help in understanding this file: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
+	<!-- For help in using PHPCS: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage -->
+
+	<!-- What to scan -->
+	<file>.</file>
+	<!-- Ignoring Files and Folders:
+		https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-files-and-folders -->
+	<exclude-pattern>/assets/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+
+	<!-- How to scan -->
+	<!-- Show sniff and progress -->
+	<arg value="sp"/>
+	<!-- Show results with colors -->
+	<arg name="colors"/>
+	<!-- Strip the file paths down to the relevant bit -->
+	<arg name="basepath" value="."/>
+	<!-- Enables parallel processing when available for faster results. -->
+	<arg name="parallel" value="20"/>
+	<!-- Limit to PHP files -->
+	<arg name="extensions" value="php"/>
+
+	<!-- Rules: Check PHP version compatibility - see
+		https://github.com/PHPCompatibility/PHPCompatibilityWP -->
+	<rule ref="PHPCompatibilityWP"/>
+	<!-- For help in understanding this testVersion:
+		https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
+	<config name="testVersion" value="7.4-"/>
+
+	<!-- Squiz Rules -->
+	<rule ref="Squiz.Commenting.BlockComment">
+		<exclude name="Squiz.Commenting.BlockComment.HasEmptyLineBefore"/>
+	</rule>
+
+	<rule ref="Squiz.NamingConventions.ValidVariableName">
+		<exclude name="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
+		<exclude name="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
+		<exclude name="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
+		<exclude name="Squiz.NamingConventions.ValidVariableName.PropertyNotCamelCaps"/>
+	</rule>
+
+	<rule ref="Squiz.PHP.CommentedOutCode">
+		<exclude name="Squiz.PHP.CommentedOutCode.Found"/>
+	</rule>
+
+	<!-- Rules: WordPress Coding Standards - see
+		https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards -->
+	<!-- WordPress-Extra includes WordPress-Core -->
+	<rule ref="WordPress-Core"/>
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+	<!-- For help in understanding these custom sniff properties:
+		https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
+	<config name="minimum_supported_wp_version" value="5.1"/>
+
+	<rule ref="WordPress.Arrays.MultipleStatementAlignment">
+		<properties>
+			<property name="alignMultilineItems" value="!=100"/>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="strict_class_file_names" value="false"/>
+		</properties>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<!--<element value="cn"/>-->
+				<element value="cn_"/>
+				<element value="connections"/>
+				<element value="Connections_Directory"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WhiteSpace.PrecisionAlignment">
+		<properties>
+			<property name="ignoreAlignmentTokens" type="array">
+				<element value="T_COMMENT"/>
+				<element value="T_DOC_COMMENT_WHITESPACE"/>
+				<element value="T_INLINE_HTML"/>
+				<element value="T_WHITESPACE"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="connections"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
+		<properties>
+			<property name="blank_line_check" value="true"/>
+		</properties>
+	</rule>
+
+	<!--Exclude a few WPCS rules.-->
+	<rule ref="WordPress-Core">
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterStart"/>
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd"/>
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineBeforeEnd"/>
+		<exclude name="WordPress.NamingConventions.ValidHookName.NotLowercase"/>
+		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores"/>
+		<exclude name="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid"/>
+		<exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
+	</rule>
+	<rule ref="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
+	<rule ref="Squiz.NamingConventions.ValidVariableName.StringNotCamelCaps"/>
+
+	<!-- WordPress insists on long array syntax, so let's ignore that, and insist on short array syntax. -->
+	<!--<rule ref="WordPress">-->
+	<!--	<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>-->
+	<!--</rule>-->
+	<!--<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>-->
+
+	<!-- Rules: WordPress VIP Go, for WordPress.com VIP - see
+	https://github.com/Automattic/VIP-Coding-Standards -->
+	<rule ref="WordPress-VIP-Go"/>
+
+</ruleset>

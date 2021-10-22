@@ -29,11 +29,11 @@ class Carousel {
 				'attributes'      => array(
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
+				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				//'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
-				//'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				//'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
+				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
+				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
@@ -49,7 +49,7 @@ class Carousel {
 			'post',
 			'_cbd_carousel_blocks',
 			array(
-				'single'            => TRUE,
+				'single'            => true,
 				'type'              => 'string',
 				'auth_callback'     => function() {
 
@@ -60,7 +60,9 @@ class Carousel {
 					'prepare_callback' => function( $value ) {
 
 						// If value is empty, then return an empty JSON encoded array.
-						if ( ! $value ) $value = wp_json_encode( array() );
+						if ( ! $value ) {
+							$value = wp_json_encode( array() );
+						}
 
 						return $value;
 						//return wp_json_encode( $value );
@@ -122,7 +124,7 @@ class Carousel {
 	 */
 	public static function sanitize( $meta_value, $meta_key, $meta_type ) {
 
-		$untrusted = json_decode( stripslashes( $meta_value ), TRUE );
+		$untrusted = json_decode( stripslashes( $meta_value ), true );
 		$sanitized = array();
 
 		if ( ! is_array( $untrusted ) ) {
@@ -449,7 +451,7 @@ class Carousel {
 			return;
 		}
 
-		$meta = \cnFunction::decodeJSON( $post->_cbd_carousel_blocks, TRUE );
+		$meta = \cnFunction::decodeJSON( $post->_cbd_carousel_blocks, true );
 
 		if ( is_wp_error( $meta ) || ! is_array( $meta ) ) {
 
@@ -581,14 +583,14 @@ class Carousel {
 
 		if ( ! $template instanceof Template ) {
 
-			return '<p>' . __( 'Template not found.', 'connections' ) . '</p>';
+			return '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 		}
 
 		/**
 		 * @link https://iandunn.name/2016/10/22/accessing-post-meta-and-more-via-post-meta_key/
 		 */
-		//$post = get_queried_object();
-		$meta = \cnFunction::decodeJSON( $post->_cbd_carousel_blocks, TRUE );
+		// $post = get_queried_object();
+		$meta = \cnFunction::decodeJSON( $post->_cbd_carousel_blocks, true );
 
 		if ( is_wp_error( $meta ) ) {
 
@@ -601,12 +603,12 @@ class Carousel {
 		$index    = array_search( $attributes['blockId'], array_column( $meta, 'blockId' ) );
 		$carousel = $meta[ $index ];
 
-		$category = cnArray::get( $carousel, 'categoriesIn', FALSE ) ? 'category_in' : 'category';
+		$category = cnArray::get( $carousel, 'categoriesIn', false ) ? 'category_in' : 'category';
 
 		$queryParameters = array(
-			'list_type'        => cnArray::get( $carousel, 'listType', NULL ),
-			$category          => cnArray::get( $carousel, 'categories', NULL ),
-			'exclude_category' => cnArray::get( $carousel, 'categoriesExclude', NULL ),
+			'list_type'        => cnArray::get( $carousel, 'listType', null ),
+			$category          => cnArray::get( $carousel, 'categories', null ),
+			'exclude_category' => cnArray::get( $carousel, 'categoriesExclude', null ),
 			'limit'            => cnArray::get( $carousel, 'limit', 10 ),
 		);
 
@@ -622,20 +624,20 @@ class Carousel {
 
 		if ( 0 >= count( $queryResults ) ) {
 
-			return '<p>' . __( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
+			return '<p>' . esc_html__( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
 		}
 
 		$settings = array(
-			'arrows'           => cnArray::get( $carousel, 'arrows', TRUE ),
-			'autoplay'         => cnArray::get( $carousel, 'autoplay', FALSE ),
+			'arrows'           => cnArray::get( $carousel, 'arrows', true ),
+			'autoplay'         => cnArray::get( $carousel, 'autoplay', false ),
 			'autoplaySpeed'    => cnArray::get( $carousel, 'autoplaySpeed', 3000 ),
-			'dots'             => cnArray::get( $carousel, 'dots', TRUE ),
-			//'cssEase'          => 'ease',
-			'infinite'         => cnArray::get( $carousel, 'infinite', FALSE ),
-			'lazyLoad'         => FALSE,
-			'pauseOnFocus'     => cnArray::get( $carousel, 'pause', TRUE ),
-			'pauseOnHover'     => cnArray::get( $carousel, 'pause', TRUE ),
-			'pauseOnDotsHover' => cnArray::get( $carousel, 'pause', TRUE ),
+			'dots'             => cnArray::get( $carousel, 'dots', true ),
+			// 'cssEase'          => 'ease',
+			'infinite'         => cnArray::get( $carousel, 'infinite', false ),
+			'lazyLoad'         => false,
+			'pauseOnFocus'     => cnArray::get( $carousel, 'pause', true ),
+			'pauseOnHover'     => cnArray::get( $carousel, 'pause', true ),
+			'pauseOnDotsHover' => cnArray::get( $carousel, 'pause', true ),
 			'rows'             => 1,
 			'speed'            => cnArray::get( $carousel, 'speed', 500 ),
 			'slidesToShow'     => cnArray::get( $carousel, 'slidesToShow', 1 ),
@@ -646,10 +648,17 @@ class Carousel {
 
 		$classNames = array( 'cn-list', 'slick-slider-block' );
 
-		if ( cnArray::get( $carousel, 'arrows', TRUE ) ) array_push( $classNames, 'slick-slider-has-arrows' );
-		if ( cnArray::get( $carousel, 'dots', TRUE ) ) array_push( $classNames, 'slick-slider-has-dots' );
+		if ( cnArray::get( $carousel, 'arrows', true ) ) {
+			array_push( $classNames, 'slick-slider-has-arrows' );
+		}
 
-		if ( cnArray::get( $carousel, 'displayDropShadow', FALSE ) ) array_push( $classNames, 'slick-slider-has-shadow' );
+		if ( cnArray::get( $carousel, 'dots', true ) ) {
+			array_push( $classNames, 'slick-slider-has-dots' );
+		}
+
+		if ( cnArray::get( $carousel, 'displayDropShadow', false ) ) {
+			array_push( $classNames, 'slick-slider-has-shadow' );
+		}
 
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 
@@ -673,11 +682,11 @@ class Carousel {
 	private static function renderTemplate( $template, $items, $attributes ) {
 
 		$defaults = array(
-			'displayTitle'     => TRUE,
-			'displayPhone'     => TRUE,
-			'displayEmail'     => TRUE,
-			'displaySocial'    => TRUE,
-			'displayExcerpt'   => TRUE,
+			'displayTitle'     => true,
+			'displayPhone'     => true,
+			'displayEmail'     => true,
+			'displaySocial'    => true,
+			'displayExcerpt'   => true,
 			'imageType'        => 'photo',
 			'imageCropMode'    => 1,
 			'excerptWordLimit' => 55,
@@ -715,9 +724,9 @@ class Carousel {
 
 		$html = ob_get_clean();
 
-		if ( FALSE === $html ) {
+		if ( false === $html ) {
 
-			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
+			$html = '<p>' . esc_html__( 'Error rendering template.', 'connections' ) . '</p>';
 		}
 
 		return $html;

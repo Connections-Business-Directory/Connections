@@ -10,7 +10,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * cnCSV_Batch_Import Class
@@ -58,7 +60,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 * Should help prevent the import from terminating early unless the host
 			 * does not allow the limit to be changed or enforces a "hard" limit.
 			 */
-			@set_time_limit(1);
+			@set_time_limit( 1 );
 
 			$name      = '';
 			$slug      = '';
@@ -107,7 +109,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 										 * Parent > Child > Grandchild
 										 */
 										$terms = array_map( 'trim', explode( '>', $item ) );
-										//error_log( 'Hierarchy: ' . print_r( $terms, TRUE ) );
+										// error_log( 'Hierarchy: ' . print_r( $terms, TRUE ) );
 
 										$parent_id = $this->importAncestors( $terms, $parent_id );
 
@@ -136,7 +138,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 						$exists = $this->termExists( $name, $slug, $parent );
 
 						// Term does not exist, create it.
-						if ( FALSE === $exists ) {
+						if ( false === $exists ) {
 
 							$this->insertTerm( $name, $slug, $desc, $parent );
 						}
@@ -152,7 +154,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 					$exists = $this->termExists( $name, $slug, $parent_id );
 
 					// Term does not exist, create it.
-					if ( FALSE === $exists ) {
+					if ( false === $exists ) {
 
 						$this->insertTerm( $name, $slug, $desc, $parent_id );
 					}
@@ -185,7 +187,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 * Name|slug
 			 */
 			$term = array_map( 'trim', explode( '|', $term ) );
-			//error_log( 'Category: ' . print_r( $term, TRUE ) );
+			// error_log( 'Category: ' . print_r( $term, TRUE ) );
 
 			/**
 			 * Since we're importing a term's ancestors, if an integer is found, assume it is a term ID of an existing
@@ -197,27 +199,27 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 */
 			$name = is_numeric( $term[0] )? absint( $term[0] ): $term[0];
 			$slug = isset( $term[1] ) && ! empty( $term[1] ) ? $term[1] : '';
-			//error_log( 'Slug: ' . print_r( $slug, TRUE ) );
-			//error_log( 'Parent ID: ' . print_r( $parent_id, TRUE ) );
+			// error_log( 'Slug: ' . print_r( $slug, TRUE ) );
+			// error_log( 'Parent ID: ' . print_r( $parent_id, TRUE ) );
 
 			$exists = $this->termExists( $name, $slug, $parent_id );
-			//error_log( 'Exists: ' . print_r( $exists, TRUE ) );
+			// error_log( 'Exists: ' . print_r( $exists, TRUE ) );
 
 			// Term does not exist, create it.
-			if ( FALSE === $exists ) {
+			if ( false === $exists ) {
 
 				$result = $this->insertTerm( $name, $slug, '', $parent_id );
 
 				if ( ! is_wp_error( $result ) ) {
 
 					$parent_id = (int) $result['term_id'];
-					//error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
+					// error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
 				}
 
 			} elseif ( is_int( $exists ) ) {
 
 				$parent_id = $exists;
-				//error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
+				// error_log( 'Set Parent ID: ' . print_r( $parent_id, TRUE ) );
 			}
 		}
 
@@ -248,22 +250,23 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 			if ( 0 == $term ) {
 
-				return FALSE;
+				return false;
 			}
 
 			if ( $result = $wpdb->get_row(
-				$wpdb->prepare( 'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' as tt ON tt.term_id = t.term_id WHERE t.term_id = %d AND tt.taxonomy = %s',
-				                $term,
-				                $this->type ),
+				$wpdb->prepare(
+					'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' as tt ON tt.term_id = t.term_id WHERE t.term_id = %d AND tt.taxonomy = %s',
+					$term,
+					$this->type
+				),
 				ARRAY_A
-			)
-			) {
+			) ) {
 
 				return (int) $result['term_id'];
 
 			} else {
 
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -298,7 +301,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 		} else {
 
-			return FALSE;
+			return false;
 		}
 
 	}
@@ -329,9 +332,9 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 		if ( is_wp_error( $result ) ) {
 
 			error_log( 'Term Import Error: ' . $result->get_error_message() );
-			error_log( ' - Name: ' . print_r( $name, TRUE ) );
-			error_log( ' - Slug: ' . print_r( $slug, TRUE ) );
-			error_log( ' - Parent ID: ' . print_r( $parent, TRUE ) );
+			error_log( ' - Name: ' . print_r( $name, true ) );
+			error_log( ' - Slug: ' . print_r( $slug, true ) );
+			error_log( ' - Parent ID: ' . print_r( $parent, true ) );
 		}
 
 		return $result;

@@ -9,7 +9,7 @@
  * @copyright  2013 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Names - Template
+ * _lugin Name:       Connections Names - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       A simple responsive template which outputs a list of every name within the directory in a column format if the browser supports it. This template is not recommended for very large directories.
  * Version:           1.0.1
@@ -20,7 +20,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'CN_Names_Template' ) ) {
 
@@ -40,7 +42,7 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'A simple responsive template which outputs a list of every name within the directory in a column format if the browser supports it. This template is not recommended for very large directories.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'parts'       => array( 'css' => 'style.css' ),
 				);
@@ -70,7 +72,7 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 		 */
 		public static function card( $entry ) {
 
-			$entry->getNameBlock( array( 'link' => TRUE ) );
+			$entry->getNameBlock( array( 'link' => true ) );
 		}
 
 	}

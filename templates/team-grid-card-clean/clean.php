@@ -10,7 +10,7 @@
  * @copyright  2019 Steven A. Zahm
  *
  * @wordpress-plugin
- * Plugin Name:       Connections Widget Pack - Template
+ * _lugin Name:       Connections Widget Pack - Template
  * Plugin URI:        https://connections-pro.com
  * Description:       The Recently Added Widget Template.
  * Version:           1.0
@@ -51,11 +51,11 @@ if ( ! class_exists( 'CN_Block_Team_Grid_Card_Clean_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'https://connections-pro.com',
 				'description' => 'Grid layout.',
-				'custom'      => FALSE,
+				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
-				//'parts'       => array( 'css' => 'styles.css' ),
+				// 'parts'       => array( 'css' => 'styles.css' ),
 			);
 
 			cnTemplateFactory::register( $atts );
@@ -91,7 +91,7 @@ if ( ! class_exists( 'CN_Block_Team_Grid_Card_Clean_Template' ) ) {
 			$imageBorderColor  = \cnSanitize::hexColor( $attributes['imageBorderColor'] );
 			$imageBorderRadius = 'square' === $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
 			$imageBorderWidth  = absint( $attributes['imageBorderWidth'] );
-			//$boxShadow        = $attributes['displayDropShadow'] ? '0px 5px 10px 5px rgba(186,186,186,0.5)' : 'none !important';
+			// $boxShadow        = $attributes['displayDropShadow'] ? '0px 5px 10px 5px rgba(186,186,186,0.5)' : 'none !important';
 
 			$style = <<<HERE
 <style>

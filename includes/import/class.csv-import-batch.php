@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * cnCSV_Batch_Import Class
@@ -97,7 +99,7 @@ class cnCSV_Batch_Import {
 		if ( ! class_exists( 'parseCSV' ) ) {
 
 			require_once CN_PATH . 'vendor/parse-csv/parsecsv.lib.php';
-			require_once CN_PATH . 'vendor/parse-csv/cn-parsecsv.lib.php';
+			require_once CN_PATH . 'vendor/parse-csv/cn-parsecsv.lib.v1.1.php';
 		}
 
 		$this->file = $file;
@@ -147,7 +149,7 @@ class cnCSV_Batch_Import {
 
 		if ( 0 < $csv->error ) {
 
-			error_log( print_r( $csv->error_info, TRUE ) );
+			error_log( print_r( $csv->error_info, true ) );
 
 			$error = array_shift( $csv->error_info );
 
@@ -193,7 +195,7 @@ class cnCSV_Batch_Import {
 	 */
 	public function process( $step ) {
 
-		$more = FALSE;
+		$more = false;
 
 		$this->step = $step;
 		$offset     = $this->limit * ( $this->step - 1 );
@@ -211,7 +213,7 @@ class cnCSV_Batch_Import {
 
 		if ( 0 < $csv->error ) {
 
-			error_log( print_r( $csv->error_info, TRUE ) );
+			error_log( print_r( $csv->error_info, true ) );
 
 			$error = array_shift( $csv->error_info );
 
@@ -225,7 +227,7 @@ class cnCSV_Batch_Import {
 		 * @see parseCSV::parse() does support offset and limit params but it simply uses array_split() in
 		 * @see parseCSV::parse_string() on the array rather than reparsing the file with offset/limit.
 		 */
-		$data = array_slice( $csv->data, $offset, $this->limit, TRUE );
+		$data = array_slice( $csv->data, $offset, $this->limit, true );
 
 		/**
 		 * @todo If a clean CSV could be guaranteed, then something like this could be done and require much less memory.
@@ -245,11 +247,44 @@ class cnCSV_Batch_Import {
 
 		if ( ! empty( $data ) ) {
 
-			$more = TRUE;
+			$more = true;
+			$this->mapData( $data );
 			$this->import( $data );
 		}
 
 		return $more;
+	}
+
+	/**
+	 * Map the CSV rows to Connections field by user supplied key.
+	 *
+	 * @access private
+	 * @since  10.4.4
+	 *
+	 * @param array $sourceData The parse data from a CSV file.
+	 *
+	 * @return array
+	 */
+	private function mapData( &$sourceData ) {
+
+		$map = $this->getMap();
+
+		// Map the CSV data by row to the Connections field defined by the supplied map $csvMap.
+		// This does create the array of objects used for the actual import.
+		foreach ( $sourceData as $rowIndex => $rowValue ) {
+
+			reset( $map );
+
+			foreach ( $rowValue as $value ) {
+
+				$csvHeader = key( $map );
+
+				$sourceData[ $rowIndex ][ $csvHeader ] = $value;
+				next( $map );
+			}
+		}
+
+		return $sourceData;
 	}
 
 	/**
@@ -264,7 +299,7 @@ class cnCSV_Batch_Import {
 
 		foreach ( $data as $row ) {
 
-			error_log( print_r( $row, TRUE ) );
+			error_log( print_r( $row, true ) );
 		}
 	}
 

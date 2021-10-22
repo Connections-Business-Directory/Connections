@@ -12,7 +12,8 @@ trait Name {
 	/**
 	 * The field name.
 	 *
-	 * 10.4
+	 * @since  10.4
+	 *
 	 * @var string
 	 */
 	protected $name = '';

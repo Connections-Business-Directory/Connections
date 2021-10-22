@@ -14,7 +14,9 @@ use Connections_Directory\Content_Blocks;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class cnOutput
@@ -40,7 +42,7 @@ class cnEntry_HTML extends cnEntry {
 
 		} else {
 
-			echo $html;
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return '';
 		}
 	}
@@ -66,7 +68,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
 
-		$this->getImage( array( 'image' => 'photo' , 'preset' => 'profile' ) );
+		$this->getImage( array( 'image' => 'photo', 'preset' => 'profile' ) );
 	}
 
 	/**
@@ -78,7 +80,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getImage()' );
 
-		$this->getImage( array( 'image' => 'photo' , 'preset' => 'thumbnail' ) );
+		$this->getImage( array( 'image' => 'photo', 'preset' => 'thumbnail' ) );
 	}
 
 	/**
@@ -133,8 +135,8 @@ class cnEntry_HTML extends cnEntry {
 	 */
 	public function getImage( $atts = array() ) {
 
-		$displayImage  = FALSE;
-		//$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+		$displayImage  = false;
+		// $cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 		$tag           = array();
 		$srcset        = array();
@@ -161,16 +163,18 @@ class cnEntry_HTML extends cnEntry {
 			'sizes'     => array( '100vw' ),
 			'style'     => array(),
 			'action'    => 'display',
-			'lazyload'  => TRUE,
-			'permalink' => FALSE, // Defaulting this to false for now. Default this to true in future update.
-			'return'    => FALSE,
+			'lazyload'  => true,
+			'permalink' => false, // Defaulting this to false for now. Default this to true in future update.
+			'return'    => false,
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
-		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) $atts['fallback'] = cnSanitize::args( $atts['fallback'], $defaults['fallback'] );
+		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) {
+			$atts['fallback'] = cnSanitize::args( $atts['fallback'], $defaults['fallback'] );
+		}
 
 		/*
 		 * Convert some of the $atts values in the array to boolean.
@@ -187,7 +191,7 @@ class cnEntry_HTML extends cnEntry {
 		 */
 		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'style', 'return' );
 
-		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? TRUE : FALSE;
+		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? true : false;
 
 		switch ( $atts['image'] ) {
 
@@ -195,10 +199,10 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $this->getImageLinked() && ( $this->getImageDisplay() || 'edit' == $atts['action'] ) ) {
 
-					$displayImage  = TRUE;
+					$displayImage  = true;
 					$atts['class'] = 'cn-image photo';
-					$atts['alt']   = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
-					$atts['title'] = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
+					$atts['alt']   = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
+					$atts['title'] = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
 
 					$atts['alt']   = apply_filters( 'cn_photo_alt', $atts['alt'], $this );
 					$atts['title'] = apply_filters( 'cn_photo_title', $atts['title'], $this );
@@ -219,14 +223,17 @@ class cnEntry_HTML extends cnEntry {
 
 						if ( is_wp_error( $image ) ) {
 
-							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-							$displayImage = FALSE;
+							if ( is_admin() ) {
+								cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							}
+
+							$displayImage = false;
 
 						} else {
 
 							// Since this is a custom size of an image we can not know which crop mode to use.
 							// Set the crop mode the the value set in $atts['zc'].
-							//$cropMode = $atts['zc'];
+							// $cropMode = $atts['zc'];
 
 							// Add the image to the scrset.
 							$srcset['image_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -251,13 +258,16 @@ class cnEntry_HTML extends cnEntry {
 
 							if ( is_wp_error( $image ) ) {
 
-								if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-								$displayImage = FALSE;
+								if ( is_admin() ) {
+									cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+								}
+
+								$displayImage = false;
 
 							} else {
 
 								// Set the crop mode to the value saved in the settings.
-								//$cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+								// $cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 								// Add the image to the scrset.
 								$srcset[ 'image_' . $size ] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -268,10 +278,10 @@ class cnEntry_HTML extends cnEntry {
 
 						} else {
 
-							$displayImage = FALSE;
+							$displayImage = false;
 
 							$atts['fallback']['type']   = 'block';
-							$atts['fallback']['string'] = sprintf( __( 'Photo present %s is not valid.', 'connections' ), $size );
+							$atts['fallback']['string'] = sprintf( esc_html__( 'Photo present %s is not valid.', 'connections' ), $size );
 						}
 					}
 				}
@@ -279,7 +289,7 @@ class cnEntry_HTML extends cnEntry {
 				/*
 				 * Create the link for the image if one was assigned.
 				 */
-				$links = $this->getLinks( array( 'image' => TRUE ) );
+				$links = $this->getLinks( array( 'image' => true ) );
 
 				if ( ! empty( $links ) ) {
 
@@ -292,11 +302,11 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || 'edit' == $atts['action'] ) ) {
 
-					$displayImage  = TRUE;
+					$displayImage  = true;
 					$atts['class'] = 'cn-image logo';
-					$atts['alt']   = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
-					$atts['title'] = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
-					//$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+					$atts['alt']   = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
+					$atts['title'] = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
+					// $cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 					$atts['alt']   = apply_filters( 'cn_logo_alt', $atts['alt'], $this );
 					$atts['title'] = apply_filters( 'cn_logo_title', $atts['title'], $this );
@@ -316,8 +326,11 @@ class cnEntry_HTML extends cnEntry {
 
 						if ( is_wp_error( $image ) ) {
 
-							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-							$displayImage = FALSE;
+							if ( is_admin() ) {
+								cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							}
+
+							$displayImage = false;
 
 						} else {
 
@@ -341,8 +354,11 @@ class cnEntry_HTML extends cnEntry {
 
 						if ( is_wp_error( $image ) ) {
 
-							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
-							$displayImage = FALSE;
+							if ( is_admin() ) {
+								cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							}
+
+							$displayImage = false;
 
 						} else {
 
@@ -359,7 +375,7 @@ class cnEntry_HTML extends cnEntry {
 				/*
 				 * Create the link for the image if one was assigned.
 				 */
-				$links = $this->getLinks( array( 'logo' => TRUE ) );
+				$links = $this->getLinks( array( 'logo' => true ) );
 
 				if ( ! empty( $links ) ) {
 
@@ -406,7 +422,9 @@ class cnEntry_HTML extends cnEntry {
 
 			// Remove any values in the $atts array that not not img attributes and add those that are to the $tag array.
 			foreach ( $atts as $attr => $value ) {
-				if ( ! empty( $value ) && ! in_array( $attr , $nonAtts ) ) $tag[] = "$attr=\"$value\"";
+				if ( ! empty( $value ) && ! in_array( $attr, $nonAtts ) ) {
+					$tag[] = "$attr=\"$value\"";
+				}
 			}
 
 			// Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
@@ -430,7 +448,7 @@ class cnEntry_HTML extends cnEntry {
 			 * If a link has not been attached to the photo/logo AND the permalink option is enabled
 			 * initiate a new link object and set it's properties.
 			 */
-			if ( ! isset( $link ) && TRUE === $atts['permalink'] ) {
+			if ( ! isset( $link ) && true === $atts['permalink'] ) {
 
 				$link = (object) array( 'url' => $this->getPermalink(), 'target' => '', 'followString' => '' );
 			}
@@ -452,7 +470,8 @@ class cnEntry_HTML extends cnEntry {
 			}
 
 			// The inner <span> is required for responsive image support. This markup also makes it IE8 compatible.
-			$out = sprintf( '<span class="cn-image-style"><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s%1$s/>%5$s</span></span>',
+			$out = sprintf(
+				'<span class="cn-image-style"><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s%1$s/>%5$s</span></span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				absint( $image['width'] ),
 				isset( $anchor ) ? $anchor : '',
@@ -537,7 +556,8 @@ class cnEntry_HTML extends cnEntry {
 
 					$string = empty( $atts['fallback']['string'] ) ? '' : '<span>' . $atts['fallback']['string'] . '</span>';
 
-					$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-%1$s cn-image-none"%2$s>%3$s</span></span>',
+					$out = sprintf(
+						'<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-%1$s cn-image-none"%2$s>%3$s</span></span>',
 						esc_attr( $atts['image'] ),
 						empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 						$string
@@ -575,7 +595,7 @@ class cnEntry_HTML extends cnEntry {
 				'home_id'    => $this->directoryHome['page_id'],
 				'force_home' => $this->directoryHome['force_home'],
 				'data'       => 'url',
-				'return'     => FALSE,
+				'return'     => false,
 			)
 		);
 	}
@@ -602,9 +622,15 @@ class cnEntry_HTML extends cnEntry {
 			return;
 		}
 
-		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . $atts['text'] . '</a>';
+		$html = apply_filters(
+			'cn_entry_edit_permalink',
+			'<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . esc_html( $atts['text'] ) . '</a>',
+			$url,
+			$atts,
+			$this
+		);
 
-		echo apply_filters( 'cn_entry_edit_permalink', $link, $url, $atts, $this );
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -632,9 +658,11 @@ class cnEntry_HTML extends cnEntry {
 
 		$atts['class'] = 'rest' === $atts['context'] ? 'cn-rest-action ' . $atts['class'] : $atts['class'];
 
-		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . __( 'Delete', 'connections' ) . ' ' . $this->getName() . '">' . $atts['text'] . '</a>';
+		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . esc_html__( 'Delete', 'connections' ) . ' ' . $this->getName() . '">' . esc_html( $atts['text'] ) . '</a>';
 
-		echo apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
+		$html = apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -673,7 +701,7 @@ class cnEntry_HTML extends cnEntry {
 			'target' => 'name',
 			'before' => '',
 			'after'  => '',
-			'return' => FALSE
+			'return' => false,
 		);
 
 		/**
@@ -698,6 +726,7 @@ class cnEntry_HTML extends cnEntry {
 			'%middle_initial%',
 			'%last_initial%',
 		);
+
 		$replace         = array();
 		$honorificPrefix = $this->getHonorificPrefix();
 		$first           = $this->getFirstName();
@@ -759,7 +788,7 @@ class cnEntry_HTML extends cnEntry {
 					'text'       => $html,
 					'home_id'    => $this->directoryHome['page_id'],
 					'force_home' => $this->directoryHome['force_home'],
-					'return'     => TRUE,
+					'return'     => true,
 				)
 			);
 		}
@@ -782,7 +811,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getNameBlock()' );
 
-		return $this->getNameBlock( array( 'format' => '%prefix% %first% %middle% %last% %suffix%', 'return' => TRUE ) );
+		return $this->getNameBlock( array( 'format' => '%prefix% %first% %middle% %last% %suffix%', 'return' => true ) );
 	}
 
 	/**
@@ -798,7 +827,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getNameBlock()' );
 
-		return $this->getNameBlock( array( 'format' => '%last%, %first% %middle%', 'return' => TRUE ) );
+		return $this->getNameBlock( array( 'format' => '%last%, %first% %middle%', 'return' => true ) );
 	}
 
 	/**
@@ -847,7 +876,7 @@ class cnEntry_HTML extends cnEntry {
 			'after'         => '',
 			'before_item'   => '',
 			'after_item'    => '',
-			'return'        => FALSE,
+			'return'        => false,
 		);
 
 		/**
@@ -893,7 +922,7 @@ class cnEntry_HTML extends cnEntry {
 							'text'       => $relation->getName( array( 'format' => $atts['name_format'] ) ),
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE,
+							'return'     => true,
 						)
 					);
 
@@ -945,7 +974,7 @@ class cnEntry_HTML extends cnEntry {
 			'tag'    => 'span',
 			'before' => '',
 			'after'  => '',
-			'return' => FALSE
+			'return' => false,
 		);
 
 		/**
@@ -1000,13 +1029,13 @@ class cnEntry_HTML extends cnEntry {
 		$defaults = array(
 			'before'    => '',
 			'after'     => '',
-			'show_org'  => TRUE,
-			'show_dept' => TRUE,
+			'show_org'  => true,
+			'show_dept' => true,
 			'link'      => array(
 				'organization' => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
-				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
+				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' ),
 			),
-			'return'    => FALSE
+			'return'    => false,
 		);
 
 		/**
@@ -1030,14 +1059,15 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $atts['link']['organization'] ) {
 
-					$organization = cnURL::permalink( array(
+					$organization = cnURL::permalink(
+						array(
 							'type'       => 'organization',
 							'slug'       => $this->getOrganization( 'raw' ),
 							'title'      => $org,
 							'text'       => $org,
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
+							'return'     => true,
 						)
 					);
 
@@ -1054,14 +1084,15 @@ class cnEntry_HTML extends cnEntry {
 
 				if ( $atts['link']['department'] ) {
 
-					$department = cnURL::permalink( array(
+					$department = cnURL::permalink(
+						array(
 							'type'       => 'department',
 							'slug'       => $this->getDepartment( 'raw' ),
 							'title'      => $dept,
 							'text'       => $dept,
 							'home_id'    => $this->directoryHome['page_id'],
 							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
+							'return'     => true,
 						)
 					);
 
@@ -1091,7 +1122,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getOrgUnitBlock()' );
 
-		return $this->getOrgUnitBlock( array( 'return' => TRUE ) );
+		return $this->getOrgUnitBlock( array( 'return' => true ) );
 	}
 
 	/**
@@ -1103,7 +1134,7 @@ class cnEntry_HTML extends cnEntry {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnEntry_HTML::getOrgUnitBlock()' );
 
-		return $this->getOrgUnitBlock( array( 'return' => TRUE ) );
+		return $this->getOrgUnitBlock( array( 'return' => true ) );
 	}
 
 	/**
@@ -1137,7 +1168,7 @@ class cnEntry_HTML extends cnEntry {
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE
+			'return'    => false,
 		);
 
 		/**
@@ -1233,15 +1264,15 @@ class cnEntry_HTML extends cnEntry {
 	public function getAddressBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred'   => NULL,
-			'type'        => NULL,
-			'limit'       => NULL,
-			'district'    => NULL,
-			'county'      => NULL,
-			'city'        => NULL,
-			'state'       => NULL,
-			'zipcode'     => NULL,
-			'country'     => NULL,
+			'preferred'   => null,
+			'type'        => null,
+			'limit'       => null,
+			'district'    => null,
+			'county'      => null,
+			'city'        => null,
+			'state'       => null,
+			'zipcode'     => null,
+			'country'     => null,
 			'coordinates' => array(),
 			'format'      => '',
 			'link'        => array(
@@ -1255,7 +1286,7 @@ class cnEntry_HTML extends cnEntry {
 			'separator'   => ':',
 			'before'      => '',
 			'after'       => '',
-			'return'      => FALSE,
+			'return'      => false,
 		);
 
 		/**
@@ -1282,7 +1313,7 @@ class cnEntry_HTML extends cnEntry {
 		                        ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                        ->take( $atts['limit'] )
 		                        ->escapeFor( 'display' )
-		                        ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                        ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
 		$this->addresses->resetFilters();
@@ -1333,19 +1364,19 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getMapBlock( $atts = array(), $cached = TRUE ) {
+	public function getMapBlock( $atts = array(), $cached = true ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'static'    => FALSE,
+			'preferred' => null,
+			'type'      => null,
+			'static'    => false,
 			'maptype'   => 'ROADMAP',
 			'zoom'      => 13,
 			'height'    => 400,
 			'width'     => 400,
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1424,14 +1455,14 @@ class cnEntry_HTML extends cnEntry {
 	public function getPhoneNumberBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1451,7 +1482,7 @@ class cnEntry_HTML extends cnEntry {
 		                           ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                           ->take( $atts['limit'] )
 		                           ->escapeFor( 'display' )
-		                           ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                           ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get phone numbers with different params return expected results.
 		$this->phoneNumbers->resetFilters();
@@ -1597,16 +1628,16 @@ class cnEntry_HTML extends cnEntry {
 	public function getEmailAddressBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
 			'title'     => '',
 			'size'      => 32,
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1626,7 +1657,7 @@ class cnEntry_HTML extends cnEntry {
 		                             ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                             ->take( $atts['limit'] )
 		                             ->escapeFor( 'display' )
-		                             ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                             ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get email addresses with different params return expected results.
 		$this->emailAddresses->resetFilters();
@@ -1676,14 +1707,14 @@ class cnEntry_HTML extends cnEntry {
 	public function getImBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1703,7 +1734,7 @@ class cnEntry_HTML extends cnEntry {
 		                 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                 ->take( $atts['limit'] )
 		                 ->escapeFor( 'display' )
-		                 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get messenger IDs with different params return expected results.
 		$this->im->resetFilters();
@@ -1772,18 +1803,18 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getSocialMediaBlock( $atts = array(), $cached = TRUE ) {
+	public function getSocialMediaBlock( $atts = array(), $cached = true ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
+			'preferred' => null,
+			'type'      => null,
 			'format'    => '',
-			//'style'     => 'wpzoom',
+			// 'style'     => 'wpzoom',
 			'size'      => 32,
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1802,37 +1833,39 @@ class cnEntry_HTML extends cnEntry {
 		$networks = $this->getSocialMedia( $atts, $cached );
 		$search   = array( '%label%', '%url%', '%icon%', '%separator%' );
 
-		//$iconStyles = array( 'wpzoom' );
+		// $iconStyles = array( 'wpzoom' );
 		$iconSizes = array( 16, 24, 32, 48, 64 );
 
 		/*
 		 * Ensure the supplied icon style and size are valid, if not reset to the default values.
 		 */
-		//$iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
+		// $iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
 		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
-		if ( empty( $networks ) ) return '';
+		if ( empty( $networks ) ) {
+			return '';
+		}
 
-		//$out = '<span class="social-media-block">' . PHP_EOL;
+		// $out = '<span class="social-media-block">' . PHP_EOL;
 
 		$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
 
 		foreach ( $networks as $network ) {
 			$replace   = array();
-			//$iconClass = array();
+			// $iconClass = array();
 
 			/*
 			 * Create the icon image class. This array will implode to a string.
 			 */
-			//$iconClass[] = $network->type;
-			//$iconClass[] = $iconStyle;
-			//$iconClass[] = 'sz-' . $iconSize;
+			// $iconClass[] = $network->type;
+			// $iconClass[] = $iconStyle;
+			// $iconClass[] = 'sz-' . $iconSize;
 
 			$iconSlug = isset( $socialNetworks[ $network->type ]['slug'] ) ? $socialNetworks[ $network->type ]['slug'] : $network->type;
 
 			$iconClass = array(
 				"cn-brandicon-{$iconSlug}",
-				"cn-brandicon-size-{$iconSize}"
+				"cn-brandicon-size-{$iconSize}",
 			);
 
 			$classes = array_map( 'sanitize_html_class', $iconClass );
@@ -1843,7 +1876,7 @@ class cnEntry_HTML extends cnEntry {
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" rel="noopener noreferrer nofollow" title="' . $network->name . '">' . $network->url . '</a>';
 
-			//$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
+			// $icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
 			$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" rel="noopener noreferrer nofollow" title="' . $network->name . '"><i class="' . implode( ' ', $classes ) . '"></i></a>';
 
 			$replace[] = $icon;
@@ -1861,11 +1894,11 @@ class cnEntry_HTML extends cnEntry {
 			$rows[] = apply_filters( 'cn_output_social_media_link', cnString::replaceWhatWith( $row, ' ' ), $network, $this, $atts );
 		}
 
-		//$out .= '</span>' . PHP_EOL;
+		// $out .= '</span>' . PHP_EOL;
 
-		//$out = cnString::replaceWhatWith( $out, ' ' );
+		// $out = cnString::replaceWhatWith( $out, ' ' );
 
-		//$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		// $out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		$block = '<span class="social-media-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
 
@@ -1888,7 +1921,7 @@ class cnEntry_HTML extends cnEntry {
 		/*
 		 * Set some defaults so the result resembles how the previous rendered.
 		 */
-		return $this->getLinkBlock( array( 'format' => '%label%%separator% %url%' , 'type' => array( 'personal', 'website' ) , 'return' => TRUE ) );
+		return $this->getLinkBlock( array( 'format' => '%label%%separator% %url%', 'type' => array( 'personal', 'website' ), 'return' => true ) );
 	}
 
 	/**
@@ -1929,17 +1962,17 @@ class cnEntry_HTML extends cnEntry {
 	public function getLinkBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred' => NULL,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred' => null,
+			'type'      => null,
+			'limit'     => null,
 			'format'    => '',
-			'label'     => NULL,
+			'label'     => null,
 			'size'      => 'lg',
 			'icon_size' => 32,
 			'separator' => ':',
 			'before'    => '',
 			'after'     => '',
-			'return'    => FALSE,
+			'return'    => false,
 		);
 
 		/**
@@ -1959,7 +1992,7 @@ class cnEntry_HTML extends cnEntry {
 		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                    ->take( $atts['limit'] )
 		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->links->resetFilters();
@@ -2014,16 +2047,16 @@ class cnEntry_HTML extends cnEntry {
 	public function getDateBlock( $atts = array() ) {
 
 		$defaults = array(
-			'preferred'   => NULL,
-			'type'        => NULL,
-			'limit'       => NULL,
+			'preferred'   => null,
+			'type'        => null,
+			'limit'       => null,
 			'format'      => '',
 			'name_format' => '',
 			'date_format' => cnSettingsAPI::get( 'connections', 'display_general', 'date_format' ),
 			'separator'   => ':',
 			'before'      => '',
 			'after'       => '',
-			'return'      => FALSE,
+			'return'      => false,
 		);
 
 		/**
@@ -2043,7 +2076,7 @@ class cnEntry_HTML extends cnEntry {
 		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
 		                    ->take( $atts['limit'] )
 		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
+		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->dates->resetFilters();
@@ -2088,28 +2121,30 @@ class cnEntry_HTML extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults = array();
-		$defaults['format'] = '';
+		$defaults                = array();
+		$defaults['format']      = '';
 		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
 		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
 
 		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults['before']    = '';
+		$defaults['after']     = '';
+		$defaults['return']    = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$search = array( '%label%' , '%date%' , '%separator%' );
+		$out     = '';
+		$search  = array( '%label%', '%date%', '%separator%' );
 		$replace = array();
 
-		if ( ! $this->getBirthday() ) return '';
+		if ( ! $this->getBirthday() ) {
+			return '';
+		}
 
 		/*
 		 * NOTE: The vevent span is for hCalendar compatibility.
@@ -2118,8 +2153,8 @@ class cnEntry_HTML extends cnEntry {
 		 */
 		$out .= '<div class="vevent"><span class="birthday">';
 
-		$replace[] = '<span class="date-name">' . __( 'Birthday', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
+		$replace[] = '<span class="date-name">' . esc_html__( 'Birthday', 'connections' ) . '</span>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2129,7 +2164,7 @@ class cnEntry_HTML extends cnEntry {
 		);
 
 		$out .= '<span class="bday" style="display:none">' . $this->getBirthday( 'Y-m-d' ) . '</span>';
-		$out .= '<span class="summary" style="display:none">' . __( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
+		$out .= '<span class="summary" style="display:none">' . esc_html__( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
 
 		$out .= '</div>';
 
@@ -2171,27 +2206,29 @@ class cnEntry_HTML extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults = array();
-		$defaults['format'] = '';
+		$defaults                = array();
+		$defaults['format']      = '';
 		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
 		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults['separator']   = ':';
+		$defaults['before']      = '';
+		$defaults['after']       = '';
+		$defaults['return']      = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$search = array( '%label%' , '%date%' , '%separator%' );
+		$out     = '';
+		$search  = array( '%label%', '%date%', '%separator%' );
 		$replace = array();
 
-		if ( ! $this->getAnniversary() ) return '';
+		if ( ! $this->getAnniversary() ) {
+			return '';
+		}
 
 		/*
 		 * NOTE: The vevent span is for hCalendar compatibility.
@@ -2200,8 +2237,8 @@ class cnEntry_HTML extends cnEntry {
 		 */
 		$out .= '<div class="vevent"><span class="anniversary">';
 
-		$replace[] = '<span class="date-name">' . __( 'Anniversary', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
+		$replace[] = '<span class="date-name">' . esc_html__( 'Anniversary', 'connections' ) . '</span>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2213,7 +2250,7 @@ class cnEntry_HTML extends cnEntry {
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
-		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
+		$out .= '<span class="summary" style="display:none">' . esc_html__( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
 
 		$out .= '</div>';
 
@@ -2238,9 +2275,9 @@ class cnEntry_HTML extends cnEntry {
 	public function getNotesBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '',
-			'after'     => '',
-			'return'    => FALSE
+			'before' => '',
+			'after'  => '',
+			'return' => false,
 		);
 
 		/**
@@ -2276,9 +2313,9 @@ class cnEntry_HTML extends cnEntry {
 	public function getBioBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '',
-			'after'     => '',
-			'return'    => FALSE
+			'before' => '',
+			'after'  => '',
+			'return' => false,
 		);
 
 		/**
@@ -2311,11 +2348,11 @@ class cnEntry_HTML extends cnEntry {
 	public function excerpt( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '',
-			'after'     => '',
-			'length'    => apply_filters( 'cn_excerpt_length', 55 ),
-			'more'      => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
-			'return'    => FALSE
+			'before' => '',
+			'after'  => '',
+			'length' => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'   => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
+			'return' => false,
 		);
 
 		/**
@@ -2398,10 +2435,10 @@ class cnEntry_HTML extends cnEntry {
 			'parent_separator' => ' &raquo; ',
 			'before'           => '',
 			'after'            => '',
-			'link'             => FALSE,
-			'parents'          => FALSE,
+			'link'             => false,
+			'parents'          => false,
 			'child_of'         => 0,
-			'return'           => FALSE,
+			'return'           => false,
 		);
 
 		/**
@@ -2450,39 +2487,39 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string The HTML output of the custom content blocks.
 	 */
-	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = NULL ) {
+	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = null ) {
 
 		$blockContainerContent = '';
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$registered = cnOptions::getContentBlocks( NULL, 'single' );
+			$registered = cnOptions::getContentBlocks( null, 'single' );
 			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
 
 		} else {
 
-			$registered = cnOptions::getContentBlocks( NULL, 'list' );
+			$registered = cnOptions::getContentBlocks( null, 'list' );
 			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
 		}
 
 		$order  = isset( $settings['order'] ) ? $settings['order'] : array_keys( cnArray::get( $registered, 'items', array() ) );
 		$active = isset( $settings['active'] ) ? $settings['active'] : array();
-		//$exclude = empty( $include ) ? $order : array();
+		// $exclude = empty( $include ) ? $order : array();
 		$titles = array();
 
 		$defaults = array(
 			'id'            => '',
 			'order'         => $order,
 			'exclude'       => array(),
-			'include'       => $active, //array_intersect( $active, $order ),
+			'include'       => $active, // array_intersect( $active, $order ),
 			'layout'        => 'list',
 			'container_tag' => 'div',
 			'block_tag'     => 'div',
 			'header_tag'    => 'h3',
 			'before'        => '',
 			'after'         => '',
-			'return'        => FALSE
-			);
+			'return'        => false,
+		);
 
 		$atts = wp_parse_args(
 			apply_filters( 'cn_output_content_block_atts', $atts ),
@@ -2499,14 +2536,16 @@ class cnEntry_HTML extends cnEntry {
 		}
 
 		// Nothing to render, exit.
-		if ( empty( $blocks ) ) return '';
+		if ( empty( $blocks ) ) {
+			return '';
+		}
 
 		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
 		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' );
 
 		// Remove any blocks from the `include` parameter which are explicitly stated to be excluded by the `excluded` parameter.
 		// Do this only if the `include` parameter is not empty.
-		//$atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
+		// $atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
 		$atts['include'] = empty( $atts['include'] ) ? $atts['include'] : array_diff( $atts['include'], $atts['exclude'] );
 
 		// Cleanup user input, convert to lowercase.
@@ -2530,7 +2569,7 @@ class cnEntry_HTML extends cnEntry {
 			if ( has_action( 'cn_output_meta_field-' . $key ) ) {
 
 				// Grab the meta.
-				$results = $this->getMeta( array( 'key' => $key, 'single' => TRUE ) );
+				$results = $this->getMeta( array( 'key' => $key, 'single' => true ) );
 
 				if ( ! empty( $results ) ) {
 
@@ -2592,7 +2631,9 @@ class cnEntry_HTML extends cnEntry {
 
 		}
 
-		if ( empty( $blockContainerContent ) ) return '';
+		if ( empty( $blockContainerContent ) ) {
+			return '';
+		}
 
 		$out = apply_filters(
 			'cn_entry_output_content_block_container',
@@ -2624,12 +2665,14 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getCategoryClass( $return = FALSE ) {
+	public function getCategoryClass( $return = false ) {
 
 		$categories = $this->getCategory();
 		$out        = array();
 
-		if ( empty( $categories ) ) return '';
+		if ( empty( $categories ) ) {
+			return '';
+		}
 
 		foreach ( $categories as $category ) {
 			$out[] = $category->slug;
@@ -2657,20 +2700,21 @@ class cnEntry_HTML extends cnEntry {
 	 */
 	public function getLastUpdatedStyle() {
 		$age = (int) abs( time() - strtotime( $this->getUnixTimeStamp() ) );
-		if ( $age < 657000 ) // less than one week: red
+		if ( $age < 657000 ) { // less than one week: red
 			$ageStyle = ' color:red; ';
-		elseif ( $age < 1314000 ) // one-two weeks: maroon
+		} elseif ( $age < 1314000 ) { // one-two weeks: maroon
 			$ageStyle = ' color:maroon; ';
-		elseif ( $age < 2628000 ) // two weeks to one month: green
+		} elseif ( $age < 2628000 ) { // two weeks to one month: green
 			$ageStyle = ' color:green; ';
-		elseif ( $age < 7884000 ) // one - three months: blue
+		} elseif ( $age < 7884000 ) { // one - three months: blue
 			$ageStyle = ' color:blue; ';
-		elseif ( $age < 15768000 ) // three to six months: navy
+		} elseif ( $age < 15768000 ) { // three to six months: navy
 			$ageStyle = ' color:navy; ';
-		elseif ( $age < 31536000 ) // six months to a year: black
+		} elseif ( $age < 31536000 ) { // six months to a year: black
 			$ageStyle = ' color:black; ';
-		else      // more than one year: don't show the update age
+		} else {      // more than one year: don't show the update age
 			$ageStyle = ' display:none; ';
+		}
 		return $ageStyle;
 	}
 
@@ -2720,14 +2764,16 @@ class cnEntry_HTML extends cnEntry {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink( false );
+		}
 
 		$base      = get_option( 'connections_permalink' );
 		$name      = $base['name_base'];
 		$homeID    = Connections_Directory()->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
 		$piece     = array();
-		$id        = FALSE;
-		$token     = FALSE;
+		$id        = false;
+		$token     = false;
 		$iconSizes = array( 16, 24, 32, 48 );
 		$search    = array( '%text%', '%icon%' );
 		$replace   = array();
@@ -2744,11 +2790,11 @@ class cnEntry_HTML extends cnEntry {
 			'title'  => __( 'Download vCard', 'connections' ),
 			'format' => '',
 			'size'   => 24,
-			'follow' => FALSE,
+			'follow' => false,
 			'slug'   => '',
 			'before' => '',
 			'after'  => '',
-			'return' => FALSE
+			'return' => false,
 		);
 
 		$atts = wp_parse_args( $atts , $defaults );
@@ -2768,11 +2814,25 @@ class cnEntry_HTML extends cnEntry {
 			$permalink = trailingslashit( get_permalink( $homeID ) );
 		}
 
-		if ( ! empty( $atts['class'] ) ) $piece[] = 'class="' . $atts['class'] .'"';
-		if ( ! empty( $atts['slug'] ) ) $piece[] = 'id="' . $atts['slug'] .'"';
-		if ( ! empty( $atts['title'] ) ) $piece[] = 'title="' . $atts['title'] .'"';
-		if ( ! empty( $atts['target'] ) ) $piece[] = 'target="' . $atts['target'] .'"';
-		if ( ! $atts['follow'] ) $piece[] = 'rel="nofollow"';
+		if ( ! empty( $atts['class'] ) ) {
+			$piece[] = 'class="' . $atts['class'] . '"';
+		}
+
+		if ( ! empty( $atts['slug'] ) ) {
+			$piece[] = 'id="' . $atts['slug'] . '"';
+		}
+
+		if ( ! empty( $atts['title'] ) ) {
+			$piece[] = 'title="' . esc_attr( $atts['title'] ) . '"';
+		}
+
+		if ( ! empty( $atts['target'] ) ) {
+			$piece[] = 'target="' . $atts['target'] . '"';
+		}
+
+		if ( ! $atts['follow'] ) {
+			$piece[] = 'rel="nofollow"';
+		}
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
@@ -2785,7 +2845,7 @@ class cnEntry_HTML extends cnEntry {
 
 		$out = '<span class="vcard-block">';
 
-		$replace[] = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
+		$replace[] = '<a ' . implode( ' ', $piece ) . '>' . esc_html( $atts['text'] ) . '</a>';
 
 		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . esc_url( CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png' ) . '" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
@@ -2799,7 +2859,9 @@ class cnEntry_HTML extends cnEntry {
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
 		// otherwise it'll cause an error.
-		if ( ! is_admin() ) cnSEO::doFilterPermalink();
+		if ( ! is_admin() ) {
+			cnSEO::doFilterPermalink();
+		}
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 

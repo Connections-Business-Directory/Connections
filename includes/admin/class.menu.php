@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for adding the admin menus and show its pages.
  *
@@ -10,11 +9,18 @@
  * @since       0.7.9
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use Connections_Directory\Utility\_array;
 
 /**
  * Class cnAdminMenu
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  */
 class cnAdminMenu {
 
@@ -24,7 +30,7 @@ class cnAdminMenu {
 	 * @access private
 	 * @since 0.7.9
 	 * @var (object)
-	*/
+	 */
 	private static $instance;
 
 	/**
@@ -35,7 +41,9 @@ class cnAdminMenu {
 	 * @see cnAdminMenu::init()
 	 * @see cnAdminMenu();
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+		/* Do nothing here */
+	}
 
 	/**
 	 * Setup the class, if it has already been initialized, return the intialized instance.
@@ -48,7 +56,7 @@ class cnAdminMenu {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 			self::menu();
 			self::addSupportMenuItem();
 			self::stylizeSupportMenuItems();
@@ -72,19 +80,73 @@ class cnAdminMenu {
 		$addEntryCapability = current_user_can( 'connections_add_entry' ) ? 'connections_add_entry' : 'connections_add_entry_moderated';
 
 		// Register the top level menu item.
-		if ( current_user_can( 'connections_view_menu') ) {
+		if ( current_user_can( 'connections_view_menu' ) ) {
 
 			$instance->pageHook->topLevel = add_menu_page( 'Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array( __CLASS__, 'showPage' ), CN_URL . 'assets/images/menu.png', CN_ADMIN_MENU_POSITION );
 		}
 
-		$submenu[0]   = array( 'hook' => 'dashboard', 'page_title' => 'Connections : ' . __( 'Dashboard', 'connections' ), 'menu_title' => __( 'Dashboard', 'connections' ), 'capability' => 'connections_view_dashboard', 'menu_slug' => 'connections_dashboard', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[20]  = array( 'hook' => 'manage', 'page_title' => 'Connections : ' . __( 'Manage', 'connections' ), 'menu_title' => __( 'Manage', 'connections' ), 'capability' => 'connections_manage', 'menu_slug' => 'connections_manage', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[40]  = array( 'hook' => 'add', 'page_title' => 'Connections : ' . __( 'Add Entry', 'connections' ), 'menu_title' => __( 'Add Entry', 'connections' ), 'capability' => $addEntryCapability, 'menu_slug' => 'connections_add', 'function' => array( __CLASS__, 'showPage' ) );
-		//$submenu[60]  = array( 'hook' => 'categories', 'page_title' => 'Connections : ' . __( 'Categories', 'connections' ), 'menu_title' => __( 'Categories', 'connections' ), 'capability' => 'connections_edit_categories', 'menu_slug' => 'connections_categories', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[80]  = array( 'hook' => 'templates', 'page_title' => 'Connections : ' . __( 'Templates', 'connections' ), 'menu_title' => __( 'Templates', 'connections' ), 'capability' => 'connections_manage_template', 'menu_slug' => 'connections_templates', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[100] = array( 'hook' => 'roles', 'page_title' => 'Connections : ' . __( 'Roles &amp; Capabilities', 'connections' ), 'menu_title' => __( 'Roles', 'connections' ), 'capability' => 'connections_change_roles', 'menu_slug' => 'connections_roles', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[110] = array( 'hook' => 'tools', 'page_title' => 'Connections : ' . __( 'Tools', 'connections' ), 'menu_title' => __( 'Tools', 'connections' ), 'capability' => 'edit_posts', 'menu_slug' => 'connections_tools', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[120] = array( 'hook' => 'settings', 'page_title' => 'Connections : ' . __( 'Settings', 'connections' ), 'menu_title' => __( 'Settings', 'connections' ), 'capability' => 'connections_change_settings', 'menu_slug' => 'connections_settings', 'function' => array( __CLASS__, 'showPage' ) );
+		$submenu[0] = array(
+			'hook'       => 'dashboard',
+			'page_title' => 'Connections : ' . __( 'Dashboard', 'connections' ),
+			'menu_title' => __( 'Dashboard', 'connections' ),
+			'capability' => 'connections_view_dashboard',
+			'menu_slug'  => 'connections_dashboard',
+			'function'   => array( __CLASS__, 'showPage' ),
+		);
+
+		$submenu[20] = array(
+			'hook'       => 'manage',
+			'page_title' => 'Connections : ' . __( 'Manage', 'connections' ),
+			'menu_title' => __( 'Manage', 'connections' ),
+			'capability' => 'connections_manage',
+			'menu_slug'  => 'connections_manage',
+			'function'   => array( __CLASS__, 'showPage' ),
+		);
+
+		$submenu[40] = array(
+			'hook'       => 'add',
+			'page_title' => 'Connections : ' . __( 'Add Entry', 'connections' ),
+			'menu_title' => __( 'Add Entry', 'connections' ),
+			'capability' => $addEntryCapability,
+			'menu_slug'  => 'connections_add',
+			'function'   => array( __CLASS__, 'showPage' ),
+		);
+
+		$submenu[80] = array(
+			'hook'       => 'templates',
+			'page_title' => 'Connections : ' . __( 'Templates', 'connections' ),
+			'menu_title' => __( 'Templates', 'connections' ),
+			'capability' => 'connections_manage_template',
+			'menu_slug'  => 'connections_templates',
+			'function'   => array( __CLASS__, 'showPage' ),
+		);
+
+		$submenu[100] = array(
+			'hook'       => 'roles',
+			'page_title' => 'Connections : ' . __( 'Roles &amp; Capabilities', 'connections' ),
+			'menu_title' => __( 'Roles', 'connections' ),
+			'capability' => 'connections_change_roles',
+			'menu_slug'  => 'connections_roles',
+			'function'   => array( __CLASS__, 'showPage' ),
+		);
+
+		$submenu[110] = array(
+			'hook'       => 'tools',
+			'page_title' => 'Connections : ' . __( 'Tools', 'connections' ),
+			'menu_title' => __( 'Tools', 'connections' ),
+			'capability' => 'edit_posts',
+			'menu_slug'  => 'connections_tools',
+			'function'   => array( __CLASS__, 'showPage' ),
+		);
+
+		$submenu[120] = array(
+			'hook'       => 'settings',
+			'page_title' => 'Connections : ' . __( 'Settings', 'connections' ),
+			'menu_title' => __( 'Settings', 'connections' ),
+			'capability' => 'connections_change_settings',
+			'menu_slug'  => 'connections_settings',
+			'function'   => array( __CLASS__, 'showPage' ),
+		);
 
 		$submenu = apply_filters( 'cn_submenu', $submenu );
 
@@ -92,19 +154,17 @@ class cnAdminMenu {
 
 		foreach ( $submenu as $menu ) {
 
-			/**
-			 * @var string       $hook
-			 * @var string       $page_title
-			 * @var string       $menu_title
-			 * @var string       $capability
-			 * @var string       $menu_slug
-			 * @var array|string $function
-			 */
-			extract( $menu );
+			$hook = _array::get( $menu, 'hook', '' );
 
-			$instance->pageHook->{ $hook } = add_submenu_page( 'connections_dashboard', $page_title, $menu_title, $capability, $menu_slug, $function );
+			$instance->pageHook->{ $hook } = add_submenu_page(
+				'connections_dashboard',
+				_array::get( $menu, 'page_title', '' ),
+				_array::get( $menu, 'menu_title', '' ),
+				_array::get( $menu, 'capability', '' ),
+				_array::get( $menu, 'menu_slug', '' ),
+				_array::get( $menu, 'function', '' )
+			);
 		}
-
 	}
 
 	/**
@@ -129,6 +189,7 @@ class cnAdminMenu {
 		$title     = esc_html( $title );
 		$permalink = esc_url( $permalink );
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		$submenu['connections_dashboard'][] = array( $title, 'manage_options', $permalink );
 	}
 
@@ -144,7 +205,7 @@ class cnAdminMenu {
 		foreach ( $submenu['connections_dashboard'] as &$item ) {
 
 			$template = '<span class="cn-submenu-item" id="cn-submenu-item-%s">%s</span>';
-			$slug     = strtolower( preg_replace("/[^[:alnum:][:space:]]/u", '', $item[0] ) );
+			$slug     = strtolower( preg_replace( '/[^[:alnum:][:space:]]/u', '', $item[0] ) );
 
 			$item[0] = sprintf( $template, $slug, $item[0] );
 		}
@@ -185,7 +246,10 @@ class cnAdminMenu {
 			return;
 		}
 
-		switch ( $_GET['page'] ) {
+		// phpcs:ignore WordPress.Security.NonceVerification
+		$page = isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+
+		switch ( $page ) {
 
 			case 'connections_dashboard':
 				include_once CN_PATH . 'includes/admin/pages/dashboard.php';
@@ -194,19 +258,15 @@ class cnAdminMenu {
 
 			case 'connections_manage':
 				include_once CN_PATH . 'includes/admin/pages/manage.php';
-				$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? $_GET['cn-action'] : '';
-				connectionsShowViewPage( esc_attr( $action ) );
+				// phpcs:ignore WordPress.Security.NonceVerification
+				$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? sanitize_key( $_GET['cn-action'] ) : '';
+				connectionsShowViewPage( $action );
 				break;
 
 			case 'connections_add':
 				include_once CN_PATH . 'includes/admin/pages/manage.php';
 				connectionsShowViewPage( 'add_entry' );
 				break;
-
-			//case 'connections_categories':
-			//	include_once CN_PATH . 'includes/admin/pages/categories.php';
-			//	connectionsShowCategoriesPage();
-			//	break;
 
 			case 'connections_settings':
 				include_once CN_PATH . 'includes/admin/pages/settings.php';
@@ -228,7 +288,6 @@ class cnAdminMenu {
 				connectionsShowRolesPage();
 				break;
 		}
-
 	}
 
 }

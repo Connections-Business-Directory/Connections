@@ -16,7 +16,10 @@
  */
 class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
-	protected $image = null; // Gmagick Object
+	/**
+	 * @var Gmagick
+	 */
+	protected $image = null;
 
 	function __destruct() {
 		if ( $this->image instanceof Gmagick ) {
@@ -36,11 +39,13 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 */
 	public static function test( $args = array() ) {
 		// Test Gmagick's extension and class.
-		if ( ! extension_loaded( 'gmagick' ) || ! class_exists( 'Gmagick' ) )
+		if ( ! extension_loaded( 'gmagick' ) || ! class_exists( 'Gmagick' ) ) {
 			return false;
+		}
 
-		if ( array_diff( array( 'setcompressionquality', 'getimage' ), get_class_methods( 'Gmagick' ) ) )
+		if ( array_diff( array( 'setcompressionquality', 'getimage' ), get_class_methods( 'Gmagick' ) ) ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -57,13 +62,15 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	public static function supports_mime_type( $mime_type ) {
 		$gmagick_extension = strtoupper( self::get_extension( $mime_type ) );
 
-		if ( ! $gmagick_extension )
+		if ( ! $gmagick_extension ) {
 			return false;
+		}
 
 		// setimageindex is optional unless mime is an animated format.
 		// Here, we just say no if you are missing it and aren't loading a jpeg.
-		if ( ! method_exists( 'Gmagick', 'setimageindex' ) && $mime_type != 'image/jpeg' )
-				return false;
+		if ( ! method_exists( 'Gmagick', 'setimageindex' ) && $mime_type != 'image/jpeg' ) {
+			return false;
+		}
 
 		try {
 			$gmagick = new Gmagick;
@@ -83,18 +90,21 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
 	 */
 	public function load() {
-		if ( $this->image instanceof Gmagick )
+		if ( $this->image instanceof Gmagick ) {
 			return true;
+		}
 
-		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
+		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) ) {
 			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?', 'connections' ), $this->file );
+		}
 
 		try {
 			$this->image = new Gmagick( $this->file );
 
 			// Select the first frame to handle animated images properly
-			if ( is_callable( array( $this->image, 'setimageindex' ) ) )
-				$this->image->setimageindex(0);
+			if ( is_callable( array( $this->image, 'setimageindex' ) ) ) {
+				$this->image->setimageindex( 0 );
+			}
 
 			$this->mime_type = $this->get_mime_type( $this->image->getimageformat() );
 		}
@@ -103,8 +113,9 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		}
 
 		$updated_size = $this->update_size();
-		if ( is_wp_error( $updated_size ) )
-				return $updated_size;
+		if ( is_wp_error( $updated_size ) ) {
+			return $updated_size;
+		}
 
 		return $this->set_quality( $this->default_quality );
 	}
@@ -153,8 +164,8 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		if ( ! $width || ! $height ) {
 			try {
 				$size = array(
-					'width' => $this->image->getimagewidth(),
-					'height' => $this->image->getimageheight()
+					'width'  => $this->image->getimagewidth(),
+					'height' => $this->image->getimageheight(),
 				);
 			}
 			catch ( Exception $e ) {
@@ -162,11 +173,13 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			}
 		}
 
-		if ( ! $width )
+		if ( ! $width ) {
 			$width = $size['width'];
+		}
 
-		if ( ! $height )
+		if ( ! $height ) {
 			$height = $size['height'];
+		}
 
 		return parent::update_size( $width, $height );
 	}
@@ -183,12 +196,14 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 * @return boolean|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
-		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) )
+		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) ) {
 			return true;
+		}
 
 		$dims = image_resize_dimensions( $this->size['width'], $this->size['height'], $max_w, $max_h, $crop );
-		if ( ! $dims )
+		if ( ! $dims ) {
 			return new WP_Error( 'error_getting_dimensions', __( 'Could not calculate resized image dimensions', 'connections' ) );
+		}
 		list( $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h ) = $dims;
 
 		if ( $crop ) {
@@ -226,8 +241,9 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		$orig_image = $this->image->getimage();
 
 		foreach ( $sizes as $size => $size_data ) {
-			if ( ! $this->image )
+			if ( ! $this->image ) {
 				$this->image = $orig_image->getimage();
+			}
 
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
@@ -280,10 +296,12 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			if ( $dst_w || $dst_h ) {
 				// If destination width/height isn't specified, use same as
 				// width/height from source.
-				if ( ! $dst_w )
+				if ( ! $dst_w ) {
 					$dst_w = $src_w;
-				if ( ! $dst_h )
+				}
+				if ( ! $dst_h ) {
 					$dst_h = $src_h;
+				}
 
 				$this->image->scaleimage( $dst_w, $dst_h );
 				return $this->update_size();
@@ -311,7 +329,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		 * (GD rotates counter-clockwise)
 		 */
 		try {
-			$this->image->rotateimage( new GmagickPixel('none'), 360 - $angle );
+			$this->image->rotateimage( new GmagickPixel( 'none' ), 360 - $angle );
 		}
 		catch ( Exception $e ) {
 			return new WP_Error( 'image_rotate_error', $e->getMessage() );
@@ -332,11 +350,13 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 */
 	public function flip( $horz, $vert ) {
 		try {
-			if ( $horz )
+			if ( $horz ) {
 				$this->image->flipimage();
+			}
 
-			if ( $vert )
+			if ( $vert ) {
 				$this->image->flopimage();
+			}
 		}
 		catch ( Exception $e ) {
 			return new WP_Error( 'image_flip_error', $e->getMessage() );
@@ -376,8 +396,9 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	protected function _save( $image, $filename = null, $mime_type = null ) {
 		list( $filename, $extension, $mime_type ) = $this->get_output_format( $filename, $mime_type );
 
-		if ( ! $filename )
+		if ( ! $filename ) {
 			$filename = $this->generate_filename( null, null, $extension );
+		}
 
 		try {
 			// Store initial Format
@@ -395,7 +416,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 		// Set correct file permissions
 		$stat  = stat( dirname( $filename ) );
-		$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
+		$perms = $stat['mode'] & 0000666; // same permissions as parent folder, strip off the executable bits
 		@ chmod( $filename, $perms );
 
 		/** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
@@ -426,7 +447,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			// Output stream of image content
 			header( "Content-Type: $mime_type" );
-			print $this->image->getimageblob();
+			print $this->image->getImageBlob(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			// Reset Image to original Format
 			$this->image->setimageformat( $this->get_extension( $this->mime_type ) );

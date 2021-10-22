@@ -143,7 +143,7 @@ final class Bing_Maps implements Provider {
 			);
 		}
 
-		if ( NULL !== $locale ) {
+		if ( null !== $locale ) {
 			$url = sprintf( '%s&culture=%s', $url, str_replace( '_', '-', $locale ) );
 		}
 
@@ -194,13 +194,13 @@ final class Bing_Maps implements Provider {
 				$builder->setBounds( $item->bbox[0], $item->bbox[1], $item->bbox[2], $item->bbox[3] );
 			}
 
-			$builder->setStreetName( $item->address->addressLine ? $item->address->addressLine : NULL );
-			$builder->setPostalCode( $item->address->postalCode ? $item->address->postalCode : NULL );
-			$builder->setLocality( $item->address->locality ? $item->address->locality : NULL );
-			$builder->setCounty( $item->address->adminDistrict2 ? $item->address->adminDistrict2 : NULL );
-			$builder->setRegion( $item->address->adminDistrict ? $item->address->adminDistrict : NULL );
-			$builder->setCountry( $item->address->countryRegion ? $item->address->countryRegion : NULL );
-			$builder->setCountryCode( $item->address->countryRegionIso2 ? $item->address->countryRegionIso2 : NULL );
+			$builder->setStreetName( $item->address->addressLine ? $item->address->addressLine : null );
+			$builder->setPostalCode( $item->address->postalCode ? $item->address->postalCode : null );
+			$builder->setLocality( $item->address->locality ? $item->address->locality : null );
+			$builder->setCounty( $item->address->adminDistrict2 ? $item->address->adminDistrict2 : null );
+			$builder->setRegion( $item->address->adminDistrict ? $item->address->adminDistrict : null );
+			$builder->setCountry( $item->address->countryRegion ? $item->address->countryRegion : null );
+			$builder->setCountryCode( $item->address->countryRegionIso2 ? $item->address->countryRegionIso2 : null );
 
 			$results[] = $builder->build();
 

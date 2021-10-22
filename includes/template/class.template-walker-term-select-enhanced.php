@@ -47,7 +47,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * @since 8.2.4
 	 * @var bool
 	 */
-	private $close_group = FALSE;
+	private $close_group = false;
 
 	/**
 	 * Display or retrieve the HTML select list of terms.
@@ -146,25 +146,25 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		$defaults = array(
 			'taxonomy'          => 'category',
-			'hierarchical'      => TRUE,
+			'hierarchical'      => true,
 			'type'              => 'select',
-			'group'             => FALSE,
-			'hide_if_empty'     => FALSE,
+			'group'             => false,
+			'hide_if_empty'     => false,
 			'name'              => 'cn-cat',
 			'id'                => '',
 			'class'             => array('cn-category-select'),
 			'style'             => array(),
-			'enhanced'          => TRUE,
+			'enhanced'          => true,
 			'on_change'         => '',
 			'tab_index'         => 0,
-			'placeholder_option' => TRUE,
-			'show_select_all'   => TRUE,
+			'placeholder_option' => true,
+			'show_select_all'   => true,
 			'show_option_all'   => '',
 			'show_option_none'  => '',
 			'option_none_value' => -1,
 			'default'           => __( 'Select Category', 'connections' ), // This is the data-placeholder select attribute utilized by Chosen.
-			'show_count'        => FALSE,
-			'hide_empty'        => FALSE,
+			'show_count'        => false,
+			'hide_empty'        => false,
 			'depth'             => 0,
 			'parent_id'         => array(),
 			'selected'          => 0,
@@ -172,14 +172,14 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			'before'            => '',
 			'after'             => '',
 			'layout'            => '%label%%field%',
-			'return'            => FALSE,
+			'return'            => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
 		if ( wp_is_mobile() ) {
 
-			$atts['enhanced'] = FALSE;
+			$atts['enhanced'] = false;
 		}
 
 		// The field parts to be searched for in $atts['layout'].
@@ -195,7 +195,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 		if ( ! isset( $atts['pad_counts'] ) && $atts['show_count'] && $atts['hierarchical'] ) {
 
 			// Padding the counts is ideal, but really, really, bloats the memory required.
-			$atts['pad_counts'] = FALSE;
+			$atts['pad_counts'] = false;
 		}
 
 		if ( empty( $atts['parent_id'] ) ) {
@@ -215,7 +215,9 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			// so the term tree will be properly constructed.
 			foreach ( $terms as $term ) {
 
-				if ( 0 !== $term->parent ) $term->parent = 0;
+				if ( 0 !== $term->parent ) {
+					$term->parent = 0;
+				}
 			}
 
 			foreach ( $atts['parent_id'] as $termID ) {
@@ -234,13 +236,15 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! $atts['hide_if_empty'] || ! empty( $terms ) ) {
 
-			//$out .= PHP_EOL . "<select name='$name' id='$id' class='$class' $tab_index_attribute>" . PHP_EOL;
+			// $out .= PHP_EOL . "<select name='$name' id='$id' class='$class' $tab_index_attribute>" . PHP_EOL;
 
 			// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
-			if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('cn-enhanced-select') );
+			if ( $atts['enhanced'] ) {
+				$atts['class'] = array_merge( (array) $atts['class'], array( 'cn-enhanced-select' ) );
+			}
 
 			// Create the field label, if supplied.
-			$replace[] = ! empty( $atts['label'] ) ? cnHTML::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
+			$replace[] = ! empty( $atts['label'] ) ? cnHTML::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';
 
 			$select .= sprintf(
 				'<select %1$s %2$s name="%3$s"%4$s%5$sdata-placeholder="%6$s"%7$s%8$s>' . PHP_EOL,
@@ -301,7 +305,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 				/** This filter is documented in includes/template/class.template-walker-term-select.php */
 				$show_option_none = apply_filters( 'cn_list_cats', $atts['show_option_none'] );
-				$selected         = selected( $atts['option_none_value'], $atts['selected'], FALSE );
+				$selected         = selected( $atts['option_none_value'], $atts['selected'], false );
 				$select          .= "\t<option value='" . esc_attr( $atts['option_none_value'] ) . "'$selected>$show_option_none</option>" . PHP_EOL;
 			}
 
@@ -323,7 +327,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			if ( $walker->close_group ) {
 
 				$select .= "\t" . '</optgroup>' . PHP_EOL;
-				$walker->close_group = FALSE;
+				$walker->close_group = false;
 			}
 
 			$select .= "</select>" . PHP_EOL;
@@ -370,7 +374,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( $args['group'] && $this->has_children ) {
 
-			$this->close_group = TRUE;
+			$this->close_group = true;
 		}
 	}
 
@@ -392,7 +396,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 		if ( $args['group'] && $this->close_group && 0 === $depth ) {
 
 			$out .= "\t" . '</optgroup>' . PHP_EOL;
-			$this->close_group = FALSE;
+			$this->close_group = false;
 		}
 	}
 
@@ -418,7 +422,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! $args['group'] ) {
 
-			$this->do_el( $out, $term, $depth, $args);
+			$this->do_el( $out, $term, $depth, $args );
 
 		} elseif ( $args['group'] && 0 === $depth && $this->has_children ) {
 
@@ -426,7 +430,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		} elseif ( $args['group'] && 0 < $depth ) {
 
-			$this->do_el( $out, $term, $depth, $args);
+			$this->do_el( $out, $term, $depth, $args );
 		}
 	}
 
@@ -448,7 +452,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 		$pad = ( $depth > 0 ) ? $depth * 12 + 7 : 7;
 
 		// Set the option SELECTED attribute if the category is one of the currently selected categories.
-		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], TRUE ) ? ' SELECTED' : '';
+		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], true ) ? ' SELECTED' : '';
 
 		$out .= sprintf(
 			"\t" . '<option class="cn-term-level-%1$d" style="padding-%2$s: %3$dpx !important;" value="%4$s"%5$s>%6$s%7$s%8$s</option>' . PHP_EOL,

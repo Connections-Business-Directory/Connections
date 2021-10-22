@@ -98,7 +98,7 @@ class cnEntry_DB {
 	 */
 	public function multisert( $table, $map, $rows ) {
 
-		$result = FALSE;
+		$result = false;
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -328,9 +328,17 @@ class cnEntry_DB {
 
 		$where[] = 'AND `entry_id` = "' . $this->id . '"';
 
-		if ( current_user_can( 'connections_view_public' ) ) $permitted[] = 'public';
-		if ( current_user_can( 'connections_view_private' ) ) $permitted[] = 'private';
-		if ( current_user_can( 'connections_view_unlisted' ) ) $permitted[] = 'unlisted';
+		if ( current_user_can( 'connections_view_public' ) ) {
+			$permitted[] = 'public';
+		}
+
+		if ( current_user_can( 'connections_view_private' ) ) {
+			$permitted[] = 'private';
+		}
+
+		if ( current_user_can( 'connections_view_unlisted' ) ) {
+			$permitted[] = 'unlisted';
+		}
 
 		if ( ! empty( $permitted ) ) {
 

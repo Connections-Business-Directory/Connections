@@ -3,12 +3,12 @@
 namespace Connections_Directory;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Connections_Directory\Settings\Tab;
 use Connections_Directory\Settings\Section;
-
-if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Settings API.
@@ -594,7 +594,7 @@ class Settings {
 
 			$options['callback'] = function() use ( $options ) {
 
-				echo $options['desc'];
+				echo esc_html( $options['desc'] );
 			};
 		}
 

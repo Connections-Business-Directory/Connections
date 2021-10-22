@@ -124,9 +124,9 @@ class Map_Block extends Content_Block {
 
 		if ( 0 < count( $addresses ) ) {
 
-			$createMap = FALSE;
+			$createMap = false;
 			$layers = array();
-			$layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
+			$layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( false );
 
 			$googleMapsAPIBrowserKey = cnSettingsAPI::get(
 				'connections',
@@ -162,13 +162,13 @@ class Map_Block extends Content_Block {
 
 				$attribution[] = $baseMap->getAttribution();
 
-				$baseMap->setAttribution( implode( ' | ', $attribution )  );
+				$baseMap->setAttribution( implode( ' | ', $attribution ) );
 
 				/*
 				 * Adding a base layer, creates a layer switch control, add base map tiles as a normal layer to
 				 * prevent a the empty layer control from being displayed.
 				 */
-				//$layerControl->addBaseLayer( $baseMap );
+				// $layerControl->addBaseLayer( $baseMap );
 				$layers[] = $baseMap;
 			}
 
@@ -197,7 +197,7 @@ class Map_Block extends Content_Block {
 					$layers[] = Marker::create( 'default', $coordinates )
 					                  ->bindPopup( Popup::create( 'default', $popup ) );
 
-					$createMap = TRUE;
+					$createMap = true;
 				}
 
 			}

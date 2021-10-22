@@ -16,7 +16,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Main Term Meta UI class.
@@ -94,7 +96,7 @@ class cnTerm_Meta_UI {
 		add_action( 'cn_created_category', array( $this, 'save' ), 10, 2 );
 		add_action( 'cn_edited_category', array( $this, 'save' ), 10, 2 );
 
-		//add_action( 'load-connections_page_connections_categories', array( $this, 'init' ) );
+		// add_action( 'load-connections_page_connections_categories', array( $this, 'init' ) );
 		add_action( 'load-connections_page_connections_manage_category_terms', array( $this, 'init' ) );
 	}
 
@@ -246,7 +248,7 @@ class cnTerm_Meta_UI {
 	 */
 	public function get( $term_id = 0 ) {
 
-		return cnMeta::get( 'term', $term_id, $this->meta_key, TRUE );
+		return cnMeta::get( 'term', $term_id, $this->meta_key, true );
 	}
 
 	/**

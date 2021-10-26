@@ -542,8 +542,6 @@ class cnFragment {
 	 *
 	 * @param  string $key   The cache key.
 	 * @param  string $group (optional) The fragment cache group that the fragment belongs to.
-	 *
-	 * @return \cnFragment
 	 */
 	public function __construct( $key, $group = '' ) {
 

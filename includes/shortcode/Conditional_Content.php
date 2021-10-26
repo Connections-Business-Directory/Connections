@@ -231,7 +231,7 @@ class Conditional_Content extends cnShortcode {
 		add_action(
 			$this->actionHandle(),
 			function() {
-				echo $this->html;
+				echo $this->html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		);
 

@@ -593,12 +593,10 @@ class cnFragment {
 	/**
 	 * Clear a fragment cache object or object group.
 	 *
-	 * @access public
-	 * @since  8.1.6
-	 * @static
-	 * @param  mixed  $key   bool | string The cache key to clear. When set to TRUE, clear a fragment cache group.
-	 * @param  string $group The cache group to clear
-	 * @return void
+	 * @since 8.1.6
+	 *
+	 * @param true|string $key   The cache key to clear. When set to TRUE, clear a fragment cache group.
+	 * @param string      $group The cache group to clear.
 	 */
 	public static function clear( $key, $group = '' ) {
 

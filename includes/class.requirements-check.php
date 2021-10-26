@@ -429,7 +429,7 @@ final class cnRequirements_Check {
 	private function displayWarning( $message ) {
 		?>
 		<div class="notice notice-warning">
-			<p><?php echo $message;?></p>
+			<p><?php echo wp_kses_post( $message ); ?></p>
 		</div>
 		<?php
 	}
@@ -445,7 +445,7 @@ final class cnRequirements_Check {
 	private function displayError( $message ) {
 		?>
 		<div class="notice notice-error">
-			<p><?php echo $message;?></p>
+			<p><?php echo wp_kses_post( $message ); ?></p>
 		</div>
 		<?php
 	}

@@ -222,7 +222,7 @@ class Conditional_Content extends cnShortcode {
 	 */
 	private function maybeAddAction() {
 
-		// No actions to add if there is not content.
+		// No actions to add if there is no content.
 		if ( 0 === strlen( $this->html ) && is_null( $this->atts['insert'] ) ) {
 
 			return;

@@ -249,12 +249,10 @@ class Conditional_Content extends cnShortcode {
 		switch ( $this->atts['condition'] ) {
 
 			case 'current_user_can':
-
 				$condition = $this->currentUserCan( $this->atts['parameter'] );
 				break;
 
 			case 'current_user_has_role':
-
 				$condition = $this->currentUserHasRole( $this->atts['parameter'] );
 				break;
 
@@ -267,7 +265,6 @@ class Conditional_Content extends cnShortcode {
 				break;
 
 			case 'is_front_page':
-
 				$condition = $this->isFrontPage();
 				break;
 
@@ -280,12 +277,10 @@ class Conditional_Content extends cnShortcode {
 				break;
 
 			case 'is_single':
-
 				$condition = $this->isSingle( $this->atts['parameter'] );
 				break;
 
 			case 'is_user_logged_in':
-
 				$condition = is_user_logged_in();
 				break;
 

@@ -564,7 +564,7 @@ class cnFragment {
 
 		if ( $fragment !== false ) {
 
-			echo $fragment;
+			echo $fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return true;
 
 		} else {

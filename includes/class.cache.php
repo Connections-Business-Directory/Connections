@@ -562,7 +562,7 @@ class cnFragment {
 
 		$fragment = cnCache::get( $this->key, 'transient', $this->group );
 
-		if ( $fragment !== false ) {
+		if ( false !== $fragment ) {
 
 			echo $fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return true;

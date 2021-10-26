@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Checks that the current environment for supported min/max PHP and WordPress versions.
  *

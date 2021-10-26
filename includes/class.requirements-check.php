@@ -327,10 +327,7 @@ final class cnRequirements_Check {
 	public function php_version_notice() {
 
 		$message = sprintf(
-			esc_html__(
-				'The &#8220;%s&#8221; plugin cannot run on PHP versions older than %s. Please contact your web host and ask them to upgrade.',
-				'connections'
-			),
+			__( 'The &#8220;%s&#8221; plugin cannot run on PHP versions older than %s. Please contact your web host and ask them to upgrade.', 'connections' ),
 			$this->name,
 			$this->requirements['php']['min']
 		);
@@ -362,10 +359,7 @@ final class cnRequirements_Check {
 	public function php_tested_notice() {
 
 		$message = sprintf(
-			esc_html__(
-				'The &#8220;%s&#8221; plugin has not been tested on PHP versions newer than %s. This is informational only and the plugin should continue to function normally.',
-				'connections'
-			),
+			__( 'The &#8220;%s&#8221; plugin has not been tested on PHP versions newer than %s. This is informational only and the plugin should continue to function normally.', 'connections' ),
 			$this->name,
 			$this->requirements['php']['max']
 		);
@@ -384,10 +378,7 @@ final class cnRequirements_Check {
 	public function wp_version_notice() {
 
 		$message = sprintf(
-			esc_html__(
-				'The &#8220;%s&#8221; plugin cannot run on WordPress versions older than %s. Please update WordPress.',
-				'connections'
-			),
+			__( 'The &#8220;%s&#8221; plugin cannot run on WordPress versions older than %s. Please update WordPress.', 'connections' ),
 			$this->name,
 			$this->requirements['wp']['min']
 		);
@@ -419,10 +410,7 @@ final class cnRequirements_Check {
 	public function wp_tested_notice() {
 
 		$message = sprintf(
-			esc_html__(
-				'The &#8220;%s&#8221; plugin has not been tested on WordPress versions newer than %s. This is informational only and the plugin should continue to function normally.',
-				'connections'
-			),
+			__( 'The &#8220;%s&#8221; plugin has not been tested on WordPress versions newer than %s. This is informational only and the plugin should continue to function normally.', 'connections' ),
 			$this->name,
 			$this->requirements['wp']['max']
 		);
@@ -472,7 +460,7 @@ final class cnRequirements_Check {
 	 */
 	private function requirements_link() {
 
-		return esc_html__( 'Requirements', 'connections' );
+		return __( 'Requirements', 'connections' );
 	}
 	/**
 	 * Plugin specific aria label text to describe the requirements link.
@@ -484,7 +472,7 @@ final class cnRequirements_Check {
 	 */
 	private function requirements_label() {
 
-		return esc_html__( 'Connections Business Directory Requirements', 'connections' );
+		return __( 'Connections Business Directory Requirements', 'connections' );
 	}
 
 	/**

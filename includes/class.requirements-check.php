@@ -173,7 +173,7 @@ final class cnRequirements_Check {
 	public function passes() {
 
 		// Default to true (any false below wins).
-		$passes  = true;
+		$passes = true;
 
 		$dependencies = wp_list_pluck( $this->requirements, 'passed' );
 

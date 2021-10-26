@@ -554,9 +554,7 @@ class cnFragment {
 	/**
 	 * Echo a cached fragment if found.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @uses   cnCache::get()
+	 * @since 8.1
 	 *
 	 * @return bool
 	 */

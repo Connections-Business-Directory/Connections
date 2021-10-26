@@ -424,7 +424,7 @@ final class cnRequirements_Check {
 	 * @access private
 	 * @since  8.20
 	 *
-	 * @param string $message
+	 * @param string $message The message to display.
 	 */
 	private function displayWarning( $message ) {
 		?>
@@ -440,7 +440,7 @@ final class cnRequirements_Check {
 	 * @access private
 	 * @since  8.20
 	 *
-	 * @param string $message
+	 * @param string $message The message to display.
 	 */
 	private function displayError( $message ) {
 		?>
@@ -491,7 +491,7 @@ final class cnRequirements_Check {
 		$links['requirements'] = '<a href="#" aria-label="' . esc_attr( $this->requirements_label() ) . '">'
 		                         . esc_html( $this->requirements_link() ) . '</a>';
 
-		// Return links with Requirements link
+		// Return links with Requirements link.
 		return $links;
 	}
 

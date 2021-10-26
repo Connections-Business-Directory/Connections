@@ -487,9 +487,8 @@ final class cnRequirements_Check {
 	 */
 	public function plugin_row_links( $links = array() ) {
 
-		// Add the Requirements link
-		$links['requirements'] = '<a href="#" aria-label="' . esc_attr( $this->requirements_label() ) . '">'
-		                         . esc_html( $this->requirements_link() ) . '</a>';
+		// Add the Requirements link.
+		$links['requirements'] = '<a href="#" aria-label="' . esc_attr( $this->requirements_label() ) . '">' . esc_html( $this->requirements_link() ) . '</a>';
 
 		// Return links with Requirements link.
 		return $links;

@@ -51,6 +51,8 @@ final class _escape {
 	}
 
 	/**
+	 * Escape the CSS property and values. Useful for inline style attribute and style tag.
+	 *
 	 * Wrapper function for core WordPress function @see safecss_filter_attr()
 	 *
 	 * @since 10.4.6

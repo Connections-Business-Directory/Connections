@@ -231,7 +231,7 @@ final class Rank_Math {
 	/**
 	 * Callback for the `rank_math/frontend/disable_adjacent_rel_links` filter.
 	 *
-	 * Do not display the Adjacent URL on he Entry detail/profile page.
+	 * Do not display the Adjacent URL on the Entry detail/profile page.
 	 *
 	 * @since 9.13
 	 *

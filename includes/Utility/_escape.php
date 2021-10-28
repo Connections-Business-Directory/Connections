@@ -51,6 +51,21 @@ final class _escape {
 	}
 
 	/**
+	 * Wrapper function for core WordPress function @see safecss_filter_attr()
+	 *
+	 * @since 10.4.6
+	 *
+	 * @param string $css A string of CSS rules.
+	 *                    Example: 'color: #000000; background-color: #FFFFFF; border-radius: 10px;'.
+	 *
+	 * @return string
+	 */
+	public static function css( $css ) {
+
+		return safecss_filter_attr( $css );
+	}
+
+	/**
 	 * KSES Strips Evil Scripts; ensures that only the allowed HTML element names, attribute names, attribute values,
 	 * and HTML entities will occur in the given text string.
 	 *

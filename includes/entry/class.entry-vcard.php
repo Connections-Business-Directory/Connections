@@ -261,8 +261,8 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		// Map the core Connection email type to supported vCard types.
 		$index = array(
-			'personal'  => array( 'HOME', 'INTERNET' ),
-			'work'      => array( 'WORK', 'INTERNET' ),
+			'personal' => array( 'HOME', 'INTERNET' ),
+			'work'     => array( 'WORK', 'INTERNET' ),
 		);
 
 		if ( $data = $this->getEmailAddresses() ) {

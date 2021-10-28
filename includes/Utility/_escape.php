@@ -128,6 +128,22 @@ final class _escape {
 	}
 
 	/**
+	 * Escape the supplied value for use as a data attribute in tag.
+	 *
+	 * @link https://github.com/WordPress/WordPress-Coding-Standards/issues/1270#issuecomment-354433835
+	 *
+	 * @since 10.4.6
+	 *
+	 * @param array|string $json Data to encode.
+	 *
+	 * @return string
+	 */
+	public static function json( $json ) {
+
+		return htmlentities( wp_json_encode( $json ), ENT_QUOTES, 'UTF-8' );
+	}
+
+	/**
 	 * Wrapper function for core WordPress function @see tag_escape()
 	 *
 	 * @since 10.4

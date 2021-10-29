@@ -1712,7 +1712,7 @@ class cnAdminActions {
 	 * @since  0.7.8
 	 */
 	public static function deleteEntryBulk() {
-
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		/*
 		 * Check whether the current user delete an entry.
 		 */
@@ -1732,7 +1732,7 @@ class cnAdminActions {
 
 			cnMessage::set( 'error', 'capability_delete' );
 		}
-
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 	/**

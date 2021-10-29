@@ -9,36 +9,49 @@
  * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_string;
+
 $date_format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
 $search      = array( '%label%', '%date%', '%separator%' );
 $out         = '<span class="date-block">' . PHP_EOL;
 
 foreach ( $dates as $date ) {
 
+	$replace = array();
+
 	if ( false === $date->date ) {
 
 		continue;
 	}
 
-	$replace = array();
+	$classNames = array(
+		'cn-date',
+	);
 
-	$out .= "\t" . '<span class="cn-date' . ( $date->preferred ? ' cn-preferred cn-date-preferred' : '' ) . '">';
+	if ( $date->preferred ) {
 
-	$replace[] = empty( $date->name ) ? '' : '<span class="date-name">' . $date->name . '</span>';
+		$classNames[] = 'cn-preferred';
+		$classNames[] = 'cn-date-preferred';
+	}
+
+	$row = '<span class="' . _escape::classNames( $classNames ) . '">';
+
+	$replace[] = empty( $date->name ) ? '' : '<span class="date-name">' . esc_html( $date->name ) . '</span>';
 	$replace[] = empty( $date->date ) ? '' : '<span>' . date_i18n( $date_format, $date->date->getTimestamp(), false ) . '</span>';
 	$replace[] = '<span class="cn-separator">:</span>';
 
-	$out .= str_ireplace(
+	$row .= str_ireplace(
 		$search,
 		$replace,
 		'%label%%separator% %date%'
 	);
 
-	$out .= '</span>' . PHP_EOL;
+	$row .= '</span>';
+
+	$out .= _string::normalize( $row ) . PHP_EOL;
 }
 
 $out .= '</span>' . PHP_EOL;
-
-$out = cnString::replaceWhatWith( $out, ' ' );
 
 echo $out;

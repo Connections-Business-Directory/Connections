@@ -4,6 +4,9 @@
  *
  * @var cnCollection $dates
  * @var cnDate       $date
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 $date_format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );

@@ -1708,8 +1708,11 @@ class cnAdminActions {
 	/**
 	 * Delete entries in bulk.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * Nonce verification is done in the calling method.
+	 * Do not call without performing nonce verification.
+	 *
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function deleteEntryBulk() {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing

@@ -54,4 +54,5 @@ foreach ( $dates as $date ) {
 
 $out .= '</span>' . PHP_EOL;
 
-echo $out;
+// HTML is escape in the loop above.
+echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

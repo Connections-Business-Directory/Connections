@@ -1075,7 +1075,7 @@ class cnEntry_Action {
 			$entry = new cnEntry( $instance->retrieve->entry( $id ) );
 			$entry->delete( $id );
 
-			// Delete any meta data associated with the entry.
+			// Delete any metadata associated with the entry.
 			self::meta( 'delete', $id );
 		}
 

@@ -60,4 +60,5 @@ foreach ( $dates as $date ) {
 $block = '<span class="date-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 $block = apply_filters( 'cn_output_dates', $block, $dates, $entry, $atts );
 
-echo $block;
+// HTML is escape in the loop above.
+echo $block; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

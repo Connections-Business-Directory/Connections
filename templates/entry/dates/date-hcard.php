@@ -29,7 +29,7 @@ foreach ( $dates as $date ) {
 
 	// Hidden elements are to maintain hCalendar spec compatibility.
 	$replace[] = empty( $date->name ) ? '' : '<span class="date-name">' . $date->name . '</span>';
-	$replace[] = empty( $date->date ) ? '' : '<abbr class="dtstart" title="' . $date->date->format( 'Ymd' ) .'">' . date_i18n( $atts['date_format'], $date->date->getTimestamp(), false ) . '</abbr>
+	$replace[] = empty( $date->date ) ? '' : '<abbr class="dtstart" title="' . $date->date->format( 'Ymd' ) . '">' . date_i18n( $atts['date_format'], $date->date->getTimestamp(), false ) . '</abbr>
                                               <span class="summary" style="display:none">' . $date->name . ' - ' . $entry->getName( array( 'format' => $atts['name_format'] ) ) . '</span>
                                               <span class="uid" style="display:none">' . $date->date->format( 'YmdHis' ) . '</span>';
 	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
@@ -46,7 +46,7 @@ foreach ( $dates as $date ) {
 
 }
 
-$block = '<span class="date-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+$block = '<span class="date-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 $block = apply_filters( 'cn_output_dates', $block, $dates, $entry, $atts );
 
 echo $block;

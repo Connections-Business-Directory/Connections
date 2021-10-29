@@ -8,6 +8,9 @@
  * @var cnOutput     $entry
  * @var cnCollection $dates
  * @var cnEntry_Date $date
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 $rows   = array();

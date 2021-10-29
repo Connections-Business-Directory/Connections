@@ -8,6 +8,9 @@
  * @var cnOutput        $entry
  * @var cnCollection    $emailAddresses
  * @var cnEmail_Address $email
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 $rows      = array();

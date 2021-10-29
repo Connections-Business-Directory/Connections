@@ -1724,7 +1724,16 @@ class cnAdminActions {
 				return;
 			}
 
-			cnEntry_Action::delete( absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			if ( is_array( $_POST['id'] ) ) {
+
+				$id = array_map( 'absint', $_POST['id'] );
+
+			} else {
+
+				$id = absint( $_POST['id'] );
+			}
+
+			cnEntry_Action::delete( $id );
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 

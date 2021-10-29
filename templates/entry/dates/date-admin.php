@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a copy/paste of the code which use to reside in manage.php file.
+ * This is a copy/paste of the code which used to reside in manage.php file.
  *
  * @var cnCollection $dates
  * @var cnDate       $date

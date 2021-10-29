@@ -41,7 +41,7 @@ foreach ( $emailAddresses as $email ) {
 	$replace[] = empty( $email->address ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><img src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . '" width="' . $iconSize . '"/></a></span>';
 	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-	$row = "\t" . '<span class="email cn-email-address' . ( $email->preferred ? ' cn-preferred cn-email-address-preferred' : '' ) . '">';
+	$row = '<span class="email cn-email-address' . ( $email->preferred ? ' cn-preferred cn-email-address-preferred' : '' ) . '">';
 
 	$row .= str_ireplace(
 		$search,

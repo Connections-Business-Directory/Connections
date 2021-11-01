@@ -11,7 +11,7 @@
 echo '<div class="email-addresses">';
 
 foreach ( $emailAddresses as $email ) {
-	( $email->preferred ) ? $preferred = '*' : $preferred = '';
+	$email->preferred ? $preferred = '*' : $preferred = '';
 
 	echo '<span class="email"><strong>' , $email->name , ':</strong> <a href="mailto:' , $email->address , '">' , $email->address , '</a>' , $preferred , '</span>';
 }

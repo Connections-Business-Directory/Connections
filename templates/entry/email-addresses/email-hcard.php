@@ -11,6 +11,9 @@
  * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_string;
+
 $rows      = array();
 $search    = array( '%label%', '%address%', '%icon%', '%separator%' );
 $iconSizes = array( 16, 24, 32, 48, 64 );
@@ -31,17 +34,27 @@ foreach ( $emailAddresses as $email ) {
 
 	$replace = array();
 
+	$classNames = array(
+		'email',
+		'cn-email-address',
+	);
+
+	if ( $email->preferred ) {
+
+		$classNames[] = 'cn-preferred';
+		$classNames[] = 'cn-email-address-preferred';
+	}
+
 	// Replace the 'Email Tokens' with the email info.
 	$title = str_ireplace( array( '%type%', '%name%' ), array( $email->type, $email->name ), $name );
 
-	$replace[] = empty( $email->name ) ? '' : '<span class="email-name">' . $email->name . '</span>';
-	$replace[] = empty( $email->address ) ? '' : '<span class="email-address"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '">' . $email->address . '</a></span>';
+	$replace[] = empty( $email->name ) ? '' : '<span class="email-name">' . esc_html( $email->name ) . '</span>';
+	$replace[] = empty( $email->address ) ? '' : '<span class="email-address"><a class="value" title="' . esc_attr( $title ) . '" href="' . esc_url( "mailto:{$email->address}" ) . '">' . esc_html( $email->address ) . '</a></span>';
 
-	/** @noinspection HtmlUnknownTarget */
-	$replace[] = empty( $email->address ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><img src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . '" width="' . $iconSize . '"/></a></span>';
-	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+	$replace[] = empty( $email->address ) ? '' : '<span class="email-icon"><a class="value" title="' . esc_attr( $title ) . '" href="' . esc_url( "mailto:{$email->address}" ) . '"><img src="' . esc_url( CN_URL . "assets/images/icons/mail/mail_{$iconSize}.png" ) . '" height="' . esc_attr( $iconSize ) . '" width="' . esc_attr( $iconSize ) . '"/></a></span>';
+	$replace[] = '<span class="cn-separator">' . esc_html( $atts['separator'] ) . '</span>';
 
-	$row = '<span class="email cn-email-address' . ( $email->preferred ? ' cn-preferred cn-email-address-preferred' : '' ) . '">';
+	$row = '<span class="' . _escape::classNames( $classNames ) . '">';
 
 	$row .= str_ireplace(
 		$search,
@@ -54,7 +67,7 @@ foreach ( $emailAddresses as $email ) {
 
 	$row .= '</span>';
 
-	$rows[] = apply_filters( 'cn_output_email_address', cnString::replaceWhatWith( $row, ' ' ), $email, $entry, $atts );
+	$rows[] = apply_filters( 'cn_output_email_address', _string::normalize( $row ), $email, $entry, $atts );
 }
 
 $block = '<span class="email-address-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
@@ -62,4 +75,5 @@ $block = '<span class="email-address-block">' . PHP_EOL . implode( PHP_EOL, $row
 // This filter is required to allow the ROT13 encryption plugin to function.
 $block = apply_filters( 'cn_output_email_addresses', $block, $emailAddresses, $entry, $atts );
 
-echo $block;
+// HTML is escape in the loop above.
+echo $block; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

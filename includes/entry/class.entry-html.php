@@ -1478,11 +1478,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->phoneNumbers->filterBy( 'type', $atts['type'] )
-		                           ->filterBy( 'preferred', $atts['preferred'] )
-		                           ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                           ->take( $atts['limit'] )
-		                           ->escapeFor( 'display' )
-		                           ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+								   ->filterBy( 'preferred', $atts['preferred'] )
+								   ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+								   ->take( $atts['limit'] )
+								   ->escapeFor( 'display' )
+								   ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get phone numbers with different params return expected results.
 		$this->phoneNumbers->resetFilters();

@@ -6,6 +6,8 @@
  *
  * @var cnCollection    $emailAddresses
  * @var cnEmail_Address $email
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 echo '<div class="email-addresses">';

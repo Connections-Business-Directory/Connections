@@ -3,6 +3,8 @@
  * @var array        $atts
  * @var cnEntry_HTML $entry
  * @var cnTemplate   $template
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 // Exit if accessed directly.

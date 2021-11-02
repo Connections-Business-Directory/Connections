@@ -12,10 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+
 $bio   = $entry->getBio();
 $notes = $entry->getNotes();
+$uid   = $entry->getRuid();
 ?>
-<div id="entry-id-<?php echo $entry->getRuid(); ?>" class="cn-entry-single">
+<div id="<?php _escape::id( "entry-id-{$uid}", true ); ?>" class="cn-entry-single">
 
 	<div class="cn-left" style="float: left">
 

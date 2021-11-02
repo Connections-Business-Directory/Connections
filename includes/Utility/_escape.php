@@ -171,13 +171,18 @@ final class _escape {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $tag The HTML tag name to escape.
+	 * @param string $tag  The HTML tag name to escape.
+	 * @param bool   $echo Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function tagName( $tag ) {
+	public static function tagName( $tag, $echo = false ) {
 
-		return tag_escape( $tag );
+		$escaped = tag_escape( $tag );
+
+		self::maybeEcho( $escaped, $echo );
+
+		return $escaped;
 	}
 
 	/**

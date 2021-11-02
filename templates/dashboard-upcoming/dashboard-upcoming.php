@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 
+	/**
+	 * Class CN_Dashboard_Upcoming_Template
+	 */
 	class CN_Dashboard_Upcoming_Template {
 
 		public static function register() {

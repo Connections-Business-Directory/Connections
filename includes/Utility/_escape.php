@@ -62,14 +62,19 @@ final class _escape {
 	 *
 	 * @since 10.4.6
 	 *
-	 * @param string $css A string of CSS rules.
-	 *                    Example: 'color: #000000; background-color: #FFFFFF; border-radius: 10px;'.
+	 * @param string $css  A string of CSS rules.
+	 *                     Example: 'color: #000000; background-color: #FFFFFF; border-radius: 10px;'.
+	 * @param bool   $echo Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function css( $css ) {
+	public static function css( $css, $echo = false ) {
 
-		return safecss_filter_attr( $css );
+		$css = safecss_filter_attr( $css );
+
+		self::maybeEcho( $css, $echo );
+
+		return $css;
 	}
 
 	/**

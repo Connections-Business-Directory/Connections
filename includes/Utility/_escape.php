@@ -15,12 +15,17 @@ final class _escape {
 	 * @since 10.4
 	 *
 	 * @param string $attribute The HTML attribute value to escape.
+	 * @param bool   $echo      Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function attribute( $attribute ) {
+	public static function attribute( $attribute, $echo = false ) {
 
-		return esc_attr( $attribute );
+		$attribute = esc_attr( $attribute );
+
+		self::maybeEcho( $attribute, $echo );
+
+		return $attribute;
 	}
 
 	/**

@@ -24,11 +24,11 @@ final class _escape {
 	 */
 	public static function attribute( $attribute, $echo = false ) {
 
-		$attribute = esc_attr( $attribute );
+		$escaped = esc_attr( $attribute );
 
-		self::maybeEcho( $attribute, $echo );
+		self::maybeEcho( $escaped, $echo );
 
-		return $attribute;
+		return $escaped;
 	}
 
 	/**

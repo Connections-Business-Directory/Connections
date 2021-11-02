@@ -73,11 +73,11 @@ final class _escape {
 	 */
 	public static function css( $css, $echo = false ) {
 
-		$css = safecss_filter_attr( $css );
+		$escaped = safecss_filter_attr( $css );
 
-		self::maybeEcho( $css, $echo );
+		self::maybeEcho( $escaped, $echo );
 
-		return $css;
+		return $escaped;
 	}
 
 	/**

@@ -118,13 +118,18 @@ final class _escape {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $attribute
+	 * @param string $id   The `id` to escape.
+	 * @param bool   $echo Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function id( $attribute ) {
+	public static function id( $id, $echo = false ) {
 
-		return esc_attr( _string::replaceWhatWith( $attribute, ' ', '-' ) );
+		$id = esc_attr( _string::replaceWhatWith( $id, ' ', '-' ) );
+
+		self::maybeEcho( $id, $echo );
+
+		return $id;
 	}
 
 	/**

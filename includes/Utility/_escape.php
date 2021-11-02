@@ -86,7 +86,7 @@ final class _escape {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $html
+	 * @param string $html The HTML to escape.
 	 *
 	 * @return string
 	 */

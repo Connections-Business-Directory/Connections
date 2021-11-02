@@ -37,7 +37,7 @@ class Textarea extends Field {
 		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
 		_array::set( $attributes, 'id', _escape::id( $id ) );
 		_array::set( $attributes, 'name', _escape::attribute( $this->getName() ) );
-		_array::set( $attributes, 'style', stringifyCSSAttributes( $this->css ) );
+		_array::set( $attributes, 'style', _escape::css( stringifyCSSAttributes( $this->css ) ) );
 
 		if ( $this->isDisabled() ) {
 			_array::set( $attributes, 'disabled', 'disabled' );

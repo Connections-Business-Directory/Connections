@@ -48,7 +48,7 @@ use Connections_Directory\Utility\_escape;
 	<div style="clear:both"></div>
 	<div class="cn-meta" align="left" style="margin-top: 6px">
 		<span><?php $entry->vcard(); ?></span>
-		<span style="<?php echo _escape::css( $entry->getLastUpdatedStyle() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>; font-size:x-small; font-variant: small-caps; position: absolute; right: 6px; bottom: 8px;">Updated <?php echo esc_html( $entry->getHumanTimeDiff() ); ?> ago</span><br />
+		<span style="<?php _escape::css( $entry->getLastUpdatedStyle(), true ); ?>; font-size:x-small; font-variant: small-caps; position: absolute; right: 6px; bottom: 8px;">Updated <?php echo esc_html( $entry->getHumanTimeDiff() ); ?> ago</span><br />
 	</div>
 
 </div>

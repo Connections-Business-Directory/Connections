@@ -6,6 +6,9 @@ namespace Connections_Directory\Utility;
  * Class _escape
  *
  * @package Connections_Directory\Utility
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  */
 final class _escape {
 

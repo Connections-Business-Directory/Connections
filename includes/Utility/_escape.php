@@ -14,7 +14,7 @@ final class _escape {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $attribute
+	 * @param string $attribute The HTML attribute value to escape.
 	 *
 	 * @return string
 	 */

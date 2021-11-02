@@ -156,4 +156,19 @@ final class _escape {
 
 		return tag_escape( $tag );
 	}
+
+	/**
+	 * Whether to echo the supplied string.
+	 *
+	 * @since 10.4.6
+	 *
+	 * @param string $string The string to echo.
+	 * @param bool   $echo   Whether to echo supplied string.
+	 */
+	private static function maybeEcho( $string, $echo = true ) {
+
+		if ( true === $echo ) {
+			echo $string; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	}
 }

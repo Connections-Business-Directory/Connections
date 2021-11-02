@@ -35,13 +35,24 @@
 				<?php
 				if ( $atts['displayExcerpt'] ) {
 
-					$entry->excerpt( array( 'length' => absint( $atts['excerptWordLimit'] ), 'more' => '' ) );
+					$entry->excerpt(
+						array(
+							'length' => absint( $atts['excerptWordLimit'] ),
+							'more'   => '',
+						)
+					);
 				}
 
 				if ( $atts['displayPhone'] ) {
 
 					// $entry->getPhoneNumberBlock( array( 'format' => '%number%' ) );
-					$number = $entry->getPhoneNumberBlock( array( 'preferred' => true, 'format' => '%number%', 'return' => true ) );
+					$number = $entry->getPhoneNumberBlock(
+						array(
+							'preferred' => true,
+							'format'    => '%number%',
+							'return'    => true,
+						)
+					);
 
 					if ( $number ) {
 
@@ -49,14 +60,25 @@
 
 					} else {
 
-						$entry->getPhoneNumberBlock( array( 'format' => '%number%', 'limit' => 1 ) );
+						$entry->getPhoneNumberBlock(
+							array(
+								'format' => '%number%',
+								'limit'  => 1,
+							)
+						);
 					}
 				}
 
 				if ( $atts['displayEmail'] ) {
 
 					// $entry->getEmailAddressBlock( array( 'format' => '%address%' ) );
-					$email = $entry->getEmailAddressBlock( array( 'preferred' => true, 'format' => '%address%', 'return' => true ) );
+					$email = $entry->getEmailAddressBlock(
+						array(
+							'preferred' => true,
+							'format'    => '%address%',
+							'return'    => true,
+						)
+					);
 
 					if ( $email ) {
 
@@ -64,7 +86,12 @@
 
 					} else {
 
-						$entry->getEmailAddressBlock( array( 'format' => '%address%', 'limit' => 1 ) );
+						$entry->getEmailAddressBlock(
+							array(
+								'format' => '%address%',
+								'limit'  => 1,
+							)
+						);
 					}
 				}
 

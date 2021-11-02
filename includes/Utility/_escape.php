@@ -163,7 +163,15 @@ final class _escape {
 	 */
 	public static function json( $json, $echo = false ) {
 
-		$escaped = htmlentities( wp_json_encode( $json ), ENT_QUOTES, 'UTF-8' );
+		$encoded = wp_json_encode( $json );
+
+		// wp_json_encode() can return `false`, check for it and set to empty string.
+		if ( false === is_string( $encoded ) ) {
+
+			$encoded = '';
+		}
+
+		$escaped = htmlentities( $encoded, ENT_QUOTES, 'UTF-8' );
 
 		self::maybeEcho( $escaped, $echo );
 

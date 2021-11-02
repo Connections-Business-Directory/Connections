@@ -138,11 +138,11 @@ final class _escape {
 	 */
 	public static function id( $id, $echo = false ) {
 
-		$id = esc_attr( _string::replaceWhatWith( $id, ' ', '-' ) );
+		$escaped = esc_attr( _string::replaceWhatWith( $id, ' ', '-' ) );
 
-		self::maybeEcho( $id, $echo );
+		self::maybeEcho( $escaped, $echo );
 
-		return $id;
+		return $escaped;
 	}
 
 	/**

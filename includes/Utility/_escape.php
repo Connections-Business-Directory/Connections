@@ -171,7 +171,7 @@ final class _escape {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $tag
+	 * @param string $tag The HTML tag name to escape.
 	 *
 	 * @return string
 	 */

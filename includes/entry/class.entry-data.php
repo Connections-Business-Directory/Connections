@@ -2495,17 +2495,15 @@ class cnEntry {
 	/**
 	 * Sets the entry visibility status.
 	 *
-	 * @access public
 	 * @since unknown
-	 * @param (string) $visibility
-	 * @return void
+	 *
+	 * @param string $visibility
 	 */
 	public function setVisibility( $visibility ) {
 
 		$permittedValues = array( 'unlisted', 'public', 'private' );
 
 		$this->visibility = in_array( $visibility, $permittedValues ) ? sanitize_key( $visibility ) : 'unlisted';
-
 	}
 
 	/**

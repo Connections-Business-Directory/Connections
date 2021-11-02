@@ -36,8 +36,8 @@ final class _escape {
 	 *
 	 * @since 10.4
 	 *
-	 * @param array|string $classNames
-	 * @param string       $delimiter
+	 * @param array|string $classNames An array of or string of class names to escape.
+	 * @param string       $delimiter  The string delimiter if the class names are provided as a string.
 	 *
 	 * @return string
 	 */

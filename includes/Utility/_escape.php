@@ -140,12 +140,17 @@ final class _escape {
 	 * @since 10.4.6
 	 *
 	 * @param array|string $json Data to encode.
+	 * @param bool         $echo Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function json( $json ) {
+	public static function json( $json, $echo = false ) {
 
-		return htmlentities( wp_json_encode( $json ), ENT_QUOTES, 'UTF-8' );
+		$json = htmlentities( wp_json_encode( $json ), ENT_QUOTES, 'UTF-8' );
+
+		self::maybeEcho( $json, $echo );
+
+		return $json;
 	}
 
 	/**

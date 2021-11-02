@@ -91,10 +91,11 @@ final class _escape {
 	 * @since 10.4
 	 *
 	 * @param string $html The HTML to escape.
+	 * @param bool   $echo Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function html( $html ) {
+	public static function html( $html, $echo = false ) {
 
 		static $callback = null;
 
@@ -127,7 +128,11 @@ final class _escape {
 			add_filter( 'wp_kses_allowed_html', $callback, 10, 2 );
 		}
 
-		return wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Escape/HTML' );
+		$escaped = wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Escape/HTML' );
+
+		self::maybeEcho( $escaped, $echo );
+
+		return $escaped;
 	}
 
 	/**

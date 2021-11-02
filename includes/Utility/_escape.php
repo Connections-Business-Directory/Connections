@@ -150,7 +150,7 @@ final class _escape {
 	}
 
 	/**
-	 * Escape the supplied value for use as a data attribute in tag.
+	 * Escape the supplied value for use in a `data-*` attribute tag.
 	 *
 	 * @link https://github.com/WordPress/WordPress-Coding-Standards/issues/1270#issuecomment-354433835
 	 *

@@ -5,6 +5,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 use cnEntry;
 use cnURL;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Entry_Management
@@ -108,9 +109,11 @@ class Management extends Content_Block {
 			$entry
 		);
 
-		echo '<ul>';
-		echo '<li>' . implode( '</li><li>', $actions ) . '</li>';
-		echo '</ul>';
+		$html  = '<ul>';
+		$html .= '<li>' . implode( '</li><li>', $actions ) . '</li>';
+		$html .= '</ul>';
+
+		_escape::html( $html, true );
 
 		do_action(
 			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",

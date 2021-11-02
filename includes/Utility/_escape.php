@@ -159,11 +159,11 @@ final class _escape {
 	 */
 	public static function json( $json, $echo = false ) {
 
-		$json = htmlentities( wp_json_encode( $json ), ENT_QUOTES, 'UTF-8' );
+		$escaped = htmlentities( wp_json_encode( $json ), ENT_QUOTES, 'UTF-8' );
 
-		self::maybeEcho( $json, $echo );
+		self::maybeEcho( $escaped, $echo );
 
-		return $json;
+		return $escaped;
 	}
 
 	/**

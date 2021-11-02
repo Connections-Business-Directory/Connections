@@ -1641,9 +1641,9 @@ class cnTemplate_Customizer {
 	 */
 	public function admin_url( $url, $path, $blog_id ) {
 
-		if ( isset( $_REQUEST['cn-template'] ) && ! empty( $_REQUEST['cn-template'] ) ) {
+		if ( isset( $_REQUEST['cn-template'] ) && ! empty( $_REQUEST['cn-template'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-			$url = esc_url( $url . '?cn-template=' . $_REQUEST['cn-template'] );
+			$url = sanitize_url( $url . '?cn-template=' . sanitize_key( $_REQUEST['cn-template'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		return $url;

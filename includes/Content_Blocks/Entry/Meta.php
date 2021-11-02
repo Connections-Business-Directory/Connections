@@ -4,6 +4,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Entry_Meta
@@ -82,9 +83,11 @@ class Meta extends Content_Block {
 				$entry
 			);
 
-			echo '<ul>';
-			echo '<li>' . implode( '</li><li>', $items ) . '</li>';
-			echo '</ul>';
+			$html  = '<ul>';
+			$html .= '<li>' . implode( '</li><li>', $items ) . '</li>';
+			$html .= '</ul>';
+
+			_escape::html( $html, true );
 
 			do_action(
 				"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",

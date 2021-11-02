@@ -38,10 +38,11 @@ final class _escape {
 	 *
 	 * @param array|string $classNames An array of or string of class names to escape.
 	 * @param string       $delimiter  The string delimiter if the class names are provided as a string.
+	 * @param bool         $echo       Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function classNames( $classNames, $delimiter = ' ' ) {
+	public static function classNames( $classNames, $delimiter = ' ', $echo = false ) {
 
 		if ( ! is_array( $classNames ) ) {
 
@@ -54,8 +55,11 @@ final class _escape {
 		// Remove any empty array values.
 		$escaped = array_filter( $escaped );
 		$escaped = array_unique( $escaped );
+		$escaped = implode( ' ', $escaped );
 
-		return implode( ' ', $escaped );
+		self::maybeEcho( $escaped, $echo );
+
+		return $escaped;
 	}
 
 	/**

@@ -31,7 +31,7 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 				'version'     => '2.0',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
-				'description' => 'Dashboard Widget that displays Upcoming Anniversies and Birthdays.',
+				'description' => 'Dashboard Widget that displays Upcoming Anniversaries and Birthdays.',
 				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),

@@ -1,13 +1,15 @@
 <?php
+/**
+ * @var array        $atts
+ * @var cnEntry_HTML $entry
+ * @var cnTemplate   $template
+ */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * @var cnOutput $entry
- */
 $bio   = $entry->getBio();
 $notes = $entry->getNotes();
 ?>

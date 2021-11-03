@@ -16,8 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 
+	/**
+	 * Class CN_Dashboard_Recently_Modified_Template
+	 */
 	class CN_Dashboard_Recently_Modified_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -39,6 +45,11 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * CN_Dashboard_Recently_Modified_Template constructor.
+		 *
+		 * @param cnTemplate $template Instance of the cnTemplate object.
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
@@ -47,6 +58,11 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
+		/**
+		 * Callback to render the template.
+		 *
+		 * @param cnEntry_HTML $entry Current instance of the cnEntry object.
+		 */
 		public static function card( $entry ) {
 
 			if ( is_admin() ) {

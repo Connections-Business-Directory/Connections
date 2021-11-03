@@ -63,7 +63,7 @@ foreach ( $networks as $messenger ) {
 	$rows[] = apply_filters( 'cn_output_messenger_id', cnString::replaceWhatWith( $row, ' ' ), $messenger, $entry, $atts );
 }
 
-$block = '<span class="im-network-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+$block = '<span class="im-network-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 $block = apply_filters( 'cn_output_messenger_ids', $block, $networks, $entry, $atts );
 

@@ -45,7 +45,7 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 		/**
 		 * CN_Dashboard_Upcoming_Template constructor.
 		 *
-		 * @param cnTemplate $template
+		 * @param cnTemplate $template Instance of the cnTemplate object.
 		 */
 		public function __construct( $template ) {
 

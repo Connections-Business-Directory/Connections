@@ -6,6 +6,8 @@
  *
  * @var cnCollection $networks
  * @var cnMessenger  $messenger
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 echo '<div class="im-ids">';

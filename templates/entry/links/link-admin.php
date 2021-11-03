@@ -6,6 +6,9 @@
  *
  * @var cnCollection $links
  * @var cnLink       $link
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 echo '<div class="links">';

@@ -11,7 +11,8 @@
 echo '<div class="links">';
 
 foreach ( $links as $link ) {
-	$link->preferred ? $preferred = '*' : $preferred = '';
+
+	$preferred = $link->preferred ? '*' : '';
 
 	echo '<span class="link"><strong>' , $link->name , ':</strong> <a target="_blank" href="' , $link->url , '">' , $link->url , '</a>' , $preferred , '</span>';
 }

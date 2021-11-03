@@ -21,6 +21,9 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 	 */
 	class CN_Dashboard_Upcoming_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -75,9 +78,11 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 		}
 
 		/**
-		 * @param cnOutput   $entry
-		 * @param cnTemplate $template
-		 * @param array      $atts
+		 * Callback to render teh template.
+		 *
+		 * @param cnEntry_HTML $entry    Current instance of the cnEntry object.
+		 * @param cnTemplate   $template Instance of the cnTemplate object.
+		 * @param array        $atts     The shortcode attributes array.
 		 */
 		public static function card( $entry, $template, $atts ) {
 

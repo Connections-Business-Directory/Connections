@@ -29,14 +29,6 @@ foreach ( $networks as $messenger ) {
 			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="ymsgr:sendIM?' . $messenger->uid . '">' . $messenger->uid . '</a>';
 			break;
 
-		case 'jabber':
-			$replace[] = empty( $messenger->uid ) ? '' : '<span class="im-id">' . $messenger->uid . '</span>';
-			break;
-
-		//case 'messenger':
-		//	$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="msnim:chat?contact=' . $messenger->uid . '">' . $messenger->uid . '</a>';
-		//	break;
-
 		case 'skype':
 			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="skype:' . $messenger->uid . '?chat">' . $messenger->uid . '</a>';
 			break;
@@ -45,6 +37,8 @@ foreach ( $networks as $messenger ) {
 			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" type="application/x-icq" href="http://www.icq.com/people/cmd.php?uin=' . $messenger->uid . '&action=message">' . $messenger->uid . '</a>';
 			break;
 
+		case 'jabber':
+		case 'messenger':
 		default:
 			$replace[] = empty( $messenger->uid ) ? '' : '<span class="im-id">' . $messenger->uid . '</span>';
 			break;

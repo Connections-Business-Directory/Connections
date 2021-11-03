@@ -8,43 +8,61 @@
  * @var cnOutput     $entry
  * @var cnCollection $networks
  * @var cnMessenger  $messenger
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
+
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_string;
 
 $rows   = array();
 $search = array( '%label%', '%id%', '%separator%' );
 
 foreach ( $networks as $messenger ) {
+
 	$replace = array();
 
-	$row = "\t" . '<span class="im-network cn-im-network' . ( $messenger->preferred ? ' cn-preferred cn-im-network-preferred' : '' ) . '">';
+	$classNames = array(
+		'im-network',
+		'cn-im-network',
+	);
 
-	$replace[] = empty( $messenger->name ) ? '' : '<span class="im-name">' . $messenger->name . '</span>';
+	if ( $messenger->preferred ) {
+
+		$classNames[] = 'cn-preferred';
+		$classNames[] = 'cn-im-network-preferred';
+	}
+
+	$replace[] = empty( $messenger->name ) ? '' : '<span class="im-name">' . esc_html( $messenger->name ) . '</span>';
 
 	switch ( $messenger->type ) {
 		case 'aim':
-			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="aim:goim?screenname=' . $messenger->uid . '">' . $messenger->uid . '</a>';
+			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="aim:goim?screenname=' . esc_attr( $messenger->uid ) . '">' . esc_html( $messenger->uid ) . '</a>';
 			break;
 
 		case 'yahoo':
-			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="ymsgr:sendIM?' . $messenger->uid . '">' . $messenger->uid . '</a>';
+			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="ymsgr:sendIM?' . esc_attr( $messenger->uid ) . '">' . esc_html( $messenger->uid ) . '</a>';
 			break;
 
 		case 'skype':
-			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="skype:' . $messenger->uid . '?chat">' . $messenger->uid . '</a>';
+			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="skype:' . esc_attr( $messenger->uid ) . '?chat">' . esc_html( $messenger->uid ) . '</a>';
 			break;
 
 		case 'icq':
-			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" type="application/x-icq" href="http://www.icq.com/people/cmd.php?uin=' . $messenger->uid . '&action=message">' . $messenger->uid . '</a>';
+			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" type="application/x-icq" href="https://www.icq.com/people/cmd.php?uin=' . esc_attr( $messenger->uid ) . '&action=message">' . esc_html( $messenger->uid ) . '</a>';
 			break;
 
 		case 'jabber':
 		case 'messenger':
 		default:
-			$replace[] = empty( $messenger->uid ) ? '' : '<span class="im-id">' . $messenger->uid . '</span>';
+			$replace[] = empty( $messenger->uid ) ? '' : '<span class="im-id">' . esc_html( $messenger->uid ) . '</span>';
 			break;
 	}
 
-	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+	$replace[] = '<span class="cn-separator">' . esc_html( $atts['separator'] ) . '</span>';
+
+	$row = '<span class="' . _escape::classNames( $classNames ) . '">';
 
 	$row .= str_ireplace(
 		$search,
@@ -52,13 +70,14 @@ foreach ( $networks as $messenger ) {
 		empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %id%' : $defaults['format'] ) : $atts['format']
 	);
 
-	$row .= '</span>' . PHP_EOL;
+	$row .= '</span>';
 
-	$rows[] = apply_filters( 'cn_output_messenger_id', cnString::replaceWhatWith( $row, ' ' ), $messenger, $entry, $atts );
+	$rows[] = apply_filters( 'cn_output_messenger_id', _string::normalize( $row ), $messenger, $entry, $atts );
 }
 
 $block = '<span class="im-network-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 $block = apply_filters( 'cn_output_messenger_ids', $block, $networks, $entry, $atts );
 
-echo $block;
+// HTML is escape in the loop above.
+echo $block; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

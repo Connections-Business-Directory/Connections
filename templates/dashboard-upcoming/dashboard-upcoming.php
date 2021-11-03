@@ -78,7 +78,7 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 		}
 
 		/**
-		 * Callback to render teh template.
+		 * Callback to render the template.
 		 *
 		 * @param cnEntry_HTML $entry    Current instance of the cnEntry object.
 		 * @param cnTemplate   $template Instance of the cnTemplate object.

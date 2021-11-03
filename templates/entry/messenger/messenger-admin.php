@@ -11,7 +11,7 @@
 echo '<div class="im-ids">';
 
 foreach ( $networks as $messenger ) {
-	$messenger->preferred ? $preferred = '*' : $preferred = '';
+	$preferred = $messenger->preferred ? '*' : '';
 
 	echo '<span class="im"><strong>' , $messenger->name , ':</strong> ' , $messenger->uid , $preferred , '</span>';
 }

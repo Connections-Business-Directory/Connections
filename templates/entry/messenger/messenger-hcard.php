@@ -18,7 +18,7 @@ foreach ( $networks as $messenger ) {
 
 	$row = "\t" . '<span class="im-network cn-im-network' . ( $messenger->preferred ? ' cn-preferred cn-im-network-preferred' : '' ) . '">';
 
-	empty( $messenger->name ) ? $replace[] = '' : $replace[] = '<span class="im-name">' . $messenger->name . '</span>';
+	$replace[] = empty( $messenger->name ) ? '' : '<span class="im-name">' . $messenger->name . '</span>';
 
 	switch ( $messenger->type ) {
 		case 'aim':

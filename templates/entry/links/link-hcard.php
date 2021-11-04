@@ -55,7 +55,7 @@ foreach ( $links as $link ) {
 	$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" rel="noopener" ' . $follow . '>' . $url . '</a>';
 
 	if ( false !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
-	     false !== strpos( $atts['format'], '%image%' ) ) {
+		 false !== strpos( $atts['format'], '%image%' ) ) {
 
 		$screenshot = new cnSiteShot(
 			array(

@@ -72,7 +72,6 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 			switch ( $atts['year_type'] ) {
 
 				case 'original':
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();
@@ -86,7 +85,6 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 					break;
 
 				case 'since':
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();
@@ -102,7 +100,6 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 					break;
 
 				default:
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();

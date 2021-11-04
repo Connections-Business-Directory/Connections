@@ -5,6 +5,7 @@
  *
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
+
 ?>
 <div class="cn-table-row cn-team-member">
 	<div class="cn-table-cell cn-team-member-image">

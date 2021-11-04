@@ -70,7 +70,6 @@ foreach ( $links as $link ) {
 
 		$size = $screenshot->setSize( $atts['size'] );
 
-		/** @noinspection CssInvalidPropertyValue */
 		$screenshot->setBefore( '<span class="cn-image-style" style="display: inline-block;"><span style="display: block; max-width: 100%; width: ' . $size['width'] . 'px">' );
 		$screenshot->setAfter( '</span></span>' );
 

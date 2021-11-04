@@ -1,7 +1,6 @@
 <?php
 /**
- * @var array    $atts
- * @var cnOutput $entry
+ * @var array $atts
  */
 ?>
 <div class="cn-table-row cn-table-header">

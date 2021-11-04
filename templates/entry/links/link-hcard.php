@@ -51,8 +51,8 @@ foreach ( $links as $link ) {
 	$replace[] = '<span class="link-name">' . $name . '</span>';
 
 	// The `notranslate` class is added to prevent Google Translate from translating the text.
-	$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . $url . '"' . ' target="' . $target . '" rel="noopener" ' . $follow . '>' . $link->title . '</a>';
-	$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" rel="noopener" ' . $follow . '>' . $url . '</a>';
+	$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . $url . '" target="' . $target . '" rel="noopener" ' . $follow . '>' . $link->title . '</a>';
+	$replace[] = '<a class="url notranslate" href="' . $url . '" target="' . $target . '" rel="noopener" ' . $follow . '>' . $url . '</a>';
 
 	if ( false !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
 		 false !== strpos( $atts['format'], '%image%' ) ) {

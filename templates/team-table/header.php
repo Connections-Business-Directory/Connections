@@ -2,6 +2,7 @@
 /**
  * @var array $atts
  */
+
 ?>
 <div class="cn-table-row cn-table-header">
 

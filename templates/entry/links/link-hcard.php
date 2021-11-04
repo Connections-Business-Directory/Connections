@@ -98,7 +98,7 @@ foreach ( $links as $link ) {
 	$rows[] = apply_filters( 'cn_output_link', cnString::replaceWhatWith( $row, ' ' ), $link, $entry, $atts );
 }
 
-$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 $block = apply_filters( 'cn_output_links', $block, $links, $entry, $atts );
 

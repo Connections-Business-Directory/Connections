@@ -41,7 +41,8 @@
 
 			if ( $number ) {
 
-				echo $number;
+				// Output is escaped in the `templates/entry/phone-numbers/phone-hcard.php` file.
+				echo $number; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			} else {
 
@@ -60,7 +61,8 @@
 
 			if ( $email ) {
 
-				echo $email;
+				// Output is escaped in the `templates/entry/email-addresses/email-hcard.php` file.
+				echo $email; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			} else {
 

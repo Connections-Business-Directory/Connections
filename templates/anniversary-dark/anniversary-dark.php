@@ -44,7 +44,7 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',
 				'parts'       => array( 'css' => 'styles.css' ),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 		}

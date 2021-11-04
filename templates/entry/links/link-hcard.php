@@ -16,7 +16,10 @@
 $rows          = array();
 $search        = array( '%label%', '%title%', '%url%', '%image%', '%icon%', '%separator%' );
 $iconSizes     = array( 16, 24, 32, 48, 64 );
-$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
+$targetOptions = array(
+	'new'  => '_blank',
+	'same' => '_self',
+);
 
 /*
  * Ensure the supplied size is valid, if not reset to the default value.

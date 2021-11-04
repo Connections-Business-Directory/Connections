@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package    Connections Widget Pack
  * @subpackage Template : Recently Added

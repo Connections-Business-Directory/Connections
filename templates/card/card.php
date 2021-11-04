@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var cnEntry_HTML $entry Instance of the cnEntry_HTML object.
  * @var cnTemplate   $template Instance of the cnTemplate object.
  */
-$style  = array(
+$style = array(
 	'background-color' => '#FFF',
 	'border'           => $atts['border_width'] . 'px solid ' . $atts['border_color'],
 	'border-radius'    => $atts['border_radius'] . 'px',

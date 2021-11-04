@@ -1,6 +1,6 @@
 <?php
 /**
- * This is basically a copy/paste of the code which use to reside in cnOutput::getLinkBlock().
+ * This is basically a copy/paste of the code which used to reside in cnOutput::getLinkBlock().
  *
  * @todo Clean so it is better "template" code.
  *

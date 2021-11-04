@@ -1,4 +1,7 @@
 <?php
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -6,7 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * @var cnOutput $entry
+ * @var array        $atts  The shortcode attributes arrays.
+ * @var cnEntry_HTML $entry Instance of the cnEntry_HTML object.
+ * @var cnTemplate   $template Instance of the cnTemplate object.
  */
 $style  = array(
 	'background-color' => '#FFF',

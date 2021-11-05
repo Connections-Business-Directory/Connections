@@ -72,7 +72,7 @@ class Recently_Viewed extends Content_Block {
 		);
 
 		$atts = apply_filters(
-			"Connections_Directory/Content_Block/Entry/Recently_Viewed/Attributes",
+			'Connections_Directory/Content_Block/Entry/Recently_Viewed/Attributes',
 			$atts
 		);
 

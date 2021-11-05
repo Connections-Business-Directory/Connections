@@ -164,8 +164,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		$mobile_member_email  = '';
 
 		// List family member, add link to personal profile.
-		$member_name         = '<br />' . $member_group->getFullFirstLastName(
-		) . ':<br />'; // @todo: Would like to link to person profile
+		$member_name         = '<br />' . $member_group->getFullFirstLastName() . ':<br />'; // @todo: Would like to link to person profile
 		$mobile_member_name .= '<br />' . $member_group->getFullFirstLastName() . ':<br />';
 
 		// Check for family member and display all info.
@@ -225,10 +224,8 @@ if ( $member_list_first_names != '' ) {
 }
 
 // Add group name.
-$member_listing    .= '<a class="contact" id="' . $entry->getId(
-) . '" title="' . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . '</a>';
-$mobile_member_info = "<span class='m-contact' id='" . $entry->getId() . "'><b>" . $entry->getFamilyName(
-) . $member_list_first_names . '</b></span><br />' . $mobile_member_listing;
+$member_listing    .= '<a class="contact" id="' . $entry->getId() . '" title="' . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . '</a>';
+$mobile_member_info = "<span class='m-contact' id='" . $entry->getId() . "'><b>" . $entry->getFamilyName() . $member_list_first_names . '</b></span><br />' . $mobile_member_listing;
 
 // Close the Info Div header.
 $member_listing     .= '</strong></span><br />';

@@ -65,7 +65,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	global $connections;
 
 	// $template =& $connections->template;
-	$out = '';
+	$out       = '';
 	$alternate = '';
 
 	$templateTypeDefaults = array(
@@ -83,7 +83,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 		$template = cnTemplateFactory::getTemplate( $templateType['template'] );
 	} else {
 		$templateSlug = $connections->options->getActiveTemplate( $templateType['list_type'] );
-		$template = cnTemplateFactory::getTemplate( $templateSlug );
+		$template     = cnTemplateFactory::getTemplate( $templateSlug );
 	}
 
 	// No template found return error message.

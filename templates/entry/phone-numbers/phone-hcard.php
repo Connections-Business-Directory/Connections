@@ -2,8 +2,6 @@
 /**
  * This is basically a copy/paste of the code which used to reside in cnOutput::getPhoneNumberBlock().
  *
- * @todo Clean so it is better "template" code.
- *
  * @var array        $atts
  * @var cnOutput     $entry
  * @var cnCollection $phoneNumbers

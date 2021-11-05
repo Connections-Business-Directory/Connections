@@ -6,6 +6,8 @@
  *
  * @var cnCollection $addresses
  * @var cnAddress    $address
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 foreach ( $addresses as $address ) {

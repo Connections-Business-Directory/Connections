@@ -69,16 +69,18 @@ function prepareDataAttributes( $data ) {
 function stringifyCSSAttributes( $css ) {
 
 	// Filter out empty attributes, but allow `0` (zero) values.
-	$css = array_filter( $css, '\Connections_Directory\Utility\_::notEmpty' );
+	$css   = array_filter( $css, '\Connections_Directory\Utility\_::notEmpty' );
 	$rules = array();
 
 	// Sort the attributes alphabetically, because, why not.
 	ksort( $css, SORT_NATURAL );
 
-	array_walk( $css, function( $value, $property ) use ( &$rules ) {
-
-		$rules[] = "{$property}: {$value}";
-	} );
+	array_walk(
+		$css,
+		function( $value, $property ) use ( &$rules ) {
+			$rules[] = "{$property}: {$value}";
+		}
+	);
 
 	return implode( '; ', $rules );
 }
@@ -97,37 +99,40 @@ function stringifyAttributes( $attributes ) {
 	// Filter out empty attributes, but allow `0` (zero) values.
 	$attributes = array_filter( $attributes, '\Connections_Directory\Utility\_::notEmpty' );
 
-	array_walk( $attributes, function( &$value, $attribute ) {
+	array_walk(
+		$attributes,
+		function( &$value, $attribute ) {
 
-		// String; do not trim `value` attribute.
-		if ( is_string( $value ) ) {
+			// String; do not trim `value` attribute.
+			if ( is_string( $value ) ) {
 
-			if ( 'value' !== $attribute ) {
+				if ( 'value' !== $attribute ) {
 
-				$v = trim( $value );
+					$v = trim( $value );
+
+				} else {
+
+					$v = htmlspecialchars( $value );
+				}
+
+				// Boolean.
+			} elseif ( is_bool( $value ) ) {
+
+				$v = $value ? 1 : 0;
+
+				// Array|Object.
+			} elseif ( is_array( $value ) || is_object( $value ) ) {
+
+				$v = json_encode( $value );
 
 			} else {
 
-				$v = htmlspecialchars( $value );
+				$v = $value;
 			}
 
-			// Boolean.
-		} elseif ( is_bool( $value ) ) {
-
-			$v = $value ? 1 : 0;
-
-			// Array|Object.
-		} elseif ( is_array( $value ) || is_object( $value ) ) {
-
-			$v = json_encode( $value );
-
-		} else {
-
-			$v = $value;
+			$value = "{$attribute}=\"{$v}\"";
 		}
-
-		$value = "{$attribute}=\"{$v}\"";
-	} );
+	);
 
 	return implode( ' ', $attributes );
 }

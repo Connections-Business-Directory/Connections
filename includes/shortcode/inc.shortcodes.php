@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param array $atts
  */
-function connectionsEntryList($atts) {
+function connectionsEntryList( $atts ) {
 	echo cnShortcode_Connections::shortcode( $atts );
 }
 

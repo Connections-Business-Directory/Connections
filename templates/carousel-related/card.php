@@ -7,7 +7,8 @@
 <div class="slick-slider-slide">
 
 	<div class="slick-slider-slide-image">
-		<?php $entry->getImage(
+		<?php
+		$entry->getImage(
 			array(
 				'image'     => $atts['imageType'],
 				'size'      => 'custom',

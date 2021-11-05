@@ -170,7 +170,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 		// Check for family member and display all info.
 		if ( sizeof( $member_group ) > 0 ) {
-			// Check if array
+			// Check if array.
 			if ( is_array( $member_group->getPhoneNumbers() ) ) {
 				// Get all phone numbers for family members.
 				foreach ( $member_group->getPhoneNumbers() as $key_phone => $value_phone ) {
@@ -180,7 +180,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 						if ( $key_number == 'type' && $value_number == 'cellphone' ) {
 
-							// Find Mobile number(s) in $value_phone array
+							// Find Mobile number(s) in $value_phone array.
 							if ( $value_phone->number != '' ) {
 
 								// Add mobile info.
@@ -194,7 +194,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 			// Check if array.
 			if ( is_array( $member_group->getEmailAddresses() ) ) {
-				// Get email addresses
+				// Get email addresses.
 				foreach ( $member_group->getEmailAddresses() as $key_email => $value_email ) {
 
 					// Display the personal email address.

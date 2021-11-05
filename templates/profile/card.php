@@ -12,6 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+use function Connections_Directory\HTML\stringifyCSSAttributes;
+
 /**
  * @var cnOutput $entry
  */
@@ -24,8 +27,10 @@ $style = array(
 	'padding'          => '10px',
 	'position'         => 'relative',
 );
+
+$css = stringifyCSSAttributes( $style );
 ?>
-<div class="cn-entry" <?php echo cnHTML::attribute( 'style', $style ); ?>>
+<div class="cn-entry" style="<?php _escape::css( $css, true ); ?>">
 
 	<span style="float: <?php echo is_rtl() ? 'right' : 'left'; ?>; margin-right: 10px;">
 

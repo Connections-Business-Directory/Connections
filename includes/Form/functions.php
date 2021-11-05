@@ -55,17 +55,17 @@ function prepareDataAttributes( $data ) {
 			continue;
 		}
 
-		// String
+		// String.
 		if ( is_string( $value ) ) {
 
 			$value = htmlspecialchars( $value, ENT_QUOTES, 'UTF-8' );
 
-			// Boolean
+			// Boolean.
 		} elseif ( is_bool( $value ) ) {
 
 			$value = $value ? 1 : 0;
 
-			// Array|Object
+			// Array|Object.
 		} elseif ( is_array( $value ) || is_object( $value ) ) {
 
 			$value = htmlspecialchars( json_encode( $value ), ENT_QUOTES, 'UTF-8' );
@@ -146,12 +146,12 @@ function stringifyAttributes( $attributes ) {
 					$v = htmlspecialchars( $value );
 				}
 
-				// Boolean
+				// Boolean.
 			} elseif ( is_bool( $value ) ) {
 
 				$v = $value ? 1 : 0;
 
-				// Array|Object
+				// Array|Object.
 			} elseif ( is_array( $value ) || is_object( $value ) ) {
 
 				$v = json_encode( $value );

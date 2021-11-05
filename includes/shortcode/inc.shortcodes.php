@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Functions for used by the shortcode callbacks.
  *

@@ -4,7 +4,6 @@ namespace Connections_Directory\Form\Field;
 
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
-use Connections_Directory\Utility\_escape;
 
 /**
  * Helper function to remap legacy field choices to be compatible with the Form Field API.

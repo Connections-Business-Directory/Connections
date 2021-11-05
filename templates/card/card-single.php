@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+
 /**
  * @var array        $atts     The shortcode attributes arrays.
  * @var cnEntry_HTML $entry    Instance of the cnEntry_HTML object.
@@ -15,8 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 $bio   = $entry->getBio();
 $notes = $entry->getNotes();
+$uid   = $entry->getRuid();
 ?>
-<div id="entry-id-<?php echo $entry->getRuid(); ?>" class="cn-entry-single">
+<div id="<?php _escape::id( "entry-id-{$uid}", true ); ?>" class="cn-entry-single">
 
 	<div class="cn-left" style="float: left">
 

@@ -85,7 +85,6 @@ if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 			switch ( $atts['year_type'] ) {
 
 				case 'original':
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();
@@ -99,7 +98,6 @@ if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 					break;
 
 				case 'since':
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();
@@ -115,7 +113,6 @@ if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 					break;
 
 				default:
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();

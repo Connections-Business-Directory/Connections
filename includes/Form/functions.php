@@ -90,9 +90,10 @@ function prepareDataAttributes( $data ) {
 
 /**
  * Prepare and stringify the style attribute CSS declarations.
+ *
  * @since 10.4
  *
- * @param string[] $css
+ * @param string[] $css An associative array where the key is the CSS property and the value is the CSS property value.
  *
  * @return string
  */

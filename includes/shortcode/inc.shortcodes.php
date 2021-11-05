@@ -280,7 +280,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	return $out;
 }
 
-function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard' ) {
+function _connections_vcard( $atts, $content = null, $tag = 'connections_vcard' ) {
 
 	$atts = shortcode_atts(
 		array(
@@ -299,7 +299,7 @@ function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard'
 	return '<span class="cn-qtip-vcard">' . $content . $qTipContent . '</span>';
 }
 
-function _connections_qtip( $atts , $content = null, $tag = 'connections_qtip' ) {
+function _connections_qtip( $atts, $content = null, $tag = 'connections_qtip' ) {
 	$atts = shortcode_atts(
 		array(
 			'id' => null,

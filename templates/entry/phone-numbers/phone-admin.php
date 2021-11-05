@@ -14,7 +14,7 @@ foreach ( $phoneNumbers as $phone ) {
 
 	$preferred = $phone->preferred ? '*' : '';
 
-	echo '<span class="phone"><strong>' , $phone->name , '</strong>: ' ,  $phone->number , $preferred , '</span>';
+	echo '<span class="phone"><strong>' , esc_html( $phone->name ) , '</strong>: ' ,  esc_html( "{$phone->number}{$preferred}" ) , '</span>';
 }
 
 echo '</div>';

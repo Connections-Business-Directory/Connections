@@ -4,6 +4,8 @@
  *
  * @var cnCollection $phoneNumbers
  * @var cnPhone      $phone
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 echo '<div class="phone-numbers">';

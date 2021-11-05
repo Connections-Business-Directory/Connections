@@ -67,9 +67,8 @@ $style = array(
 
 			?>
 		</div>
-		<?php echo $entry->getBioBlock(); ?>
+		<?php $entry->getBioBlock(); ?>
 	</div>
-
 
 	<div class="cn-meta" style="margin-top: 6px">
 		<?php

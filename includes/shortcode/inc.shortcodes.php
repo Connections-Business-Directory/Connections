@@ -209,7 +209,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 		ob_start();
 
 			// Prints the template's CSS file.
-			do_action( 'cn_template_inline_css-' . $template->getSlug() , $atts );
+			do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
 
 			$out .= ob_get_contents();
 		ob_end_clean();

@@ -77,8 +77,8 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 			);
 
 			// Update the permitted shortcode attributes the user may use and override the template defaults as needed.
-			add_filter( 'cn_list_atts_permitted-' . $template->getSlug() , array( __CLASS__, 'registerAtts') );
-			add_filter( 'cn_list_atts-' . $template->getSlug() , array( __CLASS__, 'atts') );
+			add_filter( 'cn_list_atts_permitted-' . $template->getSlug(), array( __CLASS__, 'registerAtts' ) );
+			add_filter( 'cn_list_atts-' . $template->getSlug(), array( __CLASS__, 'atts' ) );
 		}
 
 		/**

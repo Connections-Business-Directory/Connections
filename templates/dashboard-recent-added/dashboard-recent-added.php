@@ -40,7 +40,7 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
 				'parts'       => array( 'css' => 'styles.css' ),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 		}

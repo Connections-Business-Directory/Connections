@@ -1,7 +1,7 @@
 <?php
 /**
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
- * @phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 // Don't load directly.

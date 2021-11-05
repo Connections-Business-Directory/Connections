@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Dashboard: Recently Added Widget Template.
  *

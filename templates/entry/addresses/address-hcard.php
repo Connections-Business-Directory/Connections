@@ -1,6 +1,6 @@
 <?php
 /**
- * This is basically a copy/paste of the code which use to reside in cnOutput::getAddressBlock().
+ * This is basically a copy/paste of the code which used to reside in cnOutput::getAddressBlock().
  *
  * @todo Clean so it is better "template" code.
  *

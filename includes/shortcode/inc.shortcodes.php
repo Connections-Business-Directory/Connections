@@ -27,7 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param array $atts
  */
 function connectionsEntryList( $atts ) {
-	echo cnShortcode_Connections::shortcode( $atts );
+	// HTML is escaped within shortcode callback and the template files.
+	echo cnShortcode_Connections::shortcode( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -40,7 +41,8 @@ function connectionsEntryList( $atts ) {
  * @param array $atts
  */
 function connectionsUpcomingList( $atts ) {
-	echo _upcoming_list( $atts );
+	// HTML is escaped within shortcode callback and the template files.
+	echo _upcoming_list( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**

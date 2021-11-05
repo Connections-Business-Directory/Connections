@@ -2,7 +2,10 @@
 /**
  * @var array $atts
  * @var cnOutput $entry
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
+
 ?>
 <div class="slick-slider-slide">
 

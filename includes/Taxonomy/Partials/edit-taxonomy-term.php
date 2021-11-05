@@ -77,7 +77,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 	?>
 	<table class="form-table" role="presentation">
 		<tr class="form-field form-required term-name-wrap">
-			<th scope="row"><label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ) ?></label></th>
+			<th scope="row"><label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ); ?></label></th>
 			<td>
 				<input name="term-name" id="term-name" type="text" value="<?php echo esc_attr( $term->name ); ?>" size="40" aria-required="true" />
 				<p class="description"><?php _e( 'The name is how it appears on your site.', 'connections' ); ?></p>

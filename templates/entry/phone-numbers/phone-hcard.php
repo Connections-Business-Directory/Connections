@@ -8,8 +8,8 @@
  * @var cnPhone      $phone
  */
 
-$rows         = array();
-$search       = array( '%label%', '%number%', '%separator%' );
+$rows   = array();
+$search = array( '%label%', '%number%', '%separator%', );
 
 foreach ( $phoneNumbers as $phone ) {
 	$replace = array();

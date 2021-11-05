@@ -1,4 +1,7 @@
 <?php
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

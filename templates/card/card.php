@@ -8,6 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+use function Connections_Directory\HTML\stringifyCSSAttributes;
+
 /**
  * @var array        $atts  The shortcode attributes arrays.
  * @var cnEntry_HTML $entry Instance of the cnEntry_HTML object.
@@ -23,9 +26,10 @@ $style = array(
 	'position'         => 'relative',
 );
 $bio   = $entry->getBio();
+$css   = stringifyCSSAttributes( $style );
 $notes = $entry->getNotes();
 ?>
-<div class="cn-entry" <?php echo cnHTML::attribute( 'style', $style ); ?>>
+<div class="cn-entry" style="<?php _escape::css( $css, true ); ?>">
 
 	<div class="cn-left" style="width:49%; float:<?php echo is_rtl() ? 'right' : 'left'; ?>">
 		<?php
@@ -51,7 +55,7 @@ $notes = $entry->getNotes();
 		?>
 		<div style="clear:both;"></div>
 		<div style="margin-bottom: 10px;">
-			<div style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getNameBlock( array( 'format' => $atts['name_format'] ) ); ?></strong></div>
+			<div style="font-size:larger;font-variant: small-caps"><strong><?php echo esc_html( $entry->getNameBlock( array( 'format' => $atts['name_format'] ) ) ); ?></strong></div>
 			<?php
 
 			if ( $atts['show_title'] ) {

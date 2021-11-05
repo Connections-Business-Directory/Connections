@@ -13,6 +13,8 @@
  * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
+use Connections_Directory\Utility\_escape;
+
 $out    = '';
 $search = array(
 	'%label%',

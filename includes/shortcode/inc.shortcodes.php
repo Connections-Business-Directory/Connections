@@ -150,12 +150,12 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 	$results = Connections_Directory()->retrieve->upcoming(
 		array(
-			'type'                  => $atts['list_type'],
-			'days'                  => $atts['days'],
-			'today'                 => $atts['include_today'],
-			'visibility'            => array(),
-			'private_override'      => $atts['private_override'],
-			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
+			'type'             => $atts['list_type'],
+			'days'             => $atts['days'],
+			'today'            => $atts['include_today'],
+			'visibility'       => array(),
+			'private_override' => $atts['private_override'],
+			'return'           => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
 		)
 	);
 

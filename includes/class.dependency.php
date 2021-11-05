@@ -98,6 +98,9 @@ class cnDependency {
 		// Global functions.
 		require_once CN_PATH . 'includes/functions.php';
 
+		// HTML functions.
+		require_once CN_PATH . 'includes/HTML/functions.php';
+
 		// Include the autoloader for the Pear IMC classes.
 		if ( ! class_exists( 'File_IMC' ) ) {
 			include_once CN_PATH . 'vendor/pear/IMC.php';

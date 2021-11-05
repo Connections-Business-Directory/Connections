@@ -7,6 +7,7 @@ use Connections_Directory\Form\Field\Attribute\Disabled;
 use Connections_Directory\Form\Field\Attribute\Value;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use function Connections_Directory\HTML\stringifyAttributes;
 
 /**
  * Class Label

@@ -5,6 +5,9 @@ namespace Connections_Directory\Form\Field;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_string;
+use function Connections_Directory\HTML\prepareDataAttributes;
+use function Connections_Directory\HTML\stringifyAttributes;
+use function Connections_Directory\HTML\stringifyCSSAttributes;
 
 /**
  * Class Text

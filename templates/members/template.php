@@ -50,7 +50,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		$member_group->set( $relationData['entry_id'] );
 
 		if ( $counter > 1 ) {
-			$member_list_first_names .= ", " . $member_group->getName( array( 'format' => '%first%' ) );
+			$member_list_first_names .= ', ' . $member_group->getName( array( 'format' => '%first%' ) );
 		} else {
 			$member_list_first_names = $member_group->getName( array( 'format' => '%first%' ) );
 		}
@@ -73,8 +73,8 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 				if ( $value_homephone->number != '' ) {
 
 					// Add homephone info
-					$member_popup_info     .= "Home: " . $value_homephone->number . "<br />";
-					$mobile_member_listing .= "Home: " . $value_homephone->number . "<br />";
+					$member_popup_info     .= 'Home: ' . $value_homephone->number . '<br />';
+					$mobile_member_listing .= 'Home: ' . $value_homephone->number . '<br />';
 				}
 			}
 		}
@@ -90,27 +90,27 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		if ( $value_address->type == 'home' ) {
 
 			// Format the address
-			$address = $value_address->line_one . "<br />";
+			$address = $value_address->line_one . '<br />';
 
 			// Check for line2
 			if ( $value_address->line_two != '' ) {
-				$address .= $value_address->line_two . "<br />";
+				$address .= $value_address->line_two . '<br />';
 			}
 
-			$address .= $value_address->city . ", ";
-			$address .= $value_address->state . " ";
+			$address .= $value_address->city . ', ';
+			$address .= $value_address->state . ' ';
 			$address .= $value_address->zipcode;
 
 			$address_link  = "http://maps.google.com/?q=";
-			$address_link .= $value_address->line_one . " ";
+			$address_link .= $value_address->line_one . ' ';
 
 			// Check for line2
 			if ( $value_address->line_two != '' ) {
-				$address_link .= $value_address->line_two . " ";
+				$address_link .= $value_address->line_two . ' ';
 			}
 
-			$address_link .= $value_address->city . ", ";
-			$address_link .= $value_address->state . " ";
+			$address_link .= $value_address->city . ', ';
+			$address_link .= $value_address->state . ' ';
 			$address_link .= $value_address->zipcode;
 
 			// Add the address
@@ -164,9 +164,9 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		$mobile_member_email  = '';
 
 		// List family member, add link to personal profile
-		$member_name         = "<br />" . $member_group->getFullFirstLastName(
-        ) . ":<br />"; // @todo: Would like to link to person profile
-		$mobile_member_name .= "<br />" . $member_group->getFullFirstLastName() . ":<br />";
+		$member_name         = '<br />' . $member_group->getFullFirstLastName(
+        ) . ':<br />'; // @todo: Would like to link to person profile
+		$mobile_member_name .= '<br />' . $member_group->getFullFirstLastName() . ':<br />';
 
 		// Check for family member and display all info
 		if ( sizeof( $member_group ) > 0 ) {
@@ -184,8 +184,8 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 							if ( $value_phone->number != '' ) {
 
 								// Add mobile info
-								$member_mobile        = "Mobile: " . $value_phone->number . "<br />";
-								$mobile_member_mobile = "Mobile: " . $value_phone->number . "<br />";
+								$member_mobile        = 'Mobile: ' . $value_phone->number . '<br />';
+								$mobile_member_mobile = 'Mobile: ' . $value_phone->number . '<br />';
 							}
 						}
 					}
@@ -202,8 +202,8 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 						if ( $key_eAddress == 'address' && $value_eAddress != '' ) {
 
 							// Add email info
-							$member_email        = "Email: " . $value_email->address . "<br />";
-							$mobile_member_email = "Email: " . $value_email->address . "<br />";
+							$member_email        = 'Email: ' . $value_email->address . '<br />';
+							$mobile_member_email = 'Email: ' . $value_email->address . '<br />';
 						}
 					}
 				}
@@ -221,14 +221,14 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 // Build members first name list
 if ( $member_list_first_names != '' ) {
-	$member_list_first_names = " - " . $member_list_first_names;
+	$member_list_first_names = ' - ' . $member_list_first_names;
 }
 
 // Add group name
-$member_listing    .= "<a class='contact' id='" . $entry->getId(
-) . "' title='" . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . "</a>";
+$member_listing    .= '<a class="contact" id="' . $entry->getId(
+) . '" title="' . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . '</a>';
 $mobile_member_info = "<span class='m-contact' id='" . $entry->getId() . "'><b>" . $entry->getFamilyName(
-) . $member_list_first_names . "</b></span><br />" . $mobile_member_listing;
+) . $member_list_first_names . '</b></span><br />' . $mobile_member_listing;
 
 // Close the Info Div header
 $member_listing     .= '</strong></span><br />';

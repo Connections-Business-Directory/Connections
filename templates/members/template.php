@@ -56,8 +56,8 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		}
 	}
 
-	$member_popup_info  = '<div id="popup-group-members"><span>' . $member_list_first_names . '</span></div>';
-	$member_popup_info .= '<div id="popup-group-name"><span>' . $entry->getFamilyName() . '</span></div>';
+	$member_popup_info  = '<div id="popup-group-members"><span>' . esc_html( $member_list_first_names ) . '</span></div>';
+	$member_popup_info .= '<div id="popup-group-name"><span>' . esc_html( $entry->getFamilyName() ) . '</span></div>';
 
 	// Get Home phone number.
 	foreach ( $entry->getPhoneNumbers() as $key_homephone => $value_homephone ) {
@@ -73,8 +73,8 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 				if ( $value_homephone->number != '' ) {
 
 					// Add homephone info.
-					$member_popup_info     .= 'Home: ' . $value_homephone->number . '<br />';
-					$mobile_member_listing .= 'Home: ' . $value_homephone->number . '<br />';
+					$member_popup_info     .= 'Home: ' . esc_html( $value_homephone->number ) . '<br />';
+					$mobile_member_listing .= 'Home: ' . esc_html( $value_homephone->number ) . '<br />';
 				}
 			}
 		}
@@ -114,8 +114,8 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			$address_link .= $value_address->zipcode;
 
 			// Add the address.
-			$member_popup_info     .= $address . '<br /><a class="google-maps-link" href="' . $address_link . '" target="_blank">View Large Map</a><br />';
-			$mobile_member_listing .= '<br /><a class="google-maps-link" href="' . $address_link . '">View Map</a><br />';
+			$member_popup_info     .= esc_html( $address ) . '<br /><a class="google-maps-link" href="' . esc_url( $address_link ) . '" target="_blank">View Large Map</a><br />';
+			$mobile_member_listing .= '<br /><a class="google-maps-link" href="' . esc_url( $address_link ) . '">View Map</a><br />';
 
 			// Find all the spaces.
 			$pattern = '/\s/';
@@ -224,8 +224,8 @@ if ( $member_list_first_names != '' ) {
 }
 
 // Add group name.
-$member_listing    .= '<a class="contact" id="' . $entry->getId() . '" title="' . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . '</a>';
-$mobile_member_info = "<span class='m-contact' id='" . $entry->getId() . "'><b>" . $entry->getFamilyName() . $member_list_first_names . '</b></span><br />' . $mobile_member_listing;
+$member_listing    .= '<a class="contact" id="' . esc_attr( $entry->getId() ) . '" title="' . esc_attr( $member_popup_info ) . "'>" . esc_html( $entry->getFamilyName() . $member_list_first_names ) . '</a>';
+$mobile_member_info = "<span class='m-contact' id='" . esc_attr( $entry->getId() ) . "'><b>" . esc_html( $entry->getFamilyName() . $member_list_first_names ) . '</b></span><br />' . $mobile_member_listing;
 
 // Close the Info Div header.
 $member_listing     .= '</strong></span><br />';
@@ -237,9 +237,11 @@ $mobile_member_info .= '</div><div style="clear:both;"></div></div><hr />';
 
 // This works for the mobile browser check with the MobilePress plugin.
 if ( isset( $_SESSION['SESS_MOBILE_ACTIVE'] ) && $_SESSION['SESS_MOBILE_ACTIVE'] == true ) {
-	echo $mobile_member_info;
+	// HTML is escaped above.
+	echo $mobile_member_info; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } else {
 	// Display Family Listing.
-	echo $member_listing;
+	// HTML is escaped above.
+	echo $member_listing; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 unset( $member_listing, $mobile_member_info );

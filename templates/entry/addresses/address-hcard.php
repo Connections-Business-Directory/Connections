@@ -35,16 +35,28 @@ $search = array(
 $out .= '<span class="address-block">';
 
 foreach ( $addresses as $address ) {
+
 	$replace = array();
 
-	$out .= '<span class="adr cn-address' . ( $address->preferred ? ' cn-preferred cn-address-preferred' : '' ) . '">';
+	$classNames = array(
+		'adr',
+		'cn-address',
+	);
+
+	if ( $address->preferred ) {
+
+		$classNames[] = 'cn-preferred';
+		$classNames[] = 'cn-address-preferred';
+	}
+
+	$out .= '<span class="' . _escape::classNames( $classNames ) . '">';
 
 	// The `notranslate` class is added to prevent Google Translate from translating the text.
-	$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . $address->name . '</span>';
-	$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . $address->line_1 . '</span>';
-	$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . $address->line_2 . '</span>';
-	$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . $address->line_3 . '</span>';
-	$replace[] = empty( $address->line_4 ) ? '' : '<span class="street-address notranslate">' . $address->line_4 . '</span>';
+	$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . esc_html( $address->name ) . '</span>';
+	$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . esc_html( $address->line_1 ) . '</span>';
+	$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . esc_html( $address->line_2 ) . '</span>';
+	$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . esc_html( $address->line_3 ) . '</span>';
+	$replace[] = empty( $address->line_4 ) ? '' : '<span class="street-address notranslate">' . esc_html( $address->line_4 ) . '</span>';
 
 	if ( 0 == strlen( $address->district ) ) {
 
@@ -54,6 +66,7 @@ foreach ( $addresses as $address ) {
 
 		if ( $atts['link']['district'] ) {
 
+			// Returns escaped HTML.
 			$district = cnURL::permalink(
 				array(
 					'type'       => 'district',
@@ -68,7 +81,7 @@ foreach ( $addresses as $address ) {
 
 		} else {
 
-			$district = $address->district;
+			$district = esc_html( $address->district );
 		}
 
 		$replace[] = '<span class="district notranslate">' . $district . '</span>';
@@ -83,6 +96,7 @@ foreach ( $addresses as $address ) {
 
 		if ( $atts['link']['county'] ) {
 
+			// Returns escaped HTML.
 			$county = cnURL::permalink(
 				array(
 					'type'       => 'county',
@@ -97,7 +111,7 @@ foreach ( $addresses as $address ) {
 
 		} else {
 
-			$county = $address->county;
+			$county = esc_html( $address->county );
 		}
 
 		$replace[] = '<span class="county notranslate">' . $county . '</span>';
@@ -112,6 +126,7 @@ foreach ( $addresses as $address ) {
 
 		if ( $atts['link']['locality'] ) {
 
+			// Returns escaped HTML.
 			$locality = cnURL::permalink(
 				array(
 					'type'       => 'locality',
@@ -126,7 +141,7 @@ foreach ( $addresses as $address ) {
 
 		} else {
 
-			$locality = $address->city;
+			$locality = esc_html( $address->city );
 		}
 
 		$replace[] = '<span class="locality">' . $locality . '</span>';
@@ -141,6 +156,7 @@ foreach ( $addresses as $address ) {
 
 		if ( $atts['link']['region'] ) {
 
+			// Returns escaped HTML.
 			$region = cnURL::permalink(
 				array(
 					'type'       => 'region',
@@ -155,7 +171,7 @@ foreach ( $addresses as $address ) {
 
 		} else {
 
-			$region = $address->state;
+			$region = esc_html( $address->state );
 		}
 
 		$replace[] = '<span class="region">' . $region . '</span>';
@@ -170,6 +186,7 @@ foreach ( $addresses as $address ) {
 
 		if ( $atts['link']['postal_code'] ) {
 
+			// Returns escaped HTML.
 			$postal = cnURL::permalink(
 				array(
 					'type'       => 'postal_code',
@@ -184,7 +201,7 @@ foreach ( $addresses as $address ) {
 
 		} else {
 
-			$postal = $address->zipcode;
+			$postal = esc_html( $address->zipcode );
 		}
 
 		$replace[] = '<span class="postal-code">' . $postal . '</span>';
@@ -199,6 +216,7 @@ foreach ( $addresses as $address ) {
 
 		if ( $atts['link']['country'] ) {
 
+			// Returns escaped HTML.
 			$country = cnURL::permalink(
 				array(
 					'type'       => 'country',
@@ -213,7 +231,7 @@ foreach ( $addresses as $address ) {
 
 		} else {
 
-			$country = $address->country;
+			$country = esc_html( $address->country );
 		}
 
 		$replace[] = '<span class="country-name">' . $country . '</span>';
@@ -222,12 +240,12 @@ foreach ( $addresses as $address ) {
 
 	if ( ! empty( $address->latitude ) || ! empty( $address->longitude ) ) {
 		$replace[] = '<span class="geo">' .
-					 empty( $address->latitude ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . esc_html__( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
-					 empty( $address->longitude ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . esc_html__( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
+					 empty( $address->latitude ? '' : '<span class="latitude" title="' . esc_attr( $address->latitude ) . '"><span class="cn-label">' . esc_html__( 'Latitude', 'connections' ) . ': </span>' . esc_html( $address->latitude ) . '</span>' ) .
+					 empty( $address->longitude ? '' : '<span class="longitude" title="' . esc_attr( $address->longitude ) . '"><span class="cn-label">' . esc_html__( 'Longitude', 'connections' ) . ': </span>' . esc_html( $address->longitude ) . '</span>' ) .
 					 '</span>';
 	}
 
-	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+	$replace[] = '<span class="cn-separator">' . esc_html( $atts['separator'] ) . '</span>';
 
 	$out .= str_ireplace(
 		$search,
@@ -235,7 +253,7 @@ foreach ( $addresses as $address ) {
 		empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label% %line1% %line2% %line3% %line4% %district% %county% %city% %state%  %zipcode% %country%' : $defaults['format'] ) : $atts['format']
 	);
 
-	// Set the hCard Address Type.
+	// Set the hCard Address Type. Returns static HTML. No need to escape.
 	$out .= $entry->gethCardAdrType( $address->type );
 
 	$out .= '</span>';
@@ -243,4 +261,5 @@ foreach ( $addresses as $address ) {
 
 $out .= '</span>';
 
-echo $out;
+// HTML is escaped in the loop above.
+echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

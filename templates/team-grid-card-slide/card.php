@@ -4,6 +4,8 @@
  *
  * @var array    $atts
  * @var cnOutput $entry
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 ?>

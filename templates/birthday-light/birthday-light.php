@@ -26,8 +26,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 
+	/**
+	 * Class CN_Birthday_Light_Template
+	 */
 	class CN_Birthday_Light_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -49,6 +55,11 @@ if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * CN_Birthday_Light_Template constructor.
+		 *
+		 * @param cnTemplate $template Instance of the cnTemplate object.
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
@@ -58,9 +69,11 @@ if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 		}
 
 		/**
-		 * @param cnEntry_vCard $entry
-		 * @param cnTemplate    $template
-		 * @param array         $atts
+		 * Callback to render the template.
+		 *
+		 * @param cnEntry_HTML $entry    Current instance of the cnEntry object.
+		 * @param cnTemplate   $template Instance of the cnTemplate object.
+		 * @param array        $atts     The shortcode attributes array.
 		 */
 		public static function card( $entry, $template, $atts ) {
 

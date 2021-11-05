@@ -168,7 +168,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 		} else {
 
-			$out .= '&nbsp;'; // Need to return something for Gutenberg support. Otherwise the loading spinner never stops.
+			$out .= '&nbsp;'; // Need to return something for Gutenberg support. Otherwise, the loading spinner never stops.
 		}
 
 	} else {

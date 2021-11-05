@@ -226,35 +226,35 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 				$out .= '<div class="cn-clear" id="cn-list-body">' . "\n";
 
-					foreach ( $results as $row ) {
+				foreach ( $results as $row ) {
 
-						$entry = new cnEntry_vCard( $row );
-						$vCard =& $entry;
+					$entry = new cnEntry_vCard( $row );
+					$vCard =& $entry;
 
-						// Configure the page where the entry link to.
-						$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
+					// Configure the page where the entry link to.
+					$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
-						if ( ! $atts['show_lastname'] ) {
+					if ( ! $atts['show_lastname'] ) {
 
-							$entry->setLastName( '' );
-						}
-
-						$entry->name = $entry->getName(
-							array(
-								'format' => $atts['name_format'],
-							)
-						);
-
-						$alternate == '' ? $alternate = '-alternate' : $alternate = '';
-
-						$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
-							ob_start();
-							do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
-							$out .= ob_get_contents();
-							ob_end_clean();
-						$out .= '</div>' . "\n";
-
+						$entry->setLastName( '' );
 					}
+
+					$entry->name = $entry->getName(
+						array(
+							'format' => $atts['name_format'],
+						)
+					);
+
+					$alternate == '' ? $alternate = '-alternate' : $alternate = '';
+
+					$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
+						ob_start();
+						do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
+						$out .= ob_get_contents();
+						ob_end_clean();
+					$out .= '</div>' . "\n";
+
+				}
 
 				$out .= "\n" . '</div>' . "\n";
 

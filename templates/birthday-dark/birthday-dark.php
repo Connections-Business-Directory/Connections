@@ -64,8 +64,27 @@ if ( ! class_exists( 'CN_Birthday_Dark_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
-			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
+			$template->part(
+				array(
+					'tag'      => 'card',
+					'type'     => 'action',
+					'callback' => array(
+						__CLASS__,
+						'card',
+					),
+				)
+			);
+
+			$template->part(
+				array(
+					'tag'      => 'css',
+					'type'     => 'action',
+					'callback' => array(
+						$template,
+						'printCSS',
+					),
+				)
+			);
 		}
 
 		/**

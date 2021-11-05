@@ -9,7 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * @var cnOutput $entry
+ * @var array        $atts     The shortcode attributes arrays.
+ * @var cnEntry_HTML $entry    Instance of the cnEntry_HTML object.
+ * @var cnTemplate   $template Instance of the cnTemplate object.
  */
 $bio   = $entry->getBio();
 $notes = $entry->getNotes();

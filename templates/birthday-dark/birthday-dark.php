@@ -145,7 +145,7 @@ if ( ! class_exists( 'CN_Birthday_Dark_Template' ) ) {
 
 			?>
 
-			<span class="cn-entry-name" style=""><?php echo $entry->name; ?></span> <span class="cn-upcoming-date"><?php echo $formatted; ?></span>
+			<span class="cn-entry-name" style=""><?php echo esc_html( $entry->getName( array( 'format' => $atts['name_format'] ) ) ); ?></span> <span class="cn-upcoming-date"><?php echo esc_html( $formatted ); ?></span>
 
 			<?php
 		}

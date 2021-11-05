@@ -6,6 +6,9 @@
  * @var cnOutput     $entry
  * @var cnCollection $phoneNumbers
  * @var cnPhone      $phone
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 use Connections_Directory\Utility\_escape;

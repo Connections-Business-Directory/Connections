@@ -165,7 +165,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 		// List family member, add link to personal profile.
 		$member_name         = '<br />' . $member_group->getFullFirstLastName(
-        ) . ':<br />'; // @todo: Would like to link to person profile
+		) . ':<br />'; // @todo: Would like to link to person profile
 		$mobile_member_name .= '<br />' . $member_group->getFullFirstLastName() . ':<br />';
 
 		// Check for family member and display all info.

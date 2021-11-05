@@ -30,7 +30,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 	$mobile_member_listing = '<div class="member-entry">';
 
 	// Info Div header
-	$member_listing .= '<div><span class="member-details"><strong>';
+	$member_listing        .= '<div><span class="member-details"><strong>';
 	$mobile_member_listing .= '<div><span class="member-details"><strong>';
 
 	// create family member
@@ -56,7 +56,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		}
 	}
 
-	$member_popup_info = '<div id="popup-group-members"><span>' . $member_list_first_names . '</span></div>';
+	$member_popup_info  = '<div id="popup-group-members"><span>' . $member_list_first_names . '</span></div>';
 	$member_popup_info .= '<div id="popup-group-name"><span>' . $entry->getFamilyName() . '</span></div>';
 
 	// Get Home phone number
@@ -73,7 +73,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 				if ( $value_homephone->number != '' ) {
 
 					// Add homephone info
-					$member_popup_info .= "Home: " . $value_homephone->number . "<br />";
+					$member_popup_info     .= "Home: " . $value_homephone->number . "<br />";
 					$mobile_member_listing .= "Home: " . $value_homephone->number . "<br />";
 				}
 			}
@@ -101,7 +101,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			$address .= $value_address->state . " ";
 			$address .= $value_address->zipcode;
 
-			$address_link = "http://maps.google.com/?q=";
+			$address_link  = "http://maps.google.com/?q=";
 			$address_link .= $value_address->line_one . " ";
 
 			// Check for line2
@@ -114,7 +114,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			$address_link .= $value_address->zipcode;
 
 			// Add the address
-			$member_popup_info .= $address . '<br /><a class="google-maps-link" href="' . $address_link . '" target="_blank">View Large Map</a><br />';
+			$member_popup_info     .= $address . '<br /><a class="google-maps-link" href="' . $address_link . '" target="_blank">View Large Map</a><br />';
 			$mobile_member_listing .= '<br /><a class="google-maps-link" href="' . $address_link . '">View Map</a><br />';
 
 			// Find all the spaces
@@ -128,7 +128,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 			// Google maps parameter
 			// Embed
-			$google_maps_parms = '&amp;output=embed';
+			$google_maps_parms  = '&amp;output=embed';
 			$google_maps_parms .= '&amp;ie=UTF8';
 
 			// t= Map Type. The available options are "m" map, "k" satellite, "h" hybrid, "p" terrain.
@@ -164,7 +164,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		$mobile_member_email  = '';
 
 		// List family member, add link to personal profile
-		$member_name = "<br />" . $member_group->getFullFirstLastName(
+		$member_name         = "<br />" . $member_group->getFullFirstLastName(
         ) . ":<br />"; // @todo: Would like to link to person profile
 		$mobile_member_name .= "<br />" . $member_group->getFullFirstLastName() . ":<br />";
 
@@ -212,7 +212,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			// Check for Mobile Phone and Address before displaying name
 			// If both are blank don't display name
 			if ( $member_mobile != '' || $member_email != '' ) {
-				$member_popup_info .= $member_name . $member_mobile . $member_email;
+				$member_popup_info     .= $member_name . $member_mobile . $member_email;
 				$mobile_member_listing .= $mobile_member_name . $mobile_member_mobile . $mobile_member_email;
 			}
 		}
@@ -225,17 +225,17 @@ if ( $member_list_first_names != '' ) {
 }
 
 // Add group name
-$member_listing .= "<a class='contact' id='" . $entry->getId(
+$member_listing    .= "<a class='contact' id='" . $entry->getId(
 ) . "' title='" . $member_popup_info . "'>" . $entry->getFamilyName() . $member_list_first_names . "</a>";
 $mobile_member_info = "<span class='m-contact' id='" . $entry->getId() . "'><b>" . $entry->getFamilyName(
 ) . $member_list_first_names . "</b></span><br />" . $mobile_member_listing;
 
 // Close the Info Div header
-$member_listing .= '</strong></span><br />';
+$member_listing     .= '</strong></span><br />';
 $mobile_member_info .= '</strong></span><br />';
 
 // Close the div
-$member_listing .= '</div><div style="clear:both;"></div></div>';
+$member_listing     .= '</div><div style="clear:both;"></div></div>';
 $mobile_member_info .= '</div><div style="clear:both;"></div></div><hr />';
 
 // This works for the mobile browser check with the MobilePress plugin

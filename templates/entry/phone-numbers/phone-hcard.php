@@ -8,32 +8,49 @@
  * @var cnPhone      $phone
  */
 
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_string;
+
 $rows   = array();
 $search = array( '%label%', '%number%', '%separator%' );
 
 foreach ( $phoneNumbers as $phone ) {
+
 	$replace = array();
 
-	$row = "\t" . '<span class="tel cn-phone-number' . ( $phone->preferred ? ' cn-preferred cn-phone-number-preferred' : '' ) . '">';
+	$classNames = array(
+		'tel',
+		'cn-phone-number',
+	);
 
-	$replace[] = empty( $phone->name ) ? '' : '<span class="phone-name">' . $phone->name . '</span>';
+	if ( $phone->preferred ) {
+
+		$classNames[] = 'cn-preferred';
+		$classNames[] = 'cn-phone-number-preferred';
+	}
+
+	$replace[] = empty( $phone->name ) ? '' : '<span class="phone-name">' . esc_html( $phone->name ) . '</span>';
 
 	if ( empty( $phone->number ) ) {
+
 		$replace[] = '';
+
 	} else {
 
 		if ( Connections_Directory()->settings->get( 'connections', 'link', 'phone' ) ) {
 
-			$replace[] = '<a class="value" href="tel:' . $phone->number . '" value="' . preg_replace( '/[^0-9]/', '', $phone->number ) . '">' . $phone->number . '</a>';
+			$replace[] = '<a class="value" href="' . esc_url( "tel:{$phone->number}" ) . '" value="' . esc_attr( preg_replace( '/[^0-9]/', '', $phone->number ) ) . '">' . esc_html( $phone->number ) . '</a>';
 
 		} else {
 
-			$replace[] = '<span class="value">' . $phone->number . '</span>';
+			$replace[] = '<span class="value">' . esc_html( $phone->number ) . '</span>';
 		}
 
 	}
 
-	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+	$replace[] = '<span class="cn-separator">' . esc_html( $atts['separator'] ) . '</span>';
+
+	$row = '<span class="' . _escape::classNames( $classNames ) . '">';
 
 	$row .= str_ireplace(
 		$search,
@@ -46,11 +63,12 @@ foreach ( $phoneNumbers as $phone ) {
 
 	$row .= '</span>' . PHP_EOL;
 
-	$rows[] = apply_filters( 'cn_output_phone_number', cnString::replaceWhatWith( $row, ' ' ), $phone, $entry, $atts );
+	$rows[] = apply_filters( 'cn_output_phone_number', _string::normalize( $row ), $phone, $entry, $atts );
 }
 
-$block = '<span class="phone-number-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+$block = '<span class="phone-number-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 $block = apply_filters( 'cn_output_phone_numbers', $block, $phoneNumbers, $entry, $atts );
 
-echo $block;
+// HTML is escaped in the loop above.
+echo $block; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

@@ -28,12 +28,12 @@ $style = array(
 
 			$entry->getImage(
 				array(
-					'image'    => $atts['image_type'],
-					'preset'   => empty( $atts['image_width'] ) && empty( $atts['image_height'] ) ? 'profile' : null,
-					'width'    => $atts['image_width'],
-					'height'   => $atts['image_height'],
-					'zc'       => $atts['image_crop_mode'],
-					'fallback' => array(
+					'image'     => $atts['image_type'],
+					'preset'    => empty( $atts['image_width'] ) && empty( $atts['image_height'] ) ? 'profile' : null,
+					'width'     => $atts['image_width'],
+					'height'    => $atts['image_height'],
+					'zc'        => $atts['image_crop_mode'],
+					'fallback'  => array(
 						'type'   => $atts['image_fallback'] ? 'block' : 'none',
 						'string' => $atts['image_fallback_string'],
 					),

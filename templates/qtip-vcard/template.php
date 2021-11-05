@@ -18,5 +18,4 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var cnEntry_HTML $entry
  */
 $entry->getNameBlock();
-
-echo $vCard->download();
+$entry->vcard();

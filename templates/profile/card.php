@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * @var cnOutput $entry
  */
-$style  = array(
+$style = array(
 	'background-color' => '#FFF',
 	'border'           => $atts['border_width'] . 'px solid ' . $atts['border_color'],
 	'border-radius'    => $atts['border_radius'] . 'px',

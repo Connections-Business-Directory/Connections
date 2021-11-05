@@ -99,20 +99,21 @@ function prepareDataAttributes( $data ) {
 function stringifyCSSAttributes( $css ) {
 
 	// Filter out empty attributes, but allow `0` (zero) values.
-	$css = array_filter( $css, '\Connections_Directory\Utility\_::notEmpty' );
+	$css   = array_filter( $css, '\Connections_Directory\Utility\_::notEmpty' );
+	$rules = array();
 
 	// Sort the attributes alphabetically, because, why not.
 	ksort( $css, SORT_NATURAL );
 
 	array_walk(
 		$css,
-		function( &$value, $property ) {
+		function( $value, $property ) use ( &$rules ) {
 
-			$value = _escape::attribute( $property ) . ': ' . _escape::attribute( $value );
+			$rules[] = "{$property}: {$value}";
 		}
 	);
 
-	return implode( '; ', $css );
+	return implode( '; ', $rules );
 }
 
 /**

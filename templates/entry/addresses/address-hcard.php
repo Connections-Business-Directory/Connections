@@ -8,6 +8,9 @@
  * @var cnOutput     $entry
  * @var cnCollection $addresses
  * @var cnAddress    $address
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
 $out    = '';

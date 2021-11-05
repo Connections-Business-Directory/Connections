@@ -138,7 +138,7 @@ class Description {
 
 		if ( 0 < strlen( $this->text ) ) {
 
-			$tag = _escape::tagName( $this->tag );
+			$tag  = _escape::tagName( $this->tag );
 			$html = "<{$tag} " . $this->prepareAttributes() . '>' . _escape::html( $this->text ) . "</{$tag}>";
 		}
 

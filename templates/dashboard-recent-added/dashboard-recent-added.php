@@ -16,8 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
+	/**
+	 * Class CN_Dashboard_Recently_Added_Template
+	 */
 	class CN_Dashboard_Recently_Added_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -39,6 +45,11 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * CN_Dashboard_Recently_Added_Template constructor.
+		 *
+		 * @param cnTemplate $template Instance of the cnTemplate object.
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
@@ -52,12 +63,16 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 		}
 
 		/**
+		 * Callback for the `cn_list_atts_permitted-{$template->getSlug()}` filter.
+		 *
 		 * Initiate the permitted template shortcode options and load the default values.
 		 *
-		 * @access private
+		 * @internal
 		 * @since 0.8
-		 * @param  (array)  $atts The shortcode $atts array.
-		 * @return (array)
+		 *
+		 * @param array $atts The shortcode $atts array.
+		 *
+		 * @return array
 		 */
 		public static function registerAtts( $atts = array() ) {
 
@@ -66,12 +81,27 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 			return $atts;
 		}
 
+		/**
+		 * Callback for the `'cn_list_atts-{$template->getSlug()}` filter.
+		 *
+		 * @internal
+		 *
+		 * @param array $atts The shortcode $atts array.
+		 *
+		 * @return array
+		 */
 		public static function atts( $atts ) {
-
 
 			return $atts;
 		}
 
+		/**
+		 * Callback to render the template.
+		 *
+		 * @internal
+		 *
+		 * @param cnEntry_HTML $entry Current instance of the cnEntry object.
+		 */
 		public static function card( $entry ) {
 
 			if ( is_admin() ) {

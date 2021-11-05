@@ -75,5 +75,5 @@ $block = '<span class="email-address-block">' . PHP_EOL . implode( PHP_EOL, $row
 // This filter is required to allow the ROT13 encryption plugin to function.
 $block = apply_filters( 'cn_output_email_addresses', $block, $emailAddresses, $entry, $atts );
 
-// HTML is escape in the loop above.
+// HTML is escaped in the loop above.
 echo $block; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

@@ -188,7 +188,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 
 		<?php if ( current_user_can( $taxonomy->getCapabilities()->delete_terms, $term->term_id ) ) : ?>
 			<span id="delete-link">
-				<a class="delete" href="<?php echo admin_url( wp_nonce_url( "admin.php?cn-action=delete-term&id={$term->term_id}&taxonomy={$taxonomy->getSlug()}&_wp_http_referer={$referer}", "term_delete_{$term->term_id}" ) ); ?>"><?php _e( 'Delete' ); ?></a>
+				<a class="delete" href="<?php echo esc_url( admin_url( wp_nonce_url( "admin.php?cn-action=delete-term&id={$term->term_id}&taxonomy={$taxonomy->getSlug()}&_wp_http_referer={$referer}", "term_delete_{$term->term_id}" ) ) ); ?>"><?php _e( 'Delete' ); ?></a>
 			</span>
 		<?php endif; ?>
 

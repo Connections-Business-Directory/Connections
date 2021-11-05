@@ -54,8 +54,27 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
-			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
+			$template->part(
+				array(
+					'tag'      => 'card',
+					'type'     => 'action',
+					'callback' => array(
+						__CLASS__,
+						'card',
+					),
+				)
+			);
+
+			$template->part(
+				array(
+					'tag'      => 'css',
+					'type'     => 'action',
+					'callback' => array(
+						$template,
+						'printCSS',
+					),
+				)
+			);
 
 			// Update the permitted shortcode attributes the user may use and override the template defaults as needed.
 			add_filter( 'cn_list_atts_permitted-' . $template->getSlug() , array( __CLASS__, 'registerAtts') );

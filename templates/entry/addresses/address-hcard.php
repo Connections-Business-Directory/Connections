@@ -203,7 +203,7 @@ foreach ( $addresses as $address ) {
 					'home_id'    => $entry->directoryHome['page_id'],
 					'force_home' => $entry->directoryHome['force_home'],
 					'return'     => true,
-					)
+				)
 			);
 
 		} else {

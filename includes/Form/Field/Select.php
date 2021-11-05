@@ -260,8 +260,8 @@ class Select extends Field {
 		if ( $this->isReadOnly() ) {
 
 			$hidden = Hidden::create()
-			                ->setName( $this->getName() )
-			                ->setValue( $this->getValue() );
+							->setName( $this->getName() )
+							->setValue( $this->getValue() );
 		}
 
 		return "<select {$attributes}>{$options}</select>{$hidden}";

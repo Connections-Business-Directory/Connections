@@ -270,7 +270,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	if ( cnSettingsAPI::get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
 		$search  = array( "\r\n", "\r", "\n", "\t" );
 		$replace = array( '', '', '', '' );
-		$out     = str_replace( $search , $replace , $out );
+		$out     = str_replace( $search, $replace, $out );
 	}
 
 	// Clear any filters that have been added.

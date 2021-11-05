@@ -1,4 +1,8 @@
 <?php
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+ */
 
 // Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {

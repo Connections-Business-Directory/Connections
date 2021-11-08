@@ -5,6 +5,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 use cnEntry;
 use cnMeta;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Custom_Fields
@@ -126,12 +127,12 @@ class Custom_Fields extends Content_Block {
 				'cn_entry_output_meta_key',
 				sprintf(
 					'<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
-					$atts['item_tag'],
-					$atts['key_tag'],
-					trim( $key ),
-					$atts['separator'],
-					$atts['value_tag'],
-					implode( ', ', (array) $value )
+					_escape::tagName( $atts['item_tag'] ),
+					_escape::tagName( $atts['key_tag'] ),
+					esc_html( trim( $key ) ),
+					esc_html( $atts['separator'] ),
+					_escape::tagName( $atts['value_tag'] ),
+					esc_html( implode( ', ', (array) $value ) )
 				),
 				$atts,
 				$key,
@@ -148,13 +149,14 @@ class Custom_Fields extends Content_Block {
 			'cn_entry_output_meta_container',
 			sprintf(
 				'<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
-				$atts['container_tag'],
+				_escape::tagName( $atts['container_tag'] ),
 				$html
 			),
 			$atts,
 			$metadata
 		);
 
-		echo $atts['before'] . $html . $atts['after'] . PHP_EOL;
+		// HTML is escaped above.
+		echo $atts['before'] . $html . $atts['after'] . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

@@ -965,7 +965,6 @@ class cnTemplate {
 		switch ( $ext ) {
 
 			case 'php':
-
 				// If this is a legacy template which has a `functions.php` file and it being searched for thru
 				// @see locate(), do not add the legacy 'template.php' filename.
 				if ( $base == 'functions' ) {
@@ -984,7 +983,6 @@ class cnTemplate {
 				break;
 
 			case 'css':
-
 				// If this is a legacy template, add the file 'styles.css' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['css'] ) && ! empty( $this->parts['css'] ) ) {
 					$files[] = $this->parts['css'];
@@ -993,7 +991,6 @@ class cnTemplate {
 				break;
 
 			case 'js':
-
 				// If this is a legacy template, add the file 'template.js' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['js'] ) && ! empty( $this->parts['js'] ) ) {
 					$files[] = $this->parts['js'];

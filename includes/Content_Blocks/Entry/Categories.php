@@ -65,9 +65,9 @@ class Categories extends Content_Block {
 	 *                                    Default: ', '
 	 *     @type string $parent_separator The separator to be used when displaying the category's hierarchy.
 	 *                                    Default: ' &raquo; '
-	 *     @type bool   $link             Whether or not render the categories as permalinks.
+	 *     @type bool   $link             Whether to render the categories as permalinks.
 	 *                                    Default: false
-	 *     @type bool   $parents          Whether or not to display the category hierarchy.
+	 *     @type bool   $parents          Whether to display the category hierarchy.
 	 *                                    Default: false
 	 *     @type int    $child_of         Term ID to retrieve child terms of.
 	 *                                    If multiple taxonomies are passed, $child_of is ignored.

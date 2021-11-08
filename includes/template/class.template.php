@@ -976,7 +976,7 @@ class cnTemplate {
 					break;
 				}
 
-				// If this is a legacy template, add the file 'template.php' as the least priority ( last in the file name array )
+				// If this is a legacy template, add the file 'template.php' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['card'] ) && ! empty( $this->parts['card'] ) ) {
 					$files[] = $this->parts['card'];
 				}
@@ -985,7 +985,7 @@ class cnTemplate {
 
 			case 'css':
 
-				// If this is a legacy template, add the file 'styles.css' as the least priority ( last in the file name array )
+				// If this is a legacy template, add the file 'styles.css' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['css'] ) && ! empty( $this->parts['css'] ) ) {
 					$files[] = $this->parts['css'];
 				}
@@ -994,7 +994,7 @@ class cnTemplate {
 
 			case 'js':
 
-				// If this is a legacy template, add the file 'template.js' as the least priority ( last in the file name array )
+				// If this is a legacy template, add the file 'template.js' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['js'] ) && ! empty( $this->parts['js'] ) ) {
 					$files[] = $this->parts['js'];
 				}

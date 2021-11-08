@@ -9,7 +9,8 @@
 
 		<div class='slick-slide-column'>
 
-			<?php $entry->getImage(
+			<?php
+			$entry->getImage(
 				array(
 					'image'    => $atts['imageType'],
 					'size'     => 'custom',

@@ -14,6 +14,8 @@ use Connections_Directory\Content_Block;
 class Custom_Fields extends Content_Block {
 
 	/**
+	 * The Content Block ID.
+	 *
 	 * @since 9.7
 	 * @var string
 	 */
@@ -24,7 +26,7 @@ class Custom_Fields extends Content_Block {
 	 *
 	 * @since 9.7
 	 *
-	 * @param string $id
+	 * @param string $id The Content Block ID.
 	 */
 	public function __construct( $id ) {
 
@@ -38,6 +40,8 @@ class Custom_Fields extends Content_Block {
 	}
 
 	/**
+	 * Callback for the `permission_callback` parameter.
+	 *
 	 * @since 9.6
 	 *
 	 * @return bool

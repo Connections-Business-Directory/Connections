@@ -126,7 +126,7 @@ class Categories extends Content_Block {
 	}
 
 	/**
-	 * Displays the category list in a HTML list or custom format.
+	 * Displays the category list in an HTML list or custom format.
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_the_category_list() in WordPress core ../wp-includes/category-template.php
 	 *

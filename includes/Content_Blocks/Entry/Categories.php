@@ -18,6 +18,8 @@ use function Connections_Directory\Taxonomy\Partial\getTermParents;
 class Categories extends Content_Block {
 
 	/**
+	 * The Content Block ID.
+	 *
 	 * @since 9.7
 	 * @var string
 	 */
@@ -26,7 +28,7 @@ class Categories extends Content_Block {
 	/**
 	 * Entry_Categories constructor.
 	 *
-	 * @param string $id
+	 * @param string $id The Content Block ID.
 	 */
 	public function __construct( $id ) {
 
@@ -43,6 +45,8 @@ class Categories extends Content_Block {
 	}
 
 	/**
+	 * The default properties of the Content Block.
+	 *
 	 * @since 9.7
 	 *
 	 * @return array {
@@ -101,10 +105,12 @@ class Categories extends Content_Block {
 	}
 
 	/**
+	 * Set a Content Block property value by ID.
+	 *
 	 * @since 9.7
 	 *
-	 * @param string $property
-	 * @param mixed  $value
+	 * @param string $property The property name.
+	 * @param mixed  $value    The property value.
 	 */
 	public function set( $property, $value ) {
 
@@ -117,6 +123,8 @@ class Categories extends Content_Block {
 	}
 
 	/**
+	 * Callback for the `permission_callback` parameter.
+	 *
 	 * @since 9.7
 	 *
 	 * @return bool

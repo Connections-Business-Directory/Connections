@@ -1124,10 +1124,6 @@ class cnTemplate {
 		$search  = array( "\r\n", "\r", "\n", "\t", '%%PATH%%' );
 		$replace = array( ' ', ' ', ' ', ' ', $this->getURL() );
 
-		/**
-		 * @TODO Create a page pre-process function so the CSS outputs only once in the page head.
-		 */
-
 		// Loads the CSS style in the body, valid HTML5 when set with the 'scoped' attribute.
 		// However, if the sever is running the pagespeed mod, the scoped setting will cause the CSS
 		// not to be applied because it is moved to the page head where it belongs.

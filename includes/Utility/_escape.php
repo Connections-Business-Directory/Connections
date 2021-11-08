@@ -37,16 +37,15 @@ final class _escape {
 	 * @since 10.4
 	 *
 	 * @param array|string $classNames An array of or string of class names to escape.
-	 * @param string       $delimiter  The string delimiter if the class names are provided as a string.
 	 * @param bool         $echo       Whether to echo the escaped value.
 	 *
 	 * @return string
 	 */
-	public static function classNames( $classNames, $delimiter = ' ', $echo = false ) {
+	public static function classNames( $classNames, $echo = false ) {
 
 		if ( ! is_array( $classNames ) ) {
 
-			$classNames = explode( $delimiter, $classNames );
+			$classNames = explode( ' ', $classNames );
 		}
 
 		$classNames = array_map( 'sanitize_html_class', $classNames );

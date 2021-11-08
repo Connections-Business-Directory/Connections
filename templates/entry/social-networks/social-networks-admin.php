@@ -2,8 +2,6 @@
 /**
  * This is a copy/paste of the code which used to reside in manage.php file.
  *
- * @todo Clean so it is better "template" code.
- *
  * @var cnCollection           $networks
  * @var cnEntry_Social_Network $network
  */

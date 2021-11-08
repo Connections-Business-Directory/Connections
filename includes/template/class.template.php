@@ -151,7 +151,7 @@ class cnTemplate {
 	private $supports = array();
 
 	/**
-	 * Setup the template.
+	 * Set up the template.
 	 *
 	 * @access public
 	 * @since  0.7.6

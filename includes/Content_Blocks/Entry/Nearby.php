@@ -64,7 +64,6 @@ class Nearby extends Content_Block {
 
 		if ( ! $template instanceof Template ) {
 
-			// echo '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 			return;
 		}
 
@@ -75,7 +74,6 @@ class Nearby extends Content_Block {
 
 		if ( 0 >= count( $related ) ) {
 
-			// echo '<p>' . esc_html__( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
 			return;
 		}
 

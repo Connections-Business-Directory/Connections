@@ -931,7 +931,7 @@ class cnTemplate {
 		switch ( $ext ) {
 
 			case 'php':
-				// If this is a legacy template which has a `functions.php` file and it being searched for thru
+				// If this is a legacy template which has a `functions.php` file and it being searched for through
 				// @see locate(), do not add the legacy 'template.php' filename.
 				if ( $base == 'functions' ) {
 

@@ -86,7 +86,7 @@ function getTermParents( $id, $taxonomy, $atts = array() ) {
 			$href  = esc_url( $permalink );
 			$sep   = esc_html( $atts['separator'] );
 
-			$chain .= '<span class="' . $class . '" id="' . $id . '">' . '<a href="' . $href . '">' . $name . '</a>' . $sep . '</span>';
+			$chain .= '<span class="' . $class . '" id="' . $id . '"><a href="' . $href . '">' . $name . '</a>' . $sep . '</span>';
 		}
 
 	} else {

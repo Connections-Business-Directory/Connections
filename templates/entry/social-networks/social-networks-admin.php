@@ -11,7 +11,7 @@ echo '<div class="social-networks">';
 
 foreach ( $networks as $network ) {
 
-	$network->preferred ? $preferred = '*' : $preferred = '';
+	$preferred = $network->preferred ? '*' : '';
 
 	echo '<span class="social-network"><strong>', $network->name, ':</strong> <a target="_blank" href="', $network->url, '">', $network->url . '</a>', $preferred, '</span>';
 }

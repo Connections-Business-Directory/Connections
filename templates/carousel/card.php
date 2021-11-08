@@ -23,7 +23,7 @@
 				)
 			);
 			?>
-			<h3><?php echo $entry->getName(); ?></h3>
+			<h3><?php echo esc_html( $entry->getName() ); ?></h3>
 			<?php
 
 			if ( $atts['displayTitle'] ) {

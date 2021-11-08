@@ -604,7 +604,6 @@ class cnTemplate {
 			switch ( $atts['tag'] ) {
 
 				case 'card':
-
 					if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) ) {
 
 						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );
@@ -615,7 +614,6 @@ class cnTemplate {
 					break;
 
 				case 'card_single':
-
 					if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) ) {
 
 						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );
@@ -626,13 +624,11 @@ class cnTemplate {
 					break;
 
 				case 'css':
-
 					// code here...
 
 					break;
 
 				case 'js':
-
 					if ( ! has_action( 'cn_template_enqueue_js-' . $this->slug ) ) {
 
 						add_action( 'cn_template_enqueue_js-' . $this->slug, $atts['callback'], 10, 3 );

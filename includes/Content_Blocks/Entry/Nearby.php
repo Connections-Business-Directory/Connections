@@ -177,7 +177,6 @@ class Nearby extends Content_Block {
 		foreach ( $related as $entry ) {
 
 			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $attributes );
-			// do_action( 'cn_template-names', $entry, $template, $attributes );
 		}
 
 		$html = ob_get_clean();

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Utility\_escape;
-use function Connections_Directory\HTML\stringifyCSSAttributes;
+use Connections_Directory\Utility\_html;
 
 /**
  * @var array        $atts  The shortcode attributes arrays.
@@ -26,7 +26,7 @@ $style = array(
 	'position'         => 'relative',
 );
 $bio   = $entry->getBio();
-$css   = stringifyCSSAttributes( $style );
+$css   = _html::stringifyCSSAttributes( $style );
 $notes = $entry->getNotes();
 ?>
 <div class="cn-entry" style="<?php _escape::css( $css, true ); ?>">

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Utility\_escape;
-use function Connections_Directory\HTML\stringifyCSSAttributes;
+use Connections_Directory\Utility\_html;
 
 /**
  * @var cnOutput $entry
@@ -28,7 +28,7 @@ $style = array(
 	'position'         => 'relative',
 );
 
-$css = stringifyCSSAttributes( $style );
+$css = _html::stringifyCSSAttributes( $style );
 ?>
 <div class="cn-entry" style="<?php _escape::css( $css, true ); ?>">
 

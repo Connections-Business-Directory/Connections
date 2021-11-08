@@ -3,6 +3,7 @@
  * @var array $atts
  * @var cnOutput $entry
  */
+
 ?>
 <div class="cn-team-member">
 	<?php

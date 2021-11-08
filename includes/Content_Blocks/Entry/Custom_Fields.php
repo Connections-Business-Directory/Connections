@@ -92,7 +92,7 @@ class Custom_Fields extends Content_Block {
 	 *
 	 * @since  9.6
 	 *
-	 * @param array $metadata The metadata array
+	 * @param array $metadata The metadata array.
 	 */
 	private function metaFields( $metadata ) {
 

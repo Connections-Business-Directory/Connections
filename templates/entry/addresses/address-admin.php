@@ -57,7 +57,7 @@ foreach ( $addresses as $address ) {
 	}
 
 	if ( ! empty( $outCache ) ) {
-		// // HTML is escaped above.
+		// HTML is escaped above.
 		echo '<span style="display: block">', implode( '&nbsp;', $outCache ), '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 

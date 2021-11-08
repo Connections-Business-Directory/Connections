@@ -245,7 +245,7 @@ class cnTemplate {
 				// The action should only be added once.
 				if ( ! has_action( 'cn_template_inline_css-' . $this->slug ) ) {
 
-					add_action( 'cn_template_inline_css-' . $this->slug , array( $this, 'printCSS' ), 10, 3 );
+					add_action( 'cn_template_inline_css-' . $this->slug, array( $this, 'printCSS' ), 10, 3 );
 				}
 
 			} else {
@@ -262,7 +262,7 @@ class cnTemplate {
 		// var_dump($customCSS);
 
 		// If a custom CSS file was found, lets register it.
-		if ( $customCSS  !== false ) {
+		if ( $customCSS !== false ) {
 			// var_dump($customCSS);
 
 			$this->parts['css-custom-path'] = $customCSS;
@@ -431,7 +431,7 @@ class cnTemplate {
 		 */
 		if ( empty( $this->path ) && ! empty( $this->class ) ) {
 
-			$reflector = new ReflectionClass( $this->class );
+			$reflector  = new ReflectionClass( $this->class );
 			$this->path = trailingslashit( dirname( $reflector->getFileName() ) );
 			// var_dump( $this->path );
 		}
@@ -580,7 +580,7 @@ class cnTemplate {
 			'tag'      => '',
 			'type'     => '',
 			'callback' => '',
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
@@ -593,7 +593,7 @@ class cnTemplate {
 
 						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );
 
-						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , $atts['callback'], 10, 3 );
+						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug, $atts['callback'], 10, 3 );
 					}
 
 					break;
@@ -603,7 +603,7 @@ class cnTemplate {
 
 						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );
 
-						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , $atts['callback'], 10, 3 );
+						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug, $atts['callback'], 10, 3 );
 					}
 
 					break;
@@ -725,7 +725,7 @@ class cnTemplate {
 	 */
 	private function filePaths() {
 
-		$path  = array();
+		$path = array();
 
 		$template_directory = trailingslashit( 'connections-templates' );
 
@@ -806,7 +806,7 @@ class cnTemplate {
 
 		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-			$region  = $this->queryVarSlug( cnQuery::getVar( 'cn-region' ) );
+			$region = $this->queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = $this->fileName( $base, 'region', $region, $ext );
 			$files[] = $this->fileName( $base, 'region', null, $ext );

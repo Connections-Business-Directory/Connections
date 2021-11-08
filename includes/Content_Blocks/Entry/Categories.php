@@ -22,12 +22,6 @@ class Categories extends Content_Block {
 	 */
 	const ID = 'entry-categories';
 
-	///**
-	// * @since 9.7
-	// * @var array
-	// */
-	// private $properties = array();
-
 	/**
 	 * Entry_Categories constructor.
 	 *

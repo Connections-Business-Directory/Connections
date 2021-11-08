@@ -264,12 +264,12 @@ class Categories extends Content_Block {
 			$items
 		);
 
-		echo apply_filters(
+		echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'cn_entry_output_category_container',
 			sprintf(
 				'<%1$s class="cn-categories">%2$s</%1$s>' . PHP_EOL,
-				$this->get( 'container_tag' ),
-				$label . $html
+				_escape::tagName( $this->get( 'container_tag' ) ),
+				$label . $html // Both `$label` and `$html` are escaped.
 			),
 			$properties
 		);

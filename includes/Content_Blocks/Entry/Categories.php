@@ -7,6 +7,7 @@ use cnFormatting;
 use cnSanitize;
 use cnTerm;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 
 /**
@@ -164,7 +165,7 @@ class Categories extends Content_Block {
 
 			$label = sprintf(
 				'<%1$s class="cn_category_label">%2$s</%1$s> ',
-				$this->get( 'label_tag' ),
+				_escape::tagName( $this->get( 'label_tag' ) ),
 				esc_html( $this->get( 'label' ) )
 			);
 		}
@@ -216,9 +217,11 @@ class Categories extends Content_Block {
 			$items[] = apply_filters(
 				'cn_entry_output_category_item',
 				sprintf(
-					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
-					$this->get( 'item_tag' ),
-					$category->term_id,
+					'<%1$s class="%2$s">%3$s</%1$s>',
+					_escape::tagName( $this->get( 'item_tag' ) ),
+					// The `cn_category` class is named with an underscore for backward compatibility.
+					_escape::classNames( "cn-category-name cn_category cn-category-{$category->term_id}" ),
+					// `$text` is escaped.
 					$text
 				),
 				$category,

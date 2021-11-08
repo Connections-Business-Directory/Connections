@@ -5,7 +5,6 @@ namespace Connections_Directory\Content_Blocks\Entry;
 use cnEntry;
 use cnFormatting;
 use cnSanitize;
-use cnTemplatePart;
 use cnTerm;
 use Connections_Directory\Content_Block;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;

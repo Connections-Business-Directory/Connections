@@ -18,17 +18,19 @@ use Connections_Directory\Entry\Functions as Entry_Helper;
 class Nearby extends Content_Block {
 
 	/**
+	 * The Content Block ID.
+	 *
 	 * @since 9.8
 	 * @var string
 	 */
 	const ID = 'entry-nearby';
 
 	/**
-	 * Near constructor.
+	 * Nearby constructor.
 	 *
 	 * @since 9.9
 	 *
-	 * @param $id
+	 * @param string $id The Content Block ID.
 	 */
 	public function __construct( $id ) {
 
@@ -139,11 +141,13 @@ class Nearby extends Content_Block {
 	}
 
 	/**
+	 * Render the template HTML.
+	 *
 	 * @since 9.8
 	 *
-	 * @param Template   $template
-	 * @param cnOutput[] $related
-	 * @param array      $attributes
+	 * @param Template       $template   Instance of the Template object.
+	 * @param cnEntry_HTML[] $related    Array of Entry objects.
+	 * @param array          $attributes The carousel instance attributes.
 	 *
 	 * @return string
 	 */

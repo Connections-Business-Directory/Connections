@@ -1089,9 +1089,9 @@ function cnAlterTable( $tableName, $columnName, $sql ) {
  *
  * Credit WordPress plug-in NGG.
  *
- * @param string  $tableName  Database table name.
- * @param string  $columnName Database column name to create.
- * @param string  $sql        SQL statement to create column
+ * @param string $tableName  Database table name.
+ * @param string $columnName Database column name to create.
+ * @param string $sql        SQL statement to create column
  * @return bool
  */
 function cnAddTableColumn( $tableName, $columnName, $sql ) {

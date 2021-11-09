@@ -176,7 +176,7 @@ class Content_Block {
 	 *
 	 * @param $object
 	 */
-	public function useObject( $object) {
+	public function useObject( $object ) {
 
 		$this->object = $object;
 	}

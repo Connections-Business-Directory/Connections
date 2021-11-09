@@ -860,7 +860,7 @@ class cnTemplate {
 		$files = apply_filters( 'cn_template_file_names-' . $this->slug, $files, $base, $name, $slug, $ext );
 		// var_dump( $files );
 
-		// Sort the files based on priority
+		// Sort the files based on priority.
 		ksort( $files, SORT_NUMERIC );
 		// var_dump( $files );
 

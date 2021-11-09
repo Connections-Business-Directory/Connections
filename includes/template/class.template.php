@@ -1069,8 +1069,7 @@ class cnTemplate {
 	}
 
 	/**
-	 * Loads the CSS file while replacing %%PATH%% with the URL
-	 * to the template.
+	 * Loads the CSS file while replacing %%PATH%% with the URL to the template.
 	 *
 	 * @internal
 	 * @since      0.7.6

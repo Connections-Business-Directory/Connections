@@ -111,7 +111,7 @@ class CN_Walker_Term_Select_List extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$walker = new self;
+		$walker = new self();
 
 		$walker->tree_type = $atts['taxonomy'];
 

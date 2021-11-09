@@ -185,9 +185,9 @@ class CN_Walker_Term_Check_List extends Walker {
 		$name = esc_attr( $args['name'] );
 
 		$out .= PHP_EOL . "<li id='{$type}-{$term->term_id}'>" . '<label class="selectit"><input value="' . $term->term_id . '" type="checkbox" name="' . $name . '[]" id="cn-in-' . $type . '-' . $term->term_id . '"' .
-		        checked( in_array( $term->term_id, $args['selected'] ), true, false ) .
-		        disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
-		        esc_html( $term->name ) . '</label>';
+				checked( in_array( $term->term_id, $args['selected'] ), true, false ) .
+				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
+				esc_html( $term->name ) . '</label>';
 
 		if ( $args['show_count'] ) {
 

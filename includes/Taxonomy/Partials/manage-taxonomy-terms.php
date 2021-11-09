@@ -24,7 +24,7 @@ if ( ! current_user_can( $taxonomy->getCapabilities()->manage_terms ) ) {
 
 // // Grab an instance of the Connections object.
 // $instance = Connections_Directory();
-$form     = new cnFormObjects();
+$form = new cnFormObjects();
 
 /**
  * @var CN_Term_Admin_List_Table $table

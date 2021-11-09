@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Functions to upgrade the table structure.
  *

@@ -22,7 +22,6 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * What the class handles.
 	 *
-	 * @see   Walker::$tree_type
 	 * @since 8.2.4
 	 * @var string
 	 */
@@ -31,7 +30,6 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * Database fields to use.
 	 *
-	 * @see   Walker::$db_fields
 	 * @since 8.2.4
 	 * @todo  Decouple this
 	 * @var array
@@ -39,23 +37,12 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	public $db_fields = array( 'parent' => 'parent', 'id' => 'term_id' );
 
 	/**
-	 * Render an checklist of terms.
+	 * Render af checklist of terms.
 	 *
 	 * This is the Connections equivalent of @see wp_terms_checklist() in WordPress core ..wp-admin/wp-includes/template.php
 	 *
-	 * @access public
 	 * @since  8.2.4
 	 * @static
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   cnTerm::getTaxonomyTerms()
-	 * @uses   wp_parse_id_list()
-	 * @uses   is_wp_error()
-	 * @uses   esc_attr()
-	 * @uses   apply_filters
-	 * @uses   checked()
-	 * @uses   esc_html()
-	 * @uses   Walker::walk()
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
@@ -192,13 +179,11 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * Starts the list before the elements are added.
 	 *
-	 * @see   Walker:start_lvl()
-	 *
 	 * @since 8.2.4
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render()
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 */
 	public function start_lvl( &$out, $depth = 0, $args = array() ) {
 
@@ -208,13 +193,11 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * Ends the list of after the elements are added.
 	 *
-	 * @see   Walker::end_lvl()
-	 *
 	 * @since 8.2.4
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render()
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 */
 	public function end_lvl( &$out, $depth = 0, $args = array() ) {
 
@@ -224,19 +207,12 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * Start the element output.
 	 *
-	 * @see   Walker::start_el()
-	 *
 	 * @since 8.2.4
-	 *
-	 * @uses  esc_attr()
-	 * @uses  disabled()
-	 * @uses  esc_html()
-	 * @uses  number_format_i18n()
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param object $term   The current term object.
 	 * @param int    $depth  Depth of the term in reference to parents. Default 0.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render()
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 * @param int    $id     ID of the current term.
 	 */
 	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {

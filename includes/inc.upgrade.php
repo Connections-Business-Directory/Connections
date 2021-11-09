@@ -212,8 +212,7 @@ function cnRunDBUpgrade() {
 
 				if ( isset( $options['entry']['type'] ) ) {
 					$entryType = $options['entry']['type'];
-				}
-				else {
+				} else {
 					$entryType = 'individual';
 				}
 
@@ -704,8 +703,7 @@ function cnRunDBUpgrade() {
 						$alt_slug = $slug . "-$num";
 						$num++;
 						$slug_check = $wpdb->get_var( $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $alt_slug ) );
-					}
-					while ( $slug_check );
+					} while ( $slug_check );
 
 					$slug = $alt_slug;
 				}

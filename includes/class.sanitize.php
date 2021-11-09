@@ -144,8 +144,6 @@ class cnSanitize {
 	 * Sanitize the input string. HTML tags can be permitted.
 	 * The permitted tags can be supplied in an array.
 	 *
-	 * @TODO: Finish the code needed to support the $permittedTags array.
-	 *
 	 * @since unknown
 	 * @deprecated 9.11
 	 *

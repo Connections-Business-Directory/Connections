@@ -48,7 +48,7 @@ $table->prepare_items();
 		echo '<span class="subtitle">';
 		printf(
 			/* translators: %s: Search query. */
-			esc_html__( 'Search results for: %s' ),
+			esc_html__( 'Search results for: %s', 'connections' ),
 			'<strong>' . esc_html( wp_unslash( $_REQUEST['s'] ) ) . '</strong>'
 		);
 		echo '</span>';

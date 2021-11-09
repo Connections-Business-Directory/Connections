@@ -249,11 +249,11 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				'<select %1$s %2$s name="%3$s"%4$s%5$sdata-placeholder="%6$s"%7$s%8$s>' . PHP_EOL,
 				empty( $atts['class'] ) ? '' : cnHTML::attribute( 'class', $atts['class'] ),
 				empty( $atts['id'] ) ? '' : cnHTML::attribute( 'id', $atts['id'] ),
-				$atts['type'] == 'multiselect' ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
+				'multiselect' == $atts['type'] ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
 				empty( $atts['style'] ) ? '' : cnHTML::attribute( 'style', $atts['style'] ),
-				$atts['type'] == 'multiselect' ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
+				'multiselect' == $atts['type'] ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
 				esc_attr( $atts['default'] ),
-				$atts['type'] == 'multiselect' ? ' MULTIPLE' : '',
+				'multiselect' == $atts['type'] ? ' MULTIPLE' : '',
 				(int) $atts['tab_index'] > 0 ? " tabindex=\"{$atts['tab_index']}\"" : ''
 			);
 

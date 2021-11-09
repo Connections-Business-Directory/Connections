@@ -134,7 +134,8 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		if ( true === $atts['echo'] ) {
 
-			echo $out;
+			// The checklist is escaped as it is being built.
+			echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $out;

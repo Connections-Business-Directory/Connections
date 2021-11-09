@@ -17,6 +17,8 @@
  *     @type callable $callback Metabox display callback.
  *     @type array    $args     Extra meta box arguments.
  * }
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 $defaults = array(

@@ -212,19 +212,20 @@ final class Widget extends WP_Widget {
 			$this->id_base
 		);
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action( 'Connections_Directory/Taxonomy/Widget/Before', $args, $instance, $this );
 
 		if ( 0 < strlen( $title ) ) {
 
-			echo $args['before_title'] . $title . $args['after_title'] . PHP_EOL;
+			echo $args['before_title'] . esc_html( $title ) . $args['after_title'] . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		echo $blockHTML;
+		// HTML is escaped in the Content Block action callback.
+		echo $blockHTML; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action( 'Connections_Directory/Taxonomy/Widget/After', $args, $instance, $this );
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

@@ -7,6 +7,8 @@
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       unknown
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 
 // Exit if accessed directly.

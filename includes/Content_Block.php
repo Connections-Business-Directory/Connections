@@ -84,7 +84,7 @@ class Content_Block {
 	 */
 	public function __construct( $id, $atts = array() ) {
 
-		$this->id = $id;
+		$this->id        = $id;
 		$this->shortName = $this->getShortName();
 
 		$atts = cnSanitize::args( $atts, $this->defaults() );

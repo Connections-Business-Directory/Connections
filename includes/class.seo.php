@@ -469,7 +469,7 @@ class cnSEO {
 	 *
 	 * @return array
 	 */
-	public static function  filterDocumentTitle( $parts ) {
+	public static function filterDocumentTitle( $parts ) {
 
 		$parts['title'] = self::metaTitle( $parts['title'] );
 

@@ -72,7 +72,7 @@ class cnSEO {
 		) {
 
 			// Update the post dates to reflect the dates of the entry.
-			add_filter( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
+			add_filter( 'the_posts', array( __CLASS__, 'postDates' ), 10, 2 );
 
 			/*
 			 * Add the page meta description.

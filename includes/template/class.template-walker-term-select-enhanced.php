@@ -367,7 +367,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param int    $depth Depth of category in reference to parents. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render()
+	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 */
 	public function start_lvl( &$out, $depth = 0, $args = array() ) {
 

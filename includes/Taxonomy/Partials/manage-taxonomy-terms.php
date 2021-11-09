@@ -17,10 +17,7 @@ if ( ! $taxonomy->showUI() ) {
 if ( ! current_user_can( $taxonomy->getCapabilities()->manage_terms ) ) {
 
 	wp_die(
-		'<h1>' . esc_html__( 'You need a higher level of permission.', 'connections' ) . '</h1>' . '<p>' . esc_html__(
-			'Sorry, you are not allowed to manage terms in this taxonomy.',
-			'connections'
-		) . '</p>',
+		'<h1>' . esc_html__( 'You need a higher level of permission.', 'connections' ) . '</h1><p>' . esc_html__( 'Sorry, you are not allowed to manage terms in this taxonomy.', 'connections' ) . '</p>',
 		403
 	);
 }

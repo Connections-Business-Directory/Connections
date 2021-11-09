@@ -330,7 +330,7 @@ class cnSEO {
 				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) ) );
 			}
 
-			if ( 'page' == get_option( 'show_on_front' ) && $pageID == get_option( 'page_on_front' ) ) {
+			if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $pageID ) {
 
 				$link = trailingslashit( $link );
 

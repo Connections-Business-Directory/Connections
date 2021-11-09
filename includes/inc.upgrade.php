@@ -38,7 +38,7 @@ function connectionsShowUpgradePage() {
 
 		$url = add_query_arg(
 			array(
-				'page' => $_GET['page'],
+				'page'       => $_GET['page'],
 				'upgrade-db' => 'do',
 			),
 			self_admin_url( 'admin.php' )

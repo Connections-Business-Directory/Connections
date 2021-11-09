@@ -329,7 +329,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				$walker->close_group = false;
 			}
 
-			$select .= "</select>" . PHP_EOL;
+			$select .= '</select>' . PHP_EOL;
 
 			$replace[] = $select;
 

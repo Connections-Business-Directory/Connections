@@ -101,19 +101,19 @@ class CN_Walker_Term_Radio_Group extends Walker {
 		$out = '';
 
 		$defaults = array(
-			'taxonomy'          => 'category',
-			'hierarchical'      => true,
-			'name'              => 'cn-cat',
-			'show_select_all'   => true,
-			'show_option_all'   => __( 'Select Category', 'connections' ),
-			'show_count'        => false,
-			'hide_empty'        => false,
-			'depth'             => 0,
-			'parent_id'         => array(),
-			'selected'          => 0,
-			'before'            => '',
-			'after'             => '',
-			'return'            => false,
+			'taxonomy'        => 'category',
+			'hierarchical'    => true,
+			'name'            => 'cn-cat',
+			'show_select_all' => true,
+			'show_option_all' => __( 'Select Category', 'connections' ),
+			'show_count'      => false,
+			'hide_empty'      => false,
+			'depth'           => 0,
+			'parent_id'       => array(),
+			'selected'        => 0,
+			'before'          => '',
+			'after'           => '',
+			'return'          => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

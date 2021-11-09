@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_validate;
+
 /**
  * cnCSV_Export Class
  *
@@ -79,8 +81,6 @@ class cnCSV_Export {
 	 *
 	 * @since 8.5.1
 	 * @since 9.7   Add protection against CSV Injection, also known as Formula Injection.
-	 *              Add filter `add_filter( 'cn_csv_export_suspicious_value_prefix', '__return_empty_string' );`
-	 *              to remove suspicious string prefix.
 	 *
 	 * @param string $string The string to escape.
 	 *
@@ -92,22 +92,15 @@ class cnCSV_Export {
 		$pattern = '/^([=@\+\-])/';
 
 		/**
-		 * If {$string} begins with suspect character, prefix the {$string} with a warning.
+		 * If {$string} begins with suspect character, prefix the {$string} with an apostrophe/single-quote.
+		 * If a valid float, including a negative, do not prefix.
 		 */
-		if ( 1 === preg_match( $pattern, $string ) ) {
+		if ( 1 === preg_match( $pattern, $string ) &&
+			 ! _validate::isFloat( $string )
+		) {
 
-			$prefix = __( '(Security Alert: Suspicious content detected.)', 'connections' );
-			$prefix = apply_filters( 'cn_csv_export_suspicious_value_prefix', $prefix, $string );
-
-			/**
-			 * Protect against a translation attack.
-			 */
-			if ( 1 === preg_match( $pattern, $prefix ) ) {
-
-				$prefix = '\'' . $prefix;
-			}
-
-			$string = preg_replace( $pattern, "{$prefix} $1", $string );
+			$prefix = "'";
+			$string = preg_replace( $pattern, "{$prefix}$1", $string );
 		}
 
 		return str_replace( '"', '""', $string );

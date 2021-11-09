@@ -10,7 +10,7 @@
  * @since       0.7.8
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 use Connections_Directory\Entry\Functions as Entry_Helper;
 use Connections_Directory\Model\Format\Address\As_String;
 

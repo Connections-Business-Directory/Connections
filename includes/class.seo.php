@@ -840,7 +840,7 @@ class cnSEO {
 			return;
 		}
 
-		echo '<meta name="description" content="' . self::getMetaDescription() . '" />' . "\n";
+		echo '<meta name="description" content="' . esc_attr( self::getMetaDescription() ) . '" />' . "\n";
 	}
 
 	/**

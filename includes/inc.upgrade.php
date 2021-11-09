@@ -22,7 +22,7 @@ function connectionsShowUpgradePage() {
 	 */
 	if ( ! current_user_can( 'connections_manage' ) ) {
 		wp_die(
-            '<p id="error-page" style="-moz-background-clip:border;
+			'<p id="error-page" style="-moz-background-clip:border;
 				-moz-border-radius:11px;
 				background:#FFFFFF none repeat scroll 0 0;
 				border:1px solid #DFDFDF;
@@ -342,7 +342,7 @@ function cnRunDBUpgrade() {
 						}
 
 						$sql = $wpdb->prepare(
-                            'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
+							'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -417,7 +417,7 @@ function cnRunDBUpgrade() {
 						}
 
 						$sql = $wpdb->prepare(
-                            'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
+							'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -476,7 +476,7 @@ function cnRunDBUpgrade() {
 						}
 
 						$sql = $wpdb->prepare(
-                            'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
+							'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -531,7 +531,7 @@ function cnRunDBUpgrade() {
 						}
 
 						$sql = $wpdb->prepare(
-                            'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
+							'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -586,7 +586,7 @@ function cnRunDBUpgrade() {
 						}
 
 						$sql = $wpdb->prepare(
-                            'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
+							'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -644,7 +644,7 @@ function cnRunDBUpgrade() {
 						}
 
 						$sql = $wpdb->prepare(
-                            'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
+							'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
 												`entry_id`			= "%d",
 												`order`				= "%d",
 												`preferred`			= "%d",
@@ -1009,9 +1009,9 @@ function cnRunDBUpgrade() {
 			echo '<li>' , esc_html__( 'Adding columns... "line_4", "district" and "county"', 'connections' ) , '</li>' . PHP_EOL;
 
 			if ( cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'line_4', 'tinytext NOT NULL AFTER line_3' ) &&
-			     cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'district', 'tinytext NOT NULL AFTER line_4' ) &&
-			     cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'county', 'tinytext NOT NULL AFTER district' )
-			     ) {
+				 cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'district', 'tinytext NOT NULL AFTER line_4' ) &&
+				 cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'county', 'tinytext NOT NULL AFTER district' )
+				 ) {
 
 				echo '<ul><li>' , esc_html__( 'SUCCESS', 'connections' ) , '</li></ul>' . PHP_EOL;
 

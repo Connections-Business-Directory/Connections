@@ -1090,7 +1090,7 @@ function cnAlterTable( $tableName, $columnName, $sql ) {
  *
  * @param string $tableName  Database table name.
  * @param string $columnName Database column name to create.
- * @param string $sql        SQL statement to create column
+ * @param string $sql        SQL statement to create column.
  * @return bool
  */
 function cnAddTableColumn( $tableName, $columnName, $sql ) {

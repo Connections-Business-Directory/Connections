@@ -3,6 +3,8 @@
  * @since 10.2
  *
  * @var Connections_Directory\Taxonomy $taxonomy
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 use Connections_Directory\Utility\_array;

@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
 /**
  * Class cnTemplate
  *
@@ -1054,10 +1056,13 @@ class cnTemplate {
 	 *
 	 * @internal
 	 * @since      0.7.6
+	 * @deprecated 10.4.6
 	 *
 	 * @return void
 	 */
 	public function includeFunctions() {
+
+		_deprecated_function( __METHOD__, '10.4.6' );
 
 		// var_dump( $this->path . $this->functions );
 		include_once $this->path . $this->functions;
@@ -1069,8 +1074,11 @@ class cnTemplate {
 	 *
 	 * @internal
 	 * @since      0.7.6
+	 * @deprecated 10.4.6
 	 */
 	public function printCSS() {
+
+		_deprecated_function( __METHOD__, '10.4.6' );
 
 		$out     = '';
 		$search  = array( "\r\n", "\r", "\n", "\t", '%%PATH%%' );

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for displaying the term list as a radio group.
  *

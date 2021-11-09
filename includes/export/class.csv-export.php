@@ -18,6 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * cnCSV_Export Class
  *
  * @since 8.5
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnCSV_Export {
 

@@ -349,7 +349,7 @@ class cnSEO {
 		} else {
 
 			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
-				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => cnQuery::getVar( 'cn-cat-slug' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => cnQuery::getVar( 'cn-cat-slug' ) ), $link ) );
 			}
 
 			if ( cnQuery::getVar( 'cn-country' ) ) {

@@ -588,17 +588,8 @@ class cnTemplate {
 
 			switch ( $atts['tag'] ) {
 
-				case 'card':
-					if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) ) {
-
-						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );
-
-						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug, $atts['callback'], 10, 3 );
-					}
-
-					break;
-
 				case 'card_single':
+				case 'card':
 					if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) ) {
 
 						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );

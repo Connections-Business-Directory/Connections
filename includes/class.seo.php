@@ -626,8 +626,8 @@ class cnSEO {
 		global $wp_query, $post;
 
 		if ( ! is_object( $post ) ||
-		     ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
-		     ! self::$filterPermalink
+			 ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
+			 ! self::$filterPermalink
 		) {
 
 			return $title;

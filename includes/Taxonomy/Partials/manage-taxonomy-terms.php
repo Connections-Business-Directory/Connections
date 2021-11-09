@@ -157,7 +157,7 @@ $table->prepare_items();
 
 							<p><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.', 'connections' ); ?></p>
 						</div><!-- /term-parent-wrap -->
-					<?php endif; // isHierarchical() ?>
+					<?php endif; // isHierarchical(). ?>
 					<div class="form-field term-description-wrap">
 						<?php
 

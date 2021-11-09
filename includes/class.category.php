@@ -9,12 +9,13 @@
  * @since       unknown
  */
 
-use Connections_Directory\Taxonomy\Term;
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Taxonomy\Term;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class cnCategory
@@ -134,10 +135,11 @@ class cnCategory {
 	 * @since 0.7.8
 	 *
 	 * @param array $atts
+	 * @param bool  $echo Whether to echo the HTML.
 	 *
 	 * @return string The escaped HTML
 	 */
-	public function getDescriptionBlock( $atts = array() ) {
+	public function getDescriptionBlock( $atts = array(), $echo = false ) {
 
 		/** @var WP_Embed $wp_embed */
 		global $wp_embed;
@@ -146,28 +148,28 @@ class cnCategory {
 			'container_tag' => 'div',
 			'before'        => '',
 			'after'         => '',
-			'return'        => false,
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_cat_desc', $defaults );
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
-		$out = $wp_embed->run_shortcode( $this->getDescription() );
-
-		$out = do_shortcode( $out );
-
-		$out = sprintf(
+		$description = $wp_embed->run_shortcode( $this->getDescription() );
+		$description = do_shortcode( $description );
+		$description = sprintf(
 			'<%1$s class="cn-cat-description">%2$s</%1$s>',
-			$atts['container_tag'],
-			$out
+			_escape::tagName( $atts['container_tag'] ),
+			$description
 		);
 
-		if ( $atts['return'] ) {
-			return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$html = _escape::html( $atts['before'] ) . _escape::html( $description ) . _escape::html( $atts['after'] ) . PHP_EOL;
+
+		if ( true === $echo ) {
+			// HTML is escaped above.
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		return $html;
 	}
 
 	/**

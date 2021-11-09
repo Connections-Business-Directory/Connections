@@ -135,11 +135,10 @@ class cnCategory {
 	 *   cn_output_default_atts_cat_desc
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @uses apply_filters()
-	 * @uses run_shortcode()
-	 * @uses do_shortcode()
-	 * @param array $atts [optional]
+	 * @since  0.7.8
+	 *
+	 * @param array $atts
+	 *
 	 * @return string
 	 */
 	public function getDescriptionBlock( $atts = array() ) {

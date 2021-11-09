@@ -68,12 +68,21 @@ class cnCSV_Export {
 	/**
 	 * Escape the double-quotes.
 	 *
+	 * Malicious input can inject formulas into CSV files, opening up the possibility
+	 * for phishing attacks and disclosure of sensitive information.
+	 *
+	 * Additionally, Excel exposes the ability to launch arbitrary commands through
+	 * the DDE protocol.
+	 *
+	 * @see http://www.contextis.com/resources/blog/comma-separated-vulnerabilities/
+	 * @see https://hackerone.com/reports/72785
+	 *
 	 * @since 8.5.1
 	 * @since 9.7   Add protection against CSV Injection, also known as Formula Injection.
 	 *              Add filter `add_filter( 'cn_csv_export_suspicious_value_prefix', '__return_empty_string' );`
 	 *              to remove suspicious string prefix.
 	 *
-	 * @param string $string
+	 * @param string $string The string to escape.
 	 *
 	 * @return string
 	 */

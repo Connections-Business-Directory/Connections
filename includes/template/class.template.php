@@ -1091,7 +1091,8 @@ class cnTemplate {
 		$out .= str_replace( $search, $replace, @file_get_contents( $this->parts['css-path'] ) );
 		$out .= '</style>';
 
-		echo trim( $out ) . PHP_EOL;
+		// Static CSS file is loaded.
+		echo trim( $out ) . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

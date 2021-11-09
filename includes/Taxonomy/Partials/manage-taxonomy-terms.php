@@ -281,7 +281,7 @@ $table->prepare_items();
 
 						if ( is_array( $defaultCategory ) ) {
 
-							$categoryID =_array::get( $defaultCategory, 'default', false );
+							$categoryID = _array::get( $defaultCategory, 'default', false );
 
 							if ( is_numeric( $categoryID ) ) {
 

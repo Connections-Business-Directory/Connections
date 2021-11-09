@@ -19,6 +19,8 @@ use WP_Widget;
 final class Widget extends WP_Widget {
 
 	/**
+	 * Instance of `Connections_Directory\Taxonomy`.
+	 *
 	 * @since 10.2
 	 * @var Taxonomy
 	 */
@@ -29,11 +31,13 @@ final class Widget extends WP_Widget {
 	 *
 	 * @since 10.2
 	 *
-	 * @param string   $id_base
-	 * @param string   $name
-	 * @param Taxonomy $taxonomy
-	 * @param array    $widget_options
-	 * @param array    $control_options
+	 * @param string   $id_base         Base ID for the widget, lowercase and unique.
+	 * @param string   $name            Name for the widget displayed on the configuration page.
+	 * @param Taxonomy $taxonomy        Instance of `Connections_Directory\Taxonomy`.
+	 * @param array    $widget_options  Widget options. See wp_register_sidebar_widget() for
+	 *                                  information on accepted arguments.
+	 * @param array    $control_options Widget control options. See wp_register_widget_control() for
+	 *                                  information on accepted arguments.
 	 */
 	public function __construct( $id_base, $name, $taxonomy, $widget_options = array(), $control_options = array() ) {
 
@@ -43,6 +47,8 @@ final class Widget extends WP_Widget {
 	}
 
 	/**
+	 * The widget default options.
+	 *
 	 * @since 10.2
 	 *
 	 * @return array
@@ -67,7 +73,7 @@ final class Widget extends WP_Widget {
 	 *
 	 * @since 10.2
 	 *
-	 * @param array $instance
+	 * @param array $instance Current widget instance setting.
 	 */
 	public function form( $instance ) {
 
@@ -95,8 +101,8 @@ final class Widget extends WP_Widget {
 	 *
 	 * @since 10.2
 	 *
-	 * @param array $new_instance
-	 * @param array $old_instance
+	 * @param array $new_instance Current widget instance setting.
+	 * @param array $old_instance Previous widget instance setting.
 	 *
 	 * @return array
 	 */

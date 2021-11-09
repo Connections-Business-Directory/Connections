@@ -417,7 +417,7 @@ class cnCategory {
 				// If value is a string, strip the white space and covert to an array.
 				$catIDs = wp_parse_id_list( $catIDs );
 
-				// Use the first element
+				// Use the first element.
 				$current = reset( $catIDs );
 
 			} else {

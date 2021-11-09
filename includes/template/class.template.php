@@ -1088,7 +1088,7 @@ class cnTemplate {
 		// However, if the sever is running the pagespeed mod, the scoped setting will cause the CSS
 		// not to be applied because it is moved to the page head where it belongs.
 		$out .= '<style type="text/css">';
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
+
 		$out .= str_replace( $search, $replace, @file_get_contents( $this->parts['css-path'] ) );
 		$out .= '</style>';
 

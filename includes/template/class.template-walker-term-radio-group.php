@@ -173,7 +173,8 @@ class CN_Walker_Term_Radio_Group extends Walker {
 			return $out;
 		}
 
-		echo $out;
+		// The radio group options are escaped as they are being built.
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

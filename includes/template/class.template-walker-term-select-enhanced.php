@@ -282,7 +282,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				 */
 				$selected = ! $atts['enhanced'] && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
 
-				$select  .= "\t" . '<option value="" ' . $selected . '>' . ( $atts['enhanced'] ? '' : $atts['default'] ) . '</option>';
+				$select .= "\t" . '<option value="" ' . $selected . '>' . ( $atts['enhanced'] ? '' : $atts['default'] ) . '</option>';
 			}
 
 			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {

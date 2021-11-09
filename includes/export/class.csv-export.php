@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The base CSV Export Class.
  *

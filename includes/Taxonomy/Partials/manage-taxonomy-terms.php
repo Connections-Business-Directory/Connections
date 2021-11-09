@@ -298,7 +298,8 @@ $table->prepare_items();
 						?>
 					</p>
 				</div>
-				<?php endif;
+					<?php
+				endif;
 
 				/**
 				 * Fires after the taxonomy list table.

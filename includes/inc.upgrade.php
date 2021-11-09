@@ -718,8 +718,8 @@ function cnRunDBUpgrade() {
 
 
 			/*
-			 * Not a db upgrade but we'll drop this in here to make it simple.
-			 * This file is no longer needed so we'll try to remove it.
+			 * Not a db upgrade, but we'll drop this in here to make it simple.
+			 * This file is no longer needed, so we'll try to remove it.
 			 */
 			if ( file_exists( ABSPATH . 'download.vCard.php' ) ) {
 				@unlink( ABSPATH . 'download.vCard.php' );
@@ -759,7 +759,7 @@ function cnRunDBUpgrade() {
 				@chmod( CN_CACHE_PATH, 0767 );
 			}
 
-			// Create the images folder.
+			// Create the image's folder.
 			// wp_mkdir_p( CN_IMAGE_PATH );
 			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) {
 				@chmod( CN_IMAGE_PATH, 0746 );
@@ -888,7 +888,7 @@ function cnRunDBUpgrade() {
 
 			echo '<p><strong>' , esc_html__( 'NOTE', 'connections' ) , ':</strong> ' , esc_html__( 'You might receive this error: "The used table type doesn\'t support FULLTEXT indexes".', 'connections' ) , '</p>';
 
-			echo '<p>' , esc_html__( 'This is not a critical error. What this means is that the database does not support FULLTEXT query statments. Connections will perform a secondary search query in order to return search results.', 'connections' ) , '</p>';
+			echo '<p>' , esc_html__( 'This is not a critical error. What this means is that the database does not support FULLTEXT query statements. Connections will perform a secondary search query in order to return search results.', 'connections' ) , '</p>';
 			echo '<ul>';
 
 			echo '<li>Adding FULLTEXT to ' . esc_html( CN_ENTRY_TABLE ) . ' ' . "</li>\n";

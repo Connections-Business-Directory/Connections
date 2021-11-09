@@ -96,7 +96,7 @@ function cnRunDBUpgrade() {
 		$dbVersion = $connections->options->getDBVersion();
 
 		if ( version_compare( $dbVersion, '0.1.0', '<' ) ) {
-			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.0.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.0.', 'connections' ), $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 

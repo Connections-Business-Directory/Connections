@@ -11,11 +11,11 @@
  */
 
 // Exit if accessed directly.
-use Connections_Directory\Entry\Functions as Entry_Helper;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Entry\Functions as Entry_Helper;
 
 /**
  * Class cnSEO

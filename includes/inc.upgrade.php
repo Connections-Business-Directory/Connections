@@ -1002,7 +1002,7 @@ function cnRunDBUpgrade() {
 
 		if ( version_compare( $dbVersion, '0.4', '<' ) ) {
 
-			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ) , $connections->options->getDBVersion(), CN_DB_VERSION ) , '</h4>' . PHP_EOL;
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ), $connections->options->getDBVersion(), CN_DB_VERSION ) , '</h4>' . PHP_EOL;
 
 			echo '<ul>' . PHP_EOL;
 

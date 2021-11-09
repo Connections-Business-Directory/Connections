@@ -257,9 +257,9 @@ class cnCSV_Export {
 
 		ignore_user_abort( true );
 
-		//if ( ! edd_is_func_disabled( 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) {
-		//	set_time_limit( 0 );
-		//}
+		// if ( ! edd_is_func_disabled( 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) {
+		// 	set_time_limit( 0 );
+		// }
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );

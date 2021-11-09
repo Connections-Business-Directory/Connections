@@ -146,6 +146,7 @@ final class Widget extends WP_Widget {
 
 		/**
 		 * This filter is documented in includes/Taxonomy.php
+		 *
 		 * @see Taxonomy::registerContentBlock()
 		 */
 		$blockID = apply_filters( 'Connections_Directory/Taxonomy/Register/Content_Block/ID', $blockID );

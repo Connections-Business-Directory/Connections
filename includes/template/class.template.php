@@ -752,10 +752,10 @@ class cnTemplate {
 	 *
 	 * @since 0.8
 	 *
-	 * @param string $base The base file name. Typically, `card` for a template file and the template slug for CSS and JS files.
-	 * @param string $name The template part name; such as `single` or `category`.
-	 * @param string $slug The template part slug; such as an entry slug or category slug.
-	 * @param string $ext  [optional] The template file name extension. Defaults to `php`.
+	 * @param string      $base The base file name. Typically, `card` for a template file and the template slug for CSS and JS files.
+	 * @param string|null $name The template part name; such as `single` or `category`.
+	 * @param string|null $slug The template part slug; such as an entry slug or category slug.
+	 * @param string      $ext  [optional] The template file name extension. Defaults to `php`.
 	 *
 	 * @return array An indexed array of file names to search for.
 	 */

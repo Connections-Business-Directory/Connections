@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Static class for filtering permalinks, changing page/post titles and
  * adding page/page meta descriptions.

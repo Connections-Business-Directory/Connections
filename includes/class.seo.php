@@ -170,7 +170,8 @@ class cnSEO {
 
 			// If the shortcode is not found and a Connections query var is detected, return 404.
 			if ( false === cnShortcode::find( 'connections', $post->post_content ) &&
-			     true === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) ) ) {
+				 true === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) )
+			) {
 
 				$wp_query->set_404();
 				status_header( 404 );

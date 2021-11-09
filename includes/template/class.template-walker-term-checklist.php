@@ -89,15 +89,15 @@ class CN_Walker_Term_Check_List extends Walker {
 		}
 
 		$defaults = array(
-			'orderby'           => 'name',
-			'order'             => 'ASC',
-			'show_count'        => false,
-			'hide_empty'        => false,
-			'name'              => 'entry_category',
-			'depth'             => 0,
-			'taxonomy'          => 'category',
-			'selected'          => 0,
-			'echo'              => true,
+			'orderby'    => 'name',
+			'order'      => 'ASC',
+			'show_count' => false,
+			'hide_empty' => false,
+			'name'       => 'entry_category',
+			'depth'      => 0,
+			'taxonomy'   => 'category',
+			'selected'   => 0,
+			'echo'       => true,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

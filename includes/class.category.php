@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for working with a category object.
  *

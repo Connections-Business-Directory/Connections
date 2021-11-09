@@ -82,14 +82,12 @@ final class Widget extends WP_Widget {
 
 		$instance = apply_filters( 'Connections_Directory/Taxonomy/Widget/Form/Instance', $instance, $this );
 
-		$title = esc_attr( $instance['title'] );
-
 		do_action( 'Connections_Directory/Taxonomy/Widget/Form/Before', $instance, $this );
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _ex( 'Title:', 'widget title', 'connections' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _ex( 'Title:', 'widget title', 'connections' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
 		</p>
 		<?php
 

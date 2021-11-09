@@ -12,7 +12,6 @@
 
 // Exit if accessed directly.
 use Connections_Directory\Entry\Functions as Entry_Helper;
-use Connections_Directory\Model\Format\Address\As_String;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -119,7 +119,7 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @return bool Whether or not current user can export.
+	 * @return bool Whether current user can export.
 	 */
 	public function can_export() {
 

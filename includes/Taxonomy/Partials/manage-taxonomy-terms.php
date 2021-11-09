@@ -290,7 +290,7 @@ $table->prepare_items();
 								printf(
 									/* translators: %s: Default category. */
 									esc_html__( 'Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the default category %s. The default category cannot be deleted.', 'connections' ),
-									'<strong>' . $category->name . '</strong>'
+									'<strong>' . esc_html( $category->name ) . '</strong>'
 								);
 							}
 						}

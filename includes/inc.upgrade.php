@@ -334,7 +334,7 @@ function cnRunDBUpgrade() {
 			foreach ( $results as $result ) {
 				if ( ! empty( $result->addresses ) ) {
 					$addresses = unserialize( $result->addresses );
-					$order = 0;
+					$order     = 0;
 
 					foreach ( (array) $addresses as $key => $address ) {
 						if ( empty( $address['type'] ) ) {
@@ -405,7 +405,7 @@ function cnRunDBUpgrade() {
 			foreach ( $results as $result ) {
 				if ( ! empty( $result->phone_numbers ) ) {
 					$phoneNumbers = unserialize( $result->phone_numbers );
-					$order = 0;
+					$order        = 0;
 
 					foreach ( (array) $phoneNumbers as $key => $phone ) {
 						if ( empty( $phone['number'] ) ) {
@@ -464,7 +464,7 @@ function cnRunDBUpgrade() {
 			foreach ( $results as $result ) {
 				if ( ! empty( $result->email ) ) {
 					$emailAddresses = unserialize( $result->email );
-					$order = 0;
+					$order          = 0;
 
 					foreach ( (array) $emailAddresses as $key => $email ) {
 						if ( empty( $email['address'] ) ) {
@@ -578,7 +578,7 @@ function cnRunDBUpgrade() {
 			foreach ( $results as $result ) {
 				if ( ! empty( $result->social ) ) {
 					$socialMediaIDs = unserialize( $result->social );
-					$order = 0;
+					$order          = 0;
 
 					foreach ( (array) $socialMediaIDs as $key => $network ) {
 						if ( empty( $network['url'] ) ) {
@@ -636,7 +636,7 @@ function cnRunDBUpgrade() {
 			foreach ( $results as $result ) {
 				if ( ! empty( $result->websites ) ) {
 					$websites = unserialize( $result->websites );
-					$order = 0;
+					$order    = 0;
 
 					foreach ( (array) $websites as $key => $website ) {
 						if ( empty( $website['address'] ) ) {

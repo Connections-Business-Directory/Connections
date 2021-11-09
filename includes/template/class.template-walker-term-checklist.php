@@ -9,7 +9,7 @@
  * @since       8.2
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 use Connections_Directory\Taxonomy\Registry;
 
 if ( ! defined( 'ABSPATH' ) ) {

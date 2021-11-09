@@ -41,7 +41,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	public $db_fields = array( 'parent' => 'parent', 'id' => 'term_id' );
 
 	/**
-	 * Whether or not to close an open optgroup.
+	 * Whether to close an open optgroup.
 	 *
 	 * @since 8.2.4
 	 * @var bool
@@ -66,9 +66,9 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * @type string $type               The output type of the categories.
 	 *                                  Default: select
 	 *                                  Accepts: select || multiselect
-	 * @type bool   $group              Whether or not to create option groups using the root parent as the group label.
+	 * @type bool   $group              Whether to create option groups using the root parent as the group label.
 	 *                                  Default: FALSE
-	 * @type bool   $hide_if_empty      Whether or not to show the select if no terms are returned by term query.
+	 * @type bool   $hide_if_empty      Whether to show the select if no terms are returned by term query.
 	 *                                  Default: FALSE
 	 * @type string $name               The select name attribute.
 	 *                                  Default: 'cn-cat'
@@ -85,9 +85,9 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *                                  Accepts: Any valid inline JavaScript.
 	 * @type int    $tab_index          The tab index of the select.
 	 *                                  Default: 0
-	 * @type bool   $placeholder_option Whether or not to add a blank <option> item at the top of the list for Chosen/Select2
+	 * @type bool   $placeholder_option Whether to add a blank <option> item at the top of the list for Chosen/Select2
 	 *                                  Default: FALSE
-	 * @type bool   $show_select_all    Whether or not to render the $show_option_all option.
+	 * @type bool   $show_select_all    Whether to render the $show_option_all option.
 	 *                                  Default: TRUE
 	 * @type string $show_option_all    A non-blank value causes the display of a link to the directory home page.
 	 *                                  Default: ''. The default is not to display a link.
@@ -100,11 +100,11 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *                                  Accepts: Any valid int/string for an option value attribute.
 	 * @type string $default            The default string to show as the first item in the list.
 	 *                                  Default: 'Select Category'
-	 * @type bool   $show_count         Whether or not to display the category count.
+	 * @type bool   $show_count         Whether to display the category count.
 	 *                                  Default: FALSE
-	 * @type bool   $hide_empty         Whether or not to display empty terms.
+	 * @type bool   $hide_empty         Whether to display empty terms.
 	 *                                  Default: FALSE
-	 * @type int    $depth              Controls how many levels in the hierarchy of categories are to be included in the list.
+	 * @type int    $depth              Controls how many levels in the hierarchy of categories that are to be included in the list.
 	 *                                  Default: 0
 	 *                                  Accepts: 0  - All categories and child categories.
 	 *                                           -1 - All Categories displayed  flat, not showing the parent/child relationships.
@@ -115,14 +115,14 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *                                  Default: 0
 	 * @type string $label              The label to render with the select.
 	 *                                  Default: ''
-	 * @type string $before             Content to be render before the label and select.
+	 * @type string $before             Content to be rendered before the label and select.
 	 *                                  Default: ''
-	 * @type string $after              Content to be render after the label and select.
+	 * @type string $after              Content to be rendered after the label and select.
 	 *                                  Default: ''
 	 * @type string $layout             Tokens which can be sued to control the order of the label and select.
 	 *                                  Default: '%label%%field%'
 	 *                                  Accepts: %label% %field%
-	 * @type bool   $return             Whether or not to return or echo the resulting HTML.
+	 * @type bool   $return             Whether to return or echo the resulting HTML.
 	 *                                  Default: FALSE
 	 * }
 	 *
@@ -437,7 +437,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 */
 	private function do_el( &$out, $term, $depth, $args ) {
 
-		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken in to account.
+		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken into account.
 		$pad = ( $depth > 0 ) ? $depth * 12 + 7 : 7;
 
 		// Set the option SELECTED attribute if the category is one of the currently selected categories.

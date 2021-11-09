@@ -227,7 +227,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 			// $out .= PHP_EOL . "<select name='$name' id='$id' class='$class' $tab_index_attribute>" . PHP_EOL;
 
-			// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
+			// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the dropdown.
 			if ( $atts['enhanced'] ) {
 				$atts['class'] = array_merge( (array) $atts['class'], array( 'cn-enhanced-select' ) );
 			}

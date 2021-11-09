@@ -119,9 +119,6 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @uses   apply_filters()
-	 * @uses   current_user_can()
-	 *
 	 * @return bool Whether or not current user can export.
 	 */
 	public function can_export() {
@@ -158,9 +155,6 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @uses   cnCSV_Export::columns()
-	 * @uses   apply_filters()
-	 *
 	 * @return array $cols Array of the columns names.
 	 */
 	public function getColumns() {
@@ -175,8 +169,6 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   apply_filters()
 	 *
 	 * @return array $data Data for Export
 	 */
@@ -215,8 +207,6 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   cnCSV_Export::getColumns()
 	 */
 	public function writeHeaders() {
 
@@ -230,10 +220,6 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   cnCSV_Export::getData()
-	 * @uses   cnCSV_Export::getColumns()
-	 * @uses   cnCSV_Export::addQuotes()
 	 */
 	public function writeRows() {
 
@@ -303,11 +289,6 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   wp_die()
-	 * @uses   cnCSV_Export::headers()
-	 * @uses   cnCSV_Export::writeHeaders()
-	 * @uses   cnCSV_Export::writeRows()
 	 */
 	public function download() {
 

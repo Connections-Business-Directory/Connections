@@ -188,7 +188,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 		// An array to store the replacement strings for the label and field.
 		$replace = array();
 
-		$walker = new self;
+		$walker = new self();
 
 		$walker->tree_type = $atts['taxonomy'];
 

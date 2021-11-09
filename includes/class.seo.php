@@ -62,7 +62,7 @@ class cnSEO {
 
 		$object = get_queried_object();
 
-		if ( ! $object instanceof \WP_Post ) {
+		if ( ! $object instanceof WP_Post ) {
 
 			return;
 		}

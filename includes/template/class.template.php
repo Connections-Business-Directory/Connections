@@ -195,7 +195,7 @@ class cnTemplate {
 		$templatePath = $this->locate( $this->fileNames( 'card' ) );
 		// var_dump($templatePath);
 
-		if ( $templatePath !== false ) {
+		if ( false !== $templatePath ) {
 			// var_dump($templatePath);
 			$templatePath = addslashes( $templatePath );
 			// The action should only be added once.
@@ -232,7 +232,7 @@ class cnTemplate {
 		$cssPath = $this->locate( $this->fileNames( $this->slug, null, null, 'css' ) );
 		// var_dump($cssPath);
 
-		if ( $cssPath !== false ) {
+		if ( false !== $cssPath ) {
 			// var_dump($cssPath);
 
 			$this->parts['css-path'] = $cssPath;
@@ -262,7 +262,7 @@ class cnTemplate {
 		// var_dump($customCSS);
 
 		// If a custom CSS file was found, lets register it.
-		if ( $customCSS !== false ) {
+		if ( false !== $customCSS ) {
 			// var_dump($customCSS);
 
 			$this->parts['css-custom-path'] = $customCSS;
@@ -273,7 +273,7 @@ class cnTemplate {
 		$jsPath = $this->locate( $this->fileNames( $this->slug, null, null, 'js' ) );
 		// var_dump($jsPath)
 
-		if ( $jsPath !== false ) {
+		if ( false !== $jsPath ) {
 			// var_dump($jsPath);
 
 			$this->parts['js-path'] = $jsPath;
@@ -287,12 +287,12 @@ class cnTemplate {
 		}
 
 		// Only legacy templates had a `functions.php` so only search for it on legacy templates.
-		if ( $this->legacy == true ) {
+		if ( true === $this->legacy ) {
 
 			$functionsPath = $this->locate( $this->fileNames( 'functions', null, null, 'php' ) );
 			// var_dump($functionsPath);
 
-			if ( $functionsPath !== false ) {
+			if ( false !== $functionsPath ) {
 				// var_dump($functionsPath);
 
 				// The action should only be added once.
@@ -584,7 +584,7 @@ class cnTemplate {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( $atts['type'] == 'action' ) {
+		if ( 'action' === $atts['type'] ) {
 
 			switch ( $atts['tag'] ) {
 
@@ -922,7 +922,7 @@ class cnTemplate {
 			case 'php':
 				// If this is a legacy template which has a `functions.php` file and it being searched for through
 				// @see locate(), do not add the legacy 'template.php' filename.
-				if ( $base == 'functions' ) {
+				if ( 'functions' === $base ) {
 
 					// Only the base name needs to be searched for when searching for `functions.php`.
 					$files = array( array_pop( $files ) );
@@ -984,7 +984,7 @@ class cnTemplate {
 			return $files;
 		}
 
-		if ( $ext == 'css' || $ext == 'js' ) {
+		if ( 'css' === $ext || 'js' === $ext ) {
 
 			$i = 0;
 

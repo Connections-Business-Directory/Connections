@@ -218,7 +218,7 @@ class CN_Walker_Term_Select_List extends Walker {
 		/** This filter is documented in includes/template/class.template-walker-term-select.php */
 		$name = apply_filters( 'cn_list_cats', $term->name, $term );
 
-		$out .= "\t<option class=\"level-$depth\" value=\"" . $term->term_id . "\"";
+		$out .= "\t<option class=\"level-{$depth}\" value=\"{$term->term_id}\"";
 
 		$out .= selected( $term->term_id, $args['selected'], false );
 

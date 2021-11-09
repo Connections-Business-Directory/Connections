@@ -74,8 +74,8 @@ class cnCSV_Export {
 	 * Additionally, Excel exposes the ability to launch arbitrary commands through
 	 * the DDE protocol.
 	 *
-	 * @see http://www.contextis.com/resources/blog/comma-separated-vulnerabilities/
-	 * @see https://hackerone.com/reports/72785
+	 * @link http://www.contextis.com/resources/blog/comma-separated-vulnerabilities/
+	 * @link https://hackerone.com/reports/72785
 	 *
 	 * @since 8.5.1
 	 * @since 9.7   Add protection against CSV Injection, also known as Formula Injection.

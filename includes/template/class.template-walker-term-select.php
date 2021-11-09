@@ -180,7 +180,7 @@ class CN_Walker_Term_Select_List extends Walker {
 		}
 
 		if ( ! $atts['hide_if_empty'] || ! empty( $terms ) ) {
-			$out .= "</select>" . PHP_EOL;
+			$out .= '</select>' . PHP_EOL;
 		}
 		/**
 		 * Filter the taxonomy drop-down output.

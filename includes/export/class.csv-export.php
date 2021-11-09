@@ -264,7 +264,7 @@ class cnCSV_Export {
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename=cn-export-' . $this->type . '-' . date( 'm-d-Y' ) . '.csv' );
-		header( "Expires: 0" );
+		header( 'Expires: 0' );
 
 		$addBOM = apply_filters( 'cn_export_add_bom', true );
 

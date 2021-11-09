@@ -240,7 +240,7 @@ class cnCSV_Export {
 		$data = $this->getData();
 		$cols = $this->getColumns();
 
-		// Output each row
+		// Output each row.
 		foreach ( $data as $row ) {
 
 			$count = count( $cols );

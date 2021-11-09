@@ -68,7 +68,7 @@ class cnSEO {
 		}
 
 		if ( has_shortcode( $object->post_content, 'connections' ) ||
-		     has_block( 'connections-directory/shortcode-connections', $object )
+			 has_block( 'connections-directory/shortcode-connections', $object )
 		) {
 
 			// Update the post dates to reflect the dates of the entry.

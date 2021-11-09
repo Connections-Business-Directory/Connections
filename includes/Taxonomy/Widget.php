@@ -59,7 +59,7 @@ final class Widget extends WP_Widget {
 
 		_format::toBoolean( $defaults['force_home'] );
 
-		return$defaults;
+		return $defaults;
 	}
 
 	/**

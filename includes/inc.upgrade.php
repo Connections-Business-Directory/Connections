@@ -228,7 +228,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.3', '<' ) ) {
-			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.3.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.3.', 'connections' ), $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 			echo '<li>' , esc_html__( 'Changing column name from group_name to family_name...', 'connections' ) , "</li>\n";

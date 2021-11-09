@@ -66,6 +66,9 @@ final class _escape {
 	 *
 	 * Wrapper function for core WordPress function @see safecss_filter_attr()
 	 *
+	 * NOTE: Does not really escape, it allows a set of specific CSS attributes.
+	 * The CSS attribute or its value is not escaped.
+	 *
 	 * @since 10.4.6
 	 *
 	 * @param string $css  A string of CSS rules.

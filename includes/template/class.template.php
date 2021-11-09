@@ -177,9 +177,9 @@ class cnTemplate {
 		$this->parts       = $atts->parts;
 		// $this->supports    = $atts->supports;
 
-		/**
+		/*
 		 * @todo This code is commented out for now because it was implemented in @see cnTemplate_Customizer().
-		 *       What needs to be done is the code extracted out of the cnTemplate_Customizer class into its own class
+		 *       What needs to be done is the code extracted out of the cnTemplate_Customizer class into its own class,
 		 *       so it can be shared with this class and cnTemplate_Customizer.
 		 */
 		$this->setupTemplateFeatures( $atts->supports );
@@ -627,10 +627,8 @@ class cnTemplate {
 	}
 
 	/**
-	 * Locate the file paths of the template, CSS and JS files
-	 * based on the supplied array of file names. The file name
-	 * array should be in order of highest priority first, lowest
-	 * priority last.
+	 * Locate the file paths of the template, CSS and JS files based on the supplied array of file names.
+	 * The filename array should be in order of the highest priority first, the lowest priority last.
 	 *
 	 * @since 0.8
 	 *
@@ -760,7 +758,7 @@ class cnTemplate {
 	 *
 	 * @since 0.8
 	 *
-	 * @param string $base The base file name. Typically `card` for a template file and the template slug for CSS and JS files.
+	 * @param string $base The base file name. Typically, `card` for a template file and the template slug for CSS and JS files.
 	 * @param string $name The template part name; such as `single` or `category`.
 	 * @param string $slug The template part slug; such as an entry slug or category slug.
 	 * @param string $ext  [optional] The template file name extension. Defaults to `php`.
@@ -862,7 +860,7 @@ class cnTemplate {
 		/**
 		 * Allow template choices to be filtered.
 		 *
-		 * The resulting array should be in the order of most specific first, least specific last.
+		 * The resulting array should be in the order of most specific first, the least specific last.
 		 * e.g. 0 => card-single.php, 1 => card.php
 		 */
 		$files = apply_filters( 'cn_template_file_names-' . $this->slug, $files, $base, $name, $slug, $ext );

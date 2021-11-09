@@ -388,7 +388,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param int    $depth Depth of category in reference to parents. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render()
+	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 */
 	public function end_lvl( &$out, $depth = 0, $args = array() ) {
 
@@ -414,7 +414,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param object $term  Category data object.
 	 * @param int    $depth Depth of category in reference to parents. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render()
+	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 * @param int    $id    ID of the current category.
 	 */
 	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
@@ -443,7 +443,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param object $term  Category data object.
 	 * @param int    $depth Depth of category in reference to parents. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render()
+	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 */
 	private function do_el( &$out, $term, $depth, $args ) {
 

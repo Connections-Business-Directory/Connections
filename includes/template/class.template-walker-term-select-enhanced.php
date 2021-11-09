@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for displaying the term select list for use with the Chosen jQuery plugin.
  *

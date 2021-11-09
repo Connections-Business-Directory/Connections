@@ -12,6 +12,7 @@
  */
 
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -154,7 +155,8 @@ class cnSanitize {
 	 */
 	public static function sanitizeString( $string, $allowHTML = false, $permittedTags = array() ) {
 
-		_deprecated_function( __METHOD__, '9.15' );
+		_deprecated_function( __METHOD__, '9.11' );
+		_deprecated_argument( __METHOD__, '10.4.6', 'The permitted_tags argument is deprecated.' ); // Never implemented.
 
 		// Strip all tags except the permitted.
 		if ( ! $allowHTML ) {

@@ -158,7 +158,7 @@ final class Widget extends WP_Widget {
 			return;
 		}
 
-		// Setup the entry object
+		// Set up the entry object.
 		$entry = new cnEntry( $result );
 
 		// Configure the page where the entry link to.

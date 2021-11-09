@@ -102,7 +102,7 @@ $table->prepare_items();
 					<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy->getSlug() ); ?>" />
 
 					<div class="form-field form-required term-name-wrap">
-						<label for="term-name"><?php _ex( 'Name','term name', 'connections' ); ?></label>
+						<label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ); ?></label>
 						<input name="term-name" id="term-name" type="text" value="" size="40" aria-required="true" />
 						<p><?php _e( 'The name is how it appears on your site.', 'connections' ); ?></p>
 					</div>

@@ -19,6 +19,9 @@ use Connections_Directory\Entry\Functions as Entry_Helper;
 
 /**
  * Class cnSEO
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnSEO {
 

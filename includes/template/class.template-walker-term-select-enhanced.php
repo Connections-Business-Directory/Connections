@@ -53,17 +53,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *
 	 * This is the Connections equivalent of @see wp_dropdown_categories() in WordPress core ../wp-includes/category-template.php
 	 *
-	 * @access public
 	 * @since  8.2.4
-	 * @static
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   cnTerm::getTaxonomyTerms()
-	 * @uses   esc_attr()
-	 * @uses   sanitize_html_class()
-	 * @uses   apply_filters()
-	 * @uses   Walker::walk()
-	 * @uses   selected()
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.

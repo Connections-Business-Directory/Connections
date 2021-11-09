@@ -2,7 +2,6 @@
 
 namespace Connections_Directory;
 
-use ArrayAccess;
 use cnArray;
 use cnFormatting;
 use cnSanitize;

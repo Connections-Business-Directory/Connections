@@ -111,7 +111,7 @@ class CN_Walker_Term_Check_List extends Walker {
 			array_walk( $atts['selected'], 'absint' );
 		}
 
-		$walker = new self;
+		$walker = new self();
 
 		$walker->tree_type = $atts['taxonomy'];
 

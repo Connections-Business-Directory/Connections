@@ -112,12 +112,12 @@ class cnSEO {
 			 *
 			 * @todo Enable filter, but ensure it only runs on a Connections Entry detail page.
 			 */
-			//add_action(
-			//	'init',
-			//	function() {
-			//		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
-			//	}
-			//);
+			// add_action(
+			// 	'init',
+			// 	function() {
+			// 		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
+			// 	}
+			// );
 
 			// Filter the meta title to reflect the current Connections filter.
 			// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.

@@ -168,8 +168,8 @@ class CN_Walker_Term_Radio_Group extends Walker {
 				$type            = esc_attr( $walker->tree_type );
 
 				$out .= "<li id='cn-{$type}-0'>" . '<label><input value="0" type="radio" name="' . esc_attr( $atts['name'] ) . '" id="cn-in-' . $type . '-0"' .
-				        checked( in_array( 0, (array) $atts['selected'] ), true, false ) . ' /> ' .
-				        esc_html( $show_option_all ) . '</label>';
+						checked( in_array( 0, (array) $atts['selected'] ), true, false ) . ' /> ' .
+						esc_html( $show_option_all ) . '</label>';
 
 				$out .= '</li>' . PHP_EOL;
 			}

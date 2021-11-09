@@ -210,7 +210,7 @@ class cnCSV_Export {
 	 */
 	public function writeHeaders() {
 
-		$headers = array_map( array( $this, 'addSlashesAndQuote' ), $this->getColumns() );
+		$headers = array_map( array( $this, 'escapeAndQuote' ), $this->getColumns() );
 
 		echo implode( ',', $headers ) , "\r\n";
 	}
@@ -237,7 +237,7 @@ class cnCSV_Export {
 				// Make sure the column is valid.
 				if ( array_key_exists( $id, $cols ) ) {
 
-					echo $this->addQuotes( $value );
+					echo $this->escapeAndQuote( $value );
 					echo $i == $count ? '' : ',';
 					$i ++;
 				}

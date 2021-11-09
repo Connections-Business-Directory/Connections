@@ -154,7 +154,7 @@ class cnCategory {
 			'return'        => false,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_cat_desc' , $defaults );
+		$defaults = apply_filters( 'cn_output_default_atts_cat_desc', $defaults );
 
 		$atts = cnSanitize::args( $atts, $defaults );
 

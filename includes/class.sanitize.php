@@ -148,8 +148,8 @@ class cnSanitize {
 	 * @deprecated 9.11
 	 *
 	 * @param string $string
-	 * @param bool $allowHTML
-	 * @param array $permittedTags
+	 * @param bool   $allowHTML
+	 * @param array  $permittedTags
 	 *
 	 * @return string
 	 */

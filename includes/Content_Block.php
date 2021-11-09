@@ -390,7 +390,8 @@ class Content_Block {
 
 		if ( true === $echo ) {
 
-			echo $html;
+			// HTML is escaped in the render callback.
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $html;

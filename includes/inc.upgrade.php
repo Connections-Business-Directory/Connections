@@ -186,7 +186,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.1', '<' ) ) {
-			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.1.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.1.', 'connections' ), $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<h4>' , esc_html__( 'Setting all current entries to the "approved" status.', 'connections' ) , "</h4>\n";
 

@@ -884,7 +884,7 @@ function cnRunDBUpgrade() {
 
 			$fields['fields_phone'] = array( 'number' );
 
-			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.8.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.8.', 'connections' ), $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<p><strong>' , esc_html__( 'NOTE', 'connections' ) , ':</strong> ' , esc_html__( 'You might receive this error: "The used table type doesn\'t support FULLTEXT indexes".', 'connections' ) , '</p>';
 

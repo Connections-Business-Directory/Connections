@@ -56,7 +56,7 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @param string $string
+	 * @param string $string The string to escape and quote.
 	 *
 	 * @return string
 	 */

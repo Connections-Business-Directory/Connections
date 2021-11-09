@@ -50,4 +50,18 @@ final class _validate {
 
 		return false;
 	}
+
+	/**
+	 * Whether the supplied value is a float.
+	 *
+	 * @since 10.4.6
+	 *
+	 * @param mixed $value The value to validate.
+	 *
+	 * @return bool
+	 */
+	public static function isFloat( $value ) {
+
+		return ! ( false === filter_var( $value, FILTER_VALIDATE_FLOAT ) );
+	}
 }

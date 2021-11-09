@@ -197,7 +197,8 @@ class CN_Walker_Term_Select_List extends Walker {
 			return $out;
 		}
 
-		echo $out;
+		// The dropdown options are escaped as it is being built.
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

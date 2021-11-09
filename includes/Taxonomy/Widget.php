@@ -169,7 +169,7 @@ final class Widget extends WP_Widget {
 			)
 		);
 
-		// Setup the taxonomy block.
+		// Set up the taxonomy block.
 		$block->useObject( $entry );
 
 		$block->set( 'widget', $this );

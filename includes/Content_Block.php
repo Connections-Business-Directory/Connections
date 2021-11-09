@@ -366,7 +366,7 @@ class Content_Block {
 
 				if ( is_string( $containerID ) && 0 < strlen( $containerID ) ) {
 
-					$idAttribute = ' id="' .  esc_attr( $containerID ) . '"';
+					$idAttribute = ' id="' . esc_attr( $containerID ) . '"';
 				}
 
 				$heading = $this->heading();

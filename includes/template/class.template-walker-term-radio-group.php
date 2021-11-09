@@ -117,7 +117,7 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$walker = new self;
+		$walker = new self();
 
 		$walker->tree_type = $atts['taxonomy'];
 

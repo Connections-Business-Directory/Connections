@@ -16,6 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Class cnCategory
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
 class cnCategory {
 	private $id;
 	private $name;
@@ -70,8 +76,6 @@ class cnCategory {
 
 	/**
 	 * Returns $children.
-	 *
-	 * @see cnCategory::$children
 	 */
 	public function getChildren() {
 		return $this->children;
@@ -80,8 +84,7 @@ class cnCategory {
 	/**
 	 * Sets $children.
 	 *
-	 * @param object  $children
-	 * @see cnCategory::$children
+	 * @param object $children
 	 */
 	public function setChildren( $children ) {
 		$this->children = $children;
@@ -89,8 +92,6 @@ class cnCategory {
 
 	/**
 	 * Returns $count.
-	 *
-	 * @see cnCategory::$count
 	 */
 	public function getCount() {
 		return $this->count;
@@ -99,8 +100,7 @@ class cnCategory {
 	/**
 	 * Sets $count.
 	 *
-	 * @param object  $count
-	 * @see cnCategory::$count
+	 * @param object $count
 	 */
 	public function setCount( $count ) {
 		$this->count = $count;
@@ -108,8 +108,6 @@ class cnCategory {
 
 	/**
 	 * Returns $description.
-	 *
-	 * @see cnCategory::$description
 	 */
 	public function getDescription() {
 		return cnSanitize::sanitizeString( $this->description, true );
@@ -118,8 +116,7 @@ class cnCategory {
 	/**
 	 * Sets $description.
 	 *
-	 * @param string  $description
-	 * @see cnCategory::$description
+	 * @param string $description
 	 */
 	public function setDescription( $description ) {
 		$this->description = $description;
@@ -134,12 +131,11 @@ class cnCategory {
 	 * Filters:
 	 *   cn_output_default_atts_cat_desc
 	 *
-	 * @access public
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
 	 * @param array $atts
 	 *
-	 * @return string
+	 * @return string The escaped HTML
 	 */
 	public function getDescriptionBlock( $atts = array() ) {
 
@@ -182,11 +178,10 @@ class cnCategory {
 	 *   cn_cat_excerpt_more  => change the default more string of &hellip;
 	 *   cn_trim_cat_excerpt  => change returned string
 	 *
-	 * @access public
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
-	 * @param  array  $atts [optional]
-	 * @param  string $text [optional]
+	 * @param array  $atts
+	 * @param string $text
 	 *
 	 * @return string
 	 */
@@ -206,8 +201,6 @@ class cnCategory {
 
 	/**
 	 * Returns $id.
-	 *
-	 * @see cnCategory::$id
 	 */
 	public function getID() {
 		return $this->id;
@@ -216,17 +209,14 @@ class cnCategory {
 	/**
 	 * Sets $id.
 	 *
-	 * @param int  $id
-	 * @see cnCategory::$id
+	 * @param int $id
 	 */
 	public function setId( $id ) {
 		$this->id = $id;
 	}
 
 	/**
-	 * Returns $name.
-	 *
-	 * @see cnCategory::$name
+	 * Returns $name
 	 */
 	public function getName() {
 		return $this->name;
@@ -235,8 +225,7 @@ class cnCategory {
 	/**
 	 * Sets $name.
 	 *
-	 * @param string  $name
-	 * @see cnCategory::$name
+	 * @param string $name
 	 */
 	public function setName( $name ) {
 		$this->name = $name;
@@ -244,8 +233,6 @@ class cnCategory {
 
 	/**
 	 * Returns $parent.
-	 *
-	 * @see cnCategory::$parent
 	 */
 	public function getParent() {
 		return $this->parent;
@@ -254,8 +241,7 @@ class cnCategory {
 	/**
 	 * Sets $parent.
 	 *
-	 * @param int  $parent
-	 * @see cnCategory::$parent
+	 * @param int $parent
 	 */
 	public function setParent( $parent ) {
 		$this->parent = $parent;
@@ -263,8 +249,6 @@ class cnCategory {
 
 	/**
 	 * Returns $slug.
-	 *
-	 * @see cnCategory::$slug
 	 */
 	public function getSlug() {
 		return $this->slug;
@@ -273,8 +257,7 @@ class cnCategory {
 	/**
 	 * Sets $slug.
 	 *
-	 * @param string  $slug
-	 * @see cnCategory::$slug
+	 * @param string $slug
 	 */
 	public function setSlug( $slug ) {
 		$this->slug = $slug;
@@ -282,8 +265,6 @@ class cnCategory {
 
 	/**
 	 * Returns $taxonomy.
-	 *
-	 * @see cnCategory::$taxonomy
 	 */
 	public function getTaxonomy() {
 		return $this->taxonomy;
@@ -292,8 +273,7 @@ class cnCategory {
 	/**
 	 * Sets $taxonomy.
 	 *
-	 * @param object  $taxonomy
-	 * @see cnCategory::$taxonomy
+	 * @param object $taxonomy
 	 */
 	public function setTaxonomy( $taxonomy ) {
 		$this->taxonomy = $taxonomy;
@@ -301,8 +281,6 @@ class cnCategory {
 
 	/**
 	 * Returns $termGroup.
-	 *
-	 * @see cnCategory::$termGroup
 	 */
 	public function getTermGroup() {
 		return $this->termGroup;
@@ -311,8 +289,7 @@ class cnCategory {
 	/**
 	 * Sets $termGroup.
 	 *
-	 * @param object  $termGroup
-	 * @see cnCategory::$termGroup
+	 * @param object $termGroup
 	 */
 	public function setTermGroup( $termGroup ) {
 		$this->termGroup = $termGroup;
@@ -350,7 +327,6 @@ class cnCategory {
 	/**
 	 * Updates the category to the database via the cnTerm class.
 	 *
-	 * @access public
 	 * @since unknown
 	 * @return bool
 	 */
@@ -419,9 +395,7 @@ class cnCategory {
 	/**
 	 * Returns the current category being viewed.
 	 *
-	 * @access public
-	 * @since  8.5.18
-	 * @static
+	 * @since 8.5.18
 	 *
 	 * @return false|Term
 	 */

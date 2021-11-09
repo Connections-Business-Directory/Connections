@@ -54,16 +54,16 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 *                               Default: TRUE
 	 * @type string $name            The select name attribute.
 	 *                               Default: 'cn-cat'
-	 * @type bool   $show_select_all Whether or not to render the $show_option_all option.
+	 * @type bool   $show_select_all Whether to render the $show_option_all option.
 	 *                               Default: TRUE
 	 * @type string $show_option_all A non-blank value causes the display of a link to the directory home page.
 	 *                               Default: ''. The default is not to display a link.
 	 *                               Accepts: Any valid string.
-	 * @type bool   $show_count      Whether or not to display the category count.
+	 * @type bool   $show_count      Whether to display the category count.
 	 *                               Default: FALSE
-	 * @type bool   $hide_empty      Whether or not to display empty terms.
+	 * @type bool   $hide_empty      Whether to display empty terms.
 	 *                               Default: FALSE
-	 * @type int    $depth           Controls how many levels in the hierarchy of categories are to be included in the list.
+	 * @type int    $depth           Controls how many levels in the hierarchy of categories that are to be included in the list.
 	 *                               Default: 0
 	 *                               Accepts: 0  - All categories and child categories.
 	 *                                        -1 - All Categories displayed  flat, not showing the parent/child relationships.
@@ -72,11 +72,11 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 * @type array  $parent_id
 	 * @type array  $selected        The selected term IDs.
 	 *                               Default: 0
-	 * @type string $before          Content to be render before the label and select.
+	 * @type string $before          Content to render before the label and select.
 	 *                               Default: ''
-	 * @type string $after           Content to be render after the label and select.
+	 * @type string $after           Content to render after the label and select.
 	 *                               Default: ''
-	 * @type bool $return Whether or not to return or echo the resulting HTML.
+	 * @type bool $return            Whether to return or echo the resulting HTML.
 	 *                               Default: FALSE
 	 * }
 	 *
@@ -211,7 +211,7 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param object $term   The current term object.
-	 * @param int    $depth  Depth of the term in reference to parents. Default 0.
+	 * @param int    $depth  Depth of the term in reference to parent. Default 0.
 	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 * @param int    $id     ID of the current term.
 	 */

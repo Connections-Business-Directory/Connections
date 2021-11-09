@@ -9,7 +9,7 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -87,7 +87,7 @@ function cnRunDBUpgrade() {
 		$charsetCollate .= " COLLATE $wpdb->collate";
 	}
 
-	// Check to ensure that the table exists
+	// Check to ensure that the table exists.
 	if ( $wpdb->get_var( "SHOW TABLES LIKE 'CN_ENTRY_TABLE'" ) != CN_ENTRY_TABLE ) {
 		echo '<h3>' , esc_html__( 'Upgrade the database structure...', 'connections' ) , '</h3>' . "\n";
 		$wpdb->show_errors();
@@ -180,7 +180,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.0' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -193,7 +193,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.1' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -222,7 +222,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.2' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -239,7 +239,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.3' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -261,7 +261,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.4' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -290,7 +290,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.5' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -828,7 +828,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.6' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -851,7 +851,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.7' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -918,7 +918,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.8' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -942,7 +942,7 @@ function cnRunDBUpgrade() {
 					PRIMARY KEY (`id`, `entry_id`)
 			    ) $charsetCollate";
 
-				// Create the table
+				// Create the table.
 				dbDelta( $entryTableDate );
 			}
 
@@ -964,7 +964,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.1.9' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -974,7 +974,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.2' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 		}
 
@@ -992,7 +992,7 @@ function cnRunDBUpgrade() {
 
 				$connections->options->setDBVersion( '0.3' );
 
-				// Save the options
+				// Save the options.
 				$connections->options->saveOptions();
 			}
 
@@ -1016,7 +1016,7 @@ function cnRunDBUpgrade() {
 
 				$connections->options->setDBVersion( '0.4' );
 
-				// Save the options
+				// Save the options.
 				$connections->options->saveOptions();
 			}
 
@@ -1037,7 +1037,7 @@ function cnRunDBUpgrade() {
 
 				$connections->options->setDBVersion( '0.5' );
 
-				// Save the options
+				// Save the options.
 				$connections->options->saveOptions();
 			}
 
@@ -1056,7 +1056,7 @@ function cnRunDBUpgrade() {
 
 			$connections->options->setDBVersion( '0.6' );
 
-			// Save the options
+			// Save the options.
 			$connections->options->saveOptions();
 
 			echo '</ul>' . PHP_EOL;

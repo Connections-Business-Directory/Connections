@@ -76,10 +76,10 @@ class cnTerm_Meta_UI {
 	 */
 	public function __construct( $file = '' ) {
 
-		$this->file       = $file;
-		$this->url        = plugin_dir_url( $this->file );
-		$this->path       = plugin_dir_path( $this->file );
-		$this->basename   = plugin_basename( $this->file );
+		$this->file     = $file;
+		$this->url      = plugin_dir_url( $this->file );
+		$this->path     = plugin_dir_path( $this->file );
+		$this->basename = plugin_basename( $this->file );
 
 		// Register the column header.
 		add_filter( 'cn_category_table_columns', array( $this, 'columnHeader' ) );

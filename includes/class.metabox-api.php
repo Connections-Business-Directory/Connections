@@ -500,7 +500,7 @@ class cnMetaboxAPI {
 
 								// Field found... exit the loops.
 								$type = $field['type'];
-								continue(2);
+								continue( 2 );
 							}
 						}
 					}

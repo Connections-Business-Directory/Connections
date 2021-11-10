@@ -25,65 +25,65 @@ use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
  *
  * function cnCustomMetaboxFieldDemo() {
  *
- * 	$prefix = 'cn-demo-';
+ *     $prefix = 'cn-demo-';
  *
- * 	$metabox = array(
- * 		'id'         => 'test_metabox_one',
- * 		'title'      => 'Metabox One',
- * 		'context'    => 'normal',
- * 		'priority'   => 'core',
- * 		'sections'   => array(
- * 			array(
- * 				'name'       => 'Section One',
- * 				'desc'       => 'The custom metabox / field API supports adding multiple sections to a metabox.',
- * 				'fields'     => array(
- * 					array(
- * 						'name'       => 'Test Text - SMALL',
- * 						'show_label' => TRUE, // Show field label
- * 						'desc'       => 'field description',
- * 						'id'         => $prefix . 'test_text_small',
- * 						'type'       => 'text',
- * 						'size'       => 'small',
- * 					),
- * 					array(
- * 						'name'       => 'Test Text - REGULAR',
- * 						'show_label' => FALSE, // Show field label
- * 						'desc'       => 'field description',
- * 						'id'         => $prefix . 'test_text_regular',
- * 						'type'       => 'text',
- * 						'size'       => 'regular',
- * 					),
- * 				),
- * 			),
- * 			array(
- * 				'name' => 'Section Two',
- * 				'desc'       => 'The custom metabox / field API supports text input fields with multiple sizes that match WordPress core.',
- * 				'fields' => array(
- * 					array(
- * 						'name'       => 'Checkbox',
- * 						'show_label' => TRUE, // Show field label
- * 						'desc'       => 'field description',
- * 						'id'         => 'checkbox_test',
- * 						'type'       => 'checkbox',
- * 					),
- * 					array(
- * 						'name'       => 'Checkbox Group',
- * 						'show_label' => TRUE, // Show field label
- * 						'desc'       => 'field description',
- * 						'id'         => 'checkboxgroup_test',
- * 						'type'       => 'checkboxgroup',
- * 						'options'    => array(
- * 								'option_one'   => 'Option One',
- * 								'option_two'   => 'Option Two',
- * 								'option_three' => 'Option Three',
- * 							),
- * 					),
- * 				),
- * 			),
- * 		),
- * 	);
+ *     $metabox = array(
+ *         'id'         => 'test_metabox_one',
+ *         'title'      => 'Metabox One',
+ *         'context'    => 'normal',
+ *         'priority'   => 'core',
+ *         'sections'   => array(
+ *             array(
+ *                 'name'       => 'Section One',
+ *                 'desc'       => 'The custom metabox / field API supports adding multiple sections to a metabox.',
+ *                 'fields'     => array(
+ *                     array(
+ *                         'name'       => 'Test Text - SMALL',
+ *                         'show_label' => TRUE, // Show field label
+ *                         'desc'       => 'field description',
+ *                         'id'         => $prefix . 'test_text_small',
+ *                         'type'       => 'text',
+ *                         'size'       => 'small',
+ *                     ),
+ *                     array(
+ *                         'name'       => 'Test Text - REGULAR',
+ *                         'show_label' => FALSE, // Show field label
+ *                         'desc'       => 'field description',
+ *                         'id'         => $prefix . 'test_text_regular',
+ *                         'type'       => 'text',
+ *                         'size'       => 'regular',
+ *                     ),
+ *                 ),
+ *             ),
+ *             array(
+ *                 'name' => 'Section Two',
+ *                 'desc'       => 'The custom metabox / field API supports text input fields with multiple sizes that match WordPress core.',
+ *                 'fields' => array(
+ *                     array(
+ *                         'name'       => 'Checkbox',
+ *                         'show_label' => TRUE, // Show field label
+ *                         'desc'       => 'field description',
+ *                         'id'         => 'checkbox_test',
+ *                         'type'       => 'checkbox',
+ *                     ),
+ *                     array(
+ *                         'name'       => 'Checkbox Group',
+ *                         'show_label' => TRUE, // Show field label
+ *                         'desc'       => 'field description',
+ *                         'id'         => 'checkboxgroup_test',
+ *                         'type'       => 'checkboxgroup',
+ *                         'options'    => array(
+ *                                 'option_one'   => 'Option One',
+ *                                 'option_two'   => 'Option Two',
+ *                                 'option_three' => 'Option Three',
+ *                             ),
+ *                     ),
+ *                 ),
+ *             ),
+ *         ),
+ *     );
  *
- * 	cnMetaboxAPI::add( $metabox );
+ *     cnMetaboxAPI::add( $metabox );
  *
  * }
  * </code>
@@ -195,17 +195,17 @@ class cnMetaboxAPI {
 	 * Public method to add metaboxes.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	id (string) The metabox ID. This value MUST be unique.
-	 * 	title (string) The metabox title that is presented.
-	 * 	callback (mixed) string | array [optional] The function name or class method to be used for custom metabox output.
-	 * 	page_hook (string) string The admin page hooks the metabox is to be rendered on.
-	 * 	context (string) [optional] The part of the admin page the metabox should be rendered. Valid options: 'normal', 'advanced', or 'side'. NOTE: note used on the frontend.
-	 * 	priority (string) [optional] The priority within the context the metabox should be rendered. Valid options: 'high', 'core', 'default' or 'low'. NOTE: note used on the frontend.
-	 * 	section (array) [optional] An array of sections and its fields to be rendered. NOTE: If sections are not required, use the fields option.
-	 * 		name (string) The section name that is presented.
-	 * 		desc (string) The description of the section that is presented.
-	 * 		fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
-	 * 	fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
+	 *     id (string) The metabox ID. This value MUST be unique.
+	 *     title (string) The metabox title that is presented.
+	 *     callback (mixed) string | array [optional] The function name or class method to be used for custom metabox output.
+	 *     page_hook (string) string The admin page hooks the metabox is to be rendered on.
+	 *     context (string) [optional] The part of the admin page the metabox should be rendered. Valid options: 'normal', 'advanced', or 'side'. NOTE: note used on the frontend.
+	 *     priority (string) [optional] The priority within the context the metabox should be rendered. Valid options: 'high', 'core', 'default' or 'low'. NOTE: note used on the frontend.
+	 *     section (array) [optional] An array of sections and its fields to be rendered. NOTE: If sections are not required, use the fields option.
+	 *         name (string) The section name that is presented.
+	 *         desc (string) The description of the section that is presented.
+	 *         fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
+	 *     fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
 	 *
 	 * @access public
 	 * @since 0.8
@@ -668,13 +668,13 @@ class cnMetabox_Render {
 	 * NOTE: To render the metaboxes on an admin page use do_meta_boxes().
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	id (array) The metabox ID to render.
-	 * 	order (array) An indexed array of metabox IDs that should be rendered in the order in the array.
-	 * 		NOTE: Any registered metabox ID not supplied in `order` means `exclude` is implied.
-	 * 	exclude (array) An indexed array of metabox IDs that should be excluded from being rendered.
-	 * 	include (array) An indexed array of metabox IDs that should be rendered.
-	 * 		NOTE: Metabox IDs in `exclude` outweigh metabox IDs in include. Meaning if the same metabox ID
-	 * 		exists in both, the metabox will be excluded.
+	 *     id (array) The metabox ID to render.
+	 *     order (array) An indexed array of metabox IDs that should be rendered in the order in the array.
+	 *         NOTE: Any registered metabox ID not supplied in `order` means `exclude` is implied.
+	 *     exclude (array) An indexed array of metabox IDs that should be excluded from being rendered.
+	 *     include (array) An indexed array of metabox IDs that should be rendered.
+	 *         NOTE: Metabox IDs in `exclude` outweigh metabox IDs in include. Meaning if the same metabox ID
+	 *         exists in both, the metabox will be excluded.
 	 *
 	 * @access public
 	 * @since 0.8
@@ -866,40 +866,40 @@ class cnMetabox_Render {
 	 *
 	 * The $fields property is an indexed array of fields and their properties.
 	 * Accepted option for are:
-	 * 	id (string) The field ID. This value MUST be unique.
-	 * 	desc (string) [optional] The field description.
-	 * 	type (string) The type of field which should be registered. This can be any of the supported field types or a custom field type.
-	 * 		Core supported field types are:
-	 * 			checkbox
-	 * 			checkboxgroup
-	 * 			radio
-	 * 			radio_inline
-	 * 			select
-	 * 			text (input)
-	 * 			textarea
-	 * 			datepicker
-	 * 			slider
-	 * 			quicktag
-	 * 			rte
-	 * 	value (mixed) string | array [optional] The function name or class method to be used retrieve a value for the field.
-	 * 	size (string) [optional] The size if the text input and textarea field types.
-	 * 		NOTE: Only used for the `text` field type. Valid options: small', 'regular' or 'large'
-	 * 		NOTE: Only used for the `textarea` field type. Valid options: small' or 'large'
-	 * 	options (mixed) string | array [optional] Valid value depends on the field type being rendered.
-	 * 		Field type / valid value for options
-	 * 			checkboxgroup (array) An associative array where the key is the checkbox value and the value is the checkbox label.
-	 * 			radio / radio_inline (array) An associative array where the key is the radio value and the value is the radio label.
-	 * 			select (array) An associative array where the key is the option value and the value is the option name.
-	 * 			rte (array) @link http://codex.wordpress.org/Function_Reference/wp_editor#Arguments
-	 * 			slider (array) The slider options.
-	 * 				min (int) The minimum slider step.
-	 * 				max (int) The maximum slider step.
-	 * 				step (int) The step the slider steps at.
-	 * 	default	(mixed) The default value to be used.
+	 *     id (string) The field ID. This value MUST be unique.
+	 *     desc (string) [optional] The field description.
+	 *     type (string) The type of field which should be registered. This can be any of the supported field types or a custom field type.
+	 *         Core supported field types are:
+	 *             checkbox
+	 *             checkboxgroup
+	 *             radio
+	 *             radio_inline
+	 *             select
+	 *             text (input)
+	 *             textarea
+	 *             datepicker
+	 *             slider
+	 *             quicktag
+	 *             rte
+	 *     value (mixed) string | array [optional] The function name or class method to be used retrieve a value for the field.
+	 *     size (string) [optional] The size if the text input and textarea field types.
+	 *         NOTE: Only used for the `text` field type. Valid options: small', 'regular' or 'large'
+	 *         NOTE: Only used for the `textarea` field type. Valid options: small' or 'large'
+	 *     options (mixed) string | array [optional] Valid value depends on the field type being rendered.
+	 *         Field type / valid value for options
+	 *             checkboxgroup (array) An associative array where the key is the checkbox value and the value is the checkbox label.
+	 *             radio / radio_inline (array) An associative array where the key is the radio value and the value is the radio label.
+	 *             select (array) An associative array where the key is the option value and the value is the option name.
+	 *             rte (array) @link http://codex.wordpress.org/Function_Reference/wp_editor#Arguments
+	 *             slider (array) The slider options.
+	 *                 min (int) The minimum slider step.
+	 *                 max (int) The maximum slider step.
+	 *                 step (int) The step the slider steps at.
+	 *     default    (mixed) The default value to be used.
 	 *
 	 * @since 0.8
 	 *
-	 * @param $fields	array 	An indexed array of fields to render.
+	 * @param array $fields An indexed array of fields to render.
 	 */
 	private function fields( $fields ) {
 

@@ -791,7 +791,7 @@ class cnMetabox_Render {
 		$this->object  = $object;
 		$this->metabox = $metabox['args'];
 		$sections      = isset( $metabox['args']['sections'] ) && ! empty( $metabox['args']['sections'] ) ? $metabox['args']['sections'] : array();
-		$fields        = isset( $metabox['args']['fields'] )   && ! empty( $metabox['args']['fields'] )   ? $metabox['args']['fields'] : array();
+		$fields        = isset( $metabox['args']['fields'] ) && ! empty( $metabox['args']['fields'] ) ? $metabox['args']['fields'] : array();
 
 		// Use nonce for verification.
 		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename( __FILE__ ) ), '" />';

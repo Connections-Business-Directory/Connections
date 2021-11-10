@@ -137,7 +137,7 @@ class cnMetaboxAPI {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			add_action( 'init', array( __CLASS__, 'process' ), 11 );
 

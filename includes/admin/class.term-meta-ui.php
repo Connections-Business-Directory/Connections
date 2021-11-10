@@ -23,6 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Main Term Meta UI class.
  *
  * @since 8.5.2
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnTerm_Meta_UI {
 

@@ -320,7 +320,7 @@ class cnMetaboxAPI {
 
 			if ( is_admin() ) {
 
-				foreach ( $metabox['pages'] as $page ){
+				foreach ( $metabox['pages'] as $page ) {
 
 					// Add the actions to show the metaboxes on the registered pages.
 					add_action( 'load-' . $page, array( __CLASS__, 'register' ) );

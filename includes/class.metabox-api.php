@@ -1046,12 +1046,8 @@ class cnMetabox_Render {
 								  ->setId( $field['id'] )
 								  ->addClass( 'cn-checkbox' )
 								  ->setName( $field['id'] )
-								  ->setReadOnly(
-									  isset( $field['readonly'] ) && true === $field['readonly']
-								  )
-								  ->setRequired(
-									  isset( $field['required'] ) && true === $field['required']
-								  )
+								  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+								  ->setRequired( isset( $field['required'] ) && true === $field['required'] )
 								  ->maybeIsChecked( $value )
 								  ->addLabel(
 									  Field\Label::create()
@@ -1078,9 +1074,7 @@ class cnMetabox_Render {
 										->setId( $field['id'] )
 										->addClass( 'cn-checkbox' )
 										->setName( $field['id'] )
-										->setReadOnly(
-											isset( $field['readonly'] ) && true === $field['readonly']
-										)
+										->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 										->createInputsFromArray( $field['options'] )
 										->addAttribute( 'aria-describedby', "{$field['id']}-description" )
 										->setValue( $value )
@@ -1103,9 +1097,7 @@ class cnMetabox_Render {
 									 ->setId( $field['id'] )
 									 ->addClass( 'cn-radio-option' )
 									 ->setName( $field['id'] )
-									 ->setReadOnly(
-										 isset( $field['readonly'] ) && true === $field['readonly']
-									 )
+									 ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 									 ->createInputsFromArray( $field['options'] )
 									 ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
 									 ->setValue( $value )
@@ -1129,9 +1121,7 @@ class cnMetabox_Render {
 									 ->setId( $field['id'] )
 									 ->addClass( 'cn-radio-option' )
 									 ->setName( $field['id'] )
-									 ->setReadOnly(
-										 isset( $field['readonly'] ) && true === $field['readonly']
-									 )
+									 ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 									 ->createInputsFromArray( $field['options'] )
 									 ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
 									 ->setValue( $value )
@@ -1150,12 +1140,8 @@ class cnMetabox_Render {
 						->addClass( 'cn-select' )
 						->setName( $field['id'] )
 						->createOptionsFromArray( $field['options'] )
-						->setReadOnly(
-							isset( $field['readonly'] ) && true === $field['readonly']
-						)
-						->setRequired(
-							isset( $field['required'] ) && true === $field['required']
-						)
+						->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+						->setRequired( isset( $field['required'] ) && true === $field['required'] )
 						->addAttribute( 'aria-describedby', "{$field['id']}-description" )
 						->setValue( $value )
 						->prepend( '<div' . $class . $id . $style . '>' )
@@ -1178,13 +1164,9 @@ class cnMetabox_Render {
 
 					Field\Text::create()
 							  ->setId( $field['id'] )
-							  ->addClass(
-								  in_array( $size, $sizes ) ? "{$size}-text" : 'large-text'
-							  )
+							  ->addClass( in_array( $size, $sizes ) ? "{$size}-text" : 'large-text' )
 							  ->setName( $field['id'] )
-							  ->setReadOnly(
-								  isset( $field['readonly'] ) && true === $field['readonly']
-							  )
+							  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 							  ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
 							  ->setValue( $value )
 							  ->prepend( '<div' . $class . $id . $style . '>' )
@@ -1211,16 +1193,12 @@ class cnMetabox_Render {
 
 					Field\Textarea::create()
 								  ->setId( $field['id'] )
-								  ->addClass(
-									  in_array( $size, $sizes ) ? "{$size}-text" : 'small-text'
-								  )
+								  ->addClass( in_array( $size, $sizes ) ? "{$size}-text" : 'small-text' )
 								  ->setName( $field['id'] )
 								  ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
 								  ->addAttribute( 'rows', 10 )
 								  ->addAttribute( 'cols', 50 )
-								  ->setReadOnly(
-									  isset( $field['readonly'] ) && true === $field['readonly']
-								  )
+								  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 								  ->setValue( $value )
 								  ->prepend( '<div' . $class . $id . $style . '>' )
 								  ->append( '</div>' )

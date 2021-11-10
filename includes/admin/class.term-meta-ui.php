@@ -15,7 +15,7 @@
  * @link       https://github.com/stuttter
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -169,16 +169,16 @@ class cnTerm_Meta_UI {
 	 */
 	public function columnValue( $term, $column_name, $term_id ) {
 
-		// Bail if no taxonomy passed or not on the `meta_key` column
+		// Bail if no taxonomy passed or not on the `meta_key` column.
 		if ( $this->meta_key !== $column_name ) {
 
 			return $term;
 		}
 
-		// Get the metadata
+		// Get the metadata.
 		$meta = $this->get( $term_id );
 
-		// Output HTML element if not empty
+		// Output HTML element if not empty.
 		if ( ! empty( $meta ) ) {
 
 			$html = $this->renderColumnValue( $meta );
@@ -220,17 +220,17 @@ class cnTerm_Meta_UI {
 	 */
 	public function save( $term_id, $tt_id ) {
 
-		// Get the term being posted
+		// Get the term being posted.
 		$term_key = 'term-' . $this->meta_key;
 
-		// Bail if not updating meta_key
+		// Bail if not updating meta_key.
 		$value = ! empty( $_POST[ $term_key ] ) ? $_POST[ $term_key ] : '';
 
 		if ( empty( $value ) ) {
 
 			cnMeta::delete( 'term', $term_id, $this->meta_key );
 
-			// Update meta_key value
+			// Update meta_key value.
 		} else {
 
 			cnMeta::update( 'term', $term_id, $this->meta_key, $value );
@@ -327,7 +327,7 @@ class cnTerm_Meta_UI {
 	 */
 	protected function formField( $term ) {
 
-		// Get the meta value
+		// Get the meta value.
 		$value = isset( $term->term_id ) ? $this->get( $term->term_id ) : ''; ?>
 
 		<input type="text" name="term-<?php echo esc_attr( $this->meta_key ); ?>"

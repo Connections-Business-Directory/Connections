@@ -289,7 +289,7 @@ class cnMetaboxAPI {
 
 	/**
 	 * Method responsible for processing the registered metaboxes.
-	 * This is a private method that is ran on the `admin_init` action
+	 * This is a private method that is run on the `admin_init` action
 	 * if is_admin() or the `init` if not is_admin().
 	 *
 	 * Extensions should hook into the `cn_metabox` action to register
@@ -571,7 +571,7 @@ class cnMetabox_Render {
 	public $object;
 
 	/**
-	 * The meta data for a cnEntry object.
+	 * The metadata for a cnEntry object.
 	 *
 	 * @access private
 	 * @since 0.8
@@ -662,7 +662,7 @@ class cnMetabox_Render {
 	}
 
 	/**
-	 * Use to render the registered metaboxes on the frontend.
+	 * Used to render the registered metaboxes on the frontend.
 	 * NOTE: To render the metaboxes on an admin page use do_meta_boxes().
 	 *
 	 * Accepted option for the $atts property are:
@@ -1630,8 +1630,8 @@ class cnMetabox_Process {
 	}
 
 	/**
-	 * Loops thru the registered metaboxes sections and fields
-	 * and save or update the meta data according to the current
+	 * Loops through the registered metaboxes sections and fields
+	 * and save or update the metadata according to the current
 	 * action being performed.
 	 *
 	 * @access private
@@ -1665,7 +1665,7 @@ class cnMetabox_Process {
 	}
 
 	/**
-	 * Save and or update the objects meta data
+	 * Save and or update the objects metadata
 	 * based on the action being performed to the object.
 	 *
 	 * @access private

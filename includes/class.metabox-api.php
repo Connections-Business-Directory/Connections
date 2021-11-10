@@ -708,7 +708,7 @@ class cnMetabox_Render {
 		foreach ( $metaboxes as $id => $metabox ) {
 
 			// Since custom metaboxes can be enabled/disabled, there's a possibility that there will
-			// be a saved metabox in the settings that no longer exists. Lets catch this and continue.
+			// be a saved metabox in the settings that no longer exists. Let's catch this and continue.
 			if ( empty( $metabox ) ) {
 				continue;
 			}

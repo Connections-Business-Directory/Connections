@@ -333,8 +333,7 @@ class cnTerm_Meta_UI {
 		// Get the meta value.
 		$value = isset( $term->term_id ) ? $this->get( $term->term_id ) : '';
 		?>
-		<input type="text" name="term-<?php echo esc_attr( $this->meta_key ); ?>"
-		       id="term-<?php echo esc_attr( $this->meta_key ); ?>" value="<?php echo esc_attr( $value ); ?>">
+		<input type="text" name="term-<?php echo esc_attr( $this->meta_key ); ?>" id="term-<?php echo esc_attr( $this->meta_key ); ?>" value="<?php echo esc_attr( $value ); ?>">
 		<?php
 	}
 }

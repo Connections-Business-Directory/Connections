@@ -1646,7 +1646,7 @@ class cnMetabox_Process {
 	public function process( $action, $id ) {
 
 		$sections = isset( $this->metabox['sections'] ) && ! empty( $this->metabox['sections'] ) ? $this->metabox['sections'] : array();
-		$fields   = isset( $this->metabox['fields'] )   && ! empty( $this->metabox['fields'] )   ? $this->metabox['fields'] : array();
+		$fields   = isset( $this->metabox['fields'] ) && ! empty( $this->metabox['fields'] ) ? $this->metabox['fields'] : array();
 
 		// If metabox sections have been registered, loop thru them.
 		if ( ! empty( $sections ) ) {

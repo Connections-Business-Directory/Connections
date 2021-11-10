@@ -1417,9 +1417,7 @@ class cnMetabox_Render {
 					break;
 
 				default:
-
 					do_action( 'cn_meta_field-' . $field['type'], $field, $value, $this->object );
-
 					break;
 			}
 

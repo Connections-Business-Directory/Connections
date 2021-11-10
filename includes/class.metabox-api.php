@@ -1042,7 +1042,6 @@ class cnMetabox_Render {
 			switch ( $field['type'] ) {
 
 				case 'checkbox':
-
 					Field\Checkbox::create()
 								  ->setId( $field['id'] )
 								  ->addClass( 'cn-checkbox' )
@@ -1067,7 +1066,6 @@ class cnMetabox_Render {
 
 				case 'checkboxgroup':
 				case 'checkbox-group':
-
 					remapFieldOptions( $field );
 
 					Field\Description::create()
@@ -1093,7 +1091,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'radio':
-
 					remapFieldOptions( $field );
 
 					Field\Description::create()
@@ -1120,7 +1117,6 @@ class cnMetabox_Render {
 
 				case 'radio_inline':
 				case 'radio-inline':
-
 					remapFieldOptions( $field );
 
 					Field\Description::create()
@@ -1147,7 +1143,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'select':
-
 					remapFieldOptions( $field );
 
 					Field\Select::create()
@@ -1178,7 +1173,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'text':
-
 					$sizes = array( 'small', 'regular', 'large' );
 					$size  = _array::get( $field, 'size', 'large' );
 
@@ -1206,7 +1200,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'textarea':
-
 					$sizes = array( 'small', 'large' );
 					$size  = _array::get( $field, 'size', 'small' );
 
@@ -1236,7 +1229,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'datepicker':
-
 					printf(
 						'<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
@@ -1258,7 +1250,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'colorpicker':
-
 					Field\Description::create()
 									 ->addClass( 'description' )
 									 ->setId( "{$field['id']}-description" )
@@ -1318,7 +1309,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'slider':
-
 					// Set the slider defaults.
 					$defaults = array(
 						'min'   => 0,
@@ -1353,7 +1343,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'quicktag':
-
 					Field\Description::create()
 									 ->addClass( 'description' )
 									 ->setId( "{$field['id']}-description" )
@@ -1380,7 +1369,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'rte':
-
 					Field\Description::create()
 									 ->addClass( 'description' )
 									 ->setId( "{$field['id']}-description" )
@@ -1403,7 +1391,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'repeatable':
-
 					echo '<table id="' . esc_attr( $field['id'] ) . '-repeatable" class="meta_box_repeatable" cellspacing="0">';
 						echo '<tbody>';
 

@@ -1413,7 +1413,7 @@ class cnMetabox_Render {
 							if ( $meta == '' || $meta == array() ) {
 
 								$keys = wp_list_pluck( $field['repeatable'], 'id' );
-								$meta = array ( array_fill_keys( $keys, null ) );
+								$meta = array( array_fill_keys( $keys, null ) );
 							}
 
 							$meta = array_values( $meta );

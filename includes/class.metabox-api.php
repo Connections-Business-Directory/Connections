@@ -691,7 +691,7 @@ class cnMetabox_Render {
 			'exclude' => array(),
 			'include' => array(),
 			'hide'    => array(),
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 

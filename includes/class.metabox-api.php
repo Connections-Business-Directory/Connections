@@ -1,6 +1,6 @@
 <?php
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -791,7 +791,7 @@ class cnMetabox_Render {
 		$sections      = isset( $metabox['args']['sections'] ) && ! empty( $metabox['args']['sections'] ) ? $metabox['args']['sections'] : array();
 		$fields        = isset( $metabox['args']['fields'] )   && ! empty( $metabox['args']['fields'] )   ? $metabox['args']['fields'] : array();
 
-		// Use nonce for verification
+		// Use nonce for verification.
 		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename( __FILE__ ) ), '" />';
 
 		// If metabox sections have been registered, loop thru them.
@@ -1407,7 +1407,7 @@ class cnMetabox_Render {
 
 							$i = 0;
 
-							// create an empty array
+							// create an empty array.
 							if ( $meta == '' || $meta == array() ) {
 
 								$keys = wp_list_pluck( $field['repeatable'], 'id' );

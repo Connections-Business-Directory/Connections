@@ -101,16 +101,14 @@ class cnMetaboxAPI {
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
 	 * @since 0.8
-	 * @var object
+	 * @var self
 	 */
 	private static $instance;
 
 	/**
 	 * The metaboxes.
 	 *
-	 * @access private
 	 * @since 0.8
 	 * @var array
 	 */
@@ -119,7 +117,6 @@ class cnMetaboxAPI {
 	/**
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
-	 * @access public
 	 * @since 0.8
 	 * @see cnMetabox::init()
 	 * @see cnMetabox();
@@ -129,7 +126,7 @@ class cnMetaboxAPI {
 	/**
 	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
-	 * @access public
+	 * @internal
 	 * @since 0.8
 	 * @see cnMetabox()
 	 */
@@ -147,10 +144,9 @@ class cnMetaboxAPI {
 	/**
 	 * Return an instance of the class.
 	 *
-	 * @access public
 	 * @since 0.8
 	 *
-	 * @return object cnMetabox
+	 * @return self
 	 */
 	public static function getInstance() {
 
@@ -207,7 +203,6 @@ class cnMetaboxAPI {
 	 *         fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
 	 *     fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
 	 *
-	 * @access public
 	 * @since 0.8
 	 * @param array $metabox
 	 *
@@ -251,8 +246,7 @@ class cnMetaboxAPI {
 	/**
 	 * Return self::$metaboxes array.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 0.8
 	 *
 	 * @param null|string $id
 	 *
@@ -270,9 +264,9 @@ class cnMetaboxAPI {
 	/**
 	 * Remove a registered metabox.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @param  string $id The metabox id to remove.
+	 *
+	 * @param string $id The metabox id to remove.
 	 *
 	 * @return bool
 	 */
@@ -295,11 +289,8 @@ class cnMetaboxAPI {
 	 * Extensions should hook into the `cn_metabox` action to register
 	 * their metaboxes.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
-	 * @uses add_action()
-	 *
-	 * @return void
 	 */
 	public static function process() {
 
@@ -342,9 +333,8 @@ class cnMetaboxAPI {
 	/**
 	 * Register fields for search.
 	 *
-	 * @access private
-	 * @since  8.6.8
-	 * @static
+	 * @internal
+	 * @since 8.6.8
 	 *
 	 * @param array $metabox
 	 */
@@ -386,12 +376,10 @@ class cnMetaboxAPI {
 	/**
 	 * Register the metaboxes.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
 	 *
 	 * @global string $hook_suffix The current admin page hook.
-	 *
-	 * @return void
 	 */
 	public static function register() {
 		global $hook_suffix;
@@ -419,7 +407,9 @@ class cnMetaboxAPI {
 	 * This filter checks the supplied `key` against all registered fields
 	 * and return a bool indicating whether the `$key` is private.
 	 *
-	 * @access private
+	 * @internal
+	 * @since unknown
+	 *
 	 * @param bool   $private Passed by the `cn_is_private_meta` filter.
 	 * @param string $key     The key name.
 	 * @param string $type    The object type.
@@ -458,9 +448,7 @@ class cnMetaboxAPI {
 	}
 
 	/**
-	 * @access public
-	 * @since  8.5.21
-	 * @static
+	 * @since 8.5.21
 	 *
 	 * @param string $id
 	 *
@@ -527,6 +515,9 @@ class cnMetaboxAPI {
  * @since       0.8
  */
 
+/**
+ * Class cnMetabox_Render
+ */
 class cnMetabox_Render {
 
 	/**
@@ -535,7 +526,6 @@ class cnMetabox_Render {
 	 * NOTE: This array will only be used to render
 	 * the metaboxes on the frontend.
 	 *
-	 * @access private
 	 * @since 0.8
 	 *
 	 * @var array
@@ -545,7 +535,6 @@ class cnMetabox_Render {
 	/**
 	 * The array containing the registered metabox attributes.
 	 *
-	 * @access private
 	 * @since 0.8
 	 *
 	 * @var array
@@ -555,7 +544,6 @@ class cnMetabox_Render {
 	/**
 	 * The array containing the current metabox sections.
 	 *
-	 * @access private
 	 * @since 0.8
 	 *
 	 * @var array
@@ -565,8 +553,7 @@ class cnMetabox_Render {
 	/**
 	 * The object being worked with.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 0.8
 	 *
 	 * @var object
 	 */
@@ -575,7 +562,6 @@ class cnMetabox_Render {
 	/**
 	 * The metadata for a cnEntry object.
 	 *
-	 * @access private
 	 * @since 0.8
 	 *
 	 * @var array
@@ -585,7 +571,6 @@ class cnMetabox_Render {
 	/**
 	 * The array of all registered quicktag textareas.
 	 *
-	 * @access private
 	 * @since 0.8
 	 *
 	 * @var array
@@ -595,7 +580,6 @@ class cnMetabox_Render {
 	/**
 	 * The array of all registered slider settings.
 	 *
-	 * @access private
 	 * @since 0.8
 	 *
 	 * @var array
@@ -614,13 +598,10 @@ class cnMetabox_Render {
 	 * Meaning if you need to register a metabox right before render.
 	 * See the `manage.php` admin page file for a working example.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @uses add_meta_box()
+	 *
 	 * @param string $pageHook The page hood / post type in which to add the metabox.
 	 * @param array  $metabox  The array of metaboxes to add. NOTE: Valid field options, @see cnMetaboxAPI::add().
-	 *
-	 * @return void
 	 */
 	public static function add( $pageHook, array $metabox ) {
 
@@ -676,10 +657,10 @@ class cnMetabox_Render {
 	 *         NOTE: Metabox IDs in `exclude` outweigh metabox IDs in include. Meaning if the same metabox ID
 	 *         exists in both, the metabox will be excluded.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @param  array  $atts   The attributes array.
-	 * @param  object $object An instance the cnEntry object.
+	 *
+	 * @param array  $atts   The attributes array.
+	 * @param object $object An instance the cnEntry object.
 	 */
 	public static function metaboxes( array $atts, $object ) {
 
@@ -780,8 +761,8 @@ class cnMetabox_Render {
 	/**
 	 * Render the metabox.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @internal
+	 * @since 0.8
 	 *
 	 * @param $object
 	 * @param $metabox
@@ -823,10 +804,9 @@ class cnMetabox_Render {
 	/**
 	 * Render the metabox sections.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @since 0.8
 	 *
-	 * @param  array $section An array containing the sections of the metabox.
+	 * @param array $section An array containing the sections of the metabox.
 	 */
 	private function section( $section ) {
 
@@ -1432,9 +1412,8 @@ class cnMetabox_Render {
 	/**
 	 * Outputs the JS necessary to support the quicktag textareas.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
-	 * @return void
 	 */
 	public static function quickTagJS() {
 		echo '<script type="text/javascript">/* <![CDATA[ */';
@@ -1455,9 +1434,8 @@ class cnMetabox_Render {
 	 * @todo Should use @see cnFormatting::dateFormatPHPTojQueryUI() instead to convert the PHP datetime format to a
 	 *       compatible jQueryUI Datepicker compatibly format.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
-	 * @return void
 	 */
 	public static function datepickerJS() {
 
@@ -1496,9 +1474,8 @@ class cnMetabox_Render {
 	/**
 	 * Outputs the JS necessary to support the color picker.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
-	 * @return void
 	 */
 	public static function colorpickerJS() {
 
@@ -1521,9 +1498,8 @@ class cnMetabox_Render {
 	/**
 	 * Outputs the JS necessary to support the sliders.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
-	 * @return void
 	 */
 	public static function sliderJS() {
 
@@ -1578,17 +1554,24 @@ foreach ( self::$slider as $id => $option ) {
  * @since       0.8
  */
 
+/**
+ * Class cnMetabox_Process
+ */
 class cnMetabox_Process {
 
 	/**
 	 * The array containing the registered metaboxes.
 	 *
-	 * @access private
 	 * @since 0.8
 	 * @var array
 	 */
 	private $metabox = array();
 
+	/**
+	 * cnMetabox_Process constructor.
+	 *
+	 * @param $metabox
+	 */
 	public function __construct( $metabox ) {
 
 		$this->metabox = $metabox;
@@ -1599,12 +1582,11 @@ class cnMetabox_Process {
 	 * and save or update the metadata according to the current
 	 * action being performed.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
-	 * @param  string $action The action being performed.
-	 * @param  int    $id     The object ID.
 	 *
-	 * @return void
+	 * @param string $action The action being performed.
+	 * @param int    $id     The object ID.
 	 */
 	public function process( $action, $id ) {
 
@@ -1633,12 +1615,11 @@ class cnMetabox_Process {
 	 * Save and or update the objects metadata
 	 * based on the action being performed to the object.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @since 0.8
 	 *
-	 * @param  string $action The action being performed.
-	 * @param  int    $id     The object ID.
-	 * @param  array  $fields An array of the registered fields to save and or update.
+	 * @param string $action The action being performed.
+	 * @param int    $id     The object ID.
+	 * @param array  $fields An array of the registered fields to save and or update.
 	 *
 	 * @return bool
 	 */
@@ -1699,7 +1680,7 @@ class cnMetabox_Process {
 	/**
 	 * Sanitize use input based in field type.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.8
 	 *
 	 * @return mixed

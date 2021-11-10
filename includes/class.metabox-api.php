@@ -1722,21 +1722,15 @@ class cnMetabox_Process {
 			switch ( $action ) {
 
 				case 'add':
-
 					cnMeta::add( 'entry', $id, $field['id'], $value );
-
 					break;
 
 				case 'copy':
-
 					cnMeta::add( 'entry', $id, $field['id'], $value );
-
 					break;
 
 				case 'update':
-
 					cnMeta::update( 'entry', $id, $field['id'], $value );
-
 					break;
 			}
 		}

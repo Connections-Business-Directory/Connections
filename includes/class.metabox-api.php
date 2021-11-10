@@ -1755,62 +1755,50 @@ class cnMetabox_Process {
 		switch ( $type ) {
 
 			case 'checkbox':
-
 				$value = cnSanitize::checkbox( $value );
 				break;
 
 			case 'checkboxgroup':
-
 				$value = cnSanitize::options( $value, $options, $default );
 				break;
 
 			case 'radio':
-
 				$value = cnSanitize::option( $value, $options, $default );
 				break;
 
 			case 'radio_inline':
-
 				$value = cnSanitize::option( $value, $options, $default );
 				break;
 
 			case 'select':
-
 				$value = cnSanitize::option( $value, $options, $default );
 				break;
 
 			case 'text':
-
 				$value = cnSanitize::string( 'text', $value );
 				break;
 
 			case 'textarea':
-
 				$value = cnSanitize::string( 'textarea', $value );
 				break;
 
 			case 'slider':
-
 				$value = absint( $value );
 				break;
 
 			case 'colorpicker':
-
 				$value = cnSanitize::string( 'color', $value );
 				break;
 
 			case 'quicktag':
-
 				$value = cnSanitize::string( 'quicktag', $value );
 				break;
 
 			case 'rte':
-
 				$value = cnSanitize::string( 'html', $value );
 				break;
 
 			default:
-
 				$value = apply_filters( 'cn_meta_sanitize_field-' . $type, $value, $options, $default );
 				break;
 		}

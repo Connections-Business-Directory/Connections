@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Term Meta UI Class
  *

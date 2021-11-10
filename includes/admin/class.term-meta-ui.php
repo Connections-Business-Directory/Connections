@@ -188,7 +188,8 @@ class cnTerm_Meta_UI {
 			$html = $this->renderColumnValue();
 		}
 
-		echo $html;
+		// HTML is escaped in overriding classes.
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		return $term;
 	}

@@ -1763,13 +1763,7 @@ class cnMetabox_Process {
 				break;
 
 			case 'radio':
-				$value = cnSanitize::option( $value, $options, $default );
-				break;
-
 			case 'radio_inline':
-				$value = cnSanitize::option( $value, $options, $default );
-				break;
-
 			case 'select':
 				$value = cnSanitize::option( $value, $options, $default );
 				break;

@@ -104,7 +104,7 @@ class cnMetaboxAPI {
 	 * @access private
 	 * @since 0.8
 	 * @var object
-	*/
+	 */
 	private static $instance;
 
 	/**
@@ -420,9 +420,9 @@ class cnMetaboxAPI {
 	 * and return a bool indicating whether the `$key` is private.
 	 *
 	 * @access private
-	 * @param  bool    $private Passed by the `cn_is_private_meta` filter.
-	 * @param  string  $key     The key name.
-	 * @param  string  $type    The object type.
+	 * @param bool   $private Passed by the `cn_is_private_meta` filter.
+	 * @param string $key     The key name.
+	 * @param string $type    The object type.
 	 *
 	 * @return boolean
 	 */

@@ -434,7 +434,8 @@ class cnMetaboxAPI {
 
 				foreach ( $metabox['fields'] as $field ) {
 
-					if ( $field['id'] == $key ) { return true;
+					if ( $field['id'] == $key ) {
+						return true;
 					}
 				}
 			}
@@ -445,7 +446,8 @@ class cnMetaboxAPI {
 
 					foreach ( $section['fields'] as $field ) {
 
-						if ( $field['id'] == $key ) { return true;
+						if ( $field['id'] == $key ) {
+							return true;
 						}
 					}
 				}

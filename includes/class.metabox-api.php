@@ -90,6 +90,12 @@ use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
  *
  */
 
+/**
+ * Class cnMetaboxAPI
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
 class cnMetaboxAPI {
 
 	/**

@@ -397,7 +397,7 @@ class cnMetaboxAPI {
 		global $hook_suffix;
 
 		// Grab an instance of the Connections object.
-		$instance  = Connections_Directory();
+		$instance = Connections_Directory();
 
 		// The metaboxes only need to be added on the manage page if performing an action to an entry.
 		// This is to prevent the metaboxes from showing on the Screen Option tab on the Manage
@@ -683,7 +683,7 @@ class cnMetabox_Render {
 
 		$metaboxes = array();
 
-		$defaults  = array(
+		$defaults = array(
 			'id'      => '',
 			'order'   => array(),
 			'exclude' => array(),
@@ -946,7 +946,7 @@ class cnMetabox_Render {
 			 *
 			 * @param string $id The field id.
 			 */
-			$id    = apply_filters( 'cn_metabox_table_id', 'cn-metabox-id-' . $field['id'] );
+			$id = apply_filters( 'cn_metabox_table_id', 'cn-metabox-id-' . $field['id'] );
 
 			/**
 			 * Apply custom classes to a metabox table.
@@ -1006,7 +1006,7 @@ class cnMetabox_Render {
 			 *
 			 * @param string $id The field id.
 			 */
-			$id    = apply_filters( "cn_metabox_{$field['type']}_id", '' );
+			$id = apply_filters( "cn_metabox_{$field['type']}_id", '' );
 
 			/**
 			 * Apply custom classes to a field type container element.

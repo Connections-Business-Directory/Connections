@@ -691,7 +691,7 @@ class cnMetabox_Render {
 
 			$metaboxes[ $atts['id'] ] = cnMetaboxAPI::get( $atts['id'] );
 
-		} else if ( ! empty( $atts['order'] ) ) {
+		} elseif ( ! empty( $atts['order'] ) ) {
 
 			// If the metabox order has been supplied, sort them as supplied. Exclude is implied.
 			// Meaning, if a metabox ID is not supplied in $atts['order'], they will be excluded.

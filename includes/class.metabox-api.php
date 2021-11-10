@@ -127,7 +127,7 @@ class cnMetaboxAPI {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class, if it has already been initialized, return the initialized instance.
+	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @access public
 	 * @since 0.8
@@ -201,7 +201,7 @@ class cnMetaboxAPI {
 	 * 	page_hook (string) string The admin page hooks the metabox is to be rendered on.
 	 * 	context (string) [optional] The part of the admin page the metabox should be rendered. Valid options: 'normal', 'advanced', or 'side'. NOTE: note used on the frontend.
 	 * 	priority (string) [optional] The priority within the context the metabox should be rendered. Valid options: 'high', 'core', 'default' or 'low'. NOTE: note used on the frontend.
-	 * 	section (array) [optional] An array of sections and its fields to be to be rendered. NOTE: If sections are not required, use the fields option.
+	 * 	section (array) [optional] An array of sections and its fields to be rendered. NOTE: If sections are not required, use the fields option.
 	 * 		name (string) The section name that is presented.
 	 * 		desc (string) The description of the section that is presented.
 	 * 		fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
@@ -308,7 +308,7 @@ class cnMetaboxAPI {
 
 		// Store the registered metaboxes in the options table that way the data can be used
 		// even if this API is not loaded; for example in the frontend to check if a field ID
-		// is private so it will not be rendered.
+		// is private, so it will not be rendered.
 		//
 		// NOTE: All fields registered via this API are considered private.
 		// The expectation is an action will be called to render the metadata.
@@ -328,7 +328,7 @@ class cnMetaboxAPI {
 
 			} else {
 
-				// Add the metabox so it can be used on the site frontend.
+				// Add the metabox, so it can be used on the site frontend.
 				cnMetabox_Render::add( 'public', $metabox );
 			}
 
@@ -353,7 +353,7 @@ class cnMetaboxAPI {
 		$sections = cnArray::get( $metabox, 'sections', array() );
 		$fields   = cnArray::get( $metabox, 'fields', array() );
 
-		// If metabox sections have been registered, loop thru them.
+		// If metabox sections have been registered, loop through them.
 		if ( ! empty( $sections ) ) {
 
 			foreach ( $sections as $section ) {
@@ -476,7 +476,7 @@ class cnMetaboxAPI {
 			// $metaboxes = get_option( 'connections_metaboxes', array() );
 			$metaboxes = cnMetaboxAPI::get();
 
-			// Loop thru all fields registered as part of a metabox.
+			// Loop through all fields registered as part of a metabox.
 			foreach ( $metaboxes as $metabox ) {
 
 				if ( isset( $metabox['fields'] ) ) {
@@ -679,7 +679,7 @@ class cnMetabox_Render {
 	 * @access public
 	 * @since 0.8
 	 * @param  array  $atts   The attributes array.
-	 * @param  object $object An instance the the cnEntry object.
+	 * @param  object $object An instance the cnEntry object.
 	 */
 	public static function metaboxes( array $atts, $object ) {
 
@@ -796,7 +796,7 @@ class cnMetabox_Render {
 		// Use nonce for verification.
 		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename( __FILE__ ) ), '" />';
 
-		// If metabox sections have been registered, loop thru them.
+		// If metabox sections have been registered, loop through them.
 		if ( ! empty( $sections ) ) {
 
 			foreach ( $sections as $section ) {
@@ -805,7 +805,7 @@ class cnMetabox_Render {
 			}
 		}
 
-		// If metabox fields have been supplied, loop thru them.
+		// If metabox fields have been supplied, loop through them.
 		if ( ! empty( $fields ) ) {
 
 			echo '<div class="cn-metabox-section">';
@@ -935,7 +935,7 @@ class cnMetabox_Render {
 			 *
 			 * @since 8.3.4
 			 *
-			 * @param array  $class An indexed array of classes that should applied to the table element.
+			 * @param array  $class An indexed array of classes that should be applied to the table element.
 			 * @param string $type  The field type.
 			 * @param string $id    The field id.
 			 */
@@ -994,7 +994,7 @@ class cnMetabox_Render {
 			 *
 			 * @since 8.3.4
 			 *
-			 * @param array  $class An indexed array of classes that should applied to the element.
+			 * @param array  $class An indexed array of classes that should be applied to the element.
 			 * @param string $id    The field id.
 			 */
 			$class = apply_filters( "cn_metabox_{$field['type']}_class", array( "cn-meta-field-type-{$field['type']}" ), $field['id'] );
@@ -1648,7 +1648,7 @@ class cnMetabox_Process {
 		$sections = isset( $this->metabox['sections'] ) && ! empty( $this->metabox['sections'] ) ? $this->metabox['sections'] : array();
 		$fields   = isset( $this->metabox['fields'] ) && ! empty( $this->metabox['fields'] ) ? $this->metabox['fields'] : array();
 
-		// If metabox sections have been registered, loop thru them.
+		// If metabox sections have been registered, loop through them.
 		if ( ! empty( $sections ) ) {
 
 			foreach ( $sections as $section ) {
@@ -1659,7 +1659,7 @@ class cnMetabox_Process {
 			}
 		}
 
-		// If metabox fields have been supplied, loop thru them.
+		// If metabox fields have been supplied, loop through them.
 		if ( ! empty( $fields ) ) {
 
 				$this->save( $action, $id, $fields );

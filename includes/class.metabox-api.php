@@ -415,9 +415,9 @@ class cnMetaboxAPI {
 	}
 
 	/**
-	 * All registered fields thru this class are considered to be private.
+	 * All registered fields through this class are considered to be private.
 	 * This filter checks the supplied `key` against all registered fields
-	 * and return a bool indicating whether or not the `$key` is private.
+	 * and return a bool indicating whether the `$key` is private.
 	 *
 	 * @access private
 	 * @param  bool    $private Passed by the `cn_is_private_meta` filter.

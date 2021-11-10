@@ -746,7 +746,7 @@ class cnMetabox_Render {
 
 							$callback = $metabox['callback'];
 
-						} else if ( is_array( $metabox['callback'] ) ) {
+						} elseif ( is_array( $metabox['callback'] ) ) {
 
 							if ( is_object( $metabox['callback'][0] ) ) {
 

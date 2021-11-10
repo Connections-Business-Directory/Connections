@@ -970,15 +970,15 @@ class cnMetabox_Render {
 			// For a label to be rendered the $field['name'] has to be supplied.
 			// Show the label if $field['show_label'] is TRUE, OR, if it is not supplied assume TRUE and show it anyway.
 			// The result will be the label will be shown unless specifically $field['show_label'] is set to FALSE.
-			if ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( ! isset( $field['show_label'] ) || $field['show_label'] == true ) ) {
+			if ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( ! isset( $field['show_label'] ) || true == $field['show_label'] ) ) {
 
 				echo '<th class="cn-metabox-label">' . esc_html( $field['name'] ) . '</th>';
 
-			} elseif ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( isset( $field['show_label'] ) && $field['show_label'] == true ) ) {
+			} elseif ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( isset( $field['show_label'] ) && true == $field['show_label'] ) ) {
 
 				echo '<th class="cn-metabox-label">' . esc_html( $field['name'] ) . '</th>';
 
-			} elseif ( ! isset( $field['show_label'] ) || $field['show_label'] == false ) {
+			} elseif ( ! isset( $field['show_label'] ) || false == $field['show_label'] ) {
 
 				echo '<th class="cn-metabox-label-empty">&nbsp;</th>';
 			}
@@ -1410,7 +1410,7 @@ class cnMetabox_Render {
 							$i = 0;
 
 							// create an empty array.
-							if ( $meta == '' || $meta == array() ) {
+							if ( '' == $meta || array() == $meta ) {
 
 								$keys = wp_list_pluck( $field['repeatable'], 'id' );
 								$meta = array( array_fill_keys( $keys, null ) );

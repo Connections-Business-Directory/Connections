@@ -27,14 +27,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 class cnTerm_Meta_UI {
 
 	/**
+	 * Metadata key.
+	 *
 	 * @since 8.5.2
-	 * @var string Metadata key
+	 * @var string
 	 */
 	protected $meta_key = '';
 
 	/**
+	 * Array of labels.
+	 *
 	 * @since 8.5.2
-	 * @var array Array of labels
+	 * @var array
 	 */
 	protected $labels = array(
 		'singular'    => '',
@@ -43,26 +47,34 @@ class cnTerm_Meta_UI {
 	);
 
 	/**
+	 * File for plugin.
+	 *
 	 * @since 8.5.18
-	 * @var string File for plugin
+	 * @var string
 	 */
 	public $file = '';
 
 	/**
+	 * URL to plugin.
+	 *
 	 * @since 8.5.18
-	 * @var string URL to plugin
+	 * @var string
 	 */
 	public $url = '';
 
 	/**
+	 * Path to plugin.
+	 *
 	 * @since 8.5.18
-	 * @var string Path to plugin
+	 * @var string
 	 */
 	public $path = '';
 
 	/**
+	 * Basename for plugin.
+	 *
 	 * @since 8.5.18
-	 * @var string Basename for plugin
+	 * @var string
 	 */
 	public $basename = '';
 
@@ -72,7 +84,7 @@ class cnTerm_Meta_UI {
 	 * @access public
 	 * @since  8.5.2
 	 *
-	 * @param string $file
+	 * @param string $file Path to plugin.
 	 */
 	public function __construct( $file = '' ) {
 
@@ -116,15 +128,13 @@ class cnTerm_Meta_UI {
 	/**
 	 * Enqueue scripts.
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 */
 	public function enqueue_scripts() {}
 
 	/**
 	 * Add help tabs for metadata.
 	 *
-	 * @access public
 	 * @since 8.5.2
 	 */
 	public function help_tabs() {}
@@ -132,7 +142,6 @@ class cnTerm_Meta_UI {
 	/**
 	 * Quick edit ajax updating.
 	 *
-	 * @access public
 	 * @since 8.5.2
 	 */
 	public function ajax_update() {}
@@ -140,7 +149,6 @@ class cnTerm_Meta_UI {
 	/**
 	 * Add the "meta_key" column to taxonomy terms list-tables.
 	 *
-	 * @access public
 	 * @since  8.5.2
 	 *
 	 * @param array $columns
@@ -157,14 +165,13 @@ class cnTerm_Meta_UI {
 	/**
 	 * Output the value for the custom column
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 *
 	 * @param object $term
 	 * @param string $column_name
 	 * @param int    $term_id
 	 *
-	 * @return mixed
+	 * @return object
 	 */
 	public function columnValue( $term, $column_name, $term_id ) {
 
@@ -196,10 +203,9 @@ class cnTerm_Meta_UI {
 	/**
 	 * Return the formatted output for the column row
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 *
-	 * @param string $value
+	 * @param string $value The meta value.
 	 *
 	 * @return string
 	 */
@@ -211,11 +217,10 @@ class cnTerm_Meta_UI {
 	/**
 	 * Add `meta_key` to term when updating
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 *
-	 * @param  int $term_id Term ID.
-	 * @param  int $tt_id   Taxonomy Term ID.
+	 * @param int $term_id Term ID.
+	 * @param int $tt_id   Taxonomy Term ID.
 	 */
 	public function save( $term_id, $tt_id ) {
 
@@ -239,10 +244,9 @@ class cnTerm_Meta_UI {
 	/**
 	 * Return the `meta_key` of a term
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 *
-	 * @param int $term_id
+	 * @param int $term_id The term ID.
 	 *
 	 * @return array|bool|string
 	 */
@@ -254,8 +258,7 @@ class cnTerm_Meta_UI {
 	/**
 	 * Output the form field for this metadata when adding a new term
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 */
 	public function formFieldAdd() {
 
@@ -284,8 +287,7 @@ class cnTerm_Meta_UI {
 	/**
 	 * Output the form field when editing an existing term
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 *
 	 * @param object $term
 	 */
@@ -319,10 +321,9 @@ class cnTerm_Meta_UI {
 	/**
 	 * Output the form field
 	 *
-	 * @access public
-	 * @since  8.5.2
+	 * @since 8.5.2
 	 *
-	 * @param object $term
+	 * @param object $term Instance of the term object.
 	 */
 	protected function formField( $term ) {
 

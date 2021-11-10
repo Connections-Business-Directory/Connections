@@ -367,8 +367,8 @@ class cnMetaboxAPI {
 			foreach ( $fields as $field ) {
 
 				if ( in_array( $field['type'], array( 'text', 'textarea' ) )
-				     && ( isset( $field['id'] ) && ! empty( $field['id'] ) )
-				     && ( isset( $field['name'] ) && ! empty( $field['name'] ) ) ) {
+					 && ( isset( $field['id'] ) && ! empty( $field['id'] ) )
+					 && ( isset( $field['name'] ) && ! empty( $field['name'] ) ) ) {
 
 					add_filter(
 						'cn_search_field_options',
@@ -435,7 +435,7 @@ class cnMetaboxAPI {
 				foreach ( $metabox['fields'] as $field ) {
 
 					if ( $field['id'] == $key ) { return true;
-                    }
+					}
 				}
 			}
 
@@ -446,7 +446,7 @@ class cnMetaboxAPI {
 					foreach ( $section['fields'] as $field ) {
 
 						if ( $field['id'] == $key ) { return true;
-                        }
+						}
 					}
 				}
 			}
@@ -1479,7 +1479,7 @@ class cnMetabox_Render {
 			echo 'quicktags("' . esc_js( $id ) . '");';
 		}
 
-	    echo '/* ]]> */</script>';
+		echo '/* ]]> */</script>';
 	}
 
 	/**

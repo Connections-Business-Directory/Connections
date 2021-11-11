@@ -26,7 +26,7 @@ class cnTimezone {
 	 * @since 8.6.9
 	 * @var string
 	 */
-	private $id   = '';
+	private $id = '';
 
 	/**
 	 * @since 8.6.9

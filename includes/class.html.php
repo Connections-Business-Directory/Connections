@@ -1,5 +1,4 @@
 <?php
-
 /**
  * HTML elements.
  *

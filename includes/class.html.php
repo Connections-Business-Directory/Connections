@@ -341,6 +341,12 @@ class cnHTML {
 
 			case 'class':
 
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf( 'The `%s` parameter is no longer supported. Use _escape::classNames() instead.', esc_attr( $type ) )
+				);
+
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
 					array_walk( $value, 'sanitize_html_class' );
@@ -358,6 +364,12 @@ class cnHTML {
 
 			case 'id':
 
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf( 'The `%s` parameter is no longer supported. Use _escape::id() instead.', esc_attr( $type ) )
+				);
+
 				if ( ! empty( $value ) ) {
 
 					return ' id="' . esc_attr( (string) cnString::replaceWhatWith( $value, ' ', '-' ) ) . '" ';
@@ -368,6 +380,12 @@ class cnHTML {
 				}
 
 			case 'style':
+
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf( 'The `%s` parameter is no longer supported. Use _html::stringifyCSSAttributes() and  _escape::css() instead.', esc_attr( $type ) )
+				);
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
 

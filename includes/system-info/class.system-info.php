@@ -205,7 +205,7 @@ class cnSystem_Info {
 
 		$message  = sanitize_text_field( $atts['message'] );
 		$message .= PHP_EOL . PHP_EOL;
-		$message .= '<pre>' .  esc_html( self::get() ) . '</pre>';
+		$message .= '<pre>' . esc_html( self::get() ) . '</pre>';
 
 		// Set the message.
 		$email->message( $message );

@@ -105,7 +105,7 @@ class cnSystem_Info {
 		header( 'Content-Disposition: attachment; filename=' . $filename . '.txt' );
 		header( 'Expires: 0' );
 
-		echo wp_strip_all_tags( esc_textarea( self::get() ) );
+		echo esc_textarea( wp_strip_all_tags( self::get() ) );
 		exit;
 	}
 

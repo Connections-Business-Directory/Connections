@@ -271,9 +271,7 @@ class cnEmail_Template {
 		ob_start();
 		?>
 
-		<!--suppress HtmlRequiredLangAttribute -->
 		<html>
-		<!--suppress HtmlRequiredTitleElement -->
 		<head>
 			<style type="text/css">#outlook a { padding: 0; }</style>
 		</head>

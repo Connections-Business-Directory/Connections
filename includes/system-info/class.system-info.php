@@ -46,7 +46,7 @@ class cnSystem_Info {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		// Get theme info
+		// Get theme info.
 		$theme_data   = wp_get_theme();
 		$theme        = $theme_data->Name . ' ' . $theme_data->Version;
 		$parent_theme = $theme_data->Template;
@@ -57,7 +57,7 @@ class cnSystem_Info {
 			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version;
 		}
 
-		// Try to identify the hosting provider
+		// Try to identify the hosting provider.
 		$host = self::getHost();
 
 		ob_start();
@@ -294,11 +294,11 @@ class cnSystem_Info {
 		$ret = substr( $v, 0, -1 );
 
 		switch ( strtoupper( $l ) ) {
-			case 'P': // fall-through
-			case 'T': // fall-through
-			case 'G': // fall-through
-			case 'M': // fall-through
-			case 'K': // fall-through
+			case 'P': // fall-through.
+			case 'T': // fall-through.
+			case 'G': // fall-through.
+			case 'M': // fall-through.
+			case 'K': // fall-through.
 				$ret *= 1024;
 				break;
 			default:
@@ -345,7 +345,7 @@ class cnSystem_Info {
 		} elseif ( false !== strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) ) {
 			$host = 'Flywheel';
 		} else {
-			// Adding a general fallback for data gathering
+			// Adding a general fallback for data gathering.
 			$host = 'DBH: ' . DB_HOST . ', SRV: ' . $_SERVER['SERVER_NAME'];
 		}
 

@@ -319,7 +319,7 @@ class cnHTML {
 	}
 
 	/**
-	 * Renders a HTML tag attribute.
+	 * Renders an HTML tag attribute.
 	 *
 	 * @since      0.8
 	 * @deprecated 10.4
@@ -928,7 +928,7 @@ class cnHTML {
 		// An array to store the replacement strings for the label and field.
 		$replace = array();
 
-		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
+		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the dropdown.
 		if ( $atts['enhanced'] ) {
 
 			$atts['class'] = array_merge( (array) $atts['class'], array( 'enhanced-select' ) );

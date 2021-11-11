@@ -233,8 +233,8 @@ class cnSystem_Info {
 	public static function registerEmailLogType( $types ) {
 
 		$types[ self::LOG_TYPE ] = array(
-			'id'       => self::LOG_TYPE,
-			'name'     => __( 'System Info Email', 'connections' ),
+			'id'   => self::LOG_TYPE,
+			'name' => __( 'System Info Email', 'connections' ),
 		);
 
 		return $types;

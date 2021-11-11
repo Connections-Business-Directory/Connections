@@ -294,7 +294,7 @@ if ( ! function_exists( 'wp_get_environment_type' ) ) :
 			_deprecated_argument(
 				'define()',
 				'5.5.1',
-				$message
+				esc_html( $message )
 			);
 		}
 

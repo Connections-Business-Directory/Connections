@@ -24,25 +24,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<tr>
 			<th><?php esc_html_e( 'Sent', 'connections' ); ?></th>
-			<td><?php echo cnLog_Email::viewLogItem( 'response', $meta['response'] ); ?></td>
+			<td><?php cnLog_Email::viewLogItem( 'response', $meta['response'], true ); ?></td>
 		</tr>
 
 		<tr>
 			<th><?php esc_html_e( 'Headers', 'connections' ); ?></th>
-			<td><?php echo cnLog_Email::viewLogItem( 'headers', $meta['headers'] ); ?></td>
+			<td><?php cnLog_Email::viewLogItem( 'headers', $meta['headers'], true ); ?></td>
 		</tr>
 
 		<?php if ( $meta['type'] ): ?>
 			<tr>
 				<th><?php esc_html_e( 'Content Type', 'connections' ); ?></th>
-				<td><?php echo cnLog_Email::viewLogItem( 'type', $meta['type'] ); ?></td>
+				<td><?php cnLog_Email::viewLogItem( 'type', $meta['type'], true ); ?></td>
 			</tr>
 		<?php endif; ?>
 
 		<?php if ( $meta['character_set'] ): ?>
 			<tr>
 				<th><?php esc_html_e( 'Character Set', 'connections' ); ?></th>
-				<td><?php echo cnLog_Email::viewLogItem( 'character_set', $meta['character_set'] ); ?></td>
+				<td><?php cnLog_Email::viewLogItem( 'character_set', $meta['character_set'], true ); ?></td>
 			</tr>
 		<?php endif; ?>
 
@@ -53,31 +53,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<tr>
 			<th><?php echo esc_html_x( 'From', 'Email sender (From).', 'connections' ); ?></th>
-			<td><?php echo cnLog_Email::viewLogItem( 'from', $meta['from'] ); ?></td>
+			<td><?php cnLog_Email::viewLogItem( 'from', $meta['from'], true ); ?></td>
 		</tr>
 
 		<tr>
 			<th><?php echo esc_html_x( 'To', 'Email recipients (To).', 'connections' ); ?></th>
-			<td><?php echo cnLog_Email::viewLogItem( 'to', $meta['to'] ); ?></td>
+			<td><?php cnLog_Email::viewLogItem( 'to', $meta['to'], true ); ?></td>
 		</tr>
 
 		<?php if ( $meta['cc'] ) : ?>
 			<tr>
 				<th><?php echo esc_html_x( 'CC', 'Courtesy copy email addresses.', 'connections' ); ?></th>
-				<td><?php echo cnLog_Email::viewLogItem( 'cc', $meta['cc'] ) ?></td>
+				<td><?php cnLog_Email::viewLogItem( 'cc', $meta['cc'], true ) ?></td>
 			</tr>
 		<?php endif; ?>
 
 		<?php if ( $meta['bcc'] ): ?>
 			<tr>
 				<th><?php echo esc_html_x( 'BCC', 'Blind courtesy copy email addresses.', 'connections' ); ?></th>
-				<td><?php echo cnLog_Email::viewLogItem( 'bcc', $meta['bcc'] ); ?></td>
+				<td><?php cnLog_Email::viewLogItem( 'bcc', $meta['bcc'], true ); ?></td>
 			</tr>
 		<?php endif; ?>
 
 		<tr>
 			<th><?php esc_html_e( 'Attachments', 'connections' ); ?></th>
-			<td><?php echo cnLog_Email::viewLogItem( 'attachments', $meta['attachments'] ); ?></td>
+			<td><?php cnLog_Email::viewLogItem( 'attachments', $meta['attachments'], true ); ?></td>
 		</tr>
 
 		<tr>

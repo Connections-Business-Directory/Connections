@@ -1508,7 +1508,7 @@ class cnMetabox_Render {
 	 * @since 0.8
 	 */
 	public static function sliderJS() {
-
+// phpcs:disable Generic.WhiteSpace.ScopeIndent.IncorrectExact,Generic.WhiteSpace.ScopeIndent.Incorrect,PEAR.Functions.FunctionCallSignature.Indent
 ?>
 
 <script type="text/javascript">/* <![CDATA[ */
@@ -1543,7 +1543,7 @@ foreach ( self::$slider as $id => $option ) {
 /* ]]> */</script>
 
 <?php
-
+// phpcs:enable Generic.WhiteSpace.ScopeIndent.IncorrectExact,Generic.WhiteSpace.ScopeIndent.Incorrect,PEAR.Functions.FunctionCallSignature.Indent
 	}
 
 }

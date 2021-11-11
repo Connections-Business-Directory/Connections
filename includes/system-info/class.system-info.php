@@ -74,7 +74,7 @@ class cnSystem_Info {
 	 */
 	public static function display() {
 
-		echo esc_html( self::get() );
+		echo esc_textarea( self::get() );
 	}
 
 
@@ -102,7 +102,7 @@ class cnSystem_Info {
 		header( 'Content-Disposition: attachment; filename=' . $filename . '.txt' );
 		header( "Expires: 0" );
 
-		echo wp_strip_all_tags( self::get() );
+		echo wp_strip_all_tags( esc_textarea( self::get() ) );
 		exit;
 	}
 

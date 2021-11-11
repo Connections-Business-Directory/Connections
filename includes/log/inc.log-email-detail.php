@@ -64,14 +64,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php if ( $meta['cc'] ) : ?>
 			<tr>
 				<th><?php echo esc_html_x( 'CC', 'Courtesy copy email addresses.', 'connections' ); ?></th>
-				<td><?php cnLog_Email::viewLogItem( 'cc', $meta['cc'] ) ?></td>
+				<td><?php echo cnLog_Email::viewLogItem( 'cc', $meta['cc'] ) ?></td>
 			</tr>
 		<?php endif; ?>
 
 		<?php if ( $meta['bcc'] ): ?>
 			<tr>
 				<th><?php echo esc_html_x( 'BCC', 'Blind courtesy copy email addresses.', 'connections' ); ?></th>
-				<td><?php cnLog_Email::viewLogItem( 'bcc', $meta['bcc'] ); ?></td>
+				<td><?php echo cnLog_Email::viewLogItem( 'bcc', $meta['bcc'] ); ?></td>
 			</tr>
 		<?php endif; ?>
 

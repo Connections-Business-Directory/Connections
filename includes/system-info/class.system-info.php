@@ -2,6 +2,9 @@
 
 /**
  * Class cnSystem_Info
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnSystem_Info {
 

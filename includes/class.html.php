@@ -103,7 +103,6 @@ class cnHTML {
 		switch ( $atts['type'] ) {
 
 			case 'text':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -116,7 +115,6 @@ class cnHTML {
 				return self::text( $atts, $value );
 
 			case 'checkbox':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -130,7 +128,6 @@ class cnHTML {
 
 			case 'checkbox_group':
 			case 'checkbox-group':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -143,7 +140,6 @@ class cnHTML {
 				return self::checkboxGroup( $atts, $value );
 
 			case 'radio':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -156,7 +152,6 @@ class cnHTML {
 				return self::radio( $atts, $value );
 
 			case 'select':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -169,11 +164,9 @@ class cnHTML {
 				return self::select( $atts, $value );
 
 			case 'submit':
-
 				return self::input( $atts, $value );
 
 			case 'textarea':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -186,7 +179,6 @@ class cnHTML {
 				return self::textarea( $atts, $value );
 
 			case 'hidden':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -342,7 +334,6 @@ class cnHTML {
 		switch ( $type ) {
 
 			case 'class':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -365,7 +356,6 @@ class cnHTML {
 				}
 
 			case 'id':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -382,7 +372,6 @@ class cnHTML {
 				}
 
 			case 'style':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
@@ -405,7 +394,6 @@ class cnHTML {
 				return '';
 
 			case 'data':
-
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
 					array_walk(
@@ -422,11 +410,9 @@ class cnHTML {
 				return '';
 
 			case 'value':
-
 				return ' value="' . esc_attr( (string) $value ) . '" ';
 
 			case 'data-array':
-
 				$data = array();
 
 				/**
@@ -472,7 +458,6 @@ class cnHTML {
 				return '';
 
 			default:
-
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
 					array_walk( $value, 'esc_attr' );

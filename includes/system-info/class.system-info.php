@@ -103,7 +103,7 @@ class cnSystem_Info {
 		nocache_headers();
 		header( 'Content-Type: text/plain' );
 		header( 'Content-Disposition: attachment; filename=' . $filename . '.txt' );
-		header( "Expires: 0" );
+		header( 'Expires: 0' );
 
 		echo wp_strip_all_tags( esc_textarea( self::get() ) );
 		exit;

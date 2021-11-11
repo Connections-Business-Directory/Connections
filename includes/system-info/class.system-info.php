@@ -410,7 +410,7 @@ class cnSystem_Info {
 	}
 
 	/**
-	 * Use to get the column header names.
+	 * Used to get the column header names.
 	 *
 	 * @access private
 	 * @since  8.5.4

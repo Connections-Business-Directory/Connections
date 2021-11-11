@@ -580,7 +580,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 			header( 'Cache-Control: private' );
 
-			echo $data;
+			echo $data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			exit;
 		}
 	}

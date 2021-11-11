@@ -107,7 +107,7 @@ class cnHTML {
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Text::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -120,7 +120,7 @@ class cnHTML {
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -134,7 +134,7 @@ class cnHTML {
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox_Group::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -147,7 +147,7 @@ class cnHTML {
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Radio_Group::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -160,7 +160,7 @@ class cnHTML {
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Select::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -177,7 +177,7 @@ class cnHTML {
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Textarea::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -190,7 +190,7 @@ class cnHTML {
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Hidden::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -509,7 +509,7 @@ class cnHTML {
 
 		} else {
 
-			echo $html;
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			return '';
 		}
@@ -604,8 +604,8 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported. %s',
-					$atts['type'],
-					$messages[ $atts['type'] ]
+					esc_attr( $atts['type'] ),
+					esc_html( $messages[ $atts['type'] ] )
 				)
 			);
 
@@ -616,7 +616,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported.',
-					$atts['type']
+					esc_attr( $atts['type'] )
 				)
 			);
 		}
@@ -795,7 +795,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported. %s',
-					$atts['type'],
+					esc_attr( $atts['type'] ),
 					'\Connections_Directory\Form\Field\Checkbox_Group::create()'
 				)
 			);
@@ -807,7 +807,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported. %s',
-					$atts['type'],
+					esc_attr( $atts['type'] ),
 					'\Connections_Directory\Form\Field\Radio_Group::create()'
 				)
 			);
@@ -819,7 +819,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported.',
-					$atts['type']
+					esc_attr( $atts['type'] )
 				)
 			);
 		}

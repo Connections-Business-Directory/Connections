@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<tr>
 			<th><?php echo esc_html_x( 'Date', 'Date and time an email was sent.', 'connections' ); ?></th>
-			<td><?php echo date_i18n( 'Y-m-d H:i:s', strtotime( $post->post_date ) ); ?></td>
+			<td><?php echo esc_html( date_i18n( 'Y-m-d H:i:s', strtotime( $post->post_date ) ) ); ?></td>
 		</tr>
 
 		<tr>

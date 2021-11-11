@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Form\Field;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
 
 /**
@@ -721,8 +723,9 @@ class cnMetabox_Render {
 
 			$display = in_array( $id, $atts['hide'] ) ? 'none' : 'block';
 
-			echo '<div id="cn-metabox-' . $metabox['id'] . '" class="cn-metabox" style="display: ' . $display . '">';
-				echo '<h3 class="cn-metabox-title">' . $metabox['title'] . '</h3>';
+			// Static string, not user input, no need to escape.
+			echo '<div id="' . esc_attr( "cn-metabox-{$metabox['id']}" ) . '" class="cn-metabox" style="display: ' . $display . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo '<h3 class="cn-metabox-title">' . esc_html( $metabox['title'] ) . '</h3>';
 				echo '<div class="cn-metabox-inside">';
 
 					if ( is_callable( $metabox['callback'] ) ) {
@@ -775,7 +778,7 @@ class cnMetabox_Render {
 		$fields        = isset( $metabox['args']['fields'] ) && ! empty( $metabox['args']['fields'] ) ? $metabox['args']['fields'] : array();
 
 		// Use nonce for verification.
-		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename( __FILE__ ) ), '" />';
+		echo '<input type="hidden" name="wp_meta_box_nonce" value="' , esc_attr( wp_create_nonce( basename( __FILE__ ) ) ) , '" />';
 
 		// If metabox sections have been registered, loop through them.
 		if ( ! empty( $sections ) ) {
@@ -919,7 +922,7 @@ class cnMetabox_Render {
 			 * @param string $type  The field type.
 			 * @param string $id    The field id.
 			 */
-			$class = apply_filters( 'cn_metabox_table_class', array( 'cn-metabox-type-' . $field['type'] ), $field['type'], $field['id'] );
+			$class = apply_filters( 'cn_metabox_table_class', array( "cn-metabox-type-{$field['type']}" ), $field['type'], $field['id'] );
 
 			/**
 			 * Apply a custom id to a metabox table.
@@ -928,24 +931,24 @@ class cnMetabox_Render {
 			 *
 			 * @param string $id The field id.
 			 */
-			$id = apply_filters( 'cn_metabox_table_id', 'cn-metabox-id-' . $field['id'] );
+			$id = apply_filters( 'cn_metabox_table_id', "cn-metabox-id-{$field['id']}" );
 
 			/**
 			 * Apply custom classes to a metabox table.
 			 *
 			 * @since 8.3.4
 			 *
-			 * @param array  $style An associative array of inline style attributes where the array key is the property and the array value is the property value.
-			 * @param string $type  The field type.
-			 * @param string $id    The field id.
+			 * @param array  $css  An associative array of inline style attributes where the array key is the property and the array value is the property value.
+			 * @param string $type The field type.
+			 * @param string $id   The field id.
 			 */
-			$style = apply_filters( 'cn_metabox_table_style', array(), $field['type'], $field['id'] );
+			$css = apply_filters( 'cn_metabox_table_style', array(), $field['type'], $field['id'] );
 
-			$class = cnHTML::attribute( 'class', $class );
-			$id    = cnHTML::attribute( 'id', $id );
-			$style = cnHTML::attribute( 'style', $style );
+			$css   = _escape::css( _html::stringifyCSSAttributes( $css ) );
+			$style = 0 < strlen( $css ) ? ' style="' . $css . '"' : '';
 
-			echo '<tr' . $class . $id . $style . '>';
+			// The `$style` attribute tag is escaped above. If it is an empty string, no style tag is added to the `tr`.
+			echo '<tr class="' , _escape::classNames( $class ) , '" id="' , _escape::id( $id ) , '"' , $style , '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			// For a label to be rendered the $field['name'] has to be supplied.
 			// Show the label if $field['show_label'] is TRUE, OR, if it is not supplied assume TRUE and show it anyway.
@@ -965,7 +968,8 @@ class cnMetabox_Render {
 
 			echo '<td>';
 
-			echo empty( $field['before'] ) ? '' : $field['before'];
+			// Developer parameter, not user input.
+			echo empty( $field['before'] ) ? '' : $field['before']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			/**
 			 * Apply custom classes to the field type container element.
@@ -1190,8 +1194,9 @@ class cnMetabox_Render {
 					printf(
 						'<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
-						! empty( $value ) ? date( 'm/d/Y', strtotime( $value ) ) : '',
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
+						! empty( $value ) ? esc_attr( date( 'm/d/Y', strtotime( $value ) ) ) : '',
+						// Static string, not user input, no need to escape.
+						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					);
 
 					wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -1401,7 +1406,8 @@ class cnMetabox_Render {
 					break;
 			}
 
-			echo empty( $field['after'] ) ? '' : $field['after'];
+			// Developer parameter, not user input.
+			echo empty( $field['after'] ) ? '' : $field['after']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			echo '</td>' , '</tr>';
 		}
@@ -1524,11 +1530,11 @@ foreach ( self::$slider as $id => $option ) {
 			$( "#%1$s" ).val( ui.value );
 		}
 	});',
-		$id,
-		$option['value'],
-		$option['min'],
-		$option['max'],
-		$option['step']
+		esc_attr( $id ),
+		wp_json_encode( $option['value'] ),
+		wp_json_encode( $option['min'] ),
+		wp_json_encode( $option['max'] ),
+		wp_json_encode( $option['step'] )
 	);
 
 }

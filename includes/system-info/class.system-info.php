@@ -203,7 +203,7 @@ class cnSystem_Info {
 		// Set the subject.
 		$email->subject( sanitize_text_field( $atts['subject'] ) );
 
-		$message = sanitize_text_field( $atts['message'] );
+		$message  = sanitize_text_field( $atts['message'] );
 		$message .= PHP_EOL . PHP_EOL;
 		$message .= '<pre>' .  esc_html( self::get() ) . '</pre>';
 

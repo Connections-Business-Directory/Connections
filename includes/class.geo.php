@@ -148,7 +148,7 @@ class cnGeo {
 
 		if ( $atts['echo'] ) {
 
-			echo $value;
+			echo esc_html( $value );
 		}
 
 		return $value;

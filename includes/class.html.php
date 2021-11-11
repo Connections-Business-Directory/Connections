@@ -427,7 +427,7 @@ class cnHTML {
 
 						if ( isset( $_value['name'] ) && 0 < strlen( $_value['name'] ) ) {
 
-							$name = 'data-' . _string::toCamelCase( $_value['name'] );
+							$name          = 'data-' . _string::toCamelCase( $_value['name'] );
 							$data[ $name ] = $_value['value'];
 						}
 
@@ -437,7 +437,7 @@ class cnHTML {
 
 					if ( isset( $value['name'] ) && 0 < strlen( $value['name'] ) ) {
 
-						$name = 'data-' . _string::toCamelCase( $value['name'] );
+						$name          = 'data-' . _string::toCamelCase( $value['name'] );
 						$data[ $name ] = $value['value'];
 					}
 				}

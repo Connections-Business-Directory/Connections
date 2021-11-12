@@ -4,6 +4,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Recently_Viewed
@@ -63,7 +64,7 @@ class Last_Viewed extends Recently_Viewed {
 			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before"
 		);
 
-		echo PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="' . 'recent-content-block-' . parent::ID . '" data-limit="1" data-exclude="' . $entry->getId() . '"></div>' . PHP_EOL;
+		echo PHP_EOL . '<div class="' . _escape::classNames( $classNames ) . '" id="' . _escape::id( 'recent-content-block-' . parent::ID ) . '" data-limit="1" data-exclude="' . absint( $entry->getId() ) . '"></div>' . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action(
 			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After"

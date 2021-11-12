@@ -97,7 +97,7 @@ class cnGeo {
 			echo $distance; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		echo $distance;
+		return $distance;
 	}
 
 	/**

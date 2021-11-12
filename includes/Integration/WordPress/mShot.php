@@ -361,10 +361,10 @@ final class mShot {
 
 			$image = sprintf(
 				'<img class="cn-screenshot" src="%1$s" %2$s %3$s width="%4$d"/>',
-				$imageURI,
-				$this->alt ? 'alt="' . $this->alt . '"' : '',
-				! $this->link && $this->title ? 'title="' . $this->title . '"' : '',
-				$this->width
+				esc_url( $imageURI ),
+				$this->alt ? 'alt="' . esc_attr( $this->alt ) . '"' : '',
+				! $this->link && $this->title ? 'title="' . esc_attr( $this->title ) . '"' : '',
+				absint( $this->width )
 			);
 
 			$image = cnString::normalize( $image );
@@ -373,10 +373,10 @@ final class mShot {
 
 				$link = sprintf(
 					'<a class="url" href="%1$s"%2$s %3$s target="%4$s">%5$s</a>',
-					$url,
-					$this->title ? ' title="' . $this->title . '"' : '',
+					esc_url( $url ),
+					$this->title ? ' title="' . esc_attr( $this->title ) . '"' : '',
 					$this->follow ? '' : 'rel="nofollow"',
-					$this->target,
+					esc_attr( $this->target ),
 					$image
 				);
 
@@ -391,7 +391,9 @@ final class mShot {
 		$html = $this->before . $html . $this->after . PHP_EOL;
 
 		if ( ! $this->return ) {
-			echo $html;
+
+			// HTML is escaped above.
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $html;

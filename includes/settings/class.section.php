@@ -75,7 +75,7 @@ class Section {
 
 			$options['callback'] = function() use ( $options ) {
 
-				echo $options['desc'];
+				echo esc_html( $options['desc'] );
 			};
 		}
 

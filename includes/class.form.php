@@ -88,7 +88,8 @@ class cnFormObjects {
 			$out .= $value;
 		}
 
-		echo $out , '>';
+		// HTML is escaped above.
+		echo $out , '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -138,7 +139,7 @@ class cnFormObjects {
 		}
 
 		if ( $echo ) {
-			echo $token;
+			echo $token; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		// if ( $referer ) wp_referer_field( $echo, 'previous' );

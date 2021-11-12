@@ -221,7 +221,8 @@ class Map_Block extends Content_Block {
 					$entry
 				);
 
-				echo $html;
+				// Map HTML is dynamically generated using static text, no user input.
+				echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				do_action(
 					"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",

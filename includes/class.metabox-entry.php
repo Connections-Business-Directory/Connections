@@ -2845,7 +2845,7 @@ class cnEntryMetabox {
 
 		?>
 
-		<table id="list-table" style="<?php echo ( empty( $results ) ? 'display: none;' : 'display: table;' ) ?>">
+		<table id="list-table" style="<?php echo ( empty( $results ) ? 'display: none;' : 'display: table;' ); ?>">
 			<thead>
 				<tr>
 					<th class="left"><?php _e( 'Name', 'connections' ); ?></th>

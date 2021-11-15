@@ -386,11 +386,11 @@ class cnEntryMetabox {
 		// of making the array keys the option labels. This provides backward compatibility.
 		$defaults['entry_type'] = array_flip( $defaults['entry_type'] );
 
-		$defaults['default']['type'] = $defaultType;
+		$defaults['default']['type']       = $defaultType;
 		$defaults['default']['visibility'] = $defaultStatus;
 
 		// Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
-		$defaults        = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
+		$defaults = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
 
 		$atts            = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );
 		$atts['default'] = wp_parse_args( $atts['default'], $defaults['default'] );
@@ -1013,8 +1013,8 @@ class cnEntryMetabox {
 		$autofillRegion  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-region' );
 		$autofillCountry = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-country' );
 
-		$defaultCountry  = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
-		$defaultRegion   = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
+		$defaultCountry = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
+		$defaultRegion  = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
 
 		$region  = $autofillRegion ? $defaultRegion : '';
 		$country = $autofillCountry ? $defaultCountry : '';
@@ -1048,7 +1048,7 @@ class cnEntryMetabox {
 				$type = key( $addressTypes );
 				next( $addressTypes );
 
-				$address = new cnAddress(
+				$address     = new cnAddress(
 					array(
 						'type'    => $type,
 						'region'  => $region,
@@ -1103,8 +1103,8 @@ class cnEntryMetabox {
 		$autofillCountry     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-country' );
 		$autocompleteCountry = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autocomplete-country' );
 
-		$defaultCountry      = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
-		$defaultRegion       = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
+		$defaultCountry = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
+		$defaultRegion  = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
 
 		$region  = $autofillRegion ? $defaultRegion : '';
 		$country = $autofillCountry ? $defaultCountry : '';
@@ -2118,7 +2118,7 @@ class cnEntryMetabox {
 				next( $socialTypes );
 
 				// @todo Replace with cnEntry_Social_Network object.
-				$network = new stdClass();
+				$network       = new stdClass();
 				$network->type = $type;
 
 				$socialNetworks[] = $network;
@@ -2630,7 +2630,7 @@ class cnEntryMetabox {
 				next( $dateTypes );
 
 				// @todo Replace with cnEntry_Date object.
-				$date = new stdClass();
+				$date       = new stdClass();
 				$date->type = $type;
 
 				$dates[] = $date;

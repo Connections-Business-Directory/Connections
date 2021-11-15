@@ -458,7 +458,7 @@ class cnEntryMetabox {
 
 			switch ( true ) {
 
-				case ( $action ==  'edit_entry' || $action == 'edit' ):
+				case ( 'edit_entry' == $action || 'edit' == $action ):
 
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a></div>';
@@ -466,7 +466,7 @@ class cnEntryMetabox {
 
 					break;
 
-				case ( $action == 'copy_entry' || $action == 'copy' ):
+				case ( 'copy_entry' == $action || 'copy' == $action ):
 
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a>';
@@ -2862,7 +2862,7 @@ class cnEntryMetabox {
 				foreach ( $results as $metaID => $meta ) {
 
 					// Class added to alternate tr rows for CSS styling.
-					$alternate = ! isset( $alternate ) || $alternate == '' ? 'alternate' : '';
+					$alternate = ! isset( $alternate ) || '' == $alternate ? 'alternate' : '';
 
 					?>
 

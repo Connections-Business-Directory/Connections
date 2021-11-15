@@ -848,7 +848,7 @@ class cnAdminActions {
 			);
 		}
 
-		$path = isset( $_REQUEST['file']['path'] ) ? _sanitize::filePath( wp_unslash( $_REQUEST['file']['path'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$path = isset( $_REQUEST['file']['path'] ) ? _sanitize::filepath( wp_unslash( $_REQUEST['file']['path'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		if ( empty( $path ) || ! file_exists( $path ) || ! _validate::isCSV( $path ) ) {
 			wp_send_json_error(

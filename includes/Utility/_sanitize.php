@@ -66,15 +66,18 @@ final class _sanitize {
 	 *
 	 * @since 10.4.4
 	 *
-	 * @param string $path The file path to sanitize.
+	 * @param string $value The file path to sanitize.
 	 *
 	 * @return string
 	 */
-	public static function filePath( $path ) {
+	public static function filepath( $value ) {
 
-		$path = sanitize_text_field( $path );
+		$filepath = pathinfo( $value, PATHINFO_DIRNAME );
+		$filename = sanitize_file_name( pathinfo( $value, PATHINFO_BASENAME ) );
 
-		return realpath( $path );
+		$path = realpath( $filepath . DIRECTORY_SEPARATOR . $filename );
+
+		return is_string( $path ) ? $path : '';
 	}
 
 	/**

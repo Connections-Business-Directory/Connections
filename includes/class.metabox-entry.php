@@ -548,18 +548,18 @@ class cnEntryMetabox {
 					'fields' => array(
 						// This key is the field ID.
 						'prefix' => array(
-							// Each field must have an unique ID. Duplicates will be discarded.
+							// Each field must have a unique ID. Duplicates will be discarded.
 							'id'       => 'honorific_prefix',
-							// Whether or not to render the field.
+							// Whether to render the field.
 							'show'     => true,
 							// The field label if supplied.
 							'label'    => __( 'Prefix', 'connections' ),
-							// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+							// Whether the field is required. If it is required 'class="required"' will be added to the field.
 							// This will be used by jQuery Validate.
 							'required' => false,
-							// The field type.
+							// The field's type.
 							'type'     => in_array( 'prefix', $individualNameFields ) ? 'text' : 'hidden',
-							// The field value.
+							// The field's value.
 							'value'    => strlen( $entry->getHonorificPrefix() ) > 0 ? $entry->getHonorificPrefix( 'edit' ) : '',
 							'before'   => in_array( 'prefix', $individualNameFields ) ? '<span id="cn-name-prefix">' : '',
 							'after'    => in_array( 'prefix', $individualNameFields ) ? '</span>' : '',
@@ -1035,7 +1035,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
-		 * displayed by default. The "dummy" address objects rotate thru the active address types and set the
+		 * displayed by default. The "dummy" address objects rotate through the active address types and set the
 		 * default region and country so these fields are properly populated.
 		 */
 		if ( $count > $addressCount = count( $addresses ) ) {
@@ -1461,7 +1461,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
-		 * displayed by default. The "dummy" address objects rotate thru the active address types and set the
+		 * displayed by default. The "dummy" address objects rotate through the active address types and set the
 		 * default region and country so these fields are properly populated.
 		 */
 		if ( $count > $phoneCount = count( $phoneNumbers ) ) {
@@ -1676,7 +1676,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" email objects to the results to equal the number of email fieldset which are to be
-		 * displayed by default. The "dummy" email objects rotate thru the active email types.
+		 * displayed by default. The "dummy" email objects rotate through the active email types.
 		 */
 		if ( $count > $emailCount = count( $emailAddresses ) ) {
 
@@ -1891,7 +1891,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" IM objects to the results to equal the number of IM fieldset which are to be
-		 * displayed by default. The "dummy" IM objects rotate thru the active IM types.
+		 * displayed by default. The "dummy" IM objects rotate through the active IM types.
 		 */
 		if ( $count > $imCount = count( $imIDs ) ) {
 
@@ -2105,7 +2105,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" social network objects to the results to equal the number of social network fieldset which are to be
-		 * displayed by default. The "dummy" social network objects rotate thru the active social network types.
+		 * displayed by default. The "dummy" social network objects rotate through the active social network types.
 		 */
 		if ( $count > $networkCount = count( $socialNetworks ) ) {
 
@@ -2317,7 +2317,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" link objects to the results to equal the number of link fieldset which are to be
-		 * displayed by default. The "dummy" link objects rotate thru the active link types.
+		 * displayed by default. The "dummy" link objects rotate through the active link types.
 		 */
 		if ( $count > $linkCount = count( $links ) ) {
 
@@ -2617,7 +2617,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" date objects to the results to equal the number of date fieldset which are to be
-		 * displayed by default. The "dummy" date objects rotate thru the active link types.
+		 * displayed by default. The "dummy" date objects rotate through the active link types.
 		 */
 		if ( $count > $dateCount = count( $dates ) ) {
 

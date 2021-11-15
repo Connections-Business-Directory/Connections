@@ -405,7 +405,7 @@ class cnEntryMetabox {
 		}
 
 		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
-		$type       = $entry->getId() ? $entry->getEntryType()  : $atts['default']['type'];
+		$type       = $entry->getId() ? $entry->getEntryType() : $atts['default']['type'];
 
 		if ( ! empty( $atts['entry_type'] ) ) {
 
@@ -2796,7 +2796,7 @@ class cnEntryMetabox {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$results =  $wpdb->get_results(
+		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT meta_key, meta_value, meta_id, entry_id FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d ORDER BY meta_key,meta_id",
 				$entry->getId()

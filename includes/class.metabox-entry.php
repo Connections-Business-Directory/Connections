@@ -2961,7 +2961,7 @@ class cnEntryMetabox {
 		if ( isset( $metabox['desc'] ) && ! empty( $metabox['desc'] ) ) {
 
 			printf(
-                '<p>%1$s</p>',
+				'<p>%1$s</p>',
 				esc_html( $metabox['desc'] )
 			);
 		}

@@ -865,10 +865,10 @@ class cnEntryMetabox {
 	 * Renders the image/photo metabox.
 	 *
 	 * @access public
-	 * @since  0.8
+	 * @since 0.8
+	 *
 	 * @param  object $entry   An instance of the cnEntry object.
 	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The image/photo metabox.
 	 */
 	public static function image( $entry, $metabox ) {
 
@@ -934,10 +934,10 @@ class cnEntryMetabox {
 	 * Renders the logo metabox.
 	 *
 	 * @access public
-	 * @since  0.8
+	 * @since 0.8
+	 *
 	 * @param  object $entry   An instance of the cnEntry object.
 	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The logo metabox.
 	 */
 	public static function logo( $entry, $metabox ) {
 

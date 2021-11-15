@@ -441,10 +441,10 @@ class cnEntryMetabox {
 					'public'   => __( 'Public', 'connections' ),
 					'private'  => __( 'Private', 'connections' ),
 					'unlisted' => __( 'Unlisted', 'connections' ),
-					),
+				),
 				'before'  => '<div id="visibility">',
 				'after'   => '</div>',
-				),
+			),
 			$visibility
 		);
 
@@ -611,12 +611,12 @@ class cnEntryMetabox {
 					'class'  => array( 'cn-individual' ),
 					'fields' => array(
 						'title' => array(
-							'id'        => 'title',
-							'show'      => true,
-							'label'     => _x( 'Title', 'A name that describes someone\'s position or job.', 'connections' ),
-							'required'  => false,
-							'type'      => in_array( 'title', $individualNameFields ) ? 'text' : 'hidden',
-							'value'     => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
+							'id'       => 'title',
+							'show'     => true,
+							'label'    => _x( 'Title', 'A name that describes someone\'s position or job.', 'connections' ),
+							'required' => false,
+							'type'     => in_array( 'title', $individualNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
 						),
 					),
 				),
@@ -625,12 +625,12 @@ class cnEntryMetabox {
 					'class'  => $orgClasses,
 					'fields' => array(
 						'organization' => array(
-							'id'        => 'organization',
-							'show'      => true,
-							'label'     => __( 'Organization' , 'connections' ),
-							'required'  => false,
-							'type'      => 'text',
-							'value'     => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
+							'id'       => 'organization',
+							'show'     => true,
+							'label'    => __( 'Organization', 'connections' ),
+							'required' => false,
+							'type'     => 'text',
+							'value'    => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
 						),
 					),
 				),
@@ -639,12 +639,12 @@ class cnEntryMetabox {
 					'class'  => $deptClasses,
 					'fields' => array(
 						'department' => array(
-							'id'        => 'department',
-							'show'      => true,
-							'label'     => __( 'Department' , 'connections' ),
-							'required'  => false,
-							'type'      => 'text',
-							'value'     => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
+							'id'       => 'department',
+							'show'     => true,
+							'label'    => __( 'Department', 'connections' ),
+							'required' => false,
+							'type'     => 'text',
+							'value'    => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
 						),
 					),
 				),
@@ -653,24 +653,24 @@ class cnEntryMetabox {
 					'class'  => array( 'cn-organization' ),
 					'fields' => array(
 						'contact_first_name' => array(
-							'id'        => 'contact_first_name',
-							'show'      => true,
-							'label'     => __( 'Contact First Name' , 'connections' ),
-							'required'  => false,
-							'type'      => in_array( 'contact_first_name', $organizationNameFields ) ? 'text' : 'hidden',
-							'value'     => strlen( $entry->getContactFirstName() ) > 0 ? $entry->getContactFirstName( 'edit' ) : '',
-							'before'    => in_array( 'contact_first_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-first-name">' : '',
-							'after'     => in_array( 'contact_first_name', $organizationNameFields ) ? '</span>' : '',
+							'id'       => 'contact_first_name',
+							'show'     => true,
+							'label'    => __( 'Contact First Name', 'connections' ),
+							'required' => false,
+							'type'     => in_array( 'contact_first_name', $organizationNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getContactFirstName() ) > 0 ? $entry->getContactFirstName( 'edit' ) : '',
+							'before'   => in_array( 'contact_first_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-first-name">' : '',
+							'after'    => in_array( 'contact_first_name', $organizationNameFields ) ? '</span>' : '',
 						),
-						'contact_last_name' => array(
-							'id'        => 'contact_last_name',
-							'show'      => true,
-							'label'     => __( 'Contact Last Name' , 'connections' ),
-							'required'  => false,
-							'type'      => in_array( 'contact_last_name', $organizationNameFields ) ? 'text' : 'hidden',
-							'value'     => strlen( $entry->getContactLastName() ) > 0 ? $entry->getContactLastName( 'edit' ) : '',
-							'before'    => in_array( 'contact_last_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-last-name">' : '',
-							'after'     => in_array( 'contact_last_name', $organizationNameFields ) ? '</span>' : '',
+						'contact_last_name'  => array(
+							'id'       => 'contact_last_name',
+							'show'     => true,
+							'label'    => __( 'Contact Last Name', 'connections' ),
+							'required' => false,
+							'type'     => in_array( 'contact_last_name', $organizationNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getContactLastName() ) > 0 ? $entry->getContactLastName( 'edit' ) : '',
+							'before'   => in_array( 'contact_last_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-last-name">' : '',
+							'after'    => in_array( 'contact_last_name', $organizationNameFields ) ? '</span>' : '',
 						),
 					),
 				),
@@ -827,7 +827,7 @@ class cnEntryMetabox {
 									'options'  => $individuals,
 									'enhanced' => true,
 									'return'   => true,
-									),
+								),
 								$relationData['entry_id']
 							);
 
@@ -839,7 +839,7 @@ class cnEntryMetabox {
 									'options'  => $options,
 									'enhanced' => true,
 									'return'   => true,
-									),
+								),
 								$relationData['relation']
 							);
 
@@ -912,10 +912,10 @@ class cnEntryMetabox {
 							'show'   => __( 'Display', 'connections' ),
 							'hidden' => __( 'Not Displayed', 'connections' ),
 							'remove' => __( 'Remove', 'connections' ),
-							),
-						'before'   => '<div>',
-						'after'    => '</div>',
 						),
+						'before'  => '<div>',
+						'after'   => '</div>',
+					),
 					$selected
 				);
 
@@ -978,10 +978,10 @@ class cnEntryMetabox {
 							'show'   => __( 'Display', 'connections' ),
 							'hidden' => __( 'Not Displayed', 'connections' ),
 							'remove' => __( 'Remove', 'connections' ),
-							),
-						'before'   => '<div>',
-						'after'    => '</div>',
 						),
+						'before'  => '<div>',
+						'after'   => '</div>',
+					),
 					$selected
 				);
 
@@ -1139,14 +1139,14 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'address[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'address[' . $token . '][type]',
 								// 'options'  => $addressTypes,
 								// 'required' => FALSE,
 								// 'before'   => '',
-								'label'    => __( 'Address Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Address Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $address->type ) && array_key_exists( $address->type, $addressTypes ) ? $address->type : key( $defaultType )
 						);
@@ -1553,13 +1553,13 @@ class cnEntryMetabox {
 
 					cnHTML::field(
 						array(
-							'type'     => 'hidden',
-							'class'    => '',
-							'id'       => 'phone[' . $token . '][type]',
+							'type'   => 'hidden',
+							'class'  => '',
+							'id'     => 'phone[' . $token . '][type]',
 							// 'options'  => $phoneTypes,
 							// 'required' => FALSE,
-							'label'    => __( 'Phone Type', 'connections' ),
-							'return'   => false,
+							'label'  => __( 'Phone Type', 'connections' ),
+							'return' => false,
 						),
 						isset( $phone->type ) && array_key_exists( $phone->type, $phoneTypes ) ? $phone->type : key( $defaultType )
 					);
@@ -1768,13 +1768,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'email[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'email[' . $token . '][type]',
 								// 'options'  => $emailTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'Email Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Email Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $email->type ) && array_key_exists( $email->type, $emailTypes ) ? $email->type : key( $defaultType )
 						);
@@ -1982,13 +1982,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'im[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'im[' . $token . '][type]',
 								// 'options'  => $messengerTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'IM Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'IM Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $messengerTypes ) ? $network->type : key( $defaultType )
 						);
@@ -2051,7 +2051,7 @@ class cnEntryMetabox {
 						'before'   => '',
 						'after'    => '',
 						'return'   => false,
-						),
+					),
 					! empty( $network->id ) ? $network->id : ''
 				);
 
@@ -2194,13 +2194,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'social[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'social[' . $token . '][type]',
 								// 'options'  => $socialTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'Social Network', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Social Network', 'connections' ),
+								'return' => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $socialTypes ) ? $network->type : key( $defaultType )
 						);
@@ -2413,13 +2413,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'link[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'link[' . $token . '][type]',
 								// 'options'  => $linkTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $link->type ) && array_key_exists( $link->type, $linkTypes ) ? $link->type : key( $defaultType )
 						);

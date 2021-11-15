@@ -27,6 +27,7 @@
             "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
         ],
         "lint:php": "phpcs --report-file=PHPCS-report.txt",
+        "lint:php:security": "phpcs --sniffs=WordPress.Security.EscapeOutput,WordPress.Security.NonceVerification,WordPress.Security.ValidatedSanitizedInput,WordPress.Security.SafeRedirect --report-file=PHPCS-report.txt",
         "phpcs": "phpcs",
         "phpcsi": "phpcs -i",
         "phpcbf": "phpcbf"

@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
@@ -696,7 +697,7 @@ class cnEntryMetabox {
 		 *       HTML. This is to prevent unnecessary gaps when being rendered by the browser.
 		 */
 		foreach ( $fieldset['sections'] as $section ) : ?>
-			<div class="cn-metabox-section <?php echo implode( ' ', (array) $section['class'] ) ?>" id="cn-metabox-section-<?php echo $section['id'] ?>">
+			<div class="cn-metabox-section <?php _escape::classNames( $section['class'], true ); ?>" id="<?php _escape::id( "cn-metabox-section-{$section['id']}", true ); ?>">
 				<?php foreach ( $section['fields'] as $field ) :
 
 					if ( isset( $field['callback'] ) && is_callable( $field['callback'] ) ) {
@@ -805,7 +806,7 @@ class cnEntryMetabox {
 			// --> End template for Family <-- \\
 
 			$html .= '<label for="family_name">' . esc_html__( 'Family Name', 'connections' ) . ':</label>';
-			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
+			$html .= '<input type="text" name="family_name" value="' . esc_attr( $entry->getFamilyName() ) . '" />';
 
 			$html .= '<ul id="cn-relations">';
 
@@ -843,7 +844,7 @@ class cnEntryMetabox {
 								$relationData['relation']
 							);
 
-							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . esc_html__( 'Remove', 'connections' ) . '</a>';
+							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . esc_attr( $token ) . '">' . esc_html__( 'Remove', 'connections' ) . '</a>';
 
 						$html .= '</li>';
 					}
@@ -1066,7 +1067,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget address" id="address-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget address" id="' , esc_attr( "address-row-{$token}" ) , '">' , PHP_EOL;
 
 				self::addressField( $address, $token );
 
@@ -1404,7 +1405,7 @@ class cnEntryMetabox {
 
 				<?php if ( is_admin() ) : ?>
 					<div class="geocode-button-container">
-						<a class="geocode button" data-uid="<?php echo $token; ?>" href="#"><?php esc_html_e( 'Geocode', 'connections' ); ?></a>
+						<a class="geocode button" data-uid="<?php echo esc_attr( $token ); ?>" href="#"><?php esc_html_e( 'Geocode', 'connections' ); ?></a>
 					</div>
 				<?php endif; ?>
 
@@ -1413,18 +1414,18 @@ class cnEntryMetabox {
 			<div class="clear"></div>
 
 			<?php if ( is_admin() ) : ?>
-				<div class="map" id="map-<?php echo $token; ?>" data-map-id="<?php echo $token; ?>" style="display: none; height: 400px;"><?php esc_html_e( 'Geocoding Address.', 'connections' ); ?></div>
+				<div class="map" id="<?php echo esc_attr( "map-{$token}" ); ?>" data-map-id="<?php echo esc_attr( $token ); ?>" style="display: none; height: 400px;"><?php esc_html_e( 'Geocoding Address.', 'connections' ); ?></div>
 			<?php endif; ?>
 
 			<?php if ( isset( $address->id ) ) : ?>
-			<input type="hidden" name="address[<?php echo $token; ?>][id]" value="<?php echo $address->id; ?>">
+			<input type="hidden" name="<?php echo esc_attr( "address[{$token}][id]" ); ?>" value="<?php echo esc_attr( $address->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="address"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -1491,7 +1492,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget phone" id="phone-row-' . $token . '">' , PHP_EOL;
+				echo '<div class="widget phone" id="' . esc_attr( "phone-row-{$token}" ) . '">' , PHP_EOL;
 
 					self::phoneField( $phone, $token );
 
@@ -1631,14 +1632,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $phone->id ) ) : ?>
-				<input type="hidden" name="phone[<?php echo $token; ?>][id]" value="<?php echo $phone->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "phone[{$token}][id]" ); ?>" value="<?php echo esc_attr( $phone->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="phone"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -1705,7 +1706,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget email" id="email-row-' . $token . '">' , PHP_EOL;
+				echo '<div class="widget email" id="' . esc_attr( "email-row-{$token}" ) . '">' , PHP_EOL;
 
 					self::emailField( $email, $token );
 
@@ -1846,14 +1847,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $email->id ) ) : ?>
-				<input type="hidden" name="email[<?php echo $token; ?>][id]" value="<?php echo $email->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "email[{$token}][id]" ); ?>" value="<?php echo esc_attr( $email->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="email"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -1920,7 +1921,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget im" id="im-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget im" id="' , esc_attr( "im-row-{$token}" ) , '">' , PHP_EOL;
 
 					self::messengerField( $network, $token );
 
@@ -2060,14 +2061,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $network->uid ) ) : ?>
-				<input type="hidden" name="im[<?php echo $token; ?>][uid]" value="<?php echo $network->uid; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "im[{$token}][uid]" ); ?>" value="<?php echo esc_attr( $network->uid ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="im"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2132,7 +2133,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget social-media" id="social-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget social-media" id="' . esc_attr( "social-row-{$token}" ) . '">' , PHP_EOL;
 
 					self::socialField( $network, $token );
 
@@ -2272,14 +2273,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $network->id ) ) : ?>
-				<input type="hidden" name="social[<?php echo $token; ?>][id]" value="<?php echo $network->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "social[{$token}][id]" ); ?>" value="<?php echo esc_attr( $network->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="social"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2346,7 +2347,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget link" id="link-row-' . $token . '">' , PHP_EOL;
+				echo '<div class="widget link" id="' . esc_attr( "link-row-{$token}" ) . '">' , PHP_EOL;
 
 				self::linkField( $link, $token );
 
@@ -2560,11 +2561,11 @@ class cnEntryMetabox {
 			<div class="link-assignment">
 
 				<label>
-					<input type="radio" name="link[image]" value="<?php echo $token; ?>" <?php if ( isset( $link->image ) ) { checked( $link->image, true ); } ?>>
+					<input type="radio" name="link[image]" value="<?php echo esc_attr( $token ); ?>" <?php if ( isset( $link->image ) ) { checked( $link->image, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the image.', 'connections' ); ?>
 				</label>
 				<label>
-					<input type="radio" name="link[logo]" value="<?php echo $token; ?>" <?php if ( isset( $link->logo ) ) { checked( $link->logo, true ); } ?>>
+					<input type="radio" name="link[logo]" value="<?php echo esc_attr( $token ); ?>" <?php if ( isset( $link->logo ) ) { checked( $link->logo, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the logo.', 'connections' ); ?>
 				</label>
 
@@ -2572,14 +2573,14 @@ class cnEntryMetabox {
 			<?php endif; ?>
 
 			<?php if ( isset( $link->id ) ) : ?>
-			<input type="hidden" name="link[<?php echo $token; ?>][id]" value="<?php echo $link->id; ?>">
+			<input type="hidden" name="<?php echo esc_attr( "link[{$token}][id]" ); ?>" value="<?php echo esc_attr( $link->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="link"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2644,7 +2645,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget date" id="date-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget date" id="' , esc_attr( "date-row-{$token}" ) , '">' , PHP_EOL;
 
 					self::dateField( $date, $token );
 
@@ -2766,14 +2767,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $date->id ) ) : ?>
-				<input type="hidden" name="date[<?php echo $token; ?>][id]" value="<?php echo $date->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "date[{$token}][id]" ); ?>" value="<?php echo esc_attr( $date->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="date"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2866,19 +2867,19 @@ class cnEntryMetabox {
 
 					?>
 
-					<tr id="meta-<?php echo $meta['meta_id']; ?>" class="<?php echo $alternate; ?>">
+					<tr id="<?php echo esc_attr( "meta-{$meta['meta_id']}" ); ?>" class="<?php echo esc_attr( $alternate ); ?>">
 
 						<td class="left">
-							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][key]'><?php _e( 'Key', 'connections' ); ?></label>
-							<input name='meta[<?php echo $meta['meta_id']; ?>][key]' id='meta[<?php echo $meta['meta_id']; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
+							<label class="screen-reader-text" for='<?php echo esc_attr( "meta[{$meta['meta_id']}][key]" ); ?>'><?php _e( 'Key', 'connections' ); ?></label>
+							<input name='<?php echo esc_attr( "meta[{$meta['meta_id']}][key]" ); ?>' id='<?php echo esc_attr( "meta[{$meta['meta_id']}][key]" ); ?>' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ); ?>" />
 							<div class="submit">
-								<input type="submit" name="deletemeta[<?php echo $meta['meta_id']; ?>]" id="deletemeta[<?php echo $meta['meta_id']; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
+								<input type="submit" name="<?php echo esc_attr( "deletemeta[{$meta['meta_id']}]" ); ?>" id="<?php echo esc_attr( "deletemeta[{$meta['meta_id']}]" ); ?>" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
 							</div>
 						</td>
 
 						<td>
-							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
-							<textarea name='meta[<?php echo $meta['meta_id']; ?>][value]' id='meta[<?php echo $meta['meta_id']; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( _::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
+							<label class="screen-reader-text" for='<?php echo esc_attr( "meta[{$meta['meta_id']}][value]" ); ?>'><?php _e( 'Value', 'connections' ); ?></label>
+							<textarea name='<?php echo esc_attr( "meta[{$meta['meta_id']}][value]" ); ?>' id='<?php echo esc_attr( "meta[{$meta['meta_id']}][value]" ); ?>' rows="2" cols="30"><?php echo esc_textarea( _::maybeJSONencode( $meta['meta_value'] ) ); ?></textarea>
 						</td>
 
 					</tr>

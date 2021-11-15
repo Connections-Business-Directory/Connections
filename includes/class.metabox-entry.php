@@ -765,7 +765,8 @@ class cnEntryMetabox {
 
 		if ( false !== ( $cache = cnCache::get( $ckey, 'transient' ) ) ) {
 
-			echo $cache;
+			// The HTML is escaped before it is saved to the cache.
+			echo $cache; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		}
 
@@ -859,7 +860,8 @@ class cnEntryMetabox {
 
 		cnCache::set( $ckey, $html, YEAR_IN_SECONDS, 'transient' );
 
-		echo $html;
+		// The HTML is escaped as it is generated above.
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -2932,7 +2934,7 @@ class cnEntryMetabox {
 
 					<td id="newmetaleft" class="left">
 						<select id="metakeyselect" name="metakeyselect">
-							<?php echo $options; ?>
+							<?php echo $options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</select>
 						<input class="hide-if-js" type=text id="metakeyinput" name="newmeta[99][key]" value=""/>
 						<a href="#postcustomstuff" class="postcustomstuff hide-if-no-js"> <span id="enternew"><?php _e( 'Enter New', 'connections' ); ?></span> <span id="cancelnew" class="hidden"><?php _e( 'Cancel', 'connections' ); ?></span></a>

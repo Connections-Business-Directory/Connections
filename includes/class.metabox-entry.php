@@ -217,12 +217,12 @@ class cnEntryMetabox {
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
-			'fields' => array(
+			'fields'   => array(
 				array(
-					'id'         => 'bio',
-					'type'       => 'rte',
-					'value'      => 'getBio',
-					'options'    => $rteOptions,
+					'id'      => 'bio',
+					'type'    => 'rte',
+					'value'   => 'getBio',
+					'options' => $rteOptions,
 				),
 			),
 		);
@@ -236,12 +236,12 @@ class cnEntryMetabox {
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
-			'fields' => array(
+			'fields'   => array(
 				array(
-					'id'         => 'notes',
-					'type'       => 'rte',
-					'value'      => 'getNotes',
-					'options'    => $rteOptions,
+					'id'      => 'notes',
+					'type'    => 'rte',
+					'value'   => 'getNotes',
+					'options' => $rteOptions,
 				),
 			),
 		);
@@ -255,12 +255,12 @@ class cnEntryMetabox {
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
-			'fields' => array(
+			'fields'   => array(
 				array(
-					'id'         => 'excerpt',
-					'type'       => 'textarea',
-					'size'       => 'large',
-					'value'      => 'getExcerptEdit',
+					'id'    => 'excerpt',
+					'type'  => 'textarea',
+					'size'  => 'large',
+					'value' => 'getExcerptEdit',
 				),
 			),
 		);

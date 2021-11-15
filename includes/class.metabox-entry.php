@@ -19,6 +19,9 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 
 /**
  * Class cnEntryMetabox
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnEntryMetabox {
 

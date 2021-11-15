@@ -736,7 +736,7 @@ class cnEntryMetabox {
 						$field['value']
 					);
 
-				endforeach; // End fields loop ?>
+				endforeach; // End fields loop. ?>
 			</div>
 		<?php endforeach; // End sections loop.
 	}

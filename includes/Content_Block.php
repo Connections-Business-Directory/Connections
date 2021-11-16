@@ -2,7 +2,6 @@
 
 namespace Connections_Directory;
 
-use ArrayAccess;
 use cnArray;
 use cnFormatting;
 use cnSanitize;
@@ -54,7 +53,7 @@ class Content_Block {
 	 *                                             Default: "humane readable" Content Block ID
 	 *     @type string       $slug                The Content Block container ID.
 	 *                                             Default: empty string
-	 *     @type bool         $register_option     Whether or not to display the Content Block as a settings option in the admin.
+	 *     @type bool         $register_option     Whether to display the Content Block as a settings option in the admin.
 	 *                                             Default: true
 	 *     @type string       $script_handle       The registered JavaScript handle to enqueue.
 	 *     @type string       $style_handle        The registered CSS handle to enqueue.
@@ -74,10 +73,10 @@ class Content_Block {
 	 *                                             Default: empty string
 	 *     @type string       $heading_tag         The Content Block heading tag.
 	 *                                             Default: h3
-	 *     @type bool         $render_container    Whether or not to render block content within the Content Block container.
+	 *     @type bool         $render_container    Whether to render block content within the Content Block container.
 	 *                                             If set to `false` the heading will not be rendered.
 	 *                                             Default: true
-	 *     @type bool         $render_heading      Whether or not to render the Content Block heading.
+	 *     @type bool         $render_heading      Whether to render the Content Block heading.
 	 *                                             Default: true
 	 *     @type string       $before              The content to render before the Content Block container.
 	 *     @type string       $after               The content to render after the Content Block container.
@@ -85,7 +84,7 @@ class Content_Block {
 	 */
 	public function __construct( $id, $atts = array() ) {
 
-		$this->id = $id;
+		$this->id        = $id;
 		$this->shortName = $this->getShortName();
 
 		$atts = cnSanitize::args( $atts, $this->defaults() );
@@ -177,7 +176,7 @@ class Content_Block {
 	 *
 	 * @param $object
 	 */
-	public function useObject( $object) {
+	public function useObject( $object ) {
 
 		$this->object = $object;
 	}
@@ -257,7 +256,7 @@ class Content_Block {
 	}
 
 	/**
-	 * Whether or not the current user is permitted to view the Content Block.
+	 * Whether the current user is permitted to view the Content Block.
 	 *
 	 * @since 9.7
 	 *
@@ -366,7 +365,7 @@ class Content_Block {
 
 				if ( is_string( $containerID ) && 0 < strlen( $containerID ) ) {
 
-					$idAttribute = ' id="' .  esc_attr( $containerID ) . '"';
+					$idAttribute = ' id="' . esc_attr( $containerID ) . '"';
 				}
 
 				$heading = $this->heading();
@@ -391,7 +390,8 @@ class Content_Block {
 
 		if ( true === $echo ) {
 
-			echo $html;
+			// HTML is escaped in the render callback.
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $html;

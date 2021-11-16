@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Dashboard: Upcoming Widget Template.
  *
@@ -10,15 +9,21 @@
  * @since       0.7.9
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 
+	/**
+	 * Class CN_Dashboard_Upcoming_Template
+	 */
 	class CN_Dashboard_Upcoming_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -29,13 +34,13 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 				'version'     => '2.0',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
-				'description' => 'Dashboard Widget that displays Upcoming Anniversies and Birthdays.',
+				'description' => 'Dashboard Widget that displays Upcoming Anniversaries and Birthdays.',
 				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
 				'parts'       => array( 'css' => 'styles.css' ),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 		}
@@ -43,20 +48,41 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 		/**
 		 * CN_Dashboard_Upcoming_Template constructor.
 		 *
-		 * @param cnTemplate $template
+		 * @param cnTemplate $template Instance of the cnTemplate object.
 		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
-			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
+			$template->part(
+				array(
+					'tag'      => 'card',
+					'type'     => 'action',
+					'callback' => array(
+						__CLASS__,
+						'card',
+					),
+				)
+			);
+
+			$template->part(
+				array(
+					'tag'      => 'css',
+					'type'     => 'action',
+					'callback' => array(
+						$template,
+						'printCSS',
+					),
+				)
+			);
 		}
 
 		/**
-		 * @param cnOutput   $entry
-		 * @param cnTemplate $template
-		 * @param array      $atts
+		 * Callback to render the template.
+		 *
+		 * @param cnEntry_HTML $entry    Current instance of the cnEntry object.
+		 * @param cnTemplate   $template Instance of the cnTemplate object.
+		 * @param array        $atts     The shortcode attributes array.
 		 */
 		public static function card( $entry, $template, $atts ) {
 
@@ -70,11 +96,11 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					echo '<span class="cn-entry-name"><a class="row-title" title="Edit ' , $entry->getName() , '" href="' , $editTokenURL , '"> ' , $entry->getName() . '</a></span> <span class="cn-upcoming-date">' , $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) , '</span>';
+					echo '<span class="cn-entry-name"><a class="row-title" title="' , esc_attr( 'Edit ' . $entry->getName() ) , '" href="' , esc_url( $editTokenURL ) , '"> ' , esc_html( $entry->getName() ) . '</a></span> <span class="cn-upcoming-date">' , esc_html( $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) ) , '</span>';
 
 				} else {
 
-					echo '<span class="cn-entry-name">' , $entry->getName() , '</span> <span class="cn-upcoming-date">' , $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) , '</span>';
+					echo '<span class="cn-entry-name">' , esc_html( $entry->getName() ) , '</span> <span class="cn-upcoming-date">' , esc_html( $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) ) , '</span>';
 				}
 
 			}

@@ -13,7 +13,7 @@
  * @since       8.1
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -542,8 +542,6 @@ class cnFragment {
 	 *
 	 * @param  string $key   The cache key.
 	 * @param  string $group (optional) The fragment cache group that the fragment belongs to.
-	 *
-	 * @return \cnFragment
 	 */
 	public function __construct( $key, $group = '' ) {
 
@@ -554,9 +552,7 @@ class cnFragment {
 	/**
 	 * Echo a cached fragment if found.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @uses   cnCache::get()
+	 * @since 8.1
 	 *
 	 * @return bool
 	 */
@@ -564,9 +560,9 @@ class cnFragment {
 
 		$fragment = cnCache::get( $this->key, 'transient', $this->group );
 
-		if ( $fragment !== false ) {
+		if ( false !== $fragment ) {
 
-			echo $fragment;
+			echo $fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return true;
 
 		} else {
@@ -597,12 +593,10 @@ class cnFragment {
 	/**
 	 * Clear a fragment cache object or object group.
 	 *
-	 * @access public
-	 * @since  8.1.6
-	 * @static
-	 * @param  mixed  $key   bool | string The cache key to clear. When set to TRUE, clear a fragment cache group.
-	 * @param  string $group The cache group to clear
-	 * @return void
+	 * @since 8.1.6
+	 *
+	 * @param true|string $key   The cache key to clear. When set to TRUE, clear a fragment cache group.
+	 * @param string      $group The cache group to clear.
 	 */
 	public static function clear( $key, $group = '' ) {
 

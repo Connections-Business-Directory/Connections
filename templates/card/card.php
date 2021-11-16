@@ -1,14 +1,22 @@
 <?php
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
+
 /**
- * @var cnOutput $entry
+ * @var array        $atts  The shortcode attributes arrays.
+ * @var cnEntry_HTML $entry Instance of the cnEntry_HTML object.
+ * @var cnTemplate   $template Instance of the cnTemplate object.
  */
-$style  = array(
+$style = array(
 	'background-color' => '#FFF',
 	'border'           => $atts['border_width'] . 'px solid ' . $atts['border_color'],
 	'border-radius'    => $atts['border_radius'] . 'px',
@@ -18,9 +26,10 @@ $style  = array(
 	'position'         => 'relative',
 );
 $bio   = $entry->getBio();
+$css   = _html::stringifyCSSAttributes( $style );
 $notes = $entry->getNotes();
 ?>
-<div class="cn-entry" <?php echo cnHTML::attribute( 'style', $style ); ?>>
+<div class="cn-entry" style="<?php _escape::css( $css, true ); ?>">
 
 	<div class="cn-left" style="width:49%; float:<?php echo is_rtl() ? 'right' : 'left'; ?>">
 		<?php
@@ -29,11 +38,11 @@ $notes = $entry->getNotes();
 
 			$entry->getImage(
 				array(
-					'image'    => $atts['image_type'],
-					'width'    => $atts['image_width'],
-					'height'   => $atts['image_height'],
-					'zc'       => $atts['image_crop_mode'],
-					'fallback' => array(
+					'image'     => $atts['image_type'],
+					'width'     => $atts['image_width'],
+					'height'    => $atts['image_height'],
+					'zc'        => $atts['image_crop_mode'],
+					'fallback'  => array(
 						'type'   => $atts['image_fallback'] ? 'block' : 'none',
 						'string' => $atts['image_fallback_string'],
 					),
@@ -46,7 +55,7 @@ $notes = $entry->getNotes();
 		?>
 		<div style="clear:both;"></div>
 		<div style="margin-bottom: 10px;">
-			<div style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getNameBlock( array( 'format' => $atts['name_format'] ) ); ?></strong></div>
+			<div style="font-size:larger;font-variant: small-caps"><strong><?php echo esc_html( $entry->getNameBlock( array( 'format' => $atts['name_format'] ) ) ); ?></strong></div>
 			<?php
 
 			if ( $atts['show_title'] ) {
@@ -81,7 +90,12 @@ $notes = $entry->getNotes();
 
 		<?php
 		if ( $atts['show_addresses'] ) {
-			$entry->getAddressBlock( array( 'format' => $atts['address_format'], 'type' => $atts['address_types'] ) );
+			$entry->getAddressBlock(
+				array(
+					'format' => $atts['address_format'],
+					'type'   => $atts['address_types'],
+				)
+			);
 		}
 
 		if ( $atts['show_family'] ) {
@@ -89,11 +103,21 @@ $notes = $entry->getNotes();
 		}
 
 		if ( $atts['show_phone_numbers'] ) {
-			$entry->getPhoneNumberBlock( array( 'format' => $atts['phone_format'], 'type' => $atts['phone_types'] ) );
+			$entry->getPhoneNumberBlock(
+				array(
+					'format' => $atts['phone_format'],
+					'type'   => $atts['phone_types'],
+				)
+			);
 		}
 
 		if ( $atts['show_email'] ) {
-			$entry->getEmailAddressBlock( array( 'format' => $atts['email_format'], 'type' => $atts['email_types'] ) );
+			$entry->getEmailAddressBlock(
+				array(
+					'format' => $atts['email_format'],
+					'type'   => $atts['email_types'],
+				)
+			);
 		}
 
 		if ( $atts['show_im'] ) {
@@ -101,11 +125,21 @@ $notes = $entry->getNotes();
 		}
 
 		if ( $atts['show_dates'] ) {
-			$entry->getDateBlock( array( 'format' => $atts['date_format'], 'type' => $atts['date_types'] ) );
+			$entry->getDateBlock(
+				array(
+					'format' => $atts['date_format'],
+					'type'   => $atts['date_types'],
+				)
+			);
 		}
 
 		if ( $atts['show_links'] ) {
-			$entry->getLinkBlock( array( 'format' => $atts['link_format'], 'type' => $atts['link_types'] ) );
+			$entry->getLinkBlock(
+				array(
+					'format' => $atts['link_format'],
+					'type'   => $atts['link_types'],
+				)
+			);
 		}
 
 		if ( $atts['show_social_media'] ) {

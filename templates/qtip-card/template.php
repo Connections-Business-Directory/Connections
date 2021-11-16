@@ -10,11 +10,16 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+
+/**
+ * @var cnEntry_HTML $entry
+ */
 ?>
 
 <div class="cn-entry">
@@ -42,8 +47,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div style="clear:both"></div>
 	<div class="cn-meta" align="left" style="margin-top: 6px">
-		<span><?php echo $vCard->download(); ?></span>
-		<span style="<?php echo $entry->getLastUpdatedStyle() ?>; font-size:x-small; font-variant: small-caps; position: absolute; right: 6px; bottom: 8px;">Updated <?php echo $entry->getHumanTimeDiff() ?> ago</span><br />
+		<span><?php $entry->vcard(); ?></span>
+		<span style="<?php _escape::css( $entry->getLastUpdatedStyle(), true ); ?>; font-size:x-small; font-variant: small-caps; position: absolute; right: 6px; bottom: 8px;">Updated <?php echo esc_html( $entry->getHumanTimeDiff() ); ?> ago</span><br />
 	</div>
 
 </div>

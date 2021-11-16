@@ -445,7 +445,8 @@ class Marker extends Abstract_Layer {
 	 */
 	public function render() {
 
-		echo $this->get();
+		// HTML is dynamically generated using static text, no user input.
+		echo $this->get(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

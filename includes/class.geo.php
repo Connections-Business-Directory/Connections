@@ -78,7 +78,7 @@ class cnGeo {
 		$dest = wp_parse_args( $destination, $defaultDest );
 
 		$defaults = array(
-			'return' => true,
+			'echo' => ! _array::get( $atts, 'return', true ),
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -92,11 +92,12 @@ class cnGeo {
 		$c = 2 * asin( sqrt( $a ) );
 		$distance = $radius * $c; // Result is in (SI) km.
 
-		if ( $atts['return'] ) {
-			return $distance;
+		if ( $atts['echo'] ) {
+
+			echo $distance; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		echo $distance;
+		return $distance;
 	}
 
 	/**
@@ -148,7 +149,7 @@ class cnGeo {
 
 		if ( $atts['echo'] ) {
 
-			echo $value;
+			echo esc_html( $value );
 		}
 
 		return $value;

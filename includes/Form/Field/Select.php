@@ -6,6 +6,7 @@ use Connections_Directory\Form\Field;
 use Connections_Directory\Form\Field\Attribute\Autocomplete;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -164,7 +165,7 @@ class Select extends Field {
 		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
 		_array::set( $attributes, 'id', _escape::id( $id ) );
 		_array::set( $attributes, 'name', _escape::attribute( $this->getName() ) );
-		_array::set( $attributes, 'style', stringifyCSSAttributes( $this->css ) );
+		_array::set( $attributes, 'style', _escape::css( _html::stringifyCSSAttributes( $this->css ) ) );
 
 		if ( $this->isReadOnly() ) {
 			$this->setDisabled( true );
@@ -219,9 +220,9 @@ class Select extends Field {
 		}
 
 		// Merge in the data attributes.
-		$attributes = array_merge( $attributes, prepareDataAttributes( $this->data ) );
+		$attributes = array_merge( $attributes, _html::prepareDataAttributes( $this->data ) );
 
-		return stringifyAttributes( $attributes );
+		return _html::stringifyAttributes( $attributes );
 	}
 
 	/**
@@ -257,8 +258,8 @@ class Select extends Field {
 		if ( $this->isReadOnly() ) {
 
 			$hidden = Hidden::create()
-			                ->setName( $this->getName() )
-			                ->setValue( $this->getValue() );
+							->setName( $this->getName() )
+							->setValue( $this->getValue() );
 		}
 
 		return "<select {$attributes}>{$options}</select>{$hidden}";

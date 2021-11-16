@@ -5,6 +5,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 use cnEntry;
 use cnOutput;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 use WP_Post;
 
 /**
@@ -72,7 +73,7 @@ class Recently_Viewed extends Content_Block {
 		);
 
 		$atts = apply_filters(
-			"Connections_Directory/Content_Block/Entry/Recently_Viewed/Attributes",
+			'Connections_Directory/Content_Block/Entry/Recently_Viewed/Attributes',
 			$atts
 		);
 
@@ -123,7 +124,7 @@ class Recently_Viewed extends Content_Block {
 			$settings
 		);
 
-		echo PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="' . 'recent-content-block-' . self::ID . '" data-limit="' . absint( $settings['limit'] ) . '" data-exclude="' . $entry->getId() . '"></div>' . PHP_EOL;
+		echo PHP_EOL . '<div class="' . _escape::classNames( $classNames ) . '" id="' . _escape::id( 'recent-content-block-' . self::ID ) . '" data-limit="' . absint( $settings['limit'] ) . '" data-exclude="' . absint( $entry->getId() ) . '"></div>' . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action(
 			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",

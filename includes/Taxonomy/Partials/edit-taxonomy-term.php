@@ -1,4 +1,8 @@
 <?php
+/**
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+ */
 
 // Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -73,7 +77,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 	?>
 	<table class="form-table" role="presentation">
 		<tr class="form-field form-required term-name-wrap">
-			<th scope="row"><label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ) ?></label></th>
+			<th scope="row"><label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ); ?></label></th>
 			<td>
 				<input name="term-name" id="term-name" type="text" value="<?php echo esc_attr( $term->name ); ?>" size="40" aria-required="true" />
 				<p class="description"><?php _e( 'The name is how it appears on your site.', 'connections' ); ?></p>
@@ -188,7 +192,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 
 		<?php if ( current_user_can( $taxonomy->getCapabilities()->delete_terms, $term->term_id ) ) : ?>
 			<span id="delete-link">
-				<a class="delete" href="<?php echo admin_url( wp_nonce_url( "admin.php?cn-action=delete-term&id={$term->term_id}&taxonomy={$taxonomy->getSlug()}&_wp_http_referer={$referer}", "term_delete_{$term->term_id}" ) ); ?>"><?php _e( 'Delete' ); ?></a>
+				<a class="delete" href="<?php echo esc_url( admin_url( wp_nonce_url( "admin.php?cn-action=delete-term&id={$term->term_id}&taxonomy={$taxonomy->getSlug()}&_wp_http_referer={$referer}", "term_delete_{$term->term_id}" ) ) ); ?>"><?php _e( 'Delete', 'connections' ); ?></a>
 			</span>
 		<?php endif; ?>
 

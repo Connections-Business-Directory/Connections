@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class registering the core metaboxes for add/edit an entry.
  *
@@ -10,16 +9,20 @@
  * @since       0.8
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class cnEntryMetabox
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnEntryMetabox {
 
@@ -215,12 +218,12 @@ class cnEntryMetabox {
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
-			'fields' => array(
+			'fields'   => array(
 				array(
-					'id'         => 'bio',
-					'type'       => 'rte',
-					'value'      => 'getBio',
-					'options'    => $rteOptions,
+					'id'      => 'bio',
+					'type'    => 'rte',
+					'value'   => 'getBio',
+					'options' => $rteOptions,
 				),
 			),
 		);
@@ -234,12 +237,12 @@ class cnEntryMetabox {
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
-			'fields' => array(
+			'fields'   => array(
 				array(
-					'id'         => 'notes',
-					'type'       => 'rte',
-					'value'      => 'getNotes',
-					'options'    => $rteOptions,
+					'id'      => 'notes',
+					'type'    => 'rte',
+					'value'   => 'getNotes',
+					'options' => $rteOptions,
 				),
 			),
 		);
@@ -253,12 +256,12 @@ class cnEntryMetabox {
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
-			'fields' => array(
+			'fields'   => array(
 				array(
-					'id'         => 'excerpt',
-					'type'       => 'textarea',
-					'size'       => 'large',
-					'value'      => 'getExcerptEdit',
+					'id'    => 'excerpt',
+					'type'  => 'textarea',
+					'size'  => 'large',
+					'value' => 'getExcerptEdit',
 				),
 			),
 		);
@@ -384,11 +387,11 @@ class cnEntryMetabox {
 		// of making the array keys the option labels. This provides backward compatibility.
 		$defaults['entry_type'] = array_flip( $defaults['entry_type'] );
 
-		$defaults['default']['type'] = $defaultType;
+		$defaults['default']['type']       = $defaultType;
 		$defaults['default']['visibility'] = $defaultStatus;
 
 		// Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
-		$defaults        = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
+		$defaults = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
 
 		$atts            = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );
 		$atts['default'] = wp_parse_args( $atts['default'], $defaults['default'] );
@@ -403,7 +406,7 @@ class cnEntryMetabox {
 		}
 
 		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
-		$type       = $entry->getId() ? $entry->getEntryType()  : $atts['default']['type'];
+		$type       = $entry->getId() ? $entry->getEntryType() : $atts['default']['type'];
 
 		if ( ! empty( $atts['entry_type'] ) ) {
 
@@ -439,10 +442,10 @@ class cnEntryMetabox {
 					'public'   => __( 'Public', 'connections' ),
 					'private'  => __( 'Private', 'connections' ),
 					'unlisted' => __( 'Unlisted', 'connections' ),
-					),
+				),
 				'before'  => '<div id="visibility">',
 				'after'   => '</div>',
-				),
+			),
 			$visibility
 		);
 
@@ -456,7 +459,7 @@ class cnEntryMetabox {
 
 			switch ( true ) {
 
-				case ( $action ==  'edit_entry' || $action == 'edit' ):
+				case ( 'edit_entry' == $action || 'edit' == $action ):
 
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a></div>';
@@ -464,7 +467,7 @@ class cnEntryMetabox {
 
 					break;
 
-				case ( $action == 'copy_entry' || $action == 'copy' ):
+				case ( 'copy_entry' == $action || 'copy' == $action ):
 
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a>';
@@ -546,18 +549,18 @@ class cnEntryMetabox {
 					'fields' => array(
 						// This key is the field ID.
 						'prefix' => array(
-							// Each field must have an unique ID. Duplicates will be discarded.
+							// Each field must have a unique ID. Duplicates will be discarded.
 							'id'       => 'honorific_prefix',
-							// Whether or not to render the field.
+							// Whether to render the field.
 							'show'     => true,
 							// The field label if supplied.
 							'label'    => __( 'Prefix', 'connections' ),
-							// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+							// Whether the field is required. If it is required 'class="required"' will be added to the field.
 							// This will be used by jQuery Validate.
 							'required' => false,
-							// The field type.
+							// The field's type.
 							'type'     => in_array( 'prefix', $individualNameFields ) ? 'text' : 'hidden',
-							// The field value.
+							// The field's value.
 							'value'    => strlen( $entry->getHonorificPrefix() ) > 0 ? $entry->getHonorificPrefix( 'edit' ) : '',
 							'before'   => in_array( 'prefix', $individualNameFields ) ? '<span id="cn-name-prefix">' : '',
 							'after'    => in_array( 'prefix', $individualNameFields ) ? '</span>' : '',
@@ -609,12 +612,12 @@ class cnEntryMetabox {
 					'class'  => array( 'cn-individual' ),
 					'fields' => array(
 						'title' => array(
-							'id'        => 'title',
-							'show'      => true,
-							'label'     => _x( 'Title', 'A name that describes someone\'s position or job.', 'connections' ),
-							'required'  => false,
-							'type'      => in_array( 'title', $individualNameFields ) ? 'text' : 'hidden',
-							'value'     => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
+							'id'       => 'title',
+							'show'     => true,
+							'label'    => _x( 'Title', 'A name that describes someone\'s position or job.', 'connections' ),
+							'required' => false,
+							'type'     => in_array( 'title', $individualNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
 						),
 					),
 				),
@@ -623,12 +626,12 @@ class cnEntryMetabox {
 					'class'  => $orgClasses,
 					'fields' => array(
 						'organization' => array(
-							'id'        => 'organization',
-							'show'      => true,
-							'label'     => __( 'Organization' , 'connections' ),
-							'required'  => false,
-							'type'      => 'text',
-							'value'     => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
+							'id'       => 'organization',
+							'show'     => true,
+							'label'    => __( 'Organization', 'connections' ),
+							'required' => false,
+							'type'     => 'text',
+							'value'    => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
 						),
 					),
 				),
@@ -637,12 +640,12 @@ class cnEntryMetabox {
 					'class'  => $deptClasses,
 					'fields' => array(
 						'department' => array(
-							'id'        => 'department',
-							'show'      => true,
-							'label'     => __( 'Department' , 'connections' ),
-							'required'  => false,
-							'type'      => 'text',
-							'value'     => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
+							'id'       => 'department',
+							'show'     => true,
+							'label'    => __( 'Department', 'connections' ),
+							'required' => false,
+							'type'     => 'text',
+							'value'    => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
 						),
 					),
 				),
@@ -651,24 +654,24 @@ class cnEntryMetabox {
 					'class'  => array( 'cn-organization' ),
 					'fields' => array(
 						'contact_first_name' => array(
-							'id'        => 'contact_first_name',
-							'show'      => true,
-							'label'     => __( 'Contact First Name' , 'connections' ),
-							'required'  => false,
-							'type'      => in_array( 'contact_first_name', $organizationNameFields ) ? 'text' : 'hidden',
-							'value'     => strlen( $entry->getContactFirstName() ) > 0 ? $entry->getContactFirstName( 'edit' ) : '',
-							'before'    => in_array( 'contact_first_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-first-name">' : '',
-							'after'     => in_array( 'contact_first_name', $organizationNameFields ) ? '</span>' : '',
+							'id'       => 'contact_first_name',
+							'show'     => true,
+							'label'    => __( 'Contact First Name', 'connections' ),
+							'required' => false,
+							'type'     => in_array( 'contact_first_name', $organizationNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getContactFirstName() ) > 0 ? $entry->getContactFirstName( 'edit' ) : '',
+							'before'   => in_array( 'contact_first_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-first-name">' : '',
+							'after'    => in_array( 'contact_first_name', $organizationNameFields ) ? '</span>' : '',
 						),
-						'contact_last_name' => array(
-							'id'        => 'contact_last_name',
-							'show'      => true,
-							'label'     => __( 'Contact Last Name' , 'connections' ),
-							'required'  => false,
-							'type'      => in_array( 'contact_last_name', $organizationNameFields ) ? 'text' : 'hidden',
-							'value'     => strlen( $entry->getContactLastName() ) > 0 ? $entry->getContactLastName( 'edit' ) : '',
-							'before'    => in_array( 'contact_last_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-last-name">' : '',
-							'after'     => in_array( 'contact_last_name', $organizationNameFields ) ? '</span>' : '',
+						'contact_last_name'  => array(
+							'id'       => 'contact_last_name',
+							'show'     => true,
+							'label'    => __( 'Contact Last Name', 'connections' ),
+							'required' => false,
+							'type'     => in_array( 'contact_last_name', $organizationNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getContactLastName() ) > 0 ? $entry->getContactLastName( 'edit' ) : '',
+							'before'   => in_array( 'contact_last_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-last-name">' : '',
+							'after'    => in_array( 'contact_last_name', $organizationNameFields ) ? '</span>' : '',
 						),
 					),
 				),
@@ -694,7 +697,7 @@ class cnEntryMetabox {
 		 *       HTML. This is to prevent unnecessary gaps when being rendered by the browser.
 		 */
 		foreach ( $fieldset['sections'] as $section ) : ?>
-			<div class="cn-metabox-section <?php echo implode( ' ', (array) $section['class'] ) ?>" id="cn-metabox-section-<?php echo $section['id'] ?>">
+			<div class="cn-metabox-section <?php _escape::classNames( $section['class'], true ); ?>" id="<?php _escape::id( "cn-metabox-section-{$section['id']}", true ); ?>">
 				<?php foreach ( $section['fields'] as $field ) :
 
 					if ( isset( $field['callback'] ) && is_callable( $field['callback'] ) ) {
@@ -734,7 +737,7 @@ class cnEntryMetabox {
 						$field['value']
 					);
 
-				endforeach; // End fields loop ?>
+				endforeach; // End fields loop. ?>
 			</div>
 		<?php endforeach; // End sections loop.
 	}
@@ -762,7 +765,8 @@ class cnEntryMetabox {
 
 		if ( false !== ( $cache = cnCache::get( $ckey, 'transient' ) ) ) {
 
-			echo $cache;
+			// The HTML is escaped before it is saved to the cache.
+			echo $cache; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		}
 
@@ -803,7 +807,7 @@ class cnEntryMetabox {
 			// --> End template for Family <-- \\
 
 			$html .= '<label for="family_name">' . esc_html__( 'Family Name', 'connections' ) . ':</label>';
-			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
+			$html .= '<input type="text" name="family_name" value="' . esc_attr( $entry->getFamilyName() ) . '" />';
 
 			$html .= '<ul id="cn-relations">';
 
@@ -825,7 +829,7 @@ class cnEntryMetabox {
 									'options'  => $individuals,
 									'enhanced' => true,
 									'return'   => true,
-									),
+								),
 								$relationData['entry_id']
 							);
 
@@ -837,11 +841,11 @@ class cnEntryMetabox {
 									'options'  => $options,
 									'enhanced' => true,
 									'return'   => true,
-									),
+								),
 								$relationData['relation']
 							);
 
-							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . esc_html__( 'Remove', 'connections' ) . '</a>';
+							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . esc_attr( $token ) . '">' . esc_html__( 'Remove', 'connections' ) . '</a>';
 
 						$html .= '</li>';
 					}
@@ -856,17 +860,18 @@ class cnEntryMetabox {
 
 		cnCache::set( $ckey, $html, YEAR_IN_SECONDS, 'transient' );
 
-		echo $html;
+		// The HTML is escaped as it is generated above.
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
 	 * Renders the image/photo metabox.
 	 *
 	 * @access public
-	 * @since  0.8
+	 * @since 0.8
+	 *
 	 * @param  object $entry   An instance of the cnEntry object.
 	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The image/photo metabox.
 	 */
 	public static function image( $entry, $metabox ) {
 
@@ -910,10 +915,10 @@ class cnEntryMetabox {
 							'show'   => __( 'Display', 'connections' ),
 							'hidden' => __( 'Not Displayed', 'connections' ),
 							'remove' => __( 'Remove', 'connections' ),
-							),
-						'before'   => '<div>',
-						'after'    => '</div>',
 						),
+						'before'  => '<div>',
+						'after'   => '</div>',
+					),
 					$selected
 				);
 
@@ -932,10 +937,10 @@ class cnEntryMetabox {
 	 * Renders the logo metabox.
 	 *
 	 * @access public
-	 * @since  0.8
+	 * @since 0.8
+	 *
 	 * @param  object $entry   An instance of the cnEntry object.
 	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The logo metabox.
 	 */
 	public static function logo( $entry, $metabox ) {
 
@@ -976,10 +981,10 @@ class cnEntryMetabox {
 							'show'   => __( 'Display', 'connections' ),
 							'hidden' => __( 'Not Displayed', 'connections' ),
 							'remove' => __( 'Remove', 'connections' ),
-							),
-						'before'   => '<div>',
-						'after'    => '</div>',
 						),
+						'before'  => '<div>',
+						'after'   => '</div>',
+					),
 					$selected
 				);
 
@@ -1011,8 +1016,8 @@ class cnEntryMetabox {
 		$autofillRegion  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-region' );
 		$autofillCountry = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-country' );
 
-		$defaultCountry  = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
-		$defaultRegion   = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
+		$defaultCountry = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
+		$defaultRegion  = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
 
 		$region  = $autofillRegion ? $defaultRegion : '';
 		$country = $autofillCountry ? $defaultCountry : '';
@@ -1033,7 +1038,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
-		 * displayed by default. The "dummy" address objects rotate thru the active address types and set the
+		 * displayed by default. The "dummy" address objects rotate through the active address types and set the
 		 * default region and country so these fields are properly populated.
 		 */
 		if ( $count > $addressCount = count( $addresses ) ) {
@@ -1046,7 +1051,7 @@ class cnEntryMetabox {
 				$type = key( $addressTypes );
 				next( $addressTypes );
 
-				$address = new cnAddress(
+				$address     = new cnAddress(
 					array(
 						'type'    => $type,
 						'region'  => $region,
@@ -1064,7 +1069,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget address" id="address-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget address" id="' , esc_attr( "address-row-{$token}" ) , '">' , PHP_EOL;
 
 				self::addressField( $address, $token );
 
@@ -1101,8 +1106,8 @@ class cnEntryMetabox {
 		$autofillCountry     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-country' );
 		$autocompleteCountry = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autocomplete-country' );
 
-		$defaultCountry      = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
-		$defaultRegion       = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
+		$defaultCountry = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
+		$defaultRegion  = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
 
 		$region  = $autofillRegion ? $defaultRegion : '';
 		$country = $autofillCountry ? $defaultCountry : '';
@@ -1137,14 +1142,14 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'address[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'address[' . $token . '][type]',
 								// 'options'  => $addressTypes,
 								// 'required' => FALSE,
 								// 'before'   => '',
-								'label'    => __( 'Address Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Address Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $address->type ) && array_key_exists( $address->type, $addressTypes ) ? $address->type : key( $defaultType )
 						);
@@ -1402,7 +1407,7 @@ class cnEntryMetabox {
 
 				<?php if ( is_admin() ) : ?>
 					<div class="geocode-button-container">
-						<a class="geocode button" data-uid="<?php echo $token; ?>" href="#"><?php esc_html_e( 'Geocode', 'connections' ); ?></a>
+						<a class="geocode button" data-uid="<?php echo esc_attr( $token ); ?>" href="#"><?php esc_html_e( 'Geocode', 'connections' ); ?></a>
 					</div>
 				<?php endif; ?>
 
@@ -1411,18 +1416,18 @@ class cnEntryMetabox {
 			<div class="clear"></div>
 
 			<?php if ( is_admin() ) : ?>
-				<div class="map" id="map-<?php echo $token; ?>" data-map-id="<?php echo $token; ?>" style="display: none; height: 400px;"><?php esc_html_e( 'Geocoding Address.', 'connections' ); ?></div>
+				<div class="map" id="<?php echo esc_attr( "map-{$token}" ); ?>" data-map-id="<?php echo esc_attr( $token ); ?>" style="display: none; height: 400px;"><?php esc_html_e( 'Geocoding Address.', 'connections' ); ?></div>
 			<?php endif; ?>
 
 			<?php if ( isset( $address->id ) ) : ?>
-			<input type="hidden" name="address[<?php echo $token; ?>][id]" value="<?php echo $address->id; ?>">
+			<input type="hidden" name="<?php echo esc_attr( "address[{$token}][id]" ); ?>" value="<?php echo esc_attr( $address->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="address"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -1459,7 +1464,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
-		 * displayed by default. The "dummy" address objects rotate thru the active address types and set the
+		 * displayed by default. The "dummy" address objects rotate through the active address types and set the
 		 * default region and country so these fields are properly populated.
 		 */
 		if ( $count > $phoneCount = count( $phoneNumbers ) ) {
@@ -1489,7 +1494,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget phone" id="phone-row-' . $token . '">' , PHP_EOL;
+				echo '<div class="widget phone" id="' . esc_attr( "phone-row-{$token}" ) . '">' , PHP_EOL;
 
 					self::phoneField( $phone, $token );
 
@@ -1551,13 +1556,13 @@ class cnEntryMetabox {
 
 					cnHTML::field(
 						array(
-							'type'     => 'hidden',
-							'class'    => '',
-							'id'       => 'phone[' . $token . '][type]',
+							'type'   => 'hidden',
+							'class'  => '',
+							'id'     => 'phone[' . $token . '][type]',
 							// 'options'  => $phoneTypes,
 							// 'required' => FALSE,
-							'label'    => __( 'Phone Type', 'connections' ),
-							'return'   => false,
+							'label'  => __( 'Phone Type', 'connections' ),
+							'return' => false,
 						),
 						isset( $phone->type ) && array_key_exists( $phone->type, $phoneTypes ) ? $phone->type : key( $defaultType )
 					);
@@ -1629,14 +1634,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $phone->id ) ) : ?>
-				<input type="hidden" name="phone[<?php echo $token; ?>][id]" value="<?php echo $phone->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "phone[{$token}][id]" ); ?>" value="<?php echo esc_attr( $phone->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="phone"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -1674,7 +1679,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" email objects to the results to equal the number of email fieldset which are to be
-		 * displayed by default. The "dummy" email objects rotate thru the active email types.
+		 * displayed by default. The "dummy" email objects rotate through the active email types.
 		 */
 		if ( $count > $emailCount = count( $emailAddresses ) ) {
 
@@ -1703,7 +1708,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget email" id="email-row-' . $token . '">' , PHP_EOL;
+				echo '<div class="widget email" id="' . esc_attr( "email-row-{$token}" ) . '">' , PHP_EOL;
 
 					self::emailField( $email, $token );
 
@@ -1766,13 +1771,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'email[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'email[' . $token . '][type]',
 								// 'options'  => $emailTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'Email Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Email Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $email->type ) && array_key_exists( $email->type, $emailTypes ) ? $email->type : key( $defaultType )
 						);
@@ -1844,14 +1849,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $email->id ) ) : ?>
-				<input type="hidden" name="email[<?php echo $token; ?>][id]" value="<?php echo $email->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "email[{$token}][id]" ); ?>" value="<?php echo esc_attr( $email->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="email"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -1889,7 +1894,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" IM objects to the results to equal the number of IM fieldset which are to be
-		 * displayed by default. The "dummy" IM objects rotate thru the active IM types.
+		 * displayed by default. The "dummy" IM objects rotate through the active IM types.
 		 */
 		if ( $count > $imCount = count( $imIDs ) ) {
 
@@ -1918,7 +1923,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget im" id="im-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget im" id="' , esc_attr( "im-row-{$token}" ) , '">' , PHP_EOL;
 
 					self::messengerField( $network, $token );
 
@@ -1980,13 +1985,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'im[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'im[' . $token . '][type]',
 								// 'options'  => $messengerTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'IM Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'IM Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $messengerTypes ) ? $network->type : key( $defaultType )
 						);
@@ -2049,7 +2054,7 @@ class cnEntryMetabox {
 						'before'   => '',
 						'after'    => '',
 						'return'   => false,
-						),
+					),
 					! empty( $network->id ) ? $network->id : ''
 				);
 
@@ -2058,14 +2063,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $network->uid ) ) : ?>
-				<input type="hidden" name="im[<?php echo $token; ?>][uid]" value="<?php echo $network->uid; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "im[{$token}][uid]" ); ?>" value="<?php echo esc_attr( $network->uid ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="im"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2103,7 +2108,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" social network objects to the results to equal the number of social network fieldset which are to be
-		 * displayed by default. The "dummy" social network objects rotate thru the active social network types.
+		 * displayed by default. The "dummy" social network objects rotate through the active social network types.
 		 */
 		if ( $count > $networkCount = count( $socialNetworks ) ) {
 
@@ -2116,7 +2121,7 @@ class cnEntryMetabox {
 				next( $socialTypes );
 
 				// @todo Replace with cnEntry_Social_Network object.
-				$network = new stdClass();
+				$network       = new stdClass();
 				$network->type = $type;
 
 				$socialNetworks[] = $network;
@@ -2130,7 +2135,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget social-media" id="social-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget social-media" id="' . esc_attr( "social-row-{$token}" ) . '">' , PHP_EOL;
 
 					self::socialField( $network, $token );
 
@@ -2192,13 +2197,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'social[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'social[' . $token . '][type]',
 								// 'options'  => $socialTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'Social Network', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Social Network', 'connections' ),
+								'return' => false,
 							),
 							isset( $network->type ) && array_key_exists( $network->type, $socialTypes ) ? $network->type : key( $defaultType )
 						);
@@ -2270,14 +2275,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $network->id ) ) : ?>
-				<input type="hidden" name="social[<?php echo $token; ?>][id]" value="<?php echo $network->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "social[{$token}][id]" ); ?>" value="<?php echo esc_attr( $network->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="social"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2315,7 +2320,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" link objects to the results to equal the number of link fieldset which are to be
-		 * displayed by default. The "dummy" link objects rotate thru the active link types.
+		 * displayed by default. The "dummy" link objects rotate through the active link types.
 		 */
 		if ( $count > $linkCount = count( $links ) ) {
 
@@ -2344,7 +2349,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget link" id="link-row-' . $token . '">' , PHP_EOL;
+				echo '<div class="widget link" id="' . esc_attr( "link-row-{$token}" ) . '">' , PHP_EOL;
 
 				self::linkField( $link, $token );
 
@@ -2411,13 +2416,13 @@ class cnEntryMetabox {
 
 						cnHTML::field(
 							array(
-								'type'     => 'hidden',
-								'class'    => '',
-								'id'       => 'link[' . $token . '][type]',
+								'type'   => 'hidden',
+								'class'  => '',
+								'id'     => 'link[' . $token . '][type]',
 								// 'options'  => $linkTypes,
 								// 'required' => FALSE,
-								'label'    => __( 'Type', 'connections' ),
-								'return'   => false,
+								'label'  => __( 'Type', 'connections' ),
+								'return' => false,
 							),
 							isset( $link->type ) && array_key_exists( $link->type, $linkTypes ) ? $link->type : key( $defaultType )
 						);
@@ -2558,11 +2563,11 @@ class cnEntryMetabox {
 			<div class="link-assignment">
 
 				<label>
-					<input type="radio" name="link[image]" value="<?php echo $token; ?>" <?php if ( isset( $link->image ) ) { checked( $link->image, true ); } ?>>
+					<input type="radio" name="link[image]" value="<?php echo esc_attr( $token ); ?>" <?php if ( isset( $link->image ) ) { checked( $link->image, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the image.', 'connections' ); ?>
 				</label>
 				<label>
-					<input type="radio" name="link[logo]" value="<?php echo $token; ?>" <?php if ( isset( $link->logo ) ) { checked( $link->logo, true ); } ?>>
+					<input type="radio" name="link[logo]" value="<?php echo esc_attr( $token ); ?>" <?php if ( isset( $link->logo ) ) { checked( $link->logo, true ); } ?>>
 					<?php esc_html_e( 'Assign link to the logo.', 'connections' ); ?>
 				</label>
 
@@ -2570,14 +2575,14 @@ class cnEntryMetabox {
 			<?php endif; ?>
 
 			<?php if ( isset( $link->id ) ) : ?>
-			<input type="hidden" name="link[<?php echo $token; ?>][id]" value="<?php echo $link->id; ?>">
+			<input type="hidden" name="<?php echo esc_attr( "link[{$token}][id]" ); ?>" value="<?php echo esc_attr( $link->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="link"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2615,7 +2620,7 @@ class cnEntryMetabox {
 
 		/*
 		 * Add "dummy" date objects to the results to equal the number of date fieldset which are to be
-		 * displayed by default. The "dummy" date objects rotate thru the active link types.
+		 * displayed by default. The "dummy" date objects rotate through the active link types.
 		 */
 		if ( $count > $dateCount = count( $dates ) ) {
 
@@ -2628,7 +2633,7 @@ class cnEntryMetabox {
 				next( $dateTypes );
 
 				// @todo Replace with cnEntry_Date object.
-				$date = new stdClass();
+				$date       = new stdClass();
 				$date->type = $type;
 
 				$dates[] = $date;
@@ -2642,7 +2647,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget date" id="date-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget date" id="' , esc_attr( "date-row-{$token}" ) , '">' , PHP_EOL;
 
 					self::dateField( $date, $token );
 
@@ -2764,14 +2769,14 @@ class cnEntryMetabox {
 			</div>
 
 			<?php if ( isset( $date->id ) ) : ?>
-				<input type="hidden" name="date[<?php echo $token; ?>][id]" value="<?php echo $date->id; ?>">
+				<input type="hidden" name="<?php echo esc_attr( "date[{$token}][id]" ); ?>" value="<?php echo esc_attr( $date->id ); ?>">
 			<?php endif; ?>
 
 			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="date"
-				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+				   data-token="<?php echo esc_attr( $token ); ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
 			<?php endif; ?>
 
@@ -2794,7 +2799,7 @@ class cnEntryMetabox {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$results =  $wpdb->get_results(
+		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT meta_key, meta_value, meta_id, entry_id FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d ORDER BY meta_key,meta_id",
 				$entry->getId()
@@ -2843,7 +2848,7 @@ class cnEntryMetabox {
 
 		?>
 
-		<table id="list-table" style="<?php echo ( empty( $results ) ? 'display: none;' : 'display: table;' ) ?>">
+		<table id="list-table" style="<?php echo ( empty( $results ) ? 'display: none;' : 'display: table;' ); ?>">
 			<thead>
 				<tr>
 					<th class="left"><?php _e( 'Name', 'connections' ); ?></th>
@@ -2860,23 +2865,23 @@ class cnEntryMetabox {
 				foreach ( $results as $metaID => $meta ) {
 
 					// Class added to alternate tr rows for CSS styling.
-					$alternate = ! isset( $alternate ) || $alternate == '' ? 'alternate' : '';
+					$alternate = ! isset( $alternate ) || '' == $alternate ? 'alternate' : '';
 
 					?>
 
-					<tr id="meta-<?php echo $meta['meta_id']; ?>" class="<?php echo $alternate; ?>">
+					<tr id="<?php echo esc_attr( "meta-{$meta['meta_id']}" ); ?>" class="<?php echo esc_attr( $alternate ); ?>">
 
 						<td class="left">
-							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][key]'><?php _e( 'Key', 'connections' ); ?></label>
-							<input name='meta[<?php echo $meta['meta_id']; ?>][key]' id='meta[<?php echo $meta['meta_id']; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
+							<label class="screen-reader-text" for='<?php echo esc_attr( "meta[{$meta['meta_id']}][key]" ); ?>'><?php _e( 'Key', 'connections' ); ?></label>
+							<input name='<?php echo esc_attr( "meta[{$meta['meta_id']}][key]" ); ?>' id='<?php echo esc_attr( "meta[{$meta['meta_id']}][key]" ); ?>' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ); ?>" />
 							<div class="submit">
-								<input type="submit" name="deletemeta[<?php echo $meta['meta_id']; ?>]" id="deletemeta[<?php echo $meta['meta_id']; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
+								<input type="submit" name="<?php echo esc_attr( "deletemeta[{$meta['meta_id']}]" ); ?>" id="<?php echo esc_attr( "deletemeta[{$meta['meta_id']}]" ); ?>" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
 							</div>
 						</td>
 
 						<td>
-							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
-							<textarea name='meta[<?php echo $meta['meta_id']; ?>][value]' id='meta[<?php echo $meta['meta_id']; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( _::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
+							<label class="screen-reader-text" for='<?php echo esc_attr( "meta[{$meta['meta_id']}][value]" ); ?>'><?php _e( 'Value', 'connections' ); ?></label>
+							<textarea name='<?php echo esc_attr( "meta[{$meta['meta_id']}][value]" ); ?>' id='<?php echo esc_attr( "meta[{$meta['meta_id']}][value]" ); ?>' rows="2" cols="30"><?php echo esc_textarea( _::maybeJSONencode( $meta['meta_value'] ) ); ?></textarea>
 						</td>
 
 					</tr>
@@ -2929,7 +2934,7 @@ class cnEntryMetabox {
 
 					<td id="newmetaleft" class="left">
 						<select id="metakeyselect" name="metakeyselect">
-							<?php echo $options; ?>
+							<?php echo $options; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</select>
 						<input class="hide-if-js" type=text id="metakeyinput" name="newmeta[99][key]" value=""/>
 						<a href="#postcustomstuff" class="postcustomstuff hide-if-no-js"> <span id="enternew"><?php _e( 'Enter New', 'connections' ); ?></span> <span id="cancelnew" class="hidden"><?php _e( 'Cancel', 'connections' ); ?></span></a>
@@ -2959,7 +2964,7 @@ class cnEntryMetabox {
 		if ( isset( $metabox['desc'] ) && ! empty( $metabox['desc'] ) ) {
 
 			printf(
-                '<p>%1$s</p>',
+				'<p>%1$s</p>',
 				esc_html( $metabox['desc'] )
 			);
 		}

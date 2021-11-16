@@ -19,15 +19,21 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 
+	/**
+	 * Class CN_Anniversary_Light_Template
+	 */
 	class CN_Anniversary_Light_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -44,23 +50,49 @@ if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',
 				'parts'       => array( 'css' => 'styles.css' ),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * CN_Anniversary_Light_Template constructor.
+		 *
+		 * @param cnTemplate $template Instance of the cnTemplate object.
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
-			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
+			$template->part(
+				array(
+					'tag'      => 'card',
+					'type'     => 'action',
+					'callback' => array(
+						__CLASS__,
+						'card',
+					),
+				)
+			);
+
+			$template->part(
+				array(
+					'tag'      => 'css',
+					'type'     => 'action',
+					'callback' => array(
+						$template,
+						'printCSS',
+					),
+				)
+			);
 		}
 
 		/**
-		 * @param cnEntry_vCard $entry
-		 * @param cnTemplate    $template
-		 * @param array         $atts
+		 * Callback to render the template.
+		 *
+		 * @param cnEntry_HTML $entry    Current instance of the cnEntry object.
+		 * @param cnTemplate   $template Instance of the cnTemplate object.
+		 * @param array        $atts     The shortcode attributes array.
 		 */
 		public static function card( $entry, $template, $atts ) {
 
@@ -72,7 +104,6 @@ if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 			switch ( $atts['year_type'] ) {
 
 				case 'original':
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();
@@ -86,7 +117,6 @@ if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 					break;
 
 				case 'since':
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();
@@ -102,7 +132,6 @@ if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 					break;
 
 				default:
-
 					if ( $entryDate instanceof cnEntry_Date ) {
 
 						$date = $entryDate->getDate();
@@ -116,7 +145,7 @@ if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 
 			?>
 
-			<span class="cn-entry-name" style=""><?php echo $entry->name; ?></span> <span class="cn-upcoming-date"><?php echo $formatted; ?></span>
+			<span class="cn-entry-name" style=""><?php echo esc_html( $entry->getName( array( 'format' => $atts['name_format'] ) ) ); ?></span> <span class="cn-upcoming-date"><?php echo esc_html( $formatted ); ?></span>
 
 			<?php
 		}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template HTML Output.
  *
@@ -10,11 +9,13 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * @var cnEntry_HTML $entry
+ */
 $entry->getNameBlock();
-
-echo $vCard->download();
+$entry->vcard();

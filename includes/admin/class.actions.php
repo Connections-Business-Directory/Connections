@@ -848,7 +848,7 @@ class cnAdminActions {
 			);
 		}
 
-		$path = isset( $_REQUEST['file']['path'] ) ? _sanitize::filePath( wp_unslash( $_REQUEST['file']['path'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$path = isset( $_REQUEST['file']['path'] ) ? _sanitize::filepath( wp_unslash( $_REQUEST['file']['path'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		if ( empty( $path ) || ! file_exists( $path ) || ! _validate::isCSV( $path ) ) {
 			wp_send_json_error(
@@ -1708,23 +1708,32 @@ class cnAdminActions {
 	/**
 	 * Delete entries in bulk.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * Nonce verification is done in the calling method.
+	 * Do not call without performing nonce verification.
+	 *
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function deleteEntryBulk() {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 
-		/*
-		 * Check whether the current user delete an entry.
-		 */
 		if ( current_user_can( 'connections_delete_entry' ) ) {
 
-			// @TODO $POST['id'] should be passed to the method as an attribute.
-			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) {
 
 				return;
 			}
 
-			cnEntry_Action::delete( absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			if ( is_array( $_POST['id'] ) ) {
+
+				$id = array_map( 'absint', $_POST['id'] );
+
+			} else {
+
+				$id = absint( $_POST['id'] );
+			}
+
+			cnEntry_Action::delete( $id );
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 
@@ -1732,7 +1741,7 @@ class cnAdminActions {
 
 			cnMessage::set( 'error', 'capability_delete' );
 		}
-
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 	/**

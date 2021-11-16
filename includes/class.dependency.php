@@ -76,7 +76,7 @@ class cnDependency {
 		// Deprecated utility functions.
 		require_once CN_PATH . 'includes/Utility/_deprecated.php';
 
-		// Deprecated Actions/Filters
+		// Deprecated Actions/Filters.
 		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
 		require_once CN_PATH . 'includes/inc.deprecated-filters.php';
 
@@ -84,10 +84,10 @@ class cnDependency {
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 		require_once CN_PATH . 'includes/inc.theme-compatibility.php';
 
-		// Sitemaps
+		// Sitemaps.
 		require_once CN_PATH . 'includes/Sitemaps/Sitemaps.php';
 
-		// Taxonomy
+		// Taxonomy.
 		require_once CN_PATH . 'includes/Taxonomy/functions.php';
 		require_once CN_PATH . 'includes/Taxonomy/Register.php';
 		require_once CN_PATH . 'includes/Taxonomy/Partial.php';
@@ -197,6 +197,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_date'           => 'includes/Utility/_date.php',
 			'Connections_Directory\Utility\_escape'         => 'includes/Utility/_escape.php',
 			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
+			'Connections_Directory\Utility\_html'           => 'includes/Utility/_html.php',
 			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
 			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',
 			'Connections_Directory\Utility\_url'            => 'includes/Utility/_url.php',

@@ -19,6 +19,8 @@ use WP_Widget;
 final class Widget extends WP_Widget {
 
 	/**
+	 * Instance of `Connections_Directory\Taxonomy`.
+	 *
 	 * @since 10.2
 	 * @var Taxonomy
 	 */
@@ -29,11 +31,13 @@ final class Widget extends WP_Widget {
 	 *
 	 * @since 10.2
 	 *
-	 * @param string   $id_base
-	 * @param string   $name
-	 * @param Taxonomy $taxonomy
-	 * @param array    $widget_options
-	 * @param array    $control_options
+	 * @param string   $id_base         Base ID for the widget, lowercase and unique.
+	 * @param string   $name            Name for the widget displayed on the configuration page.
+	 * @param Taxonomy $taxonomy        Instance of `Connections_Directory\Taxonomy`.
+	 * @param array    $widget_options  Widget options. See wp_register_sidebar_widget() for
+	 *                                  information on accepted arguments.
+	 * @param array    $control_options Widget control options. See wp_register_widget_control() for
+	 *                                  information on accepted arguments.
 	 */
 	public function __construct( $id_base, $name, $taxonomy, $widget_options = array(), $control_options = array() ) {
 
@@ -43,6 +47,8 @@ final class Widget extends WP_Widget {
 	}
 
 	/**
+	 * The widget default options.
+	 *
 	 * @since 10.2
 	 *
 	 * @return array
@@ -59,7 +65,7 @@ final class Widget extends WP_Widget {
 
 		_format::toBoolean( $defaults['force_home'] );
 
-		return$defaults;
+		return $defaults;
 	}
 
 	/**
@@ -67,7 +73,7 @@ final class Widget extends WP_Widget {
 	 *
 	 * @since 10.2
 	 *
-	 * @param array $instance
+	 * @param array $instance Current widget instance setting.
 	 */
 	public function form( $instance ) {
 
@@ -76,14 +82,12 @@ final class Widget extends WP_Widget {
 
 		$instance = apply_filters( 'Connections_Directory/Taxonomy/Widget/Form/Instance', $instance, $this );
 
-		$title = esc_attr( $instance['title'] );
-
 		do_action( 'Connections_Directory/Taxonomy/Widget/Form/Before', $instance, $this );
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _ex( 'Title:', 'widget title', 'connections' ) ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title ?>" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _ex( 'Title:', 'widget title', 'connections' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
 		</p>
 		<?php
 
@@ -95,8 +99,8 @@ final class Widget extends WP_Widget {
 	 *
 	 * @since 10.2
 	 *
-	 * @param array $new_instance
-	 * @param array $old_instance
+	 * @param array $new_instance Current widget instance setting.
+	 * @param array $old_instance Previous widget instance setting.
 	 *
 	 * @return array
 	 */
@@ -146,6 +150,7 @@ final class Widget extends WP_Widget {
 
 		/**
 		 * This filter is documented in includes/Taxonomy.php
+		 *
 		 * @see Taxonomy::registerContentBlock()
 		 */
 		$blockID = apply_filters( 'Connections_Directory/Taxonomy/Register/Content_Block/ID', $blockID );
@@ -158,7 +163,7 @@ final class Widget extends WP_Widget {
 			return;
 		}
 
-		// Setup the entry object
+		// Set up the entry object.
 		$entry = new cnEntry( $result );
 
 		// Configure the page where the entry link to.
@@ -169,7 +174,7 @@ final class Widget extends WP_Widget {
 			)
 		);
 
-		// Setup the taxonomy block.
+		// Set up the taxonomy block.
 		$block->useObject( $entry );
 
 		$block->set( 'widget', $this );
@@ -207,19 +212,20 @@ final class Widget extends WP_Widget {
 			$this->id_base
 		);
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action( 'Connections_Directory/Taxonomy/Widget/Before', $args, $instance, $this );
 
 		if ( 0 < strlen( $title ) ) {
 
-			echo $args['before_title'] . $title . $args['after_title'] . PHP_EOL;
+			echo $args['before_title'] . esc_html( $title ) . $args['after_title'] . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		echo $blockHTML;
+		// HTML is escaped in the Content Block action callback.
+		echo $blockHTML; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action( 'Connections_Directory/Taxonomy/Widget/After', $args, $instance, $this );
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

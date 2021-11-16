@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+
 /**
  * Class cnMessage
  *
@@ -298,25 +300,25 @@ class cnMessage extends WP_Error {
 
 			case 'error':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="error"><p><strong>' . esc_html__( 'ERROR', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
+					echo '<div id="message" class="error"><p><strong>' . esc_html__( 'ERROR', 'connections' ) . ': </strong>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 				break;
 
 			case 'success':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'SUCCESS', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
+					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'SUCCESS', 'connections' ) . ': </strong>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 				break;
 
 			case 'notice':
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'NOTICE', 'connections' ) . ': </strong>' . esc_html( $message ) . '</p></div>';
+					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'NOTICE', 'connections' ) . ': </strong>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 				break;
 
 			default:
 				$lambda = function() use ( $message ) {
-					echo '<div id="message" class="updated fade"><p>' . esc_html( $message ) . '</p></div>';
+					echo '<div id="message" class="updated fade"><p>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 		}
 

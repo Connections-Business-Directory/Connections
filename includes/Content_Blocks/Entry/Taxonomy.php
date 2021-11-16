@@ -8,6 +8,7 @@ use cnRetrieve;
 use cnSanitize;
 use cnTerm;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 
 /**
@@ -205,7 +206,7 @@ class Taxonomy extends Content_Block {
 
 			$label = sprintf(
 				'<%1$s class="cn-term-label">%2$s</%1$s> ',
-				$this->get( 'label_tag' ),
+				_escape::tagName( $this->get( 'label_tag' ) ),
 				esc_html( $this->get( 'label', '' ) )
 			);
 		}
@@ -261,7 +262,7 @@ class Taxonomy extends Content_Block {
 				"Connections_Directory/Content_Block/Entry/Taxonomy/{$this->taxonomy->getSlug()}/Term/Item",
 				sprintf(
 					'<%1$s class="cn-term-name cn-term-%2$d">%3$s</%1$s>',
-					$this->get( 'item_tag' ),
+					_escape::tagName( $this->get( 'item_tag' ) ),
 					$term->term_id,
 					$text
 				),
@@ -308,12 +309,12 @@ class Taxonomy extends Content_Block {
 			$items
 		);
 
-		echo apply_filters(
+		echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			"Connections_Directory/Content_Block/Entry/Taxonomy/{$this->taxonomy->getSlug()}/Term/Container",
 			sprintf(
 				'<%1$s class="cn-terms">%2$s</%1$s>' . PHP_EOL,
-				$this->get( 'container_tag' ),
-				$label . $html
+				_escape::tagName( $this->get( 'container_tag' ) ),
+				$label . $html // Both `$label` and `$html` are escaped.
 			),
 			$properties
 		);

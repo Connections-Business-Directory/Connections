@@ -1044,16 +1044,10 @@ class cnEntry_Action {
 	/**
 	 * Delete one or more entries.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
-	 * @uses   Connections_Directory()
-	 * @uses   wp_parse_id_list()
-	 * @uses   cnRetrieve::entry()
-	 * @uses   cnEntry::delete()
-	 * @uses   do_action()
-	 *
-	 * @param  mixed $ids array|int The entry IDs to delete.
+	 * @param int|int[]|string $ids The entry IDs to delete.
+	 *                              Can be supplied as a singe ID, an array of IDs, or a string of comma delimited IDs.
 	 *
 	 * @return bool
 	 */
@@ -1075,7 +1069,7 @@ class cnEntry_Action {
 			$entry = new cnEntry( $instance->retrieve->entry( $id ) );
 			$entry->delete( $id );
 
-			// Delete any meta data associated with the entry.
+			// Delete any metadata associated with the entry.
 			self::meta( 'delete', $id );
 		}
 

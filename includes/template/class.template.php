@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for working with a template object.
  *
@@ -10,121 +9,114 @@
  * @since       0.7.6
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
 /**
  * Class cnTemplate
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnTemplate {
 
 	/**
 	 * Template name.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $name;
 
 	/**
 	 * Template slug [template directory name for legacy templates, both default and custom].
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $slug;
 
 	/**
 	 * Template type.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $type;
 
 	/**
 	 * Template version.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $version;
 
 	/**
 	 * Template's author's name.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $author;
 
 	/**
 	 * Template's author's home page.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $authorURL;
 
 	/**
 	 * Template description.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $description;
 
 	/**
 	 * Set TRUE if the template is NOT one of the supplied templates.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (bool)
+	 * @var bool
 	 */
 	private $custom;
 
 	/**
 	 * Set TRUE if the template should use the legacy functions.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (bool)
+	 * @var bool
 	 */
 	private $legacy;
 
 	/**
 	 * The template base path.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $path;
 
 	/**
 	 * Template URL.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $url;
 
 	/**
 	 * Template thumbnail file name.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $thumbnail;
 
@@ -132,36 +124,44 @@ class cnTemplate {
 	 * Template functions file name.
 	 * NOTE: This is only set for legacy templates.
 	 *
-	 * @access private
 	 * @since 0.7.6
-	 * @var (string)
+	 * @var string
 	 */
 	private $functions;
 
 	/**
 	 * Registry of templates parts.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.6
-	 * @var (array)
+	 * @var array
 	 */
 	public $parts = array();
 
 	/**
+	 * Instance of Template object.
+	 *
 	 * @since 8.39
-	 * @var object
+	 * @var static
 	 */
 	private $me;
 
+	/**
+	 * Features that the template supports.
+	 *
+	 * @since unknown
+	 *
+	 * @var array
+	 */
 	private $supports = array();
 
 	/**
-	 * Setup the template.
+	 * Set up the template.
 	 *
 	 * @access public
 	 * @since  0.7.6
 	 *
-	 * @param  object $atts
+	 * @param object $atts Template properties.
 	 */
 	public function __construct( $atts ) {
 
@@ -182,9 +182,9 @@ class cnTemplate {
 		$this->parts       = $atts->parts;
 		// $this->supports    = $atts->supports;
 
-		/**
+		/*
 		 * @todo This code is commented out for now because it was implemented in @see cnTemplate_Customizer().
-		 *       What needs to be done is the code extracted out of the cnTemplate_Customizer class into its own class
+		 *       What needs to be done is the code extracted out of the cnTemplate_Customizer class into its own class,
 		 *       so it can be shared with this class and cnTemplate_Customizer.
 		 */
 		$this->setupTemplateFeatures( $atts->supports );
@@ -200,7 +200,7 @@ class cnTemplate {
 		$templatePath = $this->locate( $this->fileNames( 'card' ) );
 		// var_dump($templatePath);
 
-		if ( $templatePath !== false ) {
+		if ( false !== $templatePath ) {
 			// var_dump($templatePath);
 			$templatePath = addslashes( $templatePath );
 			// The action should only be added once.
@@ -237,7 +237,7 @@ class cnTemplate {
 		$cssPath = $this->locate( $this->fileNames( $this->slug, null, null, 'css' ) );
 		// var_dump($cssPath);
 
-		if ( $cssPath !== false ) {
+		if ( false !== $cssPath ) {
 			// var_dump($cssPath);
 
 			$this->parts['css-path'] = $cssPath;
@@ -250,7 +250,7 @@ class cnTemplate {
 				// The action should only be added once.
 				if ( ! has_action( 'cn_template_inline_css-' . $this->slug ) ) {
 
-					add_action( 'cn_template_inline_css-' . $this->slug , array( $this, 'printCSS' ), 10, 3 );
+					add_action( 'cn_template_inline_css-' . $this->slug, array( $this, 'printCSS' ), 10, 3 );
 				}
 
 			} else {
@@ -267,7 +267,7 @@ class cnTemplate {
 		// var_dump($customCSS);
 
 		// If a custom CSS file was found, lets register it.
-		if ( $customCSS  !== false ) {
+		if ( false !== $customCSS ) {
 			// var_dump($customCSS);
 
 			$this->parts['css-custom-path'] = $customCSS;
@@ -278,7 +278,7 @@ class cnTemplate {
 		$jsPath = $this->locate( $this->fileNames( $this->slug, null, null, 'js' ) );
 		// var_dump($jsPath)
 
-		if ( $jsPath !== false ) {
+		if ( false !== $jsPath ) {
 			// var_dump($jsPath);
 
 			$this->parts['js-path'] = $jsPath;
@@ -292,12 +292,12 @@ class cnTemplate {
 		}
 
 		// Only legacy templates had a `functions.php` so only search for it on legacy templates.
-		if ( $this->legacy == true ) {
+		if ( true === $this->legacy ) {
 
 			$functionsPath = $this->locate( $this->fileNames( 'functions', null, null, 'php' ) );
 			// var_dump($functionsPath);
 
-			if ( $functionsPath !== false ) {
+			if ( false !== $functionsPath ) {
 				// var_dump($functionsPath);
 
 				// The action should only be added once.
@@ -315,9 +315,9 @@ class cnTemplate {
 	/**
 	 * Get the template name.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (string)
+	 *
+	 * @return string
 	 */
 	public function getName() {
 		return $this->name;
@@ -326,9 +326,9 @@ class cnTemplate {
 	/**
 	 * Get the template slug.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (string)
+	 *
+	 * @return string
 	 */
 	public function getSlug() {
 		return $this->slug;
@@ -337,9 +337,9 @@ class cnTemplate {
 	/**
 	 * Get the template type.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (string)
+	 *
+	 * @return string
 	 */
 	public function getType() {
 		return $this->type;
@@ -348,9 +348,9 @@ class cnTemplate {
 	/**
 	 * Get the template version.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (string)
+	 *
+	 * @return string
 	 */
 	public function getVersion() {
 		return $this->version;
@@ -359,9 +359,9 @@ class cnTemplate {
 	/**
 	 * Get the template author name.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (string)
+	 *
+	 * @return string
 	 */
 	public function getAuthor() {
 		return $this->author;
@@ -370,8 +370,7 @@ class cnTemplate {
 	/**
 	 * Get the template author's URL.
 	 *
-	 * @access public
-	 * @since  0.7.6
+	 * @since 0.7.6
 	 *
 	 * @return string
 	 */
@@ -383,9 +382,9 @@ class cnTemplate {
 	/**
 	 * Get the template description.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (string)
+	 *
+	 * @return string
 	 */
 	public function getDescription() {
 		return $this->description;
@@ -395,21 +394,21 @@ class cnTemplate {
 	 * Whether the template is custom or not.
 	 * Definition: A custom template is a template not bundled with core.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (bool)
+	 *
+	 * @return bool
 	 */
 	public function isCustom() {
 		return $this->custom;
 	}
 
 	/**
-	 * Whether or not a template is legacy or not.
+	 * Whether a template is legacy or not.
 	 * NOTE: A legacy template is a template that was developed before 0.7.6 and is not a plugin.
 	 *
-	 * @access public
 	 * @since 0.7.6
-	 * @return (bool)
+	 *
+	 * @return bool
 	 */
 	public function isLegacy() {
 		return $this->legacy;
@@ -418,9 +417,7 @@ class cnTemplate {
 	/**
 	 * Get the template base path.
 	 *
-	 * @access public
-	 * @since  0.7.6
-	 * @uses   trailingslashit()
+	 * @since 0.7.6
 	 *
 	 * @return string
 	 */
@@ -439,7 +436,7 @@ class cnTemplate {
 		 */
 		if ( empty( $this->path ) && ! empty( $this->class ) ) {
 
-			$reflector = new ReflectionClass( $this->class );
+			$reflector  = new ReflectionClass( $this->class );
 			$this->path = trailingslashit( dirname( $reflector->getFileName() ) );
 			// var_dump( $this->path );
 		}
@@ -450,10 +447,7 @@ class cnTemplate {
 	/**
 	 * Get the template base URL.
 	 *
-	 * @access public
-	 * @since  0.7.6
-	 * @uses   cnURL::fromPath()
-	 * @uses   getPath()
+	 * @since 0.7.6
 	 *
 	 * @return string
 	 */
@@ -474,10 +468,9 @@ class cnTemplate {
 	}
 
 	/**
-	 * Get the template thumbnail file name.
+	 * Get the template thumbnail filename.
 	 *
-	 * @access public
-	 * @since  0.7.6
+	 * @since 0.7.6
 	 *
 	 * @return array
 	 */
@@ -496,7 +489,7 @@ class cnTemplate {
 	/**
 	 * @since 8.39
 	 *
-	 * @param object $object
+	 * @param cnTemplate $object Instance of the template object.
 	 */
 	public function setMe( $object ) {
 
@@ -506,7 +499,7 @@ class cnTemplate {
 	/**
 	 * @since 8.39
 	 *
-	 * @return object
+	 * @return static
 	 */
 	public function getSelf() {
 
@@ -546,8 +539,7 @@ class cnTemplate {
 	/**
 	 * Retrieve a template setting value by setting ID slug.
 	 *
-	 * @access public
-	 * @since  8.6.7
+	 * @since 8.6.7
 	 *
 	 * @param string $key     The setting ID slug in which to retrieve the setting value.
 	 * @param mixed  $default The default setting value if the requested $key is not set or does not exist.
@@ -582,12 +574,10 @@ class cnTemplate {
 	 * only the core templates used this structure. The commercial templates all
 	 * included their template files.
 	 *
-	 * @access public
 	 * @since  0.7.6
 	 * @deprecated since 0.8
-	 * @param  $atts array The part options array.
 	 *
-	 * @return void
+	 * @param array $atts The part options array.
 	 */
 	public function part( $atts = array() ) {
 
@@ -595,44 +585,31 @@ class cnTemplate {
 			'tag'      => '',
 			'type'     => '',
 			'callback' => '',
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( $atts['type'] == 'action' ) {
+		if ( 'action' === $atts['type'] ) {
 
 			switch ( $atts['tag'] ) {
 
-				case 'card':
-
-					if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) ) {
-
-						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );
-
-						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , $atts['callback'], 10, 3 );
-					}
-
-					break;
-
 				case 'card_single':
-
+				case 'card':
 					if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) ) {
 
 						add_action( 'cn_template-' . $this->slug, $atts['callback'], 10, 3 );
 
-						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , $atts['callback'], 10, 3 );
+						add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug, $atts['callback'], 10, 3 );
 					}
 
 					break;
 
 				case 'css':
-
 					// code here...
 
 					break;
 
 				case 'js':
-
 					if ( ! has_action( 'cn_template_enqueue_js-' . $this->slug ) ) {
 
 						add_action( 'cn_template_enqueue_js-' . $this->slug, $atts['callback'], 10, 3 );
@@ -646,17 +623,14 @@ class cnTemplate {
 	}
 
 	/**
-	 * Locate the file paths of the template, CSS and JS files
-	 * based on the supplied array of file names. The file name
-	 * array should be in order of highest priority first, lowest
-	 * priority last.
+	 * Locate the file paths of the template, CSS and JS files based on the supplied array of file names.
+	 * The filename array should be in order of the highest priority first, the lowest priority last.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @uses   filePaths()
-	 * @param  array  $files An indexed array of file names to search for.
+	 * @since 0.8
 	 *
-	 * @return string        The absolution file system path to the located file.
+	 * @param array $files An indexed array of file names to search for.
+	 *
+	 * @return string The absolution file system path to the located file.
 	 */
 	private function locate( $files ) {
 
@@ -702,8 +676,7 @@ class cnTemplate {
 	 * Check to see if a minified file exists for the supplied CSS|JS template resource and return its
 	 * absolute server path.
 	 *
-	 * @access private
-	 * @since  8.2.8
+	 * @since 8.2.8
 	 *
 	 * @param string $filePath Absolute server path to CSS|JS template resource file.
 	 *
@@ -740,21 +713,13 @@ class cnTemplate {
 	 * The file paths is an indexed array where the highest priority path
 	 * is first and the lowest priority is last.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @uses   trailingslashit()
-	 * @uses   is_child_theme()
-	 * @uses   trailingslashit()
-	 * @uses   get_stylesheet_directory()
-	 * @uses   get_template_directory()
-	 * @uses   getPath()
-	 * @uses   apply_filters()
+	 * @since 0.8
 	 *
 	 * @return array An indexed array of file paths.
 	 */
 	private function filePaths() {
 
-		$path  = array();
+		$path = array();
 
 		$template_directory = trailingslashit( 'connections-templates' );
 
@@ -787,16 +752,14 @@ class cnTemplate {
 	 * The file names is an index array of file names where the
 	 * highest priority is first and the lowest priority is last.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @uses   apply_filters()
-	 * @uses   cnQuery::getVar()
-	 * @param  string $base The base file name. Typically `card` for a template file and the template slug for CSS and JS files.
-	 * @param  string $name The template part name; such as `single` or `category`.
-	 * @param  string $slug The template part slug; such as an entry slug or category slug.
-	 * @param  string $ext  [optional] The template file name extension. Defaults to `php`.
+	 * @since 0.8
 	 *
-	 * @return array        An indexed array of file names to search for.
+	 * @param string      $base The base file name. Typically, `card` for a template file and the template slug for CSS and JS files.
+	 * @param string|null $name The template part name; such as `single` or `category`.
+	 * @param string|null $slug The template part slug; such as an entry slug or category slug.
+	 * @param string      $ext  [optional] The template file name extension. Defaults to `php`.
+	 *
+	 * @return array An indexed array of file names to search for.
 	 */
 	private function fileNames( $base, $name = null, $slug = null, $ext = 'php' ) {
 
@@ -837,7 +800,7 @@ class cnTemplate {
 
 		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-			$region  = $this->queryVarSlug( cnQuery::getVar( 'cn-region' ) );
+			$region = $this->queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = $this->fileName( $base, 'region', $region, $ext );
 			$files[] = $this->fileName( $base, 'region', null, $ext );
@@ -893,13 +856,13 @@ class cnTemplate {
 		/**
 		 * Allow template choices to be filtered.
 		 *
-		 * The resulting array should be in the order of most specific first, least specific last.
+		 * The resulting array should be in the order of most specific first, the least specific last.
 		 * e.g. 0 => card-single.php, 1 => card.php
 		 */
 		$files = apply_filters( 'cn_template_file_names-' . $this->slug, $files, $base, $name, $slug, $ext );
 		// var_dump( $files );
 
-		// Sort the files based on priority
+		// Sort the files based on priority.
 		ksort( $files, SORT_NUMERIC );
 		// var_dump( $files );
 
@@ -909,15 +872,14 @@ class cnTemplate {
 	/**
 	 * Create file name from supplied attributes.
 	 *
-	 * @access private
-	 * @since  0.8
+	 * @since 0.8
 	 *
-	 * @param  string $base The base file name.
-	 * @param  string $name The template part name.
-	 * @param  string $slug The template part slug.
-	 * @param  string $ext  The template file name extension.
+	 * @param string $base The base file name.
+	 * @param string $name The template part name.
+	 * @param string $slug The template part slug.
+	 * @param string $ext  The template file name extension.
 	 *
-	 * @return string       The file name.
+	 * @return string The file name.
 	 */
 	private function fileName( $base, $name = null, $slug = null, $ext = 'php' ) {
 
@@ -932,12 +894,11 @@ class cnTemplate {
 	/**
 	 * Takes a supplied query var and creates a file system safe slug.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @uses   sanitize_file_name()
-	 * @param  string $queryVar A query var.
+	 * @since 0.8
 	 *
-	 * @return string           A file system safe string.
+	 * @param string $queryVar A query var.
+	 *
+	 * @return string A file system safe string.
 	 */
 	private function queryVarSlug( $queryVar ) {
 
@@ -948,27 +909,25 @@ class cnTemplate {
 	 * This is the callback function that will add the legacy file names to
 	 * the file name array.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @see    __construct()
-	 * @see    fileNames()
-	 * @param  array  $files An indexed array of file names to search for.
-	 * @param  string $base The base file name. Passed via filter from fileNames().
-	 * @param  string $name The template part name. Passed via filter from fileNames().
-	 * @param  string $slug The template part slug. Passed via filter from fileNames().
-	 * @param  string $ext  The template file name extension. Passed via filter from fileNames().
+	 * @internal
+	 * @since 0.8
 	 *
-	 * @return array        An indexed array of file names to search for.
+	 * @param array  $files An indexed array of file names to search for.
+	 * @param string $base The base file name. Passed via filter from fileNames().
+	 * @param string $name The template part name. Passed via filter from fileNames().
+	 * @param string $slug The template part slug. Passed via filter from fileNames().
+	 * @param string $ext  The template file name extension. Passed via filter from fileNames().
+	 *
+	 * @return array An indexed array of file names to search for.
 	 */
 	public function legacyFileNames( $files, $base, $name, $slug, $ext ) {
 
 		switch ( $ext ) {
 
 			case 'php':
-
-				// If this is a legacy template which has a `functions.php` file and it being searched for thru
+				// If this is a legacy template which has a `functions.php` file and it being searched for through
 				// @see locate(), do not add the legacy 'template.php' filename.
-				if ( $base == 'functions' ) {
+				if ( 'functions' === $base ) {
 
 					// Only the base name needs to be searched for when searching for `functions.php`.
 					$files = array( array_pop( $files ) );
@@ -976,7 +935,7 @@ class cnTemplate {
 					break;
 				}
 
-				// If this is a legacy template, add the file 'template.php' as the least priority ( last in the file name array )
+				// If this is a legacy template, add the file 'template.php' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['card'] ) && ! empty( $this->parts['card'] ) ) {
 					$files[] = $this->parts['card'];
 				}
@@ -984,8 +943,7 @@ class cnTemplate {
 				break;
 
 			case 'css':
-
-				// If this is a legacy template, add the file 'styles.css' as the least priority ( last in the file name array )
+				// If this is a legacy template, add the file 'styles.css' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['css'] ) && ! empty( $this->parts['css'] ) ) {
 					$files[] = $this->parts['css'];
 				}
@@ -993,8 +951,7 @@ class cnTemplate {
 				break;
 
 			case 'js':
-
-				// If this is a legacy template, add the file 'template.js' as the least priority ( last in the file name array )
+				// If this is a legacy template, add the file 'template.js' as the least priority ( last in the file name array ).
 				if ( isset( $this->parts['js'] ) && ! empty( $this->parts['js'] ) ) {
 					$files[] = $this->parts['js'];
 				}
@@ -1013,17 +970,16 @@ class cnTemplate {
 	 * The minified file names will only be added if SCRIPT_DEBUG is defined
 	 * and set to true.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @see    __construct()
-	 * @see    fileNames()
-	 * @param  array  $files An indexed array of file names to search for.
-	 * @param  string $base The base file name. Passed via filter from fileNames().
-	 * @param  string $name The template part name. Passed via filter from fileNames().
-	 * @param  string $slug The template part slug. Passed via filter from fileNames().
-	 * @param  string $ext  The template file name extension. Passed via filter from fileNames().
+	 * @internal
+	 * @since 0.8
 	 *
-	 * @return array        An indexed array of file names to search for.
+	 * @param array  $files An indexed array of file names to search for.
+	 * @param string $base The base file name. Passed via filter from fileNames().
+	 * @param string $name The template part name. Passed via filter from fileNames().
+	 * @param string $slug The template part slug. Passed via filter from fileNames().
+	 * @param string $ext  The template file name extension. Passed via filter from fileNames().
+	 *
+	 * @return array An indexed array of file names to search for.
 	 */
 	public function minifiedFileNames( $files, $base, $name, $slug, $ext ) {
 
@@ -1033,7 +989,7 @@ class cnTemplate {
 			return $files;
 		}
 
-		if ( $ext == 'css' || $ext == 'js' ) {
+		if ( 'css' === $ext || 'js' === $ext ) {
 
 			$i = 0;
 
@@ -1064,12 +1020,10 @@ class cnTemplate {
 	 * via a call to cnShortcode::clearFilterRegistry(). This is to ensure that the template
 	 * paths are only searched in that instance of the shortcode.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @uses   trailingslashit()
-	 * @uses   wp_upload_dir()
-	 * @uses   is_child_theme()
-	 * @param  array  $path An index array containing the file paths to be searched.
+	 * @internal
+	 * @since 0.8
+	 *
+	 * @param array $path An index array containing the file paths to be searched.
 	 *
 	 * @return array
 	 */
@@ -1100,54 +1054,52 @@ class cnTemplate {
 	 * NOTE: This has to be included within the class because legacy templates
 	 * `functions.php` needs to be included within scope of $this.
 	 *
-	 * @access private
-	 * @since  0.7.6
+	 * @internal
+	 * @since      0.7.6
+	 * @deprecated 10.4.6
 	 *
 	 * @return void
 	 */
 	public function includeFunctions() {
+
+		_deprecated_function( __METHOD__, '10.4.6' );
 
 		// var_dump( $this->path . $this->functions );
 		include_once $this->path . $this->functions;
 	}
 
 	/**
-	 * Loads the CSS file while replacing %%PATH%% with the URL
-	 * to the template.
+	 * Loads the CSS file while replacing %%PATH%% with the URL to the template.
 	 *
-	 * @access private
-	 * @since  0.7.6
+	 * @internal
+	 * @since      0.7.6
+	 * @deprecated 10.4.6
 	 */
 	public function printCSS() {
+
+		_deprecated_function( __METHOD__, '10.4.6' );
 
 		$out     = '';
 		$search  = array( "\r\n", "\r", "\n", "\t", '%%PATH%%' );
 		$replace = array( ' ', ' ', ' ', ' ', $this->getURL() );
 
-		/**
-		 * @TODO Create a page pre-process function so the CSS outputs only once in the page head.
-		 */
-
 		// Loads the CSS style in the body, valid HTML5 when set with the 'scoped' attribute.
 		// However, if the sever is running the pagespeed mod, the scoped setting will cause the CSS
 		// not to be applied because it is moved to the page head where it belongs.
 		$out .= '<style type="text/css">';
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
+
 		$out .= str_replace( $search, $replace, @file_get_contents( $this->parts['css-path'] ) );
 		$out .= '</style>';
 
-		echo trim( $out ) . PHP_EOL;
+		// Static CSS file is loaded.
+		echo trim( $out ) . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
 	 * Enqueue the template CSS file.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @uses   apply_filters()
-	 * @uses   wp_enqueue_style()
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.8
 	 */
 	public function enqueueCSS() {
 
@@ -1183,9 +1135,8 @@ class cnTemplate {
 	/**
 	 * Enqueues the template's JS in the theme's footer.
 	 *
-	 * @access private
-	 * @since  0.7.6
-	 * @return void
+	 * @internal
+	 * @since 0.7.6
 	 */
 	public function enqueueScript() {
 

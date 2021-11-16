@@ -9,6 +9,7 @@ use cnTemplate as Template;
 use cnTemplateFactory;
 use Connections_Directory\Content_Block;
 use Connections_Directory\Entry\Functions as Entry_Helper;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Related
@@ -82,7 +83,7 @@ class Related extends Content_Block {
 			$settings
 		);
 
-		$settingsJSON = htmlspecialchars( wp_json_encode( $settings ), ENT_QUOTES, 'UTF-8' );
+		// $settingsJSON = htmlspecialchars( wp_json_encode( $settings ), ENT_QUOTES, 'UTF-8' );
 
 		$classNames = array( 'cn-list', 'slick-slider-block', 'slick-slider-content-block' );
 
@@ -107,8 +108,9 @@ class Related extends Content_Block {
 			$template
 		);
 
-		echo PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="' . 'slick-slider-content-block-' . self::ID . '-' . strtolower( $this->shortName ) . '" data-slick-slider-settings="' . $settingsJSON . '">' . PHP_EOL;
-		echo $this->renderTemplate( $template, $related, $carousel );
+		echo PHP_EOL . '<div class="' . _escape::classNames( $classNames ) . '" id="' . _escape::id( 'slick-slider-content-block-' . self::ID . '-' . strtolower( $this->shortName ) ) . '" data-slick-slider-settings="' . _escape::json( $settings ) . '">' . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// HTML is escaped in template.
+		echo $this->renderTemplate( $template, $related, $carousel ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '</div><!--.slick-slider-section-->' . PHP_EOL;
 
 		do_action(

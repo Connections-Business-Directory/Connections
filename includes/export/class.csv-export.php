@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The base CSV Export Class.
  *
@@ -10,15 +9,20 @@
  * @since       8.5
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Utility\_validate;
 
 /**
  * cnCSV_Export Class
  *
  * @since 8.5
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnCSV_Export {
 
@@ -39,7 +43,7 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @param string $string
+	 * @param string $string The string to quote.
 	 *
 	 * @return string
 	 */
@@ -54,7 +58,7 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @param string $string
+	 * @param string $string The string to escape and quote.
 	 *
 	 * @return string
 	 */
@@ -66,12 +70,19 @@ class cnCSV_Export {
 	/**
 	 * Escape the double-quotes.
 	 *
+	 * Malicious input can inject formulas into CSV files, opening up the possibility
+	 * for phishing attacks and disclosure of sensitive information.
+	 *
+	 * Additionally, Excel exposes the ability to launch arbitrary commands through
+	 * the DDE protocol.
+	 *
+	 * @link http://www.contextis.com/resources/blog/comma-separated-vulnerabilities/
+	 * @link https://hackerone.com/reports/72785
+	 *
 	 * @since 8.5.1
 	 * @since 9.7   Add protection against CSV Injection, also known as Formula Injection.
-	 *              Add filter `add_filter( 'cn_csv_export_suspicious_value_prefix', '__return_empty_string' );`
-	 *              to remove suspicious string prefix.
 	 *
-	 * @param string $string
+	 * @param string $string The string to escape.
 	 *
 	 * @return string
 	 */
@@ -81,22 +92,15 @@ class cnCSV_Export {
 		$pattern = '/^([=@\+\-])/';
 
 		/**
-		 * If {$string} begins with suspect character, prefix the {$string} with a warning.
+		 * If {$string} begins with suspect character, prefix the {$string} with an apostrophe/single-quote.
+		 * If a valid float, including a negative, do not prefix.
 		 */
-		if ( 1 === preg_match( $pattern, $string ) ) {
+		if ( 1 === preg_match( $pattern, $string ) &&
+			 ! _validate::isFloat( $string )
+		) {
 
-			$prefix = __( '(Security Alert: Suspicious content detected.)', 'connections' );
-			$prefix = apply_filters( 'cn_csv_export_suspicious_value_prefix', $prefix, $string );
-
-			/**
-			 * Protect against a translation attack.
-			 */
-			if ( 1 === preg_match( $pattern, $prefix ) ) {
-
-				$prefix = '\'' . $prefix;
-			}
-
-			$string = preg_replace( $pattern, "{$prefix} $1", $string );
+			$prefix = "'";
+			$string = preg_replace( $pattern, "{$prefix}$1", $string );
 		}
 
 		return str_replace( '"', '""', $string );
@@ -108,10 +112,7 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @uses   apply_filters()
-	 * @uses   current_user_can()
-	 *
-	 * @return bool Whether or not current user can export.
+	 * @return bool Whether current user can export.
 	 */
 	public function can_export() {
 
@@ -147,9 +148,6 @@ class cnCSV_Export {
 	 * @access public
 	 * @since  8.5
 	 *
-	 * @uses   cnCSV_Export::columns()
-	 * @uses   apply_filters()
-	 *
 	 * @return array $cols Array of the columns names.
 	 */
 	public function getColumns() {
@@ -164,8 +162,6 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   apply_filters()
 	 *
 	 * @return array $data Data for Export
 	 */
@@ -204,14 +200,13 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   cnCSV_Export::getColumns()
 	 */
 	public function writeHeaders() {
 
-		$headers = array_map( array( $this, 'addSlashesAndQuote' ), $this->getColumns() );
+		$headers = array_map( array( $this, 'escapeAndQuote' ), $this->getColumns() );
 
-		echo implode( ',', $headers ) , "\r\n";
+		// `$headers` array is run through an escaping method for CSV data.
+		echo implode( ',', $headers ) , "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -219,17 +214,13 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   cnCSV_Export::getData()
-	 * @uses   cnCSV_Export::getColumns()
-	 * @uses   cnCSV_Export::addQuotes()
 	 */
 	public function writeRows() {
 
 		$data = $this->getData();
 		$cols = $this->getColumns();
 
-		// Output each row
+		// Output each row.
 		foreach ( $data as $row ) {
 
 			$count = count( $cols );
@@ -240,7 +231,7 @@ class cnCSV_Export {
 				// Make sure the column is valid.
 				if ( array_key_exists( $id, $cols ) ) {
 
-					echo $this->addQuotes( $value );
+					echo $this->escapeAndQuote( $value ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo $i == $count ? '' : ',';
 					$i ++;
 				}
@@ -260,14 +251,14 @@ class cnCSV_Export {
 
 		ignore_user_abort( true );
 
-		//if ( ! edd_is_func_disabled( 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) {
-		//	set_time_limit( 0 );
-		//}
+		// if ( ! edd_is_func_disabled( 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) {
+		// 	set_time_limit( 0 );
+		// }
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename=cn-export-' . $this->type . '-' . date( 'm-d-Y' ) . '.csv' );
-		header( "Expires: 0" );
+		header( 'Expires: 0' );
 
 		$addBOM = apply_filters( 'cn_export_add_bom', true );
 
@@ -292,11 +283,6 @@ class cnCSV_Export {
 	 *
 	 * @access public
 	 * @since  8.5
-	 *
-	 * @uses   wp_die()
-	 * @uses   cnCSV_Export::headers()
-	 * @uses   cnCSV_Export::writeHeaders()
-	 * @uses   cnCSV_Export::writeRows()
 	 */
 	public function download() {
 

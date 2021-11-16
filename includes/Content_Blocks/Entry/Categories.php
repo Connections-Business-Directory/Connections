@@ -5,9 +5,9 @@ namespace Connections_Directory\Content_Blocks\Entry;
 use cnEntry;
 use cnFormatting;
 use cnSanitize;
-use cnTemplatePart;
 use cnTerm;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 
 /**
@@ -18,21 +18,17 @@ use function Connections_Directory\Taxonomy\Partial\getTermParents;
 class Categories extends Content_Block {
 
 	/**
+	 * The Content Block ID.
+	 *
 	 * @since 9.7
 	 * @var string
 	 */
 	const ID = 'entry-categories';
 
-	///**
-	// * @since 9.7
-	// * @var array
-	// */
-	// private $properties = array();
-
 	/**
 	 * Entry_Categories constructor.
 	 *
-	 * @param string $id
+	 * @param string $id The Content Block ID.
 	 */
 	public function __construct( $id ) {
 
@@ -49,6 +45,8 @@ class Categories extends Content_Block {
 	}
 
 	/**
+	 * The default properties of the Content Block.
+	 *
 	 * @since 9.7
 	 *
 	 * @return array {
@@ -72,9 +70,9 @@ class Categories extends Content_Block {
 	 *                                    Default: ', '
 	 *     @type string $parent_separator The separator to be used when displaying the category's hierarchy.
 	 *                                    Default: ' &raquo; '
-	 *     @type bool   $link             Whether or not render the categories as permalinks.
+	 *     @type bool   $link             Whether to render the categories as permalinks.
 	 *                                    Default: false
-	 *     @type bool   $parents          Whether or not to display the category hierarchy.
+	 *     @type bool   $parents          Whether to display the category hierarchy.
 	 *                                    Default: false
 	 *     @type int    $child_of         Term ID to retrieve child terms of.
 	 *                                    If multiple taxonomies are passed, $child_of is ignored.
@@ -107,10 +105,12 @@ class Categories extends Content_Block {
 	}
 
 	/**
+	 * Set a Content Block property value by ID.
+	 *
 	 * @since 9.7
 	 *
-	 * @param string $property
-	 * @param mixed  $value
+	 * @param string $property The property name.
+	 * @param mixed  $value    The property value.
 	 */
 	public function set( $property, $value ) {
 
@@ -123,6 +123,8 @@ class Categories extends Content_Block {
 	}
 
 	/**
+	 * Callback for the `permission_callback` parameter.
+	 *
 	 * @since 9.7
 	 *
 	 * @return bool
@@ -133,7 +135,7 @@ class Categories extends Content_Block {
 	}
 
 	/**
-	 * Displays the category list in a HTML list or custom format.
+	 * Displays the category list in an HTML list or custom format.
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_the_category_list() in WordPress core ../wp-includes/category-template.php
 	 *
@@ -171,7 +173,7 @@ class Categories extends Content_Block {
 
 			$label = sprintf(
 				'<%1$s class="cn_category_label">%2$s</%1$s> ',
-				$this->get( 'label_tag' ),
+				_escape::tagName( $this->get( 'label_tag' ) ),
 				esc_html( $this->get( 'label' ) )
 			);
 		}
@@ -223,9 +225,11 @@ class Categories extends Content_Block {
 			$items[] = apply_filters(
 				'cn_entry_output_category_item',
 				sprintf(
-					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
-					$this->get( 'item_tag' ),
-					$category->term_id,
+					'<%1$s class="%2$s">%3$s</%1$s>',
+					_escape::tagName( $this->get( 'item_tag' ) ),
+					// The `cn_category` class is named with an underscore for backward compatibility.
+					_escape::classNames( "cn-category-name cn_category cn-category-{$category->term_id}" ),
+					// `$text` is escaped.
 					$text
 				),
 				$category,
@@ -271,12 +275,12 @@ class Categories extends Content_Block {
 			$items
 		);
 
-		echo apply_filters(
+		echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'cn_entry_output_category_container',
 			sprintf(
 				'<%1$s class="cn-categories">%2$s</%1$s>' . PHP_EOL,
-				$this->get( 'container_tag' ),
-				$label . $html
+				_escape::tagName( $this->get( 'container_tag' ) ),
+				$label . $html // Both `$label` and `$html` are escaped.
 			),
 			$properties
 		);

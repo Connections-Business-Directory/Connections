@@ -1,19 +1,25 @@
 <?php
 /**
- * This is basically a copy/paste of the code which use to reside in cnOutput::getLinkBlock().
- *
- * @todo Clean so it is better "template" code.
+ * This is basically a copy/paste of the code which used to reside in cnOutput::getLinkBlock().
  *
  * @var array        $atts
  * @var cnOutput     $entry
  * @var cnCollection $links
  * @var cnLink       $link
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
+
+use Connections_Directory\Utility\_escape;
 
 $rows          = array();
 $search        = array( '%label%', '%title%', '%url%', '%image%', '%icon%', '%separator%' );
 $iconSizes     = array( 16, 24, 32, 48, 64 );
-$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
+$targetOptions = array(
+	'new'  => '_blank',
+	'same' => '_self',
+);
 
 /*
  * Ensure the supplied size is valid, if not reset to the default value.
@@ -31,6 +37,18 @@ foreach ( $links as $link ) {
 
 	$replace = array();
 
+	$classNames = array(
+		'link',
+		'cn-link',
+		$link->type,
+	);
+
+	if ( $link->preferred ) {
+
+		$classNames[] = 'cn-preferred';
+		$classNames[] = 'cn-link-preferred';
+	}
+
 	if ( empty( $atts['label'] ) ) {
 
 		$name = empty( $link->name ) ? '' : $link->name;
@@ -40,23 +58,22 @@ foreach ( $links as $link ) {
 		$name = $atts['label'];
 	}
 
-	$url    = cnSanitize::field( 'url', $link->url );
 	$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
 	$follow = $link->follow ? '' : 'rel="nofollow"';
 
 	$replace[] = '<span class="link-name">' . $name . '</span>';
 
 	// The `notranslate` class is added to prevent Google Translate from translating the text.
-	$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . $url . '"' . ' target="' . $target . '" rel="noopener" ' . $follow . '>' . $link->title . '</a>';
-	$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" rel="noopener" ' . $follow . '>' . $url . '</a>';
+	$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . esc_url( $link->url ) . '" target="' . esc_attr( $target ) . '" rel="noopener" ' . $follow . '>' . esc_html( $link->title ) . '</a>';
+	$replace[] = '<a class="url notranslate" href="' . esc_url( $link->url ) . '" target="' . esc_attr( $target ) . '" rel="noopener" ' . $follow . '>' . esc_html( $link->url ) . '</a>';
 
 	if ( false !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
-	     false !== strpos( $atts['format'], '%image%' ) ) {
+		 false !== strpos( $atts['format'], '%image%' ) ) {
 
 		$screenshot = new cnSiteShot(
 			array(
 				'url'    => $link->url,
-				'alt'    => $url,
+				'alt'    => esc_attr( $link->url ),
 				'title'  => $name,
 				'target' => $target,
 				'follow' => $link->follow,
@@ -66,8 +83,7 @@ foreach ( $links as $link ) {
 
 		$size = $screenshot->setSize( $atts['size'] );
 
-		/** @noinspection CssInvalidPropertyValue */
-		$screenshot->setBefore( '<span class="cn-image-style" style="display: inline-block;"><span style="display: block; max-width: 100%; width: ' . $size['width'] . 'px">' );
+		$screenshot->setBefore( '<span class="cn-image-style" style="display: inline-block;"><span style="display: block; max-width: 100%; width: ' . esc_attr( $size['width'] ) . 'px">' );
 		$screenshot->setAfter( '</span></span>' );
 
 		$replace[] = $screenshot->render();
@@ -77,11 +93,11 @@ foreach ( $links as $link ) {
 		$replace[] = '';
 	}
 
-	$replace[] = '<span class="link-icon"><a class="url" title="' . $link->title . '" href="' . $url . '" target="' . $target . '" ' . $follow . '><img src="' . $icon['src'] . '" height="' . $icon['height'] . '" width="' . $icon['width'] . '"/></a></span>';
+	$replace[] = '<span class="link-icon"><a class="url" title="' . esc_attr( $link->title ) . '" href="' . esc_url( $link->url ) . '" target="' . esc_attr( $target ) . '" ' . $follow . '><img src="' . esc_url( $icon['src'] ) . '" height="' . esc_attr( $icon['height'] ) . '" width="' . esc_attr( $icon['width'] ) . '"/></a></span>';
 
-	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+	$replace[] = '<span class="cn-separator">' . esc_html( $atts['separator'] ) . '</span>';
 
-	$row = "\t" . '<span class="link ' . $link->type . ' cn-link' . ( $link->preferred ? ' cn-preferred cn-link-preferred' : '' ) . '">';
+	$row = '<span class="' . _escape::classNames( $classNames ) . '">';
 
 	$row .= str_ireplace(
 		$search,
@@ -94,8 +110,9 @@ foreach ( $links as $link ) {
 	$rows[] = apply_filters( 'cn_output_link', cnString::replaceWhatWith( $row, ' ' ), $link, $entry, $atts );
 }
 
-$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 $block = apply_filters( 'cn_output_links', $block, $links, $entry, $atts );
 
-echo $block;
+// HTML is escape in the loop above.
+echo $block; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

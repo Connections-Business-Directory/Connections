@@ -3,6 +3,8 @@
  * @since 10.2
  *
  * @var Connections_Directory\Taxonomy $taxonomy
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 use Connections_Directory\Utility\_array;
@@ -15,17 +17,14 @@ if ( ! $taxonomy->showUI() ) {
 if ( ! current_user_can( $taxonomy->getCapabilities()->manage_terms ) ) {
 
 	wp_die(
-		'<h1>' . esc_html__( 'You need a higher level of permission.', 'connections' ) . '</h1>' . '<p>' . esc_html__(
-			'Sorry, you are not allowed to manage terms in this taxonomy.',
-			'connections'
-		) . '</p>',
+		'<h1>' . esc_html__( 'You need a higher level of permission.', 'connections' ) . '</h1><p>' . esc_html__( 'Sorry, you are not allowed to manage terms in this taxonomy.', 'connections' ) . '</p>',
 		403
 	);
 }
 
 // // Grab an instance of the Connections object.
 // $instance = Connections_Directory();
-$form     = new cnFormObjects();
+$form = new cnFormObjects();
 
 /**
  * @var CN_Term_Admin_List_Table $table
@@ -49,7 +48,7 @@ $table->prepare_items();
 		echo '<span class="subtitle">';
 		printf(
 			/* translators: %s: Search query. */
-			esc_html__( 'Search results for: %s' ),
+			esc_html__( 'Search results for: %s', 'connections' ),
 			'<strong>' . esc_html( wp_unslash( $_REQUEST['s'] ) ) . '</strong>'
 		);
 		echo '</span>';
@@ -103,7 +102,7 @@ $table->prepare_items();
 					<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy->getSlug() ); ?>" />
 
 					<div class="form-field form-required term-name-wrap">
-						<label for="term-name"><?php _ex( 'Name','term name', 'connections' ); ?></label>
+						<label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ); ?></label>
 						<input name="term-name" id="term-name" type="text" value="" size="40" aria-required="true" />
 						<p><?php _e( 'The name is how it appears on your site.', 'connections' ); ?></p>
 					</div>
@@ -158,7 +157,7 @@ $table->prepare_items();
 
 							<p><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.', 'connections' ); ?></p>
 						</div><!-- /term-parent-wrap -->
-					<?php endif; // isHierarchical() ?>
+					<?php endif; // isHierarchical(). ?>
 					<div class="form-field term-description-wrap">
 						<?php
 
@@ -282,7 +281,7 @@ $table->prepare_items();
 
 						if ( is_array( $defaultCategory ) ) {
 
-							$categoryID =_array::get( $defaultCategory, 'default', false );
+							$categoryID = _array::get( $defaultCategory, 'default', false );
 
 							if ( is_numeric( $categoryID ) ) {
 
@@ -291,7 +290,7 @@ $table->prepare_items();
 								printf(
 									/* translators: %s: Default category. */
 									esc_html__( 'Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the default category %s. The default category cannot be deleted.', 'connections' ),
-									'<strong>' . $category->name . '</strong>'
+									'<strong>' . esc_html( $category->name ) . '</strong>'
 								);
 							}
 						}
@@ -299,7 +298,8 @@ $table->prepare_items();
 						?>
 					</p>
 				</div>
-				<?php endif;
+					<?php
+				endif;
 
 				/**
 				 * Fires after the taxonomy list table.

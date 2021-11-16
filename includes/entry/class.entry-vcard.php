@@ -10,7 +10,7 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -55,11 +55,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		// Set the formatted name. REQUIRED.
 		$this->vCard->set( 'FN', $this->prepare( $this->getName() ) )
-		            ->addParam( 'CHARSET', 'UTF-8' );
+					->addParam( 'CHARSET', 'UTF-8' );
 
 		// Set the job title.
 		$this->vCard->set( 'TITLE', $this->prepare( $this->getTitle() ) )
-		            ->addParam( 'CHARSET', 'UTF-8' );
+					->addParam( 'CHARSET', 'UTF-8' );
 
 		// Set the organization and unit.
 		$this->vCard->set(
@@ -74,7 +74,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 		if ( 0 < strlen( $notes = $this->getNotes() ) ) {
 
 			$this->vCard->set( 'NOTE', $this->format->sanitizeString( $notes ) )
-			            ->addParam( 'CHARSET', 'UTF-8' );
+						->addParam( 'CHARSET', 'UTF-8' );
 		}
 
 		$this->setvCardAddresses();
@@ -232,7 +232,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 				// Add a new TEL property to the vCard.
 				$this->vCard->set( 'TEL', $phone->number, 'new' )
-				            ->addParam( 'CHARSET', 'UTF-8' );
+							->addParam( 'CHARSET', 'UTF-8' );
 
 				// Add the TEL types from the index.
 				if ( array_key_exists( $phone->type, $index ) ) {
@@ -261,8 +261,8 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		// Map the core Connection email type to supported vCard types.
 		$index = array(
-			'personal'  => array( 'HOME', 'INTERNET' ),
-			'work'      => array( 'WORK', 'INTERNET' ),
+			'personal' => array( 'HOME', 'INTERNET' ),
+			'work'     => array( 'WORK', 'INTERNET' ),
 		);
 
 		if ( $data = $this->getEmailAddresses() ) {
@@ -271,7 +271,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 				// Add a new EMAIL property to the vCard.
 				$this->vCard->set( 'EMAIL', $email->address, 'new' )
-				            ->addParam( 'CHARSET', 'UTF-8' );
+							->addParam( 'CHARSET', 'UTF-8' );
 
 				// Add the EMAIL types from the index.
 				if ( array_key_exists( $email->type, $index ) ) {
@@ -311,7 +311,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 				// Add a new URL property to the vCard.
 				$this->vCard->set( 'URL', esc_url( $link->url ), 'new' )
-				            ->addParam( 'CHARSET', 'UTF-8' );
+							->addParam( 'CHARSET', 'UTF-8' );
 
 				// Add the URL types from the index.
 				if ( array_key_exists( $link->type, $index ) ) {
@@ -367,7 +367,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 					// Add a new IMPP property to the vCard.
 					$this->vCard->set( 'IMPP', $index[ $im->type ] . ':' . $im->id, 'new' )
-					            ->addParam( 'CHARSET', 'UTF-8' );
+								->addParam( 'CHARSET', 'UTF-8' );
 
 					$this->vCard->addParam( 'TYPE', 'PERSONAL' );
 
@@ -385,7 +385,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 						// Add a new IMPP property to the vCard.
 						$this->vCard->set( $x, $im->id, 'new' )
-						            ->addParam( 'CHARSET', 'UTF-8' );
+									->addParam( 'CHARSET', 'UTF-8' );
 
 						$this->vCard->addParam( 'TYPE', 'PERSONAL' );
 
@@ -466,7 +466,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		if ( ! is_wp_error( $logo ) ) {
 			$this->vCard->set( 'LOGO', $logo['path'] )
-			            ->addParam( 'TYPE', $this->getImageType( $logo['type'] ) );
+						->addParam( 'TYPE', $this->getImageType( $logo['type'] ) );
 		}
 
 		// An image or photograph of the individual associated with the vCard.
@@ -474,11 +474,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		if ( ! is_wp_error( $photo ) && isset( $photo['path'] ) && 0 < strlen( $photo['path'] ) ) {
 			$this->vCard->set( 'PHOTO', $photo['path'] )
-			            ->addParam( 'TYPE', $this->getImageType( $photo['type'] ) );
+						->addParam( 'TYPE', $this->getImageType( $photo['type'] ) );
 
 			// Support MS Outlook
 			$this->vCard->set( 'X-MS-CARDPICTURE', base64_encode( file_get_contents( $photo['path'] ) ) )
-			            ->addParam( 'ENCODING', 'B' );
+						->addParam( 'ENCODING', 'B' );
 			$this->vCard->addParam( 'TYPE', $this->getImageType( $photo['type'] ) );
 		}
 	}
@@ -576,11 +576,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 			header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
 			// header( 'Content-Length: ' . strlen( $data ) );
 			header( 'Pragma: public' );
-			header( "Pragma: no-cache" );
+			header( 'Pragma: no-cache' );
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 			header( 'Cache-Control: private' );
 
-			echo $data;
+			echo $data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			exit;
 		}
 	}

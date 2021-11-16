@@ -36,6 +36,7 @@
 	<!-- Squiz Rules -->
 	<rule ref="Squiz.Commenting.BlockComment">
 		<exclude name="Squiz.Commenting.BlockComment.HasEmptyLineBefore"/>
+		<exclude name="Squiz.Commenting.BlockComment.NoEmptyLineBefore"/>
 	</rule>
 
 	<rule ref="Squiz.NamingConventions.ValidVariableName">
@@ -43,6 +44,7 @@
 		<exclude name="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
 		<exclude name="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
 		<exclude name="Squiz.NamingConventions.ValidVariableName.PropertyNotCamelCaps"/>
+		<exclude name="Squiz.NamingConventions.ValidVariableName.StringNotCamelCaps"/>
 	</rule>
 
 	<rule ref="Squiz.PHP.CommentedOutCode">
@@ -117,6 +119,7 @@
 		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores"/>
 		<exclude name="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid"/>
 		<exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName.InterpolatedVariableNotSnakeCase"/>
 		<exclude name="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase"/>
 		<exclude name="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase"/>
 		<exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>

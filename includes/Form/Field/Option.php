@@ -7,6 +7,7 @@ use Connections_Directory\Form\Field\Attribute\Disabled;
 use Connections_Directory\Form\Field\Attribute\Value;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 
 /**
  * Class Label
@@ -105,7 +106,7 @@ class Option {
 			_array::set( $attributes, 'selected', 'selected' );
 		}
 
-		return stringifyAttributes( $attributes );
+		return _html::stringifyAttributes( $attributes );
 	}
 
 	/**

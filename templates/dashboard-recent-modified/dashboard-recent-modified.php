@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Dashboard: Recently Modified Widget Template.
  *
@@ -10,15 +9,21 @@
  * @since       0.7.9
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 
+	/**
+	 * Class CN_Dashboard_Recently_Modified_Template
+	 */
 	class CN_Dashboard_Recently_Modified_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -35,19 +40,48 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
 				'parts'       => array( 'css' => 'styles.css' ),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * CN_Dashboard_Recently_Modified_Template constructor.
+		 *
+		 * @param cnTemplate $template Instance of the cnTemplate object.
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
-			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
+			$template->part(
+				array(
+					'tag'      => 'card',
+					'type'     => 'action',
+					'callback' => array(
+						__CLASS__,
+						'card',
+					),
+				)
+			);
+
+			$template->part(
+				array(
+					'tag'      => 'css',
+					'type'     => 'action',
+					'callback' => array(
+						$template,
+						'printCSS',
+					),
+				)
+			);
 		}
 
+		/**
+		 * Callback to render the template.
+		 *
+		 * @param cnEntry_HTML $entry Current instance of the cnEntry object.
+		 */
 		public static function card( $entry ) {
 
 			if ( is_admin() ) {
@@ -60,11 +94,11 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					echo '<span class="cn-entry-name"><a class="row-title" title="Edit ' , $entry->getName() , '" href="' , $editTokenURL , '"> ' , $entry->getName() . '</a></span> <span class="cn-list-date">' , $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) , '</span>';
+					echo '<span class="cn-entry-name"><a class="row-title" title="' , esc_attr( 'Edit ' . $entry->getName() ) , '" href="' , esc_url( $editTokenURL ) , '"> ' , esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">' , esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ) , '</span>';
 
 				} else {
 
-					echo '<span class="cn-entry-name">' , $entry->getName() , '</span> <span class="cn-list-date">' , $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) , '</span>';
+					echo '<span class="cn-entry-name">' , esc_html( $entry->getName() ) , '</span> <span class="cn-list-date">' , esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ) , '</span>';
 				}
 
 			}

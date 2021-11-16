@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Dashboard: Recently Added Widget Template.
  *
@@ -10,15 +9,21 @@
  * @since       0.7.9
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
+	/**
+	 * Class CN_Dashboard_Recently_Added_Template
+	 */
 	class CN_Dashboard_Recently_Added_Template {
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -35,30 +40,58 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => '',
 				'parts'       => array( 'css' => 'styles.css' ),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * CN_Dashboard_Recently_Added_Template constructor.
+		 *
+		 * @param cnTemplate $template Instance of the cnTemplate object.
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
-			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
+			$template->part(
+				array(
+					'tag'      => 'card',
+					'type'     => 'action',
+					'callback' => array(
+						__CLASS__,
+						'card',
+					),
+				)
+			);
+
+			$template->part(
+				array(
+					'tag'      => 'css',
+					'type'     => 'action',
+					'callback' => array(
+						$template,
+						'printCSS',
+					),
+				)
+			);
 
 			// Update the permitted shortcode attributes the user may use and override the template defaults as needed.
-			add_filter( 'cn_list_atts_permitted-' . $template->getSlug() , array( __CLASS__, 'registerAtts') );
-			add_filter( 'cn_list_atts-' . $template->getSlug() , array( __CLASS__, 'atts') );
+			add_filter( 'cn_list_atts_permitted-' . $template->getSlug(), array( __CLASS__, 'registerAtts' ) );
+			add_filter( 'cn_list_atts-' . $template->getSlug(), array( __CLASS__, 'atts' ) );
 		}
 
 		/**
+		 * Callback for the `cn_list_atts_permitted-{$template->getSlug()}` filter.
+		 *
 		 * Initiate the permitted template shortcode options and load the default values.
 		 *
-		 * @access private
+		 * @internal
 		 * @since 0.8
-		 * @param  (array)  $atts The shortcode $atts array.
-		 * @return (array)
+		 *
+		 * @param array $atts The shortcode $atts array.
+		 *
+		 * @return array
 		 */
 		public static function registerAtts( $atts = array() ) {
 
@@ -67,12 +100,27 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 			return $atts;
 		}
 
+		/**
+		 * Callback for the `'cn_list_atts-{$template->getSlug()}` filter.
+		 *
+		 * @internal
+		 *
+		 * @param array $atts The shortcode $atts array.
+		 *
+		 * @return array
+		 */
 		public static function atts( $atts ) {
-
 
 			return $atts;
 		}
 
+		/**
+		 * Callback to render the template.
+		 *
+		 * @internal
+		 *
+		 * @param cnEntry_HTML $entry Current instance of the cnEntry object.
+		 */
 		public static function card( $entry ) {
 
 			if ( is_admin() ) {
@@ -85,11 +133,11 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					echo '<span class="cn-entry-name"><a class="row-title" title="Edit ' , $entry->getName() , '" href="' , $editTokenURL , '"> ' , $entry->getName() . '</a></span> <span class="cn-list-date">' , $entry->getDateAdded( 'm/d/Y g:ia' ) , '</span>';
+					echo '<span class="cn-entry-name"><a class="row-title" title="' , esc_attr( "Edit {$entry->getName()}" ) , '" href="' , esc_url( $editTokenURL ) , '"> ' , esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">' , esc_html( $entry->getDateAdded( 'm/d/Y g:ia' ) ) , '</span>';
 
 				} else {
 
-					echo '<span class="cn-entry-name">' , $entry->getName() , '</span> <span class="cn-list-date">' , $entry->getDateAdded( 'm/d/Y g:ia' ) , '</span>';
+					echo '<span class="cn-entry-name">' , esc_html( $entry->getName() ) , '</span> <span class="cn-list-date">' , esc_html( $entry->getDateAdded( 'm/d/Y g:ia' ) ) , '</span>';
 				}
 
 			}

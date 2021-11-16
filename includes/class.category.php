@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for working with a category object.
  *
@@ -10,13 +9,20 @@
  * @since       unknown
  */
 
-use Connections_Directory\Taxonomy\Term;
-
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Taxonomy\Term;
+use Connections_Directory\Utility\_escape;
+
+/**
+ * Class cnCategory
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
 class cnCategory {
 	private $id;
 	private $name;
@@ -71,8 +77,6 @@ class cnCategory {
 
 	/**
 	 * Returns $children.
-	 *
-	 * @see cnCategory::$children
 	 */
 	public function getChildren() {
 		return $this->children;
@@ -81,8 +85,7 @@ class cnCategory {
 	/**
 	 * Sets $children.
 	 *
-	 * @param object  $children
-	 * @see cnCategory::$children
+	 * @param object $children
 	 */
 	public function setChildren( $children ) {
 		$this->children = $children;
@@ -90,8 +93,6 @@ class cnCategory {
 
 	/**
 	 * Returns $count.
-	 *
-	 * @see cnCategory::$count
 	 */
 	public function getCount() {
 		return $this->count;
@@ -100,8 +101,7 @@ class cnCategory {
 	/**
 	 * Sets $count.
 	 *
-	 * @param object  $count
-	 * @see cnCategory::$count
+	 * @param object $count
 	 */
 	public function setCount( $count ) {
 		$this->count = $count;
@@ -109,8 +109,6 @@ class cnCategory {
 
 	/**
 	 * Returns $description.
-	 *
-	 * @see cnCategory::$description
 	 */
 	public function getDescription() {
 		return cnSanitize::sanitizeString( $this->description, true );
@@ -119,8 +117,7 @@ class cnCategory {
 	/**
 	 * Sets $description.
 	 *
-	 * @param string  $description
-	 * @see cnCategory::$description
+	 * @param string $description
 	 */
 	public function setDescription( $description ) {
 		$this->description = $description;
@@ -135,15 +132,14 @@ class cnCategory {
 	 * Filters:
 	 *   cn_output_default_atts_cat_desc
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @uses apply_filters()
-	 * @uses run_shortcode()
-	 * @uses do_shortcode()
-	 * @param array $atts [optional]
-	 * @return string
+	 *
+	 * @param array $atts
+	 * @param bool  $echo Whether to echo the HTML.
+	 *
+	 * @return string The escaped HTML
 	 */
-	public function getDescriptionBlock( $atts = array() ) {
+	public function getDescriptionBlock( $atts = array(), $echo = false ) {
 
 		/** @var WP_Embed $wp_embed */
 		global $wp_embed;
@@ -152,28 +148,28 @@ class cnCategory {
 			'container_tag' => 'div',
 			'before'        => '',
 			'after'         => '',
-			'return'        => false,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_cat_desc' , $defaults );
+		$defaults = apply_filters( 'cn_output_default_atts_cat_desc', $defaults );
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
-		$out = $wp_embed->run_shortcode( $this->getDescription() );
-
-		$out = do_shortcode( $out );
-
-		$out = sprintf(
+		$description = $wp_embed->run_shortcode( $this->getDescription() );
+		$description = do_shortcode( $description );
+		$description = sprintf(
 			'<%1$s class="cn-cat-description">%2$s</%1$s>',
-			$atts['container_tag'],
-			$out
+			_escape::tagName( $atts['container_tag'] ),
+			$description
 		);
 
-		if ( $atts['return'] ) {
-			return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$html = _escape::html( $atts['before'] ) . _escape::html( $description ) . _escape::html( $atts['after'] ) . PHP_EOL;
+
+		if ( true === $echo ) {
+			// HTML is escaped above.
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		return $html;
 	}
 
 	/**
@@ -184,11 +180,10 @@ class cnCategory {
 	 *   cn_cat_excerpt_more  => change the default more string of &hellip;
 	 *   cn_trim_cat_excerpt  => change returned string
 	 *
-	 * @access public
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
-	 * @param  array  $atts [optional]
-	 * @param  string $text [optional]
+	 * @param array  $atts
+	 * @param string $text
 	 *
 	 * @return string
 	 */
@@ -208,8 +203,6 @@ class cnCategory {
 
 	/**
 	 * Returns $id.
-	 *
-	 * @see cnCategory::$id
 	 */
 	public function getID() {
 		return $this->id;
@@ -218,17 +211,14 @@ class cnCategory {
 	/**
 	 * Sets $id.
 	 *
-	 * @param int  $id
-	 * @see cnCategory::$id
+	 * @param int $id
 	 */
 	public function setId( $id ) {
 		$this->id = $id;
 	}
 
 	/**
-	 * Returns $name.
-	 *
-	 * @see cnCategory::$name
+	 * Returns $name
 	 */
 	public function getName() {
 		return $this->name;
@@ -237,8 +227,7 @@ class cnCategory {
 	/**
 	 * Sets $name.
 	 *
-	 * @param string  $name
-	 * @see cnCategory::$name
+	 * @param string $name
 	 */
 	public function setName( $name ) {
 		$this->name = $name;
@@ -246,8 +235,6 @@ class cnCategory {
 
 	/**
 	 * Returns $parent.
-	 *
-	 * @see cnCategory::$parent
 	 */
 	public function getParent() {
 		return $this->parent;
@@ -256,8 +243,7 @@ class cnCategory {
 	/**
 	 * Sets $parent.
 	 *
-	 * @param int  $parent
-	 * @see cnCategory::$parent
+	 * @param int $parent
 	 */
 	public function setParent( $parent ) {
 		$this->parent = $parent;
@@ -265,8 +251,6 @@ class cnCategory {
 
 	/**
 	 * Returns $slug.
-	 *
-	 * @see cnCategory::$slug
 	 */
 	public function getSlug() {
 		return $this->slug;
@@ -275,8 +259,7 @@ class cnCategory {
 	/**
 	 * Sets $slug.
 	 *
-	 * @param string  $slug
-	 * @see cnCategory::$slug
+	 * @param string $slug
 	 */
 	public function setSlug( $slug ) {
 		$this->slug = $slug;
@@ -284,8 +267,6 @@ class cnCategory {
 
 	/**
 	 * Returns $taxonomy.
-	 *
-	 * @see cnCategory::$taxonomy
 	 */
 	public function getTaxonomy() {
 		return $this->taxonomy;
@@ -294,8 +275,7 @@ class cnCategory {
 	/**
 	 * Sets $taxonomy.
 	 *
-	 * @param object  $taxonomy
-	 * @see cnCategory::$taxonomy
+	 * @param object $taxonomy
 	 */
 	public function setTaxonomy( $taxonomy ) {
 		$this->taxonomy = $taxonomy;
@@ -303,8 +283,6 @@ class cnCategory {
 
 	/**
 	 * Returns $termGroup.
-	 *
-	 * @see cnCategory::$termGroup
 	 */
 	public function getTermGroup() {
 		return $this->termGroup;
@@ -313,8 +291,7 @@ class cnCategory {
 	/**
 	 * Sets $termGroup.
 	 *
-	 * @param object  $termGroup
-	 * @see cnCategory::$termGroup
+	 * @param object $termGroup
 	 */
 	public function setTermGroup( $termGroup ) {
 		$this->termGroup = $termGroup;
@@ -352,7 +329,6 @@ class cnCategory {
 	/**
 	 * Updates the category to the database via the cnTerm class.
 	 *
-	 * @access public
 	 * @since unknown
 	 * @return bool
 	 */
@@ -421,9 +397,7 @@ class cnCategory {
 	/**
 	 * Returns the current category being viewed.
 	 *
-	 * @access public
-	 * @since  8.5.18
-	 * @static
+	 * @since 8.5.18
 	 *
 	 * @return false|Term
 	 */
@@ -445,7 +419,7 @@ class cnCategory {
 				// If value is a string, strip the white space and covert to an array.
 				$catIDs = wp_parse_id_list( $catIDs );
 
-				// Use the first element
+				// Use the first element.
 				$current = reset( $catIDs );
 
 			} else {

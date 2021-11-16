@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package    Connections Widget Pack
  * @subpackage Template : Recently Added
@@ -20,7 +19,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -40,6 +39,9 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 		 */
 		private $template;
 
+		/**
+		 * Register the template.
+		 */
 		public static function register() {
 
 			$atts = array(
@@ -62,11 +64,11 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 		}
 
 		/**
-		 * Setup the template.
+		 * CN_Block_Team_Table_Template constructor.
 		 *
 		 * @since 1.0
 		 *
-		 * @param cnTemplate $template An initialized instance of the cnTemplate class.
+		 * @param cnTemplate $template Instance of the cnTemplate object.
 		 */
 		public function __construct( $template ) {
 
@@ -79,21 +81,29 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 				3
 			);
 
+			// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore,Squiz.Commenting.InlineComment.SpacingBefore,Squiz.Commenting.InlineComment.InvalidEndChar
 			//add_action(
 			//	"Connections_Directory/Block/Team/Render/Template/{$template->getSlug()}/After",
 			//	array( __CLASS__, 'afterTeamMembers' ),
 			//	10,
 			//	3
 			//);
+			// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore,Squiz.Commenting.InlineComment.SpacingBefore,phpcs: Squiz.Commenting.InlineComment.InvalidEndChar
 		}
 
 		/**
+		 * Render template inline CSS.
+		 *
+		 * @see \Connections_Directory\Blocks\Team::renderStyle()
+		 *
 		 * @since 1.0
 		 *
-		 * @param array  $attributes
-		 * @param string $id
+		 * @param array  $attributes Template attributes.
+		 * @param string $id         Template ID.
 		 *
 		 * @return string
+		 *
+		 * @phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore
 		 */
 		public function inlineCSS( $attributes, $id ) {
 
@@ -103,12 +113,12 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 			//$borderRadius      = absint( $attributes['borderRadius'] );
 			//$borderWidth       = absint( $attributes['borderWidth'] );
 			//$direction         = 'left' === $attributes['position'] ? 'row' : 'row-reverse';
-			$imageBorderColor  = \cnSanitize::hexColor( $attributes['imageBorderColor'] );
+			$imageBorderColor  = cnSanitize::hexColor( $attributes['imageBorderColor'] );
 			$imageBorderRadius = 'square' === $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
 			$imageBorderWidth  = absint( $attributes['imageBorderWidth'] );
 			//$position          = 'left' === $attributes['position'] ? 'right' : 'left';
 			//$padding           = $attributes['displayDropShadow'] || 0 < $borderWidth ? 30 : 0;
-			$padding           = 'square' === $attributes['imageShape'] ? 0 : 30;
+			$padding           = 'square' === $attributes['imageShape'] ? 0 : 30; // phpcs:ignore Generic.Formatting.MultipleStatementAlignment.IncorrectWarning
 
 			$style = <<<HERE
 <style>
@@ -124,14 +134,18 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 </style>
 HERE;
 			return $style;
+
+			// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore
 		}
 
 		/**
+		 * Callback for the `Connections_Directory/Block/Team/Render/Template/{$template->getSlug()}/Before` action.
+		 *
 		 * @since 1.0
 		 *
-		 * @param array      $atts
-		 * @param array      $results
-		 * @param cnTemplate $template
+		 * @param array      $atts     Template attributes.
+		 * @param object[]   $results  Array of entry objects.
+		 * @param cnTemplate $template Instance of the cnTemplate object.
 		 */
 		public static function beforeTeamMembers( $atts, $results, $template ) {
 
@@ -139,11 +153,13 @@ HERE;
 		}
 
 		/**
+		 * Callback for the `Connections_Directory/Block/Team/Render/Template/{$template->getSlug()}/After` action.
+		 *
 		 * @since 1.0
 		 *
-		 * @param array      $atts
-		 * @param array      $results
-		 * @param cnTemplate $template
+		 * @param array      $atts     Template attributes.
+		 * @param object[]   $results  Array of entry objects.
+		 * @param cnTemplate $template Instance of the cnTemplate object.
 		 */
 		public static function afterTeamMembers( $atts, $results, $template ) {
 

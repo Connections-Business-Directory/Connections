@@ -676,7 +676,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 								continue;
 							}
 
-							echo '<a class="nav-tab' . ( $tab['id'] === $currentTab ? ' nav-tab-active' : '' ) . '" href="' . esc_url( add_query_arg( 'tab', $tab['id'] ) ) . '">' . $tab['title'] . '</a>';
+							echo '<a class="nav-tab' . ( $tab['id'] === $currentTab ? ' nav-tab-active' : '' ) . '" href="' . esc_url( add_query_arg( 'tab', $tab['id'] ) ) . '">' . esc_html( $tab['title'] ) . '</a>';
 						}
 
 						?>

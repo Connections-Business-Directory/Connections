@@ -2,6 +2,9 @@
 
 /**
  * Class cnSystem_Info
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnSystem_Info {
 
@@ -16,16 +19,10 @@ class cnSystem_Info {
 	/**
 	 * Get the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @internal
+	 * @since 8.3
 	 *
 	 * @global wpdb $wpdb
-	 *
-	 * @uses   Browser()
-	 * @uses   Connections_Directory()
-	 * @uses   wp_get_theme()
-	 * @uses   cnSystem_Info::getHost()
 	 *
 	 * @return string
 	 */
@@ -43,7 +40,7 @@ class cnSystem_Info {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		// Get theme info
+		// Get theme info.
 		$theme_data   = wp_get_theme();
 		$theme        = $theme_data->Name . ' ' . $theme_data->Version;
 		$parent_theme = $theme_data->Template;
@@ -54,7 +51,7 @@ class cnSystem_Info {
 			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version;
 		}
 
-		// Try to identify the hosting provider
+		// Try to identify the hosting provider.
 		$host = self::getHost();
 
 		ob_start();
@@ -65,30 +62,20 @@ class cnSystem_Info {
 	/**
 	 * Display the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   esc_html()
-	 * @uses   cnSystem_Info::get()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function display() {
 
-		echo esc_html( self::get() );
+		echo esc_textarea( self::get() );
 	}
 
 
 	/**
 	 * The wp_ajax_ callback to create the system info text file for download.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   nocache_headers()
-	 * @uses   current_time()
-	 * @uses   wp_strip_all_tags()
-	 * @uses   cnSystem_Info::get()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function download() {
 
@@ -100,21 +87,17 @@ class cnSystem_Info {
 		nocache_headers();
 		header( 'Content-Type: text/plain' );
 		header( 'Content-Disposition: attachment; filename=' . $filename . '.txt' );
-		header( "Expires: 0" );
+		header( 'Expires: 0' );
 
-		echo wp_strip_all_tags( self::get() );
+		echo esc_textarea( wp_strip_all_tags( self::get() ) );
 		exit;
 	}
 
 	/**
 	 * The template_redirect action callback used to "remotely" display the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   cnCache::get()
-	 * @uses   cnSystem_Info::display()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function view() {
 
@@ -138,7 +121,7 @@ class cnSystem_Info {
 
 		} else {
 
-			wp_redirect( home_url() );
+			wp_safe_redirect( home_url() );
 			exit;
 		}
 
@@ -147,17 +130,8 @@ class cnSystem_Info {
 	/**
 	 * Email the system info.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   add_filter()
-	 * @uses   cnEmail()
-	 * @uses   sanitize_email()
-	 * @uses   sanitize_text_field()
-	 * @uses   esc_html()
-	 * @uses   cnSystem_Info::get()
-	 * @uses   remove_filter()
+	 * @internal
+	 * @since 8.3
 	 *
 	 * @param array $atts {
 	 *     @type string $from_email The "from" email address.
@@ -200,9 +174,9 @@ class cnSystem_Info {
 		// Set the subject.
 		$email->subject( sanitize_text_field( $atts['subject'] ) );
 
-		$message = sanitize_text_field( $atts['message'] );
+		$message  = sanitize_text_field( $atts['message'] );
 		$message .= PHP_EOL . PHP_EOL;
-		$message .= '<pre>' .  esc_html( self::get() ) . '</pre>';
+		$message .= '<pre>' . esc_html( self::get() ) . '</pre>';
 
 		// Set the message.
 		$email->message( $message );
@@ -219,9 +193,8 @@ class cnSystem_Info {
 	/**
 	 * Register the "cn-system-info" log type.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @internal
+	 * @since 8.3
 	 *
 	 * @param array $types
 	 *
@@ -230,8 +203,8 @@ class cnSystem_Info {
 	public static function registerEmailLogType( $types ) {
 
 		$types[ self::LOG_TYPE ] = array(
-			'id'       => self::LOG_TYPE,
-			'name'     => __( 'System Info Email', 'connections' ),
+			'id'   => self::LOG_TYPE,
+			'name' => __( 'System Info Email', 'connections' ),
 		);
 
 		return $types;
@@ -258,9 +231,8 @@ class cnSystem_Info {
 	/**
 	 * Add the custom email header to set the "cn-system-info" email log type.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @internal
+	 * @since 8.3
 	 *
 	 * @param array $header
 	 *
@@ -279,11 +251,11 @@ class cnSystem_Info {
 	 * @author Chris Christoff
 	 * @link   https://github.com/easydigitaldownloads/Easy-Digital-Downloads/blob/release/2.4/includes/misc-functions.php#L521
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @internal
+	 * @since 8.3
 	 *
 	 * @param  string $v
+	 *
 	 * @return int|string
 	 */
 	public static function let_to_num( $v ) {
@@ -291,11 +263,11 @@ class cnSystem_Info {
 		$ret = substr( $v, 0, -1 );
 
 		switch ( strtoupper( $l ) ) {
-			case 'P': // fall-through
-			case 'T': // fall-through
-			case 'G': // fall-through
-			case 'M': // fall-through
-			case 'K': // fall-through
+			case 'P': // fall-through.
+			case 'T': // fall-through.
+			case 'G': // fall-through.
+			case 'M': // fall-through.
+			case 'K': // fall-through.
 				$ret *= 1024;
 				break;
 			default:
@@ -314,7 +286,8 @@ class cnSystem_Info {
 	 * @copyright Copyright (c) 2015, Pippin Williamson
 	 * @link      https://github.com/easydigitaldownloads/Easy-Digital-Downloads/blob/release/2.4/includes/misc-functions.php#L188
 	 *
-	 * @since  8.3
+	 * @since 8.3
+	 *
 	 * @return string $host if detected
 	 */
 	public static function getHost() {
@@ -342,7 +315,7 @@ class cnSystem_Info {
 		} elseif ( false !== strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) ) {
 			$host = 'Flywheel';
 		} else {
-			// Adding a general fallback for data gathering
+			// Adding a general fallback for data gathering.
 			$host = 'DBH: ' . DB_HOST . ', SRV: ' . $_SERVER['SERVER_NAME'];
 		}
 
@@ -352,9 +325,7 @@ class cnSystem_Info {
 	/**
 	 * Render the result of the DESCRIBE `$table_name` to mimic the output from the commandline.
 	 *
-	 * @access public
-	 * @since  8.5.4
-	 * @static
+	 * @since 8.5.4
 	 *
 	 * @param string $tableName The table name to render the DESCRIBE query result.
 	 *
@@ -362,7 +333,7 @@ class cnSystem_Info {
 	 */
 	public static function describeTable( $tableName ) {
 
-		/** var wpdb $wpdb */
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$table  = '';
@@ -407,11 +378,10 @@ class cnSystem_Info {
 	}
 
 	/**
-	 * Use to get the column header names.
+	 * Used to get the column header names.
 	 *
-	 * @access private
-	 * @since  8.5.4
-	 * @static
+	 * @internal
+	 * @since 8.5.4
 	 *
 	 * @param array $structure The result a $wpdb->get_results( 'DESCRIBE ' . $tableName, ARRAY_A ) query.
 	 *
@@ -427,9 +397,8 @@ class cnSystem_Info {
 	/**
 	 * Get the max column width.
 	 *
-	 * @access private
-	 * @since  8.5.4
-	 * @static
+	 * @internal
+	 * @since 8.5.4
 	 *
 	 * @param array $structure The result a $wpdb->get_results( 'DESCRIBE ' . $tableName, ARRAY_A ) query.
 	 *

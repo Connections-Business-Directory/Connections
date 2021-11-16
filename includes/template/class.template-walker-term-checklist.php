@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for displaying the term checklist.
  *
@@ -10,7 +9,7 @@
  * @since       8.2
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 use Connections_Directory\Taxonomy\Registry;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,7 +24,6 @@ class CN_Walker_Term_Check_List extends Walker {
 	/**
 	 * What the class handles.
 	 *
-	 * @see   Walker::$tree_type
 	 * @since 8.2
 	 * @var string
 	 */
@@ -34,7 +32,6 @@ class CN_Walker_Term_Check_List extends Walker {
 	/**
 	 * Database fields to use.
 	 *
-	 * @see   Walker::$db_fields
 	 * @since 8.2
 	 * @todo  Decouple this
 	 * @var array
@@ -42,7 +39,7 @@ class CN_Walker_Term_Check_List extends Walker {
 	public $db_fields = array( 'parent' => 'parent', 'id' => 'term_id' );
 
 	/**
-	 * Render an checklist of terms.
+	 * Render a checklist of terms.
 	 *
 	 * This is the Connections equivalent of @see wp_terms_checklist() in WordPress core ..wp-admin/wp-includes/template.php
 	 *
@@ -54,11 +51,11 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *     Optional. An array of arguments.
 	 *     NOTE: Additionally, all valid options as supported in @see cnTerm::getTaxonomyTerms().
 	 *
-	 * @type bool   $show_count        Whether or not to display the category count.
+	 * @type bool   $show_count        Whether to display the category count.
 	 *                                 Default: FALSE
 	 * @type string $name              The select name attribute.
 	 *                                 Default: 'cat'
-	 * @type int    $depth             Controls how many levels in the hierarchy of categories are to be included in the list.
+	 * @type int    $depth             Controls how many levels in the hierarchy of categories that are to be included in the list.
 	 *                                 Default: 0
 	 *                                 Accepts: 0  - All categories and child categories.
 	 *                                          -1 - All Categories displayed  flat, not showing the parent/child relationships.
@@ -69,7 +66,7 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *                                 Accepts: Any registered taxonomy.
 	 * @type mixed  $selected          The selected term ID(s) the term ID or array of term ID/s that are selected.
 	 *                                 Default: 0
-	 * @type bool   $echo              Whether or not to echo the HTML.
+	 * @type bool   $echo              Whether to echo the HTML.
 	 *                                 Default: true
 	 * }
 	 *
@@ -89,15 +86,15 @@ class CN_Walker_Term_Check_List extends Walker {
 		}
 
 		$defaults = array(
-			'orderby'           => 'name',
-			'order'             => 'ASC',
-			'show_count'        => false,
-			'hide_empty'        => false,
-			'name'              => 'entry_category',
-			'depth'             => 0,
-			'taxonomy'          => 'category',
-			'selected'          => 0,
-			'echo'              => true,
+			'orderby'    => 'name',
+			'order'      => 'ASC',
+			'show_count' => false,
+			'hide_empty' => false,
+			'name'       => 'entry_category',
+			'depth'      => 0,
+			'taxonomy'   => 'category',
+			'selected'   => 0,
+			'echo'       => true,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -111,7 +108,7 @@ class CN_Walker_Term_Check_List extends Walker {
 			array_walk( $atts['selected'], 'absint' );
 		}
 
-		$walker = new self;
+		$walker = new self();
 
 		$walker->tree_type = $atts['taxonomy'];
 
@@ -137,7 +134,8 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		if ( true === $atts['echo'] ) {
 
-			echo $out;
+			// The checklist is escaped as it is being built.
+			echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $out;
@@ -146,13 +144,11 @@ class CN_Walker_Term_Check_List extends Walker {
 	/**
 	 * Starts the list before the elements are added.
 	 *
-	 * @see   Walker:start_lvl()
-	 *
 	 * @since 8.2
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render()
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render().
 	 */
 	public function start_lvl( &$out, $depth = 0, $args = array() ) {
 
@@ -162,13 +158,11 @@ class CN_Walker_Term_Check_List extends Walker {
 	/**
 	 * Ends the list of after the elements are added.
 	 *
-	 * @see   Walker::end_lvl()
-	 *
 	 * @since 8.2
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render()
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render().
 	 */
 	public function end_lvl( &$out, $depth = 0, $args = array() ) {
 
@@ -178,20 +172,12 @@ class CN_Walker_Term_Check_List extends Walker {
 	/**
 	 * Start the element output.
 	 *
-	 * @see   Walker::start_el()
-	 *
 	 * @since 8.2
-	 *
-	 * @uses   esc_attr()
-	 * @uses   checked()
-	 * @uses   disabled()
-	 * @uses   esc_html()
-	 * @uses   number_format_i18n()
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param object $term   The current term object.
-	 * @param int    $depth  Depth of the term in reference to parents. Default 0.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render()
+	 * @param int    $depth  Depth of the term in reference to parent. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render().
 	 * @param int    $id     ID of the current term.
 	 */
 	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
@@ -200,9 +186,9 @@ class CN_Walker_Term_Check_List extends Walker {
 		$name = esc_attr( $args['name'] );
 
 		$out .= PHP_EOL . "<li id='{$type}-{$term->term_id}'>" . '<label class="selectit"><input value="' . $term->term_id . '" type="checkbox" name="' . $name . '[]" id="cn-in-' . $type . '-' . $term->term_id . '"' .
-		        checked( in_array( $term->term_id, $args['selected'] ), true, false ) .
-		        disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
-		        esc_html( $term->name ) . '</label>';
+				checked( in_array( $term->term_id, $args['selected'] ), true, false ) .
+				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
+				esc_html( $term->name ) . '</label>';
 
 		if ( $args['show_count'] ) {
 
@@ -213,14 +199,12 @@ class CN_Walker_Term_Check_List extends Walker {
 	/**
 	 * Ends the element output, if needed.
 	 *
-	 * @see   Walker::end_el()
-	 *
 	 * @since 8.2
 	 *
 	 * @param string $out      Passed by reference. Used to append additional content.
 	 * @param object $category The current term object.
-	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments. @see CN_Walker_Term_Check_List::render()
+	 * @param int    $depth    Depth of the term in reference to parent. Default 0.
+	 * @param array  $args     An array of arguments. @see CN_Walker_Term_Check_List::render().
 	 */
 	public function end_el( &$out, $category, $depth = 0, $args = array() ) {
 

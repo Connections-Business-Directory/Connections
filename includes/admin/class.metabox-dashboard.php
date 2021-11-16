@@ -235,7 +235,7 @@ class cnDashboardMetabox {
 
 				if ( is_wp_error( $rss ) ) {
 
-					echo '<p>' , sprintf( esc_html__( "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for updates.", 'connections' ), $metabox['args']['feed'] ) , '</p>';
+					echo '<p>' , sprintf( esc_html__( "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for updates.", 'connections' ), esc_url( $metabox['args']['feed'] ) ) , '</p>';
 					echo '</div>'; // close out the rss-widget before returning.
 
 					return;
@@ -446,14 +446,14 @@ class cnDashboardMetabox {
 
 		<div class="one-third last">
 			<p class="center">
-				<img src="<?php echo $logo; ?>" style="max-width: 100%">
+				<img src="<?php echo esc_url( $logo ); ?>" style="max-width: 100%">
 			</p>
 		</div>
 		<div class="clearboth"></div>
 
 		<div>
 			<p class="center">
-				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="<?php echo $url; ?>"><span><?php _e( 'Install Now', 'connections' ); ?></span></a>
+				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="<?php echo esc_url( $url ); ?>"><span><?php _e( 'Install Now', 'connections' ); ?></span></a>
 			</p>
 		</div>
 
@@ -477,14 +477,14 @@ class cnDashboardMetabox {
 
 		<div class="one-third last">
 			<p class="center">
-				<img src="<?php echo $logo; ?>" style="max-width: 100%">
+				<img src="<?php echo esc_url( $logo ); ?>" style="max-width: 100%">
 			</p>
 		</div>
 		<div class="clearboth"></div>
 
 		<div>
 			<p class="center">
-				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="<?php echo $url; ?>"><span><?php _e( 'Install Now', 'connections' ); ?></span></a>
+				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="<?php echo esc_url( $url ); ?>"><span><?php _e( 'Install Now', 'connections' ); ?></span></a>
 			</p>
 		</div>
 

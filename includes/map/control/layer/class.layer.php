@@ -248,7 +248,8 @@ class Layer_Control extends Control {
 	 */
 	public function render() {
 
-		echo $this->get();
+		// HTML is dynamically generated using static text, no user input.
+		echo $this->get(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

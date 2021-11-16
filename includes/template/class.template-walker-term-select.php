@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for displaying the term select list.
  *
@@ -10,7 +9,7 @@
  * @since       8.2
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -44,17 +43,7 @@ class CN_Walker_Term_Select_List extends Walker {
 	 *
 	 * This is the Connections equivalent of @see wp_dropdown_categories() in WordPress core ../wp-includes/category-template.php
 	 *
-	 * @access public
-	 * @since  8.2
-	 * @static
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   cnTerm::getTaxonomyTerms()
-	 * @uses   esc_attr()
-	 * @uses   sanitize_html_class()
-	 * @uses   apply_filters()
-	 * @uses   Walker::walk()
-	 * @uses   selected()
+	 * @since 8.2
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
@@ -66,7 +55,7 @@ class CN_Walker_Term_Select_List extends Walker {
 	 * @type string $show_option_none  Set the text to show when no categories are listed.
 	 *                                 Default: 'No Categories'
 	 *                                 Accepts: Any valid string.
-	 * @type bool   $show_count        Whether or not to display the category count.
+	 * @type bool   $show_count        Whether to display the category count.
 	 *                                 Default: FALSE
 	 * @type string $name              The select name attribute.
 	 *                                 Default: 'cat'
@@ -74,7 +63,7 @@ class CN_Walker_Term_Select_List extends Walker {
 	 *                                 Default: ''
 	 * @type string $class             The select class attribute.
 	 *                                 Default: 'postform'
-	 * @type int    $depth             Controls how many levels in the hierarchy of categories are to be included in the list.
+	 * @type int    $depth             Controls how many levels in the hierarchy of categories that are to be included in the list.
 	 *                                 Default: 0
 	 *                                 Accepts: 0  - All categories and child categories.
 	 *                                          -1 - All Categories displayed  flat, not showing the parent/child relationships.
@@ -85,13 +74,13 @@ class CN_Walker_Term_Select_List extends Walker {
 	 * @type string $taxonomy          The taxonomy tree to display.
 	 *                                 Default: 'category'
 	 *                                 Accepts: Any registered taxonomy.
-	 * @type bool   $hide_if_empty     Whether or not to show the select if no terms are returned by term query.
+	 * @type bool   $hide_if_empty     Whether to show the select if no terms are returned by term query.
 	 *                                 Default: FALSE
 	 * @type string $option_none_value Value to use when no term is selected.
 	 *                                 Default: -1
 	 *                                 Accepts: Any valid int/string for an option value attribute.
 	 * @type int    $selected          The selected term ID.
-	 * @type bool   $return            Whether or not to return or echo the resulting HTML.
+	 * @type bool   $return            Whether to return or echo the resulting HTML.
 	 *                                 Default: FALSE
 	 * }
 	 *
@@ -122,7 +111,7 @@ class CN_Walker_Term_Select_List extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$walker = new self;
+		$walker = new self();
 
 		$walker->tree_type = $atts['taxonomy'];
 
@@ -191,7 +180,7 @@ class CN_Walker_Term_Select_List extends Walker {
 		}
 
 		if ( ! $atts['hide_if_empty'] || ! empty( $terms ) ) {
-			$out .= "</select>" . PHP_EOL;
+			$out .= '</select>' . PHP_EOL;
 		}
 		/**
 		 * Filter the taxonomy drop-down output.
@@ -208,24 +197,19 @@ class CN_Walker_Term_Select_List extends Walker {
 			return $out;
 		}
 
-		echo $out;
+		// The dropdown options are escaped as it is being built.
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
 	 * Start the element output.
 	 *
-	 * @see   Walker::start_el()
-	 *
 	 * @since 2.1.0
-	 *
-	 * @uses   apply_filters()
-	 * @uses   selected()
-	 * @uses   number_format_i18n()
 	 *
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param object $term  Category data object.
-	 * @param int    $depth Depth of category in reference to parents. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render()
+	 * @param int    $depth Depth of category in reference to parent. Default 0.
+	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 * @param int    $id    ID of the current category.
 	 */
 	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
@@ -235,7 +219,7 @@ class CN_Walker_Term_Select_List extends Walker {
 		/** This filter is documented in includes/template/class.template-walker-term-select.php */
 		$name = apply_filters( 'cn_list_cats', $term->name, $term );
 
-		$out .= "\t<option class=\"level-$depth\" value=\"" . $term->term_id . "\"";
+		$out .= "\t<option class=\"level-{$depth}\" value=\"{$term->term_id}\"";
 
 		$out .= selected( $term->term_id, $args['selected'], false );
 

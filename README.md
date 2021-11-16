@@ -247,6 +247,161 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.6 11/16/2021 =
+
+* NEW: Introduce `_escape::css()`.
+* NEW: Introduce `_escape::json()`.
+* NEW: Introduce `_escape::maybeEcho()`.
+* NEW: Introduce `_validate::isFloat()`.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML `id` attribute.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped encoded JSON.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML attribute value.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped CSS rules.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML tag name.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML class names.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML.
+* TWEAK: Remove unnecessary echo.
+* TWEAK: Optimize case statement.
+* TWEAK: Instead of prefixing a suspicious warning in CSV export data, prefix with a single straight quote. Allow
+  negative floats without prefixing.
+* TWEAK: Add parameter to `cnLog_Email::viewLogItem()` to echo value.
+* TWEAK: Change attribute from `return` to `echo`.
+* TWEAK: Improve `_sanitize::filepath()`.
+* BUG: Use correct method to display vCard download link in template.
+* BUG: Add missing text domain.
+* BUG: Email log cc and bcc fields need to be echoed.
+* BUG: Value should be returned, not echoed.
+* SECURITY: All output should be run through an escaping function.
+* SECURITY: Escape CSS rules.
+* SECURITY: Sanitize the bulk delete entry IDs.
+* SECURITY: Escape date block template.
+* SECURITY: Escape admin date block template.
+* SECURITY: Escape email block template.
+* SECURITY: Escape admin email block template.
+* SECURITY: Sanitize request variable.
+* SECURITY: Escape the style attribute in Form Fields API.
+* SECURITY: Escape the ID attribute in the Profile template.
+* SECURITY: Escape the Entry Meta Content Block.
+* SECURITY: Escape the Entry Management Content Block.
+* SECURITY: Escape the admin Dashboard Upcoming Widget.
+* SECURITY: Escape admin messenger block template.
+* SECURITY: Escape messenger block template.
+* SECURITY: Escape admin link block template.
+* SECURITY: Escape the admin Dashboard Recently Modified Widget.
+* SECURITY: Escape the admin Anniversary Light template.
+* SECURITY: Escape link block template.
+* SECURITY: Escape the admin Anniversary Dark template.
+* SECURITY: Escape the Default Card template.
+* SECURITY: Escape the Birthday Light template.
+* SECURITY: Escape the admin Dashboard Recently Added Widget.
+* SECURITY: Escape the Members template.
+* SECURITY: Escape the Default Card template.
+* SECURITY: Escape URL.
+* SECURITY: Escape the Default Card template.
+* SECURITY: Escape the Birthday Dark template.
+* SECURITY: Escape address block template.
+* SECURITY: Escape address block template.
+* SECURITY: Escape admin address block template.
+* SECURITY: Escape phone block template.
+* SECURITY: Escape admin phone block template.
+* SECURITY: Escape the Related Content Block.
+* SECURITY: Escape the Recently Viewed Content Block.
+* SECURITY: Escape class names in license notification.
+* SECURITY: Escape the Entry Meta Content Block.
+* SECURITY: Escape admin social network block template.
+* SECURITY: Escape the Carousel Block template.
+* SECURITY: Escape the Entry Management Content Block.
+* SECURITY: Escape the Nearby Content Block.
+* SECURITY: The base export class header and row data should be run thru the escape method incase the base methods are
+  not overridden.
+* SECURITY: Admin messages need to support HTML when escaped.
+* SECURITY: Refactor `cnCategory::getDescriptionBlock()` to remove duplicate code and add escaping.
+* SECURITY: Escape HTML attribute values.
+* SECURITY: Use `wp_safe_redirect()`.
+* OTHER: Remove unnecessary line returns.
+* OTHER: Remove extra spaces.
+* OTHER: Remove unnecessary usage of `esc_html__()`.
+* OTHER: Reflow code.
+* OTHER: Correct misspellings.
+* OTHER: Remove unnecessary tab.
+* OTHER: Lines indented incorrectly.
+* OTHER: Remove unnecessary double forward slash from inline comment.
+* OTHER: Remove extra space.
+* DEV: phpDoc corrections.
+* DEV: Ignore instance of WordPress.Security.EscapeOutput.OutputNotEscaped.
+* DEV: The CASE body must start on the line following the statement.
+* DEV: Use Yoda Condition checks, you must.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: String does not require double quotes; use single quotes instead.
+* DEV: Tabs must be used to indent lines; spaces are not allowed.
+* DEV: Array double arrow not aligned correctly.
+* DEV: Remove unnecessary parenthesis.
+* DEV: Concat operator must be surrounded by a single space.
+* DEV: Ignore instance of WordPress.Security.NonceVerification.Missing
+* DEV: Remove inline comments.
+* DEV: Remove @todo.
+* DEV: phpcs rule tweaks.
+* DEV: Ignore instance of WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+* DEV: Ignore instance of WordPress.WP.GlobalVariablesOverride.Prohibited.
+* DEV: Space found before comma in argument list.
+* DEV: Simplify ternary.
+* DEV: There must be no blank lines before the file comment.
+* DEV: When a multi-item array uses associative keys, each value should start on a new line.
+* DEV: Add phpDoc to template.
+* DEV: Ignore instance of PEAR.NamingConventions.ValidClassName.Invalid.
+* DEV: Ignore instance of PEAR.NamingConventions.ValidClassName.StartWithCapital.
+* DEV: Rename variable.
+* DEV: Do type check after encoding value as JSON to ensure its a string.
+* DEV: Simplify switch statement.
+* DEV: Array closer not aligned correctly.
+* DEV: Add phpDoc.
+* DEV: Qualifier is unnecessary and can be removed.
+* DEV: Equals sign not aligned with surrounding assignments.
+* DEV: Remove unused import.
+* DEV: Refactor of `\Form\Field::stringifyCSSAttributes()`.
+* DEV: Move common HTML functions from `\Form\Field` namespace to the `\HTML` namespace.
+* DEV: Move HTML helper functions from namespaced global functions to public static functions in namespaced class.
+* DEV: Remove unnecessary parameter from method to be consistent with signatures of other methods in utility class.
+* DEV: Convert quotes.
+* DEV: Expected exactly one space after opening parenthesis.
+* DEV: Opening PHP tag must be on a line by itself.
+* DEV: Inline PHP statement must end with a semicolon.
+* DEV: Opening brace should be on the same line as the declaration.
+* DEV: Remove extra spaces in function parameters.
+* DEV: Comma not allowed after last value in single-line array declaration.
+* DEV: Parameter comment must end with a full stop.
+* DEV: Remove unused commented out code.
+* DEV: Remove unnecessary string concat.
+* DEV: Deprecate `cnTemplate::includeFunctions()` and `cnTemplate::printCSS()`.
+* DEV: Remove @noinspection tag.
+* DEV: Code format inline comment.
+* DEV: phpDoc alignment.
+* DEV: Deprecated argument.
+* DEV: Parenthesis should always be used when instantiating a new object.
+* DEV: Equals sign not aligned correctly.
+* DEV: phpcs.xml configuration tweak.
+* DEV: Expected 1 space after closing brace.
+* DEV: Language constructs must be followed by a single space.
+* DEV: Expected 1 space after "=".
+* DEV: Move imports.
+* DEV: Missing space before array closer.
+* DEV: Expected 1 space after "&&".
+* DEV: Expected exactly one space before opening parenthesis.
+* DEV: Closing PHP tag must be on a line by itself.
+* DEV: Correct code flow.
+* DEV: Usage of ELSE IF is discouraged; use ELSEIF instead.
+* DEV: Add/remove extra spaces.
+* DEV: Newline required after opening brace.
+* DEV: Expected 1 space(s) after closing parenthesis.
+* DEV: There must be no space between the "array" keyword and the opening parenthesis.
+* DEV: Use spaces instead of tabs for midline alignment in phpDoc.
+* DEV: Remove duplicate switch branches.
+* DEV: Reflow multiline function call to single line.
+* DEV: The DEFAULT body must start on the line following the statement.
+* DEV: Deprecate arguments in `cnHTML::attribute()`.
+* DEV: Remove HTML inspection flags.
+* DEV: Add phpcs WP security report.
+
 = 10.4.5 10/22/2021 =
 
 * NOTICE: Requires at least WordPress 5.2.
@@ -649,121 +804,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Pass additional parameters to the `Connections_Directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}` filter.
 * DEV: Change class variable from private to protected.
 * DEV: Add deprecated notices throughout so usages can be removed and old code cleaned up.
-
-= 9.14 10/22/2020 =
-* NEW: Introduce the `[cn-content]` shortcode.
-* TWEAK: Rename "Custom Fields" metablock and Content Block to "Custom Metadata Fields" to help reduce confusion between "Custom Fields" and "custom fields".
-* TWEAK: Rename the "Entry Meta" Content Block to "Entry Metadata" for uniformity.
-* TWEAK: Minor tweak to ensure the section head di is not rendered if both the current character and repeat character index are disabled.
-* TWEAK: Add version check for Yoast SEO. Minimum supported version is 14.0.
-* TWEAK: Minor tweaks to the `[cn-entry]` shortcode initialization.
-* OTHER: CSS tweak, change double-quote to single-quote to match style.
-* DEV: Add phpDoc to filter.
-* DEV: Remove use of a couple deprecated methods.
-* DEV: Update dist files.
-
-= 9.13 10/06/2020 =
-* NEW: Introduce Rank Math integration.
-* NEW: Introduce `cnSEO::getImageMeta()`.
-* TWEAK: If both the Entry excerpt and bio are empty, fallback to the Entry address for the Entry meta description.
-* TWEAK: Add additional check to see if Yoast SEO is active or not before setting up integration.
-* TWEAK: Set Yoast SEO integration to run at priority 15, after Yoast SEO sets itself up.
-* TWEAK: Use `cnSEO::getImageMeta()` within the Yoast SEO integration. Providing common logic which is shared with the other SEO integrations.
-* TWEAK: Use `self` instead of `static`.
-* TWEAK: Tweak the fallback meta description to include address (for organization) and title|department|organization (for individuals).
-* BUG: Correct bug in address to string helper where district would output instead on county.
-* OTHER: Deprecate `Yoast_SEO::getImageMeta()`
-* DEV: phpDoc correction.
-
-= 9.12 10/01/2020 =
-* NEW: Improve Yoast SEO integration.
-* NEW: Introduce the `Connections_Directory/Content_Block/Content/{$id}` action.
-* TWEAK: Change priority of the `cnSEO::metaDesc()` action callback to `1`.
-* TWEAK: Declare `cnSEO::metaTitle()` as public.
-* TWEAK: Limit meta description to 155 characters.
-* TWEAK: Remove the `Content-Length` header when downloading vCard to deal with some web hosts which seem to add BOM to downloads corrupting the vCard.
-* DEV: Correct phpDoc and add missing deprecated file call.
-* DEV: phpDoc updates in `cnSEO`.
-* DEV: Add @todo for Rank Math compatibility.
-* DEV: Lay foundation for the new Conditional Content shortcode.
-
-= 9.11 09/21/2020 =
-* NEW: Introduce `_string::toKebabCase()`.
-* NEW: Introduce the `Connections_Directory/Content_Block/Entry/Categories/Attributes` filter.
-* DEV: Move the color utility class to its own namespaced file.
-* DEV: Move the dateutility class to its own namespaced file.
-* DEV: The `_date` class should be final.
-* DEV: Move the string utility class to its own namespaced file.
-* DEV: Move the formatting utility class to its own namespaced file.
-* DEV: `cnSanitize::currency()` should be static.
-* DEV: Remove unnecessary break statement.
-* DEV: Add `_deprecated_file()` calls to a couple deprecated files.
-* DEV: Add `_deprecated_function()` to a couple deprecated methods.
-* DEV: phpDoc updates.
-* DEV: Move the siteshot utility class to its own namespaced file.
-* DEV: Remove unused `cnFunction::var_dump_error_log()` method.
-* DEV: Move the utility  functions class to its own namespaced file.
-* DEV: Move the URL utility class to its own namespaced file.
-* DEV: Add `_deprecated_function()` to the `cnValidate::attributesArray()` method.
-* DEV: Move the validate utility class to its own file.
-* DEV: Deprecate methods in the cnUtility class nad move code  to the `_` class to consolidate utility methods under a shortcode classname.
-* DEV: Moved several methods to be in the proper utility class and deprecated the existing methods.
-* DEV: Deprecate and pair on unused methods in cnValidate.
-
-= 9.10 09/10/2020 =
-* FEATURE: Introduce the Recently Viewed and Last Viewed Content Blocks.
-* NEW: Introduce the `Connections_Directory/Block/Carouse/Query_Parameters` filter.
-* NEW: Add the `link` field to the Entry REST endpoint.
-* NEW: Add support for the `exclude` parameter in the REST API.
-* NEW: Introduce the Recently Viewed REST API Endpoint.
-* TWEAK: Check for instance of `cnAddress` before access its properties.
-* TWEAK: Keep core WP Editor from displaying the slider navigation text in the Carousel Block.
-* TWEAK: Rename `cn-user.js` to `frontend.js`.
-* TWEAK: Delete the `frontend.min.js` file as it is not needed since webpack will minify file.
-* TWEAK: Remove unused code in the `frontend.js` file.
-* TWEAK: Make a single call to `cnQuery::getVar()` when rendering an Entry on the frontend for improved performance.
-* TWEAK: Remove several unnecessary object buffers when rendering an Entry.
-* TWEAK: Rename Entry render variable to be more descriptive.
-* TWEAK: Move logic on whether to display the character index and section head to within where the Entry is rendered.
-* TWEAK: Remove the `cn-list-head` div.id attribute.
-* TWEAK: Remove the `cn-list-foot` div.id attribute.
-* TWEAK: Apply `array_unique()` and `array_filter()` to the list head and body container classes.
-* TWEAK: Remove the `cn-list-foot` div.id attribute.
-* TWEAK: Remove the legacy `connections-list` class from the body container.
-* TWEAK: Move setting `$is_single` to outside of the loop. No need to set it on each iteration.
-* TWEAK: Cleanup the applied body classes. The `cn-list-row` and `cn-list-row-alternate` is applied only in the list view. Introduce the `cn-list-item` and `cn-is-single` classes.
-* TWEAK: Minor CSS tweaks to remove unnecessary specificity.
-* TWEAK: CSS clear after several core list containers. Necessary after removing the class that did the clear from the containers.
-* TWEAK: Do not show the character index when viewing the single Entry.
-* TWEAK: Abstract out template body section heading.
-* TWEAK: Abstract out the generation of the Entry card classes.
-* TWEAK: Ensure the `permission_callback` parameter is set when registering REST API Endpoints.
-* TWEAK: Add check to prevent index not found notice.
-* TWEAK: Implement limit on the Team Block to ensure page can be saved by WP.
-* TWEAK: Add `'data-skip-lazy="1"` if lazy loading is `false`.
-* TWEAK: Move cnArray to a namespaced class and stub out files and autoloading for other utility classes and functions to consolidate and better organize the codebase.
-* TWEAK: Remove use of a few deprecated React components in the Team and Upcoming blocks.
-* TWEAK: Add `lodash` as a script dependency for the frontend script bundle.
-* TWEAK: Finally deprecate the cnOutput class because it was ambiguous.
-* TWEAK: Bumped "Tested up to:" to version 5.5 in readme.txt.
-* TWEAK: Bump "Requires at least:" to version 5.0 in readme.txt.
-* TWEAK: Update EntryName component with a `asPermalink` attribute.
-* TWEAK: Update the frontend script dependencies to support the Recently View Content Block.
-* TWEAK: Add placeholder support to the Entry Image React component.
-* TWEAK: Add default image width/height for unknown image types to prevent undefined index notifications.
-* TWEAK: Deprecate several template actions, replacing them with namespaced hook handles.
-* BUG: Correct another instance of implode "Passing glue string after array is deprecated." notice.
-* BUG: Correct the style applied to the `.cn-image-none` class in the related carousels.
-* DEV: Remove extra newline.
-* DEV: Include JavaScript Cookie v2.2.1 as a vendor library.
-* DEV: Configure webpack entry point to create the frontend javascript bundle.
-* DEV: Register and enqueue the frontend javascript bundle with WordPress.
-* DEV: Remove commented code.
-* DEV: Rename variable to camelCase.
-* DEV: Remove comment block from CSS.
-* DEV: phpDoc updates.
-* DEV: Update Travis testing matrix.
-* DEV: Update min/max WP version in requirements check.
-* DEV: Update the dist files.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

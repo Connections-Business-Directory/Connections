@@ -1,5 +1,157 @@
 == Changelog ==
 
+= 10.4.6 11/16/2021 =
+* NEW: Introduce `_escape::css()`.
+* NEW: Introduce `_escape::json()`.
+* NEW: Introduce `_escape::maybeEcho()`.
+* NEW: Introduce `_validate::isFloat()`.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML `id` attribute.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped encoded JSON.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML attribute value.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped CSS rules.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML tag name.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML class names.
+* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML.
+* TWEAK: Remove unnecessary echo.
+* TWEAK: Optimize case statement.
+* TWEAK: Instead of prefixing a suspicious warning in CSV export data, prefix with a single straight quote. Allow negative floats without prefixing.
+* TWEAK: Add parameter to `cnLog_Email::viewLogItem()` to echo value.
+* TWEAK: Change attribute from `return` to `echo`.
+* TWEAK: Improve `_sanitize::filepath()`.
+* BUG: Use correct method to display vCard download link in template.
+* BUG: Add missing text domain.
+* BUG: Email log cc and bcc fields need to be echoed.
+* BUG: Value should be returned, not echoed.
+* SECURITY: All output should be run through an escaping function.
+* SECURITY: Escape CSS rules.
+* SECURITY: Sanitize the bulk delete entry IDs.
+* SECURITY: Escape date block template.
+* SECURITY: Escape admin date block template.
+* SECURITY: Escape email block template.
+* SECURITY: Escape admin email block template.
+* SECURITY: Sanitize request variable.
+* SECURITY: Escape the style attribute in Form Fields API.
+* SECURITY: Escape the ID attribute in the Profile template.
+* SECURITY: Escape the Entry Meta Content Block.
+* SECURITY: Escape the Entry Management Content Block.
+* SECURITY: Escape the admin Dashboard Upcoming Widget.
+* SECURITY: Escape admin messenger block template.
+* SECURITY: Escape messenger block template.
+* SECURITY: Escape admin link block template.
+* SECURITY: Escape the admin Dashboard Recently Modified Widget.
+* SECURITY: Escape the admin Anniversary Light template.
+* SECURITY: Escape link block template.
+* SECURITY: Escape the admin Anniversary Dark template.
+* SECURITY: Escape the Default Card template.
+* SECURITY: Escape the Birthday Light template.
+* SECURITY: Escape the admin Dashboard Recently Added Widget.
+* SECURITY: Escape the Members template.
+* SECURITY: Escape the Default Card template.
+* SECURITY: Escape URL.
+* SECURITY: Escape the Default Card template.
+* SECURITY: Escape the Birthday Dark template.
+* SECURITY: Escape address block template.
+* SECURITY: Escape address block template.
+* SECURITY: Escape admin address block template.
+* SECURITY: Escape phone block template.
+* SECURITY: Escape admin phone block template.
+* SECURITY: Escape the Related Content Block.
+* SECURITY: Escape the Recently Viewed Content Block.
+* SECURITY: Escape class names in license notification.
+* SECURITY: Escape the Entry Meta Content Block.
+* SECURITY: Escape admin social network block template.
+* SECURITY: Escape the Carousel Block template.
+* SECURITY: Escape the Entry Management Content Block.
+* SECURITY: Escape the Nearby Content Block.
+* SECURITY: The base export class header and row data should be run thru the escape method incase the base methods are not overridden.
+* SECURITY: Admin messages need to support HTML when escaped.
+* SECURITY: Refactor `cnCategory::getDescriptionBlock()` to remove duplicate code and add escaping.
+* SECURITY: Escape HTML attribute values.
+* SECURITY: Use `wp_safe_redirect()`.
+* OTHER: Remove unnecessary line returns.
+* OTHER: Remove extra spaces.
+* OTHER: Remove unnecessary usage of `esc_html__()`.
+* OTHER: Reflow code.
+* OTHER: Correct misspellings.
+* OTHER: Remove unnecessary tab.
+* OTHER: Lines indented incorrectly.
+* OTHER: Remove unnecessary double forward slash from inline comment.
+* OTHER: Remove extra space.
+* DEV: phpDoc corrections.
+* DEV: Ignore instance of WordPress.Security.EscapeOutput.OutputNotEscaped.
+* DEV: The CASE body must start on the line following the statement.
+* DEV: Use Yoda Condition checks, you must.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: String does not require double quotes; use single quotes instead.
+* DEV: Tabs must be used to indent lines; spaces are not allowed.
+* DEV: Array double arrow not aligned correctly.
+* DEV: Remove unnecessary parenthesis.
+* DEV: Concat operator must be surrounded by a single space.
+* DEV: Ignore instance of WordPress.Security.NonceVerification.Missing
+* DEV: Remove inline comments.
+* DEV: Remove @todo.
+* DEV: phpcs rule tweaks.
+* DEV: Ignore instance of WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+* DEV: Ignore instance of WordPress.WP.GlobalVariablesOverride.Prohibited.
+* DEV: Space found before comma in argument list.
+* DEV: Simplify ternary.
+* DEV: There must be no blank lines before the file comment.
+* DEV: When a multi-item array uses associative keys, each value should start on a new line.
+* DEV: Add phpDoc to template.
+* DEV: Ignore instance of PEAR.NamingConventions.ValidClassName.Invalid.
+* DEV: Ignore instance of PEAR.NamingConventions.ValidClassName.StartWithCapital.
+* DEV: Rename variable.
+* DEV: Do type check after encoding value as JSON to ensure its a string.
+* DEV: Simplify switch statement.
+* DEV: Array closer not aligned correctly.
+* DEV: Add phpDoc.
+* DEV: Qualifier is unnecessary and can be removed.
+* DEV: Equals sign not aligned with surrounding assignments.
+* DEV: Remove unused import.
+* DEV: Refactor of `\Form\Field::stringifyCSSAttributes()`.
+* DEV: Move common HTML functions from `\Form\Field` namespace to the `\HTML` namespace.
+* DEV: Move HTML helper functions from namespaced global functions to public static functions in namespaced class.
+* DEV: Remove unnecessary parameter from method to be consistent with signatures of other methods in utility class.
+* DEV: Convert quotes.
+* DEV: Expected exactly one space after opening parenthesis.
+* DEV: Opening PHP tag must be on a line by itself.
+* DEV: Inline PHP statement must end with a semicolon.
+* DEV: Opening brace should be on the same line as the declaration.
+* DEV: Remove extra spaces in function parameters.
+* DEV: Comma not allowed after last value in single-line array declaration.
+* DEV: Parameter comment must end with a full stop.
+* DEV: Remove unused commented out code.
+* DEV: Remove unnecessary string concat.
+* DEV: Deprecate `cnTemplate::includeFunctions()` and `cnTemplate::printCSS()`.
+* DEV: Remove @noinspection tag.
+* DEV: Code format inline comment.
+* DEV: phpDoc alignment.
+* DEV: Deprecated argument.
+* DEV: Parenthesis should always be used when instantiating a new object.
+* DEV: Equals sign not aligned correctly.
+* DEV: phpcs.xml configuration tweak.
+* DEV: Expected 1 space after closing brace.
+* DEV: Language constructs must be followed by a single space.
+* DEV: Expected 1 space after "=".
+* DEV: Move imports.
+* DEV: Missing space before array closer.
+* DEV: Expected 1 space after "&&".
+* DEV: Expected exactly one space before opening parenthesis.
+* DEV: Closing PHP tag must be on a line by itself.
+* DEV: Correct code flow.
+* DEV: Usage of ELSE IF is discouraged; use ELSEIF instead.
+* DEV: Add/remove extra spaces.
+* DEV: Newline required after opening brace.
+* DEV: Expected 1 space(s) after closing parenthesis.
+* DEV: There must be no space between the "array" keyword and the opening parenthesis.
+* DEV: Use spaces instead of tabs for midline alignment in phpDoc.
+* DEV: Remove duplicate switch branches.
+* DEV: Reflow multiline function call to single line.
+* DEV: The DEFAULT body must start on the line following the statement.
+* DEV: Deprecate arguments in `cnHTML::attribute()`.
+* DEV: Remove HTML inspection flags.
+* DEV: Add phpcs WP security report.
+
 = 10.4.5 10/22/2021 =
 * NOTICE: Requires at least WordPress 5.2.
 * NEW: Introduce `Utility\_sanitize`.

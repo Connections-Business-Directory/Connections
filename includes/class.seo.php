@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Static class for filtering permalinks, changing page/post titles and
  * adding page/page meta descriptions.
@@ -11,25 +10,25 @@
  * @since       0.7.8
  */
 
-// Exit if accessed directly
-use Connections_Directory\Entry\Functions as Entry_Helper;
-use Connections_Directory\Model\Format\Address\As_String;
-
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Entry\Functions as Entry_Helper;
+
 /**
  * Class cnSEO
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnSEO {
 
 	/**
-	 * Whether or not to filter the permalink.
+	 * Whether to filter the permalink.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 * @static
+	 * @since 0.7.8
 	 *
 	 * @var boolean
 	 */
@@ -38,13 +37,7 @@ class cnSEO {
 	/**
 	 * Register the default template actions.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 * @static
-	 *
-	 * @uses   add_filter()
-	 *
-	 * @return void
+	 * @since 0.7.8
 	 */
 	public static function hooks() {
 
@@ -69,17 +62,17 @@ class cnSEO {
 
 		$object = get_queried_object();
 
-		if ( ! $object instanceof \WP_Post ) {
+		if ( ! $object instanceof WP_Post ) {
 
 			return;
 		}
 
 		if ( has_shortcode( $object->post_content, 'connections' ) ||
-		     has_block( 'connections-directory/shortcode-connections', $object )
+			 has_block( 'connections-directory/shortcode-connections', $object )
 		) {
 
 			// Update the post dates to reflect the dates of the entry.
-			add_filter( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
+			add_filter( 'the_posts', array( __CLASS__, 'postDates' ), 10, 2 );
 
 			/*
 			 * Add the page meta description.
@@ -88,7 +81,7 @@ class cnSEO {
 			 */
 			add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 1 );
 
-			// These filters are a hack. Used to add/remove the permalink/title filters so they do not not affect the nav menu.
+			// These filters are a hack. Used to add/remove the permalink/title filters, so they do not affect the nav menu.
 			add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
 			add_filter( 'wp_page_menu', array( __CLASS__, 'endNav' ), 10, 2 );
 			add_filter( 'wp_nav_menu', array( __CLASS__, 'endNav' ), 10, 2 );
@@ -119,12 +112,12 @@ class cnSEO {
 			 *
 			 * @todo Enable filter, but ensure it only runs on a Connections Entry detail page.
 			 */
-			//add_action(
-			//	'init',
-			//	function() {
-			//		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
-			//	}
-			//);
+			// add_action(
+			// 	'init',
+			// 	function() {
+			// 		add_filter( 'pre_get_document_title', '__return_empty_string', 16 );
+			// 	}
+			// );
 
 			// Filter the meta title to reflect the current Connections filter.
 			// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
@@ -156,9 +149,8 @@ class cnSEO {
 	 *
 	 * @see WP::handle_404()
 	 *
-	 * @access private
-	 * @since  8.18
-	 * @static
+	 * @internal
+	 * @since 8.18
 	 */
 	public static function trigger404_noShortcode() {
 
@@ -178,7 +170,8 @@ class cnSEO {
 
 			// If the shortcode is not found and a Connections query var is detected, return 404.
 			if ( false === cnShortcode::find( 'connections', $post->post_content ) &&
-			     true === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) ) ) {
+				 true === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) )
+			) {
 
 				$wp_query->set_404();
 				status_header( 404 );
@@ -191,15 +184,14 @@ class cnSEO {
 	}
 
 	/**
-	 * If querying a single entry by slug and it is not found, trigger a 404.
+	 * If querying a single entry by slug, and it is not found, trigger a 404.
 	 *
 	 * @todo This should be expanded to all supported core query vars.
 	 *
 	 * @see WP::handle_404()
 	 *
-	 * @access private
-	 * @since  8.5.26
-	 * @static
+	 * @internal
+	 * @since 8.5.26
 	 */
 	public static function trigger404_entryNotFound() {
 
@@ -239,13 +231,9 @@ class cnSEO {
 	/**
 	 * This can be called to turn on/off the filters applied in cnSEO.
 	 *
-	 * @access public
-	 * @since  0.7.8
-	 * @static
+	 * @since 0.7.8
 	 *
-	 * @param  bool $do
-	 *
-	 * @return void
+	 * @param bool $do
 	 */
 	public static function doFilterPermalink( $do = true ) {
 
@@ -270,7 +258,7 @@ class cnSEO {
 	/**
 	 * Add the Connections URL segments to the page permalink.
 	 *
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
 	 * @param string $link   The permalink.
 	 * @param int    $ID     Page ID.
@@ -282,9 +270,9 @@ class cnSEO {
 
 		global $post;
 
-		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
+		// Only filter the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
 		// Same for the links in the nav, do not change those.
-		if ( ( isset( $post->ID ) &&  $post->ID != $ID ) || ! self::$filterPermalink ) {
+		if ( ( isset( $post->ID ) && $post->ID != $ID ) || ! self::$filterPermalink ) {
 			return $link;
 		}
 
@@ -342,7 +330,7 @@ class cnSEO {
 				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) ) );
 			}
 
-			if ( 'page' == get_option( 'show_on_front' ) && $pageID == get_option( 'page_on_front' ) ) {
+			if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) == $pageID ) {
 
 				$link = trailingslashit( $link );
 
@@ -361,7 +349,7 @@ class cnSEO {
 		} else {
 
 			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
-				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => cnQuery::getVar( 'cn-cat-slug' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => cnQuery::getVar( 'cn-cat-slug' ) ), $link ) );
 			}
 
 			if ( cnQuery::getVar( 'cn-country' ) ) {
@@ -403,10 +391,10 @@ class cnSEO {
 	 * Update the post date and post modified date to reflect the current entry being viewed.
 	 *
 	 * @internal
-	 * @since  8.1
+	 * @since 8.1
 	 *
 	 * @param array    $posts    An array of WP_Post objects.
-	 * @param WP_Query $wp_query A reference to the WP_Query object
+	 * @param WP_Query $wp_query A reference to the WP_Query object.
 	 *
 	 * @return array
 	 */
@@ -448,13 +436,10 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections directory location/query to the page meta title.
+	 * Add the current Connections directory location/query to the page meta title.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 * @static
-	 *
-	 * @uses   cnQuery::getVar()
+	 * @internal
+	 * @since 0.7.8
 	 *
 	 * @param  string $title       The browser tab/window title.
 	 * @param  string $separator   [optional] The title separator.
@@ -470,8 +455,8 @@ class cnSEO {
 	/**
 	 * Callback for the `document_title_parts` filter.
 	 *
-	 * @access private
-	 * @since  8.5.29
+	 * @internal
+	 * @since 8.5.29
 	 *
 	 * @param array $parts {
 	 *     The document title parts.
@@ -484,7 +469,7 @@ class cnSEO {
 	 *
 	 * @return array
 	 */
-	public static function  filterDocumentTitle( $parts ) {
+	public static function filterDocumentTitle( $parts ) {
 
 		$parts['title'] = self::metaTitle( $parts['title'] );
 
@@ -505,7 +490,7 @@ class cnSEO {
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
 			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
+			$categorySlug = explode( '/', cnQuery::getVar( 'cn-cat-slug' ) );
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) {
 
@@ -584,7 +569,7 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections directory location/query to the page meta title.
+	 * Add the current Connections directory location/query to the page meta title.
 	 *
 	 * @since 8.5.29
 	 *
@@ -596,7 +581,7 @@ class cnSEO {
 	 */
 	public static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
 
-		// Whether or not to filter the page meta title with the current directory location.
+		// Whether to filter the page meta title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
 
 			return $title;
@@ -624,12 +609,12 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections directory location/query to the page title.
+	 * Add the current Connections directory location/query to the page title.
 	 *
 	 * NOTE: $id really isn't optional, some plugins fail to use the `the_title` filter correctly,
-	 * ie. "Display Posts Shortcode", causes Connections to crash an burn if not supplied.
+	 * i.e. "Display Posts Shortcode", causes Connections to crash and burn if not supplied.
 	 *
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
 	 * @param string $title The browser tab/window title.
 	 * @param int    $id    The page/post ID.
@@ -641,14 +626,14 @@ class cnSEO {
 		global $wp_query, $post;
 
 		if ( ! is_object( $post ) ||
-		     ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
-		     ! self::$filterPermalink
+			 ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
+			 ! self::$filterPermalink
 		) {
 
 			return $title;
 		}
 
-		// Whether or not to filter the page title with the current directory location.
+		// Whether to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo', 'page_title' ) ) {
 
 			return $title;
@@ -696,7 +681,7 @@ class cnSEO {
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
 			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
+			$categorySlug = explode( '/', cnQuery::getVar( 'cn-cat-slug' ) );
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) {
 
@@ -818,16 +803,14 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections category description or entry bio excerpt as the page meta description.
+	 * Add the current Connections category description or entry bio excerpt as the page meta description.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 *
-	 * @return string|void
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function metaDesc() {
 
-		// Whether or not to filter the page title with the current directory location.
+		// Whether to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_desc' ) ) {
 
 			return;
@@ -840,7 +823,7 @@ class cnSEO {
 			return;
 		}
 
-		echo '<meta name="description" content="' . self::getMetaDescription() . '" />' . "\n";
+		echo '<meta name="description" content="' . esc_attr( self::getMetaDescription() ) . '" />' . "\n";
 	}
 
 	/**
@@ -890,13 +873,12 @@ class cnSEO {
 	 * This method is run during the wp_nav_menu_args filter.
 	 * The only purpose is to set self::doFilterPermalink to FALSE.
 	 * This is set to ensure the permalinks and titles in the nav are
-	 * not run thru the cnSEO filters.
+	 * not run through the cnSEO filters.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 * @static
+	 * @internal
+	 * @since 0.7.8
 	 *
-	 * @param  array $args The arguments passed to wp_nav_menu().
+	 * @param array $args The arguments passed to wp_nav_menu().
 	 *
 	 * @return array
 	 */
@@ -911,15 +893,14 @@ class cnSEO {
 	 * This method is run during the wp_page_menu & wp_nav_menu filters.
 	 * The only purpose is to set self::doFilterPermalink to TRUE.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 * @static
+	 * @internal
+	 * @since 0.7.8
 	 *
-	 * @see    self::startNav()
-	 * @see    self::doFilterPermalink()
+	 * @see self::startNav()
+	 * @see self::doFilterPermalink()
 	 *
-	 * @param  string $menu
-	 * @param  array  $args The arguments passed to wp_nav_menu().
+	 * @param string $menu
+	 * @param array  $args The arguments passed to wp_nav_menu().
 	 *
 	 * @return string
 	 */
@@ -934,13 +915,10 @@ class cnSEO {
 	 * Remove the comment feeds from the directory sub-pages.
 	 * This is to prevent search engine crawl errors / 404s.
 	 *
-	 * @access private
-	 * @since  0.7.9
-	 * @static
+	 * @internal
+	 * @since 0.7.9
 	 *
 	 * @global $wp_query
-	 *
-	 * @return void
 	 */
 	public static function removeCommentFeed() {
 		global $wp_query;

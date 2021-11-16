@@ -5,6 +5,7 @@ namespace Connections_Directory\Form\Field;
 use Connections_Directory\Form\Field\Attribute\Checked;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -62,7 +63,7 @@ class Checkbox extends Input {
 		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
 		_array::set( $attributes, 'id', _escape::id( $id ) );
 		_array::set( $attributes, 'name', _escape::attribute( $this->getName() ) );
-		_array::set( $attributes, 'style', stringifyCSSAttributes( $this->css ) );
+		_array::set( $attributes, 'style', _escape::css( _html::stringifyCSSAttributes( $this->css ) ) );
 
 		if ( $this->isDisabled() ) {
 			_array::set( $attributes, 'disabled', 'disabled' );
@@ -91,7 +92,7 @@ class Checkbox extends Input {
 		}
 
 		// Merge in the data attributes.
-		$attributes = array_merge( $attributes, prepareDataAttributes( $this->data ) );
+		$attributes = array_merge( $attributes, _html::prepareDataAttributes( $this->data ) );
 
 		_array::set( $attributes, 'value', _escape::attribute( $this->getValue() ) );
 
@@ -100,7 +101,7 @@ class Checkbox extends Input {
 			_array::set( $attributes, 'checked', 'checked' );
 		}
 
-		return stringifyAttributes( $attributes );
+		return _html::stringifyAttributes( $attributes );
 	}
 
 	/**

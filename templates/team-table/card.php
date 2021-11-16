@@ -2,7 +2,10 @@
 /**
  * @var array    $atts
  * @var cnOutput $entry
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
+
 ?>
 <div class="cn-table-row cn-team-member">
 	<div class="cn-table-cell cn-team-member-image">
@@ -29,7 +32,14 @@
 
 	<?php if ( $atts['displayExcerpt'] ) : ?>
 		<div class="cn-table-cell cn-team-member-excerpt">
-			<?php $entry->excerpt( array( 'length' => absint( $atts['excerptWordLimit'] ), 'more' => '' ) ); ?>
+			<?php
+			$entry->excerpt(
+				array(
+					'length' => absint( $atts['excerptWordLimit'] ),
+					'more'   => '',
+				)
+			);
+			?>
 		</div>
 	<?php endif; ?>
 
@@ -37,15 +47,27 @@
 		<div class="cn-table-cell cn-team-member-phone">
 			<?php
 			// $entry->getPhoneNumberBlock( array( 'format' => '%number%' ) );
-			$number = $entry->getPhoneNumberBlock( array( 'preferred' => true, 'format' => '%number%', 'return' => true ) );
+			$number = $entry->getPhoneNumberBlock(
+				array(
+					'preferred' => true,
+					'format'    => '%number%',
+					'return'    => true,
+				)
+			);
 
 			if ( $number ) {
 
-				echo $number;
+				// Output is escaped in the `templates/entry/phone-numbers/phone-hcard.php` file.
+				echo $number; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			} else {
 
-				$entry->getPhoneNumberBlock( array( 'format' => '%number%', 'limit' => 1 ) );
+				$entry->getPhoneNumberBlock(
+					array(
+						'format' => '%number%',
+						'limit'  => 1,
+					)
+				);
 			}
 			?>
 		</div>
@@ -56,15 +78,27 @@
 		<div class="cn-table-cell cn-team-member-email">
 			<?php
 			// $entry->getEmailAddressBlock( array( 'format' => '%address%' ) );
-			$email = $entry->getEmailAddressBlock( array( 'preferred' => true, 'format' => '%address%', 'return' => true ) );
+			$email = $entry->getEmailAddressBlock(
+				array(
+					'preferred' => true,
+					'format'    => '%address%',
+					'return'    => true,
+				)
+			);
 
 			if ( $email ) {
 
-				echo $email;
+				// Output is escaped in the `templates/entry/email-addresses/email-hcard.php` file.
+				echo $email; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			} else {
 
-				$entry->getEmailAddressBlock( array( 'format' => '%address%', 'limit' => 1 ) );
+				$entry->getEmailAddressBlock(
+					array(
+						'format' => '%address%',
+						'limit'  => 1,
+					)
+				);
 			}
 			?>
 		</div>

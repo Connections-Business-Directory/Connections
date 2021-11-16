@@ -8,6 +8,7 @@ use Connections_Directory\Form\Field\Attribute\Prefix;
 use Connections_Directory\Form\Field\Attribute\Style;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -119,9 +120,9 @@ class Label {
 		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
 		_array::set( $attributes, 'id', _escape::id( $id ) );
 		_array::set( $attributes, 'for', _escape::attribute( $this->getFor() ) );
-		_array::set( $attributes, 'style', stringifyCSSAttributes( $this->css ) );
+		_array::set( $attributes, 'style', _escape::css( _html::stringifyCSSAttributes( $this->css ) ) );
 
-		return stringifyAttributes( $attributes );
+		return _html::stringifyAttributes( $attributes );
 	}
 
 	/**

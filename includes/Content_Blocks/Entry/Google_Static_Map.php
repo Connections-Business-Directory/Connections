@@ -161,8 +161,8 @@ class Google_Static_Map extends Content_Block {
 		);
 
 		echo '<span class="cn-image-style" style="display: inline-block;">';
-		echo '<span class="cn-image" style="height: ' . $height . 'px; width: ' . $width . 'px">';
-		echo '<img width="' . $width . '" height="' . $height . '" src="' . $url . '"/>';
+		echo '<span class="cn-image" style="height: ' . absint( $height ) . 'px; width: ' . absint( $width ) . 'px">';
+		echo '<img width="' . absint( $width ) . '" height="' . absint( $height ) . '" src="' . esc_url( $url ) . '"/>';
 		echo '</span>';
 		echo '</span>';
 

@@ -2,6 +2,9 @@
 
 /**
  * Class cnTimezone
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnTimezone {
 
@@ -23,7 +26,7 @@ class cnTimezone {
 	 * @since 8.6.9
 	 * @var string
 	 */
-	private $id   = '';
+	private $id = '';
 
 	/**
 	 * @since 8.6.9
@@ -112,7 +115,7 @@ class cnTimezone {
 	 */
 	public function dst_offset() {
 
-		echo $this->get_dst_offset();
+		echo esc_html( $this->get_dst_offset() );
 	}
 
 	/**
@@ -136,7 +139,7 @@ class cnTimezone {
 	 */
 	public function raw_offset() {
 
-		echo $this->get_raw_offset();
+		echo esc_html( $this->get_raw_offset() );
 	}
 
 	/**
@@ -207,7 +210,7 @@ class cnTimezone {
 	 */
 	public function utc_offset( $format = 's' ) {
 
-		echo $this->get_utc_offset( $format );
+		echo esc_html( $this->get_utc_offset( $format ) );
 	}
 
 	/**
@@ -232,7 +235,7 @@ class cnTimezone {
 	 */
 	public function id() {
 
-		echo $this->get_id();
+		echo esc_html( $this->get_id() );
 	}
 
 	/**
@@ -256,7 +259,7 @@ class cnTimezone {
 	 */
 	public function name() {
 
-		echo $this->get_name();
+		echo esc_html( $this->get_name() );
 	}
 
 	/**
@@ -288,6 +291,6 @@ class cnTimezone {
 	 */
 	public function current_time( $format = 'c' ) {
 
-		echo $this->get_current_time()->format( $format );
+		echo esc_html( $this->get_current_time()->format( $format ) );
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * HTML elements.
  *
@@ -10,7 +9,7 @@
  * @since       0.8
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -22,6 +21,9 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 
 /**
  * Class cnHTML
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnHTML {
 
@@ -101,26 +103,24 @@ class cnHTML {
 		switch ( $atts['type'] ) {
 
 			case 'text':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Text::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
 				return self::text( $atts, $value );
 
 			case 'checkbox':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -128,69 +128,63 @@ class cnHTML {
 
 			case 'checkbox_group':
 			case 'checkbox-group':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox_Group::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
 				return self::checkboxGroup( $atts, $value );
 
 			case 'radio':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Radio_Group::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
 				return self::radio( $atts, $value );
 
 			case 'select':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Select::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
 				return self::select( $atts, $value );
 
 			case 'submit':
-
 				return self::input( $atts, $value );
 
 			case 'textarea':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Textarea::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
 				return self::textarea( $atts, $value );
 
 			case 'hidden':
-
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
 					sprintf(
 						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Hidden::create()`.',
-						$atts['type']
+						esc_attr( $atts['type'] )
 					)
 				);
 
@@ -325,7 +319,7 @@ class cnHTML {
 	}
 
 	/**
-	 * Renders a HTML tag attribute.
+	 * Renders an HTML tag attribute.
 	 *
 	 * @since      0.8
 	 * @deprecated 10.4
@@ -340,6 +334,11 @@ class cnHTML {
 		switch ( $type ) {
 
 			case 'class':
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf( 'The `%s` parameter is no longer supported. Use _escape::classNames() instead.', esc_attr( $type ) )
+				);
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
@@ -357,6 +356,11 @@ class cnHTML {
 				}
 
 			case 'id':
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf( 'The `%s` parameter is no longer supported. Use _escape::id() instead.', esc_attr( $type ) )
+				);
 
 				if ( ! empty( $value ) ) {
 
@@ -368,6 +372,11 @@ class cnHTML {
 				}
 
 			case 'style':
+				_deprecated_argument(
+					__METHOD__,
+					'10.4',
+					sprintf( 'The `%s` parameter is no longer supported. Use _html::stringifyCSSAttributes() and  _escape::css() instead.', esc_attr( $type ) )
+				);
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
@@ -385,7 +394,6 @@ class cnHTML {
 				return '';
 
 			case 'data':
-
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
 					array_walk(
@@ -402,11 +410,9 @@ class cnHTML {
 				return '';
 
 			case 'value':
-
 				return ' value="' . esc_attr( (string) $value ) . '" ';
 
 			case 'data-array':
-
 				$data = array();
 
 				/**
@@ -421,7 +427,7 @@ class cnHTML {
 
 						if ( isset( $_value['name'] ) && 0 < strlen( $_value['name'] ) ) {
 
-							$name = 'data-' . _string::toCamelCase( $_value['name'] );
+							$name          = 'data-' . _string::toCamelCase( $_value['name'] );
 							$data[ $name ] = $_value['value'];
 						}
 
@@ -431,7 +437,7 @@ class cnHTML {
 
 					if ( isset( $value['name'] ) && 0 < strlen( $value['name'] ) ) {
 
-						$name = 'data-' . _string::toCamelCase( $value['name'] );
+						$name          = 'data-' . _string::toCamelCase( $value['name'] );
 						$data[ $name ] = $value['value'];
 					}
 				}
@@ -452,7 +458,6 @@ class cnHTML {
 				return '';
 
 			default:
-
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
 					array_walk( $value, 'esc_attr' );
@@ -491,7 +496,7 @@ class cnHTML {
 
 		} else {
 
-			echo $html;
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			return '';
 		}
@@ -586,8 +591,8 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported. %s',
-					$atts['type'],
-					$messages[ $atts['type'] ]
+					esc_attr( $atts['type'] ),
+					esc_html( $messages[ $atts['type'] ] )
 				)
 			);
 
@@ -598,7 +603,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported.',
-					$atts['type']
+					esc_attr( $atts['type'] )
 				)
 			);
 		}
@@ -777,7 +782,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported. %s',
-					$atts['type'],
+					esc_attr( $atts['type'] ),
 					'\Connections_Directory\Form\Field\Checkbox_Group::create()'
 				)
 			);
@@ -789,7 +794,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported. %s',
-					$atts['type'],
+					esc_attr( $atts['type'] ),
 					'\Connections_Directory\Form\Field\Radio_Group::create()'
 				)
 			);
@@ -801,7 +806,7 @@ class cnHTML {
 				'10.4',
 				sprintf(
 					'The `%s` parameter is no loner supported.',
-					$atts['type']
+					esc_attr( $atts['type'] )
 				)
 			);
 		}
@@ -923,7 +928,7 @@ class cnHTML {
 		// An array to store the replacement strings for the label and field.
 		$replace = array();
 
-		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
+		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the dropdown.
 		if ( $atts['enhanced'] ) {
 
 			$atts['class'] = array_merge( (array) $atts['class'], array( 'enhanced-select' ) );

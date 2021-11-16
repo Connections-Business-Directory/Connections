@@ -17,6 +17,8 @@
  *     @type callable $callback Metabox display callback.
  *     @type array    $args     Extra meta box arguments.
  * }
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 $defaults = array(
@@ -45,11 +47,11 @@ $parsed_args['selected'] = cnTerm::getRelationships(
 );
 
 ?>
-<div id="taxonomy-<?php echo $taxonomy->getSlug(); ?>" class="categorydiv">
-	<div id="<?php echo $taxonomy->getSlug(); ?>-all" class="tabs-panel">
+<div id="<?php echo esc_attr( "taxonomy-{$taxonomy->getSlug()}" ); ?>" class="categorydiv">
+	<div id="<?php echo esc_attr( "{$taxonomy->getSlug()}-all" ); ?>" class="tabs-panel">
 		<?php
 		// Allows for an empty term set to be sent. 0 is an invalid term ID and will be ignored by empty() checks.
-		echo "<input type='hidden' name='{$parsed_args['name']}[]' value='0' />";
+		echo "<input type='hidden' name='{$parsed_args['name']}[]' value='0' />"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		cnTemplatePart::walker(
 			'term-checklist',
 			$parsed_args

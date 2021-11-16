@@ -269,12 +269,13 @@ final class cnLog_Email {
 	 * @uses   cnFormatting::maybeJSONdecode()
 	 * @uses   esc_html()
 	 *
-	 * @param $type
-	 * @param $value
+	 * @param      $type
+	 * @param      $value
+	 * @param bool $echo  Whether to echo or not.
 	 *
 	 * @return string
 	 */
-	public static function viewLogItem( $type, $value ) {
+	public static function viewLogItem( $type, $value, $echo = false ) {
 
 		switch ( $type ) {
 
@@ -331,6 +332,12 @@ final class cnLog_Email {
 			case 'response':
 				$value = ( 'success' == $value ? __( 'Successfully', 'connections' ) : __( 'Failed', 'connections' ) );
 				break;
+		}
+
+		if ( true === $echo ) {
+
+			// The `$value` is escaped above.
+			echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $value;

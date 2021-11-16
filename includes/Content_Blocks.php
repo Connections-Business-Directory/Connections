@@ -233,7 +233,8 @@ class Content_Blocks {
 
 		if ( true === $echo ) {
 
-			echo $html;
+			// Content Block output is escaped in the render action callback.
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		return $html;

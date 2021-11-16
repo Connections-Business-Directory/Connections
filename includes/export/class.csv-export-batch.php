@@ -341,7 +341,8 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 
 		@unlink( $this->file );
 
-		echo $file;
+		// CSV file contents are escaped as it is being compiled row by row, cell by cell.
+		echo $file; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		die();
 	}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for displaying the term list as a radio group.
  *
@@ -10,7 +9,7 @@
  * @since       8.2.4
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -23,7 +22,6 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * What the class handles.
 	 *
-	 * @see   Walker::$tree_type
 	 * @since 8.2.4
 	 * @var string
 	 */
@@ -32,7 +30,6 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * Database fields to use.
 	 *
-	 * @see   Walker::$db_fields
 	 * @since 8.2.4
 	 * @todo  Decouple this
 	 * @var array
@@ -40,23 +37,12 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	public $db_fields = array( 'parent' => 'parent', 'id' => 'term_id' );
 
 	/**
-	 * Render an checklist of terms.
+	 * Render af checklist of terms.
 	 *
 	 * This is the Connections equivalent of @see wp_terms_checklist() in WordPress core ..wp-admin/wp-includes/template.php
 	 *
-	 * @access public
 	 * @since  8.2.4
 	 * @static
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   cnTerm::getTaxonomyTerms()
-	 * @uses   wp_parse_id_list()
-	 * @uses   is_wp_error()
-	 * @uses   esc_attr()
-	 * @uses   apply_filters
-	 * @uses   checked()
-	 * @uses   esc_html()
-	 * @uses   Walker::walk()
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
@@ -68,16 +54,16 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 *                               Default: TRUE
 	 * @type string $name            The select name attribute.
 	 *                               Default: 'cn-cat'
-	 * @type bool   $show_select_all Whether or not to render the $show_option_all option.
+	 * @type bool   $show_select_all Whether to render the $show_option_all option.
 	 *                               Default: TRUE
 	 * @type string $show_option_all A non-blank value causes the display of a link to the directory home page.
 	 *                               Default: ''. The default is not to display a link.
 	 *                               Accepts: Any valid string.
-	 * @type bool   $show_count      Whether or not to display the category count.
+	 * @type bool   $show_count      Whether to display the category count.
 	 *                               Default: FALSE
-	 * @type bool   $hide_empty      Whether or not to display empty terms.
+	 * @type bool   $hide_empty      Whether to display empty terms.
 	 *                               Default: FALSE
-	 * @type int    $depth           Controls how many levels in the hierarchy of categories are to be included in the list.
+	 * @type int    $depth           Controls how many levels in the hierarchy of categories that are to be included in the list.
 	 *                               Default: 0
 	 *                               Accepts: 0  - All categories and child categories.
 	 *                                        -1 - All Categories displayed  flat, not showing the parent/child relationships.
@@ -86,11 +72,11 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 * @type array  $parent_id
 	 * @type array  $selected        The selected term IDs.
 	 *                               Default: 0
-	 * @type string $before          Content to be render before the label and select.
+	 * @type string $before          Content to render before the label and select.
 	 *                               Default: ''
-	 * @type string $after           Content to be render after the label and select.
+	 * @type string $after           Content to render after the label and select.
 	 *                               Default: ''
-	 * @type bool $return Whether or not to return or echo the resulting HTML.
+	 * @type bool $return            Whether to return or echo the resulting HTML.
 	 *                               Default: FALSE
 	 * }
 	 *
@@ -101,24 +87,24 @@ class CN_Walker_Term_Radio_Group extends Walker {
 		$out = '';
 
 		$defaults = array(
-			'taxonomy'          => 'category',
-			'hierarchical'      => true,
-			'name'              => 'cn-cat',
-			'show_select_all'   => true,
-			'show_option_all'   => __( 'Select Category', 'connections' ),
-			'show_count'        => false,
-			'hide_empty'        => false,
-			'depth'             => 0,
-			'parent_id'         => array(),
-			'selected'          => 0,
-			'before'            => '',
-			'after'             => '',
-			'return'            => false,
+			'taxonomy'        => 'category',
+			'hierarchical'    => true,
+			'name'            => 'cn-cat',
+			'show_select_all' => true,
+			'show_option_all' => __( 'Select Category', 'connections' ),
+			'show_count'      => false,
+			'hide_empty'      => false,
+			'depth'           => 0,
+			'parent_id'       => array(),
+			'selected'        => 0,
+			'before'          => '',
+			'after'           => '',
+			'return'          => false,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$walker = new self;
+		$walker = new self();
 
 		$walker->tree_type = $atts['taxonomy'];
 
@@ -169,8 +155,8 @@ class CN_Walker_Term_Radio_Group extends Walker {
 				$type            = esc_attr( $walker->tree_type );
 
 				$out .= "<li id='cn-{$type}-0'>" . '<label><input value="0" type="radio" name="' . esc_attr( $atts['name'] ) . '" id="cn-in-' . $type . '-0"' .
-				        checked( in_array( 0, (array) $atts['selected'] ), true, false ) . ' /> ' .
-				        esc_html( $show_option_all ) . '</label>';
+						checked( in_array( 0, (array) $atts['selected'] ), true, false ) . ' /> ' .
+						esc_html( $show_option_all ) . '</label>';
 
 				$out .= '</li>' . PHP_EOL;
 			}
@@ -187,19 +173,18 @@ class CN_Walker_Term_Radio_Group extends Walker {
 			return $out;
 		}
 
-		echo $out;
+		// The radio group options are escaped as they are being built.
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
 	 * Starts the list before the elements are added.
 	 *
-	 * @see   Walker:start_lvl()
-	 *
 	 * @since 8.2.4
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render()
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 */
 	public function start_lvl( &$out, $depth = 0, $args = array() ) {
 
@@ -209,13 +194,11 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * Ends the list of after the elements are added.
 	 *
-	 * @see   Walker::end_lvl()
-	 *
 	 * @since 8.2.4
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render()
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 */
 	public function end_lvl( &$out, $depth = 0, $args = array() ) {
 
@@ -225,19 +208,12 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	/**
 	 * Start the element output.
 	 *
-	 * @see   Walker::start_el()
-	 *
 	 * @since 8.2.4
-	 *
-	 * @uses  esc_attr()
-	 * @uses  disabled()
-	 * @uses  esc_html()
-	 * @uses  number_format_i18n()
 	 *
 	 * @param string $out    Passed by reference. Used to append additional content.
 	 * @param object $term   The current term object.
-	 * @param int    $depth  Depth of the term in reference to parents. Default 0.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render()
+	 * @param int    $depth  Depth of the term in reference to parent. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 * @param int    $id     ID of the current term.
 	 */
 	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {

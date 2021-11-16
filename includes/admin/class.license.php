@@ -507,8 +507,8 @@ HERERDOC;
 		printf( '<td colspan="%d" class="plugin-update">', esc_attr( $wp_list_table->get_column_count() ) );
 
 		printf(
-			'<div class="update-message notice inline notice-%s"><p>%s</p></div>',
-			sanitize_html_class( $type ),
+			'<div class="%s"><p>%s</p></div>',
+			_escape::classNames( "update-message notice inline notice-{$type}" ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			_escape::html( $message ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
 
@@ -899,8 +899,8 @@ HERERDOC;
 		if ( 'no_key' != $status['code'] ) {
 
 			printf(
-				'<span class="description update-message notice inline notice-%1$s">%2$s</span>',
-				sanitize_html_class( $status['type'] ),
+				'<span class="%1$s">%2$s</span>',
+				_escape::classNames( "description update-message notice inline notice-{$status['type']}" ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				_escape::html( $status['message'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}

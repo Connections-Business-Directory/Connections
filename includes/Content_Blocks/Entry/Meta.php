@@ -4,6 +4,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Entry_Meta
@@ -60,13 +61,13 @@ class Meta extends Content_Block {
 		}
 
 		$items = array(
-			'date_added'    => '<strong>' . esc_html__( 'Date Added', 'connections' ) . ':</strong> ' . $entry->getDateAdded(),
-			'added_by'      => '<strong>' . esc_html__( 'Added By', 'connections' ) . ':</strong> ' . $entry->getAddedBy(),
-			'date_modified' => '<strong>' . esc_html__( 'Modified On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp(),
-			'modified_by'   => '<strong>' . esc_html__( 'Modified By', 'connections' ) . ':</strong> ' . $entry->getEditedBy(),
-			'id'            => '<strong>' . esc_html__( 'Entry ID', 'connections' ) . ':</strong> ' . $entry->getId(),
-			'slug'          => '<strong>' . esc_html__( 'Entry Slug', 'connections' ) . ':</strong> ' . $entry->getSlug(),
-			'visibility'    => '<strong>' . esc_html__( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibilityType(),
+			'date_added'    => '<strong>' . __( 'Date Added', 'connections' ) . ':</strong> ' . $entry->getDateAdded(),
+			'added_by'      => '<strong>' . __( 'Added By', 'connections' ) . ':</strong> ' . $entry->getAddedBy(),
+			'date_modified' => '<strong>' . __( 'Modified On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp(),
+			'modified_by'   => '<strong>' . __( 'Modified By', 'connections' ) . ':</strong> ' . $entry->getEditedBy(),
+			'id'            => '<strong>' . __( 'Entry ID', 'connections' ) . ':</strong> ' . $entry->getId(),
+			'slug'          => '<strong>' . __( 'Entry Slug', 'connections' ) . ':</strong> ' . $entry->getSlug(),
+			'visibility'    => '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibilityType(),
 		);
 
 		$items = apply_filters(
@@ -82,9 +83,11 @@ class Meta extends Content_Block {
 				$entry
 			);
 
-			echo '<ul>';
-			echo '<li>' . implode( '</li><li>', $items ) . '</li>';
-			echo '</ul>';
+			$html  = '<ul>';
+			$html .= '<li>' . implode( '</li><li>', $items ) . '</li>';
+			$html .= '</ul>';
+
+			_escape::html( $html, true );
 
 			do_action(
 				"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",

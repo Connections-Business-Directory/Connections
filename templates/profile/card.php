@@ -1,14 +1,24 @@
 <?php
+/**
+ * @var array        $atts
+ * @var cnEntry_HTML $entry
+ * @var cnTemplate   $template
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
+
 /**
  * @var cnOutput $entry
  */
-$style  = array(
+$style = array(
 	'background-color' => '#FFF',
 	'border'           => $atts['border_width'] . 'px solid ' . $atts['border_color'],
 	'border-radius'    => $atts['border_radius'] . 'px',
@@ -17,8 +27,10 @@ $style  = array(
 	'padding'          => '10px',
 	'position'         => 'relative',
 );
+
+$css = _html::stringifyCSSAttributes( $style );
 ?>
-<div class="cn-entry" <?php echo cnHTML::attribute( 'style', $style ); ?>>
+<div class="cn-entry" style="<?php _escape::css( $css, true ); ?>">
 
 	<span style="float: <?php echo is_rtl() ? 'right' : 'left'; ?>; margin-right: 10px;">
 
@@ -28,12 +40,12 @@ $style  = array(
 
 			$entry->getImage(
 				array(
-					'image'    => $atts['image_type'],
-					'preset'   => empty( $atts['image_width'] ) && empty( $atts['image_height'] ) ? 'profile' : null,
-					'width'    => $atts['image_width'],
-					'height'   => $atts['image_height'],
-					'zc'       => $atts['image_crop_mode'],
-					'fallback' => array(
+					'image'     => $atts['image_type'],
+					'preset'    => empty( $atts['image_width'] ) && empty( $atts['image_height'] ) ? 'profile' : null,
+					'width'     => $atts['image_width'],
+					'height'    => $atts['image_height'],
+					'zc'        => $atts['image_crop_mode'],
+					'fallback'  => array(
 						'type'   => $atts['image_fallback'] ? 'block' : 'none',
 						'string' => $atts['image_fallback_string'],
 					),
@@ -67,9 +79,8 @@ $style  = array(
 
 			?>
 		</div>
-		<?php echo $entry->getBioBlock(); ?>
+		<?php $entry->getBioBlock(); ?>
 	</div>
-
 
 	<div class="cn-meta" style="margin-top: 6px">
 		<?php

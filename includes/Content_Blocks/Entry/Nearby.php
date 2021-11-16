@@ -4,11 +4,12 @@ namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnArray;
 use cnEntry;
-use cnOutput;
+use cnEntry_HTML;
 use cnTemplate as Template;
 use cnTemplateFactory;
 use Connections_Directory\Content_Block;
 use Connections_Directory\Entry\Functions as Entry_Helper;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Related
@@ -18,17 +19,19 @@ use Connections_Directory\Entry\Functions as Entry_Helper;
 class Nearby extends Content_Block {
 
 	/**
+	 * The Content Block ID.
+	 *
 	 * @since 9.8
 	 * @var string
 	 */
 	const ID = 'entry-nearby';
 
 	/**
-	 * Near constructor.
+	 * Nearby constructor.
 	 *
 	 * @since 9.9
 	 *
-	 * @param $id
+	 * @param string $id The Content Block ID.
 	 */
 	public function __construct( $id ) {
 
@@ -62,7 +65,6 @@ class Nearby extends Content_Block {
 
 		if ( ! $template instanceof Template ) {
 
-			// echo '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 			return;
 		}
 
@@ -73,7 +75,6 @@ class Nearby extends Content_Block {
 
 		if ( 0 >= count( $related ) ) {
 
-			// echo '<p>' . esc_html__( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
 			return;
 		}
 
@@ -101,7 +102,7 @@ class Nearby extends Content_Block {
 			$settings
 		);
 
-		$settingsJSON = htmlspecialchars( wp_json_encode( $settings ), ENT_QUOTES, 'UTF-8' );
+		// $settingsJSON = htmlspecialchars( wp_json_encode( $settings ), ENT_QUOTES, 'UTF-8' );
 
 		$classNames = array( 'cn-list', 'slick-slider-block', 'slick-slider-content-block' );
 
@@ -126,8 +127,11 @@ class Nearby extends Content_Block {
 			$template
 		);
 
-		echo PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="' . 'slick-slider-content-block-entry-' . strtolower( $this->shortName ) . '" data-slick-slider-settings="' . $settingsJSON . '">' . PHP_EOL;
-		echo $this->renderTemplate( $template, $related, $carousel );
+		$id = 'slick-slider-content-block-entry-' . strtolower( $this->shortName );
+
+		echo PHP_EOL . '<div class="' . _escape::classNames( $classNames ) . '" id="' . _escape::id( $id ) . '" data-slick-slider-settings="' . _escape::json( $settings ) . '">' . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// Escaping is done in the template.
+		echo $this->renderTemplate( $template, $related, $carousel ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '</div><!--.slick-slider-section-->' . PHP_EOL;
 
 		do_action(
@@ -139,11 +143,13 @@ class Nearby extends Content_Block {
 	}
 
 	/**
+	 * Render the template HTML.
+	 *
 	 * @since 9.8
 	 *
-	 * @param Template   $template
-	 * @param cnOutput[] $related
-	 * @param array      $attributes
+	 * @param Template       $template   Instance of the Template object.
+	 * @param cnEntry_HTML[] $related    Array of Entry objects.
+	 * @param array          $attributes The carousel instance attributes.
 	 *
 	 * @return string
 	 */
@@ -177,7 +183,6 @@ class Nearby extends Content_Block {
 		foreach ( $related as $entry ) {
 
 			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $attributes );
-			// do_action( 'cn_template-names', $entry, $template, $attributes );
 		}
 
 		$html = ob_get_clean();

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Functions for used by the shortcode callbacks.
  *
@@ -10,7 +9,7 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -27,8 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param array $atts
  */
-function connectionsEntryList($atts) {
-	echo cnShortcode_Connections::shortcode( $atts );
+function connectionsEntryList( $atts ) {
+	// HTML is escaped within shortcode callback and the template files.
+	echo cnShortcode_Connections::shortcode( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -41,7 +41,8 @@ function connectionsEntryList($atts) {
  * @param array $atts
  */
 function connectionsUpcomingList( $atts ) {
-	echo _upcoming_list( $atts );
+	// HTML is escaped within shortcode callback and the template files.
+	echo _upcoming_list( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -66,7 +67,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	global $connections;
 
 	// $template =& $connections->template;
-	$out = '';
+	$out       = '';
 	$alternate = '';
 
 	$templateTypeDefaults = array(
@@ -84,7 +85,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 		$template = cnTemplateFactory::getTemplate( $templateType['template'] );
 	} else {
 		$templateSlug = $connections->options->getActiveTemplate( $templateType['list_type'] );
-		$template = cnTemplateFactory::getTemplate( $templateSlug );
+		$template     = cnTemplateFactory::getTemplate( $templateSlug );
 	}
 
 	// No template found return error message.
@@ -151,12 +152,12 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 	$results = Connections_Directory()->retrieve->upcoming(
 		array(
-			'type'                  => $atts['list_type'],
-			'days'                  => $atts['days'],
-			'today'                 => $atts['include_today'],
-			'visibility'            => array(),
-			'private_override'      => $atts['private_override'],
-			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
+			'type'             => $atts['list_type'],
+			'days'             => $atts['days'],
+			'today'            => $atts['include_today'],
+			'visibility'       => array(),
+			'private_override' => $atts['private_override'],
+			'return'           => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
 		)
 	);
 
@@ -169,7 +170,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 		} else {
 
-			$out .= '&nbsp;'; // Need to return something for Gutenberg support. Otherwise the loading spinner never stops.
+			$out .= '&nbsp;'; // Need to return something for Gutenberg support. Otherwise, the loading spinner never stops.
 		}
 
 	} else {
@@ -210,7 +211,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 		ob_start();
 
 			// Prints the template's CSS file.
-			do_action( 'cn_template_inline_css-' . $template->getSlug() , $atts );
+			do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
 
 			$out .= ob_get_contents();
 		ob_end_clean();
@@ -227,35 +228,35 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 				$out .= '<div class="cn-clear" id="cn-list-body">' . "\n";
 
-					foreach ( $results as $row ) {
+				foreach ( $results as $row ) {
 
-						$entry = new cnEntry_vCard( $row );
-						$vCard =& $entry;
+					$entry = new cnEntry_vCard( $row );
+					$vCard =& $entry;
 
-						// Configure the page where the entry link to.
-						$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
+					// Configure the page where the entry link to.
+					$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
-						if ( ! $atts['show_lastname'] ) {
+					if ( ! $atts['show_lastname'] ) {
 
-							$entry->setLastName( '' );
-						}
-
-						$entry->name = $entry->getName(
-							array(
-								'format' => $atts['name_format'],
-							)
-						);
-
-						$alternate == '' ? $alternate = '-alternate' : $alternate = '';
-
-						$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
-							ob_start();
-							do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
-						    $out .= ob_get_contents();
-						    ob_end_clean();
-						$out .= '</div>' . "\n";
-
+						$entry->setLastName( '' );
 					}
+
+					$entry->name = $entry->getName(
+						array(
+							'format' => $atts['name_format'],
+						)
+					);
+
+					$alternate == '' ? $alternate = '-alternate' : $alternate = '';
+
+					$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
+						ob_start();
+						do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
+						$out .= ob_get_contents();
+						ob_end_clean();
+					$out .= '</div>' . "\n";
+
+				}
 
 				$out .= "\n" . '</div>' . "\n";
 
@@ -269,9 +270,9 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	}
 
 	if ( cnSettingsAPI::get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
-		$search = array( "\r\n", "\r", "\n", "\t" );
+		$search  = array( "\r\n", "\r", "\n", "\t" );
 		$replace = array( '', '', '', '' );
-		$out = str_replace( $search , $replace , $out );
+		$out     = str_replace( $search, $replace, $out );
 	}
 
 	// Clear any filters that have been added.
@@ -281,7 +282,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	return $out;
 }
 
-function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard' ) {
+function _connections_vcard( $atts, $content = null, $tag = 'connections_vcard' ) {
 
 	$atts = shortcode_atts(
 		array(
@@ -300,8 +301,7 @@ function _connections_vcard( $atts , $content = null, $tag = 'connections_vcard'
 	return '<span class="cn-qtip-vcard">' . $content . $qTipContent . '</span>';
 }
 
-function _connections_qtip( $atts , $content = null, $tag = 'connections_qtip' )
-{
+function _connections_qtip( $atts, $content = null, $tag = 'connections_qtip' ) {
 	$atts = shortcode_atts(
 		array(
 			'id' => null,

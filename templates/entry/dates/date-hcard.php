@@ -1,14 +1,18 @@
 <?php
 /**
- * This is basically a copy/paste of the code which use to reside in cnOutput::getDateBlock().
- *
- * @todo Clean so it is better "template" code.
+ * This is basically a copy/paste of the code which used to reside in cnOutput::getDateBlock().
  *
  * @var array        $atts
  * @var cnOutput     $entry
  * @var cnCollection $dates
  * @var cnEntry_Date $date
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
+
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_string;
 
 $rows   = array();
 $search = array( '%label%', '%date%', '%separator%' );
@@ -22,14 +26,25 @@ foreach ( $dates as $date ) {
 		continue;
 	}
 
-	$row = "\t" . '<span class="vevent cn-date' . ( $date->preferred ? ' cn-preferred cn-date-preferred' : '' ) . '">';
+	$classNames = array(
+		'vevent',
+		'cn-date',
+	);
 
-	// Hidden elements are to maintain hCalendar spec compatibility
-	$replace[] = ( empty( $date->name ) ) ? '' : '<span class="date-name">' . $date->name . '</span>';
-	$replace[] = ( empty( $date->date ) ) ? '' : '<abbr class="dtstart" title="' . $date->date->format( 'Ymd' ) .'">' . date_i18n( $atts['date_format'], $date->date->getTimestamp(), false ) . '</abbr>
-                                                  <span class="summary" style="display:none">' . $date->name . ' - ' . $entry->getName( array( 'format' => $atts['name_format'] ) ) . '</span>
-                                                  <span class="uid" style="display:none">' . $date->date->format( 'YmdHis' ) . '</span>';
-	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+	if ( $date->preferred ) {
+
+		$classNames[] = 'cn-preferred';
+		$classNames[] = 'cn-date-preferred';
+	}
+
+	$row = '<span class="' . _escape::classNames( $classNames ) . '">';
+
+	// Hidden elements are to maintain hCalendar spec compatibility.
+	$replace[] = empty( $date->name ) ? '' : '<span class="date-name">' . esc_html( $date->name ) . '</span>';
+	$replace[] = empty( $date->date ) ? '' : '<abbr class="dtstart" title="' . esc_attr( $date->date->format( 'Ymd' ) ) . '">' . date_i18n( $atts['date_format'], $date->date->getTimestamp(), false ) . '</abbr>
+                                              <span class="summary" style="display:none">' . esc_html( $date->name ) . ' - ' . $entry->getName( array( 'format' => $atts['name_format'] ) ) . '</span>
+                                              <span class="uid" style="display:none">' . esc_html( $date->date->format( 'YmdHis' ) ) . '</span>';
+	$replace[] = '<span class="cn-separator">' . esc_html( $atts['separator'] ) . '</span>';
 
 	$row .= str_ireplace(
 		$search,
@@ -37,13 +52,13 @@ foreach ( $dates as $date ) {
 		empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %date%' : $defaults['format'] ) : $atts['format']
 	);
 
-	$row .= '</span>' . PHP_EOL;
+	$row .= '</span>';
 
-	$rows[] = apply_filters( 'cn_output_date', cnString::replaceWhatWith( $row, ' ' ), $date, $entry, $atts );
-
+	$rows[] = apply_filters( 'cn_output_date', _string::normalize( $row ), $date, $entry, $atts );
 }
 
-$block = '<span class="date-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+$block = '<span class="date-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 $block = apply_filters( 'cn_output_dates', $block, $dates, $entry, $atts );
 
-echo $block;
+// HTML is escape in the loop above.
+echo $block; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

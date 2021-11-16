@@ -4,6 +4,7 @@ namespace Connections_Directory\Blocks;
 use cnArray;
 use cnEntry;
 use cnTemplate as Template;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class Carousel
@@ -463,7 +464,7 @@ class Carousel {
 		foreach ( $meta as $carousel ) {
 
 			$styles = array();
-			$id     = "#slick-slider-block-{$carousel['blockId']}";
+			$id     = "slick-slider-block-{$carousel['blockId']}";
 
 			$arrowDotsColor  = cnArray::get( $carousel, 'arrowDotsColor', '#000000' );
 			$backgroundColor = cnArray::get( $carousel, 'backgroundColor', '#FFFFFF' );
@@ -543,26 +544,33 @@ class Carousel {
 				"color: {$color}",
 			);
 
-			$styles[] = $id . ' .slick-arrow.slick-next:before { ' . implode( '; ', $arrowDotsStyle ) . ' }';
-			$styles[] = $id . ' .slick-arrow.slick-prev:before { ' . implode( '; ', $arrowDotsStyle ) . ' }';
-			$styles[] = $id . ' .slick-dots li button:before { ' . implode( '; ', $arrowDotsStyle ) . ' }';
-			$styles[] = $id . ' { ' . implode( '; ', $blockStyle ) . ' }';
-			$styles[] = $id . ' .slick-slide { ' . implode( '; ', $slideStyle ) . ' }';
-			$styles[] = $id . ' h3 { ' . implode( '; ', $nameStyle ) . ' }';
-			$styles[] = $id . ' .slick-slide .cn-image-style { ' . implode( '; ', $imageStyle ) . ' }';
-			$styles[] = $id . ' a { ' . implode( '; ', $nameStyle ) . '; text-decoration: none; }';
+			$id             = _escape::id( $id );
+			$arrowDotsStyle = _escape::css( implode( ';', $arrowDotsStyle ) );
+			$blockStyle     = _escape::css( implode( ';', $blockStyle ) );
+			$slideStyle     = _escape::css( implode( ';', $slideStyle ) );
+			$nameStyle      = _escape::css( implode( ';', $nameStyle ) );
+			$imageStyle     = _escape::css( implode( ';', $imageStyle ) );
 
-			$styles = PHP_EOL . implode( PHP_EOL, $styles ) . PHP_EOL;
+			$styles[] = "#{$id} .slick-arrow.slick-next:before { {$arrowDotsStyle} }";
+			$styles[] = "#{$id} .slick-arrow.slick-prev:before { {$arrowDotsStyle} }";
+			$styles[] = "#{$id} .slick-dots li button:before { {$arrowDotsStyle} }";
+			$styles[] = "#{$id} { {$blockStyle} }";
+			$styles[] = "#{$id} .slick-slide {{$slideStyle}}";
+			$styles[] = "#{$id} h3 { {$nameStyle} }";
+			$styles[] = "#{$id} .slick-slide .cn-image-style { {$imageStyle} }";
+			$styles[] = "#{$id} a { {$nameStyle}; text-decoration: none; }";
+
+			$rules = PHP_EOL . implode( PHP_EOL, $styles ) . PHP_EOL;
 
 			array_push(
 				$styleTags,
-				"<style type=\"text/css\" media=\"all\" id=\"slick-slider-block-{$carousel['blockId']}\">{$styles}</style>"
+				"<style type=\"text/css\" media=\"all\" id=\"{$id}\">{$rules}</style>"
 			);
 		}
 
 		if ( ! empty( $styleTags ) ) {
 
-			echo implode( PHP_EOL, $styleTags ) . PHP_EOL;
+			echo implode( PHP_EOL, $styleTags ) , PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

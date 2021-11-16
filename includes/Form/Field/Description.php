@@ -8,6 +8,7 @@ use Connections_Directory\Form\Field\Attribute\Prefix;
 use Connections_Directory\Form\Field\Attribute\Style;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -118,9 +119,9 @@ class Description {
 
 		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
 		_array::set( $attributes, 'id', _escape::id( $id ) );
-		_array::set( $attributes, 'style', stringifyCSSAttributes( $this->css ) );
+		_array::set( $attributes, 'style', _escape::css( _html::stringifyCSSAttributes( $this->css ) ) );
 
-		return stringifyAttributes( $attributes );
+		return _html::stringifyAttributes( $attributes );
 	}
 
 	/**
@@ -136,7 +137,7 @@ class Description {
 
 		if ( 0 < strlen( $this->text ) ) {
 
-			$tag = _escape::tagName( $this->tag );
+			$tag  = _escape::tagName( $this->tag );
 			$html = "<{$tag} " . $this->prepareAttributes() . '>' . _escape::html( $this->text ) . "</{$tag}>";
 		}
 

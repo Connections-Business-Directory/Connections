@@ -5,6 +5,7 @@ use cnSanitize;
 use cnSettingsAPI;
 use cnTerm;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_escape;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,17 +82,15 @@ function getTermParents( $id, $taxonomy, $atts = array() ) {
 
 		if ( is_string( $permalink ) ) {
 
-			$class = 'cn-' . esc_attr( sanitize_html_class( $taxonomy ) ) . '-breadcrumb-item';
-			$id    = 'cn-' . esc_attr( $taxonomy ) . '-breadcrumb-item-' . esc_attr( $parent->term_id );
-			$href  = esc_url( $permalink );
-			$sep   = esc_html( $atts['separator'] );
+			$class = _escape::classNames( "cn-{$taxonomy}-breadcrumb-item" );
+			$id    = _escape::id( "cn-{$taxonomy}-breadcrumb-item-{$parent->term_id}" );
 
-			$chain .= '<span class="' . $class . '" id="' . $id . '"><a href="' . $href . '">' . $name . '</a>' . $sep . '</span>';
+			$chain .= '<span class="' . $class . '" id="' . $id . '"><a href="' . esc_url( $permalink ) . '">' . esc_html( $name ) . '</a>' . esc_html( $atts['separator'] ) . '</span>';
 		}
 
 	} else {
 
-		$chain .= $name . esc_html( $atts['separator'] );
+		$chain .= esc_html( $name ) . esc_html( $atts['separator'] );
 	}
 
 	return $chain;

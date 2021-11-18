@@ -111,7 +111,6 @@
     "grunt-potomo": "~3.5.0",
     "grunt-wp-i18n": "^1.0.3",
     "grunt-wp-readme-to-markdown": "^2.0.1",
-    "imagemin-webpack-plugin": "^2.0.0",
     "load-grunt-tasks": "^5.1.0",
     "lodash": "^4.17.21",
     "logfile-grunt": "^0.4.0",

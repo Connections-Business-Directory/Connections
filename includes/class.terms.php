@@ -257,6 +257,8 @@ class cnTerms {
 	 * If the term $IDs is empty then the uncategorized category is set as the relationship.
 	 * NOTE: Only if the taxonomy is 'category'
 	 *
+	 * NOTE: This is the Connections equivalent of @see wp_set_post_terms() in WordPress core ../wp-includes/post.php
+	 *
 	 * @deprecated 8.1.6 Use {@see cnTerm::setRelationships()} instead.
 	 * @see cnTerm::setRelationships()
 	 *
@@ -751,24 +753,9 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see wp_set_object_terms() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access public
-	 * @since  8.1.6
-	 * @static
+	 * @since 8.1.6
 	 *
 	 * @global @wpdb
-	 *
-	 * @uses   cnTerm::getRelationships()
-	 * @uses   cnTerm::exists()
-	 * @uses   cnTerm::insert()
-	 * @uses   is_wp_error()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::get_var()
-	 * @uses   do_action()
-	 * @uses   wpdb::insert()
-	 * @uses   cnTerm::updateCount()
-	 * @uses   wpdb::get_col()
-	 * @uses   cnTerm::deleteRelationships()
-	 * @uses   wp_cache_delete()
 	 *
 	 * @param int              $object_id The object to relate to.
 	 * @param array|int|string $terms     A single term slug, single term id, or array of either term slugs or ids.

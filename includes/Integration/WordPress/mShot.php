@@ -22,7 +22,7 @@ final class mShot {
 	 *
 	 * var string
 	 */
-	const API = '//s0.wordpress.com/mshots/v1/';
+	const API = '//s0.wp.com/mshots/v1/';
 
 	/**
 	 * The URL to take a screenshot of.

@@ -1211,7 +1211,7 @@ class cnEntry_HTML extends cnEntry {
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$block = '<span class="cn-contact-block">' .  $out . '</span>';
+		$block = '<span class="cn-contact-block">' . $out . '</span>';
 
 		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
@@ -1888,7 +1888,7 @@ class cnEntry_HTML extends cnEntry {
 
 		// $out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
-		$block = '<span class="social-media-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+		$block = '<span class="social-media-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 		$block = apply_filters( 'cn_output_social_media_links', $block, $networks, $this, $atts );
 
@@ -2142,7 +2142,7 @@ class cnEntry_HTML extends cnEntry {
 		$out .= '<div class="vevent"><span class="birthday">';
 
 		$replace[] = '<span class="date-name">' . esc_html__( 'Birthday', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'], strtotime( $this->getBirthday( 'Y-m-d' ) ), false ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) . '">' . date_i18n( $atts['date_format'], strtotime( $this->getBirthday( 'Y-m-d' ) ), false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2226,7 +2226,7 @@ class cnEntry_HTML extends cnEntry {
 		$out .= '<div class="vevent"><span class="anniversary">';
 
 		$replace[] = '<span class="date-name">' . esc_html__( 'Anniversary', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'], strtotime( $this->getAnniversary( 'Y-m-d' ) ), false ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) . '">' . date_i18n( $atts['date_format'], strtotime( $this->getAnniversary( 'Y-m-d' ) ), false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2280,7 +2280,7 @@ class cnEntry_HTML extends cnEntry {
 
 		$out = apply_filters( 'cn_output_notes', $this->getNotes(), $this );
 
-		$out = '<div class="cn-notes">' . $atts['before'] . $out .  $atts['after'] . '</div>' . PHP_EOL;
+		$out = '<div class="cn-notes">' . $atts['before'] . $out . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

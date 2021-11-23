@@ -1826,7 +1826,7 @@ class cnEntry_HTML extends cnEntry {
 		 * Ensure the supplied icon style and size are valid, if not reset to the default values.
 		 */
 		// $iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
-		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
+		$iconSize = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
 		if ( empty( $networks ) ) {
 			return '';
@@ -1837,7 +1837,7 @@ class cnEntry_HTML extends cnEntry {
 		$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
 
 		foreach ( $networks as $network ) {
-			$replace   = array();
+			$replace = array();
 			// $iconClass = array();
 
 			/*

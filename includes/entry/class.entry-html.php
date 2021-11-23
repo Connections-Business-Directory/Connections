@@ -1497,7 +1497,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Returns the entry's telephone type in a HTML hCard compliant string.
+	 * Returns the entry's telephone type in an HTML hCard compliant string.
 	 *
 	 * @link http://microformats.org/wiki/hcard-cheatsheet
 	 *
@@ -1539,7 +1539,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Returns the entry's address type in a HTML hCard compliant string.
+	 * Returns the entry's address type in an HTML hCard compliant string.
 	 *
 	 * @link http://microformats.org/wiki/adr-cheatsheet#Properties_.28Class_Names.29
 	 *

@@ -541,7 +541,9 @@ class cnEntry_HTML extends cnEntry {
 
 					$width  = absint( $atts['style']['width'] );
 					$height = absint( $atts['style']['height'] );
+
 					$atts['style']['padding-bottom'] = "calc({$height} / {$width} * 100%)";
+
 					unset( $atts['style']['height'] );
 
 					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
@@ -2359,7 +2361,7 @@ class cnEntry_HTML extends cnEntry {
 		 * @since 8.5.19
 		 */
 		$excerpt = apply_filters( 'cn_output_excerpt', $excerpt, $this );
-		$html = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
+		$html    = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -2766,7 +2768,7 @@ class cnEntry_HTML extends cnEntry {
 
 		// These are values will need to be added to the query string in order to download unlisted entries from the admin.
 		if ( 'unlisted' === $this->getVisibility() ) {
-			$id = $this->getId();
+			$id    = $this->getId();
 			$token = wp_create_nonce( 'download_vcard_' . $this->getId() );
 		}
 

@@ -1504,38 +1504,38 @@ class cnEntry_HTML extends cnEntry {
 	 * @internal
 	 * @since unknown
 	 *
-	 * @param string $data
+	 * @param string $type The telephone type.
 	 *
-	 * @return string
+	 * @return string Telephone type in an HTML hCard compliant string.
 	 */
-	public function gethCardTelType( $data ) {
+	public function gethCardTelType( $type ) {
 
-		$type = '';
+		$html = '';
 
-		switch ( $data ) {
+		switch ( $type ) {
 
 			case 'home':
 			case 'homephone':
-				$type = '<span class="type" style="display: none;">home</span>';
+				$html = '<span class="type" style="display: none;">home</span>';
 				break;
 			case 'homefax':
-				$type = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
+				$html = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
 				break;
 			case 'cell':
 			case 'cellphone':
-				$type = '<span class="type" style="display: none;">cell</span>';
+				$html = '<span class="type" style="display: none;">cell</span>';
 				break;
 			case 'work':
 			case 'workphone':
-				$type = '<span class="type" style="display: none;">work</span>';
+				$html = '<span class="type" style="display: none;">work</span>';
 				break;
 			case 'fax':
 			case 'workfax':
-				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
+				$html = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
 				break;
 		}
 
-		return $type;
+		return $html;
 	}
 
 	/**
@@ -1546,27 +1546,27 @@ class cnEntry_HTML extends cnEntry {
 	 * @internal
 	 * @since unknown
 	 *
-	 * @param string $adrType
+	 * @param string $type The address type.
 	 *
-	 * @return string
+	 * @return string Address type in an HTML hCard compliant string.
 	 */
-	public function gethCardAdrType( $adrType ) {
+	public function gethCardAdrType( $type ) {
 
-		switch ( $adrType ) {
+		switch ( $type ) {
 
 			case 'home':
-				$type = '<span class="type" style="display: none;">home</span>';
+				$html = '<span class="type" style="display: none;">home</span>';
 				break;
 			case 'work':
-				$type = '<span class="type" style="display: none;">work</span>';
+				$html = '<span class="type" style="display: none;">work</span>';
 				break;
 			case 'school':
 			case 'other':
 			default:
-				$type = '<span class="type" style="display: none;">postal</span>';
+				$html = '<span class="type" style="display: none;">postal</span>';
 		}
 
-		return $type;
+		return $html;
 	}
 
 	/**

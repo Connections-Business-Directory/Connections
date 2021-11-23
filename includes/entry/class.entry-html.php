@@ -1515,8 +1515,6 @@ class cnEntry_HTML extends cnEntry {
 		switch ( $data ) {
 
 			case 'home':
-				$type = '<span class="type" style="display: none;">home</span>';
-				break;
 			case 'homephone':
 				$type = '<span class="type" style="display: none;">home</span>';
 				break;
@@ -1524,21 +1522,15 @@ class cnEntry_HTML extends cnEntry {
 				$type = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
 				break;
 			case 'cell':
-				$type = '<span class="type" style="display: none;">cell</span>';
-				break;
 			case 'cellphone':
 				$type = '<span class="type" style="display: none;">cell</span>';
 				break;
 			case 'work':
-				$type = '<span class="type" style="display: none;">work</span>';
-				break;
 			case 'workphone':
 				$type = '<span class="type" style="display: none;">work</span>';
 				break;
-			case 'workfax':
-				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
-				break;
 			case 'fax':
+			case 'workfax':
 				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
 				break;
 		}

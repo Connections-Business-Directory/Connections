@@ -1303,17 +1303,17 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id']   = $this->getId();
 
 		$html = $this->addresses->filterBy( 'type', $atts['type'] )
-		                        ->filterBy( 'district', $atts['district'] )
-		                        ->filterBy( 'county', $atts['county'] )
-		                        ->filterBy( 'city', $atts['city'] )
-		                        ->filterBy( 'state', $atts['state'] )
-		                        ->filterBy( 'zipcode', $atts['zipcode'] )
-		                        ->filterBy( 'country', $atts['country'] )
-		                        ->filterBy( 'preferred', $atts['preferred'] )
-		                        ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                        ->take( $atts['limit'] )
-		                        ->escapeFor( 'display' )
-		                        ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+								->filterBy( 'district', $atts['district'] )
+								->filterBy( 'county', $atts['county'] )
+								->filterBy( 'city', $atts['city'] )
+								->filterBy( 'state', $atts['state'] )
+								->filterBy( 'zipcode', $atts['zipcode'] )
+								->filterBy( 'country', $atts['country'] )
+								->filterBy( 'preferred', $atts['preferred'] )
+								->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+								->take( $atts['limit'] )
+								->escapeFor( 'display' )
+								->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
 		$this->addresses->resetFilters();
@@ -1639,11 +1639,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->emailAddresses->filterBy( 'type', $atts['type'] )
-		                             ->filterBy( 'preferred', $atts['preferred'] )
-		                             ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                             ->take( $atts['limit'] )
-		                             ->escapeFor( 'display' )
-		                             ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+									 ->filterBy( 'preferred', $atts['preferred'] )
+									 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+									 ->take( $atts['limit'] )
+									 ->escapeFor( 'display' )
+									 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get email addresses with different params return expected results.
 		$this->emailAddresses->resetFilters();
@@ -1716,11 +1716,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->im->filterBy( 'type', $atts['type'] )
-		                 ->filterBy( 'preferred', $atts['preferred'] )
-		                 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                 ->take( $atts['limit'] )
-		                 ->escapeFor( 'display' )
-		                 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+						 ->filterBy( 'preferred', $atts['preferred'] )
+						 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+						 ->take( $atts['limit'] )
+						 ->escapeFor( 'display' )
+						 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get messenger IDs with different params return expected results.
 		$this->im->resetFilters();
@@ -1974,11 +1974,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->links->filterBy( 'type', $atts['type'] )
-		                    ->filterBy( 'preferred', $atts['preferred'] )
-		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                    ->take( $atts['limit'] )
-		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+							->filterBy( 'preferred', $atts['preferred'] )
+							->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+							->take( $atts['limit'] )
+							->escapeFor( 'display' )
+							->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->links->resetFilters();
@@ -2058,11 +2058,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->dates->filterBy( 'type', $atts['type'] )
-		                    ->filterBy( 'preferred', $atts['preferred'] )
-		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                    ->take( $atts['limit'] )
-		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+							->filterBy( 'preferred', $atts['preferred'] )
+							->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+							->take( $atts['limit'] )
+							->escapeFor( 'display' )
+							->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->dates->resetFilters();

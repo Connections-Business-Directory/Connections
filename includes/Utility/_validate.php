@@ -74,7 +74,7 @@ final class _validate {
 	 *
 	 * @since 10.4.1
 	 *
-	 * @param int|string $value
+	 * @param int|string $value Value to validate.
 	 *
 	 * @return bool
 	 */

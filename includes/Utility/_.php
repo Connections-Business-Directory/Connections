@@ -25,14 +25,17 @@ final class _ {
 	 * @link https://stackoverflow.com/a/29018655/5351316
 	 *
 	 * @since 10.4.1
+	 * @deprecated 10.4.7
 	 *
-	 * @param int|string $value
+	 * @param int|string $value Value to validate.
 	 *
 	 * @return bool
 	 */
 	public static function isPositiveInteger( $value ) {
 
-		return ctype_digit( strval( $value ) );
+		_deprecated_function( __METHOD__, '10.4.7', '_validate::isPositiveInteger()' );
+
+		return _validate::isPositiveInteger( $value );
 	}
 
 	/**

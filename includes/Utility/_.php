@@ -18,24 +18,6 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 final class _ {
 
 	/**
-	 * Determine if supplied value is an integer.
-	 *
-	 * Reliable consistent method vs `is_int()`.
-	 *
-	 * @link https://stackoverflow.com/a/29018655/5351316
-	 *
-	 * @since 10.4.1
-	 *
-	 * @param int|string $value
-	 *
-	 * @return bool
-	 */
-	public static function isInteger( $value ) {
-
-		return false !== filter_var( $value, FILTER_VALIDATE_INT );
-	}
-
-	/**
 	 * Determine if supplied value is a positive integer.
 	 *
 	 * Negative integers will return `false`.

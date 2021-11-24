@@ -64,4 +64,22 @@ final class _validate {
 
 		return ! ( false === filter_var( $value, FILTER_VALIDATE_FLOAT ) );
 	}
+
+	/**
+	 * Determine if supplied value is an integer.
+	 *
+	 * Reliable consistent method vs `is_int()`.
+	 *
+	 * @link  https://stackoverflow.com/a/29018655/5351316
+	 *
+	 * @since 10.4.1
+	 *
+	 * @param int|string $value
+	 *
+	 * @return bool
+	 */
+	public static function isInteger( $value ) {
+
+		return false !== filter_var( $value, FILTER_VALIDATE_INT );
+	}
 }

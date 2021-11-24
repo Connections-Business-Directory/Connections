@@ -18,6 +18,20 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 final class _ {
 
 	/**
+	 * Checks if the current environment type is set to 'development' or 'local'.
+	 *
+	 * @see \WP_Site_Health::is_development_environment()
+	 *
+	 * @since 10.4.7
+	 *
+	 * @return bool
+	 */
+	public static function isDevelopmentEnvironment() {
+
+		return in_array( wp_get_environment_type(), array( 'development', 'local' ), true );
+	}
+
+	/**
 	 * Determine if supplied value is a positive integer.
 	 *
 	 * Negative integers will return `false`.

@@ -37,7 +37,7 @@ function addCategory() {
 
 		$category->save();
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 
 		exit();
 

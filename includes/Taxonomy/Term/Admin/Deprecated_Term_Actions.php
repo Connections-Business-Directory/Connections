@@ -222,7 +222,7 @@ function bulkTerm() {
 			$url = add_query_arg( array( 'paged' => $page ) , $url );
 		}
 
-		wp_redirect( $url );
+		wp_safe_redirect( $url );
 
 		exit();
 

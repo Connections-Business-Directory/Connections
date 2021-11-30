@@ -79,7 +79,7 @@ function updateCategory() {
 
 		$category->update();
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 
 		exit();
 
@@ -115,7 +115,7 @@ function deleteCategory() {
 		$category = new cnCategory( $result );
 		$category->delete();
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 
 		exit();
 
@@ -184,7 +184,7 @@ function categoryManagement() {
 			$url = add_query_arg( array( 'paged' => $page ), $url );
 		}
 
-		wp_redirect( $url );
+		wp_safe_redirect( $url );
 
 		exit();
 

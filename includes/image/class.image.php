@@ -1751,7 +1751,7 @@ class cnImage {
 	 * @since  8.6.6
 	 * @static
 	 *
-	 * @param string $url          The absolute image URL
+	 * @param string $url          The absolute image URL.
 	 * @param int    $timeout      The timeout in seconds to limit the image download to.
 	 * @param string $subDirectory The folder within WP_CONTENT_DIR/CN_IMAGE_DIR_NAME to save the image into.
 	 *

@@ -195,7 +195,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		$args['offset'] = $this->offset = ( $args['page'] - 1 ) * $args['number'];
 
-		// Query the all of terms.
+		// Query the all the terms.
 		if ( is_null( $this->orderby ) ) {
 
 			$args['number'] = $args['offset'] = 0;

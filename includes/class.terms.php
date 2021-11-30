@@ -1680,11 +1680,11 @@ class cnTerm {
 		$tt_id = (int) $wpdb->insert_id;
 
 		/*
-	 * Sanity check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
-	 * an existing term, then we have unwittingly created a duplicate term. Delete the dupe, and use the term_id
-	 * and term_taxonomy_id of the older term instead. Then return out of the function so that the "create" hooks
-	 * are not fired.
-	 */
+		 * Sanity check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
+		 * an existing term, then we have unwittingly created a duplicate term. Delete the dupe, and use the term_id
+		 * and term_taxonomy_id of the older term instead. Then return out of the function so that the "create" hooks
+		 * are not fired.
+		 */
 		$duplicate_term = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT t.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " tt ON ( tt.term_id = t.term_id ) WHERE t.slug = %s AND tt.parent = %d AND tt.taxonomy = %s AND t.term_id < %d AND tt.term_taxonomy_id != %d",

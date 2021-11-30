@@ -78,6 +78,8 @@ class cnCSV_Export {
 	 *
 	 * @link http://www.contextis.com/resources/blog/comma-separated-vulnerabilities/
 	 * @link https://hackerone.com/reports/72785
+	 * @link https://symfony.com/blog/cve-2021-41270-prevent-csv-injection-via-formulas
+	 * @link https://owasp.org/www-community/attacks/CSV_Injection
 	 *
 	 * @since 8.5.1
 	 * @since 9.7   Add protection against CSV Injection, also known as Formula Injection.

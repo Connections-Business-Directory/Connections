@@ -1764,8 +1764,8 @@ class cnImage {
 
 		if ( is_wp_error( $file ) ) {
 
-			/** @noinspection PhpUsageOfSilenceOperatorInspection */
-			@unlink( $file );
+			// `$file` is an WP_Error object, do not attempt to `unlink()`, it will cause a fatal error.
+			// @unlink( $file );
 
 			return new WP_Error(
 				'image_download_failed',

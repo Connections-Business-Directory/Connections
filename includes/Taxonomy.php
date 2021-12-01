@@ -151,7 +151,9 @@ final class Taxonomy {
 
 	/**
 	 * The Content Block properties.
+	 *
 	 * @see Content_Block::__construct()
+	 *
 	 * @since 10.2
 	 * @var array
 	 */
@@ -159,7 +161,9 @@ final class Taxonomy {
 
 	/**
 	 * The Content Block properties.
+	 *
 	 * @see Content_Blocks\Entry\Taxonomy::__construct()
+	 *
 	 * @since 10.2
 	 * @var array
 	 */

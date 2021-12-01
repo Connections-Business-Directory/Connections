@@ -134,7 +134,7 @@ final class Taxonomy {
 	//protected $show_admin_column = false;
 
 	/**
-	 * Whether or not to register a Content Block for the taxonomy.
+	 * Whether to register a Content Block for the taxonomy.
 	 *
 	 * @since 10.2
 	 * @var bool
@@ -142,7 +142,7 @@ final class Taxonomy {
 	protected $register_content_block = true;
 
 	/**
-	 * Whether or not to register a widget for the taxonomy.
+	 * Whether to register a widget for the taxonomy.
 	 *
 	 * @since 10.2
 	 * @var bool

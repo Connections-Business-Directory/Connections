@@ -987,7 +987,7 @@ final class Taxonomy {
 	 *
 	 * @param array $fields
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function registerSettingsFields( $fields ) {
 

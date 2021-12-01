@@ -6,6 +6,7 @@ use cnCategory;
 use cnFormatting;
 use cnFormObjects;
 use cnMessage;
+use Connections_Directory\Utility\_array;
 
 /**
  * Callback for the `cn_add_category` action.
@@ -28,16 +29,16 @@ function addCategory() {
 		check_admin_referer( $form->getNonce( 'add_category' ), '_cn_wpnonce' );
 
 		$category = new cnCategory();
-		$format   = new cnFormatting();
 
-		$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
-		$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
-		$category->setParent( $format->sanitizeString( $_POST['category_parent'] ) );
-		$category->setDescription( $format->sanitizeString( $_POST['category_description'], true ) );
+		// `$_POST` data is escaped in `cnTerm::insert()` utilizing `sanitize_term()`.
+		$category->setName( _array::get( $_POST, 'category_name', '' ) );
+		$category->setSlug( _array::get( $_POST, 'category_slug', '' ) );
+		$category->setParent( _array::get( $_POST, 'category_parent', 0 ) );
+		$category->setDescription( _array::get( $_POST, 'category_description', '' ) );
 
 		$category->save();
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 
 		exit();
 
@@ -69,17 +70,17 @@ function updateCategory() {
 		check_admin_referer( $form->getNonce( 'update_category' ), '_cn_wpnonce' );
 
 		$category = new cnCategory();
-		$format   = new cnFormatting();
 
-		$category->setID( $format->sanitizeString( $_POST['category_id'] ) );
-		$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
-		$category->setParent( $format->sanitizeString( $_POST['category_parent'] ) );
-		$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
-		$category->setDescription( $format->sanitizeString( $_POST['category_description'], true ) );
+		// `$_POST` data is escaped in `cnTerm::update()` utilizing `sanitize_term()`.
+		$category->setID( _array::get( $_POST, 'category_id', 0 ) );
+		$category->setName( _array::get( $_POST, 'category_name', '' ) );
+		$category->setParent( _array::get( $_POST, 'category_parent', 0 ) );
+		$category->setSlug( _array::get( $_POST, 'category_slug', '' ) );
+		$category->setDescription( _array::get( $_POST, 'category_description', '' ) );
 
 		$category->update();
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 
 		exit();
 
@@ -115,7 +116,7 @@ function deleteCategory() {
 		$category = new cnCategory( $result );
 		$category->delete();
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+		wp_safe_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 
 		exit();
 
@@ -184,7 +185,7 @@ function categoryManagement() {
 			$url = add_query_arg( array( 'paged' => $page ), $url );
 		}
 
-		wp_redirect( $url );
+		wp_safe_redirect( $url );
 
 		exit();
 

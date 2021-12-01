@@ -43,6 +43,7 @@ final class Actions {
 
 			check_admin_referer( $form->getNonce( 'add-term' ), '_cn_wpnonce' );
 
+			// `$_REQUEST` data is escaped in `cnTerm::insert()` utilizing `sanitize_term()`.
 			$result = cnTerm::insert(
 				_array::get( $_REQUEST, 'term-name', '' ),
 				$taxonomy->getSlug(),
@@ -106,6 +107,7 @@ final class Actions {
 				cnMessage::set( 'error', 'category_self_parent' );
 			}
 
+			// `$_REQUEST` data is escaped in `cnTerm::update()` utilizing `sanitize_term()`.
 			$result = cnTerm::update(
 				$termID,
 				$taxonomy->getSlug(),

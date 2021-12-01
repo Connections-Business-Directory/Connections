@@ -134,7 +134,7 @@ final class Taxonomy {
 	//protected $show_admin_column = false;
 
 	/**
-	 * Whether or not to register a Content Block for the taxonomy.
+	 * Whether to register a Content Block for the taxonomy.
 	 *
 	 * @since 10.2
 	 * @var bool
@@ -142,7 +142,7 @@ final class Taxonomy {
 	protected $register_content_block = true;
 
 	/**
-	 * Whether or not to register a widget for the taxonomy.
+	 * Whether to register a widget for the taxonomy.
 	 *
 	 * @since 10.2
 	 * @var bool
@@ -151,7 +151,9 @@ final class Taxonomy {
 
 	/**
 	 * The Content Block properties.
+	 *
 	 * @see Content_Block::__construct()
+	 *
 	 * @since 10.2
 	 * @var array
 	 */
@@ -159,7 +161,9 @@ final class Taxonomy {
 
 	/**
 	 * The Content Block properties.
+	 *
 	 * @see Content_Blocks\Entry\Taxonomy::__construct()
+	 *
 	 * @since 10.2
 	 * @var array
 	 */
@@ -504,7 +508,7 @@ final class Taxonomy {
 		}
 
 		$this->setLabels( $args['labels'] );
-		$this->label  = $this->labels->name;
+		$this->label = $this->labels->name;
 	}
 
 	/**
@@ -983,7 +987,7 @@ final class Taxonomy {
 	 *
 	 * @param array $fields
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function registerSettingsFields( $fields ) {
 
@@ -1075,7 +1079,7 @@ final class Taxonomy {
 	}
 
 	/**
-	 * Setup the taxonomy labels.
+	 * Set up the taxonomy labels.
 	 *
 	 * Similar to:
 	 * @see get_taxonomy_labels()
@@ -1204,7 +1208,7 @@ final class Taxonomy {
 	}
 
 	/**
-	 * Whether or not the taxonomy is a "core" builtin taxonomy.
+	 * Whether the taxonomy is a "core" builtin taxonomy.
 	 *
 	 * @since 10.2
 	 *
@@ -1216,7 +1220,8 @@ final class Taxonomy {
 	}
 
 	/**
-	 * Whether or not the taxonomy is hierarchical.
+	 * Whether the taxonomy is hierarchical.
+	 *
 	 * @since 10.2
 	 *
 	 * @return bool
@@ -1227,7 +1232,7 @@ final class Taxonomy {
 	}
 
 	/**
-	 * Whether or not to display the admin UI.
+	 * Whether to display the admin UI.
 	 *
 	 * @since 10.2
 	 *
@@ -1239,7 +1244,7 @@ final class Taxonomy {
 	}
 
 	/**
-	 * Whether or not the taxonomy is public.
+	 * Whether the taxonomy is public.
 	 *
 	 * @since 10.2
 	 *
@@ -1251,7 +1256,7 @@ final class Taxonomy {
 	}
 
 	/**
-	 * Whether or not the taxonomy is publicly queryable.
+	 * Whether the taxonomy is publicly queryable.
 	 *
 	 * @since 10.3
 	 *
@@ -1370,7 +1375,7 @@ final class Taxonomy {
 	public function renderManageTerms() {
 
 		/**
-		 * Assign self to $taxonomy so it can be access in included files.
+		 * Assign self to $taxonomy, so it can be access in included files.
 		 *
 		 * @noinspection PhpUnusedLocalVariableInspection
 		 */
@@ -1510,7 +1515,7 @@ final class Taxonomy {
 	public function renderMetabox( $entry, $metabox ) {
 
 		/**
-		 * Assign self to $taxonomy so it can be accessed in the included files.
+		 * Assign self to $taxonomy, so it can be accessed in the included files.
 		 * @noinspection PhpUnusedLocalVariableInspection
 		 */
 		$taxonomy =& $this;
@@ -1542,7 +1547,7 @@ final class Taxonomy {
 	 * @see taxonomy_meta_box_sanitize_cb_input()
 	 *
 	 * The default callback for the `meta_box_sanitize_cb` property for sanitizing
-	 * the supplied taxonomy terms before attaching them to an directory entry.
+	 * the supplied taxonomy terms before attaching them to a directory entry.
 	 *
 	 * @internal
 	 * @since 10.2

@@ -247,6 +247,40 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.7 12/01/2021 =
+
+* NEW: Introduce `_::isDevelopmentEnvironment()`.
+* TWEAK: Update mShot API URI.
+* TWEAK: Collapse duplicate case statements.
+* TWEAK: Minor refactor of `cnEntry_HTML::gethCardTelType()` and `cnEntry_HTML::gethCardAdrType()`, renaming of
+  variables to be more clear and update phpDoc.
+* TWEAK: Add the `cn-phone-number-type-{$type}` class to the phone number HTML block to allow each phone type to be
+  selected by CSS.
+* TWEAK: Move `_::isInteger()` to `_validate::isInteger()`.
+* TWEAK: Move `_::isPositiveInteger()` to `_validate::isPositiveInteger()`.
+* TWEAK: Add timestamp to template CSS version if site is set to the development environment.
+* TWEAK: Utilize `_array::get()` to get request data to avoid undefined index notices.
+* BUG: Do not use `unlink()` on an `WP_Error` object.
+* SECURITY: Refactor escaping of `getTermParents()`.
+* SECURITY: Utilize `wp_safe_redirect()` instead of `wp_redirect()`.
+* SECURITY: Sanitize admin term list request variables.
+* OTHER: Correct misspellings.
+* DEV: Update Node modules.
+* DEV: Remove unnecessary Node module imagemin-webpack-plugin.
+* DEV: phpDoc updates.
+* DEV: Tabs must be used to indent lines; spaces are not allowed.
+* DEV: Equals sign not aligned correctly.
+* DEV: Space found before argument list.
+* DEV: Concat operator must be surrounded by a single space.
+* DEV: phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
+* DEV: phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+* DEV: Parameter comment must end with a full stop.
+* DEV: Correct inline code comment.
+* DEV: Add inline code comment.
+* DEV: There must be exactly one blank line before the tags in a doc comment.
+* DEV: Update vendor files.
+* DEV: Update dist files.
+
 = 10.4.6 11/16/2021 =
 
 * NEW: Introduce `_escape::css()`.

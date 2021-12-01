@@ -96,7 +96,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the image/logo if associated in a HTML hCard compliant string.
+	 * Echo or return the image/logo if associated in an HTML hCard compliant string.
 	 *
 	 * Accepted option for the $atts property are:
 	 *  image (string) Select the image to display. Valid values are photo || logo
@@ -104,7 +104,7 @@ class cnEntry_HTML extends cnEntry {
 	 *  fallback (array) Object to be shown when there is no image or logo.
 	 *   type (string) Fallback type. Valid values are; none || default || block
 	 *   string (string) The string used with the block fallback
-	 *   height (int) Block height. [Required if a image custom size was set.]
+	 *   height (int) Block height. [Required if an image custom size was set.]
 	 *   width (int) Block width.
 	 *  height (int) Override the values saved in the settings. [Required if providing custom size.]
 	 *  width (int) Override the values saved in the settings.
@@ -115,7 +115,7 @@ class cnEntry_HTML extends cnEntry {
 	 *   3 Resize proportionally adjusting size of scaled image so there are no borders gaps
 	 *  before (string) HTML to output before the image
 	 *  after (string) HTML to after before the image
-	 *  style (array) Customize an inline stlye tag for the image or the placeholder block. Array format key == attribute; value == value.
+	 *  style (array) Customize an inline style tag for the image or the placeholder block. Array format key == attribute; value == value.
 	 *  return (bool) Return or echo the string. Default is to echo.
 	 *
 	 * NOTE: If only the height or width was set for a custom image size, the opposite image dimension must be set for
@@ -168,7 +168,7 @@ class cnEntry_HTML extends cnEntry {
 			'return'    => false,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );
+		$defaults = apply_filters( 'cn_output_default_atts_image', $defaults );
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
@@ -177,7 +177,7 @@ class cnEntry_HTML extends cnEntry {
 		}
 
 		/*
-		 * Convert some of the $atts values in the array to boolean.
+		 * Convert some $atts values in the array to boolean.
 		 */
 		cnFormatting::toBoolean( $atts['permalink'] );
 		cnFormatting::toBoolean( $atts['lazyload'] );
@@ -232,7 +232,7 @@ class cnEntry_HTML extends cnEntry {
 						} else {
 
 							// Since this is a custom size of an image we can not know which crop mode to use.
-							// Set the crop mode the the value set in $atts['zc'].
+							// Set the crop mode the value set in $atts['zc'].
 							// $cropMode = $atts['zc'];
 
 							// Add the image to the scrset.
@@ -420,7 +420,7 @@ class cnEntry_HTML extends cnEntry {
 
 			$atts['sizes'] = implode( ', ', $atts['sizes'] );
 
-			// Remove any values in the $atts array that not not img attributes and add those that are to the $tag array.
+			// Remove any values in the $atts array that are not img attributes and add those that are to the $tag array.
 			foreach ( $atts as $attr => $value ) {
 				if ( ! empty( $value ) && ! in_array( $attr, $nonAtts ) ) {
 					$tag[] = "$attr=\"$value\"";
@@ -446,7 +446,7 @@ class cnEntry_HTML extends cnEntry {
 
 			/*
 			 * If a link has not been attached to the photo/logo AND the permalink option is enabled
-			 * initiate a new link object and set it's properties.
+			 * initiate a new link object and set its properties.
 			 */
 			if ( ! isset( $link ) && true === $atts['permalink'] ) {
 
@@ -541,7 +541,9 @@ class cnEntry_HTML extends cnEntry {
 
 					$width  = absint( $atts['style']['width'] );
 					$height = absint( $atts['style']['height'] );
+
 					$atts['style']['padding-bottom'] = "calc({$height} / {$width} * 100%)";
+
 					unset( $atts['style']['height'] );
 
 					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
@@ -666,14 +668,14 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry name in a HTML hCard compliant string.
+	 * Echo or return the entry name in an HTML hCard compliant string.
 	 *
 	 * @example
 	 * If an entry is an individual this would return their name as Last Name, First Name
 	 *
 	 * $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
 	 *
-	 * NOTE: If an entry is a organization/family, this will return the organization/family name instead
+	 * NOTE: If an entry is an organization/family, this will return the organization/family name instead
 	 *       ignoring the format attribute because it does not apply.
 	 *
 	 * @access  public
@@ -688,7 +690,7 @@ class cnEntry_HTML extends cnEntry {
 	 *                          '%prefix%', '%first%', '%middle%', '%last%', '%suffix%', '%first_initial%', '%middle_initial%','%last_initial%'
 	 *     @type string $before HTML to be displayed before the relations container. Default, empty string.
 	 *     @type string $after  HTML to be displayed after the relations container. Default, empty string.
-	 *     @type bool   $return Whether or not to return the HTML. Default, FALSE.
+	 *     @type bool   $return Whether to return the HTML. Default, FALSE.
 	 * }
 	 *
 	 * @return string
@@ -801,7 +803,7 @@ class cnEntry_HTML extends cnEntry {
 	/**
 	 * Returns the Entry's full first and last name.
 	 *
-	 * NOTE: If an entry is a organization/family, this will return the organization/family name instead
+	 * NOTE: If an entry is an organization/family, this will return the organization/family name instead
 	 *    ignoring the format attribute because it does not apply.
 	 *
 	 * @deprecated since 0.7.2.0
@@ -817,7 +819,7 @@ class cnEntry_HTML extends cnEntry {
 	/**
 	 * Returns the Entry's full first and last name with the last name first.
 	 *
-	 * NOTE: If an entry is a organization/family, this will return the organization/family name instead
+	 * NOTE: If an entry is an organization/family, this will return the organization/family name instead
 	 *    ignoring the format attribute because it does not apply.
 	 *
 	 * @deprecated since 0.7.2.0
@@ -951,7 +953,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's title in a HTML hCard compliant string.
+	 * Echo or return the entry's title in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  before (string) HTML to output before an address.
@@ -1005,7 +1007,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's organization and/or department in a HTML hCard compliant string.
+	 * Echo or return the entry's organization and/or department in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  before (string) HTML to output before an address.
@@ -1114,7 +1116,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Return the entry's organization and/or department in a HTML hCard compliant string.
+	 * Return the entry's organization and/or department in an HTML hCard compliant string.
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
@@ -1126,7 +1128,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Return the entry's organization and/or department in a HTML hCard compliant string.
+	 * Return the entry's organization and/or department in an HTML hCard compliant string.
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
@@ -1138,7 +1140,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's contact name in a HTML string.
+	 * Echo or return the entry's contact name in an HTML string.
 	 *
 	 * @access  public
 	 * @since   unknown
@@ -1154,7 +1156,7 @@ class cnEntry_HTML extends cnEntry {
 	 *     @type string $separator The separator to use between the label and contact name.
 	 *     @type string $before    The content to render before the contact name block.
 	 *     @type string $after     The content to render after the contact name block.
-	 *     @type bool   $return    Whether or not to echo or return the HTML.
+	 *     @type bool   $return    Whether to echo or return the HTML.
 	 *                             Default: FALSE, which is to echo the result.
 	 * }
 	 *
@@ -1209,7 +1211,7 @@ class cnEntry_HTML extends cnEntry {
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$block = '<span class="cn-contact-block">' .  $out . '</span>';
+		$block = '<span class="cn-contact-block">' . $out . '</span>';
 
 		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
@@ -1217,7 +1219,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's addresses in a HTML hCard compliant string.
+	 * Echo or return the entry's addresses in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry address.
@@ -1230,7 +1232,7 @@ class cnEntry_HTML extends cnEntry {
 	 *  district (array) || (string) Retrieve addresses in a specific district.
 	 *  county (array) || (string) Retrieve addresses in a specific county.
 	 *  city (array) || (string) Retrieve addresses in a specific city.
-	 *  state (array) || (string) Retrieve addresses in a specific state..
+	 *  state (array) || (string) Retrieve addresses in a specific state.
 	 *  zipcode (array) || (string) Retrieve addresses in a specific zipcode.
 	 *  country (array) || (string) Retrieve addresses in a specific country.
 	 *  coordinates (array) Retrieve addresses in with specific coordinates. Both latitude and longitude must be supplied.
@@ -1303,17 +1305,17 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id']   = $this->getId();
 
 		$html = $this->addresses->filterBy( 'type', $atts['type'] )
-		                        ->filterBy( 'district', $atts['district'] )
-		                        ->filterBy( 'county', $atts['county'] )
-		                        ->filterBy( 'city', $atts['city'] )
-		                        ->filterBy( 'state', $atts['state'] )
-		                        ->filterBy( 'zipcode', $atts['zipcode'] )
-		                        ->filterBy( 'country', $atts['country'] )
-		                        ->filterBy( 'preferred', $atts['preferred'] )
-		                        ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                        ->take( $atts['limit'] )
-		                        ->escapeFor( 'display' )
-		                        ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+								->filterBy( 'district', $atts['district'] )
+								->filterBy( 'county', $atts['county'] )
+								->filterBy( 'city', $atts['city'] )
+								->filterBy( 'state', $atts['state'] )
+								->filterBy( 'zipcode', $atts['zipcode'] )
+								->filterBy( 'country', $atts['country'] )
+								->filterBy( 'preferred', $atts['preferred'] )
+								->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+								->take( $atts['limit'] )
+								->escapeFor( 'display' )
+								->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
 		$this->addresses->resetFilters();
@@ -1344,8 +1346,8 @@ class cnEntry_HTML extends cnEntry {
 	 *  static (bool) Query map via the Google Static Maps API
 	 *  maptype (string) Valid types are: HYBRID, ROADMAP, SATELLITE, TERRAIN
 	 *  zoom (int) Sets the zoom level.
-	 *  height (int) Specifiy the div height in px.
-	 *  width (int) Specifiy the div widdth in px.
+	 *  height (int) Specify the div height in px.
+	 *  width (int) Specify the div width in px.
 	 *  coordinates (array) Retrieve addresses in with specific coordinates. Both latitude and longitude must be supplied.
 	 *  before (string) HTML to output before the addresses.
 	 *  after (string) HTML to after before the addresses.
@@ -1421,7 +1423,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's phone numbers in a HTML hCard compliant string.
+	 * Echo or return the entry's phone numbers in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry phone number.
@@ -1497,88 +1499,80 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Returns the entry's telephone type in a HTML hCard compliant string.
+	 * Returns the entry's telephone type in an HTML hCard compliant string.
 	 *
-	 * @link  http://microformats.org/wiki/hcard-cheatsheet
+	 * @link http://microformats.org/wiki/hcard-cheatsheet
 	 *
-	 * @access private
-	 * @since  unknown
+	 * @internal
+	 * @since unknown
 	 *
-	 * @param string $data
+	 * @param string $type The telephone type.
 	 *
-	 * @return string
+	 * @return string Telephone type in an HTML hCard compliant string.
 	 */
-	public function gethCardTelType( $data ) {
+	public function gethCardTelType( $type ) {
 
-		$type = '';
+		$html = '';
 
-		switch ( $data ) {
+		switch ( $type ) {
 
 			case 'home':
-				$type = '<span class="type" style="display: none;">home</span>';
-				break;
 			case 'homephone':
-				$type = '<span class="type" style="display: none;">home</span>';
+				$html = '<span class="type" style="display: none;">home</span>';
 				break;
 			case 'homefax':
-				$type = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
+				$html = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
 				break;
 			case 'cell':
-				$type = '<span class="type" style="display: none;">cell</span>';
-				break;
 			case 'cellphone':
-				$type = '<span class="type" style="display: none;">cell</span>';
+				$html = '<span class="type" style="display: none;">cell</span>';
 				break;
 			case 'work':
-				$type = '<span class="type" style="display: none;">work</span>';
-				break;
 			case 'workphone':
-				$type = '<span class="type" style="display: none;">work</span>';
-				break;
-			case 'workfax':
-				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
+				$html = '<span class="type" style="display: none;">work</span>';
 				break;
 			case 'fax':
-				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
+			case 'workfax':
+				$html = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
 				break;
 		}
 
-		return $type;
+		return $html;
 	}
 
 	/**
-	 * Returns the entry's address type in a HTML hCard compliant string.
+	 * Returns the entry's address type in an HTML hCard compliant string.
 	 *
 	 * @link http://microformats.org/wiki/adr-cheatsheet#Properties_.28Class_Names.29
 	 *
-	 * @access private
-	 * @since  unknown
+	 * @internal
+	 * @since unknown
 	 *
-	 * @param string $adrType
+	 * @param string $type The address type.
 	 *
-	 * @return string
+	 * @return string Address type in an HTML hCard compliant string.
 	 */
-	public function gethCardAdrType( $adrType ) {
+	public function gethCardAdrType( $type ) {
 
-		switch ( $adrType ) {
+		switch ( $type ) {
 
 			case 'home':
-				$type = '<span class="type" style="display: none;">home</span>';
+				$html = '<span class="type" style="display: none;">home</span>';
 				break;
 			case 'work':
-				$type = '<span class="type" style="display: none;">work</span>';
+				$html = '<span class="type" style="display: none;">work</span>';
 				break;
 			case 'school':
 			case 'other':
 			default:
-				$type = '<span class="type" style="display: none;">postal</span>';
+				$html = '<span class="type" style="display: none;">postal</span>';
 		}
 
-		return $type;
+		return $html;
 	}
 
 	/**
-	 * Echo or return the entry's email addresses in a HTML hCard compliant string.
+	 * Echo or return the entry's email addresses in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry email address.
@@ -1647,11 +1641,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->emailAddresses->filterBy( 'type', $atts['type'] )
-		                             ->filterBy( 'preferred', $atts['preferred'] )
-		                             ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                             ->take( $atts['limit'] )
-		                             ->escapeFor( 'display' )
-		                             ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+									 ->filterBy( 'preferred', $atts['preferred'] )
+									 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+									 ->take( $atts['limit'] )
+									 ->escapeFor( 'display' )
+									 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get email addresses with different params return expected results.
 		$this->emailAddresses->resetFilters();
@@ -1666,7 +1660,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's IM network IDs in a HTML hCard compliant string.
+	 * Echo or return the entry's IM network IDs in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry IM network.
@@ -1724,11 +1718,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->im->filterBy( 'type', $atts['type'] )
-		                 ->filterBy( 'preferred', $atts['preferred'] )
-		                 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                 ->take( $atts['limit'] )
-		                 ->escapeFor( 'display' )
-		                 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+						 ->filterBy( 'preferred', $atts['preferred'] )
+						 ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+						 ->take( $atts['limit'] )
+						 ->escapeFor( 'display' )
+						 ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get messenger IDs with different params return expected results.
 		$this->im->resetFilters();
@@ -1743,7 +1737,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's social media network IDs in a HTML hCard compliant string.
+	 * Echo or return the entry's social media network IDs in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry social media network.
@@ -1834,7 +1828,7 @@ class cnEntry_HTML extends cnEntry {
 		 * Ensure the supplied icon style and size are valid, if not reset to the default values.
 		 */
 		// $iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
-		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
+		$iconSize = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
 		if ( empty( $networks ) ) {
 			return '';
@@ -1845,7 +1839,7 @@ class cnEntry_HTML extends cnEntry {
 		$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
 
 		foreach ( $networks as $network ) {
-			$replace   = array();
+			$replace = array();
 			// $iconClass = array();
 
 			/*
@@ -1894,7 +1888,7 @@ class cnEntry_HTML extends cnEntry {
 
 		// $out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
-		$block = '<span class="social-media-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+		$block = '<span class="social-media-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 		$block = apply_filters( 'cn_output_social_media_links', $block, $networks, $this, $atts );
 
@@ -1904,7 +1898,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Return the entry's websites in a HTML hCard compliant string.
+	 * Return the entry's websites in an HTML hCard compliant string.
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
@@ -1919,7 +1913,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's links in a HTML hCard compliant string.
+	 * Echo or return the entry's links in an HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry link.
@@ -1982,11 +1976,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->links->filterBy( 'type', $atts['type'] )
-		                    ->filterBy( 'preferred', $atts['preferred'] )
-		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                    ->take( $atts['limit'] )
-		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+							->filterBy( 'preferred', $atts['preferred'] )
+							->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+							->take( $atts['limit'] )
+							->escapeFor( 'display' )
+							->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->links->resetFilters();
@@ -2002,7 +1996,7 @@ class cnEntry_HTML extends cnEntry {
 
 
 	/**
-	 * Echo or return the entry's dates in a HTML string.
+	 * Echo or return the entry's dates in an HTML string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry date.
@@ -2066,11 +2060,11 @@ class cnEntry_HTML extends cnEntry {
 		$atts['id'] = $this->getId();
 
 		$html = $this->dates->filterBy( 'type', $atts['type'] )
-		                    ->filterBy( 'preferred', $atts['preferred'] )
-		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-		                    ->take( $atts['limit'] )
-		                    ->escapeFor( 'display' )
-		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
+							->filterBy( 'preferred', $atts['preferred'] )
+							->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+							->take( $atts['limit'] )
+							->escapeFor( 'display' )
+							->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), true, true );
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->dates->resetFilters();
@@ -2085,7 +2079,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's birthday in a HTML string.
+	 * Echo or return the entry's birthday in an HTML string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  format (string) The tokens to use to display the date block parts.
@@ -2148,7 +2142,7 @@ class cnEntry_HTML extends cnEntry {
 		$out .= '<div class="vevent"><span class="birthday">';
 
 		$replace[] = '<span class="date-name">' . esc_html__( 'Birthday', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , false ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) . '">' . date_i18n( $atts['date_format'], strtotime( $this->getBirthday( 'Y-m-d' ) ), false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2170,7 +2164,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's anniversary in a HTML string.
+	 * Echo or return the entry's anniversary in an HTML string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  format (string) The tokens to use to display the date block parts.
@@ -2232,7 +2226,7 @@ class cnEntry_HTML extends cnEntry {
 		$out .= '<div class="vevent"><span class="anniversary">';
 
 		$replace[] = '<span class="date-name">' . esc_html__( 'Anniversary', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , false ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) . '">' . date_i18n( $atts['date_format'], strtotime( $this->getAnniversary( 'Y-m-d' ) ), false ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace(
@@ -2286,7 +2280,7 @@ class cnEntry_HTML extends cnEntry {
 
 		$out = apply_filters( 'cn_output_notes', $this->getNotes(), $this );
 
-		$out = '<div class="cn-notes">' . $atts['before'] . $out .  $atts['after'] . '</div>' . PHP_EOL;
+		$out = '<div class="cn-notes">' . $atts['before'] . $out . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2367,13 +2361,13 @@ class cnEntry_HTML extends cnEntry {
 		 * @since 8.5.19
 		 */
 		$excerpt = apply_filters( 'cn_output_excerpt', $excerpt, $this );
-		$html = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
+		$html    = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
-	 * Displays the category list in a HTML list or custom format.
+	 * Displays the category list in an HTML list or custom format.
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_the_category_list() in WordPress core ../wp-includes/category-template.php
 	 *
@@ -2403,14 +2397,14 @@ class cnEntry_HTML extends cnEntry {
 	 *                                    Default: ' &raquo; '
 	 *     @type string $before           String content to display before the categories.
 	 *     @type string $after            String content to display after the categories.
-	 *     @type bool   $link             Whether or not render the categories as permalinks.
+	 *     @type bool   $link             Whether render the categories as permalinks.
 	 *                                    Default: false
-	 *     @type bool   $parents          Whether or not to display the category hierarchy.
+	 *     @type bool   $parents          Whether to display the category hierarchy.
 	 *                                    Default: false
 	 *     @type int    $child_of         Term ID to retrieve child terms of.
 	 *                                    If multiple taxonomies are passed, $child_of is ignored.
 	 *                                    Default: 0
-	 *     @type bool   $return           Whether or not to echo or return the HTML.
+	 *     @type bool   $return           Whether to echo or return the HTML.
 	 *                                    Default: false
 	 * }
 	 *
@@ -2559,7 +2553,7 @@ class cnEntry_HTML extends cnEntry {
 
 			ob_start();
 
-			// If the hook has a registered meta data output callback registered, lets run it.
+			// If the hook has a registered metadata output callback registered, lets run it.
 			if ( has_action( 'cn_output_meta_field-' . $key ) ) {
 
 				// Grab the meta.
@@ -2735,7 +2729,7 @@ class cnEntry_HTML extends cnEntry {
 	 *   Permitted Tokens:
 	 *    %text%
 	 *    %icon%
-	 *  follow (bool) Add add the rel="nofollow" attribute if set to FALSE
+	 *  follow (bool) Add the rel="nofollow" attribute if set to FALSE
 	 *  size (int) The icon size. Valid values are: 16, 24, 32, 48
 	 *  slug (string) The entry's slug ID.
 	 *  before (string) HTML to output before the email addresses.
@@ -2774,7 +2768,7 @@ class cnEntry_HTML extends cnEntry {
 
 		// These are values will need to be added to the query string in order to download unlisted entries from the admin.
 		if ( 'unlisted' === $this->getVisibility() ) {
-			$id = $this->getId();
+			$id    = $this->getId();
 			$token = wp_create_nonce( 'download_vcard_' . $this->getId() );
 		}
 
@@ -2791,14 +2785,14 @@ class cnEntry_HTML extends cnEntry {
 			'return' => false,
 		);
 
-		$atts = wp_parse_args( $atts , $defaults );
+		$atts = wp_parse_args( $atts, $defaults );
 
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
 		 */
 		$iconSize = in_array( $atts['size'], $iconSizes ) ? $atts['size'] : 32;
 
-		// Create the permalink base based on context where the entry is being displayed.
+		// Create the permalink based on context where the entry is being displayed.
 		if ( in_the_loop() && is_page() ) {
 
 			$permalink = trailingslashit( get_permalink() );

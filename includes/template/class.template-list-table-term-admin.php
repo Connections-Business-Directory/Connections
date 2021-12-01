@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Taxonomy\_getTermHierarchy as _get_term_hierarchy;
 
 /**
@@ -171,7 +172,8 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		 * $args array var.
 		 */
 
-		$this->search = ! empty( $_REQUEST['s'] ) ? trim( wp_unslash( $_REQUEST['s'] ) ) : '';
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$this->search = ! empty( $_REQUEST['s'] ) ? _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) : '';
 
 		$args = array(
 			'page'       => $this->get_pagenum(),
@@ -182,20 +184,21 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 
-			$args['orderby'] = $this->orderby = trim( wp_unslash( $_REQUEST['orderby'] ) );
+			$args['orderby'] = $this->orderby = sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) );
 		}
 
 		if ( ! empty( $_REQUEST['order'] ) ) {
 
-			$args['order'] = trim( wp_unslash( $_REQUEST['order'] ) );
+			$args['order'] = sanitize_text_field( wp_unslash( $_REQUEST['order'] ) );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		// Set variable because $args['number'] can be subsequently overridden if doing an orderby term query.
 		$this->number = $args['number'];
 
 		$args['offset'] = $this->offset = ( $args['page'] - 1 ) * $args['number'];
 
-		// Query the all of terms.
+		// Query the all the terms.
 		if ( is_null( $this->orderby ) ) {
 
 			$args['number'] = $args['offset'] = 0;

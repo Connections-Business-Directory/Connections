@@ -5,6 +5,7 @@ use cnAdminActions;
 use cnFormObjects;
 use cnMessage;
 use cnTerm;
+use Connections_Directory\Utility\_array;
 
 /**
  * Callback for the `cn_add-term` action.
@@ -26,13 +27,14 @@ function addTerm() {
 
 		check_admin_referer( $form->getNonce( 'add-term' ), '_cn_wpnonce' );
 
+		// `$_POST` data is escaped in `cnTerm::insert()` utilizing `sanitize_term()`.
 		$result = cnTerm::insert(
-			$_POST['term_name'],
-			$_POST['taxonomy'],
+			_array::get( $_POST, 'term_name', '' ),
+			_array::get( $_POST, 'taxonomy', '' ),
 			array(
-				'slug'        => $_POST['term_slug'],
-				'parent'      => $_POST['term_parent'],
-				'description' => $_POST['term_description'],
+				'slug'        => _array::get( $_POST, 'term_slug', '' ),
+				'parent'      => _array::get( $_POST, 'term_parent', 0 ),
+				'description' => _array::get( $_POST, 'term_description', '' ),
 			)
 		);
 
@@ -84,14 +86,15 @@ function updateTerm() {
 
 		remove_filter( 'pre_term_description', 'wp_filter_kses' );
 
+		// `$_POST` data is escaped in `cnTerm::update()` utilizing `sanitize_term()`.
 		$result = cnTerm::update(
-			$_POST['term_id'],
-			$_POST['taxonomy'],
+			_array::get( $_POST, 'term_id', 0 ),
+			_array::get( $_POST, 'taxonomy', '' ),
 			array(
-				'name'        => $_POST['term_name'],
-				'slug'        => $_POST['term_slug'],
-				'parent'      => $_POST['term_parent'],
-				'description' => $_POST['term_description'],
+				'name'        => _array::get( $_POST, 'term_name', '' ),
+				'slug'        => _array::get( $_POST, 'term_slug', '' ),
+				'parent'      => _array::get( $_POST, 'term_parent', 0 ),
+				'description' => _array::get( $_POST, 'term_description', '' ),
 			)
 		);
 
@@ -222,7 +225,7 @@ function bulkTerm() {
 			$url = add_query_arg( array( 'paged' => $page ) , $url );
 		}
 
-		wp_redirect( $url );
+		wp_safe_redirect( $url );
 
 		exit();
 

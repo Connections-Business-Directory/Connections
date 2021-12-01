@@ -257,6 +257,8 @@ class cnTerms {
 	 * If the term $IDs is empty then the uncategorized category is set as the relationship.
 	 * NOTE: Only if the taxonomy is 'category'
 	 *
+	 * NOTE: This is the Connections equivalent of @see wp_set_post_terms() in WordPress core ../wp-includes/post.php
+	 *
 	 * @deprecated 8.1.6 Use {@see cnTerm::setRelationships()} instead.
 	 * @see cnTerm::setRelationships()
 	 *
@@ -751,24 +753,9 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see wp_set_object_terms() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access public
-	 * @since  8.1.6
-	 * @static
+	 * @since 8.1.6
 	 *
 	 * @global @wpdb
-	 *
-	 * @uses   cnTerm::getRelationships()
-	 * @uses   cnTerm::exists()
-	 * @uses   cnTerm::insert()
-	 * @uses   is_wp_error()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::get_var()
-	 * @uses   do_action()
-	 * @uses   wpdb::insert()
-	 * @uses   cnTerm::updateCount()
-	 * @uses   wpdb::get_col()
-	 * @uses   cnTerm::deleteRelationships()
-	 * @uses   wp_cache_delete()
 	 *
 	 * @param int              $object_id The object to relate to.
 	 * @param array|int|string $terms     A single term slug, single term id, or array of either term slugs or ids.
@@ -1693,11 +1680,11 @@ class cnTerm {
 		$tt_id = (int) $wpdb->insert_id;
 
 		/*
-	 * Sanity check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
-	 * an existing term, then we have unwittingly created a duplicate term. Delete the dupe, and use the term_id
-	 * and term_taxonomy_id of the older term instead. Then return out of the function so that the "create" hooks
-	 * are not fired.
-	 */
+		 * Sanity check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
+		 * an existing term, then we have unwittingly created a duplicate term. Delete the dupe, and use the term_id
+		 * and term_taxonomy_id of the older term instead. Then return out of the function so that the "create" hooks
+		 * are not fired.
+		 */
 		$duplicate_term = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT t.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " tt ON ( tt.term_id = t.term_id ) WHERE t.slug = %s AND tt.parent = %d AND tt.taxonomy = %s AND t.term_id < %d AND tt.term_taxonomy_id != %d",

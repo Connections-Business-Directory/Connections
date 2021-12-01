@@ -11,25 +11,24 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
  * Class _
  *
  * @package Connections_Directory\Utility
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  */
 final class _ {
 
 	/**
-	 * Determine if supplied value is an integer.
+	 * Checks if the current environment type is set to 'development' or 'local'.
 	 *
-	 * Reliable consistent method vs `is_int()`.
+	 * @see \WP_Site_Health::is_development_environment()
 	 *
-	 * @link https://stackoverflow.com/a/29018655/5351316
-	 *
-	 * @since 10.4.1
-	 *
-	 * @param int|string $value
+	 * @since 10.4.7
 	 *
 	 * @return bool
 	 */
-	public static function isInteger( $value ) {
+	public static function isDevelopmentEnvironment() {
 
-		return false !== filter_var( $value, FILTER_VALIDATE_INT );
+		return in_array( wp_get_environment_type(), array( 'development', 'local' ), true );
 	}
 
 	/**
@@ -40,14 +39,17 @@ final class _ {
 	 * @link https://stackoverflow.com/a/29018655/5351316
 	 *
 	 * @since 10.4.1
+	 * @deprecated 10.4.7
 	 *
-	 * @param int|string $value
+	 * @param int|string $value Value to validate.
 	 *
 	 * @return bool
 	 */
 	public static function isPositiveInteger( $value ) {
 
-		return ctype_digit( strval( $value ) );
+		_deprecated_function( __METHOD__, '10.4.7', '_validate::isPositiveInteger()' );
+
+		return _validate::isPositiveInteger( $value );
 	}
 
 	/**

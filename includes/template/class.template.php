@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
@@ -1108,8 +1109,9 @@ class cnTemplate {
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );
 		$handle   = "cnt-{$this->slug}";
 		$url      = cnURL::makeProtocolRelative( $this->parts['css-url'] );
+		$version  = _::isDevelopmentEnvironment() ? "{$this->version}-" . filemtime( $this->parts['css-path'] ) : $this->version;
 
-		wp_enqueue_style( $handle, $url, $required, $this->version );
+		wp_enqueue_style( $handle, $url, $required, $version );
 
 		if ( isset( $this->parts['css-custom-url'] ) ) {
 

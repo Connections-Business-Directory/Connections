@@ -1033,7 +1033,7 @@ class cnRewrite {
 			return false;
 		}
 
-		wp_redirect( $redirectURL, 301 );
+		wp_safe_redirect( $redirectURL, 301 );
 		exit();
 	}
 

@@ -26,6 +26,8 @@ foreach ( $phoneNumbers as $phone ) {
 		'cn-phone-number',
 	);
 
+	$classNames[] = _string::applyPrefix( 'cn-phone-number-type-', $phone->type );
+
 	if ( $phone->preferred ) {
 
 		$classNames[] = 'cn-preferred';

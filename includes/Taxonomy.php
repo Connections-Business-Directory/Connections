@@ -508,7 +508,7 @@ final class Taxonomy {
 		}
 
 		$this->setLabels( $args['labels'] );
-		$this->label  = $this->labels->name;
+		$this->label = $this->labels->name;
 	}
 
 	/**

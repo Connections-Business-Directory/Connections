@@ -113,12 +113,15 @@ class cnFormObjects {
 	 * @link http://www.melbournechapter.net/wordpress/programming-languages/php/cman/2006/06/16/php-form-input-and-cross-site-attacks/
 	 *
 	 * @since unknown
+	 * @deprecated 10.4.8
 	 *
 	 * @param string $formId The form ID.
 	 *
 	 * @return string
 	 */
 	public function token( $formId = null ) {
+
+		_deprecated_function( __METHOD__, '10.4.8' );
 
 		return md5( uniqid( rand(), true ) );
 	}

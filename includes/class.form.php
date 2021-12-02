@@ -138,7 +138,7 @@ class cnFormObjects {
 	public function tokenField( $action, $item = false, $name = '_cn_wpnonce', $referer = true, $echo = true ) {
 		$name = esc_attr( $name );
 
-		if ( $item === false ) {
+		if ( false === $item ) {
 
 			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, false );
 
@@ -183,7 +183,7 @@ class cnFormObjects {
 	 */
 	public function getNonce( $action, $item = false ) {
 
-		if ( $item === false ) {
+		if ( false === $item ) {
 
 			$nonce = $this->nonceBase . '_' . $action;
 

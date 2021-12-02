@@ -23,6 +23,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnFormObjects {
+
+	/**
+	 * The nonce base.
+	 *
+	 * @var string
+	 */
 	private $nonceBase = 'connections';
 	private $validate;
 	private $visibiltyOptions = array(
@@ -31,6 +37,9 @@ class cnFormObjects {
 		'Unlisted' => 'unlisted',
 	);
 
+	/**
+	 * cnFormObjects constructor.
+	 */
 	public function __construct() {
 		// Load the validation class.
 		$this->validate = new cnValidate();
@@ -50,7 +59,7 @@ class cnFormObjects {
 	 *
 	 * @since unknown
 	 *
-	 * @param array $attr
+	 * @param array $attr Form attributes array.
 	 */
 	public function open( $attr ) {
 

@@ -164,8 +164,6 @@ class cnFormObjects {
 			echo $token; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		// if ( $referer ) wp_referer_field( $echo, 'previous' );
-
 		return $token;
 	}
 

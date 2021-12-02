@@ -30,8 +30,13 @@ class cnFormObjects {
 	 * @var string
 	 */
 	private $nonceBase = 'connections';
-	private $validate;
-	private $visibiltyOptions = array(
+
+	/**
+	 * Visibility options.
+	 *
+	 * @var string[]
+	 */
+	private $visibilityOptions = array(
 		'Public'   => 'public',
 		'Private'  => 'private',
 		'Unlisted' => 'unlisted',
@@ -41,15 +46,13 @@ class cnFormObjects {
 	 * cnFormObjects constructor.
 	 */
 	public function __construct() {
-		// Load the validation class.
-		$this->validate = new cnValidate();
 
 		/*
 		 * Create the visibility option array based on the current user capability.
 		 */
-		foreach ( $this->visibiltyOptions as $key => $option ) {
+		foreach ( $this->visibilityOptions as $key => $option ) {
 			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) {
-				unset( $this->visibiltyOptions[ $key ] );
+				unset( $this->visibilityOptions[ $key ] );
 			}
 		}
 	}

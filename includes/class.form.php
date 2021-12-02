@@ -67,7 +67,7 @@ class cnFormObjects {
 		}
 
 		if ( isset( $attr['action'] ) ) {
-			$attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';
+			$attr['action'] = 'action="' . esc_url( $attr['action'] ) . '" ';
 		}
 
 		if ( isset( $attr['accept'] ) ) {

@@ -119,9 +119,8 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function token( $formId = null ) {
-		$token = md5( uniqid( rand(), true ) );
 
-		return $token;
+		return md5( uniqid( rand(), true ) );
 	}
 
 	/**

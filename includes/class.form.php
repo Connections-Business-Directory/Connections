@@ -2,8 +2,6 @@
 /**
  * Class for creating various form HTML elements.
  *
- * @todo This class is an absolute mess, clean and optimize.
- *
  * @package     Connections
  * @subpackage  HTML Form Elements
  * @copyright   Copyright (c) 2013, Steven A. Zahm
@@ -46,7 +44,6 @@ class cnFormObjects {
 	/**
 	 * The form open tag.
 	 *
-	 * @todo Finish adding form tag attributes.
 	 * @param array
 	 * @return string
 	 */

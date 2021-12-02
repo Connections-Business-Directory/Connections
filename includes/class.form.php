@@ -44,8 +44,9 @@ class cnFormObjects {
 	/**
 	 * The form open tag.
 	 *
-	 * @param array
-	 * @return string
+	 * @since unknown
+	 *
+	 * @param array $attr
 	 */
 	public function open( $attr ) {
 
@@ -92,9 +93,9 @@ class cnFormObjects {
 	}
 
 	/**
+	 * HTML close tag.
 	 *
-	 *
-	 * @return string HTML close tag
+	 * @since unknown
 	 */
 	public function close() {
 		echo '</form>';
@@ -105,7 +106,9 @@ class cnFormObjects {
 	/**
 	 * Creates a random token.
 	 *
-	 * @param string  $formId The form ID
+	 * @since unknown
+	 *
+	 * @param string $formId The form ID.
 	 *
 	 * @return string
 	 */
@@ -118,11 +121,14 @@ class cnFormObjects {
 	/**
 	 * Retrieves or displays the nonce field for forms using wp_nonce_field.
 	 *
-	 * @param string  $action  Action name.
-	 * @param bool    $item    [optional] Item name. Use when protecting multiple items on the same page.
-	 * @param string  $name    [optional] Nonce name.
-	 * @param bool    $referer [optional] Whether to set and display the refer field for validation.
-	 * @param bool    $echo    [optional] Whether to display or return the hidden form field.
+	 * @since unknown
+	 *
+	 * @param string $action  Action name.
+	 * @param bool   $item    Item name. Use when protecting multiple items on the same page.
+	 * @param string $name    Nonce name.
+	 * @param bool   $referer Whether to set and display the referrer field for validation.
+	 * @param bool   $echo    Whether to display or return the hidden form field.
+	 *
 	 * @return string
 	 */
 	public function tokenField( $action, $item = false, $name = '_cn_wpnonce', $referer = true, $echo = true ) {
@@ -149,8 +155,11 @@ class cnFormObjects {
 	/**
 	 * Retrieves URL with nonce added to the query string.
 	 *
-	 * @param string  $actionURL URL to add the nonce to.
-	 * @param string  $item      Nonce action name.
+	 * @since unknown
+	 *
+	 * @param string $actionURL URL to add the nonce to.
+	 * @param string $item      Nonce action name.
+	 *
 	 * @return string
 	 */
 	public function tokenURL( $actionURL, $item ) {
@@ -161,8 +170,11 @@ class cnFormObjects {
 	/**
 	 * Generate the complete nonce string, from the nonce base, the action and an item.
 	 *
-	 * @param string  $action Action name.
-	 * @param bool    $item   [optional] Item name. Use when protecting multiple items on the same page.
+	 * @since unknown
+	 *
+	 * @param string $action Action name.
+	 * @param bool   $item   Item name. Use when protecting multiple items on the same page.
+	 *
 	 * @return string
 	 */
 	public function getNonce( $action, $item = false ) {
@@ -186,13 +198,13 @@ class cnFormObjects {
 	 *
 	 * @access private
 	 * @deprecated
-	 * @since  0.8
+	 * @since 0.8
 	 *
 	 * @param string $name    The input option id/name value.
 	 * @param array  $options An associative array. Key is the option value and the value is the option name.
 	 * @param string $value   [optional] The selected option.
 	 * @param string $class   The class applied to the select.
-	 * @param string $id      UNUSED
+	 * @param string $id      UNUSED.
 	 *
 	 * @return string
 	 */
@@ -224,10 +236,11 @@ class cnFormObjects {
 	 * @access private
 	 * @deprecated
 	 * @since 0.8
-	 * @param string  $name    The input option id/name value.
-	 * @param string  $id      UNUSED
-	 * @param array   $options An associative array. Key is the option name and the value is the option value.
-	 * @param string  $value   [optional] The selected option.
+	 *
+	 * @param string $name    The input option id/name value.
+	 * @param string $id      UNUSED.
+	 * @param array  $options An associative array. Key is the option name and the value is the option value.
+	 * @param string $value   The selected option.
 	 *
 	 * @return string
 	 */
@@ -261,8 +274,8 @@ class cnFormObjects {
 	 * @access private
 	 * @deprecated
 	 * @since 0.8
-	 * @param string  $pageHook The page hook to add the entry edit metaboxes to.
-	 * @return void
+	 *
+	 * @param string $pageHook The page hook to add the entry edit metaboxes to.
 	 */
 	public function registerEditMetaboxes( $pageHook ) {
 
@@ -289,7 +302,8 @@ class cnFormObjects {
 	 * @access private
 	 * @deprecated
 	 * @since 0.8
-	 * @param object   $entry An instance of the cnEntry object.
+	 *
+	 * @param cnEntry $entry An instance of the cnEntry object.
 	 */
 	public function metaboxName( $entry ) {
 

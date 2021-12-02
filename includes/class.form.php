@@ -25,7 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class cnFormObjects {
 	private $nonceBase = 'connections';
 	private $validate;
-	private $visibiltyOptions = array( 'Public'=>'public', 'Private'=>'private', 'Unlisted'=>'unlisted' );
+	private $visibiltyOptions = array(
+		'Public'   => 'public',
+		'Private'  => 'private',
+		'Unlisted' => 'unlisted',
+	);
 
 	public function __construct() {
 		// Load the validation class.

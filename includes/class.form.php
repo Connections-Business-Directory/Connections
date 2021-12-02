@@ -229,7 +229,7 @@ class cnFormObjects {
 
 		_deprecated_function( __METHOD__, '9.15', '\Connections_Directory\Form\Field\Select::create()' );
 
-		$select = cnHTML::field(
+		return cnHTML::field(
 			array(
 				'type'     => 'select',
 				'class'    => $class,
@@ -265,7 +265,7 @@ class cnFormObjects {
 
 		_deprecated_function( __METHOD__, '9.15', '\Connections_Directory\Form\Field\Radio_Group::create()' );
 
-		$radio = cnHTML::field(
+		return cnHTML::field(
 			array(
 				'type'     => 'radio',
 				'display'  => 'block',

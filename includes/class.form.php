@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for creating various form HTML elements.
  *

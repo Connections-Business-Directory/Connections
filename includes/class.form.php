@@ -241,8 +241,6 @@ class cnFormObjects {
 			),
 			$value
 		);
-
-		return $select;
 	}
 
 	/**
@@ -277,8 +275,6 @@ class cnFormObjects {
 			),
 			$value
 		);
-
-		return $radio;
 	}
 
 	/**

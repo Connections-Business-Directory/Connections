@@ -181,7 +181,7 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Renders a select drop down.
+	 * Renders a select dropdown.
 	 *
 	 * This is deprecated method, left in place for backward compatibility only.
 	 *

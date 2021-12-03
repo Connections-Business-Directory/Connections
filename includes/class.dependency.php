@@ -190,6 +190,11 @@ class cnDependency {
 
 		return array(
 
+			// Legacy utilities.
+			'cnUtility'                                     => 'includes/Utility/class.utility.php',
+			'cnSanitize'                                    => 'includes/Utility/class.sanitize.php',
+			'cnValidate'                                    => 'includes/Utility/class.validate.php',
+
 			// Utility
 			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
 			'Connections_Directory\Utility\_array'          => 'includes/Utility/_array.php',
@@ -212,9 +217,9 @@ class cnDependency {
 
 			// Request API.
 			'Connections_Directory\Request'                => 'includes/Request.php',
-			// 'Connections_Directory\Request\Nonce'          => 'includes/Request/Nonce.php',
-			// 'Connections_Directory\Request\Search'         => 'includes/Request/Search.php',
-			// 'Connections_Directory\Request\Variable'       => 'includes/Request/Variable.php',
+			'Connections_Directory\Request\Nonce'          => 'includes/Request/Nonce.php',
+			'Connections_Directory\Request\Search'         => 'includes/Request/Search.php',
+			'Connections_Directory\Request\Variable'       => 'includes/Request/Variable.php',
 
 			// Taxonomy API.
 			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',
@@ -337,11 +342,6 @@ class cnDependency {
 			// Entry Meta API.
 			'cnMeta'       => 'includes/class.meta.php',
 			'cnMeta_Query' => 'includes/class.meta.php',
-
-			// Utility methods.
-			'cnUtility'  => 'includes/class.utility.php',
-			'cnValidate' => 'includes/class.validate.php',
-			'cnSanitize' => 'includes/class.sanitize.php',
 
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',

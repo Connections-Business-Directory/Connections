@@ -43,15 +43,11 @@ function processEntry( $data, $action ) {
 	switch ( $action ) {
 		case 'add':
 			return cnEntry_Action::add( $data );
-			break;
 
 		case 'copy':
 			return cnEntry_Action::copy( $id, $data );
-			break;
 
 		case 'update':
 			return cnEntry_Action::update( $id, $data );
-			break;
-
 	}
 }

@@ -481,9 +481,6 @@ class cnDependency {
 			// HTTP request utility methods.
 			'cnHTTP'                   => 'includes/class.http.php',
 
-			// Timezone.
-			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
-
 			// Countries
 			'cnCountries'              => 'includes/geo/class.countries.php',
 
@@ -547,6 +544,7 @@ class cnDependency {
 			'Connections_Directory\Sitemaps\Provider' => 'includes/Sitemaps/Provider.php',
 
 			// Integrations
+			'cnGoogleMapsTimeZone'                                     => 'includes/Integration/Google/class.google-maps-timezone-api.php',
 			'Connections_Directory\Integration\SEO\Yoast_SEO'          => 'includes/Integration/SEO/Yoast_SEO.php',
 			'Connections_Directory\Integration\SEO\Yoast_SEO\Provider' => 'includes/Integration/SEO/Yoast_SEO/Provider.php',
 			'Connections_Directory\Integration\SEO\Rank_Math'          => 'includes/Integration/SEO/Rank_Math.php',

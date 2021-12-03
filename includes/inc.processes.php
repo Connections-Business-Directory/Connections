@@ -22,11 +22,13 @@ _deprecated_file( basename( __FILE__ ), '9.15' );
 /**
  * Add / Edit / Update / Copy an entry.
  *
- * @access private
+ * @internal
  * @deprecated
- * @param  (array) $data
- * @param  (string) $action
- * @return (bool)
+ *
+ * @param array  $data
+ * @param string $action
+ *
+ * @return bool|int
  */
 function processEntry( $data, $action ) {
 

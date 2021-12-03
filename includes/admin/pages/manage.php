@@ -563,13 +563,13 @@ function connectionsShowViewPage( $action = null ) {
 
 								echo '<span class="page-navigation" id="page-input">';
 
-								echo '<a href="' . esc_url( $pageFilterURL['first_page'] ) . '" title="' . esc_html__( 'Go to the first page.', 'connections' ) . '" class="first-page button' , esc_attr( $pageDisabled['first_page'] ) , '">&laquo;</a> ';
-								echo '<a href="' . esc_url( $pageFilterURL['previous_page'] ) . '" title="' . esc_html__( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , esc_attr( $pageDisabled['previous_page'] ) , '">&lsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['first_page'] ) . '" title="' . esc_attr__( 'Go to the first page.', 'connections' ) . '" class="first-page button' , esc_attr( $pageDisabled['first_page'] ) , '">&laquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['previous_page'] ) . '" title="' . esc_attr__( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , esc_attr( $pageDisabled['previous_page'] ) , '">&lsaquo;</a> ';
 
-								echo '<span class="paging-input"><input type="text" size="2" value="' . esc_attr( $page->current ) . '" name="pg" title="' . esc_html__( 'Current page', 'connections' ) . '" class="current-page"> ' . esc_html__( 'of', 'connections' ) . ' <span class="total-pages">' . absint( $pageCount ) . '</span></span> ';
+								echo '<span class="paging-input"><input type="text" size="2" value="' . esc_attr( $page->current ) . '" name="pg" title="' . esc_attr__( 'Current page', 'connections' ) . '" class="current-page"> ' . esc_html__( 'of', 'connections' ) . ' <span class="total-pages">' . absint( $pageCount ) . '</span></span> ';
 
-								echo '<a href="' . esc_url( $pageFilterURL['next_page'] ) . '" title="' . esc_html__( 'Go to the next page.', 'connections' ) . '" class="next-page button' , esc_attr( $pageDisabled['next_page'] ) , '">&rsaquo;</a> ';
-								echo '<a href="' . esc_url( $pageFilterURL['last_page'] ) . '" title="' . esc_html__( 'Go to the last page.', 'connections' ) . '" class="last-page button' , esc_attr( $pageDisabled['last_page'] ), '">&raquo;</a>';
+								echo '<a href="' . esc_url( $pageFilterURL['next_page'] ) . '" title="' . esc_attr__( 'Go to the next page.', 'connections' ) . '" class="next-page button' , esc_attr( $pageDisabled['next_page'] ) , '">&rsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['last_page'] ) . '" title="' . esc_attr__( 'Go to the last page.', 'connections' ) . '" class="last-page button' , esc_attr( $pageDisabled['last_page'] ), '">&raquo;</a>';
 
 								echo '</span>';
 							}
@@ -612,7 +612,7 @@ function connectionsShowViewPage( $action = null ) {
 							}
 
 							echo '</select>';
-							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , esc_html__( 'Apply', 'connections' ) , '" />';
+							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , esc_attr__( 'Apply', 'connections' ) , '" />';
 							echo '</div>';
 						}
 						?>
@@ -748,7 +748,7 @@ function connectionsShowViewPage( $action = null ) {
 					$rowActions     = array();
 					$rowEditActions = array();
 
-					$rowActions['toggle_details'] = '<a class="detailsbutton" id="' . esc_attr( "row-{$entry->getId()}" ) . '" title="' . esc_html__( 'Click to show details.', 'connections' ) . '" >' . esc_html__( 'Show Details', 'connections' ) . '</a>';
+					$rowActions['toggle_details'] = '<a class="detailsbutton" id="' . esc_attr( "row-{$entry->getId()}" ) . '" title="' . esc_attr__( 'Click to show details.', 'connections' ) . '" >' . esc_html__( 'Show Details', 'connections' ) . '</a>';
 
 					$rowActions['vcard'] = $entry->vcard(
 						array(
@@ -769,17 +769,17 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveTokenURL ) . '" title="' . esc_html__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
+						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveTokenURL ) . '" title="' . esc_attr__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
 					}
 
 					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedTokenURL ) . '" title="' . esc_html__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
+						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedTokenURL ) . '" title="' . esc_attr__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
 					}
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editTokenURL ) . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
+						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editTokenURL ) . '" title="' . esc_attr__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 					}
 
 					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
@@ -791,7 +791,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( current_user_can( 'connections_delete_entry' ) ) {
 
-						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteTokenURL ) . '" title="' . esc_html__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
+						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteTokenURL ) . '" title="' . esc_attr__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
 					}
 
 					/**
@@ -901,7 +901,7 @@ function connectionsShowViewPage( $action = null ) {
 
 									$editRelationTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() );
 
-									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . esc_url( $editRelationTokenURL ) . '" title="' . esc_html__( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . esc_url( $editRelationTokenURL ) . '" title="' . esc_attr__( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
 
 								} else {
 

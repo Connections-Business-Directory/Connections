@@ -152,7 +152,6 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function tokenField( $action, $item = false, $name = '_cn_wpnonce', $referer = true, $echo = true ) {
-		$name = esc_attr( $name );
 
 		if ( false === $item ) {
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Functions for backwards compatibility with previous versions of Connections.
  *

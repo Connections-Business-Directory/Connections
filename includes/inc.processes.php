@@ -40,7 +40,6 @@ function processEntry( $data, $action ) {
 		$id = absint( $_GET['id'] );
 	}
 
-
 	switch ( $action ) {
 		case 'add':
 			return cnEntry_Action::add( $data );
@@ -51,4 +50,6 @@ function processEntry( $data, $action ) {
 		case 'update':
 			return cnEntry_Action::update( $id, $data );
 	}
+
+	return false;
 }

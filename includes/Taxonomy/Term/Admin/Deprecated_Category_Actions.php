@@ -3,7 +3,6 @@
 namespace Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions;
 
 use cnCategory;
-use cnFormatting;
 use cnFormObjects;
 use cnMessage;
 use Connections_Directory\Utility\_array;

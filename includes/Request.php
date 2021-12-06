@@ -219,8 +219,10 @@ final class Request {
 			return false;
 		}
 
-		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-		$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) );
+		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$rest_prefix = trailingslashit( rest_get_url_prefix() );
+
+		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix ) );
 
 		return apply_filters( 'Connections_Directory/Request/isREST', $is_rest_api_request );
 	}

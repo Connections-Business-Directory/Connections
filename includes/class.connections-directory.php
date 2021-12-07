@@ -24,7 +24,7 @@ final class Connections_Directory {
 	private static $instance;
 
 	/**
-	 * @var string The absolute path this this file.
+	 * @var string The absolute path this file.
 	 *
 	 * @access private
 	 * @since  8.16

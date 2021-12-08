@@ -318,8 +318,8 @@ class cnAdminFunction {
 		}
 
 		$columns[ $instance->pageHook->dashboard ] = 2;
-		$columns[ $instance->pageHook->manage ] = 2;
-		$columns[ $instance->pageHook->add ] = 2;
+		$columns[ $instance->pageHook->manage ]    = 2;
+		$columns[ $instance->pageHook->add ]       = 2;
 
 		return $columns;
 	}

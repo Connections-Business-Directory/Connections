@@ -1365,7 +1365,7 @@ final class Taxonomy {
 	 * Callback for the `{$page_hook}` action.
 	 * @see file://./wp-admin/admin.php
 	 *
-	 * NOTE: Action hook files after the `admin_init` and `load-{$page_hook}` actions.
+	 * NOTE: Action hook is executed after the `admin_init` and `load-{$page_hook}` actions.
 	 *
 	 * Render the taxonomy term management admin screen based on action.
 	 *

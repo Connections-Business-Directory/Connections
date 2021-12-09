@@ -281,7 +281,7 @@ final class Actions {
 	/**
 	 * Callback for the `cn_delete_term` action.
 	 *
-	 * Delete the term meta when when a term is deleted.
+	 * Delete the term meta when a term is deleted.
 	 *
 	 * @internal
 	 * @since 8.2

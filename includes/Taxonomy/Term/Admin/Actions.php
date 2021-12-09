@@ -313,8 +313,6 @@ final class Actions {
 	 *
 	 * @param string $action
 	 * @param string $taxonomy The taxonomy slug.
-	 *
-	 * @noinspection PhpDeprecationInspection
 	 */
 	private static function doLegacyTermActions( $action, $taxonomy ) {
 

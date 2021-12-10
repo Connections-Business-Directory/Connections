@@ -208,6 +208,7 @@ final class Actions {
 
 		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
 		$taxonomy = Registry::get()->getTaxonomy( $slug );
+		$url      = wp_get_raw_referer();
 
 		self::doLegacyTermActions( 'bulk', $slug );
 		self::invalidTaxonomyRedirect( $taxonomy, wp_get_raw_referer() );
@@ -252,8 +253,6 @@ final class Actions {
 					do_action( "bulk_term_action-{$taxonomy->getSlug()}-{$action}" );
 			}
 
-			$url = wp_get_raw_referer();
-
 			if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
 
 				$page = absint( $_REQUEST['paged'] );
@@ -262,8 +261,6 @@ final class Actions {
 			}
 
 		} else {
-
-			$url = wp_get_raw_referer();
 
 			$message = sprintf(
 				__( 'You are not authorized to delete %s. Please contact the admin if you received this message in error.', 'connections' ),

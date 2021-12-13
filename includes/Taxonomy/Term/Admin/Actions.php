@@ -365,8 +365,8 @@ final class Actions {
 	 * @internal
 	 * @since 10.2
 	 *
-	 * @param Taxonomy $taxonomy
-	 * @param string   $redirect
+	 * @param Taxonomy $taxonomy Instance of the Taxonomy object.
+	 * @param string   $redirect The redirect URL.
 	 */
 	private static function invalidTaxonomyRedirect( $taxonomy, $redirect ) {
 

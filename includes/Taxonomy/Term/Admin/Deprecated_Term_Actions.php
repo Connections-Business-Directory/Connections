@@ -61,7 +61,7 @@ function addTerm() {
 /**
  * Callback for the `cn_update-term` action.
  *
- * Update a category.
+ * Update a term.
  *
  * @internal
  * @since 8.6.12

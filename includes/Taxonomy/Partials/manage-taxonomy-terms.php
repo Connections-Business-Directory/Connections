@@ -104,13 +104,13 @@ $table->prepare_items();
 					<div class="form-field form-required term-name-wrap">
 						<label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ); ?></label>
 						<input name="term-name" id="term-name" type="text" value="" size="40" aria-required="true" />
-						<p><?php _e( 'The name is how it appears on your site.', 'connections' ); ?></p>
+						<p><?php echo esc_html( $taxonomy->getLabels()->name_field_description ); ?></p>
 					</div>
 
 					<div class="form-field term-slug-wrap">
 						<label for="term-slug"><?php _e( 'Slug', 'connections' ); ?></label>
 						<input name="term-slug" id="term-slug" type="text" value="" size="40" />
-						<p><?php _e( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'connections' ); ?></p>
+						<p><?php echo esc_html( $taxonomy->getLabels()->slug_field_description ); ?></p>
 					</div>
 					<?php if ( $taxonomy->isHierarchical() ) : ?>
 						<div class="form-field term-parent-wrap">
@@ -155,7 +155,11 @@ $table->prepare_items();
 							cnTemplatePart::walker( 'term-select', $dropdown_args );
 							?>
 
-							<p><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.', 'connections' ); ?></p>
+							<?php if ( 'category' === $taxonomy->getSlug() ) : ?>
+								<p class="description"><?php esc_html_e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.', 'connections' ); ?></p>
+							<?php else : ?>
+								<p class="description"><?php echo esc_html( $taxonomy->getLabels()->parent_field_description ); ?></p>
+							<?php endif; ?>
 						</div><!-- /term-parent-wrap -->
 					<?php endif; // isHierarchical(). ?>
 					<div class="form-field term-description-wrap">

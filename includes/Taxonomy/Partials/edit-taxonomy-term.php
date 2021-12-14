@@ -80,7 +80,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 			<th scope="row"><label for="term-name"><?php _ex( 'Name', 'term name', 'connections' ); ?></label></th>
 			<td>
 				<input name="term-name" id="term-name" type="text" value="<?php echo esc_attr( $term->name ); ?>" size="40" aria-required="true" />
-				<p class="description"><?php _e( 'The name is how it appears on your site.', 'connections' ); ?></p>
+				<p class="description"><?php echo esc_html( $taxonomy->getLabels()->name_field_description ); ?></p>
 			</td>
 		</tr>
 
@@ -88,7 +88,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 			<th scope="row"><label for="term-slug"><?php _e( 'Slug', 'connections' ); ?> </label></th>
 			<td>
 				<input name="term-slug" id="term-slug" type="text" value="<?php echo esc_attr( $term->slug ); ?>" size="40" />
-				<p><?php _e( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'connections' ); ?></p>
+				<p><?php echo esc_html( $taxonomy->getLabels()->slug_field_description ); ?></p>
 			</td>
 		</tr>
 		<?php if ( $taxonomy->isHierarchical() ) : ?>
@@ -113,9 +113,9 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 				);
 				?>
 				<?php if ( 'category' === $taxonomy->getSlug() ) : ?>
-					<p class="description"><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.', 'connections' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.', 'connections' ); ?></p>
 				<?php else : ?>
-					<p class="description"><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.', 'connections' ); ?></p>
+					<p class="description"><?php echo esc_html( $taxonomy->getLabels()->parent_field_description ); ?></p>
 				<?php endif; ?>
 			</td>
 		</tr>
@@ -151,7 +151,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 				);
 
 				?>
-				<p class="description"><?php _e( 'The description is not prominent by default; however, some templates may show it.', 'connections' ); ?></p>
+				<p class="description"><?php echo esc_html( $taxonomy->getLabels()->desc_field_description ); ?></p>
 			</td>
 		</tr>
 

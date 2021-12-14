@@ -457,40 +457,19 @@ final class _ {
 	 *
 	 * @since 10.3
 	 *
-	 * @param mixed $value
+	 * @param mixed ...$value The variables to dump.
 	 */
-	public static function var_dump( $value ) {
+	public static function var_dump( ...$value ) {
 
 		$request = Request::get();
 
 		if ( $request->isAjax() || $request->isRest() ) {
 
-			for ( $i = 0; $i < func_num_args(); ++$i ) {
-
-				// error_log( var_export( func_get_arg( $i ), true ) );
-
-				ob_start();
-
-				var_dump( func_get_arg( $i ) );
-
-				$buffer = ob_get_clean();
-
-				error_log( trim( $buffer ) );
-			}
+				_::var_dump_to_error_log( $value );
 
 		} else {
 
-			if ( 1 === func_num_args() ) {
-
-				var_dump( $value );
-
-			} else {
-
-				for ( $i = 0; $i < func_num_args(); ++$i ) {
-
-					var_dump( func_get_arg( $i ) );
-				}
-			}
+			var_dump( ...$value ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
 		}
 	}
 

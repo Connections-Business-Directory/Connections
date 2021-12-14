@@ -493,4 +493,22 @@ final class _ {
 			}
 		}
 	}
+
+	/**
+	 * Dump variable to error log.
+	 *
+	 * @since 10.4.8
+	 *
+	 * @param mixed ...$value The variables to dump.
+	 */
+	public static function var_dump_to_error_log( ...$value ) {
+
+		ob_start();
+
+		var_dump( ...$value );
+
+		$buffer = ob_get_clean();
+
+		error_log( trim( $buffer ) );
+	}
 }

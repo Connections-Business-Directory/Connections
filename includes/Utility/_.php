@@ -505,10 +505,10 @@ final class _ {
 
 		ob_start();
 
-		var_dump( ...$value );
+		var_dump( ...$value ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
 
 		$buffer = ob_get_clean();
 
-		error_log( trim( $buffer ) );
+		error_log( trim( $buffer ) ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 	}
 }

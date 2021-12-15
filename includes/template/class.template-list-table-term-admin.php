@@ -257,7 +257,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Returns the current action selected from the bulk actions drop down.
+	 * Returns the current action selected from the bulk action dropdown.
 	 *
 	 * @access public
 	 * @since  8.2

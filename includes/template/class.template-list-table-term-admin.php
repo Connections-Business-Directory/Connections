@@ -527,7 +527,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 * @access public
 	 * @since  8.2
 	 *
-	 * @param  object $term
+	 * @param Taxonomy\Term $item Term object.
 	 *
 	 * @return string
 	 */

@@ -412,7 +412,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			}
 
 			// Some funky recursion to get the job done( Paging & parents mainly ) is contained within,
-			// Skip it for non-hierarchical taxonomies for performance sake
+			// Skip it for non-hierarchical taxonomies for performance sake.
 			$this->_rows( $this->taxonomy, $this->items, $children, $this->offset, $this->number, $count );
 
 		} else {

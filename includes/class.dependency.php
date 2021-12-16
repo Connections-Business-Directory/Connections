@@ -185,6 +185,9 @@ class cnDependency {
 	 * @static
 	 *
 	 * @return array
+	 *
+	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
+	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.LongIndexSpaceBeforeDoubleArrow
 	 */
 	private static function classRegistry() {
 

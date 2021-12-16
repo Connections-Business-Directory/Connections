@@ -453,11 +453,11 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			// If the page starts in a subtree, print the parents.
 			if ( $count == $start && $term->parent > 0 && empty( $_REQUEST['s'] ) ) {
 				$my_parents = $parent_ids = array();
-				$p = $term->parent;
+				$p          = $term->parent;
 				while ( $p ) {
-					$my_parent = cnTerm::get( $p, $taxonomy );
+					$my_parent    = cnTerm::get( $p, $taxonomy );
 					$my_parents[] = $my_parent;
-					$p = $my_parent->parent;
+					$p            = $my_parent->parent;
 					if ( in_array( $p, $parent_ids ) ) { // Prevent parent loops.
 						break;
 					}

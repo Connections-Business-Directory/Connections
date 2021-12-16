@@ -195,6 +195,13 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 
 		foreach ( $terms as $term ) {
 
+			// Need to set up object and property if not set to prevent PHP related notices and errors.
+			if ( ! isset( $grouped[ $term->parent ] ) ) {
+
+				$grouped[ $term->parent ]           = new stdClass();
+				$grouped[ $term->parent ]->children = array();
+			}
+
 			$grouped[ $term->parent ]->children[ $term->term_id ] = $term;
 			$index[ $term->term_id ]                              = $term;
 		}

@@ -1026,7 +1026,7 @@ class cnRewrite {
 		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
 			parse_str( $parsedURL['query'], $_parsed_query );
 			$_parsed_query = array_map( 'rawurlencode_deep', $_parsed_query );
-			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
+			$redirectURL   = add_query_arg( $_parsed_query, $redirectURL );
 		}
 
 		if ( ! $redirectURL || $redirectURL == $requestedURL ) {

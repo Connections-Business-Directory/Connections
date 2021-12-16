@@ -954,7 +954,7 @@ class cnRewrite {
 			return false;
 		}
 
-		// The URL in the address bar
+		// The URL in the address bar.
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
 		$requestedURL .= $_SERVER['HTTP_HOST'];
 		$requestedURL .= $_SERVER['REQUEST_URI'];
@@ -980,7 +980,7 @@ class cnRewrite {
 			// Get the settings for the base of each data type to be used in the URL.
 			$base = get_option( 'connections_permalink' );
 
-			// Categories
+			// Categories.
 			if ( cnQuery::getVar( 'cn-cat' ) ) {
 
 				$slug               = array();
@@ -1007,7 +1007,7 @@ class cnRewrite {
 				// var_dump( $redirectURL ); //exit();
 			}
 
-			// If paged, append pagination
+			// If paged, append pagination.
 			if ( cnQuery::getVar( 'cn-pg' ) ) {
 
 				$page               = (int) cnQuery::getVar( 'cn-pg' );

@@ -599,7 +599,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		);
 
 		$out .= '<strong><a class="row-title" href="' . esc_url( $editURL ) . '" title="' .
-		        esc_attr( sprintf( esc_html__( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
+				esc_attr( sprintf( esc_html__( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
 		$actions['edit'] = '<a href="' . esc_url( $editURL ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 

@@ -983,8 +983,8 @@ class cnRewrite {
 			// Categories
 			if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-				$slug = array();
-				$categoryID = (int) cnQuery::getVar( 'cn-cat' );
+				$slug               = array();
+				$categoryID         = (int) cnQuery::getVar( 'cn-cat' );
 				$parsedURL['query'] = remove_query_arg( 'cn-cat', $parsedURL['query'] );
 
 				$category = $connections->retrieve->category( $categoryID );

@@ -1763,7 +1763,7 @@ class cnTemplatePart {
 
 		}
 
-		$out = '<div class="cn-alphaindex">' . implode( ' ', $links ). '</div>' . PHP_EOL;
+		$out = '<div class="cn-alphaindex">' . implode( ' ', $links ) . '</div>' . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

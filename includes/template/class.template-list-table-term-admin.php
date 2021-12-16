@@ -610,7 +610,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				'term_delete_' . $term->term_id
 			);
 
-			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . "</a>";
+			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . '</a>';
 		}
 
 		$homeID   = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );

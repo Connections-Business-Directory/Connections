@@ -601,7 +601,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		$out .= '<strong><a class="row-title" href="' . esc_url( $editURL ) . '" title="' .
 		        esc_attr( sprintf( esc_html__( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
-		$actions['edit']   = '<a href="' . esc_url( $editURL ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
+		$actions['edit'] = '<a href="' . esc_url( $editURL ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 
 		if ( $term->term_id != $this->default_term ) {
 
@@ -618,7 +618,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		if ( $homeID && $taxonomy instanceof Taxonomy && $taxonomy->isPublic() ) {
 
-			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . esc_html__( 'View', 'connections' ) . '</a>';
+			$actions['view'] = '<a href="' . cnTerm::permalink( $term ) . '">' . esc_html__( 'View', 'connections' ) . '</a>';
 		}
 
 		/**

@@ -797,15 +797,15 @@ class cnRewrite {
 		$postSlug  = $post->rewrite['slug'];
 		$postToken = "%{$namespace}CPT_{$post->name}%";
 
-		$rewriteArgs =  array(
+		$rewriteArgs = array(
 			'with_front'   => false,
 			'hierarchical' => false,
 			'ep_mask'      => EP_NONE,
-			'paged'       => false,
-			'feed'        => false,
-			'forcomments' => false,
-			'walk_dirs'   => false,
-			'endpoints'   => false,
+			'paged'        => false,
+			'feed'         => false,
+			'forcomments'  => false,
+			'walk_dirs'    => false,
+			'endpoints'    => false,
 		);
 
 		$landingRules = array_merge(

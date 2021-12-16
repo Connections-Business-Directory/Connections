@@ -585,10 +585,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		$location = add_query_arg(
 			array(
-				'page'            => $_GET['page'],
-				'cn-action'       => "edit_{$this->taxonomy}",
-				'id'              => $term->term_id,
-				// 'wp_http_referer' => urlencode( wp_unslash( $uri ) ),
+				'page'      => $_GET['page'],
+				'cn-action' => "edit_{$this->taxonomy}",
+				'id'        => $term->term_id,
 			),
 			$uri
 		);

@@ -1146,7 +1146,7 @@ class cnRewrite {
 
 		} elseif ( is_home() && cnShortcode::isSupportedPostType( $post ) ) {
 
-			return  $requestedURL;
+			return $requestedURL;
 		}
 
 		return $redirectURL;

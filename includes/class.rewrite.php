@@ -1068,7 +1068,7 @@ class cnRewrite {
 		// If paged, append pagination.
 		if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-			$page = (int) cnQuery::getVar( 'cn-pg' );
+			$page               = (int) cnQuery::getVar( 'cn-pg' );
 			$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 			if ( $page > 1 && ! stripos( $redirectURL, "pg/$page" ) ) {
 				$redirectURL .= user_trailingslashit( "pg/$page", 'page' );
@@ -1084,7 +1084,7 @@ class cnRewrite {
 		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
 			parse_str( $parsedURL['query'], $_parsed_query );
 			$_parsed_query = array_map( 'rawurlencode', $_parsed_query );
-			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
+			$redirectURL   = add_query_arg( $_parsed_query, $redirectURL );
 		}
 
 		return $redirectURL;

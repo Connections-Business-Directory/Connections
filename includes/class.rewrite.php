@@ -1065,7 +1065,7 @@ class cnRewrite {
 			$parsedURL['query'] = '';
 		}
 
-		// If paged, append pagination
+		// If paged, append pagination.
 		if ( cnQuery::getVar( 'cn-pg' ) ) {
 
 			$page = (int) cnQuery::getVar( 'cn-pg' );

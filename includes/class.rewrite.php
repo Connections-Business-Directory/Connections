@@ -1010,7 +1010,7 @@ class cnRewrite {
 			// If paged, append pagination
 			if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-				$page = (int) cnQuery::getVar( 'cn-pg' );
+				$page               = (int) cnQuery::getVar( 'cn-pg' );
 				$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 
 				if ( $page > 1 && ! stripos( $redirectURL, "pg/$page" ) ) {

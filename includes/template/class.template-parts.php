@@ -1882,7 +1882,7 @@ class cnTemplatePart {
 			$form = new cnFormObjects();
 		}
 
-		// Current character
+		// Current character.
 		if ( is_admin() ) {
 			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {
 				$current = urldecode( $_GET['cn-char'] );
@@ -1961,7 +1961,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// Current character
+		// Current character.
 		if ( is_admin() ) {
 			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {
 				$current = urldecode( $_GET['cn-char'] );

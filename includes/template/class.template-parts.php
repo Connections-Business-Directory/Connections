@@ -1730,7 +1730,7 @@ class cnTemplatePart {
 			return self::echoOrReturn( $atts['return'], $out );
 		}
 
-		// The URL in the address bar
+		// The URL in the address bar.
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
 		$requestedURL .= $_SERVER['HTTP_HOST'];
 		$requestedURL .= $_SERVER['REQUEST_URI'];

@@ -193,7 +193,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		if ( cnLog_Email::LOG_TYPE == $this->type ) {
 
 			$types = wp_list_pluck( cnLog_Email::types(), 'name', 'id' );
-			$type = array_keys( $types );
+			$type  = array_keys( $types );
 
 		} elseif ( '' == $this->type || '-1' == $this->type ) {
 

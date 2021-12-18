@@ -331,6 +331,8 @@ final class _ {
 				}
 			}
 		}
+
+		return '';
 	}
 
 	/**

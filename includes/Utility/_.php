@@ -315,7 +315,6 @@ final class _ {
 	 * @since 0.8
 	 *
 	 * @return string The IP address.
-	 * @link   http://stackoverflow.com/a/6718472
 	 */
 	public static function getIP() {
 

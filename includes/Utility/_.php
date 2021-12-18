@@ -310,6 +310,8 @@ final class _ {
 	/**
 	 * Get user IP.
 	 *
+	 * @link   http://stackoverflow.com/a/6718472
+	 *
 	 * @since 0.8
 	 *
 	 * @return string The IP address.

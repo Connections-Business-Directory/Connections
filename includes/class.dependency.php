@@ -237,6 +237,7 @@ class cnDependency {
 			'Connections_Directory\Request\Server_Request_URI'      => 'includes/Request/Server_Request_URI.php',
 			'Connections_Directory\Request\Server_Name'             => 'includes/Request/Server_Name.php',
 			'Connections_Directory\Request\Server_PHP_Self'         => 'includes/Request/Server_PHP_Self.php',
+			'Connections_Directory\Request\Server_Protocol'         => 'includes/Request/Server_Protocol.php',
 			'Connections_Directory\Request\Server_Software'         => 'includes/Request/Server_Software.php',
 			'Connections_Directory\Request\Taxonomy'                => 'includes/Request/Taxonomy.php',
 			'Connections_Directory\Request\Term'                    => 'includes/Request/Term.php',

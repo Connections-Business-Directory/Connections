@@ -92,7 +92,7 @@ class Entry_Initial_Character extends Input {
 	 *
 	 * @param string $unsafe The raw request value to validate.
 	 *
-	 * @return true
+	 * @return bool
 	 */
 	protected function validate( $unsafe ) {
 

@@ -672,9 +672,9 @@ class cnRetrieve {
 			$instance->resultCount    = $wpdb->num_rows;
 
 			// The number of rows returned by the last query without the limit clause set
-			$foundRows                       = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
-			$instance->resultCountNoLimit    = $foundRows[0]->{'FOUND_ROWS()'};
-			$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
+			$foundRows                    = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
+			$instance->resultCountNoLimit = $foundRows[0]->{'FOUND_ROWS()'};
+			$this->resultCountNoLimit     = $foundRows[0]->{'FOUND_ROWS()'};
 
 		// }
 

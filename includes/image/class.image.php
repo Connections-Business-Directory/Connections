@@ -27,7 +27,7 @@ class cnImage {
 	 *
 	 * @access private
 	 * @since  8.1
-	 * @var    object
+	 * @var    cnImage
 	 */
 	private static $instance;
 

@@ -70,7 +70,7 @@ final class _ {
 	}
 
 	/**
-	 * Recursively implode a multi-dimensional array.
+	 * Recursively implode a multidimensional array.
 	 *
 	 * @since 8.2
 	 * @deprecated 9.11

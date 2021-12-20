@@ -1,4 +1,17 @@
 <?php
+/**
+ * Utility methods.
+ *
+ * @since      unknown
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections Business Directory
+ * @subpackage Connections\_\Utility
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2021, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory\Utility;
 

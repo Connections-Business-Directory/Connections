@@ -183,7 +183,7 @@ final class _ {
 				break;
 
 			case JSON_ERROR_UTF8:
-				$result = new WP_Error( 'json_decode_error','Malformed UTF-8 characters, possibly incorrectly encoded.' );
+				$result = new WP_Error( 'json_decode_error', 'Malformed UTF-8 characters, possibly incorrectly encoded.' );
 				break;
 
 			case JSON_ERROR_RECURSION:

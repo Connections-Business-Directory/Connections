@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
+
 /**
  * Terms List Table class.
  *
@@ -126,7 +128,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		 * $args array var.
 		 */
 
-		$this->search = ! empty( $_REQUEST['s'] ) ? trim( wp_unslash( $_REQUEST['s'] ) ) : '';
+		$this->search = ! empty( Request\Search::from( INPUT_POST )->value() ) ? trim( Request\Search::input()->value() ) : '';
 
 		//if ( ! empty( $_REQUEST['orderby'] ) ) {
 		//
@@ -206,14 +208,14 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 
 		$data  = array();
 		$query = array(
-			'post_parent'    => null,
-			'type'           => $type,
-			'paged'          => $this->offset,
+			'post_parent'            => null,
+			'type'                   => $type,
+			'paged'                  => $this->offset,
 			// 'meta_query'     => $this->get_meta_query(),
-			'posts_per_page' => $this->number,
+			'posts_per_page'         => $this->number,
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
-		    's' => $this->search,
+			's'                      => $this->search,
 		);
 
 		$logs = cnLog::getConnected( $query );

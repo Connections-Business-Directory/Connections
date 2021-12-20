@@ -85,7 +85,7 @@ class cnCache {
 		$called = false;
 
 		$nocache     = array();
-		$get_nocache = isset( $_GET['nocache'] ) ? $_GET['nocache'] : null;
+		$get_nocache = isset( $_GET['nocache'] ) ? sanitize_text_field( $_GET['nocache'] ) : null; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		if ( is_admin() && null !== $get_nocache ) {
 

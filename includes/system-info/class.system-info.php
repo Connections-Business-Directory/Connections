@@ -108,7 +108,7 @@ class cnSystem_Info {
 		$queryValue = $_GET['cn-system-info'];
 		$token      = cnCache::get( 'system_info_remote_token', 'option-cache' );
 
-		if ( $queryValue == $token ) {
+		if ( $queryValue === $token ) {
 
 			/** WordPress Plugin Administration API */
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';

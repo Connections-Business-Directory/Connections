@@ -984,7 +984,7 @@ class cnAdminActions {
 	/**
 	 * Callback for the `wp_ajax_csv_upload` action.
 	 *
-	 * @access private
+	 * @internal
 	 * @since  unknown
 	 */
 	public static function uploadCSV() {

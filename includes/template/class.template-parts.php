@@ -1906,7 +1906,7 @@ class cnTemplatePart {
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
 
-				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current button"' : ' class="cn-char button"' ) . ' href="' . esc_url( $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ), 'filter' ) ) . '">' . $char . '</a> ' . PHP_EOL;
+				$links[] = '<a' . ( $current === $char ? ' class="cn-char-current button"' : ' class="cn-char button"' ) . ' href="' . esc_url( $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ), 'filter' ) ) . '">' . $char . '</a> ' . PHP_EOL;
 
 			} else {
 
@@ -1915,7 +1915,7 @@ class cnTemplatePart {
 						'type'       => 'character',
 						'slug'       => $char,
 						'title'      => $char,
-						'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
+						'class'      => ( $current === $char ? 'cn-char-current' : 'cn-char' ),
 						'text'       => $char,
 						'home_id'    => _array::get( $atts, 'home_id', cnShortcode::getHomeID() ),
 						'force_home' => _array::get( $atts, 'force_home', false ),

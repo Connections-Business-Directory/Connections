@@ -322,7 +322,7 @@ final class _ {
 
 			if ( true === array_key_exists( $key, $_SERVER ) ) {
 
-				foreach ( array_map( 'trim', explode( ',', $_SERVER[ $key ] ) ) as $ip ) {
+				foreach ( array_map( 'trim', explode( ',', sanitize_text_field( $_SERVER[ $key ] ) ) ) as $ip ) {
 
 					if ( false !== filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
 

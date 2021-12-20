@@ -349,7 +349,7 @@ final class _ {
 
 		if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
 
-			$data    = openssl_random_pseudo_bytes( 16 );
+			$data = openssl_random_pseudo_bytes( 16 );
 
 			if ( false !== $data ) {
 

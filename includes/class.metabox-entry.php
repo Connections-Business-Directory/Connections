@@ -463,7 +463,7 @@ class cnEntryMetabox {
 
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a></div>';
-					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , esc_html__( 'Update', 'connections' ) , '" /></div>';
+					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , esc_attr__( 'Update', 'connections' ) , '" /></div>';
 
 					break;
 
@@ -471,14 +471,14 @@ class cnEntryMetabox {
 
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a>';
-					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_html__( 'Add Entry', 'connections' ) , '" /></div>';
+					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_attr__( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;
 
 				default:
 
 					echo '<input type="hidden" name="cn-action" value="add_entry"/>';
-					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_html__( 'Add Entry', 'connections' ) , '" /></div>';
+					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_attr__( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;
 			}

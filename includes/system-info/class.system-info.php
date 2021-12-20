@@ -117,14 +117,13 @@ class cnSystem_Info {
 			echo '<pre>';
 			self::display();
 			echo '</pre>';
-			exit;
 
 		} else {
 
-			wp_safe_redirect( home_url() );
-			exit;
+			wp_safe_redirect( home_url() ); // phpcs:ignore WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit
 		}
 
+		exit;
 	}
 
 	/**

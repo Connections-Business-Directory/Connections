@@ -53,7 +53,7 @@ class cnAdminFunction {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			// Initiate admin messages.
 			cnMessage::init();

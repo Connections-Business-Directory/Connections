@@ -52,7 +52,7 @@ function connectionsShowUpgradePage() {
 
 			<div id="connections-upgrade">
 
-				<?php if ( isset( $_GET['upgrade-db'] ) && 'do' === $_GET['upgrade-db'] ) :
+				<?php if ( isset( $_GET['upgrade-db'] ) && 'do' === $_GET['upgrade-db'] ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					cnRunDBUpgrade();
 				else : ?>
 					<h3><?php esc_html_e( 'Upgrade Required!', 'connections' ); ?></h3>

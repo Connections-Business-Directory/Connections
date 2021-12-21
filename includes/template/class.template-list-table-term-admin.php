@@ -266,7 +266,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	public function current_action() {
 
-		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['category'] ) && ( 'delete' == $_REQUEST['action'] || 'delete' == $_REQUEST['action2'] ) ) {
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['selected'] ) && 'delete' === $_REQUEST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			return 'bulk-delete';
 		}

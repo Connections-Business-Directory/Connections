@@ -313,7 +313,7 @@ class cnAdminFunction {
 		 * This is to prevent the Screen Layout options in the Screen Options tab from being displayed on the Manage
 		 * admin page when viewing the manage entries table.
 		 */
-		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return $columns;
 		}
 
@@ -354,7 +354,7 @@ class cnAdminFunction {
 			 * This is to prevent the Screen Layout options in the Screen Option tab on the Manage
 			 * admin page when performing an action on an entry.
 			 */
-			if ( $screen->id == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+			if ( $screen->id == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				/*
 				 * Include the Screen Options class by Janis Elsts

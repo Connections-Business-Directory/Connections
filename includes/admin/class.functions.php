@@ -102,10 +102,10 @@ class cnAdminFunction {
 			// if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
 			// if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
 
-			// Add Settings link to the plugin actions
+			// Add Settings link to the plugin actions.
 			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
 
-			// Add FAQ, Support and Donate links
+			// Add FAQ, Support and Donate links.
 			add_filter( 'plugin_row_meta', array( __CLASS__, 'addMetaLinks' ), 10, 2 );
 
 			// Add Changelog table row in the Manage Plugins admin page.

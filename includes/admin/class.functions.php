@@ -406,7 +406,7 @@ class cnAdminFunction {
 			array( 'current' => 1, 'limit' => 50 )
 		);
 
-		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . esc_html__( 'Entries', 'connections' ) . '</label>';
+		$out  = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . esc_html__( 'Entries', 'connections' ) . '</label>';
 		$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
 		$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
 

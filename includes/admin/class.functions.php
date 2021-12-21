@@ -176,7 +176,7 @@ class cnAdminFunction {
 	 */
 	public static function addMetaLinks( $links, $file ) {
 
-		if ( $file == CN_BASE_NAME ) {
+		if ( CN_BASE_NAME === $file ) {
 
 			$permalink = apply_filters(
 				'Connections_Directory/Admin/Menu/Submenu/Support/Permalink',

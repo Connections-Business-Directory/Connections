@@ -370,7 +370,7 @@ final class Connections_Directory {
 
 		/*
 		 * Add the filter to update the user settings when the "Apply" button is clicked.
-		 * NOTE: This relies on the the Screen Options class by Janis Elsts
+		 * NOTE: This relies on the Screen Options class by Janis Elsts.
 		 * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
 		 *       which do not hook into `set-screen-option` properly from breaking Connections.
 		 */

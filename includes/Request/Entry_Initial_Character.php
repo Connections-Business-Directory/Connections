@@ -16,6 +16,7 @@
 namespace Connections_Directory\Request;
 
 use Connections_Directory\Request;
+use WP_Error;
 
 /**
  * Class Entry_Initial_Character
@@ -92,10 +93,10 @@ class Entry_Initial_Character extends Input {
 	 *
 	 * @param string $unsafe The raw request value to validate.
 	 *
-	 * @return bool
+	 * @return true|WP_Error
 	 */
 	protected function validate( $unsafe ) {
 
-		return 1 === mb_strlen( $unsafe );
+		return 1 === mb_strlen( $unsafe ) ? true : new WP_Error( 'invalid initial character' );
 	}
 }

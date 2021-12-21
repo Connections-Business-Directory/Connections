@@ -5,10 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_escape;
-use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Taxonomy\_getTermHierarchy as _get_term_hierarchy;
 
 /**
@@ -173,7 +173,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		 */
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$this->search = ! empty( $_REQUEST['s'] ) ? _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) : '';
+		$this->search = 0 < mb_strlen( Request\Search::input()->value() ) ? Request\Search::input()->value() : '';
 
 		$args = array(
 			'page'       => $this->get_pagenum(),
@@ -438,7 +438,8 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	private function _rows( $taxonomy, $terms, &$children, $start, $per_page, &$count, $parent = 0, $level = 0 ) {
 
-		$end = $start + $per_page;
+		$end        = $start + $per_page;
+		$searchTerm = Request\Search::input()->value();
 
 		foreach ( $terms as $key => $term ) {
 
@@ -446,12 +447,12 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 				break;
 			}
 
-			if ( $term->parent != $parent && empty( $_REQUEST['s'] ) ) {
+			if ( $term->parent != $parent && empty( $searchTerm ) ) {
 				continue;
 			}
 
 			// If the page starts in a subtree, print the parents.
-			if ( $count == $start && $term->parent > 0 && empty( $_REQUEST['s'] ) ) {
+			if ( $count == $start && $term->parent > 0 && empty( $searchTerm ) ) {
 				$my_parents = $parent_ids = array();
 				$p          = $term->parent;
 				while ( $p ) {
@@ -482,7 +483,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 			unset( $terms[ $key ] );
 
-			if ( isset( $children[ $term->term_id ] ) && empty( $_REQUEST['s'] ) ) {
+			if ( isset( $children[ $term->term_id ] ) && empty( $searchTerm ) ) {
 				$this->_rows( $taxonomy, $terms, $children, $start, $per_page, $count, $term->term_id, $level + 1 );
 			}
 		}
@@ -531,13 +532,16 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
-	public function column_cb( $term ) {
+	public function column_cb( $item ) {
 
-		if ( $term->term_id != $this->default_term ) {
+		if ( $item->term_id != $this->default_term ) {
 
-			return '<label class="screen-reader-text" for="cb-select-' . $term->term_id . '">' .
-			      sprintf( esc_html__( 'Select %s', 'connections' ), $term->name ) .
-			       '</label>' . '<input type="checkbox" name="' . $this->taxonomy . '[]" value="' . $term->term_id . '" id="cb-select-' . $term->term_id . '" />';
+			return sprintf(
+				'<label class="screen-reader-text" for="cb-select-%1$s">%2$s</label><input type="checkbox" name="selected[]" value="%1$s" id="cb-select-%1$s" />',
+				$item->term_id,
+				/* translators: %s: Taxonomy term name. */
+				sprintf( __( 'Select %s', 'connections' ), $item->name )
+			);
 		}
 
 		return '&nbsp;';
@@ -581,11 +585,11 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		 * @param object $term         Term object.
 		 */
 		$name = apply_filters( 'cn_term_name', $pad . ' ' . $term->name, $term );
-		$uri  = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
+		$uri  = wp_doing_ajax() ? wp_get_referer() : Request\Server_Request_URI::input()->value();
 
 		$location = add_query_arg(
 			array(
-				'page'      => $_GET['page'],
+				'page'      => Request\Admin_Page::input()->value(),
 				'cn-action' => "edit_{$this->taxonomy}",
 				'id'        => $term->term_id,
 			),

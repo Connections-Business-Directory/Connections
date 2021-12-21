@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -396,14 +397,7 @@ class cnEntryMetabox {
 		$atts            = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );
 		$atts['default'] = wp_parse_args( $atts['default'], $defaults['default'] );
 
-		if ( isset( $_GET['cn-action'] ) ) {
-
-			$action = esc_attr( $_GET['cn-action'] );
-
-		} else {
-
-			$action = $atts['action'];
-		}
+		$action = Request\Admin_Action::input()->value();
 
 		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
 		$type       = $entry->getId() ? $entry->getEntryType() : $atts['default']['type'];

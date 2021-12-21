@@ -41,7 +41,7 @@ Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE 
 PHP Version:                <?php echo PHP_VERSION . PHP_EOL; ?>
 MySQL Version:              <?php echo $wpdb->db_version() . PHP_EOL; ?>
 SQL Mode:                   <?php echo ( isset( $sqlMode ) && ! empty( $sqlMode ) ? $sqlMode : 'Not Set' ) . PHP_EOL; ?>
-Webserver Info:             <?php echo $_SERVER['SERVER_SOFTWARE'] . PHP_EOL; ?>
+Webserver Info:             <?php echo Connections_Directory\Request\Server_Software::input()->value() . PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_webserver_config' ); ?>
 
 -- PHP Configuration

@@ -352,6 +352,8 @@ final class Connections_Directory {
 
 		// Register all valid query variables.
 		cnRewrite::hooks();
+		add_action( 'init', array( '\Connections_Directory\Request\Entry_Initial_Character', 'registerQueryVar' ) );
+		add_action( 'init', array( '\Connections_Directory\Request\Entry_Search_Term', 'registerQueryVar' ) );
 
 		/*
 		 * Action added in the init hook to allow other plugins time to register there log types.

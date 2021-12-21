@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Form\Field;
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_escape;
-use Connections_Directory\Utility\_sanitize;
 
 function connectionsShowViewPage( $action = null ) {
 
@@ -297,20 +297,9 @@ function connectionsShowViewPage( $action = null ) {
 				$retrieveAttr['limit']  = $page->limit;
 				$retrieveAttr['offset'] = $offset;
 
-				// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				if ( isset( $_REQUEST['cn-char'] ) ) {
+				$retrieveAttr['char'] = Request\Entry_Initial_Character::input()->value();
 
-					$retrieveAttr['char'] = _sanitize::character( wp_unslash( $_REQUEST['cn-char'] ) );
-				}
-
-				// $searchTerms = \Connections_Directory\Request\Search::input();
-				// $value       = $searchTerms->get();
-
-				if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
-
-					$retrieveAttr['search_terms'] = _sanitize::search( wp_unslash( $_REQUEST['s'] ) );
-				}
-				// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$retrieveAttr['search_terms'] = Request\Search::input()->value();
 
 				$results = $instance->retrieve->entries( $retrieveAttr );
 				?>
@@ -369,22 +358,9 @@ function connectionsShowViewPage( $action = null ) {
 
 				<form method="post">
 
-					<?php
-					// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
-
-						$searchTerm = _sanitize::search( wp_unslash( $_REQUEST['s'] ) );
-
-					} else {
-
-						$searchTerm = '';
-					}
-					// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-					?>
-
 					<p class="search-box">
 						<label class="screen-reader-text" for="entry-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
-						<input type="search" id="entry-search-input" name="s" value="<?php echo esc_attr( $searchTerm ); ?>" />
+						<input type="search" id="entry-search-input" name="s" value="<?php echo esc_attr( Request\Search::input()->value() ); ?>" />
 						<?php submit_button( esc_attr__( 'Search Entries', 'connections' ), '', '', false, array( 'id' => 'search-submit' ) ); ?>
 					</p>
 
@@ -516,7 +492,7 @@ function connectionsShowViewPage( $action = null ) {
 										'page'      => false,
 										'cn-action' => 'filter',
 										// To support quote characters, first they are decoded from &quot; entities, then URL encoded.
-										's'         => isset( $_REQUEST['s'] ) ? rawurlencode( htmlspecialchars_decode( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) ) : '',
+										's'         => rawurlencode( htmlspecialchars_decode( Request\Search::input()->value() ) ),
 									)
 								);
 

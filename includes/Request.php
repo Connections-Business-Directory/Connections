@@ -3,6 +3,8 @@
 namespace Connections_Directory;
 
 use cnRewrite;
+use Connections_Directory\Request\Entry_Initial_Character;
+use Connections_Directory\Request\Entry_Search_Term;
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
 use WP;
@@ -131,11 +133,11 @@ final class Request {
 					break;
 
 				case 'cn-char':
-					$value = ! empty( $value ) ? wp_unslash( urldecode( $value ) ) : '';
+					$value = Entry_Initial_Character::input()->value();
 					break;
 
 				case 'cn-s':
-					$value = ! empty( $value ) ? wp_unslash( $value ) : '';
+					$value = Entry_Search_Term::input()->value();
 					break;
 			}
 		}

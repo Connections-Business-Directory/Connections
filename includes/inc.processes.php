@@ -9,6 +9,7 @@
  * @since       0.7.8
  */
 
+use Connections_Directory\Request;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
@@ -35,10 +36,7 @@ function processEntry( $data, $action ) {
 
 	// If copying/editing an entry, the entry data is loaded into the class
 	// properties and then properties are overwritten by the POST data as needed.
-	if ( isset( $_GET['id'] ) ) {
-
-		$id = absint( $_GET['id'] );
-	}
+	$id = Request\ID::input()->value();
 
 	switch ( $action ) {
 		case 'add':

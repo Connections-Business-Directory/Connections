@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
@@ -84,8 +85,8 @@ class cnRewrite {
 		$var[] = 'cn-district';
 		$var[] = 'cn-organization'; // organization
 		$var[] = 'cn-department'; // department
-		$var[] = 'cn-char'; // initial character
-		$var[] = 'cn-s';   // search term
+		// $var[] = 'cn-char'; // initial character
+		// $var[] = 'cn-s';   // search term
 		$var[] = 'cn-pg';   // page
 		$var[] = 'cn-entry-slug'; // entry slug
 		$var[] = 'cn-token';  // security token; WP nonce
@@ -956,8 +957,8 @@ class cnRewrite {
 
 		// The URL in the address bar.
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
-		$requestedURL .= $_SERVER['HTTP_HOST'];
-		$requestedURL .= $_SERVER['REQUEST_URI'];
+		$requestedURL .= Request\Server_HTTP_Host::input()->value();
+		$requestedURL .= Request\Server_Request_URI::input()->value();
 
 		$originalURL = $requestedURL;
 		$parsedURL   = @parse_url( $requestedURL );

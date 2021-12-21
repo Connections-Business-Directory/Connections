@@ -1,6 +1,7 @@
 <?php
 namespace Connections_Directory\Shortcode;
 
+use Connections_Directory\Request;
 use Connections_Directory\Taxonomy\Term;
 use cnQuery;
 use cnRetrieve;
@@ -474,7 +475,7 @@ class Conditional_Content extends cnShortcode {
 	 */
 	public function isSearch() {
 
-		return cnQuery::getVar( 'cn-s' ) ? true : false;
+		return Request\Entry_Search_Term::input()->value() ? true : false;
 	}
 
 	/**

@@ -4,6 +4,8 @@
  * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
 
+use Connections_Directory\Request;
+
 // Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
@@ -15,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var Connections_Directory\Taxonomy $taxonomy
  */
 
-$id = absint( $_GET['id'] );
+$id = Request\ID::input()->value();
 check_admin_referer( "{$taxonomy->getSlug()}_edit_{$id}" );
 
 $form = new cnFormObjects();

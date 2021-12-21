@@ -7,6 +7,7 @@
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 
 if ( ! $taxonomy->showUI() ) {
@@ -24,7 +25,9 @@ if ( ! current_user_can( $taxonomy->getCapabilities()->manage_terms ) ) {
 
 // // Grab an instance of the Connections object.
 // $instance = Connections_Directory();
-$form = new cnFormObjects();
+$form       = new cnFormObjects();
+$adminPage  = Request\Admin_Page::input()->value();
+$searchTerm = Request\Search::input()->value();
 
 /**
  * @var CN_Term_Admin_List_Table $table
@@ -44,12 +47,12 @@ $table->prepare_items();
 	<h1 class="wp-heading-inline">Connections : <?php echo esc_html( $taxonomy->getLabels()->name ); ?></h1>
 
 	<?php
-	if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	if ( strlen( $searchTerm ) ) {
 		echo '<span class="subtitle">';
 		printf(
 			/* translators: %s: Search query. */
 			esc_html__( 'Search results for: %s', 'connections' ),
-			'<strong>' . esc_html( wp_unslash( $_REQUEST['s'] ) ) . '</strong>'
+			'<strong>' . esc_html( $searchTerm ) . '</strong>'
 		);
 		echo '</span>';
 	}
@@ -61,7 +64,7 @@ $table->prepare_items();
 
 	<form class="search-form wp-clearfix" action="" method="get">
 		<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy->getSlug() ); ?>" />
-		<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />
+		<input type="hidden" name="page" value="<?php echo esc_attr( $adminPage ); ?>" />
 		<?php $table->search_box( $taxonomy->getLabels()->search_items, 'term' ); ?>
 	</form>
 

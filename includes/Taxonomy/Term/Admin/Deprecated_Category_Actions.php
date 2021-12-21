@@ -5,6 +5,7 @@ namespace Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions;
 use cnCategory;
 use cnFormObjects;
 use cnMessage;
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 
 /**
@@ -19,6 +20,7 @@ use Connections_Directory\Utility\_array;
 function addCategory() {
 
 	$form = new cnFormObjects();
+	$term = Request\Term::input()->value();
 
 	/*
 	 * Check whether user can edit Settings
@@ -30,10 +32,10 @@ function addCategory() {
 		$category = new cnCategory();
 
 		// `$_POST` data is escaped in `cnTerm::insert()` utilizing `sanitize_term()`.
-		$category->setName( _array::get( $_POST, 'category_name', '' ) );
-		$category->setSlug( _array::get( $_POST, 'category_slug', '' ) );
-		$category->setParent( _array::get( $_POST, 'category_parent', 0 ) );
-		$category->setDescription( _array::get( $_POST, 'category_description', '' ) );
+		$category->setName( $term['term-name'] );
+		$category->setSlug( $term['term-slug'] );
+		$category->setParent( $term['term-parent'] );
+		$category->setDescription( $term['term-description'] );
 
 		$category->save();
 
@@ -60,6 +62,7 @@ function addCategory() {
 function updateCategory() {
 
 	$form = new cnFormObjects();
+	$term = Request\Term::input()->value();
 
 	/*
 	 * Check whether user can edit Settings
@@ -71,11 +74,11 @@ function updateCategory() {
 		$category = new cnCategory();
 
 		// `$_POST` data is escaped in `cnTerm::update()` utilizing `sanitize_term()`.
-		$category->setID( _array::get( $_POST, 'category_id', 0 ) );
-		$category->setName( _array::get( $_POST, 'category_name', '' ) );
-		$category->setParent( _array::get( $_POST, 'category_parent', 0 ) );
-		$category->setSlug( _array::get( $_POST, 'category_slug', '' ) );
-		$category->setDescription( _array::get( $_POST, 'category_description', '' ) );
+		$category->setID( $term['term-id'] );
+		$category->setName( $term['term-name'] );
+		$category->setParent( $term['term-parent'] );
+		$category->setSlug( $term['term-slug'] );
+		$category->setDescription( $term['term-description'] );
 
 		$category->update();
 
@@ -108,10 +111,10 @@ function deleteCategory() {
 	 */
 	if ( current_user_can( 'connections_edit_categories' ) ) {
 
-		$id = esc_attr( $_GET['id'] );
-		check_admin_referer( 'term_delete_' . $id );
+		$id = Request\ID::input()->value();
+		check_admin_referer( "term_delete_{$id}" );
 
-		$result = $connections->retrieve->category( $id );
+		$result   = $connections->retrieve->category( $id );
 		$category = new cnCategory( $result );
 		$category->delete();
 
@@ -137,18 +140,9 @@ function deleteCategory() {
  */
 function categoryManagement() {
 
-	// Grab an instance of the Connections object.
-	$instance = Connections_Directory();
-	$action   = '';
-
-	if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
-
-		$action = $_REQUEST['action'];
-
-	} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
-
-		$action = $_REQUEST['action2'];
-	}
+	$request = Request\List_Table_Taxonomy::input()->value();
+	$action  = $request['action'];
+	$url     = get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' );
 
 	/*
 	 * Check whether user can edit Settings
@@ -158,12 +152,11 @@ function categoryManagement() {
 		switch ( $action ) {
 
 			case 'delete':
-
 				check_admin_referer( 'bulk-terms' );
 
-				foreach ( (array) $_POST['category'] as $id ) {
+				foreach ( $request['selected'] as $id ) {
 
-					$result   = $instance->retrieve->category( absint( $id ) );
+					$result   = Connections_Directory()->retrieve->category( absint( $id ) );
 					$category = new cnCategory( $result );
 					$category->delete();
 				}
@@ -171,17 +164,12 @@ function categoryManagement() {
 				break;
 
 			default:
-
 				do_action( "bulk_term_action-category-{$action}" );
 		}
 
-		$url = get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' );
+		if ( 1 < $request['paged'] ) {
 
-		if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
-
-			$page = absint( $_REQUEST['paged'] );
-
-			$url = add_query_arg( array( 'paged' => $page ), $url );
+			$url = add_query_arg( array( 'paged' => $request['paged'] ), $url );
 		}
 
 		wp_safe_redirect( $url );

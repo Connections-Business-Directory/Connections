@@ -40,7 +40,7 @@ function connectionsShowUpgradePage() {
 
 		$url = add_query_arg(
 			array(
-				'page'       => $_GET['page'],
+				'page'       => Connections_Directory\Request\Admin_Page::input()->value(),
 				'upgrade-db' => 'do',
 			),
 			self_admin_url( 'admin.php' )
@@ -79,7 +79,7 @@ function cnRunDBUpgrade() {
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 	require_once CN_PATH . 'includes/class.schema.php';
 
-	$urlPath = admin_url() . 'admin.php?page=' . $_GET['page'];
+	$urlPath = admin_url() . 'admin.php?page=' . Connections_Directory\Request\Admin_Page::input()->value();
 
 	if ( ! empty( $wpdb->charset ) ) {
 		$charsetCollate = "DEFAULT CHARACTER SET $wpdb->charset";

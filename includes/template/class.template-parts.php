@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Request;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -1252,8 +1253,8 @@ class cnTemplatePart {
 
 		// Store the query vars
 		$queryVars                    = array();
-		$queryVars['cn-s']            = cnQuery::getVar( 'cn-s' ) ? esc_html( wp_unslash( cnQuery::getVar( 'cn-s' ) ) ) : false;
-		$queryVars['cn-char']         = cnQuery::getVar( 'cn-char' ) ? esc_html( wp_unslash( urldecode( cnQuery::getVar( 'cn-char' ) ) ) ) : false;
+		$queryVars['cn-s']            = Request\Entry_Search_Term::input()->value() ? esc_html( Request\Entry_Search_Term::input()->value() ) : false;
+		$queryVars['cn-char']         = 1 === mb_strlen( Request\Entry_Initial_Character::input()->value() ) ? esc_html( Request\Entry_Initial_Character::input()->value() ) : false;
 		$queryVars['cn-cat']          = cnQuery::getVar( 'cn-cat' ) ? cnQuery::getVar( 'cn-cat' ) : false;
 		$queryVars['cn-organization'] = cnQuery::getVar( 'cn-organization' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-organization' ) ) ) : false;
 		$queryVars['cn-department']   = cnQuery::getVar( 'cn-department' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-department' ) ) ) : false;
@@ -1313,7 +1314,7 @@ class cnTemplatePart {
 			);
 		}
 
-		if ( $queryVars['cn-char'] ) {
+		if ( 1 === mb_strlen( $queryVars['cn-char'] ) ) {
 
 			$messages['cn-char'] = sprintf(
 				__( 'The results are being filtered by the character: %s', 'connections' ),
@@ -1732,8 +1733,8 @@ class cnTemplatePart {
 
 		// The URL in the address bar.
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
-		$requestedURL .= $_SERVER['HTTP_HOST'];
-		$requestedURL .= $_SERVER['REQUEST_URI'];
+		$requestedURL .= Request\Server_HTTP_Host::input()->value();
+		$requestedURL .= Request\Server_Request_URI::input()->value();
 
 		$parsedURL = @parse_url( $requestedURL );
 
@@ -1792,7 +1793,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$searchValue = ( cnQuery::getVar( 'cn-s' ) ) ? cnQuery::getVar( 'cn-s' ) : '';
+		$searchValue = Request\Entry_Search_Term::input()->value();
 
 		// Check to see if there is a template file override.
 		$part = self::get( 'search', null, array( 'atts' => $atts, 'searchValue' => $searchValue ) );
@@ -1808,7 +1809,7 @@ class cnTemplatePart {
 				if ( $atts['show_label'] ) {
 					$out .= '<label for="cn-search-input">Search Directory</label>';
 				}
-				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( wp_unslash( $searchValue ) ) . '" placeholder="' . esc_html__( 'Search', 'connections' ) . '"/>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . esc_html__( 'Search', 'connections' ) . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
 			$out .= '</span>';
 
@@ -1862,7 +1863,7 @@ class cnTemplatePart {
 	public static function index( $atts = array() ) {
 
 		$links   = array( PHP_EOL );
-		$current = '';
+		$current = Request\Entry_Initial_Character::input()->value();
 
 		$defaults = array(
 			'status'     => array( 'approved' ),
@@ -1880,17 +1881,6 @@ class cnTemplatePart {
 		// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.
 		if ( is_admin() ) {
 			$form = new cnFormObjects();
-		}
-
-		// Current character.
-		if ( is_admin() ) {
-			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {
-				$current = urldecode( $_GET['cn-char'] );
-			}
-		} else {
-			if ( cnQuery::getVar( 'cn-char' ) ) {
-				$current = urldecode( cnQuery::getVar( 'cn-char' ) );
-			}
 		}
 
 		if ( 1 < mb_strlen( $current ) ) {
@@ -1951,7 +1941,7 @@ class cnTemplatePart {
 	 */
 	public static function currentCharacter( $atts = array() ) {
 		$out     = '';
-		$current = '';
+		$current = Request\Entry_Initial_Character::input()->value();
 
 		$defaults = array(
 			'type'   => 'input', // Reserved for future use. Will define the type of output to render. In this case a form input.
@@ -1961,19 +1951,8 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// Current character.
-		if ( is_admin() ) {
-			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) {
-				$current = urldecode( $_GET['cn-char'] );
-			}
-		} else {
-			if ( cnQuery::getVar( 'cn-char' ) ) {
-				$current = urldecode( cnQuery::getVar( 'cn-char' ) );
-			}
-		}
-
 		// Only output if there is a current character set in the query string.
-		if ( 0 < strlen( $current ) ) {
+		if ( 1 === mb_strlen( $current ) ) {
 			$out .= '<input class="cn-current-char-input" name="cn-char" title="' . esc_attr( __( 'Current Character', 'connections' ) ) . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
 		}
 
@@ -2081,12 +2060,12 @@ class cnTemplatePart {
 			$base = get_option( 'connections_permalink' );
 
 			// Store the query vars
-			if ( cnQuery::getVar( 'cn-s' ) ) {
-				$queryVars['cn-s'] = urlencode( cnQuery::getVar( 'cn-s' ) );
+			if ( Request\Entry_Search_Term::input()->value() ) {
+				$queryVars['cn-s'] = urlencode( Request\Entry_Search_Term::input()->value() );
 			}
 
-			if ( cnQuery::getVar( 'cn-char' ) ) {
-				$queryVars['cn-char'] = cnQuery::getVar( 'cn-char' );
+			if ( Request\Entry_Initial_Character::input()->value() ) {
+				$queryVars['cn-char'] = urlencode( Request\Entry_Initial_Character::input()->value() );
 			}
 
 			if ( cnQuery::getVar( 'cn-cat' ) ) {

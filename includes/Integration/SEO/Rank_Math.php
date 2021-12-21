@@ -10,6 +10,7 @@ namespace Connections_Directory\Integration\SEO;
 use cnQuery;
 use cnSEO;
 use Connections_Directory\Integration\SEO\Rank_Math\Provider;
+use Connections_Directory\Request;
 use Connections_Directory\Sitemaps\Registry;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
@@ -385,7 +386,7 @@ final class Rank_Math {
 	 */
 	public static function robots( $robots ) {
 
-		$url = home_url( $_SERVER['REQUEST_URI'] );
+		$url = home_url( Request\Server_Request_URI::input()->value() );
 
 		if ( false !== strpos( $url, '/pg/' ) ) {
 

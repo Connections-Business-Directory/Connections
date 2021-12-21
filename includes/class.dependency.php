@@ -151,8 +151,10 @@ class cnDependency {
 	 */
 	public static function customizer() {
 
-		$is_customize_admin_page = ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) );
-		$should_include = (
+		$currentURI = Connections_Directory\Request\Server_PHP_Self::input()->value();
+
+		$is_customize_admin_page = ( is_admin() && 'customize.php' === basename( $currentURI ) );
+		$should_include          = (
 			$is_customize_admin_page
 			||
 			( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )

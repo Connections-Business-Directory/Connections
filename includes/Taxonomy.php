@@ -1386,12 +1386,7 @@ final class Taxonomy {
 		 */
 		$taxonomy =& $this;
 
-		$action = '';
-
-		if ( isset( $_GET['cn-action'] ) ) {
-
-			$action = $_GET['cn-action'];
-		}
+		$action = Request\Admin_Action::input()->value();
 
 		switch ( $action ) {
 

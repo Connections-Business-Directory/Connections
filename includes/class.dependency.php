@@ -157,7 +157,7 @@ class cnDependency {
 		$should_include          = (
 			$is_customize_admin_page
 			||
-			( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
+			( isset( $_REQUEST['wp_customize'] ) && 'on' === $_REQUEST['wp_customize'] )
 			||
 			( ! empty( $_GET['customize_changeset_uuid'] ) || ! empty( $_POST['customize_changeset_uuid'] ) )
 		);

@@ -197,22 +197,23 @@ function categoryManagement() {
  */
 function processEntryCategory( $action, $id ) {
 
-	// Grab an instance of the Connections object.
-	$instance = Connections_Directory();
+	$terms = _array::get( $_POST, 'entry_category', array() );
 
 	/*
 	 * Save the entry category(ies). If none were checked, send an empty array
 	 * which will add the entry to the default category.
 	 */
-	if ( isset( $_POST['entry_category'] ) && ! empty( $_POST['entry_category'] ) ) {
+	if ( 0 < count( $terms ) ) {
 
-		$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
+		$terms = array_map( 'absint', $terms );
+
+		Connections_Directory()->term->setTermRelationships( $id, $terms, 'category' );
 
 	} else {
 
 		$default = get_option( 'cn_default_category' );
 
-		$instance->term->setTermRelationships( $id, $default, 'category' );
+		Connections_Directory()->term->setTermRelationships( $id, $default, 'category' );
 	}
 
 }

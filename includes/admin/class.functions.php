@@ -210,7 +210,7 @@ class cnAdminFunction {
 	 *
 	 * @uses   plugins_api()
 	 *
-	 * @param  array  $plugin_data An Array of the plugin metadata
+	 * @param  array  $plugin_data An Array of the plugin metadata.
 	 * @param  object $r           An array of metadata about the available plugin update.
 	 */
 	public static function displayUpgradeNotice( $plugin_data, $r ) {

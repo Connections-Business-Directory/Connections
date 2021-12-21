@@ -387,7 +387,7 @@ class cnAdminFunction {
 	/**
 	 * Add the page limit panel to the screen options of the manage page.
 	 *
-	 * NOTE: This relies on the the Screen Options class by Janis Elsts
+	 * NOTE: This relies on the Screen Options class by Janis Elsts
 	 *
 	 * @access private
 	 * @since  unknown

@@ -247,6 +247,65 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.8 12/22/2021 =
+
+* NEW: Introduce the Request Input API.
+* NEW: Introduce `_::var_dump_to_error_log()`.
+* TWEAK: Remove unnecessary attribute escaping.
+* TWEAK: Add additional label parameters that can be utilized when registering a custom taxonomy.
+* TWEAK: Refactor `_::var_dump()` as a variadic and utilize `_::var_dump_to_error_log()` for code deduplication.
+* TWEAK: Remove direct access to `$_GET` and `$_POST` super globals and use the Request Input API instead for improved
+  input validation and sanitization while reducing code duplication.
+* TWEAK: Refactor of `processEntryCategory()` to remove `isset()` and `empty()` checks on request variable. Sanitize the
+  result.
+* BUG: Wrong escaping function. href, src, and action attributes should be escaped by `esc_url()`, not by `esc_attr()`.
+* BUG: Utilize `esc_attr__()` instead of `esc_html__()` when escaping attribute values.
+* BUG: Add missing return value.
+* BUG: Set up object and property if not set to prevent PHP related notices and errors when sorting categories during
+  CSV export.
+* BUG: Add missing return value to `_::getIP()`.
+* SECURITY: Sanitize server IP address request variable.
+* SECURITY: Sanitize request variable.
+* OTHER: Correct misspellings.
+* OTHER: Remove unnecessary local variable.
+* OTHER: Deprecate unused `cnFormObjects::token()` method.
+* OTHER: Move deprecated utility classes to the Utility sub-folder.
+* OTHER: Remove unnecessary break statements within switch.
+* OTHER: Move the Google Maps Timezone API to the Integrations sub-folder.
+* OTHER: Remove unused empty placeholder file.
+* OTHER: Remove unnecessary break statements within switch.
+* OTHER: Remove unused import.
+* DEV: There must be no blank lines before the file comment.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+* DEV: phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+* DEV: phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+* DEV: phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
+* DEV: phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
+* DEV: phpcs:disable WordPress.Arrays.MultipleStatementAlignment.LongIndexSpaceBeforeDoubleArrow
+* DEV: phpcs:ignore WordPress.Security.NonceVerification.Recommended
+* DEV: Remove @todo tags.
+* DEV: phpDoc corrections.
+* DEV: When a multi-item array uses associative keys, each value should start on a new line.
+* DEV: Use Yoda Condition checks, you must.
+* DEV: Remove unused commented out code.
+* DEV: There must be no blank lines before the file comment.
+* DEV: Equals sign not aligned with surrounding assignments.
+* DEV: Reflow code.
+* DEV: Correct if/else statement with common parts.
+* DEV: String does not require double quotes; use single quotes instead.
+* DEV: Tabs must be used to indent lines; spaces are not allowed.
+* DEV: Array double arrow not aligned correctly.
+* DEV: Language constructs must be followed by a single space.
+* DEV: Concat operator must be surrounded by a single space.
+* DEV: Correct array code format.
+* DEV: Do strict comparison.
+* DEV: No space found after comma in argument list.
+* DEV: Add phpDoc file header.
+* DEV: Extract common parts of if/else statement.
+* DEV: Parameter comment must end with a full stop.
+* DEV: Parenthesis should always be used when instantiating a new object.
+
 = 10.4.7 12/01/2021 =
 
 * NEW: Introduce `_::isDevelopmentEnvironment()`.
@@ -793,50 +852,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Use `rawurlencode()` when encoding the permalink for department, organization, district, county,  locality, region, and country.
 * BUG: Correct find shortcode logic.
 * OTHER: Update readme.txt to make mention of the support of the native sitemaps support introduced in WordPress 5.5.
-
-= 9.17 11/24/2020 =
-* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
-* TWEAK: Remove use of deprecated method `cnValidate::userPermitted()`.
-* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
-* TWEAK: Do not apply the `wpseo_title` filter in the admin.
-* TWEAK: Comment out code legacy Yoast SEO compatibility code.
-* TWEAK: Do not apply `array_filter()` to shortcode `$atts` when viewing the single Entry detail/profile page.
-* TWEAK: Apply clear float fix to the form.
-* TWEAK: Use the `get_cananical_url` filter instead of the `page_link` filter to set the canonical page URL.
-* TWEAK: Relation separator should be within a span tag.
-* TWEAK: Add a few filters which should be reset between shortcode instances.
-* TWEAK: Use self when referencing method.
-* TWEAK: Add random support to the `[cn-entry]` shortcode.
-* TWEAK: Ensure the `force_home` option for the `[cn-entry]` shortcode is a boolean.
-* OTHER: Update readme.txt support link.
-* OTHER: Update fontawesome from 5.13.0 to 5.15.1.
-* DEV: Correct code formatting.
-* DEV: Update package.json dependencies.
-* DEV: Update webpack.config.js.
-* DEV: Update dist files.
-
-= 9.16 11/06/2020 =
-* TWEAK: Add filter to the `[cn-content]` shortcode to support the Page Builder plugin by SiteOrigin.
-* OTHER: Remove the legacy social network icons to reduce plugin package size.
-* DEV: Code alignment.
-* DEV: Correct the replacement method for a deprecated method debug message.
-* DEV: Remove use of deprecated method `cnValidate::userPermitted()`.
-* DEV: Remove use of deprecated method `cnCountry::getCode()`.
-* DEV: Remove use of deprecated method `cnOptions::getDateOptions()`.
-* DEV: Remove use of deprecated method `cnFormatting::toCamelCase()`.
-* DEV: Remove use of deprecated method `cnFunction::isDimensionalArray()`.
-* DEV: Remove use of deprecated method `cnEntry::getFullFirstLastName()`.
-* DEV: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
-* DEV: Remove use of deprecated method `cnUser::getFilterPage()`.
-* DEV: Remove use of deprecated method `cnUtility::getUUID()`.
-* DEV: Remove use of deprecated method `cnFormatting::maybeJSONencode()`.
-* DEV: Remove use of deprecated method `cnFormatting::maybeJSONdecode()`.
-* DEV: Remove use of deprecated method `cnUtility::toNumericHash()`.
-* DEV: Remove use of deprecated method in `cnRetrieve`.
-
-= 9.15 10/30/2020 =
-* TWEAK: Pass additional parameters to the `Connections_Directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}` filter.
-* DEV: Change class variable from private to protected.
-* DEV: Add deprecated notices throughout so usages can be removed and old code cleaned up.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

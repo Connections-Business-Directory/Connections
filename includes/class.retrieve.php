@@ -138,7 +138,7 @@ class cnRetrieve {
 		$defaults['radius']                = 10;
 		$defaults['unit']                  = 'mi';
 
-		$defaults['parse_request']         = _array::get( $atts, 'lock', false );
+		$defaults['parse_request']         = ! _array::get( $atts, 'lock', false );
 		$defaults['suppress_filters']      = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -153,7 +153,7 @@ class cnRetrieve {
 		 * Process the query vars.
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
-		if ( ( $request->isAjax() || ! is_admin() ) && ! $atts['parse_request'] ) {
+		if ( ( $request->isAjax() || ! is_admin() ) && $atts['parse_request'] ) {
 
 			$this->parseRequest( $atts );
 		}

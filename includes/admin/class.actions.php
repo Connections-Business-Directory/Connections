@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_sanitize;
 use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
@@ -221,17 +222,16 @@ class cnAdminActions {
 			wp_send_json( -3 );
 		}
 
-		$user = wp_get_current_user();
+		$user  = wp_get_current_user();
+		$email = Request\Email_System_Info::input()->value();
 
-		// phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 		$atts = array(
 			'from_email' => $user->user_email,
 			'from_name'  => $user->display_name,
-			'to_email'   => isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '',
-			'subject'    => isset( $_POST['subject'] ) ? sanitize_text_field( $_POST['subject'] ) : '',
-			'message'    => isset( $_POST['message'] ) ? sanitize_textarea_field( $_POST['message'] ) : '',
+			'to_email'   => $email['email'],
+			'subject'    => $email['subject'],
+			'message'    => $email['message'],
 		);
-		// phpcs:enable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
 		$response = cnSystem_Info::email( $atts );
 
@@ -381,12 +381,16 @@ class cnAdminActions {
 	 */
 	public static function csvExportBatchDownload() {
 
-		if ( ! isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), 'cn-batch-export-download' ) ) {
+		if ( false === Request\Nonce::input( 'nonce', 'cn-batch-export-download' )->isValid() ) {
 
-			wp_die( esc_html__( 'Nonce verification failed.', 'connections' ), esc_html__( 'Error', 'connections' ), array( 'response' => 403 ) );
+			wp_die(
+				esc_html__( 'Nonce verification failed.', 'connections' ),
+				esc_html__( 'Error', 'connections' ),
+				array( 'response' => 403 )
+			);
 		}
 
-		$type = isset( $_REQUEST['type'] ) ? sanitize_key( $_REQUEST['type'] ) : '';
+		$type = Request\CSV_Export_Type::input()->value();
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -462,7 +466,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
 
-		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
+		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Addresses();
 		$nonce  = wp_create_nonce( 'export_csv_addresses' );
 
@@ -754,7 +758,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
 
-		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
+		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Phone_Numbers();
 		$nonce  = wp_create_nonce( 'export_csv_phone_numbers' );
 
@@ -775,7 +779,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
 
-		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
+		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Email();
 		$nonce  = wp_create_nonce( 'export_csv_email' );
 
@@ -796,7 +800,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
 
-		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
+		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Dates();
 		$nonce  = wp_create_nonce( 'export_csv_dates' );
 
@@ -817,7 +821,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
 
-		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
+		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Term();
 		$nonce  = wp_create_nonce( 'export_csv_term' );
 
@@ -834,7 +838,7 @@ class cnAdminActions {
 
 		check_ajax_referer( 'import_csv_term' );
 
-		if ( ! isset( $_REQUEST['_ajax_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['_ajax_nonce'] ), 'import_csv_term' ) ) {
+		if ( false === Request\Nonce::from( INPUT_POST, '_ajax_nonce', 'import_csv_term' )->isValid() ) {
 
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'connections' ) ) );
 		}
@@ -862,7 +866,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 		require_once CN_PATH . 'includes/import/class.csv-import-batch-category.php';
 
-		$step   = isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1;
+		$step   = Request\CSV_Export_Step::input()->value();
 		$import = new cnCSV_Batch_Import_Term( $path );
 		$nonce  = wp_create_nonce( 'import_csv_term' );
 
@@ -883,7 +887,7 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
 
-		$step   = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
+		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_All();
 		$nonce  = wp_create_nonce( 'export_csv_all' );
 
@@ -980,14 +984,14 @@ class cnAdminActions {
 	/**
 	 * Callback for the `wp_ajax_csv_upload` action.
 	 *
-	 * @access private
+	 * @internal
 	 * @since  unknown
 	 */
 	public static function uploadCSV() {
 
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
-		if ( ! isset( $_REQUEST['nonce'] ) && ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), 'csv_upload' ) ) {
+		if ( false === Request\Nonce::from( INPUT_POST, 'nonce', 'csv_upload' )->isValid() ) {
 
 			wp_send_json_error(
 				array(
@@ -1238,14 +1242,14 @@ class cnAdminActions {
 		 * Set up the redirect.
 		 */
 
-		if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
+		if ( Request\Search::from( INPUT_POST )->value() ) {
 
-			$queryVar['s'] = urlencode( _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$queryVar['s'] = urlencode( Request\Search::input()->value() );
 		}
 
-		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( 0 < mb_strlen( Request\Entry_Initial_Character::from( INPUT_POST )->value() ) ) {
 
-			$queryVar['cn-char'] = urlencode( _sanitize::character( wp_unslash( $_GET['cn-char'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$queryVar['cn-char'] = urlencode( Request\Entry_Initial_Character::input()->value() );
 		}
 
 		/*
@@ -1761,14 +1765,14 @@ class cnAdminActions {
 		/*
 		 * Set up the redirect.
 		 */
-		if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
+		if ( 0 < mb_strlen( Request\Search::from( INPUT_POST )->value() ) ) {
 
-			$queryVar['s'] = urlencode( _sanitize::search( wp_unslash( $_REQUEST['s'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$queryVar['s'] = urlencode( Request\Search::input()->value() );
 		}
 
-		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( 0 < mb_strlen( Request\Entry_Initial_Character::from( INPUT_POST )->value() ) ) {
 
-			$queryVar['cn-char'] = urlencode( _sanitize::character( wp_unslash( $_GET['cn-char'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$queryVar['cn-char'] = urlencode( Request\Entry_Initial_Character::input()->value() );
 		}
 
 		/*

@@ -1164,6 +1164,11 @@ final class Taxonomy {
 		$defaults['all_items']      = $defaults['menu_name'];
 		$defaults['archives']       = $defaults['all_items'];
 
+		$defaults['name_field_description']   = __( 'The name is how it appears on your site.', 'connections' );
+		$defaults['slug_field_description']   = __( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'connections' );
+		$defaults['parent_field_description'] = __( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.', 'connections' );
+		$defaults['desc_field_description']   = __( 'The description is not prominent by default; however, some themes may show it.', 'connections' );
+
 		// $defaults = clone ( (object) $core );
 
 		/**
@@ -1365,7 +1370,7 @@ final class Taxonomy {
 	 * Callback for the `{$page_hook}` action.
 	 * @see file://./wp-admin/admin.php
 	 *
-	 * NOTE: Action hook files after the `admin_init` and `load-{$page_hook}` actions.
+	 * NOTE: Action hook is executed after the `admin_init` and `load-{$page_hook}` actions.
 	 *
 	 * Render the taxonomy term management admin screen based on action.
 	 *
@@ -1381,12 +1386,7 @@ final class Taxonomy {
 		 */
 		$taxonomy =& $this;
 
-		$action = '';
-
-		if ( isset( $_GET['cn-action'] ) ) {
-
-			$action = $_GET['cn-action'];
-		}
+		$action = Request\Admin_Action::input()->value();
 
 		switch ( $action ) {
 
@@ -1869,6 +1869,10 @@ final class _Capabilities {}
  * @property string $select_items
  * @property string $parent_item
  * @property string $parent_item_colon
+ * @property string $name_field_description
+ * @property string $slug_field_description
+ * @property string $parent_field_description
+ * @property string $desc_field_description
  * @property string $edit_item
  * @property string $view_item
  * @property string $update_item

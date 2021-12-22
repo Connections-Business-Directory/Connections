@@ -129,7 +129,7 @@ class cnDependency {
 
 		$file = CN_PATH . $hashTable[ $class ];
 
-		// if the file exists, require it
+		// if the file exists, require it.
 		if ( file_exists( $file ) ) {
 
 			require $file;
@@ -151,11 +151,13 @@ class cnDependency {
 	 */
 	public static function customizer() {
 
-		$is_customize_admin_page = ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) );
-		$should_include = (
+		$currentURI = Connections_Directory\Request\Server_PHP_Self::input()->value();
+
+		$is_customize_admin_page = ( is_admin() && 'customize.php' === basename( $currentURI ) );
+		$should_include          = (
 			$is_customize_admin_page
 			||
-			( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
+			( isset( $_REQUEST['wp_customize'] ) && 'on' === $_REQUEST['wp_customize'] )
 			||
 			( ! empty( $_GET['customize_changeset_uuid'] ) || ! empty( $_POST['customize_changeset_uuid'] ) )
 		);
@@ -185,12 +187,20 @@ class cnDependency {
 	 * @static
 	 *
 	 * @return array
+	 *
+	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
+	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.LongIndexSpaceBeforeDoubleArrow
 	 */
 	private static function classRegistry() {
 
 		return array(
 
-			// Utility
+			// Legacy utilities.
+			'cnUtility'                                     => 'includes/Utility/class.utility.php',
+			'cnSanitize'                                    => 'includes/Utility/class.sanitize.php',
+			'cnValidate'                                    => 'includes/Utility/class.validate.php',
+
+			// Utility.
 			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
 			'Connections_Directory\Utility\_array'          => 'includes/Utility/_array.php',
 			'Connections_Directory\Utility\_color'          => 'includes/Utility/_color.php',
@@ -204,17 +214,38 @@ class cnDependency {
 			'Connections_Directory\Utility\_validate'       => 'includes/Utility/_validate.php',
 			'Connections_Directory\Utility\Convert\_length' => 'includes/Utility/Convert/_length.php',
 
-			// Localization
+			// Localization.
 			'cnText_Domain'            => 'includes/class.text-domain.php',
 
-			// Current User
+			// Current User.
 			'cnUser'                   => 'includes/class.user.php',
 
 			// Request API.
-			'Connections_Directory\Request'                => 'includes/Request.php',
-			// 'Connections_Directory\Request\Nonce'          => 'includes/Request/Nonce.php',
-			// 'Connections_Directory\Request\Search'         => 'includes/Request/Search.php',
-			// 'Connections_Directory\Request\Variable'       => 'includes/Request/Variable.php',
+			'Connections_Directory\Request'                          => 'includes/Request.php',
+			'Connections_Directory\Request\Admin_Action'             => 'includes/Request/Admin_Action.php',
+			'Connections_Directory\Request\Admin_Page'               => 'includes/Request/Admin_Page.php',
+			'Connections_Directory\Request\CSV_Export_Type'          => 'includes/Request/CSV_Export_Type.php',
+			'Connections_Directory\Request\CSV_Export_Step'          => 'includes/Request/CSV_Export_Step.php',
+			'Connections_Directory\Request\Entry_Initial_Character'  => 'includes/Request/Entry_Initial_Character.php',
+			'Connections_Directory\Request\Entry_Search_Term'        => 'includes/Request/Entry_Search_Term.php',
+			'Connections_Directory\Request\Email_System_Info'        => 'includes/Request/Email_System_Info.php',
+			'Connections_Directory\Request\ID'                       => 'includes/Request/ID.php',
+			'Connections_Directory\Request\Input'                    => 'includes/Request/Input.php',
+			'Connections_Directory\Request\List_Table_Taxonomy'      => 'includes/Request/List_Table_Taxonomy.php',
+			'Connections_Directory\Request\Log_ID'                   => 'includes/Request/Log_ID.php',
+			'Connections_Directory\Request\Log_Type'                 => 'includes/Request/Log_Type.php',
+			'Connections_Directory\Request\Nonce'                    => 'includes/Request/Nonce.php',
+			'Connections_Directory\Request\Search'                   => 'includes/Request/Search.php',
+			'Connections_Directory\Request\Server'                   => 'includes/Request/Server.php',
+			'Connections_Directory\Request\Server_HTTP_Host'         => 'includes/Request/Server_HTTP_Host.php',
+			'Connections_Directory\Request\Server_Request_URI'       => 'includes/Request/Server_Request_URI.php',
+			'Connections_Directory\Request\Server_Name'              => 'includes/Request/Server_Name.php',
+			'Connections_Directory\Request\Server_PHP_Self'          => 'includes/Request/Server_PHP_Self.php',
+			'Connections_Directory\Request\Server_Protocol'          => 'includes/Request/Server_Protocol.php',
+			'Connections_Directory\Request\Server_Software'          => 'includes/Request/Server_Software.php',
+			'Connections_Directory\Request\System_Information_Token' => 'includes/Request/System_Information_Token.php',
+			'Connections_Directory\Request\Taxonomy'                 => 'includes/Request/Taxonomy.php',
+			'Connections_Directory\Request\Term'                     => 'includes/Request/Term.php',
 
 			// Taxonomy API.
 			'Connections_Directory\Taxonomy'                    => 'includes/Taxonomy.php',
@@ -223,11 +254,11 @@ class cnDependency {
 			'Connections_Directory\Taxonomy\Widget'             => 'includes/Taxonomy/Widget.php',
 			'Connections_Directory\Taxonomy\Term\Admin\Actions' => 'includes/Taxonomy/Term/Admin/Actions.php',
 
-			// Terms Objects
+			// Term Objects.
 			'cnTerm'                   => 'includes/class.terms.php',
 			'cnTerms'                  => 'includes/class.terms.php',
 
-			// Category Objects
+			// Category Objects.
 			'cnCategory'               => 'includes/class.category.php',
 
 			// Retrieve objects from the db.
@@ -338,11 +369,6 @@ class cnDependency {
 			'cnMeta'       => 'includes/class.meta.php',
 			'cnMeta_Query' => 'includes/class.meta.php',
 
-			// Utility methods.
-			'cnUtility'  => 'includes/class.utility.php',
-			'cnValidate' => 'includes/class.validate.php',
-			'cnSanitize' => 'includes/class.sanitize.php',
-
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',
 
@@ -419,10 +445,10 @@ class cnDependency {
 			// The Term Meta UI class.
 			'cnTerm_Meta_UI'           => 'includes/admin/class.term-meta-ui.php',
 
-			// Class for SEO
+			// Class for SEO.
 			'cnSEO'                    => 'includes/class.seo.php',
 
-			// Custom Customizer Controls
+			// Custom Customizer Controls.
 			'cnCustomizer_Control_Checkbox_Group' => 'includes/customizer/controls/checkbox-group/class.checkbox-group.php',
 			'cnCustomizer_Control_Slider'         => 'includes/customizer/controls/slider/class.slider.php',
 
@@ -433,13 +459,13 @@ class cnDependency {
 			'cnTemplate_Compatibility' => 'includes/template/class.template-compatibility.php',
 			'cnTemplate'               => 'includes/template/class.template.php',
 
-			// System Info
+			// System Info.
 			'cnSystem_Info'            => 'includes/system-info/class.system-info.php',
 
 			// REST API.
 			'cnAPI'                    => 'includes/api/class.api.php',
 
-			// Collections
+			// Collections.
 			'cnToArray'                => 'includes/class.to-array.php',
 			'cnArray'                  => 'includes/class.array.php',
 			'cnCollection'             => 'includes/class.collection.php',
@@ -448,56 +474,53 @@ class cnDependency {
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
 			'cnAddress'                => 'includes/entry/address/class.address.php',
 
-			// Phone objects
+			// Phone objects.
 			'cnEntry_Phone_Numbers'    => 'includes/entry/phone/class.entry-phone-numbers.php',
 			'cnPhone'                  => 'includes/entry/phone/class.phone.php',
 
-			// Email Address objects
+			// Email Address objects.
 			'cnEntry_Email_Addresses'  => 'includes/entry/email/class.entry-email-addresses.php',
 			'cnEmail_Address'          => 'includes/entry/email/class.email.php',
 
-			// Messenger ID objects
+			// Messenger ID objects.
 			'cnEntry_Messenger_IDs'    => 'includes/entry/messenger/class.entry-messenger-ids.php',
 			'cnMessenger'              => 'includes/entry/messenger/class.messenger.php',
 
-			// Link objects
+			// Link objects.
 			'cnEntry_Links'            => 'includes/entry/link/class.entry-links.php',
 			'cnLink'                   => 'includes/entry/link/class.link.php',
 
-			// Date objects
+			// Date objects.
 			'cnEntry_Dates'            => 'includes/entry/date/class.entry-dates.php',
 			'cnEntry_Date'             => 'includes/entry/date/class.date.php',
 
-			// Date objects
+			// Date objects.
 			'cnEntry_Social_Networks'  => 'includes/entry/social/class.entry-social-networks.php',
 			'cnEntry_Social_Network'   => 'includes/entry/social/class.social-network.php',
 
 			// Entry image object.
 			'cnEntry_Image'            => 'includes/entry/image/class.entry-image.php',
 
-			// Database Classes
+			// Database Classes.
 			'cnEntry_DB'               => 'includes/entry/class.entry-db.php',
 
 			// HTTP request utility methods.
 			'cnHTTP'                   => 'includes/class.http.php',
 
-			// Timezone.
-			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
-
-			// Countries
+			// Countries.
 			'cnCountries'              => 'includes/geo/class.countries.php',
 
-			// Models
+			// Models.
 			'Connections_Directory\Model\Address' => 'includes/model/class.address.php',
 			'cnCountry'                           => 'includes/model/class.country.php',
 			'cnCoordinates'                       => 'includes/model/class.coordinates.php',
 			'Connections_Directory\Model\Bounds'  => 'includes/model/class.bounds.php',
 			'cnTimezone'                          => 'includes/model/class.timezone.php',
 
-			// Format
+			// Format.
 			'Connections_Directory\Model\Format\Address\As_String' => 'includes/model/format/address/class.as-string.php',
 
-			// Geocoder
+			// Geocoder.
 			'Connections_Directory\Geocoder\Geocoder'                         => 'includes/geocoder/class.geocoder.php',
 			'Connections_Directory\Geocoder\Assert'                           => 'includes/geocoder/class.assert.php',
 			// 'Connections_Directory\Geocoder\Exception\Exception'              => 'includes/geocoder/exception/interface.exception.php',
@@ -514,7 +537,7 @@ class cnDependency {
 			'Connections_Directory\Geocoder\Provider\Bing_Maps\Bing_Maps'     => 'includes/geocoder/provider/class.bing-maps.php',
 			'Connections_Directory\Geocoder\Provider\Nominatim\Nominatim'     => 'includes/geocoder/provider/class.nominatim.php',
 
-			// Map
+			// Map.
 			'Connections_Directory\Map\Map'                                   => 'includes/map/class.map.php',
 			'Connections_Directory\Map\Map_Object'                            => 'includes/map/interface.map-object.php',
 			// 'Connections_Directory\Map\Layer'                                 => 'includes/map/class.layer.php',
@@ -535,18 +558,19 @@ class cnDependency {
 			'Connections_Directory\Map\Common\Options'                        => 'includes/map/common/trait.options.php',
 			'Connections_Directory\Map\Common\Popup_Trait'                    => 'includes/map/common/trait.popup.php',
 
-			// Gutenberg Blocks
+			// Gutenberg Blocks.
 			'Connections_Directory\Blocks'           => 'includes/blocks/class.blocks.php',
 			'Connections_Directory\Blocks\Carousel'  => 'includes/blocks/carousel/class.block.php',
 			'Connections_Directory\Blocks\Directory' => 'includes/blocks/directory/class.block.php',
 			'Connections_Directory\Blocks\Team'      => 'includes/blocks/team/class.block.php',
 			'Connections_Directory\Blocks\Upcoming'  => 'includes/blocks/upcoming/class.block.php',
 
-			// Sitemaps
+			// Sitemaps.
 			'Connections_Directory\Sitemaps\Registry' => 'includes/Sitemaps/Registry.php',
 			'Connections_Directory\Sitemaps\Provider' => 'includes/Sitemaps/Provider.php',
 
-			// Integrations
+			// Integrations.
+			'cnGoogleMapsTimeZone'                                     => 'includes/Integration/Google/class.google-maps-timezone-api.php',
 			'Connections_Directory\Integration\SEO\Yoast_SEO'          => 'includes/Integration/SEO/Yoast_SEO.php',
 			'Connections_Directory\Integration\SEO\Yoast_SEO\Provider' => 'includes/Integration/SEO/Yoast_SEO/Provider.php',
 			'Connections_Directory\Integration\SEO\Rank_Math'          => 'includes/Integration/SEO/Rank_Math.php',
@@ -554,7 +578,7 @@ class cnDependency {
 			'Connections_Directory\Integration\WordPress\mShot'        => 'includes/Integration/WordPress/mShot.php',
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
 
-			// Third Party Libraries
+			// Third Party Libraries.
 			// 'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
 			// 'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
 			// 'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',

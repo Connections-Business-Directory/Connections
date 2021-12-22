@@ -5,7 +5,7 @@ use cnAdminActions;
 use cnFormObjects;
 use cnMessage;
 use cnTerm;
-use Connections_Directory\Utility\_array;
+use Connections_Directory\Request;
 
 /**
  * Callback for the `cn_add-term` action.
@@ -24,17 +24,18 @@ function addTerm() {
 	if ( current_user_can( 'connections_edit_categories' ) ) {
 
 		$form = new cnFormObjects();
+		$term = Request\Term::input()->value();
 
 		check_admin_referer( $form->getNonce( 'add-term' ), '_cn_wpnonce' );
 
 		// `$_POST` data is escaped in `cnTerm::insert()` utilizing `sanitize_term()`.
 		$result = cnTerm::insert(
-			_array::get( $_POST, 'term_name', '' ),
-			_array::get( $_POST, 'taxonomy', '' ),
+			$term['term-name'],
+			$term['taxonomy'],
 			array(
-				'slug'        => _array::get( $_POST, 'term_slug', '' ),
-				'parent'      => _array::get( $_POST, 'term_parent', 0 ),
-				'description' => _array::get( $_POST, 'term_description', '' ),
+				'slug'        => $term['term-slug'],
+				'parent'      => $term['term-parent'],
+				'description' => $term['term-description'],
 			)
 		);
 
@@ -61,7 +62,7 @@ function addTerm() {
 /**
  * Callback for the `cn_update-term` action.
  *
- * Update a category.
+ * Update a term.
  *
  * @internal
  * @since 8.6.12
@@ -70,6 +71,7 @@ function addTerm() {
 function updateTerm() {
 
 	$form = new cnFormObjects();
+	$term = Request\Term::input()->value();
 
 	/*
 	 * Check whether user can edit Settings
@@ -79,7 +81,7 @@ function updateTerm() {
 		check_admin_referer( $form->getNonce( 'update-term' ), '_cn_wpnonce' );
 
 		// Make sure the category isn't being set to itself as a parent.
-		if ( $_POST['term_id'] === $_POST['term_parent'] ) {
+		if ( $term['term-id'] === $term['term-parent'] ) {
 
 			cnMessage::set( 'error', 'category_self_parent' );
 		}
@@ -88,13 +90,13 @@ function updateTerm() {
 
 		// `$_POST` data is escaped in `cnTerm::update()` utilizing `sanitize_term()`.
 		$result = cnTerm::update(
-			_array::get( $_POST, 'term_id', 0 ),
-			_array::get( $_POST, 'taxonomy', '' ),
+			$term['term-id'],
+			$term['taxonomy'],
 			array(
-				'name'        => _array::get( $_POST, 'term_name', '' ),
-				'slug'        => _array::get( $_POST, 'term_slug', '' ),
-				'parent'      => _array::get( $_POST, 'term_parent', 0 ),
-				'description' => _array::get( $_POST, 'term_description', '' ),
+				'name'        => $term['term-name'],
+				'slug'        => $term['term-slug'],
+				'parent'      => $term['term-parent'],
+				'description' => $term['term-description'],
 			)
 		);
 
@@ -127,8 +129,10 @@ function updateTerm() {
  */
 function deleteTerm() {
 
+	$slug = Request\Taxonomy::from( INPUT_GET )->value();
+
 	// Use legacy action callback when deleting categories, for now.
-	if ( 'category' == $_REQUEST['taxonomy'] ) {
+	if ( 'category' === $slug ) {
 
 		cnAdminActions::deleteCategory();
 	}
@@ -138,10 +142,11 @@ function deleteTerm() {
 	 */
 	if ( current_user_can( 'connections_edit_categories' ) ) {
 
-		$id = esc_attr( $_REQUEST['id'] );
-		check_admin_referer( 'term_delete_' . $id );
+		$id = Request\ID::input()->value();
 
-		$result = cnTerm::delete( $id, $_REQUEST['taxonomy'] );
+		check_admin_referer( "term_delete_{$id}" );
+
+		$result = cnTerm::delete( $id, $slug );
 
 		if ( is_wp_error( $result ) ) {
 
@@ -173,16 +178,10 @@ function deleteTerm() {
  */
 function bulkTerm() {
 
-	$action   = '';
-
-	if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
-
-		$action = $_REQUEST['action'];
-
-	} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
-
-		$action = $_REQUEST['action2'];
-	}
+	$request = Request\List_Table_Taxonomy::input()->value();
+	$action  = $request['action'];
+	$slug    = $request['taxonomy'];
+	$url     = wp_get_raw_referer();
 
 	/*
 	 * Check whether user can edit terms.
@@ -194,10 +193,9 @@ function bulkTerm() {
 		switch ( $action ) {
 
 			case 'delete':
+				foreach ( $request['selected'] as $id ) {
 
-				foreach ( (array) $_REQUEST[ $_REQUEST['taxonomy'] ] as $id ) {
-
-					$result = cnTerm::delete( $id, $_REQUEST['taxonomy'] );
+					$result = cnTerm::delete( $id, $slug );
 
 					if ( is_wp_error( $result ) ) {
 
@@ -212,17 +210,12 @@ function bulkTerm() {
 				break;
 
 			default:
-
-				do_action( "bulk_term_action-{$_REQUEST['taxonomy']}-{$action}" );
+				do_action( "bulk_term_action-{$slug}-{$action}" );
 		}
 
-		$url = wp_get_raw_referer();
+		if ( 1 < $request['paged'] ) {
 
-		if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
-
-			$page = absint( $_REQUEST['paged'] );
-
-			$url = add_query_arg( array( 'paged' => $page ) , $url );
+			$url = add_query_arg( array( 'paged' => $request['paged'] ), $url );
 		}
 
 		wp_safe_redirect( $url );

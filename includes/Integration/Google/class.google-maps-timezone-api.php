@@ -610,8 +610,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 						$response->errorMessage
 					);
 
-					break;
-
 				case 'OVER_QUERY_LIMIT':
 
 					return new WP_Error(
@@ -619,8 +617,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 						__( 'Daily query limit has been exceeded.', 'connections' ),
 						$response->errorMessage
 					);
-
-					break;
 
 				case 'REQUEST_DENIED':
 
@@ -630,8 +626,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 						$response->errorMessage
 					);
 
-					break;
-
 				case 'INVALID_REQUEST':
 
 					return new WP_Error(
@@ -639,8 +633,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 						__( 'An invalid request has been received.', 'connections' ),
 						property_exists( $response, 'errorMessage' ) ? $response->errorMessage : $response->status
 					);
-
-					break;
 
 				case 'UNKNOWN_ERROR':
 
@@ -650,8 +642,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 						$response->errorMessage
 					);
 
-					break;
-
 				case 'OK':
 
 					if ( $raw ) {
@@ -659,8 +649,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					} else {
 						return new cnTimezone( $response );
 					}
-
-					break;
 
 				default:
 

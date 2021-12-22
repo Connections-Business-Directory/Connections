@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
@@ -84,8 +85,8 @@ class cnRewrite {
 		$var[] = 'cn-district';
 		$var[] = 'cn-organization'; // organization
 		$var[] = 'cn-department'; // department
-		$var[] = 'cn-char'; // initial character
-		$var[] = 'cn-s';   // search term
+		// $var[] = 'cn-char'; // initial character
+		// $var[] = 'cn-s';   // search term
 		$var[] = 'cn-pg';   // page
 		$var[] = 'cn-entry-slug'; // entry slug
 		$var[] = 'cn-token';  // security token; WP nonce
@@ -797,15 +798,15 @@ class cnRewrite {
 		$postSlug  = $post->rewrite['slug'];
 		$postToken = "%{$namespace}CPT_{$post->name}%";
 
-		$rewriteArgs =  array(
+		$rewriteArgs = array(
 			'with_front'   => false,
 			'hierarchical' => false,
 			'ep_mask'      => EP_NONE,
-			'paged'       => false,
-			'feed'        => false,
-			'forcomments' => false,
-			'walk_dirs'   => false,
-			'endpoints'   => false,
+			'paged'        => false,
+			'feed'         => false,
+			'forcomments'  => false,
+			'walk_dirs'    => false,
+			'endpoints'    => false,
 		);
 
 		$landingRules = array_merge(
@@ -954,10 +955,10 @@ class cnRewrite {
 			return false;
 		}
 
-		// The URL in the address bar
+		// The URL in the address bar.
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
-		$requestedURL .= $_SERVER['HTTP_HOST'];
-		$requestedURL .= $_SERVER['REQUEST_URI'];
+		$requestedURL .= Request\Server_HTTP_Host::input()->value();
+		$requestedURL .= Request\Server_Request_URI::input()->value();
 
 		$originalURL = $requestedURL;
 		$parsedURL   = @parse_url( $requestedURL );
@@ -980,11 +981,11 @@ class cnRewrite {
 			// Get the settings for the base of each data type to be used in the URL.
 			$base = get_option( 'connections_permalink' );
 
-			// Categories
+			// Categories.
 			if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-				$slug = array();
-				$categoryID = (int) cnQuery::getVar( 'cn-cat' );
+				$slug               = array();
+				$categoryID         = (int) cnQuery::getVar( 'cn-cat' );
 				$parsedURL['query'] = remove_query_arg( 'cn-cat', $parsedURL['query'] );
 
 				$category = $connections->retrieve->category( $categoryID );
@@ -1007,10 +1008,10 @@ class cnRewrite {
 				// var_dump( $redirectURL ); //exit();
 			}
 
-			// If paged, append pagination
+			// If paged, append pagination.
 			if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-				$page = (int) cnQuery::getVar( 'cn-pg' );
+				$page               = (int) cnQuery::getVar( 'cn-pg' );
 				$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 
 				if ( $page > 1 && ! stripos( $redirectURL, "pg/$page" ) ) {
@@ -1026,7 +1027,7 @@ class cnRewrite {
 		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
 			parse_str( $parsedURL['query'], $_parsed_query );
 			$_parsed_query = array_map( 'rawurlencode_deep', $_parsed_query );
-			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
+			$redirectURL   = add_query_arg( $_parsed_query, $redirectURL );
 		}
 
 		if ( ! $redirectURL || $redirectURL == $requestedURL ) {
@@ -1065,10 +1066,10 @@ class cnRewrite {
 			$parsedURL['query'] = '';
 		}
 
-		// If paged, append pagination
+		// If paged, append pagination.
 		if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-			$page = (int) cnQuery::getVar( 'cn-pg' );
+			$page               = (int) cnQuery::getVar( 'cn-pg' );
 			$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 			if ( $page > 1 && ! stripos( $redirectURL, "pg/$page" ) ) {
 				$redirectURL .= user_trailingslashit( "pg/$page", 'page' );
@@ -1084,7 +1085,7 @@ class cnRewrite {
 		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
 			parse_str( $parsedURL['query'], $_parsed_query );
 			$_parsed_query = array_map( 'rawurlencode', $_parsed_query );
-			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
+			$redirectURL   = add_query_arg( $_parsed_query, $redirectURL );
 		}
 
 		return $redirectURL;
@@ -1146,7 +1147,7 @@ class cnRewrite {
 
 		} elseif ( is_home() && cnShortcode::isSupportedPostType( $post ) ) {
 
-			return  $requestedURL;
+			return $requestedURL;
 		}
 
 		return $redirectURL;

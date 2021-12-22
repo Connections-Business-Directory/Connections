@@ -6,9 +6,9 @@ use cnFormObjects;
 use cnMessage;
 use cnMeta;
 use cnTerm;
+use Connections_Directory\Request;
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
-use Connections_Directory\Utility\_array;
 use function Connections_Directory\Taxonomy\Term\Admin\Deprecated_Actions\addTerm;
 use function Connections_Directory\Taxonomy\Term\Admin\Deprecated_Actions\bulkTerm;
 use function Connections_Directory\Taxonomy\Term\Admin\Deprecated_Actions\deleteTerm;
@@ -31,10 +31,10 @@ final class Actions {
 	 */
 	public static function addTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
-		$taxonomy = Registry::get()->getTaxonomy( $slug );
+		$term     = Request\Term::input()->value();
+		$taxonomy = Registry::get()->getTaxonomy( $term['taxonomy'] );
 
-		self::doLegacyTermActions( 'add', $slug );
+		self::doLegacyTermActions( 'add', $term['taxonomy'] );
 		self::invalidTaxonomyRedirect( $taxonomy, wp_get_raw_referer() );
 
 		if ( current_user_can( $taxonomy->getCapabilities()->edit_terms ) ) {
@@ -45,12 +45,12 @@ final class Actions {
 
 			// `$_REQUEST` data is escaped in `cnTerm::insert()` utilizing `sanitize_term()`.
 			$result = cnTerm::insert(
-				_array::get( $_REQUEST, 'term-name', '' ),
+				$term['term-name'],
 				$taxonomy->getSlug(),
 				array(
-					'slug'        => _array::get( $_REQUEST, 'term-slug', '' ),
-					'parent'      => _array::get( $_REQUEST, 'term-parent', 0 ),
-					'description' => _array::get( $_REQUEST, 'term-description', '' ),
+					'slug'        => $term['term-slug'],
+					'parent'      => $term['term-parent'],
+					'description' => $term['term-description'],
 				)
 			);
 
@@ -88,34 +88,33 @@ final class Actions {
 	 */
 	public static function updateTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
-		$taxonomy = Registry::get()->getTaxonomy( $slug );
+		$term     = Request\Term::input()->value();
+		$taxonomy = Registry::get()->getTaxonomy( $term['taxonomy'] );
 
-		self::doLegacyTermActions( 'update', $slug );
+		self::doLegacyTermActions( 'update', $term['taxonomy'] );
 		self::invalidTaxonomyRedirect( $taxonomy, wp_get_raw_referer() );
 
 		if ( current_user_can( $taxonomy->getCapabilities()->edit_terms ) ) {
 
-			$termID = absint( _array::get( $_REQUEST, 'term-id', 0 ) );
-			$form   = new cnFormObjects();
+			$form = new cnFormObjects();
 
-			check_admin_referer( $form->getNonce( "update-term-{$termID}" ), '_cn_wpnonce' );
+			check_admin_referer( $form->getNonce( "update-term-{$term['term-id']}" ), '_cn_wpnonce' );
 
 			// Make sure the term isn't being set to itself as a parent.
-			if ( $termID === _array::get( $_REQUEST, 'term-parent', 0 ) ) {
+			if ( $term['term-id'] === $term['term-parent'] ) {
 
 				cnMessage::set( 'error', 'category_self_parent' );
 			}
 
 			// `$_REQUEST` data is escaped in `cnTerm::update()` utilizing `sanitize_term()`.
 			$result = cnTerm::update(
-				$termID,
+				$term['term-id'],
 				$taxonomy->getSlug(),
 				array(
-					'name'        => _array::get( $_REQUEST, 'term-name', '' ),
-					'slug'        => _array::get( $_REQUEST, 'term-slug', '' ),
-					'parent'      => _array::get( $_REQUEST, 'term-parent', 0 ),
-					'description' => _array::get( $_REQUEST, 'term-description', '' ),
+					'name'        => $term['term-name'],
+					'slug'        => $term['term-slug'],
+					'parent'      => $term['term-parent'],
+					'description' => $term['term-description'],
 				)
 			);
 
@@ -158,13 +157,13 @@ final class Actions {
 	 */
 	public static function deleteTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
+		$slug     = Request\Taxonomy::from( INPUT_GET )->value();
 		$taxonomy = Registry::get()->getTaxonomy( $slug );
 
 		self::doLegacyTermActions( 'delete', $slug );
 		self::invalidTaxonomyRedirect( $taxonomy, wp_get_raw_referer() );
 
-		$id = absint( _array::get( $_REQUEST, 'id', 0 ) );
+		$id = Request\ID::input()->value();
 
 		if ( current_user_can( $taxonomy->getCapabilities()->delete_terms, $id ) ) {
 
@@ -206,22 +205,14 @@ final class Actions {
 	 */
 	public static function bulkTerm() {
 
-		$slug     = sanitize_title_with_dashes( _array::get( $_REQUEST, 'taxonomy', '' ) );
+		$request  = Request\List_Table_Taxonomy::input()->value();
+		$action   = $request['action'];
+		$slug     = $request['taxonomy'];
 		$taxonomy = Registry::get()->getTaxonomy( $slug );
+		$url      = wp_get_raw_referer();
 
 		self::doLegacyTermActions( 'bulk', $slug );
 		self::invalidTaxonomyRedirect( $taxonomy, wp_get_raw_referer() );
-
-		$action = '';
-
-		if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
-
-			$action = $_REQUEST['action'];
-
-		} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
-
-			$action = $_REQUEST['action2'];
-		}
 
 		if ( current_user_can( $taxonomy->getCapabilities()->delete_terms ) ) {
 
@@ -230,8 +221,7 @@ final class Actions {
 			switch ( $action ) {
 
 				case 'delete':
-
-					foreach ( (array) $_REQUEST[ $taxonomy->getSlug() ] as $id ) {
+					foreach ( $request['selected'] as $id ) {
 
 						$result = cnTerm::delete( $id, $taxonomy->getSlug() );
 
@@ -248,22 +238,15 @@ final class Actions {
 					break;
 
 				default:
-
 					do_action( "bulk_term_action-{$taxonomy->getSlug()}-{$action}" );
 			}
 
-			$url = wp_get_raw_referer();
+			if ( 1 < $request['paged'] ) {
 
-			if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
-
-				$page = absint( $_REQUEST['paged'] );
-
-				$url = add_query_arg( array( 'paged' => $page ), $url );
+				$url = add_query_arg( array( 'paged' => $request['paged'] ), $url );
 			}
 
 		} else {
-
-			$url = wp_get_raw_referer();
 
 			$message = sprintf(
 				__( 'You are not authorized to delete %s. Please contact the admin if you received this message in error.', 'connections' ),
@@ -281,7 +264,7 @@ final class Actions {
 	/**
 	 * Callback for the `cn_delete_term` action.
 	 *
-	 * Delete the term meta when when a term is deleted.
+	 * Delete the term meta when a term is deleted.
 	 *
 	 * @internal
 	 * @since 8.2
@@ -313,8 +296,6 @@ final class Actions {
 	 *
 	 * @param string $action
 	 * @param string $taxonomy The taxonomy slug.
-	 *
-	 * @noinspection PhpDeprecationInspection
 	 */
 	private static function doLegacyTermActions( $action, $taxonomy ) {
 
@@ -370,8 +351,8 @@ final class Actions {
 	 * @internal
 	 * @since 10.2
 	 *
-	 * @param Taxonomy $taxonomy
-	 * @param string   $redirect
+	 * @param Taxonomy $taxonomy Instance of the Taxonomy object.
+	 * @param string   $redirect The redirect URL.
 	 */
 	private static function invalidTaxonomyRedirect( $taxonomy, $redirect ) {
 

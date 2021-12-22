@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
+
 /**
  * Log all email sent through @see cnEmail.
  *
@@ -185,12 +187,8 @@ final class cnLog_Email {
 	 */
 	public static function viewLogs() {
 
-		$type = '';
-
-		if ( isset( $_REQUEST['type'] ) && ! empty( $_REQUEST['type'] ) ) {
-
-			$type = esc_attr( $_REQUEST['type'] );
-		}
+		$adminPage = Request\Admin_Page::input()->value();
+		$type      = Request\Log_Type::input()->value();
 
 		/** @var CN_Email_Log_List_Table $table */
 		$table = cnTemplatePart::table(
@@ -205,18 +203,20 @@ final class cnLog_Email {
 
 		?>
 		<h2><?php esc_html_e( 'Email Logs', 'connections' ); ?></h2>
+		<form class="search-form wp-clearfix" method="get">
+			<input type="hidden" name="page" value="<?php echo esc_attr( $adminPage ); ?>"/>
+			<input type="hidden" name="tab" value="logs"/>
+			<?php $table->search_box( esc_html__( 'Search', 'connections' ), self::LOG_TYPE ); ?>
+		</form>
 		<?php do_action( 'cn_logs_email_top' ); ?>
 		<form id="cn-email-logs-filter" method="get">
-			<?php
-			$table->search_box( esc_html__( 'Search', 'connections' ), self::LOG_TYPE );
-			$table->display();
-			?>
+			<?php $table->display(); ?>
 			<input type="hidden" name="cn-action" value="log_bulk_actions">
 			<!--<input type="hidden" name="page" value="connections_tools"/>-->
 			<!--<input type="hidden" name="tab" value="logs"/>-->
 		</form>
 		<?php do_action( 'cn_logs_email_bottom' ); ?>
-	<?php
+		<?php
 	}
 
 	/**
@@ -230,9 +230,9 @@ final class cnLog_Email {
 	 */
 	public static function viewLog() {
 
-		$id = empty( $_GET['log_id'] ) ? 0 : absint( $_GET['log_id'] );
+		$id = Request\Log_ID::input()->value();
 
-		if ( ! $id ) {
+		if ( 0 === $id ) {
 			return;
 		}
 

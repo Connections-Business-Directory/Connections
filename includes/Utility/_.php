@@ -1,4 +1,17 @@
 <?php
+/**
+ * Utility methods.
+ *
+ * @since      unknown
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections Business Directory
+ * @subpackage Connections\_\Utility
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2021, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory\Utility;
 
@@ -70,7 +83,7 @@ final class _ {
 	}
 
 	/**
-	 * Recursively implode a multi-dimensional array.
+	 * Recursively implode a multidimensional array.
 	 *
 	 * @since 8.2
 	 * @deprecated 9.11
@@ -183,7 +196,7 @@ final class _ {
 				break;
 
 			case JSON_ERROR_UTF8:
-				$result = new WP_Error( 'json_decode_error','Malformed UTF-8 characters, possibly incorrectly encoded.' );
+				$result = new WP_Error( 'json_decode_error', 'Malformed UTF-8 characters, possibly incorrectly encoded.' );
 				break;
 
 			case JSON_ERROR_RECURSION:
@@ -310,18 +323,19 @@ final class _ {
 	/**
 	 * Get user IP.
 	 *
+	 * @link   http://stackoverflow.com/a/6718472
+	 *
 	 * @since 0.8
 	 *
 	 * @return string The IP address.
-	 * @link   http://stackoverflow.com/a/6718472
 	 */
 	public static function getIP() {
 
-		foreach ( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
+		foreach ( array( 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR' ) as $key ) {
 
 			if ( true === array_key_exists( $key, $_SERVER ) ) {
 
-				foreach ( array_map( 'trim', explode( ',', $_SERVER[ $key ] ) ) as $ip ) {
+				foreach ( array_map( 'trim', explode( ',', sanitize_text_field( $_SERVER[ $key ] ) ) ) as $ip ) {
 
 					if ( false !== filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
 
@@ -330,6 +344,8 @@ final class _ {
 				}
 			}
 		}
+
+		return '';
 	}
 
 	/**
@@ -346,7 +362,7 @@ final class _ {
 
 		if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
 
-			$data    = openssl_random_pseudo_bytes( 16 );
+			$data = openssl_random_pseudo_bytes( 16 );
 
 			if ( false !== $data ) {
 
@@ -403,7 +419,7 @@ final class _ {
 	 */
 	public static function remapRange( $x, $oMin, $oMax, $nMin, $nMax ) {
 
-		// range check
+		// Range check.
 		if ( $oMin == $oMax ) {
 
 			return false;
@@ -414,7 +430,7 @@ final class _ {
 			return false;
 		}
 
-		// check reversed input range
+		// Check reversed input range.
 		$reverseInput = false;
 		$oldMin       = min( $oMin, $oMax );
 		$oldMax       = max( $oMin, $oMax );
@@ -424,7 +440,7 @@ final class _ {
 			$reverseInput = true;
 		}
 
-		// check reversed output range
+		// Check reversed output range.
 		$reverseOutput = false;
 		$newMin        = min( $nMin, $nMax );
 		$newMax        = max( $nMin, $nMax );
@@ -457,40 +473,37 @@ final class _ {
 	 *
 	 * @since 10.3
 	 *
-	 * @param mixed $value
+	 * @param mixed ...$value The variables to dump.
 	 */
-	public static function var_dump( $value ) {
+	public static function var_dump( ...$value ) {
 
 		$request = Request::get();
 
 		if ( $request->isAjax() || $request->isRest() ) {
 
-			for ( $i = 0; $i < func_num_args(); ++$i ) {
-
-				// error_log( var_export( func_get_arg( $i ), true ) );
-
-				ob_start();
-
-				var_dump( func_get_arg( $i ) );
-
-				$buffer = ob_get_clean();
-
-				error_log( trim( $buffer ) );
-			}
+				_::var_dump_to_error_log( $value );
 
 		} else {
 
-			if ( 1 === func_num_args() ) {
-
-				var_dump( $value );
-
-			} else {
-
-				for ( $i = 0; $i < func_num_args(); ++$i ) {
-
-					var_dump( func_get_arg( $i ) );
-				}
-			}
+			var_dump( ...$value ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
 		}
+	}
+
+	/**
+	 * Dump variable to error log.
+	 *
+	 * @since 10.4.8
+	 *
+	 * @param mixed ...$value The variables to dump.
+	 */
+	public static function var_dump_to_error_log( ...$value ) {
+
+		ob_start();
+
+		var_dump( ...$value ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
+
+		$buffer = ob_get_clean();
+
+		error_log( trim( $buffer ) ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 	}
 }

@@ -636,7 +636,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			//var_dump( $tabIDs );
 
 			// If the current tab isn't set, set the current tab to the initial tab in the array.
-			$currentTab = isset( $_GET['tab'] ) && array_search( $_GET['tab'], $tabIDs ) ? sanitize_text_field( $_GET['tab'] ) : $tabs[0]['id'];
+			$currentTab = isset( $_GET['tab'] ) && array_search( $_GET['tab'], $tabIDs ) ? sanitize_text_field( $_GET['tab'] ) : $tabs[0]['id']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			// Page title.
 			//if ( ! empty( $args['page_title'] ) ) echo '<h1>' , $args['page_title'] , '</h1>';

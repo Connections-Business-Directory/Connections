@@ -1,9 +1,6 @@
 <?php
-
 /**
  * Class for creating various form HTML elements.
- *
- * @todo This class is an absolute mess, clean and optimize.
  *
  * @package     Connections
  * @subpackage  HTML Form Elements
@@ -14,29 +11,48 @@
 
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
  * Create custom HTML forms.
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnFormObjects {
-	private $nonceBase = 'connections';
-	private $validate;
-	private $visibiltyOptions = array( 'Public'=>'public', 'Private'=>'private', 'Unlisted'=>'unlisted' );
 
+	/**
+	 * The nonce base.
+	 *
+	 * @var string
+	 */
+	private $nonceBase = 'connections';
+
+	/**
+	 * Visibility options.
+	 *
+	 * @var string[]
+	 */
+	private $visibilityOptions = array(
+		'Public'   => 'public',
+		'Private'  => 'private',
+		'Unlisted' => 'unlisted',
+	);
+
+	/**
+	 * cnFormObjects constructor.
+	 */
 	public function __construct() {
-		// Load the validation class.
-		$this->validate = new cnValidate();
 
 		/*
 		 * Create the visibility option array based on the current user capability.
 		 */
-		foreach ( $this->visibiltyOptions as $key => $option ) {
+		foreach ( $this->visibilityOptions as $key => $option ) {
 			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) {
-				unset( $this->visibiltyOptions[ $key ] );
+				unset( $this->visibilityOptions[ $key ] );
 			}
 		}
 	}
@@ -44,9 +60,9 @@ class cnFormObjects {
 	/**
 	 * The form open tag.
 	 *
-	 * @todo Finish adding form tag attributes.
-	 * @param array
-	 * @return string
+	 * @since unknown
+	 *
+	 * @param array $attr Form attributes array.
 	 */
 	public function open( $attr ) {
 
@@ -63,7 +79,7 @@ class cnFormObjects {
 		}
 
 		if ( isset( $attr['action'] ) ) {
-			$attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';
+			$attr['action'] = 'action="' . esc_url( $attr['action'] ) . '" ';
 		}
 
 		if ( isset( $attr['accept'] ) ) {
@@ -93,43 +109,51 @@ class cnFormObjects {
 	}
 
 	/**
+	 * HTML close tag.
 	 *
-	 *
-	 * @return string HTML close tag
+	 * @since unknown
 	 */
 	public function close() {
 		echo '</form>';
 	}
 
-	// Function inspired from:
-	// http://www.melbournechapter.net/wordpress/programming-languages/php/cman/2006/06/16/php-form-input-and-cross-site-attacks/
 	/**
 	 * Creates a random token.
 	 *
-	 * @param string  $formId The form ID
+	 * Function inspired from:
+	 *
+	 * @link http://www.melbournechapter.net/wordpress/programming-languages/php/cman/2006/06/16/php-form-input-and-cross-site-attacks/
+	 *
+	 * @since unknown
+	 * @deprecated 10.4.8
+	 *
+	 * @param string $formId The form ID.
 	 *
 	 * @return string
 	 */
 	public function token( $formId = null ) {
-		$token = md5( uniqid( rand(), true ) );
 
-		return $token;
+		_deprecated_function( __METHOD__, '10.4.8' );
+
+		return md5( uniqid( rand(), true ) );
 	}
 
 	/**
 	 * Retrieves or displays the nonce field for forms using wp_nonce_field.
 	 *
-	 * @param string  $action  Action name.
-	 * @param bool    $item    [optional] Item name. Use when protecting multiple items on the same page.
-	 * @param string  $name    [optional] Nonce name.
-	 * @param bool    $referer [optional] Whether to set and display the refer field for validation.
-	 * @param bool    $echo    [optional] Whether to display or return the hidden form field.
+	 * @since unknown
+	 *
+	 * @param string $action  Action name.
+	 * @param bool   $item    Item name. Use when protecting multiple items on the same page.
+	 * @param string $name    Nonce name.
+	 * @param bool   $referer Whether to set and display the referrer field for validation.
+	 * @param bool   $echo    Whether to display or return the hidden form field.
+	 *
 	 * @return string
 	 */
 	public function tokenField( $action, $item = false, $name = '_cn_wpnonce', $referer = true, $echo = true ) {
-		$name = esc_attr( $name );
 
-		if ( $item === false ) {
+		if ( false === $item ) {
 
 			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, false );
 
@@ -142,16 +166,17 @@ class cnFormObjects {
 			echo $token; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
-		// if ( $referer ) wp_referer_field( $echo, 'previous' );
-
 		return $token;
 	}
 
 	/**
 	 * Retrieves URL with nonce added to the query string.
 	 *
-	 * @param string  $actionURL URL to add the nonce to.
-	 * @param string  $item      Nonce action name.
+	 * @since unknown
+	 *
+	 * @param string $actionURL URL to add the nonce to.
+	 * @param string $item      Nonce action name.
+	 *
 	 * @return string
 	 */
 	public function tokenURL( $actionURL, $item ) {
@@ -162,13 +187,16 @@ class cnFormObjects {
 	/**
 	 * Generate the complete nonce string, from the nonce base, the action and an item.
 	 *
-	 * @param string  $action Action name.
-	 * @param bool    $item   [optional] Item name. Use when protecting multiple items on the same page.
+	 * @since unknown
+	 *
+	 * @param string $action Action name.
+	 * @param bool   $item   Item name. Use when protecting multiple items on the same page.
+	 *
 	 * @return string
 	 */
 	public function getNonce( $action, $item = false ) {
 
-		if ( $item === false ) {
+		if ( false === $item ) {
 
 			$nonce = $this->nonceBase . '_' . $action;
 
@@ -181,19 +209,19 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Renders a select drop down.
+	 * Renders a select dropdown.
 	 *
 	 * This is deprecated method, left in place for backward compatibility only.
 	 *
 	 * @access private
 	 * @deprecated
-	 * @since  0.8
+	 * @since 0.8
 	 *
 	 * @param string $name    The input option id/name value.
 	 * @param array  $options An associative array. Key is the option value and the value is the option name.
 	 * @param string $value   [optional] The selected option.
 	 * @param string $class   The class applied to the select.
-	 * @param string $id      UNUSED
+	 * @param string $id      UNUSED.
 	 *
 	 * @return string
 	 */
@@ -201,7 +229,7 @@ class cnFormObjects {
 
 		_deprecated_function( __METHOD__, '9.15', '\Connections_Directory\Form\Field\Select::create()' );
 
-		$select = cnHTML::field(
+		return cnHTML::field(
 			array(
 				'type'     => 'select',
 				'class'    => $class,
@@ -213,8 +241,6 @@ class cnFormObjects {
 			),
 			$value
 		);
-
-		return $select;
 	}
 
 	/**
@@ -225,10 +251,11 @@ class cnFormObjects {
 	 * @access private
 	 * @deprecated
 	 * @since 0.8
-	 * @param string  $name    The input option id/name value.
-	 * @param string  $id      UNUSED
-	 * @param array   $options An associative array. Key is the option name and the value is the option value.
-	 * @param string  $value   [optional] The selected option.
+	 *
+	 * @param string $name    The input option id/name value.
+	 * @param string $id      UNUSED.
+	 * @param array  $options An associative array. Key is the option name and the value is the option value.
+	 * @param string $value   The selected option.
 	 *
 	 * @return string
 	 */
@@ -236,7 +263,7 @@ class cnFormObjects {
 
 		_deprecated_function( __METHOD__, '9.15', '\Connections_Directory\Form\Field\Radio_Group::create()' );
 
-		$radio = cnHTML::field(
+		return cnHTML::field(
 			array(
 				'type'     => 'radio',
 				'display'  => 'block',
@@ -248,8 +275,6 @@ class cnFormObjects {
 			),
 			$value
 		);
-
-		return $radio;
 	}
 
 	/**
@@ -262,8 +287,8 @@ class cnFormObjects {
 	 * @access private
 	 * @deprecated
 	 * @since 0.8
-	 * @param string  $pageHook The page hook to add the entry edit metaboxes to.
-	 * @return void
+	 *
+	 * @param string $pageHook The page hook to add the entry edit metaboxes to.
 	 */
 	public function registerEditMetaboxes( $pageHook ) {
 
@@ -290,7 +315,8 @@ class cnFormObjects {
 	 * @access private
 	 * @deprecated
 	 * @since 0.8
-	 * @param object   $entry An instance of the cnEntry object.
+	 *
+	 * @param cnEntry $entry An instance of the cnEntry object.
 	 */
 	public function metaboxName( $entry ) {
 

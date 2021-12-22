@@ -27,7 +27,7 @@ class cnImage {
 	 *
 	 * @access private
 	 * @since  8.1
-	 * @var    object
+	 * @var    cnImage
 	 */
 	private static $instance;
 
@@ -199,11 +199,13 @@ class cnImage {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
+		$serverProtocol = Connections_Directory\Request\Server_Protocol::input()->value();
+
 		if ( cnQuery::getVar( CN_IMAGE_ENDPOINT ) ) {
 
 			if ( path_is_absolute( cnQuery::getVar( 'src' ) ) ) {
 
-				header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
+				header( "{$serverProtocol} 400 Bad Request" );
 				echo '<h1>ERROR/s:</h1><ul><li>Source is file path. Source must be a local file URL.</li></ul>';
 
 				exit();
@@ -222,7 +224,7 @@ class cnImage {
 
 				if ( is_null( $result ) ) {
 
-					header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
+					header( "{$serverProtocol} 400 Bad Request" );
 					echo '<h1>ERROR/s:</h1><ul><li>Cheating?</li></ul>';
 
 					exit();
@@ -368,7 +370,7 @@ class cnImage {
 				$errors = implode( '</li><li>', $image->get_error_messages() );
 
 				// Display the error messages.
-				header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
+				header( "{$serverProtocol} 400 Bad Request" );
 				echo '<h1>ERROR/s:</h1><ul><li>' . wp_kses_post( $errors ) . '</li></ul>';
 
 				exit();

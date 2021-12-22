@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for admin related functions.
  *
@@ -10,31 +9,30 @@
  * @since       0.7.9
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 use Connections_Directory\Form\Field;
 
+/**
+ * Class cnAdminFunction
+ */
 class cnAdminFunction {
 
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
 	 * @since 0.7.9
-	 * @var (object)
-	*/
+	 * @var cnAdminFunction
+	 */
 	private static $instance;
 
 	/**
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
-	 * @access public
 	 * @since 0.7.9
-	 * @see cnAdminFunction::init()
-	 * @see cnAdminFunction();
 	 */
 	public function __construct() { /* Do nothing here */ }
 
@@ -43,7 +41,6 @@ class cnAdminFunction {
 	 *
 	 * @see cnAdminFunction()
 	 *
-	 * @access public
 	 * @since  0.7.9
 	 */
 	public static function init() {
@@ -53,7 +50,7 @@ class cnAdminFunction {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			// Initiate admin messages.
 			cnMessage::init();
@@ -64,7 +61,7 @@ class cnAdminFunction {
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.
 			if ( get_option( 'connections_flush_rewrite' ) ) {
 
-				flush_rewrite_rules();
+				flush_rewrite_rules(); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.flush_rewrite_rules_flush_rewrite_rules
 				delete_option( 'connections_flush_rewrite' );
 			}
 
@@ -102,10 +99,10 @@ class cnAdminFunction {
 			// if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
 			// if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
 
-			// Add Settings link to the plugin actions
-			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
+			// Add Settings link to the plugin actions.
+			add_filter( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
 
-			// Add FAQ, Support and Donate links
+			// Add FAQ, Support and Donate links.
 			add_filter( 'plugin_row_meta', array( __CLASS__, 'addMetaLinks' ), 10, 2 );
 
 			// Add Changelog table row in the Manage Plugins admin page.
@@ -126,9 +123,11 @@ class cnAdminFunction {
 	}
 
 	/**
+	 * Callback for the `current_screen` action.
+	 *
 	 * Display the database upgrade notice. This will only be shown on non-Connections pages.
 	 *
-	 * @access private
+	 * @internal
 	 * @since  0.7.5
 	 */
 	public static function displayDBUpgradeNotice() {
@@ -145,12 +144,16 @@ class cnAdminFunction {
 	}
 
 	/**
+	 * Callback for the `plugin_action_links_{$plugin_file}` filter.
+	 *
 	 * Add the Settings link to the plugin admin page.
 	 *
-	 * @access private
-	 * @since  unknown
+	 * @see WP_Plugins_List_Table::single_row()
 	 *
-	 * @param array $links
+	 * @internal
+	 * @since unknown
+	 *
+	 * @param array $links An array of plugin action links.
 	 *
 	 * @return array
 	 */
@@ -164,19 +167,22 @@ class cnAdminFunction {
 	}
 
 	/**
+	 * Callback for the `plugin_row_meta` filter.
+	 *
 	 * Add the links for premium templates, extensions and support info.
 	 *
-	 * @access private
-	 * @since  unknown
+	 * @internal
+	 * @since unknown
 	 *
-	 * @param array  $links
-	 * @param string $file
+	 * @param array  $links An array of the plugin's metadata, including
+	 *                      the version, author, author URI, and plugin URI.
+	 * @param string $file  Path to the plugin file relative to the plugins directory.
 	 *
 	 * @return array
 	 */
 	public static function addMetaLinks( $links, $file ) {
 
-		if ( $file == CN_BASE_NAME ) {
+		if ( CN_BASE_NAME === $file ) {
 
 			$permalink = apply_filters(
 				'Connections_Directory/Admin/Menu/Submenu/Support/Permalink',
@@ -201,17 +207,19 @@ class cnAdminFunction {
 	}
 
 	/**
+	 * Callback for the `in_plugin_update_message_{$file}` action.
+	 *
 	 * Display the upgrade notice and changelog on the Manage Plugin admin screen.
 	 *
 	 * Inspired by Changelogger. Code based on W3 Total Cache.
 	 *
-	 * @access private
-	 * @since  unknown
+	 * @see wp_plugin_update_row()
 	 *
-	 * @uses   plugins_api()
+	 * @internal
+	 * @since unknown
 	 *
-	 * @param  array  $plugin_data An Array of the plugin metadata
-	 * @param  object $r           An array of metadata about the available plugin update.
+	 * @param array  $plugin_data An Array of the plugin metadata.
+	 * @param object $r           An array of metadata about the available plugin update.
 	 */
 	public static function displayUpgradeNotice( $plugin_data, $r ) {
 
@@ -293,13 +301,15 @@ class cnAdminFunction {
 	}
 
 	/**
+	 * Callback for the `screen_layout_columns` filter.
+	 *
 	 * Register the number of columns permitted for metabox use on the edit entry page.
 	 *
-	 * @access private
-	 * @since  0.7.1.3
+	 * @internal
+	 * @since 0.7.1.3
 	 *
-	 * @param array  $columns
-	 * @param string $screen
+	 * @param array  $columns Screen ID as key with number of columns as the value.
+	 * @param string $screen  The screen ID.
 	 *
 	 * @return array
 	 */
@@ -313,28 +323,26 @@ class cnAdminFunction {
 		 * This is to prevent the Screen Layout options in the Screen Options tab from being displayed on the Manage
 		 * admin page when viewing the manage entries table.
 		 */
-		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return $columns;
 		}
 
 		$columns[ $instance->pageHook->dashboard ] = 2;
-		$columns[ $instance->pageHook->manage ] = 2;
-		$columns[ $instance->pageHook->add ] = 2;
+		$columns[ $instance->pageHook->manage ]    = 2;
+		$columns[ $instance->pageHook->add ]       = 2;
 
 		return $columns;
 	}
 
 	/**
+	 * Callback for the `current_screen` action.
+	 *
 	 * Adds the "Show on screen" option to limit number of entries per page on the Connections : Manage admin page.
 	 *
-	 * @access private
-	 * @since  0.8.14
-	 * @static
-	 * @uses   get_object_vars()
-	 * @uses   current_user_can()
-	 * @uses   add_screen_options_panel()
-	 * @param  object $screen An instance of the WordPress screen object.
-	 * @return void
+	 * @internal
+	 * @since 0.8.14
+	 *
+	 * @param WP_Screen $screen An instance of the WordPress screen object.
 	 */
 	public static function screenOptionsPanel( $screen ) {
 
@@ -354,7 +362,7 @@ class cnAdminFunction {
 			 * This is to prevent the Screen Layout options in the Screen Option tab on the Manage
 			 * admin page when performing an action on an entry.
 			 */
-			if ( $screen->id == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+			if ( $screen->id == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				/*
 				 * Include the Screen Options class by Janis Elsts
@@ -387,10 +395,10 @@ class cnAdminFunction {
 	/**
 	 * Add the page limit panel to the screen options of the manage page.
 	 *
-	 * NOTE: This relies on the the Screen Options class by Janis Elsts
+	 * NOTE: This relies on the Screen Options class by Janis Elsts.
 	 *
-	 * @access private
-	 * @since  unknown
+	 * @internal
+	 * @since unknown
 	 *
 	 * @return string
 	 */
@@ -406,7 +414,7 @@ class cnAdminFunction {
 			array( 'current' => 1, 'limit' => 50 )
 		);
 
-		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . esc_html__( 'Entries', 'connections' ) . '</label>';
+		$out  = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . esc_html__( 'Entries', 'connections' ) . '</label>';
 		$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
 		$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
 
@@ -416,10 +424,10 @@ class cnAdminFunction {
 	/**
 	 * Add the option to the Screen Options tab to display either the entry logo or photo.
 	 *
-	 * NOTE: This relies on the Screen Options class by Janis Elsts
+	 * NOTE: This relies on the Screen Options class by Janis Elsts.
 	 *
-	 * @access private
-	 * @since  8.13
+	 * @internal
+	 * @since 8.13
 	 *
 	 * @return string
 	 */
@@ -457,12 +465,10 @@ class cnAdminFunction {
 	/**
 	 * Save the user setting for the page limit on the screen options of the manage page.
 	 * NOTE: This is only run during the AJAX callback which is currently disabled.
-	 * NOTE: This relies on the the Screen Options class by Janis Elsts
+	 * NOTE: This relies on the Screen Options class by Janis Elsts.
 	 *
-	 * @access private
-	 * @since  unknown
-	 *
-	 * @return void
+	 * @internal
+	 * @since unknown
 	 */
 	public static function managePageLimitSaveAJAX() {
 
@@ -475,9 +481,8 @@ class cnAdminFunction {
 	 *
 	 * Save the user entered value for display n-number of entries and image thumbnail on the Manage admin page.
 	 *
-	 * @access private
-	 * @since  8.13
-	 * @static
+	 * @internal
+	 * @since 8.13
 	 *
 	 * @param bool   $false
 	 * @param string $option
@@ -505,12 +510,14 @@ class cnAdminFunction {
 	}
 
 	/**
-	 * Add rating links to the admin dashboard
+	 * Callback for the `admin_footer_text` filter.
 	 *
-	 * @access private
-	 * @since  8.2.9
+	 * Add rating links to the admin dashboard.
 	 *
-	 * @param  string $text The existing footer text
+	 * @internal
+	 * @since 8.2.9
+	 *
+	 * @param string $text The existing footer text.
 	 *
 	 * @return string
 	 */

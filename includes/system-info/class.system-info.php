@@ -1,5 +1,7 @@
 <?php
 
+use Connections_Directory\Request;
+
 /**
  * Class cnSystem_Info
  *
@@ -101,14 +103,15 @@ class cnSystem_Info {
 	 */
 	public static function view() {
 
-		if ( ! isset( $_GET['cn-system-info'] ) || empty( $_GET['cn-system-info'] ) ) {
+		$requestToken = Request\System_Information_Token::input()->value();
+
+		if ( empty( $requestToken ) ) {
 			return;
 		}
 
-		$queryValue = $_GET['cn-system-info'];
-		$token      = cnCache::get( 'system_info_remote_token', 'option-cache' );
+		$token = cnCache::get( 'system_info_remote_token', 'option-cache' );
 
-		if ( $queryValue == $token ) {
+		if ( $requestToken === $token ) {
 
 			/** WordPress Plugin Administration API */
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -117,14 +120,13 @@ class cnSystem_Info {
 			echo '<pre>';
 			self::display();
 			echo '</pre>';
-			exit;
 
 		} else {
 
-			wp_safe_redirect( home_url() );
-			exit;
+			wp_safe_redirect( home_url() ); // phpcs:ignore WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit
 		}
 
+		exit;
 	}
 
 	/**
@@ -292,6 +294,8 @@ class cnSystem_Info {
 	 */
 	public static function getHost() {
 
+		$serverName = Connections_Directory\Request\Server_Name::input()->value();
+
 		if ( defined( 'WPE_APIKEY' ) ) {
 			$host = 'WP Engine';
 		} elseif ( defined( 'PAGELYBIN' ) ) {
@@ -312,11 +316,11 @@ class cnSystem_Info {
 			$host = 'Rackspace Cloud';
 		} elseif ( false !== strpos( DB_HOST, '.sysfix.eu' ) ) {
 			$host = 'SysFix.eu Power Hosting';
-		} elseif ( false !== strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) ) {
+		} elseif ( false !== strpos( $serverName, 'Flywheel' ) ) {
 			$host = 'Flywheel';
 		} else {
 			// Adding a general fallback for data gathering.
-			$host = 'DBH: ' . DB_HOST . ', SRV: ' . $_SERVER['SERVER_NAME'];
+			$host = 'DBH: ' . DB_HOST . ', SRV: ' . $serverName;
 		}
 
 		return $host;

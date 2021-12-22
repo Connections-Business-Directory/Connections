@@ -11,7 +11,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.7';
+	const VERSION = '10.4.8';
 
 	/**
 	 * Stores the instance of this class.
@@ -24,7 +24,7 @@ final class Connections_Directory {
 	private static $instance;
 
 	/**
-	 * @var string The absolute path this this file.
+	 * @var string The absolute path this file.
 	 *
 	 * @access private
 	 * @since  8.16
@@ -352,6 +352,8 @@ final class Connections_Directory {
 
 		// Register all valid query variables.
 		cnRewrite::hooks();
+		add_action( 'init', array( '\Connections_Directory\Request\Entry_Initial_Character', 'registerQueryVar' ) );
+		add_action( 'init', array( '\Connections_Directory\Request\Entry_Search_Term', 'registerQueryVar' ) );
 
 		/*
 		 * Action added in the init hook to allow other plugins time to register there log types.
@@ -368,7 +370,7 @@ final class Connections_Directory {
 
 		/*
 		 * Add the filter to update the user settings when the "Apply" button is clicked.
-		 * NOTE: This relies on the the Screen Options class by Janis Elsts
+		 * NOTE: This relies on the Screen Options class by Janis Elsts.
 		 * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
 		 *       which do not hook into `set-screen-option` properly from breaking Connections.
 		 */

@@ -166,6 +166,11 @@ final class Yoast_SEO {
 		 */
 		$wpseo_sitemaps = $GLOBALS['wpseo_sitemaps'];
 
+		/*
+		 * @todo instance check on `$wpseo_sitemaps` to make sure it is an `WPSEO_Sitemap_Provider` abject.
+		 * @link https://wordpress.org/support/topic/directory-front-end-broken-with-upgrade-to-wp-5-8-2/#post-15135430
+		 */
+
 		$registry  = Registry::get();
 		$providers = $registry->getProviders();
 

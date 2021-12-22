@@ -3,9 +3,9 @@ Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, directory, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 5.2
-Tested up to: 5.8.2
+Tested up to: 5.9
 Requires PHP: 5.6.20
-Stable tag: 10.4.7
+Stable tag: 10.4.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -839,61 +839,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Correct find shortcode logic.
 * OTHER: Update readme.txt to make mention of the support of the native sitemaps support introduced in WordPress 5.5.
 
-= 9.17 11/24/2020 =
-* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
-* TWEAK: Remove use of deprecated method `cnValidate::userPermitted()`.
-* TWEAK: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
-* TWEAK: Do not apply the `wpseo_title` filter in the admin.
-* TWEAK: Comment out code legacy Yoast SEO compatibility code.
-* TWEAK: Do not apply `array_filter()` to shortcode `$atts` when viewing the single Entry detail/profile page.
-* TWEAK: Apply clear float fix to the form.
-* TWEAK: Use the `get_cananical_url` filter instead of the `page_link` filter to set the canonical page URL.
-* TWEAK: Relation separator should be within a span tag.
-* TWEAK: Add a few filters which should be reset between shortcode instances.
-* TWEAK: Use self when referencing method.
-* TWEAK: Add random support to the `[cn-entry]` shortcode.
-* TWEAK: Ensure the `force_home` option for the `[cn-entry]` shortcode is a boolean.
-* OTHER: Update readme.txt support link.
-* OTHER: Update fontawesome from 5.13.0 to 5.15.1.
-* DEV: Correct code formatting.
-* DEV: Update package.json dependencies.
-* DEV: Update webpack.config.js.
-* DEV: Update dist files.
-
-= 9.16 11/06/2020 =
-* TWEAK: Add filter to the `[cn-content]` shortcode to support the Page Builder plugin by SiteOrigin.
-* OTHER: Remove the legacy social network icons to reduce plugin package size.
-* DEV: Code alignment.
-* DEV: Correct the replacement method for a deprecated method debug message.
-* DEV: Remove use of deprecated method `cnValidate::userPermitted()`.
-* DEV: Remove use of deprecated method `cnCountry::getCode()`.
-* DEV: Remove use of deprecated method `cnOptions::getDateOptions()`.
-* DEV: Remove use of deprecated method `cnFormatting::toCamelCase()`.
-* DEV: Remove use of deprecated method `cnFunction::isDimensionalArray()`.
-* DEV: Remove use of deprecated method `cnEntry::getFullFirstLastName()`.
-* DEV: Remove use of deprecated methods `cnSanitize::htmlClass()` and cnFunction::escAttributeDeep()` in the term list class.
-* DEV: Remove use of deprecated method `cnUser::getFilterPage()`.
-* DEV: Remove use of deprecated method `cnUtility::getUUID()`.
-* DEV: Remove use of deprecated method `cnFormatting::maybeJSONencode()`.
-* DEV: Remove use of deprecated method `cnFormatting::maybeJSONdecode()`.
-* DEV: Remove use of deprecated method `cnUtility::toNumericHash()`.
-* DEV: Remove use of deprecated method in `cnRetrieve`.
-
-= 9.15 10/30/2020 =
-* TWEAK: Pass additional parameters to the `Connections_Directory/Shortcode/Conditional_Content/is_condition/{$this->atts['condition']}` filter.
-* DEV: Change class variable from private to protected.
-* DEV: Add deprecated notices throughout so usages can be removed and old code cleaned up.
-
 == Upgrade Notice ==
-
-= 9.15 =
-It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
-
-= 9.16 =
-It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
-
-= 9.17 =
-It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.0 =
 It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

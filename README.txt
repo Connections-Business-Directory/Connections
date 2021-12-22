@@ -249,6 +249,61 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.8 12/22/2021 =
+* NEW: Introduce the Request Input API.
+* NEW: Introduce `_::var_dump_to_error_log()`.
+* TWEAK: Remove unnecessary attribute escaping.
+* TWEAK: Add additional label parameters that can be utilized when registering a custom taxonomy.
+* TWEAK: Refactor `_::var_dump()` as a variadic and utilize `_::var_dump_to_error_log()` for code deduplication.
+* TWEAK: Remove direct access to `$_GET` and `$_POST` super globals and use the Request Input API instead for improved input validation and sanitization while reducing code duplication.
+* TWEAK: Refactor of `processEntryCategory()` to remove `isset()` and `empty()` checks on request variable. Sanitize the result.
+* BUG: Wrong escaping function. href, src, and action attributes should be escaped by `esc_url()`, not by `esc_attr()`.
+* BUG: Utilize `esc_attr__()` instead of `esc_html__()` when escaping attribute values.
+* BUG: Add missing return value.
+* BUG: Set up object and property if not set to prevent PHP related notices and errors when sorting categories during CSV export.
+* BUG: Add missing return value to `_::getIP()`.
+* SECURITY: Sanitize server IP address request variable.
+* SECURITY: Sanitize request variable.
+* OTHER: Correct misspellings.
+* OTHER: Remove unnecessary local variable.
+* OTHER: Deprecate unused `cnFormObjects::token()` method.
+* OTHER: Move deprecated utility classes to the Utility sub-folder.
+* OTHER: Remove unnecessary break statements within switch.
+* OTHER: Move the Google Maps Timezone API to the Integrations sub-folder.
+* OTHER: Remove unused empty placeholder file.
+* OTHER: Remove unnecessary break statements within switch.
+* OTHER: Remove unused import.
+* DEV: There must be no blank lines before the file comment.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+* DEV: phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+* DEV: phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+* DEV: phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
+* DEV: phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
+* DEV: phpcs:disable WordPress.Arrays.MultipleStatementAlignment.LongIndexSpaceBeforeDoubleArrow
+* DEV: phpcs:ignore WordPress.Security.NonceVerification.Recommended
+* DEV: Remove @todo tags.
+* DEV: phpDoc corrections.
+* DEV: When a multi-item array uses associative keys, each value should start on a new line.
+* DEV: Use Yoda Condition checks, you must.
+* DEV: Remove unused commented out code.
+* DEV: There must be no blank lines before the file comment.
+* DEV: Equals sign not aligned with surrounding assignments.
+* DEV: Reflow code.
+* DEV: Correct if/else statement with common parts.
+* DEV: String does not require double quotes; use single quotes instead.
+* DEV: Tabs must be used to indent lines; spaces are not allowed.
+* DEV: Array double arrow not aligned correctly.
+* DEV: Language constructs must be followed by a single space.
+* DEV: Concat operator must be surrounded by a single space.
+* DEV: Correct array code format.
+* DEV: Do strict comparison.
+* DEV: No space found after comma in argument list.
+* DEV: Add phpDoc file header.
+* DEV: Extract common parts of if/else statement.
+* DEV: Parameter comment must end with a full stop.
+* DEV: Parenthesis should always be used when instantiating a new object.
+
 = 10.4.7 12/01/2021 =
 * NEW: Introduce `_::isDevelopmentEnvironment()`.
 * TWEAK: Update mShot API URI.
@@ -877,4 +932,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.7 =
+It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.4.8 =
 It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

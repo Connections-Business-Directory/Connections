@@ -170,11 +170,11 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['slug'] ) || ! empty( $atts['category_slug__in'] ) ) {
 
-			$atts['list_type']           = null;
-			$atts['category']            = null;
-			$atts['category__and']       = null;
-			$atts['category__not_in']    = null;
-			$atts['category__and']       = null;
+			$atts['list_type']        = null;
+			$atts['category']         = null;
+			$atts['category__and']    = null;
+			$atts['category__not_in'] = null;
+			$atts['category__and']    = null;
 			// $atts['wp_current_category'] = NULL;
 		}
 

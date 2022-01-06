@@ -739,14 +739,12 @@ class cnEntry_HTML extends cnEntry {
 		switch ( $this->getEntryType() ) {
 
 			case 'organization':
-
 				// The `notranslate` class is added to prevent Google Translate from translating the text.
 				$html = '<span class="org fn notranslate">' . $this->getOrganization() . '</span>';
 
 				break;
 
 			case 'family':
-
 				$html = '<span class="fn n notranslate"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
 
 				break;

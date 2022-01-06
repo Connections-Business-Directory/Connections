@@ -252,7 +252,7 @@ class cnRetrieve {
 			// Trim the white space from the ends.
 			$atts['slug'] = trim( $atts['slug'] );
 
-			$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_TABLE . '.slug = %s' , $atts['slug'] );
+			$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_TABLE . '.slug = %s', $atts['slug'] );
 		}
 		/*
 		 * // END --> Set up the query to only return the entry that matches the supplied slug.

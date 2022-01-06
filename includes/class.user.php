@@ -236,7 +236,7 @@ class cnUser {
 	public function setFilterCategory( $id ) {
 
 		// If value is -1 from drop down, set to NULL
-		if ( $id === 0 ) {
+		if ( 0 === $id ) {
 			$id = 0;
 		}
 

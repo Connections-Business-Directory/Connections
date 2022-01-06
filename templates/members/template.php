@@ -69,10 +69,10 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			// echo "Home Key: " . $key_homenumber . " Home Value: " . $value_homenumber . "<br />";
 
 			// Check for home number.
-			if ( $key_homenumber == 'type' && $value_homenumber == 'homephone' ) {
+			if ( 'type' === $key_homenumber && 'homephone' === $value_homenumber ) {
 
 				// Find home number in $value_homephone array.
-				if ( $value_homephone->number != '' ) {
+				if ( '' !== $value_homephone->number ) {
 
 					// Add homephone info.
 					$member_popup_info     .= 'Home: ' . esc_html( $value_homephone->number ) . '<br />';
@@ -89,13 +89,13 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		// foreach ( $value_addresses as $value_address) {
 
 		// list each address.
-		if ( $value_address->type == 'home' ) {
+		if ( 'home' === $value_address->type ) {
 
 			// Format the address.
 			$address = $value_address->line_one . '<br />';
 
 			// Check for line2.
-			if ( $value_address->line_two != '' ) {
+			if ( '' !== $value_address->line_two ) {
 				$address .= $value_address->line_two . '<br />';
 			}
 
@@ -107,7 +107,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			$address_link .= $value_address->line_one . ' ';
 
 			// Check for line2.
-			if ( $value_address->line_two != '' ) {
+			if ( '' !== $value_address->line_two ) {
 				$address_link .= $value_address->line_two . ' ';
 			}
 
@@ -179,10 +179,10 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 					// List all numbers for family members.
 					foreach ( $value_phone as $key_number => $value_number ) {
 
-						if ( $key_number == 'type' && $value_number == 'cellphone' ) {
+						if ( 'type' === $key_number && 'cellphone' === $value_number ) {
 
 							// Find Mobile number(s) in $value_phone array.
-							if ( $value_phone->number != '' ) {
+							if ( '' !== $value_phone->number ) {
 
 								// Add mobile info.
 								$member_mobile        = 'Mobile: ' . $value_phone->number . '<br />';
@@ -200,7 +200,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 					// Display the personal email address.
 					foreach ( $value_email as $key_eAddress => $value_eAddress ) {
-						if ( $key_eAddress == 'address' && $value_eAddress != '' ) {
+						if ( 'address' === $key_eAddress && '' !== $value_eAddress ) {
 
 							// Add email info.
 							$member_email        = 'Email: ' . $value_email->address . '<br />';
@@ -212,7 +212,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 
 			// Check for Mobile Phone and Address before displaying name
 			// If both are blank don't display name.
-			if ( $member_mobile != '' || $member_email != '' ) {
+			if ( '' !== $member_mobile || '' !== $member_email ) {
 				$member_popup_info     .= $member_name . $member_mobile . $member_email;
 				$mobile_member_listing .= $mobile_member_name . $mobile_member_mobile . $mobile_member_email;
 			}
@@ -221,7 +221,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 }
 
 // Build members first name list.
-if ( $member_list_first_names != '' ) {
+if ( '' !== $member_list_first_names ) {
 	$member_list_first_names = ' - ' . $member_list_first_names;
 }
 
@@ -238,7 +238,7 @@ $member_listing     .= '</div><div style="clear:both;"></div></div>';
 $mobile_member_info .= '</div><div style="clear:both;"></div></div><hr />';
 
 // This works for the mobile browser check with the MobilePress plugin.
-if ( isset( $_SESSION['SESS_MOBILE_ACTIVE'] ) && $_SESSION['SESS_MOBILE_ACTIVE'] == true ) {
+if ( isset( $_SESSION['SESS_MOBILE_ACTIVE'] ) && true === $_SESSION['SESS_MOBILE_ACTIVE'] ) {
 	// HTML is escaped above.
 	echo $mobile_member_info; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 } else {

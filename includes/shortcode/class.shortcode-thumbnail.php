@@ -143,7 +143,7 @@ class cnThumb extends cnShortcode {
 			// Display the error messages.
 			return implode( PHP_EOL, $image->get_error_messages() );
 
-		} elseif ( $image === false ) {
+		} elseif ( false === $image ) {
 
 			return esc_html__( 'An error has occured while creating the thumbnail.', 'connections' );
 		}

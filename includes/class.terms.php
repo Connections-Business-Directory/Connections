@@ -120,7 +120,7 @@ class cnTerms {
 		$results = array();
 
 		// Only run this query if the field is not term_id.
-		if ( $field !== 'term_id' ) {
+		if ( 'term_id' !== $field ) {
 
 			$queryTermID = $wpdb->prepare(
 				"SELECT DISTINCT tt.term_id from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE $field = %s ",
@@ -158,7 +158,7 @@ class cnTerms {
 		foreach ( $terms as $term ) {
 
 			// If the term is a root parent, skip continue.
-			if ( $term->parent == 0 ) {
+			if ( 0 == $term->parent ) {
 
 				continue;
 			}
@@ -2793,16 +2793,16 @@ class cnTerm {
 		$_term = apply_filters( "cn_$taxonomy", $_term, $taxonomy );
 		$_term = sanitize_term( $_term, $taxonomy, $filter );
 
-		if ( $output == OBJECT ) {
+		if ( OBJECT == $output ) {
 
 			return $_term;
 
-		} elseif ( $output == ARRAY_A ) {
+		} elseif ( ARRAY_A == $output ) {
 
 			$__term = get_object_vars( $_term );
 			return $__term;
 
-		} elseif ( $output == ARRAY_N ) {
+		} elseif ( ARRAY_N == $output ) {
 
 			$__term = array_values( get_object_vars( $_term ) );
 			return $__term;
@@ -3140,7 +3140,7 @@ class cnTerm {
 
 			// The @var $value will be set to the last value from the $atts['orderby'] foreach loop.
 			// If a `none` $atts['orderby'] was found in the supplied array, no order by clause will be set.
-			if ( ! empty( $orderBy ) && $value != 'none' ) {
+			if ( ! empty( $orderBy ) && 'none' !== $value ) {
 				$orderByClause = 'ORDER BY ' . implode( ', ', $orderBy );
 			}
 
@@ -3921,11 +3921,11 @@ class cnTerm {
 		// Sanitize term, according to the specified filter.
 		$_term->filter( $filter );
 
-		if ( $output == ARRAY_A ) {
+		if ( ARRAY_A == $output ) {
 
 			return $_term->to_array();
 
-		} elseif ( $output == ARRAY_N ) {
+		} elseif ( ARRAY_N == $output ) {
 
 			return array_values( $_term->to_array() );
 		}

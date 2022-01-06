@@ -649,7 +649,7 @@ class cnEntry {
 			$format = implode( ' ', $options );
 		}
 
-		if ( $this->dateAdded != null ) {
+		if ( null !== $this->dateAdded ) {
 
 			return date_i18n( $format, $this->dateAdded + cnDate::getWPUTCOffset() );
 
@@ -3048,7 +3048,7 @@ class cnEntry {
 			$meta = cnImage::get(
 				$this->getOriginalImageURL( $atts['type'] ),
 				array(
-					'crop_mode' => empty( $atts['crop_mode'] ) && $atts['crop_mode'] !== 0 ? 1 : $atts['crop_mode'],
+					'crop_mode' => empty( $atts['crop_mode'] ) && 0 !== $atts['crop_mode'] ? 1 : $atts['crop_mode'],
 					'width'     => empty( $atts['width'] ) ? null : $atts['width'],
 					'height'    => empty( $atts['height'] ) ? null : $atts['height'],
 					'quality'   => $atts['quality'],
@@ -3113,7 +3113,7 @@ class cnEntry {
 						$meta = cnImage::get(
 							$this->getOriginalImageURL( $atts['type'] ),
 							array(
-								'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+								'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || 0 === $key ? $key : 2,
 								'width'     => cnSettingsAPI::get( 'connections', 'image_logo', 'width' ),
 								'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
 								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
@@ -3182,7 +3182,7 @@ class cnEntry {
 							$meta = cnImage::get(
 								$this->getOriginalImageURL( $atts['type'] ),
 								array(
-									'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+									'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'ratio' ), $cropMode ) ) || 0 === $key ? $key : 2,
 									'width'     => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'width' ),
 									'height'    => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'height' ),
 									'quality'   => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'quality' ),

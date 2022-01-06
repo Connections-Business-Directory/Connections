@@ -98,7 +98,7 @@ class cnEntry_Action {
 		$large = cnImage::get(
 			$img['url'],
 			array(
-				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_large', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_large', 'ratio' ), $cropMode ) ) || 0 === $key ? $key : 2,
 				'width'     => cnSettingsAPI::get( 'connections', 'image_large', 'width' ),
 				'height'    => cnSettingsAPI::get( 'connections', 'image_large', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_large', 'quality' ),
@@ -115,7 +115,7 @@ class cnEntry_Action {
 		$medium = cnImage::get(
 			$img['url'],
 			array(
-				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_medium', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_medium', 'ratio' ), $cropMode ) ) || 0 === $key ? $key : 2,
 				'width'     => cnSettingsAPI::get( 'connections', 'image_medium', 'width' ),
 				'height'    => cnSettingsAPI::get( 'connections', 'image_medium', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_medium', 'quality' ),
@@ -132,7 +132,7 @@ class cnEntry_Action {
 		$thumb = cnImage::get(
 			$img['url'],
 			array(
-				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_thumbnail', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_thumbnail', 'ratio' ), $cropMode ) ) || 0 === $key ? $key : 2,
 				'width'     => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'width' ),
 				'height'    => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'quality' ),
@@ -202,7 +202,7 @@ class cnEntry_Action {
 		$logo = cnImage::get(
 			$img['url'],
 			array(
-				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || 0 === $key ? $key : 2,
 				'width'     => cnSettingsAPI::get( 'connections', 'image_logo', 'width' ),
 				'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
@@ -631,7 +631,7 @@ class cnEntry_Action {
 		/*
 		 * Process the logo upload --> START <--
 		 */
-		if ( isset( $_FILES['original_logo'] ) && $_FILES['original_logo']['error'] != 4 ) {
+		if ( isset( $_FILES['original_logo'] ) && 4 != $_FILES['original_logo']['error'] ) {
 
 			// If an entry is being updated and a new logo is uploaded, the old logo needs to be deleted.
 			// Delete the entry logo.
@@ -659,7 +659,7 @@ class cnEntry_Action {
 		}
 
 		// Don't do this if an entry is being updated.
-		if ( $action !== 'update' ) {
+		if ( 'update' !== $action ) {
 
 			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific logo will be deleted.
@@ -710,7 +710,7 @@ class cnEntry_Action {
 		/*
 		 * Process the image upload. --> START <--
 		 */
-		if ( isset( $_FILES['original_image'] ) && $_FILES['original_image']['error'] != 4 ) {
+		if ( isset( $_FILES['original_image'] ) && 4 != $_FILES['original_image']['error'] ) {
 
 			// Delete the entry image and its variations.
 			self::deleteImages( $entry->getImageNameOriginal(), $slug );
@@ -738,7 +738,7 @@ class cnEntry_Action {
 		}
 
 		// Don't do this if an entry is being updated.
-		if ( $action !== 'update' ) {
+		if ( 'update' !== $action ) {
 
 			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific images will be deleted.
@@ -976,7 +976,7 @@ class cnEntry_Action {
 			do_action( 'cn_process_status', $ids );
 		}
 
-		return $result !== false ? true : false;
+		return false !== $result ? true : false;
 	}
 
 	/**
@@ -1038,7 +1038,7 @@ class cnEntry_Action {
 			do_action( 'cn_process_visibility', $ids );
 		}
 
-		return $result !== false ? true : false;
+		return false !== $result ? true : false;
 	}
 
 	/**

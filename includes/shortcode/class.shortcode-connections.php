@@ -48,7 +48,7 @@ class cnShortcode_Connections extends cnShortcode {
 		/** @var cnTemplate $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
-		if ( $template === false ) {
+		if ( false === $template ) {
 			return cnTemplatePart::loadTemplateError( $atts );
 		}
 
@@ -209,7 +209,7 @@ class cnShortcode_Connections extends cnShortcode {
 		// And if it is empty the filter should return (bool) FALSE, so the core template parts can be executed.
 		$content = apply_filters( "cn_shortcode_content-$tag", false, $content, $atts, $results, $template );
 
-		if ( $content === false ) {
+		if ( false === $content ) {
 
 			ob_start();
 

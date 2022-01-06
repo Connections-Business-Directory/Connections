@@ -357,7 +357,7 @@ final class _array {
 			return false;
 		}
 
-		if ( $keys === array() ) {
+		if ( array() === $keys ) {
 			return false;
 		}
 
@@ -477,7 +477,7 @@ final class _array {
 		$key = is_array( $key ) ? $key : explode( '.', $key );
 
 		while ( ! is_null( $segment = array_shift( $key ) ) ) {
-			if ( $segment === '*' ) {
+			if ( '*' === $segment ) {
 				if ( $target instanceof cnCollection ) {
 					$target = $target->all();
 				} elseif ( ! is_array( $target ) ) {

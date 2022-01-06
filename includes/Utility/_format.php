@@ -285,7 +285,7 @@ final class _format {
 			$char = $string[ $i ];
 
 			// PHP date format escaping character.
-			if ( $char === '\\' ) {
+			if ( '\\' === $char ) {
 
 				$i++;
 

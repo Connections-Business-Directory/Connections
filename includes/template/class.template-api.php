@@ -274,7 +274,7 @@ class cnTemplateFactory {
 
 			foreach ( $slug as $template ) {
 
-				if ( $template->legacy == false && ! empty( $template->class ) ) {
+				if ( false === $template->legacy && ! empty( $template->class ) ) {
 
 					// Init an instance of the cnTemplate object with $template.
 					$t = new cnTemplate( $template );
@@ -314,7 +314,7 @@ class cnTemplateFactory {
 
 		$legacyTemplates = get_transient( 'cn_legacy_templates' );
 
-		if ( $legacyTemplates === false ) {
+		if ( false === $legacyTemplates ) {
 
 			// Build a catalog of all legacy templates.
 			self::scan();
@@ -696,7 +696,7 @@ class cnTemplateFactory {
 				$type = $atts['list_type'][0];
 
 				// Change the list type to family from connection_group to maintain compatibility with versions 0.7.0.4 and earlier.
-				if ( $type == 'connection_group' ) {
+				if ( 'connection_group' === $type ) {
 					$type = 'family';
 				}
 			}
@@ -722,7 +722,7 @@ class cnTemplateFactory {
 		// If the template was not located, return FALSE.
 		// This will in turn display the template not found error message
 		// later in the execution of the shortcode.
-		if ( $template == false ) {
+		if ( false === $template ) {
 			return false;
 		}
 

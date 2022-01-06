@@ -287,7 +287,7 @@ class cnAdminFunction {
 						$ul = true;
 					}
 
-					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . wp_kses_post( $line ) . '</li>';
+					echo '<li style="' . ( 0 === $key % 2 ? ' clear: left;' : '' ) . '">' . wp_kses_post( $line ) . '</li>';
 				}
 
 				if ( $ul ) {

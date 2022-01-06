@@ -76,7 +76,7 @@ class cnValidate {
 
 			$len = mb_strlen( $url_local );
 
-			if ( $len !== strlen( $url_local ) ) {
+			if ( strlen( $url_local ) !== $len ) {
 
 				$convmap   = array( 0x0, 0x2FFFF, 0, 0xFFFF );
 				$url_local = mb_decode_numericentity( $url_local, $convmap, 'UTF-8' );
@@ -89,7 +89,7 @@ class cnValidate {
 		$regex    = '#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i';
 		$url_test = preg_replace( $regex, '$1', htmlentities( $url_local, ENT_QUOTES, 'UTF-8' ) );
 
-		if ( $url_test != '' ) {
+		if ( '' !== $url_test ) {
 
 			$url_local = $url_test;
 		}
@@ -199,7 +199,7 @@ class cnValidate {
 			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
 			preg_match( '/HTTP\/.* ([0-9]+) .*/', curl_exec( $handle ), $status );
 
-			if ( $status[1] == 200 ) {
+			if ( 200 == $status[1] ) {
 
 				$is_valid = true;
 			} else {

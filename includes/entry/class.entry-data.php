@@ -908,19 +908,15 @@ class cnEntry {
 		switch ( $this->getEntryType() ) {
 
 			case 'organization':
-
 				$name = $this->getOrganization( $context );
 				break;
 
 			case 'family':
-
 				$name = $this->getFamilyName( $context );
 				break;
 
 			default:
-
 				$name = $this->getIndividualName( $atts, $context );
-				break;
 		}
 
 		return $name;

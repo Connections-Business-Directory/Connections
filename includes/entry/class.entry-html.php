@@ -772,8 +772,6 @@ class cnEntry_HTML extends cnEntry {
 					$replace,
 					'<span class="fn n notranslate">' . ( empty( $atts['format'] ) ? $defaults['format'] : $atts['format'] ) . '</span>'
 				);
-
-				break;
 		}
 
 		$html = cnString::replaceWhatWith( $html, ' ' );

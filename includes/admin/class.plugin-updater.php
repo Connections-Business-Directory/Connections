@@ -166,6 +166,16 @@ class cnPlugin_Updater {
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
 		// add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
 		add_action( 'admin_init', array( __CLASS__, 'update_plugins_clear' ) );
+		add_action( 'upgrader_process_complete', array( __CLASS__, 'clear_cached_response' ) );
+		// add_filter(
+		// 	'upgrader_post_install',
+		// 	function( $return, $plugin ) {
+		// 		self::clear_cached_response();
+		// 		return $return;
+		// 		},
+		// 	10,
+		// 	2
+		// );
 	}
 
 	/**

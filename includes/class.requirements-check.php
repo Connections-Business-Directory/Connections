@@ -244,21 +244,21 @@ final class cnRequirements_Check {
 		?>
 		<!-- Added by Connections Business Directory -->
 		<style type="text/css" >
-			.plugins tr[data-plugin="<?php echo esc_html( $this->basename ); ?>"] th,
-			.plugins tr[data-plugin="<?php echo esc_html( $this->basename ); ?>"] td,
+			.plugins tr[data-plugin="<?php echo esc_attr( $this->basename ); ?>"] th,
+			.plugins tr[data-plugin="<?php echo esc_attr( $this->basename ); ?>"] td,
 			.plugins .cn-requirements-row th,
 			.plugins .cn-requirements-row td {
 				background: #fff5f5;
 				box-shadow: none;
 			}
-			.plugins tr[data-plugin="<?php echo esc_html( $this->basename ); ?>"] th {
+			.plugins tr[data-plugin="<?php echo esc_attr( $this->basename ); ?>"] th {
 				box-shadow: none;
 			}
 			.plugins .cn-requirements-row th span {
 				margin-left: 6px;
 				color: #dc3232;
 			}
-			.plugins tr[data-plugin="<?php echo esc_html( $this->basename ); ?>"] th,
+			.plugins tr[data-plugin="<?php echo esc_attr( $this->basename ); ?>"] th,
 			.plugins .cn-requirements-row th.check-column,
 			#<?php echo esc_html( dirname( $this->basename ) ); ?>-update td {
 				border-left: 4px solid #dc3232 !important;

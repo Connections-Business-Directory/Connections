@@ -1809,7 +1809,7 @@ class cnTemplatePart {
 				if ( $atts['show_label'] ) {
 					$out .= '<label for="cn-search-input">Search Directory</label>';
 				}
-				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . esc_html__( 'Search', 'connections' ) . '"/>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . esc_attr__( 'Search', 'connections' ) . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
 			$out .= '</span>';
 

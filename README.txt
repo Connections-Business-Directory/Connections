@@ -834,12 +834,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Upgrade Notice ==
 
-= 10.0 =
-It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
-
-= 10.1 =
-It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
-
 = 10.2 =
 It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 

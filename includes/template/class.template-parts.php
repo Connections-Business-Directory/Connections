@@ -189,7 +189,7 @@ class cnTemplatePart {
 			$result = require $file;
 		}
 
-		$result = $result === false ? $result : true;
+		$result = false === $result ? $result : true;
 
 		return $result;
 	}
@@ -1809,7 +1809,7 @@ class cnTemplatePart {
 				if ( $atts['show_label'] ) {
 					$out .= '<label for="cn-search-input">Search Directory</label>';
 				}
-				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . esc_html__( 'Search', 'connections' ) . '"/>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . esc_attr__( 'Search', 'connections' ) . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
 			$out .= '</span>';
 
@@ -2438,7 +2438,7 @@ class cnTemplatePart {
 
 					// For backwards compatibility.
 					$atts['child_of']   = isset( $atts['parent_id'] ) && ! empty( $atts['parent_id'] ) ? $atts['parent_id'] : 0;
-					$atts['hide_empty'] = isset( $atts['show_empty'] ) && $atts['show_empty'] === false ? true : false;
+					$atts['hide_empty'] = isset( $atts['show_empty'] ) && false === $atts['show_empty'] ? true : false;
 
 					$out = cnTemplatePart::walker( 'term-list', $atts );
 				}
@@ -2513,7 +2513,7 @@ class cnTemplatePart {
 
 		// For backwards compatibility.
 		$atts['show_option_all'] = isset( $atts['select_all'] ) && ! empty( $atts['select_all'] ) ? $atts['select_all'] : '';
-		$atts['hide_empty']      = isset( $atts['show_empty'] ) && $atts['show_empty'] === false ? true : false;
+		$atts['hide_empty']      = isset( $atts['show_empty'] ) && false === $atts['show_empty'] ? true : false;
 
 		return cnTemplatePart::walker( 'term-select-enhanced', $atts );
 	}
@@ -2572,7 +2572,7 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// For backwards compatibility.
-		$atts['hide_empty'] = isset( $atts['show_empty'] ) && $atts['show_empty'] === false ? true : false;
+		$atts['hide_empty'] = isset( $atts['show_empty'] ) && false === $atts['show_empty'] ? true : false;
 
 		return cnTemplatePart::walker( 'term-radio-group', $atts );
 	}
@@ -2728,14 +2728,14 @@ class cnTemplatePart {
 
 		foreach ( $table as $row => $cols ) {
 
-			$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
+			$trClass = ( 'alternate' === $trClass ) ? '' : 'alternate';
 
 			$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
 
 			foreach ( $cols as $col => $key ) {
 
 				// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
-				if ( $key === null ) {
+				if ( null === $key ) {
 					continue;
 				}
 
@@ -2935,13 +2935,13 @@ class cnTemplatePart {
 		$out .= '<tbody>';
 
 		foreach ( $table as $row => $cols ) {
-			$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
+			$trClass = ( 'alternate' === $trClass ) ? '' : 'alternate';
 
 			$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
 
 			foreach ( $cols as $col => $key ) {
 				// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
-				if ( $key === null ) {
+				if ( null === $key ) {
 					continue;
 				}
 

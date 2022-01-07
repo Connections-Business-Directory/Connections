@@ -275,7 +275,7 @@ class cnTemplate_Shortcode {
 		$tags = $this->tags();
 
 		// allow [[foo]] syntax for escaping a tag
-		if ( $m[1] == '[' && $m[6] == ']' ) {
+		if ( '[' === $m[1] && ']' === $m[6] ) {
 
 			return substr( $m[0], 1, -1 );
 		}
@@ -302,7 +302,7 @@ class cnTemplate_Shortcode {
 			// If the shortcode is an enclosing shortcode, replace the entire contents with the result
 			// of any shortcodes found within the content. This provides an override of sorts.
 			// The one exception is the `cn_card` shortcode.
-			if ( is_string( $m[5] ) && ! empty( $m[5] ) && $m[2] != 'cn_card' ) {
+			if ( is_string( $m[5] ) && ! empty( $m[5] ) && 'cn_card' !== $m[2] ) {
 
 				echo $this->do_shortcode( $m[5] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 

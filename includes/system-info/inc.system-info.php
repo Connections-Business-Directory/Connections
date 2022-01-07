@@ -139,8 +139,8 @@ if ( 'page' == get_option( 'show_on_front' ) ) :
 $front_page_id = get_option( 'page_on_front' );
 $blog_page_id  = get_option( 'page_for_posts' );
 ?>
-Page On Front:              <?php echo ( $front_page_id != 0 ? get_the_title( $front_page_id ) . ' (#' . $front_page_id . ')' : 'Unset' ) . PHP_EOL; ?>
-Page For Posts:             <?php echo ( $blog_page_id != 0 ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . PHP_EOL; ?>
+Page On Front:              <?php echo ( 0 != $front_page_id ? get_the_title( $front_page_id ) . ' (#' . $front_page_id . ')' : 'Unset' ) . PHP_EOL; ?>
+Page For Posts:             <?php echo ( 0 != $blog_page_id ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . PHP_EOL; ?>
 <?php endif; ?>
 <?php
 // Make sure wp_remote_post() is working

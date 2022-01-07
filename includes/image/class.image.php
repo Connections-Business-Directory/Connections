@@ -626,7 +626,7 @@ class cnImage {
 				$colorize = cnColor::name2hex( $colorize );
 
 				// If $colorize is not a named color, unset it.
-				if ( $colorize === false ) {
+				if ( false === $colorize ) {
 
 					unset( $colorize );
 				}
@@ -774,7 +774,7 @@ class cnImage {
 				$canvas_color = cnColor::name2hex( $canvas_color );
 
 				// Not a named color, set the default.
-				if ( $canvas_color === false ) {
+				if ( false === $canvas_color ) {
 
 					$canvas_color = '#FFFFFF';
 				}
@@ -835,7 +835,7 @@ class cnImage {
 		} else {
 
 			$width = absint( $width );
-			$log->add( 'image_width', 'Width: ' . ( $width === 0 ? '0' : $width ) );
+			$log->add( 'image_width', 'Width: ' . ( 0 === $width ? '0' : $width ) );
 		}
 
 		if ( is_string( $height ) && ! is_numeric( $height ) ) {
@@ -852,13 +852,13 @@ class cnImage {
 		} else {
 
 			$height = absint( $height );
-			$log->add( 'image_height', 'Height: ' . ( $height === 0 ? '0' : $height ) );
+			$log->add( 'image_height', 'Height: ' . ( 0 === $height ? '0' : $height ) );
 		}
 
 		// The only purpose of this is to determine the final width and height
 		// without performing any actual image manipulation. This will be used
 		// to check whether a resize was done previously.
-		if ( ( ! empty( $width ) || ! empty( $height ) ) && $crop_only === false ) {
+		if ( ( ! empty( $width ) || ! empty( $height ) ) && false === $crop_only ) {
 
 			switch ( $crop_mode ) {
 
@@ -967,11 +967,11 @@ class cnImage {
 					break;
 			}
 
-			$log->add( 'image_resize_width', 'Resize width: ' . ( $dst_w === 0 ? '0' : $dst_w ) );
-			$log->add( 'image_resize_height', 'Resize height: ' . ( $dst_h === 0 ? '0' : $dst_h ) );
+			$log->add( 'image_resize_width', 'Resize width: ' . ( 0 === $dst_w ? '0' : $dst_w ) );
+			$log->add( 'image_resize_height', 'Resize height: ' . ( 0 === $dst_h ? '0' : $dst_h ) );
 
 		// Do not resize, only a crop in the image.
-		} elseif ( $crop_only === true ) {
+		} elseif ( true === $crop_only ) {
 
 			// get x position to start cropping
 			$src_x = ( isset( $crop_x ) ) ? $crop_x : 0;
@@ -1058,11 +1058,11 @@ class cnImage {
 			}
 
 			// allow center to position crop start
-			if ( $src_x === 'center' ) {
+			if ( 'center' === $src_x ) {
 				$src_x = ( $orig_w - $src_w ) / 2;
 			}
 
-			if ( $src_y === 'center' ) {
+			if ( 'center' === $src_y ) {
 				$src_y = ( $orig_h - $src_h ) / 2;
 			}
 		}
@@ -1107,7 +1107,7 @@ class cnImage {
 		$dst_rel_path = str_replace( '.' . $ext, '', $image_info['basename'] );
 
 		// Set file ext to `png` if the opacity has been set less than 100 or if the crop mode is `2` and the canvas color was set to transparent.
-		if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ) {
+		if ( $opacity < 100 || ( 'transparent' === $canvas_color && 2 == $crop_mode ) ) {
 			$ext = 'png';
 		}
 
@@ -1198,7 +1198,7 @@ class cnImage {
 				$methods['methods'][] = 'crop';
 			}
 
-			if ( $crop_mode == 2 ) {
+			if ( 2 == $crop_mode ) {
 				$methods['methods'][] = 'resize_padded';
 			}
 
@@ -1224,7 +1224,7 @@ class cnImage {
 			/*
 			 * Perform image manipulations.
 			 */
-			if ( $crop_only === false ) {
+			if ( false === $crop_only ) {
 
 				if ( ( ! empty( $width ) && $width ) || ( ! empty( $height ) && $height ) ) {
 
@@ -1460,15 +1460,15 @@ class cnImage {
 			$log->add( 'image_save_quality', __( sprintf( 'Saving quality set at %s.', $editor->get_quality() ), 'connections' ) );
 
 			// Save the new image, set file type to PNG if the opacity has been set less than 100 or if the crop mode is `2` and the canvas color was set to transparent.
-			if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) || $orig_mime_type == 'image/png' ) {
+			if ( $opacity < 100 || ( 'transparent' === $canvas_color && 2 == $crop_mode ) || 'image/png' === $orig_mime_type ) {
 
 				$mime_type = 'image/png';
 
-			} elseif ( $orig_mime_type == 'image/jpeg' ) {
+			} elseif ( 'image/jpeg' === $orig_mime_type ) {
 
 				$mime_type = 'image/jpeg';
 
-			} elseif ( $orig_mime_type == 'image/gif' ) {
+			} elseif ( 'image/gif' === $orig_mime_type ) {
 
 				$mime_type = 'image/gif';
 			}
@@ -2120,7 +2120,7 @@ class cnImage {
 			$type = pathinfo( $image['path'], PATHINFO_EXTENSION );
 
 			// Attempt to correct for auto-rotation if the meta data is available.
-			if ( function_exists( 'exif_read_data' ) && ( $type == 'jpg' || $type == 'jpeg' ) ) {
+			if ( function_exists( 'exif_read_data' ) && ( 'jpg' === $type || 'jpeg' === $type ) ) {
 
 				$exif        = @exif_read_data( $image['path'] );
 				$orientation = is_array( $exif ) && array_key_exists( 'Orientation', $exif ) ? $exif['Orientation'] : 0;

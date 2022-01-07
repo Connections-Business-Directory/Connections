@@ -69,7 +69,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		$resized = wp_imagecreatetruecolor( $canvas_w, $canvas_h );
 
-		if ( $canvas_color === 'transparent' ) {
+		if ( 'transparent' === $canvas_color ) {
 
 			$color = imagecolorallocatealpha( $resized, 255, 255, 255, 127 );
 
@@ -190,7 +190,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 				$colorxy = imagecolorat( $image, $x, $y );
 				$alpha = ( $colorxy >> 24 ) & 0xFF;
 				// calculate new alpha
-				if ( $minalpha !== 127 ) {
+				if ( 127 !== $minalpha ) {
 					$alpha = 127 + 127 * $opacity * ( $alpha - 127 ) / ( 127 - $minalpha );
 				} else {
 					$alpha += 127 * $opacity;

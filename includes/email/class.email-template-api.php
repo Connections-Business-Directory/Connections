@@ -173,7 +173,7 @@ class cnEmail_Template {
 		  * This filter only is required to be added if the template type is HTML.
 		  * If the template is not, run a filer to ensure any html tags are stripped.
 		  */
-		$template->type == 'html' ? add_filter( 'cn_email_message', array( __CLASS__, 'content' ) ) : add_filter( 'cn_email_message', array( __CLASS__, 'stripTags' ) );
+		'html' === $template->type ? add_filter( 'cn_email_message', array( __CLASS__, 'content' ) ) : add_filter( 'cn_email_message', array( __CLASS__, 'stripTags' ) );
 	}
 
 	/**

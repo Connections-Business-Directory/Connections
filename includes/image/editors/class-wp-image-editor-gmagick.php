@@ -68,7 +68,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 		// setimageindex is optional unless mime is an animated format.
 		// Here, we just say no if you are missing it and aren't loading a jpeg.
-		if ( ! method_exists( 'Gmagick', 'setimageindex' ) && $mime_type != 'image/jpeg' ) {
+		if ( ! method_exists( 'Gmagick', 'setimageindex' ) && 'image/jpeg' !== $mime_type ) {
 			return false;
 		}
 

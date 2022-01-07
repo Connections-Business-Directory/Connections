@@ -581,7 +581,7 @@ HERERDOC;
 							$ul = true;
 						}
 
-						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . _escape::html( $line ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo '<li style="' . ( 0 === $key % 2 ? ' clear: left;' : '' ) . '">' . _escape::html( $line ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( $ul ) {
@@ -797,7 +797,7 @@ HERERDOC;
 
 					$expiryDate = strtotime( $data->expires );
 
-					if ( $expiryDate !== false ) {
+					if ( false !== $expiryDate ) {
 
 						$message = sprintf( esc_html__( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date( 'F jS Y', $expiryDate ) );
 
@@ -995,7 +995,7 @@ HERERDOC;
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `valid`, no need to attempt to activate the key again; bail.
-			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'valid' ) {
+			if ( isset( $data[ $this->slug ]->license ) && 'valid' === $data[ $this->slug ]->license ) {
 				return;
 			}
 
@@ -1045,7 +1045,7 @@ HERERDOC;
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `deactivated`, no need to attempt to deactivate the key again; bail.
-			if ( isset( $data[ $this->slug ]->license ) && $data[ $this->slug ]->license === 'deactivated' ) {
+			if ( isset( $data[ $this->slug ]->license ) && 'deactivated' === $data[ $this->slug ]->license ) {
 				return;
 			}
 
@@ -1128,7 +1128,7 @@ HERERDOC;
 		$slug     = self::getSlug( $name );
 		$url      = is_null( $url ) ? CN_UPDATE_URL : esc_url( $url );
 
-		$licenses = ( $licenses === false ) ? array() : $licenses;
+		$licenses = ( false === $licenses ) ? array() : $licenses;
 
 		// Set the EDD SL API action.
 		switch ( $action ) {
@@ -1196,7 +1196,7 @@ HERERDOC;
 				// So...
 				// We'll do a status check, set 'success' as false and set the message to the license
 				// status returned by doing a license check.
-				if ( $data->license == 'failed' ) {
+				if ( 'failed' === $data->license ) {
 
 					$data = self::license( 'status', $name, $license, $url );
 

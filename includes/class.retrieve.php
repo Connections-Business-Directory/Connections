@@ -170,11 +170,11 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['slug'] ) || ! empty( $atts['category_slug__in'] ) ) {
 
-			$atts['list_type']           = null;
-			$atts['category']            = null;
-			$atts['category__and']       = null;
-			$atts['category__not_in']    = null;
-			$atts['category__and']       = null;
+			$atts['list_type']        = null;
+			$atts['category']         = null;
+			$atts['category__and']    = null;
+			$atts['category__not_in'] = null;
+			$atts['category__and']    = null;
 			// $atts['wp_current_category'] = NULL;
 		}
 
@@ -252,7 +252,7 @@ class cnRetrieve {
 			// Trim the white space from the ends.
 			$atts['slug'] = trim( $atts['slug'] );
 
-			$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_TABLE . '.slug = %s' , $atts['slug'] );
+			$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_TABLE . '.slug = %s', $atts['slug'] );
 		}
 		/*
 		 * // END --> Set up the query to only return the entry that matches the supplied slug.
@@ -456,12 +456,12 @@ class cnRetrieve {
 			// Check to make sure the supplied field is one of the valid fields to order by.
 			if ( in_array( $field[0], $orderFields ) || cnString::startsWith( 'meta_key:', $field[0] ) ) {
 				// The date_modified actually maps to the `ts` column in the db.
-				if ( $field[0] == 'date_modified' ) {
+				if ( 'date_modified' === $field[0] ) {
 					$field[0] = 'ts';
 				}
 
 				// If one of the order fields is an address region add the INNER JOIN to the CN_ENTRY_ADDRESS_TABLE
-				if ( $field[0] == 'city' || $field[0] == 'state' || $field[0] == 'zipcode' || $field[0] == 'country' ) {
+				if ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ) {
 
 					if ( ! isset( $join['address'] ) ) {
 						$join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
@@ -520,7 +520,7 @@ class cnRetrieve {
 						 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
 						 * Set the default sort flag if it was use on any other sort field than id.
 						 */
-						if ( ( $orderFlags[ $field[1] ] == 'SPECIFIED' || $orderFlags[ $field[1] ] == 'RANDOM' ) && $field[0] != 'id' ) {
+						if ( ( 'SPECIFIED' === $orderFlags[ $field[1] ] || 'RANDOM' === $orderFlags[ $field[1] ] ) && 'id' !== $field[0] ) {
 							$field[1] = 'SORT_ASC';
 						}
 
@@ -1579,7 +1579,7 @@ class cnRetrieve {
 
 			// Display the 'public' entries if the public override shortcode option is enabled.
 			if ( $instance->options->getAllowPublicOverride() ) {
-				if ( $atts['allow_public_override'] == true ) {
+				if ( true === $atts['allow_public_override'] ) {
 					$visibility[] = 'public';
 				}
 			}
@@ -1587,11 +1587,11 @@ class cnRetrieve {
 			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
 			if ( $instance->options->getAllowPrivateOverride() ) {
 				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
-				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == true ) {
+				if ( ! in_array( 'public', $visibility ) && true === $atts['private_override'] ) {
 					$visibility[] = 'public';
 				}
 
-				if ( $atts['private_override'] == true ) {
+				if ( true === $atts['private_override'] ) {
 					$visibility[] = 'private';
 				}
 			}
@@ -1769,7 +1769,7 @@ class cnRetrieve {
 
 		// We need to query the main table for anniversaries or birthdays so we can capture any that may have been
 		// added before the implementation of the CN_ENTRY_DATE_TABLE table.
-		if ( $atts['type'] == 'anniversary' || $atts['type'] == 'birthday' ) {
+		if ( 'anniversary' === $atts['type'] || 'birthday' === $atts['type'] ) {
 
 			$exclude = array();
 
@@ -3571,7 +3571,7 @@ class cnRetrieve {
 					${$field[0]}[$key] = $entry->getDepartment();
 					break;
 
-				case ( $field[0] === 'city' || $field[0] === 'state' || $field[0] === 'zipcode' || $field[0] === 'country' ):
+				case ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ):
 					if ( $entry->getAddresses() ) {
 						$addresses = $entry->getAddresses();
 
@@ -3620,7 +3620,7 @@ class cnRetrieve {
 				 * because SPECIFIED should not be added to the $sortParams array
 				 * as that would be an invalid argument for the array multisort.
 				 */
-				if ( $flag === 'SPECIFIED' || $flag === 'RANDOM' ) {
+				if ( 'SPECIFIED' === $flag || 'RANDOM' === $flag ) {
 					$idOrder = $flag;
 					continue;
 				}

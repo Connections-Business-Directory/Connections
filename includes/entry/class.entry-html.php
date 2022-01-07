@@ -660,7 +660,7 @@ class cnEntry_HTML extends cnEntry {
 
 		$atts['class'] = 'rest' === $atts['context'] ? 'cn-rest-action ' . $atts['class'] : $atts['class'];
 
-		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . esc_html__( 'Delete', 'connections' ) . ' ' . $this->getName() . '">' . esc_html( $atts['text'] ) . '</a>';
+		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . esc_attr__( 'Delete', 'connections' ) . ' ' . $this->getName() . '">' . esc_html( $atts['text'] ) . '</a>';
 
 		$html = apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
 
@@ -718,40 +718,43 @@ class cnEntry_HTML extends cnEntry {
 			apply_filters( 'cn_output_name_default_atts', $defaults )
 		);
 
-		$search = array(
-			'%prefix%',
-			'%first%',
-			'%middle%',
-			'%last%',
-			'%suffix%',
-			'%first_initial%',
-			'%middle_initial%',
-			'%last_initial%',
-		);
-
-		$replace         = array();
-		$honorificPrefix = $this->getHonorificPrefix();
-		$first           = $this->getFirstName();
-		$middle          = $this->getMiddleName();
-		$last            = $this->getLastName();
-		$honorificSuffix = $this->getHonorificSuffix();
+		$atts['format'] = empty( $atts['format'] ) ? $defaults['format'] : $atts['format'];
 
 		switch ( $this->getEntryType() ) {
 
 			case 'organization':
-
 				// The `notranslate` class is added to prevent Google Translate from translating the text.
 				$html = '<span class="org fn notranslate">' . $this->getOrganization() . '</span>';
-
 				break;
 
 			case 'family':
-
 				$html = '<span class="fn n notranslate"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
-
 				break;
 
 			default:
+				$honorificPrefix = $this->getHonorificPrefix();
+				$first           = $this->getFirstName();
+				$middle          = $this->getMiddleName();
+				$last            = $this->getLastName();
+				$honorificSuffix = $this->getHonorificSuffix();
+				$title           = $this->getTitle();
+				$organization    = $this->getOrganization();
+				$department      = $this->getDepartment();
+
+				$replace = array();
+				$search  = array(
+					'%prefix%',
+					'%first%',
+					'%middle%',
+					'%last%',
+					'%suffix%',
+					'%first_initial%',
+					'%middle_initial%',
+					'%last_initial%',
+					'%title%',
+					'%organization%',
+					'%department%',
+				);
 
 				$replace[] = 0 == strlen( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
@@ -769,18 +772,36 @@ class cnEntry_HTML extends cnEntry {
 
 				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
 
+				$replace[] = 0 < strlen( $title ) ? '<span class="title notranslate">' . $title . '</span>' : '';
+
+				$replace[] = 0 < strlen( $organization ) ? '<span class="organization-name notranslate">' . $organization . '</span>' : '';
+
+				$replace[] = 0 < strlen( $department ) ? '<span class="organization-unit notranslate">' . $department . '</span>' : '';
+
 				$html = str_ireplace(
 					$search,
 					$replace,
-					'<span class="fn n notranslate">' . ( empty( $atts['format'] ) ? $defaults['format'] : $atts['format'] ) . '</span>'
+					'<span class="fn n notranslate">' . $atts['format'] . '</span>'
 				);
-
-				break;
 		}
 
 		$html = cnString::replaceWhatWith( $html, ' ' );
 
 		if ( $atts['link'] ) {
+
+			// Remove unsupported name tokens from the name format.
+			$atts['format'] = str_ireplace(
+				array(
+					'%first_initial%',
+					'%middle_initial%',
+					'%last_initial%',
+					'%title%',
+					'%organization%',
+					'%department%',
+				),
+				'',
+				$atts['format']
+			);
 
 			$html = cnURL::permalink(
 				array(

@@ -42,7 +42,7 @@ class Entry extends cnShortcode {
 		/** @var Template $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
-		if ( $template === false ) {
+		if ( false === $template ) {
 			$this->html = cnTemplatePart::loadTemplateError( $atts );
 			return;
 		}

@@ -89,7 +89,7 @@ final class _string {
 		$numhash = unpack( 'N2', $binhash );
 		$hash    = $numhash[1] . $numhash[2];
 
-		if ( $length !== null && is_int( $length ) ) {
+		if ( null !== $length && is_int( $length ) ) {
 
 			$hash = substr( $hash, 0, $length );
 		}
@@ -614,7 +614,7 @@ final class _string {
 
 						$pos = array_search( $closeTag[1], $openTags );
 
-						if ( $pos !== false ) {
+						if ( false !== $pos ) {
 
 							array_splice( $openTags, $pos, 1 );
 						}

@@ -183,7 +183,7 @@ class Conditional_Content extends cnShortcode {
 	private function getPostContent( $post ) {
 
 		// No recursive loops!
-		$html = ( $this->atts['id'] === get_the_ID() || $this->atts['id'] === get_queried_object_id() )
+		$html = ( get_the_ID() === $this->atts['id'] || get_queried_object_id() === $this->atts['id'] )
 			  ? ''
 			  : apply_filters( 'the_content', $post->post_content );
 
@@ -458,7 +458,7 @@ class Conditional_Content extends cnShortcode {
 		$condition = false;
 		$home      = (int) cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' );
 
-		if ( $this->isFrontPage() && ( $home === get_the_ID() || $home === get_queried_object_id() ) ) {
+		if ( $this->isFrontPage() && ( get_the_ID() === $home || get_queried_object_id() === $home ) ) {
 
 			$condition = true;
 		}

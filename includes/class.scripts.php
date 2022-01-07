@@ -942,7 +942,7 @@ class cnScript {
 			return $files;
 		}
 
-		if ( $ext == 'css' || $ext == 'js' ) {
+		if ( 'css' === $ext || 'js' === $ext ) {
 
 			$i = 0;
 

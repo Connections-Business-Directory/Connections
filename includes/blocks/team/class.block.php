@@ -293,6 +293,8 @@ class Team {
 			)
 		);
 
+		$options['parse_request'] = false;
+
 		$results = Connections_Directory()->retrieve->entries( $options );
 
 		if ( 0 >= count( $results ) ) {

@@ -89,7 +89,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	}
 
 	// No template found return error message.
-	if ( $template === false ) {
+	if ( false === $template ) {
 		return cnTemplatePart::loadTemplateError( $templateType );
 	}
 
@@ -247,7 +247,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 						)
 					);
 
-					$alternate == '' ? $alternate = '-alternate' : $alternate = '';
+					'' === $alternate ? $alternate = '-alternate' : $alternate = '';
 
 					$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
 						ob_start();

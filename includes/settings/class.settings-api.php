@@ -218,7 +218,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				foreach ( $sections as $section ) {
 
-					$id = isset( $section['plugin_id'] ) && $section['plugin_id'] !== substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
+					$id = isset( $section['plugin_id'] ) && substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) !== $section['plugin_id'] ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
 
 					if ( isset( $section['tab'] ) && ! empty( $section['tab'] ) ) {
 						$section['page_hook'] = $section['page_hook'] . '-' . $section['tab'];
@@ -371,14 +371,14 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				} else {
 
-					$section = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['plugin_id'] . '_' . $field['section'] : $field['section'];
+					$section = substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) !== $field['plugin_id'] ? $field['plugin_id'] . '_' . $field['section'] : $field['section'];
 				}
 
 				// If the option was not registered to a section or registered to a WP core section, set the option_name to the setting id.
 				// $optionName = isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array($field['section'], self::$coreSections) ? $field['section'] : $field['id'];
 				if ( isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array( $field['section'], self::$coreSections ) ) {
 
-					$optionName = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['section'] = $field['plugin_id'] . '_' . $field['section'] : $field['section'];
+					$optionName = substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) !== $field['plugin_id'] ? $field['section'] = $field['plugin_id'] . '_' . $field['section'] : $field['section'];
 
 				} else {
 
@@ -551,7 +551,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			foreach ( $sections as $section ) {
 
-				$id = isset( $section['plugin_id'] ) && $section['plugin_id'] !== substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
+				$id = isset( $section['plugin_id'] ) && substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) !== $section['plugin_id'] ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
 
 				self::$rest = cnArray::add(
 					self::$rest,
@@ -2025,7 +2025,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			if ( ! empty( $section ) ) {
 
-				if ( $pluginID !== substr( $section, 0, strlen( $pluginID ) ) ) {
+				if ( substr( $section, 0, strlen( $pluginID ) ) !== $pluginID ) {
 					$section = $pluginID . '_' . $section;
 				}
 

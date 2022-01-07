@@ -47,7 +47,7 @@ final class Provider implements \RankMath\Sitemap\Providers\Provider {
 
 		foreach ( $instances as $instanceID => $instance ) {
 
-			if ( $type === "{$name}-{$instanceID}" ) {
+			if ( "{$name}-{$instanceID}" === $type ) {
 				return true;
 			} elseif ( $type === $name) {
 				return true;

@@ -1,19 +1,25 @@
-// process.traceDeprecation = true; // Enable to see deprecation trace.
-const webpack = require( 'webpack' );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+/**
+ * External dependencies
+ */
 const path = require( 'path' );
-// const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
-const inProduction = ( 'production' === process.env.NODE_ENV );
-// const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
-// const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
+const webpack = require( 'webpack' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
-// const UglifyJsPlugin = require( "uglifyjs-webpack-plugin" );
-const TerserPlugin = require('terser-webpack-plugin');
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
+const TerserPlugin = require( 'terser-webpack-plugin' );
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
+const inProduction = ('production' === process.env.NODE_ENV);
+// const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+// const UglifyJsPlugin = require( "uglifyjs-webpack-plugin" );
 // const wpPot = require( 'wp-pot' );
 
+/**
+ * WordPress dependencies
+ */
+// const defaultConfig = require( '@wordpress/scripts/config/webpack.config.js' );
+
 const config = {
+	// ...defaultConfig,
 	mode:      process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	// Ensure modules like magnific know jQuery is external (loaded via WP).
 	externals: {
@@ -175,9 +181,9 @@ const config = {
 			{
 				patterns: [
 					{
-						context:     './node_modules/chosen-js/',
-						from:        '*',
-						to:          path.resolve( __dirname, './assets/vendor/chosen/' ),
+						context: './node_modules/chosen-js/',
+						from: '*',
+						to: path.resolve( __dirname, './assets/vendor/chosen/' ),
 						globOptions: {
 							ignore: [
 								'**/chosen.proto*.js'
@@ -186,23 +192,23 @@ const config = {
 					},
 					{
 						context: './node_modules/@fortawesome/fontawesome-free/css/',
-						from:    'all*.css',
-						to:      path.resolve( __dirname, './assets/vendor/fontawesome/css/' ),
+						from: 'all*.css',
+						to: path.resolve( __dirname, './assets/vendor/fontawesome/css/' ),
 					},
 					{
 						context: './node_modules/@fortawesome/fontawesome-free/webfonts/',
-						from:    '*',
-						to:      path.resolve( __dirname, './assets/vendor/fontawesome/webfonts/' ),
+						from: '*',
+						to: path.resolve( __dirname, './assets/vendor/fontawesome/webfonts/' ),
 					},
 					{
 						context: './node_modules/@fonticonpicker/fonticonpicker/dist/',
-						from:    '**',
-						to:      path.resolve( __dirname, './assets/vendor/fonticonpicker/' ),
+						from: '**',
+						to: path.resolve( __dirname, './assets/vendor/fonticonpicker/' ),
 					},
 					{
-						context:     './node_modules/picturefill/dist/',
-						from:        '**',
-						to:          path.resolve( __dirname, './assets/vendor/picturefill/' ),
+						context: './node_modules/picturefill/dist/',
+						from: '**',
+						to: path.resolve( __dirname, './assets/vendor/picturefill/' ),
 						globOptions: {
 							ignore: [
 								'**/plugins/**/*'
@@ -210,9 +216,9 @@ const config = {
 						}
 					},
 					{
-						context:     './node_modules/js-cookie/src/',
-						from:        '**',
-						to:          path.resolve( __dirname, './assets/vendor/js-cookie/' ),
+						context: './node_modules/js-cookie/src/',
+						from: '**',
+						to: path.resolve( __dirname, './assets/vendor/js-cookie/' ),
 						globOptions: {
 							ignore: [
 								'**/plugins/**/*'
@@ -242,14 +248,14 @@ const config = {
 			} )
 		]
 	},
-	resolve:      {
+	resolve: {
 		// Alias @Connections-Directory to the blocks folder so components can be imported like:
 		// import { PageSelect } from '@Connections-Directory/components';
 		alias: {
 			'@Connections-Directory': path.resolve( __dirname, './includes/blocks/' )
 		}
 	},
-	stats:        {
+	stats: {
 		children: false
 	},
 };
@@ -266,24 +272,26 @@ module.exports = [
 	// 	},
 	// }, config),
 	Object.assign( {
-		entry: {
-			'babel-polyfill': '@babel/polyfill',
-			'blocks-editor':  './includes/blocks/blocks.js',
-			'blocks-public':  './includes/blocks/public.js',
-			'icon-picker':    './assets/src',
-			'bundle':        './assets/js/index.js',
-			'admin':          './assets/css/cn-admin.scss',
-			'frontend':       './assets/css/cn-user.scss',
-		},
+			entry: {
+				'babel-polyfill': '@babel/polyfill',
+				'blocks-editor': './includes/blocks/blocks.js',
+				'blocks-public': './includes/blocks/public.js',
+				'icon-picker': './assets/src',
+				'bundle': './assets/js/index.js',
+				'admin': './assets/css/cn-admin.scss',
+				'frontend': './assets/css/cn-user.scss',
+			},
 
-		// Tell webpack where to output.
-		output: {
-			path:     path.resolve( __dirname, './assets/dist/' ),
-			filename: 'js/[name].js',
-			// library: ['wp', '[name]'],
-			// libraryTarget: 'window',
+			// Tell webpack where to output.
+			output: {
+				path: path.resolve( __dirname, './assets/dist/' ),
+				filename: 'js/[name].js',
+				// library: ['wp', '[name]'],
+				// libraryTarget: 'window',
+			},
 		},
-	}, config )
+		config
+	)
 ];
 
 // inProd?

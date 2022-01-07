@@ -48,7 +48,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 
 		foreach ( $instances as $instanceID => $instance ) {
 
-			if ( $type === "{$name}-{$instanceID}" ) {
+			if ( "{$name}-{$instanceID}" === $type ) {
 				return true;
 			} elseif ( $type === $name) {
 				return true;

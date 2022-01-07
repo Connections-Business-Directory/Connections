@@ -594,11 +594,11 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 
 			if ( ! is_bool( $link['follow'] ) ) {
 
-				if ( $link['follow'] === 'dofollow' ) {
+				if ( 'dofollow' === $link['follow'] ) {
 
 					$link['follow'] = true;
 
-				} elseif ( $link['follow'] === 'nofollow' ) {
+				} elseif ( 'nofollow' === $link['follow'] ) {
 
 					$link['follow'] = false;
 

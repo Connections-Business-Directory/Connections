@@ -134,7 +134,7 @@ final class _date {
 				$minutes   = $value / MINUTE_IN_SECONDS;
 				$sign      = $minutes < 0 ? '-' : '+';
 				$absmin    = abs( $minutes );
-				$separator = $format === 'O' ? '' : ':';
+				$separator = 'O' === $format ? '' : ':';
 				$value     = sprintf( '%s%02d%s%02d', $sign, $absmin / 60, $separator, $absmin % 60 );
 				break;
 		}

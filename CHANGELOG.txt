@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 10.4.9 01/07/2022 =
+* NEW: Add support for the `%title%`, `%organization%`, and `%department%` tokens when setting the name format when calling the `getNameBlock()` method.
+* TWEAK: Hook into the `upgrader_process_complete` action to clear addon plugin update checks.
+* BUG: Team block should not parse request queries.
+* SECURITY: Utilize `esc_attr()` instead of `esc_html()` when HTML escaping attribute values.
+* DEV: Use Yoda Condition checks, you must.
+* DEV: Equals sign not aligned with surrounding assignments.
+* DEV: Space found before comma in argument list.
+* DEV: The CASE body must start on the line following the statement.
+* DEV: Remove unnecessary break statement in switch branch.
+* DEV: Remove unnecessary blank lines.
+* DEV: Add additional security sniffs to the phpcs report.
+* DEV: Minor `webpack.config.js` cleanup.
+
 = 10.4.8 12/22/2021 =
 * NEW: Introduce the Request Input API.
 * NEW: Introduce `_::var_dump_to_error_log()`.

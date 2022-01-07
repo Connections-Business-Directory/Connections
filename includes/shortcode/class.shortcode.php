@@ -715,7 +715,7 @@ class cnShortcode {
 
 								ob_start();
 
-								if ( ! current_user_can( 'connections_edit_entry' ) && $results[0]->status == 'pending' ) {
+								if ( ! current_user_can( 'connections_edit_entry' ) && 'pending' === $results[0]->status ) {
 
 									echo '<p>' . esc_html__( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
 								}

@@ -137,7 +137,7 @@ final class Yoast_SEO {
 
 			add_filter( 'wpseo_twitter_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
 			add_filter( 'wpseo_twitter_description', array( __CLASS__, 'transformDescription' ), 10, 2 );
-			add_filter( 'wpseo_twitter_image', array( __CLASS__, 'transformImage'), 10, 2 );
+			add_filter( 'wpseo_twitter_image', array( __CLASS__, 'transformImage' ), 10, 2 );
 
 			add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
 		}

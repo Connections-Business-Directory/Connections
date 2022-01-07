@@ -88,7 +88,7 @@ class cnScript {
 		add_action( 'cn_frontend_enqueue_styles', array( __CLASS__, 'inlineBrandiconStyles' ) );
 
 		add_action( 'wp_print_scripts', array( __CLASS__, 'jQueryFixr' ), 999 );
-		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery'), 999 );
+		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery' ), 999 );
 	}
 
 	/**
@@ -446,7 +446,7 @@ class cnScript {
 
 		if ( is_rtl() ) {
 
-			wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array('cn-public'), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array( 'cn-public' ), CN_CURRENT_VERSION );
 		}
 
 		// This will locate the custom CSS file to be enqueued.

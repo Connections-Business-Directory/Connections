@@ -685,7 +685,7 @@ class cnTemplateFactory {
 
 		if ( ! empty( $atts['list_type'] ) ) {
 
-			$permittedTypes = array( 'individual', 'organization', 'family', 'connection_group');
+			$permittedTypes = array( 'individual', 'organization', 'family', 'connection_group' );
 
 			// Convert to array. Trim the space characters if present.
 			$atts['list_type'] = explode( ',' , str_replace( ' ', '', $atts['list_type'] ) );

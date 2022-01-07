@@ -58,16 +58,16 @@ final class cnLog_Email {
 
 			// Register the log view.
 			add_filter( 'cn_log_views', array( __CLASS__, 'registerLogView' ) );
-			add_action( 'admin_action_cn_log_email_view', array( __CLASS__, 'viewLog') );
+			add_action( 'admin_action_cn_log_email_view', array( __CLASS__, 'viewLog' ) );
 
 			// Add action to log email after they are sent.
 			add_action( 'cn_email_post_send', array( __CLASS__, 'add' ), 10, 11 );
 
 			// Add filter to format meta key for display.
-			add_filter( 'cn_log_meta_key', array( __CLASS__, 'metaKey') );
+			add_filter( 'cn_log_meta_key', array( __CLASS__, 'metaKey' ) );
 
 			// Add filter to format meta value for display.
-			add_filter( 'cn_log_meta_value', array( __CLASS__, 'metaValue'), 10, 2 );
+			add_filter( 'cn_log_meta_value', array( __CLASS__, 'metaValue' ), 10, 2 );
 		}
 	}
 

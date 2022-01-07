@@ -67,7 +67,7 @@ class cnTemplate_Customizer {
 
 		// add_action( 'wp_head', array( $this', 'remove_head_actions'), -1 );
 
-		add_filter( 'admin_url', array( $this, 'admin_url'), 10, 3 );
+		add_filter( 'admin_url', array( $this, 'admin_url' ), 10, 3 );
 		add_filter( 'cn_permalink', array( $this, 'permalink' ), 10, 2 );
 
 		add_filter( 'cn_template_customizer_template', array( $this, 'getTemplate' ) );
@@ -81,9 +81,9 @@ class cnTemplate_Customizer {
 		// add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
 
 		// add_action( 'template_include', array( $this, 'customizerPage' ) );
-		add_action( 'customize_register', array( $this, 'registerControls') );
-		add_action( 'customize_register', array( $this, 'registerSections') );
-		add_action( 'customize_register', array( $this, 'registerTemplateControls') );
+		add_action( 'customize_register', array( $this, 'registerControls' ) );
+		add_action( 'customize_register', array( $this, 'registerSections' ) );
+		add_action( 'customize_register', array( $this, 'registerTemplateControls' ) );
 		add_filter( 'customize_section_active', array( $this, 'removeSections' ), 10, 2 );
 		add_filter( 'customize_control_active', array( $this, 'setActiveControls' ), 10, 2 );
 

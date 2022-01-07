@@ -59,7 +59,7 @@ class cnRewrite {
 		}
 
 		add_action( 'wp_loaded', array( __CLASS__, 'registerRewriteTags' ) );
-		add_action( 'init', array( __CLASS__, 'addEndPoints') );
+		add_action( 'init', array( __CLASS__, 'addEndPoints' ) );
 		add_filter( 'request', array( __CLASS__, 'setImageEndpointQueryVar' ) );
 	}
 

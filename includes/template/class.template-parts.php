@@ -45,14 +45,14 @@ class cnTemplatePart {
 		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
 		add_action( 'Connections_Directory/Render/Template/Single_Entry/Before', array( __CLASS__, 'entryActions' ), 10, 2 );
 
-		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll') );
+		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll' ) );
 
-		add_action( 'cn_entry_action-back', array( __CLASS__, 'entryAction_Back'), 10, 2 );
-		add_action( 'cn_entry_action-vcard', array( __CLASS__, 'entryAction_vCard'), 10, 2 );
+		add_action( 'cn_entry_action-back', array( __CLASS__, 'entryAction_Back' ), 10, 2 );
+		add_action( 'cn_entry_action-vcard', array( __CLASS__, 'entryAction_vCard' ), 10, 2 );
 
 		add_action( 'cn_list_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
 
-		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
+		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription' ), 10, 2 );
 		add_action( 'cn_action_list_before', array( __CLASS__, 'searchingMessage' ), 11, 3 );
 
 		add_action( 'cn_list_character_index', array( __CLASS__, 'index' ) );

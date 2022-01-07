@@ -629,7 +629,7 @@ class cnUpload {
 
 		if ( 'unfiltered_upload' == $cap ) {
 
-			$caps = array('');
+			$caps = array( '' );
 		}
 
 		return $caps;

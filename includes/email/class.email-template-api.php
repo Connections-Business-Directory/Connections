@@ -250,7 +250,7 @@ class cnEmail_Template {
 	 */
 	public static function stripTags( $content ) {
 
-		$tags = array('</p>', '<br />', '<br/>', '<br>', '<hr />', '<hr>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</tr>');
+		$tags = array( '</p>', '<br />', '<br/>', '<br>', '<hr />', '<hr>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</tr>' );
 
 		$content = wpautop( $content, true );
 

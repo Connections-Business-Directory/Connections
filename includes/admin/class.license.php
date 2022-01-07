@@ -173,8 +173,8 @@ class cnLicense {
 		add_action( "cn_settings_field-license_{$this->slug}", array( $this, 'field' ), 10, 3 );
 
 		$file = plugin_basename( $this->file );
-		add_action( "in_plugin_update_message-{$file}", array( __CLASS__, 'changelog'), 10, 2 );
-		add_action( "after_plugin_row_$file", array( $this, 'licenseStatus'), 10, 3 );
+		add_action( "in_plugin_update_message-{$file}", array( __CLASS__, 'changelog' ), 10, 2 );
+		add_action( "after_plugin_row_$file", array( $this, 'licenseStatus' ), 10, 3 );
 
 		add_action( 'admin_head-plugins.php', array( __CLASS__, 'style' ) );
 

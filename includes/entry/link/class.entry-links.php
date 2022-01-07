@@ -390,7 +390,7 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 	 */
 	public function filterBy( $field, $value ) {
 
-		if ( in_array( $field, array( 'type') ) ) {
+		if ( in_array( $field, array( 'type' ) ) ) {
 
 			if ( ! empty( $value ) ) {
 

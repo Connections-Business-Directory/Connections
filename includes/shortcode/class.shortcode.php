@@ -33,7 +33,7 @@ class cnShortcode {
 	public static function hooks() {
 
 		// Register the core shortcode with the WordPres Shortcode API.
-		add_action( 'init', array( __CLASS__, 'register') );
+		add_action( 'init', array( __CLASS__, 'register' ) );
 
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 		// remove_filter( 'the_content', 'wpautop' );

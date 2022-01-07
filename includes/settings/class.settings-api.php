@@ -55,7 +55,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Array of all WP core settings sections.
 		 * @var array
 		 */
-		private static $coreSections = array('default', 'remote_publishing', 'post_via_email', 'avatars', 'embeds', 'uploads', 'optional');
+		private static $coreSections = array( 'default', 'remote_publishing', 'post_via_email', 'avatars', 'embeds', 'uploads', 'optional' );
 
 		/**
 		 * The array of all registerd quicktag textareas.
@@ -1461,7 +1461,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					$out = $out . PHP_EOL;
 
 					// Add the template/token item to be used for cloning when adding a new item by the user.
-					$field['options']['items'] = array( '%token%' => '%template%') + $field['options']['items'];
+					$field['options']['items'] = array( '%token%' => '%template%' ) + $field['options']['items'];
 
 					// Create the array to be used to render the output in the correct order.
 					// This will have to take into account content blocks being added and removed.

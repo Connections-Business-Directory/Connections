@@ -249,6 +249,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.9 01/07/2022 =
+* NEW: Add support for the `%title%`, `%organization%`, and `%department%` tokens when setting the name format when calling the `getNameBlock()` method.
+* TWEAK: Hook into the `upgrader_process_complete` action to clear addon plugin update checks.
+* BUG: Team block should not parse request queries.
+* SECURITY: Utilize `esc_attr()` instead of `esc_html()` when HTML escaping attribute values.
+* DEV: Use Yoda Condition checks, you must.
+* DEV: Equals sign not aligned with surrounding assignments.
+* DEV: Space found before comma in argument list.
+* DEV: The CASE body must start on the line following the statement.
+* DEV: Remove unnecessary break statement in switch branch.
+* DEV: Remove unnecessary blank lines.
+* DEV: Add additional security sniffs to the phpcs report.
+* DEV: Minor `webpack.config.js` cleanup.
+
 = 10.4.8 12/22/2021 =
 * NEW: Introduce the Request Input API.
 * NEW: Introduce `_::var_dump_to_error_log()`.
@@ -818,27 +832,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update min/max PHP and WP requirements.
 * DEV: Correct PHP8 optional parameter before required parameter notice.
 
-= 10.1 12/15/2020 =
-* FEATURE: Support for Yoast SEO sitemaps.
-* FEATURE: Support for Rank Math sitemaps.
-* TWEAK: Change the date format used in the sitemaps from DATE_ATOM to DATE_W3C.
-* TWEAK: Change `Provider::getQueryArgs()` from protected to public so it can be used in integrations.
-* TWEAK: Add several public methods to `Provider` so the protect/private properties can be accessed for integrations.
-* TWEAK: The persistent logs should not be public queryable.
-* TWEAK: Only supported custom types should be used when defining a Directory Homepage ID.
-* TWEAK: Use the `set_screen_option_connections` instead of the `set-screen-option` filter hook needed for the Screen Options tab settings to be saved appropriately.
-* TWEAK: If only a single instance of Connections is on a page, no need to add the instance ID to he sitemap index links.
-* DEV: phpDoc updates.
-* DEV: Inline code comment.
-* DEV: Remove no inspection tag.
-
-= 10.0 12/08/2020 =
-* FEATURE: Support for WordPress sitemaps.
-* TWEAK: Ensure the persistent log posts do not display in the WP sitemaps if the site is in debug mode.
-* TWEAK: Use `rawurlencode()` when encoding the permalink for department, organization, district, county,  locality, region, and country.
-* BUG: Correct find shortcode logic.
-* OTHER: Update readme.txt to make mention of the support of the native sitemaps support introduced in WordPress 5.5.
-
 == Upgrade Notice ==
 
 = 10.0 =
@@ -881,4 +874,7 @@ It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.8 =
+It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 10.4.9 =
 It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

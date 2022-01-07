@@ -718,23 +718,7 @@ class cnEntry_HTML extends cnEntry {
 			apply_filters( 'cn_output_name_default_atts', $defaults )
 		);
 
-		$search = array(
-			'%prefix%',
-			'%first%',
-			'%middle%',
-			'%last%',
-			'%suffix%',
-			'%first_initial%',
-			'%middle_initial%',
-			'%last_initial%',
-		);
-
-		$replace         = array();
-		$honorificPrefix = $this->getHonorificPrefix();
-		$first           = $this->getFirstName();
-		$middle          = $this->getMiddleName();
-		$last            = $this->getLastName();
-		$honorificSuffix = $this->getHonorificSuffix();
+		$atts['format'] = empty( $atts['format'] ) ? $defaults['format'] : $atts['format'];
 
 		switch ( $this->getEntryType() ) {
 
@@ -748,6 +732,29 @@ class cnEntry_HTML extends cnEntry {
 				break;
 
 			default:
+				$honorificPrefix = $this->getHonorificPrefix();
+				$first           = $this->getFirstName();
+				$middle          = $this->getMiddleName();
+				$last            = $this->getLastName();
+				$honorificSuffix = $this->getHonorificSuffix();
+				$title           = $this->getTitle();
+				$organization    = $this->getOrganization();
+				$department      = $this->getDepartment();
+
+				$replace = array();
+				$search  = array(
+					'%prefix%',
+					'%first%',
+					'%middle%',
+					'%last%',
+					'%suffix%',
+					'%first_initial%',
+					'%middle_initial%',
+					'%last_initial%',
+					'%title%',
+					'%organization%',
+					'%department%',
+				);
 
 				$replace[] = 0 == strlen( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
@@ -765,16 +772,36 @@ class cnEntry_HTML extends cnEntry {
 
 				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
 
+				$replace[] = 0 < strlen( $title ) ? '<span class="title notranslate">' . $title . '</span>' : '';
+
+				$replace[] = 0 < strlen( $organization ) ? '<span class="organization-name notranslate">' . $organization . '</span>' : '';
+
+				$replace[] = 0 < strlen( $department ) ? '<span class="organization-unit notranslate">' . $department . '</span>' : '';
+
 				$html = str_ireplace(
 					$search,
 					$replace,
-					'<span class="fn n notranslate">' . ( empty( $atts['format'] ) ? $defaults['format'] : $atts['format'] ) . '</span>'
+					'<span class="fn n notranslate">' . $atts['format'] . '</span>'
 				);
 		}
 
 		$html = cnString::replaceWhatWith( $html, ' ' );
 
 		if ( $atts['link'] ) {
+
+			// Remove unsupported name tokens from the name format.
+			$atts['format'] = str_ireplace(
+				array(
+					'%first_initial%',
+					'%middle_initial%',
+					'%last_initial%',
+					'%title%',
+					'%organization%',
+					'%department%',
+				),
+				'',
+				$atts['format']
+			);
 
 			$html = cnURL::permalink(
 				array(

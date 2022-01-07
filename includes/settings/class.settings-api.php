@@ -102,11 +102,11 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * NOTE: The filters for the tabs, sections and fields should be added before running init()
 		 *
 		 * NOTE: The recommended action to hook into is plugins_loaded. This will ensure the actions
-		 * 	within this class are run at the appropriate times.
+		 *       within this class are run at the appropriate times.
 		 *
 		 * NOTE: The high priority is used to make sure the actions registered in this API are run
-		 * 	first. This is to help ensure registered settings are available to other actions registered
-		 * 	to the admin_init and init hooks.
+		 *       first. This is to help ensure registered settings are available to other actions registered
+		 *       to the admin_init and init hooks.
 		 *
 		 * @author Steven A. Zahm
 		 * @since 0.7.3.0
@@ -130,16 +130,16 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Returns the registered tabs based on the supplied admin page hook.
 		 *
 		 * Filters:
-		 * 	cn_register_admin_tabs	=>	Allow new tabs to be registered.
-		 * 	cn_filter_admin_tabs	=>	Allow tabs to be filtered.
+		 *     cn_register_admin_tabs => Allow new tabs to be registered.
+		 *     cn_filter_admin_tabs   => Allow tabs to be filtered.
 		 *
 		 * The array construct for registering a tab:
-		 * 	array(
-		 * 		'id' => 'string',			// ID used to identify this tab and with which to register the settings sections
-		 * 		'position' => int,			// Set the position of the section. The lower the int the further left the tab will be place in the bank.
-		 * 		'title' => 'string',		// Title of the tab to be displayed on the admin page
-		 * 		'page_hook' => 'string'		// Admin page on which to add this section of options
-		 * 	}
+		 *     array(
+		 *         'id'        => 'string', // ID used to identify this tab and with which to register the settings sections
+		 *         'position'  => int,      // Set the position of the section. The lower the int the further left the tab will be place in the bank.
+		 *         'title'     => 'string', // Title of the tab to be displayed on the admin page
+		 *         'page_hook' => 'string'  // Admin page on which to add this section of options
+		 *     }
 		 *
 		 * @access private
 		 * @since  0.7.3.0
@@ -168,27 +168,27 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Registers the settings sections with the WordPress Settings API.
 		 *
 		 * Filters:
-		 * 	cn_register_admin_setting_section	=>	Register the settings sections.
-		 * 	cn_filter_admin_setting_section	=>	Filter the settings sections.
+		 *     cn_register_admin_setting_section => Register the settings sections.
+		 *     cn_filter_admin_setting_section   => Filter the settings sections.
 		 *
 		 * The array construct for registering a settings section:
-		 * 	array(
-		 * 		'tab' => 'string',			// The tab ID in which the settings section is to be hooked to. [optional]
-		 * 		'id' => 'string',			// ID used to identify this section and with which to register setting fields [required]
-		 * 		'position' => int,			// Set the position of the section. Lower int will place the section higher on the settings page. [optional]
-		 * 		'title' => 'string',		// Title to be displayed on the admin page [required]
-		 * 		'callback' => 'string',		// Callback used to render the description of the section [required]
-		 * 		'page_hook' => 'string'		// Admin page on which to add this section of options [required]
-		 * 	}
+		 *     array(
+		 *         'tab'       => 'string', // The tab ID in which the settings section is to be hooked to. [optional]
+		 *         'id'        => 'string', // ID used to identify this section and with which to register setting fields [required]
+		 *         'position'  => int,      // Set the position of the section. Lower int will place the section higher on the settings page. [optional]
+		 *         'title'     => 'string', // Title to be displayed on the admin page [required]
+		 *         'callback'  => 'string', // Callback used to render the description of the section [required]
+		 *         'page_hook' => 'string'  // Admin page on which to add this section of options [required]
+		 *     }
 		 *
 		 * NOTE: Use the one of the following to hook a settings section to one of the WP core settings pages.
-		 * 	page_hook: discussion
-		 * 	page_hook: general
-		 * 	page_hook: media
-		 * 	page_hook: permalink
-		 * 	page_hook: privacy
-		 * 	page_hook: reading
-		 * 	page_hook: writing
+		 *     page_hook: discussion
+		 *     page_hook: general
+		 *     page_hook: media
+		 *     page_hook: permalink
+		 *     page_hook: privacy
+		 *     page_hook: reading
+		 *     page_hook: writing
 		 *
 		 * @access private
 		 * @since  0.7.3.0
@@ -248,31 +248,31 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Registers the settings fields to the registered settings sections with the WordPress Settings API.
 		 *
 		 * Filters:
-		 * 	cn_register_settings_fields	=>	Register the settings section fields.
-		 * 	cn_filter_settings_fields	=>	Filter the settings section fields.
+		 *     cn_register_settings_fields => Register the settings section fields.
+		 *     cn_filter_settings_fields   => Filter the settings section fields.
 		 *
 		 * The array construct for registering a settings section:
-		 * 	array(
-		 * 		'plugin_id',					// A unique ID for the plugin registering its settings. Recommend using the plugin slug.
-		 * 		'id' => 'string',				// ID used to identify this field. [required]
-		 * 										//	*must be unique. Recommend prefix with plugin slug if not registered to a settings section.
-		 * 		'position' => int,				// Set the position of the field. Lower int will place the field higher on the section. [optional]
-		 * 		'page_hook' => 'string',		// Admin page on which to add this section of options [required]
-		 * 		'tab' => 'string',				// The tab ID in which the field is to be hooked to. [optional]
-		 * 										//	*required, if the field is to be shown on a specific registered tab.
-		 * 		'section' => 'string',			// The section in which the field is to be hooked to. [optional]
-		 * 										//	*required, if field is to be shown in a specific registered section. Recommend prefix with plugin slug.
-		 * 		'title' => 'string',			// The field title. [required]
-		 * 		'type' => 'string',				// The field type. [required] Valid values : text, textarea, checkbox, multicheckbox, radio, select, rte
-		 * 		'size' => 'string,				// The field size. [optional] Valid values : small | regular | large *only used for the text field type.
-		 * 		'show_option_none' => 'string'	// The string to show when no value has been chosen. [required *only for the page field type] *only used for the page field type.
-		 * 		'option_none_value' => 'string'	// The value to use when no value has been chosen. [required *only for the page field type] *only used for the page field type.
-		 * 		'desc' => 'string',				// The field description text. [optional]
-		 * 		'help' => 'string',				// The field help text. [optional]
-		 * 		'options' => array||string,		// The fields options. [optional]
-		 * 		'default' => array||string,		// The fields default values. [optional]
-		 * 		'sanitize_callback' => 'string'	// A callback function that sanitizes the settings's value. [optional]
-		 * 	}
+		 *     array(
+		 *         'plugin_id',                    // A unique ID for the plugin registering its settings. Recommend using the plugin slug.
+		 *         'id' => 'string',               // ID used to identify this field. [required]
+		 *                                         // *must be unique. Recommend prefix with plugin slug if not registered to a settings section.
+		 *         'position' => int,              // Set the position of the field. Lower int will place the field higher on the section. [optional]
+		 *         'page_hook' => 'string',        // Admin page on which to add this section of options [required]
+		 *         'tab' => 'string',              // The tab ID in which the field is to be hooked to. [optional]
+		 *                                         // *required, if the field is to be shown on a specific registered tab.
+		 *         'section' => 'string',          // The section in which the field is to be hooked to. [optional]
+		 *                                         // *required, if field is to be shown in a specific registered section. Recommend prefix with plugin slug.
+		 *         'title' => 'string',            // The field title. [required]
+		 *         'type' => 'string',             // The field type. [required] Valid values : text, textarea, checkbox, multicheckbox, radio, select, rte
+		 *         'size' => 'string,              // The field size. [optional] Valid values : small | regular | large *only used for the text field type.
+		 *         'show_option_none' => 'string'  // The string to show when no value has been chosen. [required *only for the page field type] *only used for the page field type.
+		 *         'option_none_value' => 'string' // The value to use when no value has been chosen. [required *only for the page field type] *only used for the page field type.
+		 *         'desc' => 'string',             // The field description text. [optional]
+		 *         'help' => 'string',             // The field help text. [optional]
+		 *         'options' => array||string,     // The fields options. [optional]
+		 *         'default' => array||string,     // The fields default values. [optional]
+		 *         'sanitize_callback' => 'string' // A callback function that sanitizes the settings's value. [optional]
+		 *     }
 		 *
 		 * SUPPORTED FIELD TYPES:
 		 *  checkbox
@@ -289,45 +289,45 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 *  category [shows a drop down of Connections categories]
 		 *
 		 * RECOMMENDED: The following sanitize_callback to use based on field type.
-		 * 	Reference: http://codex.wordpress.org/Data_Validation
+		 *     Reference: http://codex.wordpress.org/Data_Validation
 		 *
-		 * 	rte = wp_kses_post
-		 * 	quicktag = wp_kses_data
-		 * 	textarea = esc_textarea [for plain text]
-		 * 	textarea = esc_html [for text containing HTML]
-		 * 	text = sanitize_text_field [for plain text]
-		 * 	text = esc_url_raw [for URLs, not safe for display, use esc_url when displaying.]
-		 * 	checkbox = intval [checkbox values should be saved as either 1 or 0]
-		 *
-		 * NOTE:
-		 * 	Fields registered to a section will be saved as a serialized associative array where the section ID is the option_name
-		 * 	in the DB and with each field ID being the array keys.
-		 *
-		 * 	Fields not registered to a section will be stored as a single row in the DB where the field ID is the option_name.
+		 *     rte = wp_kses_post
+		 *     quicktag = wp_kses_data
+		 *     textarea = esc_textarea [for plain text]
+		 *     textarea = esc_html [for text containing HTML]
+		 *     text = sanitize_text_field [for plain text]
+		 *     text = esc_url_raw [for URLs, not safe for display, use esc_url when displaying.]
+		 *     checkbox = intval [checkbox values should be saved as either 1 or 0]
 		 *
 		 * NOTE:
-		 * 	Because the filter 'cn_register_settings_fields' runs on the 'init' hook you can not use the value stored in a variable
-		 * 	returned from add_menu_page() or add_submenu_page() because it will not be available. Manually set the page_hook
-		 * 	to the string returned from those functions.
+		 *     Fields registered to a section will be saved as a serialized associative array where the section ID is the option_name
+		 *     in the DB and with each field ID being the array keys.
+		 *
+		 *     Fields not registered to a section will be stored as a single row in the DB where the field ID is the option_name.
+		 *
+		 * NOTE:
+		 *     Because the filter 'cn_register_settings_fields' runs on the 'init' hook you can not use the value stored in a variable
+		 *     returned from add_menu_page() or add_submenu_page() because it will not be available. Manually set the page_hook
+		 *     to the string returned from those functions.
 		 *
 		 * NOTE: Use the one of the following to hook a settings field to one of the core settings pages.
-		 * 	page_hook: discussion => section: default [optional]
-		 * 	page_hook: discussion => section: avatars
-		 * 	page_hook: general => section: default [optional]
-		 * 	page_hook: media => section: default [optional]
-		 * 	page_hook: media => section: embeds
-		 * 	page_hook: media => section: uploads
-		 * 	page_hook: permalink => section: default [optional]
-		 * 	page_hook: permalink => section: optional
-		 * 	page_hook: privacy => section: default [optional]
-		 * 	page_hook: reading => section: default [optional]
-		 * 	page_hook: writing => section: default [optional]
-		 * 	page_hook: writing => section: post_via_email
-		 * 	page_hook: writing => section: remote_publishing
+		 *     page_hook: discussion => section: default [optional]
+		 *     page_hook: discussion => section: avatars
+		 *     page_hook: general => section: default [optional]
+		 *     page_hook: media => section: default [optional]
+		 *     page_hook: media => section: embeds
+		 *     page_hook: media => section: uploads
+		 *     page_hook: permalink => section: default [optional]
+		 *     page_hook: permalink => section: optional
+		 *     page_hook: privacy => section: default [optional]
+		 *     page_hook: reading => section: default [optional]
+		 *     page_hook: writing => section: default [optional]
+		 *     page_hook: writing => section: post_via_email
+		 *     page_hook: writing => section: remote_publishing
 		 *
 		 * NOTE: Even though settings fields can be registered to a WP core settings page or a custom settings page
-		 * 	without being registered to a section it would be best practice to avoid doing this. It is recommended
-		 *	that sections be registered and then settings fields be hooked to those sections.
+		 *       without being registered to a section it would be best practice to avoid doing this. It is recommended
+		 *       that sections be registered and then settings fields be hooked to those sections.
 		 *
 		 * @access private
 		 * @since  0.7.3.0
@@ -746,8 +746,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * The callback used to render the settings field types.
 		 *
 		 * Credit to Tareq. Some of the code to render the form fields were pickup from his Settings API
-		 * 	http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/
-		 * 	https://github.com/tareq1988/wordpress-settings-api-class
+		 *     http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/
+		 *     https://github.com/tareq1988/wordpress-settings-api-class
 		 *
 		 * @author Steven A. Zahm
 		 * @since  0.7.3.0

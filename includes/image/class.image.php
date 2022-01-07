@@ -410,61 +410,61 @@ class cnImage {
 	 * @todo  Should an option be added to control the order filters should be applied be added? Filter order can affect result...
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	width (int|string) Width in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 	height (int|string) Height in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     width (int|string) Width in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     height (int|string) Height in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
 	 *
-	 * 	negate (bool) Whether or not to apply the negate filter. Default: FALSE
-	 * 	grayscale (bool) Whether or not to apply the grayscale filter. Default: FALSE
-	 * 	brightness (int) Adjust the image brightness. Valid range is -255–255 (-255 = min brightness, 0 = no change, +255 = max brightness). Default: 0
-	 * 	colorize (string) Colorize the image. Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied. Default: NULL
-	 * 		@see  cnColor::$colors for a list of valid named colors.
-	 * 	contrast (int) Ajust the image contrast. Valid range is -100–100 (-100 = max contrast, 0 = no change, +100 = min contrast [note the direction]) Default: 0
-	 * 	detect_edges (bool) Whether of not to apply the detect edges filter. Default: FALSE
-	 * 	emboss (bool) Whether or not to apply the emboss filter. Default: FALSE
-	 * 	gassian_blur (bool) Whether of not to apply a gaussian blur. Default: FALSE
-	 * 	blur (bool) Whether or not to apply the blur filter. Default: FALSE
-	 * 	sketchy (bool) Whether or not to apply the the skethy filter. Default: FALSE
-	 * 	sharpen (bool) Whether or not to apply the sharpen filter. Default: FALSE
-	 * 	smooth (int) Apply the smooth filter. Valid range is -100–100 (-100 = max smooth, 100 = min smooth). Default: NULL
-	 * 	opacity (int) Set the image opacity. Valid range is 0–100 (0 = fully transparent, 100 = fully opaque). Default: 100
+	 *     negate (bool) Whether or not to apply the negate filter. Default: FALSE
+	 *     grayscale (bool) Whether or not to apply the grayscale filter. Default: FALSE
+	 *     brightness (int) Adjust the image brightness. Valid range is -255–255 (-255 = min brightness, 0 = no change, +255 = max brightness). Default: 0
+	 *     colorize (string) Colorize the image. Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied. Default: NULL
+	 *         @see  cnColor::$colors for a list of valid named colors.
+	 *     contrast (int) Ajust the image contrast. Valid range is -100–100 (-100 = max contrast, 0 = no change, +100 = min contrast [note the direction]) Default: 0
+	 *     detect_edges (bool) Whether of not to apply the detect edges filter. Default: FALSE
+	 *     emboss (bool) Whether or not to apply the emboss filter. Default: FALSE
+	 *     gassian_blur (bool) Whether of not to apply a gaussian blur. Default: FALSE
+	 *     blur (bool) Whether or not to apply the blur filter. Default: FALSE
+	 *     sketchy (bool) Whether or not to apply the the skethy filter. Default: FALSE
+	 *     sharpen (bool) Whether or not to apply the sharpen filter. Default: FALSE
+	 *     smooth (int) Apply the smooth filter. Valid range is -100–100 (-100 = max smooth, 100 = min smooth). Default: NULL
+	 *     opacity (int) Set the image opacity. Valid range is 0–100 (0 = fully transparent, 100 = fully opaque). Default: 100
 	 *
-	 * 	crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
-	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
-	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
-	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
-	 * 			Use the canvas_color option to set the color to be used when adding margins.
-	 * 		3 == Resize proportionally adjusting size of scaled image so there are no margins added.
-	 * 	crop_focus (array|string) The crop focus/positional cropping is used to determine the center origin of a crop when crop_mode is set 1.
-	 * 		Valid range is (float) 0.0–1.0
-	 * 		Default: array( .5, .5)
-	 * 		Text options are also supported:
-	 * 			'left,top' | array( 'left', 'top' ) == array( 0, 0 )
-	 * 			'center,top' | array( 'center', 'top' ) == array( .5, 0 )
-	 * 			'right,top' | array( 'right', 'top' ) == array( 1, 0 )
-	 * 			'left,center' | array( 'left', 'center' )  == array( 0, .5 )
-	 * 			'center,center' | array( 'center', 'center' ) == array( .5, .5) [the default crop focus].
-	 * 			'right,center' | array( 'right', 'center' ) == array( 1, .5 )
-	 * 			'left,bottom' | array( 'left', 'bottom' ) == array( 0, 1 )
-	 * 			'center,bottom' | array( 'center', 'bottom' ) == array( .5, 1 )
-	 * 			'right,bottom' | array( 'right', 'bottom' ) == array( 1, 1 )
+	 *     crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
+	 *         0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
+	 *         1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
+	 *         2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
+	 *             Use the canvas_color option to set the color to be used when adding margins.
+	 *         3 == Resize proportionally adjusting size of scaled image so there are no margins added.
+	 *     crop_focus (array|string) The crop focus/positional cropping is used to determine the center origin of a crop when crop_mode is set 1.
+	 *         Valid range is (float) 0.0–1.0
+	 *         Default: array( .5, .5)
+	 *         Text options are also supported:
+	 *             'left,top' | array( 'left', 'top' ) == array( 0, 0 )
+	 *             'center,top' | array( 'center', 'top' ) == array( .5, 0 )
+	 *             'right,top' | array( 'right', 'top' ) == array( 1, 0 )
+	 *             'left,center' | array( 'left', 'center' )  == array( 0, .5 )
+	 *             'center,center' | array( 'center', 'center' ) == array( .5, .5) [the default crop focus].
+	 *             'right,center' | array( 'right', 'center' ) == array( 1, .5 )
+	 *             'left,bottom' | array( 'left', 'bottom' ) == array( 0, 1 )
+	 *             'center,bottom' | array( 'center', 'bottom' ) == array( .5, 1 )
+	 *             'right,bottom' | array( 'right', 'bottom' ) == array( 1, 1 )
 	 *
-	 * 	crop_only (bool) Whether or not to just crop the image.
-	 * 		If set to TRUE, crop_x, crop_y, crop_width, crop_height must be supplied.
-	 * 		This overrides crop_mode.
-	 * 		Default: FALSE
-	 * 	crop_x (int|string) The x-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 	crop_y (int|string) The y-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 	crop_width (int|string) The resize width of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 		The width option can be set to determine the final scaled width.
-	 * 	crop_height (int|string) The resize height of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 		The height option can be set to determine the final scaled height.
+	 *     crop_only (bool) Whether or not to just crop the image.
+	 *         If set to TRUE, crop_x, crop_y, crop_width, crop_height must be supplied.
+	 *         This overrides crop_mode.
+	 *         Default: FALSE
+	 *     crop_x (int|string) The x-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     crop_y (int|string) The y-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     crop_width (int|string) The resize width of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *         The width option can be set to determine the final scaled width.
+	 *     crop_height (int|string) The resize height of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *         The height option can be set to determine the final scaled height.
 	 *
-	 * 	canvas_color (string) Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied or set to 'transparent'.
-	 * 		The canvas_color is only used when using crop_mode=2. This will be the color of the margins.
-	 * 		Default: #FFFFFF
-	 * 		@see  cnColor::$colors for a list of valid named colors.
+	 *     canvas_color (string) Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied or set to 'transparent'.
+	 *         The canvas_color is only used when using crop_mode=2. This will be the color of the margins.
+	 *         Default: #FFFFFF
+	 *         @see  cnColor::$colors for a list of valid named colors.
 	 *
-	 * 	quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
+	 *     quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
 	 *
 	 * @param  string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
 	 * @param  array  $atts   An associative array containing the options used to process the image.

@@ -2478,13 +2478,13 @@ class cnEntry_HTML extends cnEntry {
 	 * The actions should hook into `cn_output_meta_field-{key}` to be rendered.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	id (string) The custom block ID to render.
-	 * 	order (mixed) array | string  An indexed array of custom content block IDs that should be rendered in the order in the array.
-	 * 		If a string is provided, it should be a comma delimited string containing the content block IDs. It will be converted to an array.
-	 * 	exclude (array) An indexed array of custom content block IDs that should be excluded from being rendered.
-	 * 	include (array) An indexed array of custom content block IDs that should be rendered.
-	 * 		NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the
-	 * 		same custom content block ID exists in both, the custom content block will be excluded.
+	 *     id (string) The custom block ID to render.
+	 *     order (mixed) array | string  An indexed array of custom content block IDs that should be rendered in the order in the array.
+	 *         If a string is provided, it should be a comma delimited string containing the content block IDs. It will be converted to an array.
+	 *     exclude (array) An indexed array of custom content block IDs that should be excluded from being rendered.
+	 *     include (array) An indexed array of custom content block IDs that should be rendered.
+	 *         NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the
+	 *         same custom content block ID exists in both, the custom content block will be excluded.
 	 *
 	 * @since 0.8
 	 *

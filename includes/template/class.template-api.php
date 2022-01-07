@@ -142,10 +142,10 @@ class cnTemplateFactory {
 	 *  thumbnail (string) [optional] The template's thumbnail file name.
 	 *  functions (string) [required] The name of the templates functions file. NOTE: required only when registering legacy templates.
 	 *  parts (array) [optional] The name of the template's CSS|JS|PHP file for rendering the entry info. NOTE: required only when registering legacy templates.
-	 *  	Accepted values for parts:
-	 *  		css (string) [optional] The file name of the CSS file.
-	 *  		js (string) [optional] The file name of the JS file.
-	 *  		card (string) [required] The file name of the PHP file used to render the entry content.
+	 *      Accepted values for parts:
+	 *          css (string) [optional] The file name of the CSS file.
+	 *          js (string) [optional] The file name of the JS file.
+	 *          card (string) [required] The file name of the PHP file used to render the entry content.
 	 *
 	 * @since 0.7.6
 	 *

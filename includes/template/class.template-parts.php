@@ -1773,7 +1773,7 @@ class cnTemplatePart {
 	 * Create the search input.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access public
 	 * @version 1.0
@@ -1822,9 +1822,9 @@ class cnTemplatePart {
 	 * Outputs a submit button.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	name (string) The input name attribute.
-	 * 	value (string) The input value attribute.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     name (string) The input name attribute.
+	 *     value (string) The input value attribute.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access public
 	 * @version 1.0
@@ -2458,16 +2458,16 @@ class cnTemplatePart {
 	 * The private function called by cnTemplate::category that outputs the select, multiselect; grouped and ungrouped.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
-	 * 	group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
-	 * 	default (string) The default string to show as the first item in the list. Used for select && multiselect only.
-	 * 	show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
-	 * 	select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
-	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     type (string) The output type of the categories. Valid options options are: select || multiselect
+	 *     group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
+	 *     default (string) The default string to show as the first item in the list. Used for select && multiselect only.
+	 *     show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
+	 *     select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
+	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
+	 *     parent_id (array) An array of root parent category IDs to limit the list to.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access  private
 	 * @version 1.0
@@ -2638,14 +2638,14 @@ class cnTemplatePart {
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
-	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
-	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
-	 * 	columns (int) The number of columns in the table.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     type (string) The output type of the categories. Valid options options are: select || multiselect
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
+	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
+	 *     parent_id (array) An array of root parent category IDs to limit the list to.
+	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
+	 *     columns (int) The number of columns in the table.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2781,9 +2781,9 @@ class cnTemplatePart {
 	 * The private recursive function to build the list item.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string)
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
+	 *     type (string)
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
 	 *
 	 * @param object $category A category object.
 	 * @param int $level The current category level.
@@ -2850,13 +2850,13 @@ class cnTemplatePart {
 	 *  - An unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
-	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
-	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
-	 * 	columns (int) The number of columns in the table.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
+	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
+	 *     parent_id (array) An array of root parent category IDs to limit the list to.
+	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
+	 *     columns (int) The number of columns in the table.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2987,9 +2987,9 @@ class cnTemplatePart {
 	 * The private recursive function to build the category link item.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string)
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
+	 *     type (string)
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
 	 *
 	 * @param object $category A category object.
 	 * @param int $level The current category level.

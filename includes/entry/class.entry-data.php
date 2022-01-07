@@ -2974,30 +2974,30 @@ class cnEntry {
 	 * Return an array of image meta data.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) Valid options: logo | photo | custom. Default: photo
-	 * 	size (string) Valid options depend on `type`.
-	 * 		If `type` is `logo`: original | scaled. Default: original
-	 * 		If `type` is `photo`: original | thumbnail | medium | large. Default: original
-	 * 		If `type` is `custom`: Not used, use the `width` and `height` to set the custom size.
-	 * 	width (int) The width of the `custom` size.
-	 * 	height (int) The height of the `custom` size.
-	 * 	crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
-	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
-	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
-	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
-	 * 			Use the canvas_color option to set the color to be used when adding margins.
-	 * 		3 == Resize proportionally adjusting size of scaled image so there are no margins added.
-	 * 	quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 80
+	 *     type (string) Valid options: logo | photo | custom. Default: photo
+	 *     size (string) Valid options depend on `type`.
+	 *         If `type` is `logo`: original | scaled. Default: original
+	 *         If `type` is `photo`: original | thumbnail | medium | large. Default: original
+	 *         If `type` is `custom`: Not used, use the `width` and `height` to set the custom size.
+	 *     width (int) The width of the `custom` size.
+	 *     height (int) The height of the `custom` size.
+	 *     crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
+	 *         0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
+	 *         1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
+	 *         2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
+	 *             Use the canvas_color option to set the color to be used when adding margins.
+	 *         3 == Resize proportionally adjusting size of scaled image so there are no margins added.
+	 *     quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 80
 	 *
 	 * The return array will contain the following keys and their value:
-	 * 	name   => (string) The image name.
-	 * 	path   => (string) The absolute image path.
-	 * 	url    => (string) The image URL.
-	 * 	width  => (int) The image width.
-	 * 	height => (int) The image height.
-	 * 	size   => (string) The image size in a string, `height="yyy" width="xxx"`, that can be used directly in an img tag.
-	 * 	mime   => (string) The image mime type.
-	 * 	type   => (int) The IMAGETYPE_XXX constants indicating the type of the image.
+	 *     name   => (string) The image name.
+	 *     path   => (string) The absolute image path.
+	 *     url    => (string) The image URL.
+	 *     width  => (int) The image width.
+	 *     height => (int) The image height.
+	 *     size   => (string) The image size in a string, `height="yyy" width="xxx"`, that can be used directly in an img tag.
+	 *     mime   => (string) The image mime type.
+	 *     type   => (int) The IMAGETYPE_XXX constants indicating the type of the image.
 	 *
 	 * @access public
 	 * @since  8.1

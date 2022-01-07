@@ -89,12 +89,12 @@ class cnEmail_Template {
 	 *  url (string) [required] The base URL to the templates's folder.
 	 *  thumbnail (string) [optional] The template's thumnail file name.
 	 *  parts (array) [optional] The template parts.
-	 *  	Accepted values for parts:
-	 *  		head (string) [optional] The action callback that should be run for the email template head. The output will come right after the </head> tag.
-	 *  		body-before (string) The action callback that should be run before the email content.
-	 *  		body (string) [required] The file name of the PHP file used to render the entry content.
-	 *  		body-after (string) [optional] The action callback that should be run after the email content.
-	 *  		foot (string) [optional] The action callback that should be run for the email template foot. The output will come right before the </body> tag.
+	 *      Accepted values for parts:
+	 *          head (string) [optional] The action callback that should be run for the email template head. The output will come right after the </head> tag.
+	 *          body-before (string) The action callback that should be run before the email content.
+	 *          body (string) [required] The file name of the PHP file used to render the entry content.
+	 *          body-after (string) [optional] The action callback that should be run after the email content.
+	 *          foot (string) [optional] The action callback that should be run for the email template foot. The output will come right before the </body> tag.
 	 *
 	 * @access public
 	 * @since 0.7.8

@@ -32,14 +32,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td><?php cnLog_Email::viewLogItem( 'headers', $meta['headers'], true ); ?></td>
 		</tr>
 
-		<?php if ( $meta['type'] ): ?>
+		<?php if ( $meta['type'] ) : ?>
 			<tr>
 				<th><?php esc_html_e( 'Content Type', 'connections' ); ?></th>
 				<td><?php cnLog_Email::viewLogItem( 'type', $meta['type'], true ); ?></td>
 			</tr>
 		<?php endif; ?>
 
-		<?php if ( $meta['character_set'] ): ?>
+		<?php if ( $meta['character_set'] ) : ?>
 			<tr>
 				<th><?php esc_html_e( 'Character Set', 'connections' ); ?></th>
 				<td><?php cnLog_Email::viewLogItem( 'character_set', $meta['character_set'], true ); ?></td>
@@ -68,7 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</tr>
 		<?php endif; ?>
 
-		<?php if ( $meta['bcc'] ): ?>
+		<?php if ( $meta['bcc'] ) : ?>
 			<tr>
 				<th><?php echo esc_html_x( 'BCC', 'Blind courtesy copy email addresses.', 'connections' ); ?></th>
 				<td><?php cnLog_Email::viewLogItem( 'bcc', $meta['bcc'], true ); ?></td>

@@ -1002,7 +1002,7 @@ class cnMeta {
 
 								// Field found, it's private ... exit the loops.
 								$private = true;
-								continue(2);
+								continue( 2 );
 							}
 						}
 					}

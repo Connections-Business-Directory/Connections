@@ -127,7 +127,7 @@ class cnQuery {
 		$atts['relation'] = in_array( $atts['relation'], array( 'AND', 'OR' ) ) ? strtoupper( $atts['relation'] ) : 'AND';
 
 		if ( ( is_string( $atts['value'] ) && 0 < strlen( $atts['field'] ) )
-		     || ( is_array( $atts['value'] ) && 0 < count( $atts['value'] ) ) ) {
+			 || ( is_array( $atts['value'] ) && 0 < count( $atts['value'] ) ) ) {
 
 			$value = cnFunction::parseStringList( $atts['value'], $atts['delimiter'] );
 			$count = count( $value );

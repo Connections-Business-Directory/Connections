@@ -279,7 +279,7 @@ class cnEntry_Action {
 
 			$files = new DirectoryIterator( $sourcePath );
 
-			foreach( $files as $file ) {
+			foreach ( $files as $file ) {
 
 				if ( $file->isDot() ) { continue; }
 
@@ -353,7 +353,7 @@ class cnEntry_Action {
 		$files         = new DirectoryIterator( $path );
 		$filesFiltered = new RegexIterator( $files, sprintf( '~%s-[a-f0-9]{32}.%s~i', preg_quote( $info['filename'] ), preg_quote( $info['extension'] ) ) );
 
-		foreach( $filesFiltered as $file ) {
+		foreach ( $filesFiltered as $file ) {
 
 			if ( is_callable( $file, 'isDot' ) ) {
 

@@ -96,7 +96,7 @@ class cnConstants {
 		}
 
 		// Set images subdirectory folder name.
-		if ( ! defined( 'CN_IMAGE_DIR_NAME' ) ){
+		if ( ! defined( 'CN_IMAGE_DIR_NAME' ) ) {
 
 			/** @var string CN_IMAGE_DIR_NAME */
 			define( 'CN_IMAGE_DIR_NAME', 'connections-images' );
@@ -205,7 +205,7 @@ class cnConstants {
 			 * --> END <--
 			 */
 
-			if ( ! defined( 'CN_IMAGE_PATH' ) ){
+			if ( ! defined( 'CN_IMAGE_PATH' ) ) {
 
 				/** @var string CN_IMAGE_PATH */
 				define( 'CN_IMAGE_PATH', $dir . DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );

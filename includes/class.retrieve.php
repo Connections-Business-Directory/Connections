@@ -345,20 +345,20 @@ class cnRetrieve {
 			$atts['radius'] = _length::convert( $atts['radius'], $atts['unit'] )->to( 'km' );
 
 			// Limiting bounding box (in degrees).
-			$minLat = $atts['latitude'] - rad2deg( $atts['radius']/$earthRadius );
-			$maxLat = $atts['latitude'] + rad2deg( $atts['radius']/$earthRadius );
-			$minLng = $atts['longitude'] - rad2deg( $atts['radius']/$earthRadius/cos( deg2rad( $atts['latitude'] ) ) );
-			$maxLng = $atts['longitude'] + rad2deg( $atts['radius']/$earthRadius/cos( deg2rad( $atts['latitude'] ) ) );
+			$minLat = $atts['latitude'] - rad2deg( $atts['radius'] / $earthRadius );
+			$maxLat = $atts['latitude'] + rad2deg( $atts['radius'] / $earthRadius );
+			$minLng = $atts['longitude'] - rad2deg( $atts['radius'] / $earthRadius / cos( deg2rad( $atts['latitude'] ) ) );
+			$maxLng = $atts['longitude'] + rad2deg( $atts['radius'] / $earthRadius / cos( deg2rad( $atts['latitude'] ) ) );
 
 			// Convert origin of geographic circle to radians.
 			$atts['latitude']  = deg2rad( $atts['latitude'] );
 			$atts['longitude'] = deg2rad( $atts['longitude'] );
 
 			// Add the SELECT statement that adds the `radius` column.
-			$select[] = $wpdb->prepare( 'acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 AS distance' , $atts['latitude'] , $atts['latitude'] , $atts['longitude'] );
+			$select[] = $wpdb->prepare( 'acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 AS distance', $atts['latitude'], $atts['latitude'], $atts['longitude'] );
 
 			// Create a subquery that will limit the rows that have the cosine law applied to within the bounding box.
-			$geoSubselect = $wpdb->prepare( '(SELECT entry_id FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE latitude>%f AND latitude<%f AND longitude>%f AND longitude<%f) AS geo_bound' , $minLat , $maxLat , $minLng , $maxLng );
+			$geoSubselect = $wpdb->prepare( '(SELECT entry_id FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE latitude>%f AND latitude<%f AND longitude>%f AND longitude<%f) AS geo_bound', $minLat, $maxLat, $minLng, $maxLng );
 			// The subquery needs to be added to the beginning of the array so the inner joins on the other tables are joined to the CN_ENTRY_TABLE
 			array_unshift( $from, $geoSubselect );
 
@@ -368,7 +368,7 @@ class cnRetrieve {
 			}
 
 			// Add the WHERE statement to limit the query to a geographic circle per the defined radius.
-			$where[] = $wpdb->prepare( 'AND acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 < %f' , $atts['latitude'] , $atts['latitude'] , $atts['longitude'] , $atts['radius'] );
+			$where[] = $wpdb->prepare( 'AND acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 < %f', $atts['latitude'], $atts['latitude'], $atts['longitude'], $atts['radius'] );
 
 			// This is required otherwise addresses the user may not have permissions to view will be included in the query
 			// which could be confusing since entries could appear to be outside of the search radius when in fact the entry
@@ -445,7 +445,7 @@ class cnRetrieve {
 		// For each field the sort order can be defined.
 		/** @noinspection PhpWrongForeachArgumentTypeInspection */
 		foreach ( $atts['order_by'] as $orderByField ) {
-			$orderByAtts[] = explode( '|' , $orderByField );
+			$orderByAtts[] = explode( '|', $orderByField );
 		}
 
 		// Build the ORDER BY query segment
@@ -514,7 +514,7 @@ class cnRetrieve {
 					$field[1] = strtoupper( trim( $field[1] ) );
 
 					// If a user included a sort flag that is invalid/mis-spelled it is skipped since it can not be used.
-					if ( array_key_exists( $field[1] , $orderFlags ) ) {
+					if ( array_key_exists( $field[1], $orderFlags ) ) {
 
 						/*
 						 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
@@ -584,7 +584,7 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query LIMIT and OFFSET.
 		 */
-		$limit  = empty( $atts['limit'] )  ? '' : $wpdb->prepare( ' LIMIT %d ', $atts['limit'] );
+		$limit  = empty( $atts['limit'] ) ? '' : $wpdb->prepare( ' LIMIT %d ', $atts['limit'] );
 		$offset = empty( $atts['offset'] ) ? '' : $wpdb->prepare( ' OFFSET %d ', $atts['offset'] );
 		/*
 		 * // END --> Set up the query LIMIT and OFFSET.
@@ -1551,7 +1551,7 @@ class cnRetrieve {
 				}
 
 				if ( current_user_can( 'connections_view_unlisted' ) &&
-				     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
+					 ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
 
 					$visibility[] = 'unlisted';
 				}
@@ -3018,10 +3018,10 @@ class cnRetrieve {
 						 */
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $word ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $word ) );
 					}
 
-					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
+					$where[] = '( ' . implode( ') OR (', $like ) . ')';
 
 				}
 
@@ -3080,10 +3080,10 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $word ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $word ) );
 					}
 
-					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
+					$where[] = '( ' . implode( ') OR (', $like ) . ')';
 
 				}
 
@@ -3149,10 +3149,10 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $word ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $word ) );
 					}
 
-					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
+					$where[] = '( ' . implode( ') OR (', $like ) . ')';
 
 				}
 
@@ -3259,12 +3259,12 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['entry'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
-				$sql =  'SELECT ' . CN_ENTRY_TABLE . '.id
+				$sql = 'SELECT ' . CN_ENTRY_TABLE . '.id
 									FROM ' . CN_ENTRY_TABLE . '
-									WHERE (' . implode( ') OR (' , $like ) . ')';
+									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
@@ -3285,12 +3285,12 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['address'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
-				$sql =  'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
+				$sql = 'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_ADDRESS_TABLE . '
-									WHERE (' . implode( ') OR (' , $like ) . ')';
+									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
@@ -3311,12 +3311,12 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['phone'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
-				$sql =  'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
+				$sql = 'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_PHONE_TABLE . '
-									WHERE (' . implode( ') OR (' , $like ) . ')';
+									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
@@ -3406,7 +3406,7 @@ class cnRetrieve {
 		);
 
 		$stopwords = array();
-		foreach( $words as $word ) {
+		foreach ( $words as $word ) {
 			$word = trim( $word, "\r\n\t " );
 			if ( $word ) {
 				$stopwords[] = $word;
@@ -3583,8 +3583,7 @@ class cnRetrieve {
 							break;
 						}
 
-					}
-					else {
+					} else {
 						${$field[0]}[$key] = null;
 					}
 					break;
@@ -3642,7 +3641,7 @@ class cnRetrieve {
 				/*
 					 * Convert the supplied IDs value to an array if it is not.
 					 */
-				if ( !is_array( $suppliedIDs ) && !empty( $suppliedIDs ) ) {
+				if ( ! is_array( $suppliedIDs ) && ! empty( $suppliedIDs ) ) {
 					// Trim the space characters if present.
 					$suppliedIDs = str_replace( ' ', '', $suppliedIDs );
 					// Convert to array.

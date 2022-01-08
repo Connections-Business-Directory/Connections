@@ -218,7 +218,7 @@ class Google_Static_Map extends Content_Block {
 
 		if ( ! empty( $latitude = $address->getLatitude() ) && ! empty( $longitude = $address->getLongitude() ) ) {
 
-			$adr['latitude'] = $latitude;
+			$adr['latitude']  = $latitude;
 			$adr['longitude'] = $longitude;
 
 		} else {
@@ -239,6 +239,6 @@ class Google_Static_Map extends Content_Block {
 		$query['format']  = 'png';
 		$query['key']     = $key;
 
-		return http_build_query( $query , '' , '&amp;' );
+		return http_build_query( $query, '', '&amp;' );
 	}
 }

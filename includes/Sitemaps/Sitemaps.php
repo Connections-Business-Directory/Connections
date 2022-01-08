@@ -121,7 +121,7 @@ function createProvider( $id, $name ) {
 	}
 
 	if ( ! has_shortcode( $post->post_content, 'connections' ) &&
-	     ! has_block( 'connections-directory/shortcode-connections', $post )
+		 ! has_block( 'connections-directory/shortcode-connections', $post )
 	) {
 		return new WP_Error( 'shortcode_or_block_not_found', 'Post does not seem to have the shortcode or block.', $post );
 	}
@@ -136,9 +136,9 @@ function createProvider( $id, $name ) {
 	$provider = new Provider( $name );
 
 	// Create an array of supported post types.
-	$supportedPostTypes  = array( 'page' );
-	$CPTOptions          = get_option( 'connections_cpt', array() );
-	$supportedCPTTypes   = _array::get( $CPTOptions, 'supported', array() );
+	$supportedPostTypes = array( 'page' );
+	$CPTOptions         = get_option( 'connections_cpt', array() );
+	$supportedCPTTypes  = _array::get( $CPTOptions, 'supported', array() );
 
 	// The `$supportedCPTTypes` should always be an array, but had at least one user where this was not the case.
 	// To prevent PHP error notice, do an array check.
@@ -229,8 +229,8 @@ function registerProvider( $name, $provider ) {
  */
 function registerDirectoryHomepage() {
 
-	$options  = get_option( 'connections_home_page', array() );
-	$id       = (int) _array::get( $options, 'page_id', false );
+	$options = get_option( 'connections_home_page', array() );
+	$id      = (int) _array::get( $options, 'page_id', false );
 
 	if ( false === $id ) {
 		return false;

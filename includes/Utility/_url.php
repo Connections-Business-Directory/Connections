@@ -174,10 +174,10 @@ final class _url {
 		} else {
 
 			$path = str_replace( '\\', '/', $path );
-			$path = preg_replace( '|/+|','/', $path );
+			$path = preg_replace( '|/+|', '/', $path );
 
 			$content_dir = str_replace( '\\', '/', $content_dir );
-			$content_dir = preg_replace( '|/+|','/', $content_dir );
+			$content_dir = preg_replace( '|/+|', '/', $content_dir );
 
 		}
 
@@ -293,7 +293,7 @@ final class _url {
 				// will redirect to the blog/posts home page.
 				if ( is_front_page() ) {
 
-					$permalink = add_query_arg( 'page_id' , $post->ID, $permalink );
+					$permalink = add_query_arg( 'page_id', $post->ID, $permalink );
 				}
 			}
 
@@ -356,7 +356,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . 'view/all/' );
 				} else {
-					$permalink = add_query_arg( 'cn-view', 'all' , $permalink );
+					$permalink = add_query_arg( 'cn-view', 'all', $permalink );
 				}
 
 				break;
@@ -366,7 +366,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . 'submit/' );
 				} else {
-					$permalink = add_query_arg( 'cn-view', 'submit' , $permalink );
+					$permalink = add_query_arg( 'cn-view', 'submit', $permalink );
 				}
 
 				break;
@@ -414,7 +414,7 @@ final class _url {
 					// requested that the entry slug is being used so urlencode() will not be use as not to double encode it.
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] );
 				} else {
-					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ) , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ), $permalink );
 				}
 
 				break;
@@ -424,7 +424,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/detail' );
 				} else {
-					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ) , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'], 'cn-view' => 'detail' ), $permalink );
 				}
 
 				break;
@@ -434,7 +434,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-department', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-department', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;
@@ -444,7 +444,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-organization', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-organization', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;
@@ -464,7 +464,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['district_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-district', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-district', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;
@@ -474,7 +474,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['county_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-county', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-county', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;
@@ -484,7 +484,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-locality', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-locality', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;
@@ -494,7 +494,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-region', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-region', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;
@@ -504,7 +504,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-postal-code', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-postal-code', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;
@@ -514,7 +514,7 @@ final class _url {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-country', urlencode( $atts['slug'] ) , $permalink );
+					$permalink = add_query_arg( 'cn-country', urlencode( $atts['slug'] ), $permalink );
 				}
 
 				break;

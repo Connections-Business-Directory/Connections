@@ -1262,7 +1262,7 @@ class cnTemplatePart {
 		$queryVars['cn-county']       = cnQuery::getVar( 'cn-county' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-county' ) ) ) : false;
 		$queryVars['cn-locality']     = cnQuery::getVar( 'cn-locality' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-locality' ) ) ) : false;
 		$queryVars['cn-region']       = cnQuery::getVar( 'cn-region' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-region' ) ) ) : false;
-		$queryVars['cn-postal-code']  = cnQuery::getVar( 'cn-postal-code' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ) :  false;
+		$queryVars['cn-postal-code']  = cnQuery::getVar( 'cn-postal-code' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ) : false;
 		$queryVars['cn-country']      = cnQuery::getVar( 'cn-country' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-country' ) ) ) : false;
 		// if ( cnQuery::getVar('cn-near-coord') ) $queryVars['cn-near-coord']     = cnQuery::getVar('cn-near-coord');
 		// if ( cnQuery::getVar('cn-radius') ) $queryVars['cn-radius']             = cnQuery::getVar('cn-radius');
@@ -3047,7 +3047,7 @@ class cnTemplatePart {
 				$queryCategorySlug = cnQuery::getVar( 'cn-cat-slug' );
 				if ( ! empty( $queryCategorySlug ) ) {
 					// If the category slug is a descendant, use the last slug from the URL for the query.
-					$queryCategorySlug = explode( '/' , $queryCategorySlug );
+					$queryCategorySlug = explode( '/', $queryCategorySlug );
 
 					if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) {
 						$currentCategory = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];

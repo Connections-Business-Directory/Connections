@@ -38,7 +38,7 @@ class cnShortcode {
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 		// remove_filter( 'the_content', 'wpautop' );
 
-		add_filter( 'content_save_pre',  array( __CLASS__, 'clean' ) );
+		add_filter( 'content_save_pre', array( __CLASS__, 'clean' ) );
 		// add_filter( 'the_content',  array( __CLASS__, 'clean' ), 5 ); // Run before cnShortcode::single()
 
 		add_filter( 'content_save_pre', array( __CLASS__, 'removeCodePreTags' ) );
@@ -907,7 +907,7 @@ class cnShortcode {
 	 *
 	 * @return string
 	 */
-	public static function removePBR( $content ){
+	public static function removePBR( $content ) {
 
 		$content = strtr(
 			$content,

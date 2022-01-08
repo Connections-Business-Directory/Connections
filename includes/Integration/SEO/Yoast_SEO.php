@@ -45,7 +45,7 @@ final class Yoast_SEO {
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && function_exists( 'wpseo_init' )) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && function_exists( 'wpseo_init' ) ) {
 
 			self::$instance = $self = new self();
 
@@ -117,7 +117,7 @@ final class Yoast_SEO {
 		}
 
 		if ( has_shortcode( $object->post_content, 'connections' ) ||
-		     has_block( 'connections-directory/shortcode-connections', $object )
+			 has_block( 'connections-directory/shortcode-connections', $object )
 		) {
 
 			/*
@@ -272,7 +272,7 @@ final class Yoast_SEO {
 	public static function maybeDisplayAdjacentURL( $url ) {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ||
-		     cnQuery::getVar( 'cn-cat-slug' )
+			 cnQuery::getVar( 'cn-cat-slug' )
 		) {
 
 			$url = '';

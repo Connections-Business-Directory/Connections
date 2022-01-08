@@ -197,7 +197,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 * NOTE: If the term ancestors name just happens to be a numeric string that could cause unpredictable
 			 * result for the term being inserted and its ancestors.
 			 */
-			$name = is_numeric( $term[0] )? absint( $term[0] ): $term[0];
+			$name = is_numeric( $term[0] ) ? absint( $term[0] ) : $term[0];
 			$slug = isset( $term[1] ) && ! empty( $term[1] ) ? $term[1] : '';
 			// error_log( 'Slug: ' . print_r( $slug, TRUE ) );
 			// error_log( 'Parent ID: ' . print_r( $parent_id, TRUE ) );

@@ -48,7 +48,7 @@ final class cnEntry_Addresses implements cnToArray {
 
 				$this->fromArray( maybe_unserialize( $data ) );
 
-			} elseif( is_array( $data ) ) {
+			} elseif ( is_array( $data ) ) {
 
 				$this->fromArray( $data );
 			}
@@ -230,12 +230,12 @@ final class cnEntry_Addresses implements cnToArray {
 		}
 
 		$notEditableID = $this->filterBy( 'visibility', Connections_Directory()->currentUser->canNotView() )
-		                   ->getCollection()
-		                   ->pluck( 'id' )
-		                   ->toArray();
-		$existingID = $this->items->pluck( 'id' )->toArray();
-		$updatedID  = $new->pluck( 'id' )->toArray();
-		$deleted    = array_diff( $existingID, $updatedID, $notEditableID );
+						   ->getCollection()
+						   ->pluck( 'id' )
+						   ->toArray();
+		$existingID    = $this->items->pluck( 'id' )->toArray();
+		$updatedID     = $new->pluck( 'id' )->toArray();
+		$deleted       = array_diff( $existingID, $updatedID, $notEditableID );
 
 		// Remove addresses from collection which do not exist in the update array, because they were removed.
 		if ( 0 < count( $deleted ) ) {

@@ -1293,7 +1293,7 @@ final class Taxonomy {
 
 		} else {
 
-			$permalink = add_query_arg( $this->query_var, $atts['slug'] , $permalink );
+			$permalink = add_query_arg( $this->query_var, $atts['slug'], $permalink );
 		}
 
 		return $permalink;

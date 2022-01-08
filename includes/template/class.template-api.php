@@ -319,7 +319,7 @@ class cnTemplateFactory {
 			// Build a catalog of all legacy templates.
 			self::scan();
 
-			set_transient( 'cn_legacy_templates', self::$legacy, 60*60*24 );
+			set_transient( 'cn_legacy_templates', self::$legacy, 60 * 60 * 24 );
 
 		} else {
 
@@ -688,7 +688,7 @@ class cnTemplateFactory {
 			$permittedTypes = array( 'individual', 'organization', 'family', 'connection_group' );
 
 			// Convert to array. Trim the space characters if present.
-			$atts['list_type'] = explode( ',' , str_replace( ' ', '', $atts['list_type'] ) );
+			$atts['list_type'] = explode( ',', str_replace( ' ', '', $atts['list_type'] ) );
 
 			// Set the template type to the first in the entry type from the supplied if multiple list types are provided.
 			if ( in_array( $atts['list_type'][0], $permittedTypes ) ) {

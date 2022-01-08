@@ -734,12 +734,12 @@ class cnImage {
 			} else {
 
 				if ( ( ! $crop_focus[0] >= 0 || ! $crop_focus <= 1 ) &&
-				     ( filter_var( (float) $crop_focus[0], FILTER_VALIDATE_FLOAT ) === false ) ) {
+					 ( filter_var( (float) $crop_focus[0], FILTER_VALIDATE_FLOAT ) === false ) ) {
 					$crop_focus[0] = .5;
 				}
 
 				if ( ( ! $crop_focus[1] >= 0 || ! $crop_focus <= 1 ) &&
-				     ( filter_var( (float) $crop_focus[1], FILTER_VALIDATE_FLOAT ) === false ) ) {
+					 ( filter_var( (float) $crop_focus[1], FILTER_VALIDATE_FLOAT ) === false ) ) {
 					$crop_focus[1] = .5;
 				}
 
@@ -1088,12 +1088,12 @@ class cnImage {
 			( $crop_focus ? ( is_array( $crop_focus ) ? str_replace( '.', '', join( '', $crop_focus ) ) : '1' ) : '0' ) .
 			$crop_mode .
 			( $crop_only ? '1' : '0' ) .
-			(isset( $src_x ) ? str_pad( (string)$src_x, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $src_y ) ? str_pad( (string)$src_y, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $src_w ) ? str_pad( (string)$src_w, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $src_h ) ? str_pad( (string)$src_h, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $dst_w ) ? str_pad( (string)$dst_w, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $dst_h ) ? str_pad( (string)$dst_h, 5, '0', STR_PAD_LEFT ) : '00000') .
+			( isset( $src_x ) ? str_pad( (string) $src_x, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $src_y ) ? str_pad( (string) $src_y, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $src_w ) ? str_pad( (string) $src_w, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $src_h ) ? str_pad( (string) $src_h, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $dst_w ) ? str_pad( (string) $dst_w, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $dst_h ) ? str_pad( (string) $dst_h, 5, '0', STR_PAD_LEFT ) : '00000' ) .
 			str_pad( preg_replace( '#^\##', '', $canvas_color ), 8, '0', STR_PAD_LEFT ) .
 			str_pad( (string) $quality, 3, '0', STR_PAD_LEFT );
 
@@ -1609,19 +1609,19 @@ class cnImage {
 			// left and top.
 			// This maths takes our ideal offsets and gets as close to it as possible.
 
-			if ( $ideal_s_x < 0 ):
+			if ( $ideal_s_x < 0 ) :
 				$s_x = 0;
-			elseif ( $ideal_s_x + $crop_w > $orig_w ):
+			elseif ( $ideal_s_x + $crop_w > $orig_w ) :
 				$s_x = $orig_w - $crop_w;
-			else:
+			else :
 				$s_x = floor( $ideal_s_x );
 			endif;
 
-			if ( $ideal_s_y < 0 ):
+			if ( $ideal_s_y < 0 ) :
 				$s_y = 0;
-			elseif ( $ideal_s_y + $crop_h > $orig_h ):
+			elseif ( $ideal_s_y + $crop_h > $orig_h ) :
 				$s_y = $orig_h - $crop_h;
-			else:
+			else :
 				$s_y = floor( $ideal_s_y );
 			endif;
 
@@ -2020,11 +2020,11 @@ class cnImage {
 
 		// Take care of image files without extension:
 		$path = pathinfo( $tmp );
-		if ( ! isset( $path['extension'] ) ):
+		if ( ! isset( $path['extension'] ) ) :
 			$tmpnew = $tmp . '.tmp';
-			if ( ! rename( $tmp, $tmpnew ) ):
+			if ( ! rename( $tmp, $tmpnew ) ) :
 				return '';
-			else:
+			else :
 				$name = rand( 0, 100000 ) . ".jpg";
 				$tmp  = $tmpnew;
 			endif;

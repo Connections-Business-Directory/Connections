@@ -911,8 +911,9 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 				foreach ( $terms as $term ) {
 					// $terms[] = $parent . ':' . $term->term_id;
-					if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) { $names[] = $term->name;
-                    }
+					if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) {
+						$names[] = $term->name;
+					}
 				}
 
 				$row[ $i ] = $this->escapeAndQuote( implode( ',', $names ) );

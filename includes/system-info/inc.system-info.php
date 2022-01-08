@@ -55,9 +55,9 @@ Upload Max Filesize:        <?php echo ini_get( 'upload_max_filesize' ) . PHP_EO
 Time Limit:                 <?php echo ini_get( 'max_execution_time' ) . PHP_EOL; ?>
 Max Input Vars:             <?php echo ini_get( 'max_input_vars' ) . PHP_EOL; ?>
 Allow URL fopen:            <?php echo cnFormatting::toYesNo( ini_get( 'allow_url_fopen' ) ) . PHP_EOL; ?>
-PCRE Backtrack Limit        <?php echo ini_get( 'pcre.backtrack_limit' ). PHP_EOL; ?>
+PCRE Backtrack Limit        <?php echo ini_get( 'pcre.backtrack_limit' ) . PHP_EOL; ?>
 Display Errors:             <?php echo ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . PHP_EOL; ?>
-PHP Arg Seperator:          <?php echo ini_get( 'arg_separator.output' ). PHP_EOL; ?>
+PHP Arg Seperator:          <?php echo ini_get( 'arg_separator.output' ) . PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_php_config' ); ?>
 
 -- PHP Extensions
@@ -66,8 +66,8 @@ cURL:                       <?php echo ( function_exists( 'curl_init' ) ? 'Suppo
 fsockopen:                  <?php echo ( function_exists( 'fsockopen' ) ? 'Supported' : 'Not Supported' ) . PHP_EOL; ?>
 SOAP Client:                <?php echo ( class_exists( 'SoapClient' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
 Suhosin:                    <?php echo ( extension_loaded( 'suhosin' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
-Exif:                       <?php echo ( is_callable( 'exif_read_data' ) ? 'Version: ' . substr( phpversion( 'exif' ), 0, 4 ) : 'Not Installed' ) . PHP_EOL ; ?>
-IPTC Parse:                 <?php echo ( is_callable( 'iptcparse' )  ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
+Exif:                       <?php echo ( is_callable( 'exif_read_data' ) ? 'Version: ' . substr( phpversion( 'exif' ), 0, 4 ) : 'Not Installed' ) . PHP_EOL; ?>
+IPTC Parse:                 <?php echo ( is_callable( 'iptcparse' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
 XML Parse:                  <?php echo ( is_callable( 'xml_parser_create' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_php_ext' ); ?>
 

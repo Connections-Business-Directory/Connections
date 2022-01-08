@@ -313,7 +313,7 @@ class cnPlugin_Updater {
 				$checked[ $file ] = $p['Version'];
 
 				if ( ( ! isset( $transient->checked[ $file ] ) || strval( $transient->checked[ $file ] ) !== strval( $p['Version'] ) )
-				     && array_key_exists( $file, self::$plugins ) /* Skip all plugins not registered with this class. */
+					 && array_key_exists( $file, self::$plugins ) /* Skip all plugins not registered with this class. */
 				) {
 
 					$plugin_changed = true;
@@ -325,7 +325,7 @@ class cnPlugin_Updater {
 				foreach ( $transient->response as $plugin_file => $update_details ) {
 
 					if ( ! isset( $plugins[ $plugin_file ] )
-					     && array_key_exists( $plugin_file, self::$plugins ) /* Skip all plugins not registered with this class. */
+						 && array_key_exists( $plugin_file, self::$plugins ) /* Skip all plugins not registered with this class. */
 					) {
 
 						$plugin_changed = true;
@@ -485,13 +485,13 @@ class cnPlugin_Updater {
 
 			if ( $timeout > ( time() - $last_checked ) ) {
 
-				$response  = isset( $cached['response'] )  ? $cached['response']  : array();
+				$response  = isset( $cached['response'] ) ? $cached['response'] : array();
 				$no_update = isset( $cached['no_update'] ) ? $cached['no_update'] : array();
-				$checked   = isset( $cached['checked'] )   ? $cached['checked']   : array();
+				$checked   = isset( $cached['checked'] ) ? $cached['checked'] : array();
 
-				$transient->response  = isset( $transient->response )  ? array_merge( $transient->response, $response )   : $response;
+				$transient->response  = isset( $transient->response ) ? array_merge( $transient->response, $response ) : $response;
 				$transient->no_update = isset( $transient->no_update ) ? array_merge( $transient->no_update, $no_update ) : $no_update;
-				$transient->checked   = isset( $transient->checked )   ? array_merge( $transient->checked, $checked )     : $checked;
+				$transient->checked   = isset( $transient->checked ) ? array_merge( $transient->checked, $checked ) : $checked;
 
 				$transient->last_checked = $last_checked;
 			}

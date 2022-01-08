@@ -46,7 +46,7 @@ function _getTermChildren( $term_id, $terms, $taxonomy, &$ancestors = array() ) 
 	$term_list    = array();
 	$has_children = _getTermHierarchy( $taxonomy );
 
-	if  ( ( 0 !== $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
+	if ( ( 0 !== $term_id ) && ! isset( $has_children[ $term_id ] ) ) {
 
 		return array();
 	}

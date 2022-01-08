@@ -50,7 +50,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 
 			if ( "{$name}-{$instanceID}" === $type ) {
 				return true;
-			} elseif ( $type === $name) {
+			} elseif ( $type === $name ) {
 				return true;
 			}
 		}

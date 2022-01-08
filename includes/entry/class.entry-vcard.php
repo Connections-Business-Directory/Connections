@@ -506,7 +506,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 			$categories = wp_list_pluck( $categories, 'name' );
 
 			$this->vCard->set( 'CATEGORIES', implode( ',', $categories ) )
-			            ->addParam( 'CHARSET', 'UTF-8' );
+						->addParam( 'CHARSET', 'UTF-8' );
 		}
 	}
 

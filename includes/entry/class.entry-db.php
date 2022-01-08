@@ -189,7 +189,7 @@ class cnEntry_DB {
 	 *
 	 * @return array
 	 */
-	public function update( $table, $fields, $data, $index )  {
+	public function update( $table, $fields, $data, $index ) {
 
 		$result = array();
 
@@ -376,11 +376,11 @@ class cnEntry_DB {
 		foreach ( $fields as $field => $row ) {
 
 			if ( ( is_array( $data ) && isset( $data[ $row['key'] ] ) ) ||
-			     ( is_object( $data ) && isset( $data->{$row['key']} ) ) ) {
+				 ( is_object( $data ) && isset( $data->{$row['key']} ) ) ) {
 
-				$out['data'][ $field ] = $data->{$row['key']};
+				$out['data'][ $field ]  = $data->{$row['key']};
 				$out['value'][ $field ] = $data->{$row['key']};
-				$out['format'][] = $row['format'];
+				$out['format'][]        = $row['format'];
 			}
 		}
 

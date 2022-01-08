@@ -17,7 +17,7 @@ class Blocks {
 	public static function register() {
 
 		if ( ! function_exists( 'register_block_type' ) ||
-		     ! function_exists( 'wp_set_script_translations' ) // Required as the Gutenberg plugin does not have this function.
+			 ! function_exists( 'wp_set_script_translations' ) // Required as the Gutenberg plugin does not have this function.
 		) {
 
 			return;

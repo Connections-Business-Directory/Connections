@@ -155,7 +155,7 @@ function cn_et_grab_image_setting( $value ) {
 
 	global $post;
 
-	if ( $post instanceof  WP_Post && true === $value ) {
+	if ( $post instanceof WP_Post && true === $value ) {
 
 		return ! has_shortcode( $post->post_content, 'connections' );
 	}

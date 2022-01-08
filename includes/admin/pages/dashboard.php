@@ -19,7 +19,7 @@ function connectionsShowDashboardPage() {
 	/*
 	 * Check whether user can view the Dashboard
 	 */
-	if ( !current_user_can( 'connections_view_dashboard' ) ) {
+	if ( ! current_user_can( 'connections_view_dashboard' ) ) {
 		wp_die(
 			'<p id="error-page" style="-moz-background-clip:border;
 				-moz-border-radius:11px;

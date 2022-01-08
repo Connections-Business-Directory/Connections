@@ -122,12 +122,12 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 		}
 
 		$notEditableID = $this->filterBy( 'visibility', Connections_Directory()->currentUser->canNotView() )
-		                      ->getCollection()
-		                      ->pluck( 'id' )
-		                      ->toArray();
-		$existingID = $this->items->pluck( 'id' )->toArray();
-		$updatedID  = $new->pluck( 'id' )->toArray();
-		$deleted    = array_diff( $existingID, $updatedID, $notEditableID );
+							  ->getCollection()
+							  ->pluck( 'id' )
+							  ->toArray();
+		$existingID    = $this->items->pluck( 'id' )->toArray();
+		$updatedID     = $new->pluck( 'id' )->toArray();
+		$deleted       = array_diff( $existingID, $updatedID, $notEditableID );
 
 		// Remove phone numbers from collection which do not exist in the update array, because they were removed.
 		if ( 0 < count( $deleted ) ) {
@@ -254,8 +254,8 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_phone_number' )
-		     ->applyFilter( 'cn_phone_numbers' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_phone_numbers' )
+			 ->take( $limit );
 
 		return $this->filtered->values();
 	}
@@ -276,8 +276,8 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_phone_number' )
-		     ->applyFilter( 'cn_phone_numbers' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_phone_numbers' )
+			 ->take( $limit );
 
 		return $this->filtered->values()->toArray();
 	}

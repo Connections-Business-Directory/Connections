@@ -504,7 +504,7 @@ class cnEntry {
 				$this->status = $entry->status;
 			}
 
-			$this->ruid = uniqid( $this->getId() , false );
+			$this->ruid = uniqid( $this->getId(), false );
 
 		} else {
 
@@ -750,7 +750,7 @@ class cnEntry {
 		$permalink = '';
 
 		if ( ( current_user_can( 'connections_manage' ) && current_user_can( 'connections_view_menu' ) ) &&
-		     ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) )
+			 ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) )
 		) {
 
 			$permalink = cnURL::permalink(
@@ -862,7 +862,7 @@ class cnEntry {
 			$num = 0;
 
 			// Keep incrementing $num, until a space for a unique slug is found.
-			while( in_array( ( $slug . '-' . ++$num ), $slugs ) );
+			while ( in_array( ( $slug . '-' . ++$num ), $slugs ) );
 
 			// Update $slug with the suffix.
 			$slug = $slug . "-$num";
@@ -1351,7 +1351,7 @@ class cnEntry {
 	 * @param string $firstName
 	 * @param string $context   The context in which it should be sanitized.
 	 */
-	public function setContactFirstName( $firstName, $context = 'db'  ) {
+	public function setContactFirstName( $firstName, $context = 'db' ) {
 
 		$this->contactFirstName = cnSanitize::field( 'name', $firstName, $context );
 	}
@@ -1534,14 +1534,14 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->addresses->filterBy( 'type', $atts['type'] )
-                            ->filterBy( 'district', $atts['district'] )
-                            ->filterBy( 'county', $atts['county'] )
-                            ->filterBy( 'city', $atts['city'] )
-                            ->filterBy( 'state', $atts['state'] )
-                            ->filterBy( 'zipcode', $atts['zipcode'] )
-                            ->filterBy( 'country', $atts['country'] )
-                            ->filterBy( 'preferred', $atts['preferred'] )
-                            ->escapeFor( $context );
+							->filterBy( 'district', $atts['district'] )
+							->filterBy( 'county', $atts['county'] )
+							->filterBy( 'city', $atts['city'] )
+							->filterBy( 'state', $atts['state'] )
+							->filterBy( 'zipcode', $atts['zipcode'] )
+							->filterBy( 'country', $atts['country'] )
+							->filterBy( 'preferred', $atts['preferred'] )
+							->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->addresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1619,9 +1619,9 @@ class cnEntry {
 	public function getPhoneNumbers( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1629,8 +1629,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->phoneNumbers->filterBy( 'type', $atts['type'] )
-			                   ->filterBy( 'preferred', $atts['preferred'] )
-			                   ->escapeFor( $context );
+							   ->filterBy( 'preferred', $atts['preferred'] )
+							   ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->phoneNumbers->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1645,8 +1645,8 @@ class cnEntry {
 			}
 
 			$results = $this->phoneNumbers->query( $atts )
-			                              ->escapeFor( $context )
-			                              ->getCollectionAsObjects();
+										  ->escapeFor( $context )
+										  ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1693,9 +1693,9 @@ class cnEntry {
 	public function getEmailAddresses( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1703,8 +1703,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->emailAddresses->filterBy( 'type', $atts['type'] )
-			                     ->filterBy( 'preferred', $atts['preferred'] )
-			                     ->escapeFor( $context );
+								 ->filterBy( 'preferred', $atts['preferred'] )
+								 ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->emailAddresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1719,8 +1719,8 @@ class cnEntry {
 			}
 
 			$results = $this->emailAddresses->query( $atts )
-			                                ->escapeFor( $context )
-			                                ->getCollectionAsObjects();
+											->escapeFor( $context )
+											->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1775,9 +1775,9 @@ class cnEntry {
 	public function getIm( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1785,8 +1785,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->im->filterBy( 'type', $atts['type'] )
-			         ->filterBy( 'preferred', $atts['preferred'] )
-			         ->escapeFor( $context );
+					 ->filterBy( 'preferred', $atts['preferred'] )
+					 ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->im->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1801,8 +1801,8 @@ class cnEntry {
 			}
 
 			$results = $this->im->query( $atts )
-			                    ->escapeFor( $context )
-			                    ->getCollectionAsObjects();
+								->escapeFor( $context )
+								->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1866,9 +1866,9 @@ class cnEntry {
 	public function getSocialMedia( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1876,8 +1876,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->socialMedia->filterBy( 'type', $atts['type'] )
-			                  ->filterBy( 'preferred', $atts['preferred'] )
-			                  ->escapeFor( $context );
+							  ->filterBy( 'preferred', $atts['preferred'] )
+							  ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->socialMedia->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1892,8 +1892,8 @@ class cnEntry {
 			}
 
 			$results = $this->socialMedia->query( $atts )
-			                             ->escapeFor( $context )
-			                             ->getCollectionAsObjects();
+										 ->escapeFor( $context )
+										 ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1961,10 +1961,10 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->links->filterBy( 'type', $atts['type'] )
-			            ->filterBy( 'preferred', $atts['preferred'] )
-			            ->filterBy( 'image', $atts['image'] )
-			            ->filterBy( 'logo', $atts['logo'] )
-			            ->escapeFor( $context );
+						->filterBy( 'preferred', $atts['preferred'] )
+						->filterBy( 'image', $atts['image'] )
+						->filterBy( 'logo', $atts['logo'] )
+						->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->links->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1979,8 +1979,8 @@ class cnEntry {
 			}
 
 			$results = $this->links->query( $atts )
-			                       ->escapeFor( $context )
-			                       ->getCollectionAsObjects();
+								   ->escapeFor( $context )
+								   ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
@@ -2016,8 +2016,8 @@ class cnEntry {
 			'preferred' => null,
 		);
 
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
+		$atts         = cnSanitize::args( $atts, $defaults );
+		$atts['id']   = $this->getId();
 		$atts['type'] = array( 'personal', 'website' ); // The 'personal' type is provided for legacy support. Versions 0.7.1.6 an older.
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2089,9 +2089,9 @@ class cnEntry {
 	public function getDates( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2099,8 +2099,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->dates->filterBy( 'type', $atts['type'] )
-			            ->filterBy( 'preferred', $atts['preferred'] )
-			            ->escapeFor( $context );
+						->filterBy( 'preferred', $atts['preferred'] )
+						->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->dates->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -2115,8 +2115,8 @@ class cnEntry {
 			}
 
 			$results = $this->dates->query( $atts )
-			                       ->escapeFor( $context )
-			                       ->getCollectionAsObjects();
+								   ->escapeFor( $context )
+								   ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -2143,8 +2143,8 @@ class cnEntry {
 		 * with version 0.7.2.6 and older.
 		 */
 		$anniversaries = $this->dates->filterBy( 'type', 'anniversary' )
-		                             ->escapeFor( 'db' )
-		                             ->getCollection( 1 );
+									 ->escapeFor( 'db' )
+									 ->getCollection( 1 );
 
 		$this->dates->resetFilters();
 
@@ -2165,8 +2165,8 @@ class cnEntry {
 		}
 
 		$birthdays = $this->dates->filterBy( 'type', 'birthday' )
-		                         ->escapeFor( 'db' )
-		                         ->getCollection( 1 );
+								 ->escapeFor( 'db' )
+								 ->getCollection( 1 );
 
 		$this->dates->resetFilters();
 
@@ -3703,56 +3703,56 @@ class cnEntry {
 			cnFileSystem::xrmdir( $path );
 		}
 
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_TABLE . ' WHERE id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_TABLE . ' WHERE id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the addresses if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the phone numbers if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the email addresses if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_EMAIL_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_EMAIL_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the IM IDs if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_MESSENGER_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_MESSENGER_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the social network IDs if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_SOCIAL_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_SOCIAL_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the links if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_LINK_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_LINK_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the dates if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *

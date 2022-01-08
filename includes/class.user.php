@@ -87,7 +87,7 @@ class cnUser {
 			$user_meta = array();
 		}
 
-		cnArray::set( $user_meta,'filter.entry_type', $entryType );
+		cnArray::set( $user_meta, 'filter.entry_type', $entryType );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
@@ -208,7 +208,7 @@ class cnUser {
 			$user_meta = array();
 		}
 
-		cnArray::set( $user_meta,'filter.status', $status );
+		cnArray::set( $user_meta, 'filter.status', $status );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
@@ -246,7 +246,7 @@ class cnUser {
 			$user_meta = array();
 		}
 
-		cnArray::set( $user_meta,'filter.category', $id );
+		cnArray::set( $user_meta, 'filter.category', $id );
 
 		update_user_meta( $this->ID, 'connections', $user_meta );
 
@@ -532,7 +532,7 @@ class cnUser {
 			}
 
 			if ( current_user_can( 'connections_view_unlisted' ) &&
-			     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
+				 ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
 
 				$visibility[] = 'unlisted';
 			}

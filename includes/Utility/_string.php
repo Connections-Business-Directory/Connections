@@ -460,7 +460,7 @@ final class _string {
 
 		// Determine if the string ends with a HTML tag or word.
 		if ( ( ! preg_match( '/[\s\?\.\!]$/', $excerpt ) ) &&
-		     ( false !== $lastCloseTag && ( false !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
+			 ( false !== $lastCloseTag && ( false !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
 
 			// Inside last HTML tag
 			if ( $appendMore ) {

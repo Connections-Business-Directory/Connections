@@ -1661,7 +1661,7 @@ class cnOptions {
 
 				// Ensure nothing went wrong when checking for the "Uncategorized" category.
 				// If not, save the `id` in the options table.
-				if ( false !== $category  ) {
+				if ( false !== $category ) {
 
 					$id = $category['term_id'];
 

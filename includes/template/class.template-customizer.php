@@ -336,7 +336,7 @@ class cnTemplate_Customizer {
 
 				if ( isset( $options[ $view ]['advanced'] ) ) {
 
-					$this->registerAdvancedControls( $view , $options[ $view ]['advanced'] );
+					$this->registerAdvancedControls( $view, $options[ $view ]['advanced'] );
 				}
 
 				/**
@@ -615,7 +615,7 @@ class cnTemplate_Customizer {
 		 * @param WP_Customize_Manager $wp_customize
 		 * @param string               $slug         The template that is being customized slug.
 		 */
-		do_action( 'cn_template_customizer_section_global_display_before-' . $this->slug , $wp_customize );
+		do_action( 'cn_template_customizer_section_global_display_before-' . $this->slug, $wp_customize );
 
 		$wp_customize->add_setting(
 			'connections_display_results[index]',
@@ -749,7 +749,7 @@ class cnTemplate_Customizer {
 			 * @param WP_Customize_Manager $wp_customize
 			 * @param string               $slug         The template that is being customized slug.
 			 */
-			do_action( 'cn_template_customizer_section_category_select_before-' . $template->slug , $wp_customize, $template );
+			do_action( 'cn_template_customizer_section_category_select_before-' . $template->slug, $wp_customize, $template );
 
 			$base = 'connections_template';
 			$slug = $template->slug;
@@ -891,7 +891,7 @@ class cnTemplate_Customizer {
 			 * @param WP_Customize_Manager $wp_customize
 			 * @param string               $slug         The template that is being customized slug.
 			 */
-			do_action( 'cn_template_customizer_section_search_before-' . $template->slug , $wp_customize, $template );
+			do_action( 'cn_template_customizer_section_search_before-' . $template->slug, $wp_customize, $template );
 
 			$base = 'connections_template';
 			$slug = $template->slug;
@@ -981,7 +981,7 @@ class cnTemplate_Customizer {
 			 * @param WP_Customize_Manager $wp_customize
 			 * @param string               $slug         The template that is being customized slug.
 			 */
-			do_action( 'cn_template_customizer_section_pagination_before-' . $template->slug , $wp_customize, $template );
+			do_action( 'cn_template_customizer_section_pagination_before-' . $template->slug, $wp_customize, $template );
 
 			$base = 'connections_template';
 			$slug = $template->slug;
@@ -1777,7 +1777,7 @@ class cnTemplate_Customizer {
 		if ( cnString::startsWith( 'cn_', $control->id ) ) {
 
 			if ( cnString::startsWith( "cn_{$this->slug}_{$this->view}", $control->id ) ||
-			     in_array( $control->section, $exemptions ) ) {
+				 in_array( $control->section, $exemptions ) ) {
 
 				$active = true;
 

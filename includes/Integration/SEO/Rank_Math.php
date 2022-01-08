@@ -104,7 +104,7 @@ final class Rank_Math {
 		}
 
 		if ( has_shortcode( $object->post_content, 'connections' ) ||
-		     has_block( 'connections-directory/shortcode-connections', $object )
+			 has_block( 'connections-directory/shortcode-connections', $object )
 		) {
 
 			add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
@@ -245,7 +245,7 @@ final class Rank_Math {
 	public static function maybeDisableAdjacentURL( $disable ) {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ||
-		     cnQuery::getVar( 'cn-cat-slug' )
+			 cnQuery::getVar( 'cn-cat-slug' )
 		) {
 
 			$disable = true;

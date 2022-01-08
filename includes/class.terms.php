@@ -59,7 +59,7 @@ class cnTerms {
 	 *
 	 * @return array|null|cnTerm_Object|WP_Error
 	 */
-	public function getTerm($id, $taxonomy) {
+	public function getTerm( $id, $taxonomy ) {
 
 		_deprecated_function( __METHOD__, '9.15', 'cnTerm::get()' );
 
@@ -686,7 +686,7 @@ class cnTerm {
 		}
 
 		// Update term meta cache, if necessary.
-		if ( $args['update_meta_cache'] && ( in_array( $args['fields'] , array( 'all', 'all_with_entry_ids', 'term_id' ) )  ) ) {
+		if ( $args['update_meta_cache'] && ( in_array( $args['fields'], array( 'all', 'all_with_entry_ids', 'term_id' ) ) ) ) {
 
 			if ( 'term_id' === $fields ) {
 
@@ -3509,7 +3509,7 @@ class cnTerm {
 		}
 
 		$sql = sprintf(
-            'SELECT %1$s FROM %2$s AS t %3$s WHERE %4$s %5$s%6$s',
+			'SELECT %1$s FROM %2$s AS t %3$s WHERE %4$s %5$s%6$s',
 			$distinct . $fields,
 			CN_TERMS_TABLE,
 			$join,

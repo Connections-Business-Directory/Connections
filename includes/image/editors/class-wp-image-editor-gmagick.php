@@ -75,8 +75,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		try {
 			$gmagick = new Gmagick;
 			return ( (bool) $gmagick->queryformats( $gmagick_extension ) );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return false;
 		}
 	}
@@ -107,8 +106,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			}
 
 			$this->mime_type = $this->get_mime_type( $this->image->getimageformat() );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'invalid_image', $e->getMessage(), $this->file );
 		}
 
@@ -134,15 +132,13 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 		if ( is_wp_error( $quality_result ) ) {
 			return $quality_result;
-		}
-		else {
+		} else {
 			$quality = $this->quality;
 		}
 
 		try {
 			$this->image->setcompressionquality( $quality );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_quality_error', $e->getMessage() );
 		}
 
@@ -167,8 +163,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 					'width'  => $this->image->getimagewidth(),
 					'height' => $this->image->getimageheight(),
 				);
-			}
-			catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				return new WP_Error( 'invalid_image', __( 'Could not read image size', 'connections' ), $this->file );
 			}
 		}
@@ -217,8 +212,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			 * $this->image->thumbnailimage( $dst_w, $dst_h );
 			 */
 			$this->image->scaleimage( $dst_w, $dst_h );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_resize_error', $e->getMessage() );
 		}
 
@@ -247,7 +241,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
-			if( ! is_wp_error( $resize_result ) ) {
+			if ( ! is_wp_error( $resize_result ) ) {
 				$resized = $this->_save( $this->image );
 
 				$this->image->clear();
@@ -256,7 +250,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 				if ( ! is_wp_error( $resized ) ) {
 					unset( $resized['path'] );
-					$metadata[$size] = $resized;
+					$metadata[ $size ] = $resized;
 				}
 			}
 
@@ -306,8 +300,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 				$this->image->scaleimage( $dst_w, $dst_h );
 				return $this->update_size();
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_crop_error', $e->getMessage() );
 		}
 
@@ -330,8 +323,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		 */
 		try {
 			$this->image->rotateimage( new GmagickPixel( 'none' ), 360 - $angle );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_rotate_error', $e->getMessage() );
 		}
 
@@ -357,8 +349,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			if ( $vert ) {
 				$this->image->flopimage();
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_flip_error', $e->getMessage() );
 		}
 
@@ -384,8 +375,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			try {
 				$this->image->setimageformat( strtoupper( $this->get_extension( $this->mime_type ) ) );
-			}
-			catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				return new WP_Error( 'image_save_error', $e->getMessage(), $this->file );
 			}
 		}
@@ -409,8 +399,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			// Reset original Format
 			$this->image->setimageformat( $orig_format );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_save_error', $e->getMessage(), $filename );
 		}
 
@@ -451,8 +440,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			// Reset Image to original Format
 			$this->image->setimageformat( $this->get_extension( $this->mime_type ) );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_stream_error', $e->getMessage() );
 		}
 

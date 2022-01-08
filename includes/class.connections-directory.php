@@ -338,7 +338,7 @@ final class Connections_Directory {
 		add_action( 'cn_process_status', array( 'cnEntry_Action', 'clearCache' ) );
 		add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'clearCache' ) );
 		add_action( 'cn_process_bulk_delete', array( 'cnEntry_Action', 'clearCache' ) );
-		add_action( 'update_option_permalink_structure' , array( 'cnEntry_Action', 'clearCache' ) );
+		add_action( 'update_option_permalink_structure', array( 'cnEntry_Action', 'clearCache' ) );
 
 		// Add actions to update the term taxonomy counts when entry status or visibility has been updated via the bulk actions.
 		add_action( 'cn_process_status', array( 'cnEntry_Action', 'updateTermCount' ) );
@@ -401,7 +401,7 @@ final class Connections_Directory {
 		add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );
 
 		// Register the callback to support downloading of vCards
-		add_action( 'template_redirect' , array( 'cnEntry_vCard', 'download' ) );
+		add_action( 'template_redirect', array( 'cnEntry_vCard', 'download' ) );
 
 		// Geocode the address using Google Geocoding API.
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
@@ -517,7 +517,7 @@ final class Connections_Directory {
 					}
 
 					if ( false === get_option( 'connections_debug' ) ) {
-						update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+						update_option( 'connections_debug', array( 'debug_messages' => $options['debug'] ) );
 					}
 
 					unset( $options );

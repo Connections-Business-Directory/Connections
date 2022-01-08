@@ -124,8 +124,8 @@ class Map_Block extends Content_Block {
 
 		if ( 0 < count( $addresses ) ) {
 
-			$createMap = false;
-			$layers = array();
+			$createMap    = false;
+			$layers       = array();
 			$layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( false );
 
 			$googleMapsAPIBrowserKey = cnSettingsAPI::get(
@@ -145,14 +145,14 @@ class Map_Block extends Content_Block {
 				$roadMap = Google_Maps::create( 'roadmap' );
 
 				$roadMap->setAttribution( implode( ' | ', $attribution ) )
-				        ->setOption( 'name', 'Roadmap' );
+						->setOption( 'name', 'Roadmap' );
 
 				$layerControl->addBaseLayer( $roadMap );
 
 				$hybrid = Google_Maps::create( 'hybrid' );
 
 				$hybrid->setAttribution( implode( ' | ', $attribution ) )
-				       ->setOption( 'name', 'Satellite' );
+					   ->setOption( 'name', 'Satellite' );
 
 				$layerControl->addBaseLayer( $hybrid );
 
@@ -195,7 +195,7 @@ class Map_Block extends Content_Block {
 					$popup = "<p>{$formatted}</p><div>{$directionsButton}</div>";
 
 					$layers[] = Marker::create( 'default', $coordinates )
-					                  ->bindPopup( Popup::create( 'default', $popup ) );
+									  ->bindPopup( Popup::create( 'default', $popup ) );
 
 					$createMap = true;
 				}

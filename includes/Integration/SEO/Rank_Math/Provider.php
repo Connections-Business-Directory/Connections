@@ -49,7 +49,7 @@ final class Provider implements \RankMath\Sitemap\Providers\Provider {
 
 			if ( "{$name}-{$instanceID}" === $type ) {
 				return true;
-			} elseif ( $type === $name) {
+			} elseif ( $type === $name ) {
 				return true;
 			}
 		}

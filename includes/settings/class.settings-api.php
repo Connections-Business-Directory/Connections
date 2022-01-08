@@ -26,11 +26,11 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 	class cnSettingsAPI {
 
 		/**
-	     * Singleton instance
-	     *
-	     * @var cnSettingsAPI
-	     */
-	    private static $instance;
+		 * Singleton instance
+		 *
+		 * @var cnSettingsAPI
+		 */
+		private static $instance;
 
 		/**
 		 * Array stores all tabs registered thru this API.
@@ -435,7 +435,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					);
 
 					if ( //( isset( $field['show_in_rest'] ) && TRUE === $field['show_in_rest'] ) &&
-					     ( isset( $field['schema'] ) && is_array( $field['schema'] ) )
+						 ( isset( $field['schema'] ) && is_array( $field['schema'] ) )
 					) {
 
 						self::$rest = cnArray::add(
@@ -464,7 +464,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				if ( ! array_key_exists( $optionName, self::$registry[$field['plugin_id']] ) ) {
 
-					if ( in_array( $section , self::$coreSections ) ) {
+					if ( in_array( $section, self::$coreSections ) ) {
 						// If the field was registered to one of the WP core sections, store the default value as a singular item.
 						self::$registry[$field['plugin_id']][$optionName] = $defaultValue;
 					} else {
@@ -759,7 +759,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			$out = '';
 
-			if ( in_array( $field['section'] , self::$coreSections ) ) {
+			if ( in_array( $field['section'], self::$coreSections ) ) {
 
 				$value = get_option( $field['id'] ); // print_r($value);
 				$name  = sprintf( '%1$s', $field['id'] );
@@ -903,9 +903,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					$out .= '<span style="background-color: white; border-color: #DFDFDF; border-radius: 3px; border-width: 1px; border-style: solid; display: block; height: 90px; padding: 0 3px; overflow: auto; width: 25em;">';
 
-					foreach ( $field['options'] as $key => $label )
-					{
-						$checked = checked( true , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , false );
+					foreach ( $field['options'] as $key => $label ) {
+						$checked = checked( true, ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ), false );
 
 						$out .= sprintf( '<label><input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s" %3$s/> %4$s</label><br />', $name, $key, $checked, $label );
 					}
@@ -983,7 +982,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						printf(
-                            '<div class="description"> %1$s</div>',
+							'<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
@@ -991,7 +990,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					// Set the rte defaults.
 					$defaults = array(
-						'textarea_name' => sprintf( '%1$s' , $name ),
+						'textarea_name' => sprintf( '%1$s', $name ),
 					);
 
 					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
@@ -1160,15 +1159,15 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$checkbox = cnHTML::input(
 								array(
-									'type'    => 'checkbox',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
-									'disabled'=> true,
-									'label'   => $label,
-									'layout'  => '%field%%label%',
-									'return'  => true,
+									'type'     => 'checkbox',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[active][]',
+									'checked'  => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
+									'disabled' => true,
+									'label'    => $label,
+									'layout'   => '%field%%label%',
+									'return'   => true,
 								),
 								$key
 							);
@@ -1179,7 +1178,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1194,7 +1193,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%%label%',
 									'return'  => true,
@@ -1205,13 +1204,13 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 						$hidden = cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[order][]',
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'type'   => 'hidden',
+								'prefix' => '',
+								'id'     => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'   => esc_attr( $name ) . '[order][]',
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							$key
 						);
@@ -1304,15 +1303,15 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$checkbox = cnHTML::input(
 								array(
-									'type'    => 'checkbox',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => 'checked="checked"',
-									'disabled'=> true,
+									'type'     => 'checkbox',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[active][]',
+									'checked'  => 'checked="checked"',
+									'disabled' => true,
 									// 'label'   => $label,
-									'layout'  => '%field%',
-									'return'  => true,
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								$key
 							);
@@ -1323,7 +1322,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1332,16 +1331,16 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									'type'     => 'text',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[type][' . $key . ']',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
-									'disabled'=> true,
-									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'layout'  => '%field%',
-									'return'  => true,
+									'disabled' => true,
+									'data'     => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1354,7 +1353,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%',
 									'return'  => true,
@@ -1364,15 +1363,15 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									'type'   => 'text',
+									'prefix' => '',
+									'id'     => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'   => esc_attr( $name ) . '[type][' . $key . ']',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
-									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'layout'  => '%field%',
-									'return'  => true,
+									'data'   => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout' => '%field%',
+									'return' => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1380,13 +1379,13 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 						$hidden = cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[order][]',
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'type'   => 'hidden',
+								'prefix' => '',
+								'id'     => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'   => esc_attr( $name ) . '[order][]',
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							$key
 						);
@@ -1505,9 +1504,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					foreach ( $blocks as $key => $label ) {
 
 						$removeButton = '';
-						$checkbox = '';
-						$input    = '';
-						$hidden   = '';
+						$checkbox     = '';
+						$input        = '';
+						$hidden       = '';
 
 						/*
 						 * Custom items the label is actually an array of the font icon meta,
@@ -1523,15 +1522,15 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$checkbox = cnHTML::input(
 								array(
-									'type'    => 'checkbox',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => 'checked="checked"',
-									'disabled'=> true,
+									'type'     => 'checkbox',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[active][]',
+									'checked'  => 'checked="checked"',
+									'disabled' => true,
 									// 'label'   => $label,
-									'layout'  => '%field%',
-									'return'  => true,
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								$key
 							);
@@ -1542,7 +1541,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1551,16 +1550,16 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									'type'     => 'text',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[type][' . $key . ']',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
-									'disabled'=> true,
-									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'layout'  => '%field%',
-									'return'  => true,
+									'disabled' => true,
+									'data'     => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1577,7 +1576,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 										'id'   => esc_attr( $name ) . '[active][%token%]',
 										'name' => esc_attr( $name ) . '[active][]',
 									),
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%',
 									'return'  => true,
@@ -1587,21 +1586,21 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[icon][' . $key . '][name]',
-									'name'    => esc_attr( $name ) . '[icon][' . $key . '][name]',
+									'type'   => 'text',
+									'prefix' => '',
+									'id'     => esc_attr( $name ) . '[icon][' . $key . '][name]',
+									'name'   => esc_attr( $name ) . '[icon][' . $key . '][name]',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
 									// 'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'data'    => array(
+									'data'   => array(
 										'id'         => esc_attr( $name ) . '[icon][%token%][name]',
 										'name'       => esc_attr( $name ) . '[icon][%token%][name]',
 										'custom'     => ! array_key_exists( $key, $field['options']['items'] ) ? 1 : 0,
 										'registered' => array_key_exists( $key, $field['options']['items'] ) ? 1 : 0,
 									),
-									'layout'  => '%field%',
-									'return'  => true,
+									'layout' => '%field%',
+									'return' => true,
 								),
 								sanitize_text_field( isset( $value['icon'][ $key ]['name'] ) ? $value['icon'][ $key ]['name'] : $field['options']['items'][ $key ] )
 							);
@@ -1624,125 +1623,125 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 						$hidden = cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[order][]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'id'     => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'   => esc_attr( $name ) . '[order][]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[order][%token%]',
 									'name' => esc_attr( $name ) . '[order][]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							$key
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][slug]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][slug]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][slug]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][slug]',
+								'data'   => array(
 									'id  ' => esc_attr( $name ) . '[icon][%token%][slug]',
 									'name' => esc_attr( $name ) . '[icon][%token%][slug]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['slug'] ) ? $value['icon'][ $key ]['slug'] : $key )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-background-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-background-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
+								'data'   => array(
 									'id  ' => esc_attr( $name ) . '[icon][%token%][background-color]',
 									'name' => esc_attr( $name ) . '[icon][%token%][background-color]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-color'] ) ? $value['icon'][ $key ]['background-color'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-hover-background-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-hover-background-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[icon][%token%][background-color-hover]',
 									'name' => esc_attr( $name ) . '[icon][%token%][background-color-hover]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-color-hover'] ) ? $value['icon'][ $key ]['background-color-hover'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-background-transparent' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-background-transparent' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[icon][%token%][background-transparent]',
 									'name' => esc_attr( $name ) . '[icon][%token%][background-transparent]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-transparent'] ) ? $value['icon'][ $key ]['background-transparent'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-foreground-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-foreground-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
+								'data'   => array(
 									'id  ' => esc_attr( $name ) . '[icon][%token%][foreground-color]',
 									'name' => esc_attr( $name ) . '[icon][%token%][foreground-color]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color'] ) ? $value['icon'][ $key ]['foreground-color'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-hover-foreground-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-hover-foreground-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[icon][%token%][foreground-color-hover]',
 									'name' => esc_attr( $name ) . '[icon][%token%][foreground-color-hover]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color-hover'] ) ? $value['icon'][ $key ]['foreground-color-hover'] : '' )
 						);
@@ -1857,7 +1856,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 				echo 'quicktags("' . esc_js( $id ) . '");';
 			}
 
-		    echo '/* ]]> */</script>';
+			echo '/* ]]> */</script>';
 		}
 
 		/**

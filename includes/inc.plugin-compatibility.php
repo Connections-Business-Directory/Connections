@@ -221,8 +221,8 @@ add_action( 'cn_clean_term_cache', 'wordfence_clean_falcon_cache' );
 function wordfence_clean_falcon_cache() {
 
 	if ( class_exists( 'wfCache' ) &&
-	     method_exists( 'wfCache', 'clearPageCache' ) &&
-	     is_callable( array( 'wfCache', 'clearPageCache' ) )
+		 method_exists( 'wfCache', 'clearPageCache' ) &&
+		 is_callable( array( 'wfCache', 'clearPageCache' ) )
 	) {
 
 		wfCache::clearPageCache();
@@ -331,7 +331,7 @@ add_action( 'plugins_loaded', 'cn_maps_marker_pro' );
 function cn_maps_marker_pro() {
 
 	if ( class_exists( 'Leafletmapsmarker', false ) ||
-	     class_exists( 'MMP_Globals', false ) ) {
+		 class_exists( 'MMP_Globals', false ) ) {
 
 		add_action( 'admin_notices', 'cn_deregister_google_maps_api', 9.999 );
 		add_action( 'admin_notices', 'cn_register_google_maps_api', 10.001 );

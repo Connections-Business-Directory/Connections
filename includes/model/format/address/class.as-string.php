@@ -88,11 +88,11 @@ class As_String {
 		if ( 0 === strlen( $format ) ) {
 
 			$format = self::LINE_1 . ' ' .
-			          self::LINE_2 . ' ' .
-			          self::LOCALITY . ' ' .
-			          self::REGION . ' ' .
-			          self::POSTAL_CODE . ' ' .
-			          self::COUNTRY;
+					  self::LINE_2 . ' ' .
+					  self::LOCALITY . ' ' .
+					  self::REGION . ' ' .
+					  self::POSTAL_CODE . ' ' .
+					  self::COUNTRY;
 		}
 
 		$replace = array(

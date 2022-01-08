@@ -199,10 +199,10 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		 */
 		$prepared_args = apply_filters( "cn_rest_{$this->taxonomy}_query", $prepared_args, $request );
 
-		if ( ! empty( $prepared_args['post'] )  ) {
+		if ( ! empty( $prepared_args['post'] ) ) {
 
 			$query_result = $this->get_terms_for_post( $prepared_args );
-			$total_terms = $this->total_terms;
+			$total_terms  = $this->total_terms;
 
 		} else {
 

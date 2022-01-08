@@ -142,7 +142,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 		try {
 
-			return $this->image->modulateImage( 100, 0,100 );
+			return $this->image->modulateImage( 100, 0, 100 );
 
 		} catch ( Exception $e ) {
 
@@ -322,7 +322,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 			return $this->image->blurImage( 0, 1 );
 
-		} catch (Exception $e) {
+		} catch ( Exception $e ) {
 
 			return new WP_Error( 'image_gaussian_blur_error', $e->getMessage(), $this->file );
 		}

@@ -44,8 +44,8 @@ abstract class Input extends Field {
 
 			$field->addLabel(
 				Field\Label::create()
-				           ->setFor( $field->getId() )
-				           ->text( _array::get( $properties, 'label', '' ) )
+						   ->setFor( $field->getId() )
+						   ->text( _array::get( $properties, 'label', '' ) )
 			);
 
 			$field->prepend( _array::get( $properties, 'prepend', '' ) );

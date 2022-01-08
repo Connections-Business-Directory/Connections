@@ -50,7 +50,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			// Run the license status check before the plugin update check which is hooked into the 'load-plugins.php' action.
 			add_action( 'load-plugins.php', array( __CLASS__, 'check' ), 9 );
-			add_action( 'connections_page_connections_settings-licenses',  array( __CLASS__, 'check' ) );
+			add_action( 'connections_page_connections_settings-licenses', array( __CLASS__, 'check' ) );
 		}
 
 		/**
@@ -280,12 +280,12 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 			}
 
 			$options = array(
-				'timeout'   => $timeout,
-				'sslverify' => cnHTTP::verifySSL(),
-				'body'      => array(
-					'url'        => home_url(),
-					'action'     => 'status',
-					'plugins'    => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$licenses ),
+				'timeout'    => $timeout,
+				'sslverify'  => cnHTTP::verifySSL(),
+				'body'       => array(
+					'url'     => home_url(),
+					'action'  => 'status',
+					'plugins' => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$licenses ),
 				),
 				'user-agent' => 'Connections Business Directory/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 			);
@@ -380,23 +380,22 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			switch ( $pagenow ) {
 
-				case 'update-core.php' :
-				case 'admin.php' :
+				case 'update-core.php':
+				case 'admin.php':
 					$timeout = MINUTE_IN_SECONDS;
 					break;
 
-				case 'plugins.php' :
+				case 'plugins.php':
 					$timeout = HOUR_IN_SECONDS;
 					break;
 
-				default :
-
+				default:
 					if ( defined( 'DOING_CRON' ) && DOING_CRON ||
-					     defined( 'DOING_AJAX' ) && DOING_AJAX
-					) {
+						 defined( 'DOING_AJAX' ) && DOING_AJAX
+						) {
 
-						// $timeout = 2 * HOUR_IN_SECONDS; // This matches the plugin updater timeout, but lets leave at 0 for now.
-						$timeout = 0;
+							// $timeout = 2 * HOUR_IN_SECONDS; // This matches the plugin updater timeout, but lets leave at 0 for now.
+							$timeout = 0;
 
 					} else {
 

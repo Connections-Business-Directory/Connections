@@ -157,7 +157,7 @@ class Carousel {
 			 * Sanitize listType.
 			 */
 			if ( array_key_exists( 'listType', $block ) &&
-			     in_array( $block['listType'], array( 'family', 'individual', 'organization' ) )
+				 in_array( $block['listType'], array( 'family', 'individual', 'organization' ) )
 			) {
 
 				$carousel['listType'] = sanitize_key( $block['listType'] );
@@ -399,7 +399,7 @@ class Carousel {
 			 * Sanitize image type.
 			 */
 			if ( array_key_exists( 'imageType', $block ) &&
-			     in_array( $block['imageType'], array( 'logo', 'photo' ) )
+				 in_array( $block['imageType'], array( 'logo', 'photo' ) )
 			) {
 
 				$carousel['imageType'] = sanitize_key( $block['imageType'] );
@@ -409,7 +409,7 @@ class Carousel {
 			 * Sanitize image shape.
 			 */
 			if ( array_key_exists( 'imageShape', $block ) &&
-			     in_array( $block['imageShape'], array( 'circle', 'square' ) )
+				 in_array( $block['imageShape'], array( 'circle', 'square' ) )
 			) {
 
 				$carousel['imageShape'] = sanitize_key( $block['imageShape'] );

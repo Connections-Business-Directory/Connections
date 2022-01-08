@@ -825,7 +825,7 @@ HERERDOC;
 
 					$status['type']    = 'error';
 					$status['code']    = 'failed';
-					$status['message'] = esc_html__( 'License validation failed.' , 'connections' );
+					$status['message'] = esc_html__( 'License validation failed.', 'connections' );
 					break;
 
 				default:
@@ -1072,16 +1072,16 @@ HERERDOC;
 	public function setClearCacheOption( WP_Upgrader $upgrader_object, $hook_extra ) {
 
 		if ( is_array( $hook_extra ) &&
-		     array_key_exists( 'action', $hook_extra ) &&
-		     array_key_exists( 'type', $hook_extra ) &&
-		     array_key_exists( 'plugins', $hook_extra )
+			 array_key_exists( 'action', $hook_extra ) &&
+			 array_key_exists( 'type', $hook_extra ) &&
+			 array_key_exists( 'plugins', $hook_extra )
 		) {
 
 			// Check first that array contain required keys to prevent undefined index error.
 			if ( 'update' === $hook_extra['action'] &&
-			     'plugin' === $hook_extra['type'] &&
-			     is_array( $hook_extra['plugins'] ) &&
-			     ! empty( $hook_extra['plugins'] )
+				 'plugin' === $hook_extra['type'] &&
+				 is_array( $hook_extra['plugins'] ) &&
+				 ! empty( $hook_extra['plugins'] )
 			) {
 
 				foreach ( $hook_extra['plugins'] as $slug ) {

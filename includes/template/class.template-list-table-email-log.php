@@ -412,7 +412,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$id      = esc_attr( $log['id'] );
 
 		return '<label class="screen-reader-text" for="cb-select-' . $id . '">' . sprintf( esc_html__( 'Select %s', 'connections' ), $subject ) . '</label>' .
-		       '<input type="checkbox" name="log[]" value="' . $id . '" id="cb-select-' . $id . '" />';
+			   '<input type="checkbox" name="log[]" value="' . $id . '" id="cb-select-' . $id . '" />';
 	}
 
 	/**
@@ -536,11 +536,11 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$deleteURL = $form->tokenURL(
 			add_query_arg(
 				array(
-					'page' => 'connections_tools',
-					'tab'  => 'logs',
-					'type' => $this->type,
+					'page'      => 'connections_tools',
+					'tab'       => 'logs',
+					'type'      => $this->type,
 					'cn-action' => 'delete_log',
-					'id' => $log['id'],
+					'id'        => $log['id'],
 				),
 				self_admin_url( 'admin.php' )
 			),
@@ -548,7 +548,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		);
 
 		$out .= '<strong><a class="row-title" href="' . $viewURL . '" title="' .
-		        esc_attr( sprintf( esc_html__( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
+				esc_attr( sprintf( esc_html__( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
 
 		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . "</a>";
 		$actions['view']   = '<a href="' . $viewURL . '">' . esc_html__( 'View', 'connections' ) . '</a>';

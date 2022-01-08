@@ -319,7 +319,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	protected function get_sortable_columns() {
 
-		$columns =  array(
+		$columns = array(
 			'name'        => array( 'name', false ),
 			'description' => array( 'description', false ),
 			'slug'        => array( 'slug', false ),

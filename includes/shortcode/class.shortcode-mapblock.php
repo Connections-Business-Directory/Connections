@@ -85,14 +85,14 @@ class mapBlock {
 			$roadMap = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'roadmap' );
 
 			$roadMap->setAttribution( implode( ' | ', $attribution ) )
-			        ->setOption( 'name', 'Roadmap' );
+					->setOption( 'name', 'Roadmap' );
 
 			$this->layerControl->addBaseLayer( $roadMap );
 
 			$hybrid = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'hybrid' );
 
 			$hybrid->setAttribution( implode( ' | ', $attribution ) )
-			       ->setOption( 'name', 'Satellite' );
+				   ->setOption( 'name', 'Satellite' );
 
 			$this->layerControl->addBaseLayer( $hybrid );
 
@@ -108,10 +108,10 @@ class mapBlock {
 		}
 
 		$this->map->setHeight( $atts['height'] )
-		          ->setWidth( $atts['width'] )
-		          ->setCenter( new Coordinates( $this->getDefaults()['latitude'], $this->getDefaults()['longitude'] ) )
-		          ->addLayers( $this->layerControl->getBaseLayers() )
-		          ->addControl( $this->layerControl );
+				  ->setWidth( $atts['width'] )
+				  ->setCenter( new Coordinates( $this->getDefaults()['latitude'], $this->getDefaults()['longitude'] ) )
+				  ->addLayers( $this->layerControl->getBaseLayers() )
+				  ->addControl( $this->layerControl );
 
 		$content = $this->parseLayers( $content );
 		$content = $this->parseMarkers( $content );

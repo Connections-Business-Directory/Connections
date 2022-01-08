@@ -173,8 +173,7 @@ class cnRewrite {
 		if ( isset( $var[ CN_IMAGE_ENDPOINT ] ) ||
 			( isset( $var['pagename'] ) && CN_IMAGE_ENDPOINT === $var['pagename'] ) ||
 			( isset( $var['name'] ) && CN_IMAGE_ENDPOINT === $var['name'] )
-			)
-		{
+		) {
 			// In some cases WP misinterprets the request as a page request and returns a 404.
 			$var['page'] = $var['pagename'] = $var['name'] = false;
 			$var[ CN_IMAGE_ENDPOINT ] = true;
@@ -1139,8 +1138,8 @@ class cnRewrite {
 
 		// Do not do the redirect if one of the core query vars is in the HTTP request.
 		if ( is_front_page() &&
-		     get_option( 'show_on_front' ) == 'page' &&
-		     ! empty( $found )
+			 get_option( 'show_on_front' ) == 'page' &&
+			 ! empty( $found )
 		) {
 
 			return $requestedURL;

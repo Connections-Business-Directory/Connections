@@ -41,7 +41,7 @@ class cnRole extends WP_Roles {
 			/*
 			 * Initiate an instance of the class.
 			 */
-			self::$instance = new self;
+			self::$instance = new self();
 		}
 
 		return self::$instance;

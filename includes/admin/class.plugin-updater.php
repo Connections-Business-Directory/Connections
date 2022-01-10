@@ -258,7 +258,7 @@ class cnPlugin_Updater {
 		 */
 		if ( ! is_object( $transient ) ) {
 
-			$transient = new stdClass;
+			$transient = new stdClass();
 		}
 
 		/**

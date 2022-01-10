@@ -40,7 +40,7 @@ class Content_Blocks {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Content_Blocks ) ) {
 
-			self::$instance = new Content_Blocks;
+			self::$instance = new Content_Blocks();
 
 			/*
 			 * Register the core Content Blocks actions/filters.

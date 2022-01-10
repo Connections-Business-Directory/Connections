@@ -51,7 +51,7 @@ final class cnLog_Email {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof cnLog_Email ) ) {
 
-			self::$instance = new cnLog_Email;
+			self::$instance = new cnLog_Email();
 
 			// Register log type.
 			add_filter( 'cn_log_types', array( __CLASS__, 'registerLogType' ) );

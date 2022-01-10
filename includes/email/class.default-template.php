@@ -46,7 +46,7 @@ class cnEmail_DefaultTemplates {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			// Register the default templates.
 			add_action( 'plugins_loaded', array( __CLASS__, 'register' ) );

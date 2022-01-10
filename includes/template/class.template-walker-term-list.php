@@ -100,7 +100,7 @@ class CN_Walker_Term_List extends Walker {
 
 		$atts['parent_id'] = wp_parse_id_list( $atts['parent_id'] );
 
-		$walker = new self;
+		$walker = new self();
 
 		if ( empty( $atts['parent_id'] ) ) {
 

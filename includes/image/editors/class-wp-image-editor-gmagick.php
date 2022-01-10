@@ -73,7 +73,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		}
 
 		try {
-			$gmagick = new Gmagick;
+			$gmagick = new Gmagick();
 			return ( (bool) $gmagick->queryformats( $gmagick_extension ) );
 		} catch ( Exception $e ) {
 			return false;

@@ -592,7 +592,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_database( $request ) {
 
-		$prepared_term = new stdClass;
+		$prepared_term = new stdClass();
 
 		$schema = $this->get_item_schema();
 

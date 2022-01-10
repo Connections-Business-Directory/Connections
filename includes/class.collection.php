@@ -1161,7 +1161,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	public function chunk( $size ) {
 
 		if ( $size <= 0 ) {
-			return new self;
+			return new self();
 		}
 
 		$chunks = array();

@@ -3493,13 +3493,13 @@ class cnRetrieve {
 		);
 
 		$sortFlags = array(
-			'SPECIFIED' => 'SPECIFIED',
-			'RANDOM' => 'RANDOM',
-			'SORT_ASC' => SORT_ASC,
-			'SORT_DESC' => SORT_DESC,
+			'SPECIFIED'    => 'SPECIFIED',
+			'RANDOM'       => 'RANDOM',
+			'SORT_ASC'     => SORT_ASC,
+			'SORT_DESC'    => SORT_DESC,
 			'SORT_REGULAR' => SORT_REGULAR,
 			'SORT_NUMERIC' => SORT_NUMERIC,
-			'SORT_STRING' => SORT_STRING,
+			'SORT_STRING'  => SORT_STRING,
 		);
 
 		$specifiedIDOrder = false;

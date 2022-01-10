@@ -130,7 +130,7 @@ class cnEntry_HTML extends cnEntry {
 	 * @access public
 	 * @since unknown
 	 * @version 1.0
-	 * @param array   $atts [optional]
+	 * @param array $atts [optional]
 	 * @return string
 	 */
 	public function getImage( $atts = array() ) {
@@ -2345,7 +2345,7 @@ class cnEntry_HTML extends cnEntry {
 	 * @access public
 	 * @since  8.5.19
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 *
 	 * @return string
 	 */

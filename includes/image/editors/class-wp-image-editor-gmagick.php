@@ -182,12 +182,13 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	/**
 	 * Resizes current image.
 	 *
-	 * @since 3.5.0
+	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @param int $max_w
-	 * @param int $max_h
+	 * @param int     $max_w
+	 * @param int     $max_h
 	 * @param boolean $crop
+	 *
 	 * @return boolean|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
@@ -265,17 +266,17 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	/**
 	 * Crops Image.
 	 *
-	 * @since 3.5.0
+	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @param string|int $src The source file or Attachment ID.
-	 * @param int $src_x The start x position to crop from.
-	 * @param int $src_y The start y position to crop from.
-	 * @param int $src_w The width to crop.
-	 * @param int $src_h The height to crop.
-	 * @param int $dst_w Optional. The destination width.
-	 * @param int $dst_h Optional. The destination height.
+	 * @param int     $src_x   The start x position to crop from.
+	 * @param int     $src_y   The start y position to crop from.
+	 * @param int     $src_w   The width to crop.
+	 * @param int     $src_h   The height to crop.
+	 * @param int     $dst_w   Optional. The destination width.
+	 * @param int     $dst_h   Optional. The destination height.
 	 * @param boolean $src_abs Optional. If the source crop points are absolute.
+	 *
 	 * @return boolean|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {

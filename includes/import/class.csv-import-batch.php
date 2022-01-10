@@ -176,7 +176,7 @@ class cnCSV_Batch_Import {
 	 * @access public
 	 * @since  8.5.5
 	 *
-	 * @param array  $map  An associative array which defines the mapping of the CSV columns to Connections fields.
+	 * @param array $map An associative array which defines the mapping of the CSV columns to Connections fields.
 	 */
 	public function setMap( $map ) {
 

@@ -103,7 +103,7 @@ class cnQuery {
 	 *
 	 * @global wpdb $wpdb
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 *
 	 * @return string
 	 */

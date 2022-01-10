@@ -57,9 +57,9 @@ class cnGeo {
 	 * @since 0.7.30
 	 * @version 1.0
 	 * @uses wp_parse_args()
-	 * @param array   $origin
-	 * @param array   $destination
-	 * @param array   $atts        [optional]
+	 * @param array $origin
+	 * @param array $destination
+	 * @param array $atts        [optional]
 	 * @return float
 	 */
 	public static function distance( $origin , $destination , $atts = array() ) {
@@ -117,7 +117,7 @@ class cnGeo {
 	 *
 	 * @since 0.7.3
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 *
 	 * @return float|int|string
 	 */

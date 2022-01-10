@@ -212,8 +212,8 @@ class cnTemplateFactory {
 	 *
 	 * @access public
 	 * @since 0.7.6
-	 * @param  string $slug
-	 * @param  string [optional] $type
+	 * @param string $slug
+	 * @param string $type
 	 * @return void
 	 */
 	public static function unregister( $slug, $type = '' ) {

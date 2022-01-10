@@ -168,9 +168,9 @@ class cnFileSystem {
 	 * @static
 	 * @url    http://stackoverflow.com/a/12763962
 	 * @uses   self::mkdir()
-	 * @param  string   $source      Source path
-	 * @param  string   $dest        Destination path
-	 * @param  int      $permissions New folder creation permissions
+	 * @param string $source      Source path
+	 * @param string $dest        Destination path
+	 * @param int    $permissions New folder creation permissions
 	 *
 	 * @return bool     Returns true on success, false on failure
 	 */
@@ -297,8 +297,8 @@ class cnUpload {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param array  $file Reference to a single element of $_FILES.
-	 * @param array  $atts An associative array containing the upload params.
+	 * @param array $file Reference to a single element of $_FILES.
+	 * @param array $atts An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
@@ -420,8 +420,8 @@ class cnUpload {
 	 * @uses   wp_handle_upload()
 	 * @uses   remove_filter()
 	 *
-	 * @param array  $file Reference to a single element of $_FILES.
-	 * @param array  $atts An associative array containing the upload params.
+	 * @param array $file Reference to a single element of $_FILES.
+	 * @param array $atts An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */

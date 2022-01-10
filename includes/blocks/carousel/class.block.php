@@ -119,7 +119,7 @@ class Carousel {
 	 *
 	 * @param string $meta_value
 	 * @param string $meta_key
-	 * @param $meta_type
+	 * @param string $meta_type
 	 *
 	 * @return false|string
 	 */

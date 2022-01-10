@@ -975,7 +975,7 @@ class cnScript {
 	 * @see    registerCSS()
 	 * @see    cnLocate::filePaths()
 	 *
-	 * @param  array  $paths An index array containing the file paths to be searched.
+	 * @param array $paths An index array containing the file paths to be searched.
 	 *
 	 * @return array
 	 */
@@ -997,7 +997,7 @@ class cnScript {
 	 *
 	 * @see    registerCSS()
 	 *
-	 * @param  array  $paths An index array containing the file paths to be searched.
+	 * @param array $paths An index array containing the file paths to be searched.
 	 *
 	 * @return array
 	 */

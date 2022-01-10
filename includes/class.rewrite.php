@@ -375,7 +375,7 @@ class cnRewrite {
 	 * @access private
 	 * @since  0.7.3.2
 	 *
-	 * @param array   $root_rewrite
+	 * @param array $root_rewrite
 	 *
 	 * @return array
 	 */
@@ -1043,13 +1043,12 @@ class cnRewrite {
 	 *
 	 * Hooks into the redirect_canonical filter.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.3.2
-	 * @uses cnQuery::getVar()
-	 * @uses remove_query_arg()
-	 * @uses user_trailingslashit()
-	 * @param string  $redirectURL
-	 * @param string  $requestedURL
+	 *
+	 * @param string $redirectURL
+	 * @param string $requestedURL
+	 *
 	 * @return string
 	 */
 	public function canonicalRedirectFilter( $redirectURL, $requestedURL ) {

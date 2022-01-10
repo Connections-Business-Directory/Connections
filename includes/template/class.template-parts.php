@@ -118,12 +118,13 @@ class cnTemplatePart {
 	 * @static
 	 * @uses   cnLocate::file()
 	 * @uses   load_template()
-	 * @param  string|array  $files        Template file(s) to search for, in order of priority.
-	 * @param  array         $params       An array of arguments that will be extract() if the template part is to be loaded.
-	 * @param  boolean       $load         If true the template file will be loaded.
-	 * @param  boolean       $require_once Whether to require_once or require. Default is to require_once.
 	 *
-	 * @return mixed string|bool           The template part file path, if one is located.
+	 * @param string|array $files        Template file(s) to search for, in order of priority.
+	 * @param array        $params       An array of arguments that will be extract() if the template part is to be loaded.
+	 * @param boolean      $load         If true the template file will be loaded.
+	 * @param boolean      $require_once Whether to require_once or require. Default is to require_once.
+	 *
+	 * @return string|bool The template part file path, if one is located.
 	 */
 	public static function locate( $files, $params, $load = false, $require_once = true ) {
 
@@ -148,22 +149,23 @@ class cnTemplatePart {
 	 * @access public
 	 * @static
 	 * @since  0.8.11
-	 * @global $posts
-	 * @global $post
-	 * @global $wp_did_header
-	 * @global $wp_query
-	 * @global $wp_rewrite
-	 * @global $wpdb
-	 * @global $wp_version
-	 * @global $wp
-	 * @global $id
-	 * @global $comment
-	 * @global $user_ID
-	 * @param  string  $file         The file path of the template part to be loaded.
-	 * @param  array   $params       An array of arguments that will be extract().
-	 * @param  bool    $require_once Whether to require_once or require. Default is to require_once.
+	 * @global       $posts
+	 * @global       $post
+	 * @global       $wp_did_header
+	 * @global       $wp_query
+	 * @global       $wp_rewrite
+	 * @global       $wpdb
+	 * @global       $wp_version
+	 * @global       $wp
+	 * @global       $id
+	 * @global       $comment
+	 * @global       $user_ID
 	 *
-	 * @return bool                  Unless the required file returns another value.
+	 * @param string $file         The file path of the template part to be loaded.
+	 * @param array  $params       An array of arguments that will be extract().
+	 * @param bool   $require_once Whether to require_once or require. Default is to require_once.
+	 *
+	 * @return bool Unless the required file returns another value.
 	 */
 	public static function load( $file, $params = array(), $require_once = true ) {
 
@@ -286,7 +288,9 @@ class cnTemplatePart {
 	 * @since  0.8
 	 * @static
 	 * @uses   shortcode_atts()
-	 * @param  array  $atts The shortcode $atts array.
+	 *
+	 * @param array $atts The shortcode $atts array.
+	 *
 	 * @return string       The error message.
 	 */
 	public static function loadTemplateError( $atts ) {
@@ -307,7 +311,8 @@ class cnTemplatePart {
 	 * @since  0.7.6.5
 	 * @uses   wp_parse_args()
 	 * @uses   apply_filters()
-	 * @param  array  $atts [optional]
+	 *
+	 * @param array $atts [optional]
 	 *
 	 * @return string
 	 */
@@ -885,7 +890,7 @@ class cnTemplatePart {
 	 * @since  8.2.8
 	 * @static
 	 *
-	 * @param  array  $atts     The shortcode $atts array.
+	 * @param array $atts The shortcode $atts array.
 	 *
 	 * @return string
 	 */
@@ -918,7 +923,7 @@ class cnTemplatePart {
 	 * @since  8.2.8
 	 * @static
 	 *
-	 * @param  array  $atts     The shortcode $atts array.
+	 * @param array $atts The shortcode $atts array.
 	 *
 	 * @return string
 	 */
@@ -945,11 +950,10 @@ class cnTemplatePart {
 	/**
 	 * Output the result list actions.
 	 *
-	 * @access public
-	 * @since 0.7.6.5
-	 * @param  (array)  $atts [optional]
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
+	 * @since  0.7.6.5
+	 *
+	 * @param array $atts
+	 *
 	 * @return string
 	 */
 	public static function listActions( $atts = array() ) {
@@ -1018,7 +1022,7 @@ class cnTemplatePart {
 	 * @access private
 	 * @since  0.8
 	 *
-	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
+	 * @param array $atts The $atts from self::listActions() passed by the action callback.
 	 */
 	public static function listAction_ViewAll( $atts ) {
 
@@ -2248,7 +2252,7 @@ class cnTemplatePart {
 	 * @since  8.5.18
 	 * @static
 	 *
-	 * @param array  $atts      The attributes array. {
+	 * @param array $atts The attributes array. {
 	 *
 	 *     @type bool   $link       Whether to format as link or as a string.
 	 *                              Default: FALSE
@@ -2323,8 +2327,8 @@ class cnTemplatePart {
 	 * @since 8.5.18
 	 * @deprecated 10.3.1
 	 *
-	 * @param int    $id        Category ID.
-	 * @param array  $atts      The attributes array. {
+	 * @param int   $id   Category ID.
+	 * @param array $atts The attributes array. {
 	 *
 	 *     @type bool   $link       Whether to format as link or as a string.
 	 *                              Default: FALSE
@@ -2782,10 +2786,11 @@ class cnTemplatePart {
 	 *     show_count (bool) Whether or not to display the category count.
 	 *
 	 * @param object $category A category object.
-	 * @param int $level The current category level.
-	 * @param int $depth The depth limit.
-	 * @param array $selected An array of the selected category IDs.
-	 * @param array $atts
+	 * @param int    $level    The current category level.
+	 * @param int    $depth    The depth limit.
+	 * @param array  $selected An array of the selected category IDs.
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
 	private static function categoryInputOption( $category, $level, $depth, $selected, $atts ) {
@@ -2988,10 +2993,11 @@ class cnTemplatePart {
 	 *     show_count (bool) Whether or not to display the category count.
 	 *
 	 * @param object $category A category object.
-	 * @param int $level The current category level.
-	 * @param int $depth The depth limit.
-	 * @param array $slug An array of the category slugs to be used to build the permalink.
-	 * @param array $atts
+	 * @param int    $level    The current category level.
+	 * @param int    $depth    The depth limit.
+	 * @param array  $slug     An array of the category slugs to be used to build the permalink.
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
 	private static function categoryLinkDescendant( $category, $level, $depth, $slug, $atts ) {

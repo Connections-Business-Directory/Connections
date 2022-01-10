@@ -584,7 +584,7 @@ class cnEntry {
 	 * Timestamp format can be sent as a string variable.
 	 * Returns $timeStamp
 	 *
-	 * @param mixed string|null  $format
+	 * @param string|null $format
 	 *
 	 * @return string
 	 */
@@ -877,7 +877,7 @@ class cnEntry {
 	 *
 	 * $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
 	 *
-	 * @param array $atts   {
+	 * @param array  $atts {
 	 *     Optional
 	 *
 	 *     @type string $format The format the name should be returned as.
@@ -1110,7 +1110,7 @@ class cnEntry {
 	 *
 	 * @uses cnString::normalize()
 	 *
-	 * @param array $atts {
+	 * @param array  $atts {
 	 *     Optional
 	 *
 	 *     @type string $format The format the name should be returned as.
@@ -1570,7 +1570,7 @@ class cnEntry {
 	 * @access public
 	 * @since  0.7.3
 	 *
-	 * @param array     $data       {
+	 * @param array $data {
 	 *
 	 *     @type int    $id         The address ID if it was retrieved from the db.
 	 *     @type bool   $preferred  Whether the address is the preferred address or not.
@@ -1659,7 +1659,7 @@ class cnEntry {
 	 * @access public
 	 * @since  0.7.3
 	 *
-	 * @param array     $data       {
+	 * @param array $data {
 	 *
 	 *     @type int    $id         The phone number ID if it was retrieved from the db.
 	 *     @type bool   $preferred  Whether or not the phone number is the preferred.
@@ -2730,7 +2730,7 @@ class cnEntry {
 	/**
 	 * Sets $imageDisplay.
 	 *
-	 * @param bool  $imageDisplay
+	 * @param bool $imageDisplay
 	 * @see entry::$imageDisplay
 	 */
 	public function setImageDisplay( $imageDisplay ) {
@@ -2749,7 +2749,7 @@ class cnEntry {
 	/**
 	 * Sets $imageLinked.
 	 *
-	 * @param bool  $imageLinked
+	 * @param bool $imageLinked
 	 * @see entry::$imageLinked
 	 */
 	public function setImageLinked( $imageLinked ) {
@@ -2854,7 +2854,7 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @param  array  $meta
+	 * @param  array $meta
 	 */
 	public function setOriginalLogoMeta( $meta ) {
 
@@ -2866,7 +2866,7 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @param  array  $meta
+	 * @param  array $meta
 	 */
 	public function setOriginalImageMeta( $meta ) {
 
@@ -3002,7 +3002,7 @@ class cnEntry {
 	 * @uses   WP_Error
 	 * @uses   is_wp_error()
 	 *
-	 * @param  array  $atts
+	 * @param  array $atts
 	 *
 	 * @return mixed array|WP_Error
 	 */

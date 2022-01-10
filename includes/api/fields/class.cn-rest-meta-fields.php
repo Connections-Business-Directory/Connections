@@ -97,8 +97,9 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 	 * @access public
 	 * @since  8.5.34
 	 *
-	 * @param array           $meta      Array of meta parsed from the request.
-	 * @param int             $object_id Object ID to fetch meta for.
+	 * @param array $meta      Array of meta parsed from the request.
+	 * @param int   $object_id Object ID to fetch meta for.
+	 *
 	 * @return WP_Error|null WP_Error if one occurs, null on success.
 	 */
 	public function update_value( $meta, $object_id ) {

@@ -352,8 +352,8 @@ final class _string {
 	 * @since  8.1.5
 	 * @static
 	 *
-	 * @param  string  $string String to create the excerpt from.
-	 * @param  array   $atts {
+	 * @param string $string String to create the excerpt from.
+	 * @param array  $atts {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int    $length       The length, number of words, of the excerpt to create.
@@ -495,7 +495,7 @@ final class _string {
 	 *
 	 * @param string $string        String containing HTML tags
 	 * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
-	 * @param string  $allowed_tags Optional. String of tags which will not be stripped.
+	 * @param string $allowed_tags  Optional. String of tags which will not be stripped.
 	 *
 	 * @return string The processed string.
 	 */

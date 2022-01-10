@@ -376,7 +376,7 @@ HERERDOC;
 	 * @access private
 	 * @since  0.8
 	 * @static
-	 * @param  array  $sections
+	 * @param array $sections
 	 *
 	 * @return array  The settings sections options array.
 	 */

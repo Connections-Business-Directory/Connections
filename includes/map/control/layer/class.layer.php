@@ -61,7 +61,7 @@ class Layer_Control extends Control {
 	/**
 	 * @since 8.29
 	 *
-	 * @param string $id
+	 * @param string  $id
 	 * @param Layer[] $baseLayers
 	 * @param Layer[] $overlays
 	 *

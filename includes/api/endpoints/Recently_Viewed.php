@@ -137,7 +137,7 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 	 *
 	 * @since 9.10
 	 *
-	 * @param cnOutput       $entry
+	 * @param cnOutput        $entry
 	 * @param WP_REST_Request $request
 	 *
 	 * @return WP_REST_Response

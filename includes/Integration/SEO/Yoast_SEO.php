@@ -365,7 +365,7 @@ final class Yoast_SEO {
 	 * @noinspection PhpUndefinedNamespaceInspection
 	 * @noinspection PhpUndefinedClassInspection
 	 *
-	 * @param string $url
+	 * @param string                                            $url
 	 * @param Yoast\WP\SEO\Presentations\Indexable_Presentation $presentation
 	 *
 	 * @return string

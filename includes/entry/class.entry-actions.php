@@ -25,8 +25,8 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param  (array)  $data The data to be used when adding an entry.
-	 * @return (bool)
+	 * @param array $data The data to be used when adding an entry.
+	 * @return bool
 	 */
 	public static function add( $data ) {
 
@@ -38,9 +38,9 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param  (int)   $id   The entry ID.
-	 * @param  (array) $data The data to be used when updating an entry.
-	 * @return (bool)
+	 * @param int   $id   The entry ID.
+	 * @param array $data The data to be used when updating an entry.
+	 * @return bool
 	 */
 	public static function update( $id, $data ) {
 
@@ -52,9 +52,9 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param  (int)   $id              The entry ID inwhich to duplicate.
-	 * @param  (array) $data [optional] The data to be used when duplicating an entry. Will be used add/replace existing data.
-	 * @return (bool)
+	 * @param int   $id              The entry ID inwhich to duplicate.
+	 * @param array $data [optional] The data to be used when duplicating an entry. Will be used add/replace existing data.
+	 * @return bool
 	 */
 	public static function copy( $id, $data = array() ) {
 

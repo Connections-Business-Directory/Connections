@@ -31,7 +31,7 @@ class Marker extends Abstract_Layer {
 	 *
 	 * @since 8.28
 	 *
-	 * @param string $id
+	 * @param string      $id
 	 * @param Coordinates $coordinates
 	 * @param array       $options
 	 */

@@ -231,11 +231,11 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 	 * @access private
 	 * @since  8.5.5
 	 *
-	 * @param int|string  $term The term name or term ID to check.
-	 * @param string      $slug The term slug.
-	 * @param int         $parent The term parent ID.
+	 * @param int|string $term   The term name or term ID to check.
+	 * @param string     $slug   The term slug.
+	 * @param int        $parent The term parent ID.
 	 *
-	 * @return bool|int   The parent term ID if it exists, FALSE if it does not.
+	 * @return bool|int  The parent term ID if it exists, FALSE if it does not.
 	 */
 	private function termExists( $term, $slug = '', $parent = 0 ) {
 

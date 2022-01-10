@@ -296,7 +296,7 @@ class cnTemplate_Customizer {
 	 * @uses   cnTemplate_Customizer::registerStringControls()
 	 * @uses   cnTemplate_Customizer::registerAdvancedControls()
 	 *
-	 * @param array $features
+	 * @param array                $features
 	 * @param WP_Customize_Manager $wp_customize
 	 */
 	private function registerFeatures( $features, $wp_customize ) {

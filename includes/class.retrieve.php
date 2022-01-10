@@ -1978,7 +1978,7 @@ class cnRetrieve {
 	 *         @type float $longitude
 	 *     }
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2147,7 +2147,7 @@ class cnRetrieve {
 	 *                                   Accepts: homephone, homefax, cellphone, workphone, workfax and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2244,7 +2244,7 @@ class cnRetrieve {
 	 *                                   Accepts: personal, work and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2341,7 +2341,7 @@ class cnRetrieve {
 	 *                                   Accepts: aim, yahoo, jabber, messenger, skype and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2438,7 +2438,7 @@ class cnRetrieve {
 	 *                                   Accepts: Any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2535,7 +2535,7 @@ class cnRetrieve {
 	 *                                   Accepts: blog, website and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2647,7 +2647,7 @@ class cnRetrieve {
 	 *                                   Accepts: Any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2740,8 +2740,8 @@ class cnRetrieve {
 	 *  http://devzone.zend.com/26/using-mysql-full-text-searching/
 	 *  http://onlamp.com/onlamp/2003/06/26/fulltext.html
 	 *
-	 * @since  0.7.2.0
-	 * @param  array   $atts [optional]
+	 * @since 0.7.2.0
+	 * @param array $atts [optional]
 	 *
 	 * @return array
 	 */
@@ -3461,9 +3461,9 @@ class cnRetrieve {
 	 * @since  unknown
 	 * @deprecated since unknown
 	 *
-	 * @param array   $entries A reference to an array of object $entries
-	 * @param string  $orderBy
-	 * @param mixed   array|string|NULL [optional]
+	 * @param array  $entries   A reference to an array of object $entries
+	 * @param string $orderBy
+	 * @param array|string|NULL [optional]
 	 *
 	 * @return array of objects
 	 */
@@ -3687,7 +3687,7 @@ class cnRetrieve {
 	 * @uses   current_user_can()
 	 * @uses   $wpdb->get_var()
 	 *
-	 * @param  (array)
+	 * @param array $atts
 	 *
 	 * @return int
 	 */
@@ -3722,7 +3722,7 @@ class cnRetrieve {
 	 * @access private
 	 * @version 1.0
 	 * @since 0.7.1.6
-	 * @param array   $results
+	 * @param array $results
 	 * @return array
 	 */
 	public function removeUnknownDateAdded( $results ) {
@@ -3759,8 +3759,8 @@ class cnRetrieve {
 	/**
 	 * Retrieve the children of the supplied parent.
 	 *
-	 * @param string $field
-	 * @param mixed  int|string $value
+	 * @param string     $field
+	 * @param int|string $value
 	 *
 	 * @return array
 	 */

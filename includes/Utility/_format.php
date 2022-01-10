@@ -23,8 +23,8 @@ final class _format {
 	 * @deprecated 9.11
 	 *
 	 * @param string $string
-	 * @param bool $allowHTML
-	 * @param array $permittedTags
+	 * @param bool   $allowHTML
+	 * @param array  $permittedTags
 	 *
 	 * @return string
 	 */
@@ -187,8 +187,8 @@ final class _format {
 	 * @deprecated 8.2.9 Use {@see _string::excerpt()} instead.
 	 * @see _string::excerpt()
 	 *
-	 * @param  string  $string String to create the excerpt from.
-	 * @param  array   $atts {
+	 * @param string $string String to create the excerpt from.
+	 * @param array  $atts {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int    $length       The length, number of words, of the excerpt to create.

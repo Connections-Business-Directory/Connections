@@ -355,9 +355,9 @@ class cnSanitize {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  mixed $value
-	 * @param  array $options An associative array of options.
-	 * @param  mixed $default [optional] The value to return if value does not exist in the options array.
+	 * @param mixed $value
+	 * @param array $options An associative array of options.
+	 * @param mixed $default [optional] The value to return if value does not exist in the options array.
 	 *
 	 * @return mixed
 	 */
@@ -393,9 +393,9 @@ class cnSanitize {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  array  $values   An index array of values.
-	 * @param  array  $options  An associative array of the valid options.
-	 * @param  array  $defaults [optional] The values to return if no values exists in the options array.
+	 * @param array $values   An index array of values.
+	 * @param array $options  An associative array of the valid options.
+	 * @param array $defaults [optional] The values to return if no values exists in the options array.
 	 *
 	 * @return array
 	 */

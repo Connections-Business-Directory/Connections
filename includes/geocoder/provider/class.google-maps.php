@@ -73,15 +73,16 @@ final class Google_Maps implements Provider {
 
 	/**
 	 * Google Maps for Business
-	 * @link https://developers.google.com/maps/documentation/business/
+	 *
+	 * @link  https://developers.google.com/maps/documentation/business/
 	 *
 	 * @since 8.26
 	 *
-	 * @param string     $clientId   Your Client ID
-	 * @param string     $privateKey Your Private Key (optional)
-	 * @param string     $region     Region biasing (optional)
-	 * @param string     $apiKey     Google Geocoding API key (optional)
-	 * @param string     $channel    Google Channel parameter (optional)
+	 * @param string $clientId   Your Client ID
+	 * @param string $privateKey Your Private Key (optional)
+	 * @param string $region     Region biasing (optional)
+	 * @param string $apiKey     Google Geocoding API key (optional)
+	 * @param string $channel    Google Channel parameter (optional)
 	 *
 	 * @return Google_Maps
 	 */
@@ -98,8 +99,8 @@ final class Google_Maps implements Provider {
 	/**
 	 * @since 8.26
 	 *
-	 * @param string     $region Region biasing (optional)
-	 * @param string     $apiKey Google Geocoding API key (optional)
+	 * @param string $region Region biasing (optional)
+	 * @param string $apiKey Google Geocoding API key (optional)
 	 */
 	public function __construct( $apiKey, $region = null ) {
 

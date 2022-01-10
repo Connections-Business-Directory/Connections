@@ -252,12 +252,12 @@ class cnMeta {
 	 * @uses   wpdb::inset()
 	 * @uses   wp_cache_delete()
 	 *
-	 * @param string $type    The type of object the meta data is for; ie. entry and term.
-	 * @param int    $id      The object ID.
-	 * @param string $key     Metadata key.
-	 * @param string $value   Metadata value.
-	 * @param bool $unique    [optional] Whether the specified metadata key should be unique for the object.
-	 *                        If TRUE, and the object already has a value for the specified metadata key, no change will be made.
+	 * @param string $type   The type of object the meta data is for; ie. entry and term.
+	 * @param int    $id     The object ID.
+	 * @param string $key    Metadata key.
+	 * @param string $value  Metadata value.
+	 * @param bool   $unique [optional] Whether the specified metadata key should be unique for the object.
+	 *                       If TRUE, and the object already has a value for the specified metadata key, no change will be made.
 	 *
 	 * @return mixed          int|bool The metadata ID on successful insert or FALSE on failure.
 	 */

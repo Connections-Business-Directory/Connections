@@ -131,9 +131,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param  int   $level 0–100
+	 * @param int $level 0–100
 	 *
-	 * @return mixed boolean | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function opacity( $level ) {
 

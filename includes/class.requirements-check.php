@@ -132,15 +132,15 @@ final class cnRequirements_Check {
 			// Which dependency are we checking?
 			switch ( $dependency ) {
 				// PHP
-				case 'php' :
+				case 'php':
 					$version = phpversion();
 					break;
 				// WP
-				case 'wp' :
+				case 'wp':
 					$version = get_bloginfo( 'version' );
 					break;
 				// Unknown
-				default :
+				default:
 					$version = false;
 					break;
 			}

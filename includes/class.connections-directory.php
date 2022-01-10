@@ -429,7 +429,7 @@ final class Connections_Directory {
 		switch ( true ) {
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '0.7.3', '<' ) ) :
+			case ( version_compare( $version, '0.7.3', '<' ) ):
 				/*
 				 * Retrieve the settings stored prior to 0.7.3 and migrate them
 				 * so they will be accessible in the structure supported by the
@@ -524,7 +524,7 @@ final class Connections_Directory {
 				}
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '0.7.4', '<' ) ) :
+			case ( version_compare( $version, '0.7.4', '<' ) ):
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 				 */
@@ -535,7 +535,7 @@ final class Connections_Directory {
 				unset( $options );
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '0.8', '<' ) ) :
+			case ( version_compare( $version, '0.8', '<' ) ):
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 				 */
@@ -552,8 +552,7 @@ final class Connections_Directory {
 				unset( $options );
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '8.5.19', '<' ) ) :
-
+			case ( version_compare( $version, '8.5.19', '<' ) ):
 				$options = get_option( 'connections_permalink' );
 
 				$options['district_base'] = 'district';

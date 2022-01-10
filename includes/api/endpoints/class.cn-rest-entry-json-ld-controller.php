@@ -152,8 +152,7 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 				$data['honorificSuffix'] = $entry->getHonorificSuffix();
 				break;
 
-			case  'organization':
-
+			case 'organization':
 				$data['@type'] = 'Organization';
 				$data['name']  = $entry->getName();
 				break;

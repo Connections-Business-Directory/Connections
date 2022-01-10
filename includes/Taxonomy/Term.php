@@ -233,7 +233,7 @@ final class Term {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
-			case 'data' :
+			case 'data':
 				$data    = new stdClass();
 				$columns = array( 'term_id', 'name', 'slug', 'term_group', 'term_taxonomy_id', 'taxonomy', 'description', 'parent', 'count' );
 				foreach ( $columns as $column ) {

@@ -198,7 +198,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 				$type = 'Person';
 				break;
 
-			case  'organization':
+			case 'organization':
 				$type = 'Organization';
 				break;
 

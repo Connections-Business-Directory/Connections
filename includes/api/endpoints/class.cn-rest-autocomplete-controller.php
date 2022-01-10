@@ -159,7 +159,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		switch ( $type ) {
 
 			case 'name':
-
 				$select[] = 'name.*';
 				$from[]   = '(SELECT ' . CN_ENTRY_TABLE . '.*, CASE `entry_type`
 							  WHEN \'individual\' THEN CONCAT( `first_name`, \' \',  `last_name` )
@@ -186,7 +185,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			case 'title':
 			case 'organization':
 			case 'department':
-
 				$select[] = CN_ENTRY_TABLE . '.*';
 				$from[]   = CN_ENTRY_TABLE;
 
@@ -207,7 +205,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			case 'state':
 			case 'zipcode':
 			case 'country':
-
 				$select[] = CN_ENTRY_ADDRESS_TABLE . '.*';
 				$from[]   = CN_ENTRY_ADDRESS_TABLE;
 

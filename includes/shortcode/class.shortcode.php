@@ -167,7 +167,6 @@ class cnShortcode {
 		switch ( $return ) {
 
 			case 'atts':
-
 				$atts = array();
 
 				foreach ( $found as $shortcode ) {
@@ -603,7 +602,6 @@ class cnShortcode {
 		switch ( $view ) {
 
 			case 'submit':
-
 				if ( has_action( 'cn_submit_entry_form' ) ) {
 
 					ob_start();
@@ -623,13 +621,11 @@ class cnShortcode {
 				break;
 
 			case 'landing':
-
 				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
 
 				break;
 
 			case 'search':
-
 				if ( has_action( 'cn_submit_search_form' ) ) {
 
 					ob_start();
@@ -646,7 +642,6 @@ class cnShortcode {
 				break;
 
 			case 'results':
-
 				if ( has_action( 'cn_submit_search_results' ) ) {
 
 					ob_start();
@@ -664,14 +659,12 @@ class cnShortcode {
 
 			// Show the standard result list.
 			case 'card':
-
 				return cnShortcode_Connections::shortcode( $atts, $content );
 
 				break;
 
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
-
 				if ( ! is_array( $atts ) ) {
 					$atts = array();
 				}
@@ -688,11 +681,9 @@ class cnShortcode {
 
 			// Show the entry detail using a template based on the entry type.
 			case 'detail':
-
 				switch ( cnQuery::getVar( 'cn-process' ) ) {
 
 					case 'edit':
-
 						if ( has_action( 'cn_edit_entry_form' ) ) {
 
 							// Check to see if the entry has been linked to a user ID.
@@ -734,7 +725,6 @@ class cnShortcode {
 						break;
 
 					default:
-
 						// Ensure an array is passed the the cnRetrieve::entries method.
 						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
 
@@ -752,7 +742,6 @@ class cnShortcode {
 
 			// Show the standard result list.
 			default:
-
 				// return cnShortcode_Connections::shortcode( $atts, $content );
 
 				if ( has_action( "cn_view_$view" ) ) {

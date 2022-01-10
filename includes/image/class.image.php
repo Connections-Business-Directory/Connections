@@ -863,7 +863,6 @@ class cnImage {
 			switch ( $crop_mode ) {
 
 				case 0:
-
 					$dims  = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
@@ -878,7 +877,6 @@ class cnImage {
 					break;
 
 				case 1:
-
 					$dims  = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
@@ -893,7 +891,6 @@ class cnImage {
 					break;
 
 				case 2:
-
 					$canvas_w = $width;
 					$canvas_h = $height;
 
@@ -931,7 +928,6 @@ class cnImage {
 					break;
 
 				case 3:
-
 					// generate new w/h if not provided
 					if ( $width && ! $height ) {
 
@@ -1231,7 +1227,6 @@ class cnImage {
 					switch ( $crop_mode ) {
 
 						case 0:
-
 							if ( is_wp_error(
 								$result = $editor->resize(
 									( empty( $width ) ? null : $width ),
@@ -1248,7 +1243,6 @@ class cnImage {
 							break;
 
 						case 1:
-
 							if ( is_wp_error(
 								$result = $editor->resize(
 									( empty( $width ) ? null : $width ),
@@ -1272,7 +1266,6 @@ class cnImage {
 							break;
 
 						case 2:
-
 							if ( is_wp_error(
 								$result = $editor->resize_padded(
 									$canvas_w,
@@ -1295,7 +1288,6 @@ class cnImage {
 							break;
 
 						case 3:
-
 							if ( is_wp_error(
 								$result = $editor->resize(
 									( empty( $width ) ? null : $width ),
@@ -1505,12 +1497,10 @@ class cnImage {
 		switch ( $return ) {
 
 			case 'base64':
-
 				$image = 'data:image/' . ( isset( $mime_type ) ? $mime_type : $orig_mime_type ) . ';base64,' . base64_encode( file_get_contents( $destfilename ) );
 				break;
 
 			case 'data':
-
 				$image = array(
 					'name'   => "{$dst_rel_path}-{$suffix}.{$ext}",
 					'path'   => $destfilename,
@@ -1525,17 +1515,14 @@ class cnImage {
 				break;
 
 			case 'editor':
-
 				$image = $editor;
 				break;
 
 			case 'stream':
-
 				$image = $editor->stream();
 				break;
 
 			default:
-
 				$image = $img_url;
 				break;
 		}

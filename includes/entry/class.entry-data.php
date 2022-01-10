@@ -786,12 +786,10 @@ class cnEntry {
 			switch ( $context ) {
 
 				case 'rest':
-
 					$permalink = get_rest_url( null, "cn-api/v1/entry/{$this->getId()}" );
 					break;
 
 				default:
-
 					$permalink = cnURL::permalink(
 						array(
 							'type'       => 'delete',
@@ -2902,19 +2900,16 @@ class cnEntry {
 		switch ( $type ) {
 
 			case 'logo':
-
 				// Build the URL to the original image.
 				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getLogoName();
 				break;
 
 			case 'photo':
-
 				// Build the URL to the original image.
 				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getImageNameOriginal();
 				break;
 
 			default:
-
 				$path = '';
 				break;
 		}
@@ -2957,12 +2952,10 @@ class cnEntry {
 		switch ( $type ) {
 
 			case 'logo':
-
 				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getLogoName();
 				break;
 
 			case 'photo':
-
 				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getImageNameOriginal();
 				break;
 		}
@@ -3064,7 +3057,6 @@ class cnEntry {
 		switch ( $atts['type'] ) {
 
 			case 'logo':
-
 				switch ( $atts['size'] ) {
 
 					case 'original':
@@ -3105,7 +3097,6 @@ class cnEntry {
 						break;
 
 					default:
-
 						$meta = cnImage::get(
 							$this->getOriginalImageURL( $atts['type'] ),
 							array(
@@ -3130,11 +3121,9 @@ class cnEntry {
 				break;
 
 			case 'photo':
-
 				switch ( $atts['size'] ) {
 
 					case 'original':
-
 						$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
 						$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
 
@@ -3172,7 +3161,6 @@ class cnEntry {
 						break;
 
 					default:
-
 						if ( in_array( $atts['size'], $sizes ) ) {
 
 							$meta = cnImage::get(

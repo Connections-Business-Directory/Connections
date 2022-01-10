@@ -302,7 +302,6 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_link':
-
 				/**
 				 * A link object.
 				 *
@@ -330,7 +329,6 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_links':
-
 				/**
 				 * An index array of link objects.
 				 *
@@ -343,14 +341,12 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_link':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_link', $item );
 				};
 				break;
 
 			case 'cn_set_links':
-
 				$this->filtered = apply_filters( 'cn_set_links', $this->filtered );
 				break;
 		}

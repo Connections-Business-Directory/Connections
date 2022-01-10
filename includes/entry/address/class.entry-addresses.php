@@ -469,7 +469,6 @@ final class cnEntry_Addresses implements cnToArray {
 		switch ( $filter ) {
 
 			case 'cn_address':
-
 				/**
 				 * An address object.
 				 *
@@ -500,7 +499,6 @@ final class cnEntry_Addresses implements cnToArray {
 				break;
 
 			case 'cn_addresses':
-
 				/**
 				 * An index array of address objects.
 				 *
@@ -513,14 +511,12 @@ final class cnEntry_Addresses implements cnToArray {
 				break;
 
 			case 'cn_set_address':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_address', $item );
 				};
 				break;
 
 			case 'cn_set_addresses':
-
 				$this->filtered = apply_filters( 'cn_set_addresses', $this->filtered );
 				break;
 		}
@@ -590,17 +586,14 @@ final class cnEntry_Addresses implements cnToArray {
 		switch ( $context ) {
 
 			case 'display':
-
 				$this->escapeForDisplay();
 				break;
 
 			case 'edit':
-
 				$this->escapeForEdit();
 				break;
 
 			case 'db':
-
 				$this->escapeForSaving();
 				break;
 		}

@@ -603,7 +603,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 			switch ( $response->status ) {
 
 				case 'ZERO_RESULTS':
-
 					return new WP_Error(
 						'no_results',
 						__( 'Returned zero results.', 'connections' ),
@@ -611,7 +610,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					);
 
 				case 'OVER_QUERY_LIMIT':
-
 					return new WP_Error(
 						'over_query_limit',
 						__( 'Daily query limit has been exceeded.', 'connections' ),
@@ -619,7 +617,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					);
 
 				case 'REQUEST_DENIED':
-
 					return new WP_Error(
 						'request_denied',
 						__( 'Request has been denied.', 'connections' ),
@@ -627,7 +624,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					);
 
 				case 'INVALID_REQUEST':
-
 					return new WP_Error(
 						'invalid_request',
 						__( 'An invalid request has been received.', 'connections' ),
@@ -635,7 +631,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					);
 
 				case 'UNKNOWN_ERROR':
-
 					return new WP_Error(
 						'unknown_error',
 						__( 'An unknown error has occurred.', 'connections' ),
@@ -643,7 +638,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					);
 
 				case 'OK':
-
 					if ( $raw ) {
 						return $content;
 					} else {
@@ -651,7 +645,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					}
 
 				default:
-
 					return new WP_Error(
 						'unknown_status',
 						__( 'An unknown status response has been received.', 'connections' ),

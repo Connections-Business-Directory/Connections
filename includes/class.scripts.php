@@ -892,12 +892,10 @@ class cnScript {
 		switch ( $shape ) {
 
 			case 'circle':
-
 				$css .= "i[class^=cn-brandicon] { border-radius: 50%; }" . PHP_EOL;
 				break;
 
 			case 'square':
-
 				$css .= "i[class^=cn-brandicon] { border-radius: 0; }" . PHP_EOL;
 				break;
 		}

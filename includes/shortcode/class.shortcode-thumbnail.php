@@ -76,27 +76,22 @@ class cnThumb extends cnShortcode {
 		switch ( $atts['type'] ) {
 
 			case 'attachment':
-
 				$source = wp_get_attachment_url( absint( $atts['source'] ) );
 				break;
 
 			case 'featured':
-
 				$source = wp_get_attachment_url( get_post_thumbnail_id() );
 				break;
 
 			case 'path':
-
 				$source = $atts['source'];
 				break;
 
 			case 'url':
-
 				$source = esc_url( $atts['source'] );
 				break;
 
 			case 'logo':
-
 				$result = $instance->retrieve->entry( absint( $atts['source'] ) );
 
 				$entry = new cnEntry( $result );
@@ -114,7 +109,6 @@ class cnThumb extends cnShortcode {
 				break;
 
 			case 'photo':
-
 				$result = $instance->retrieve->entry( absint( $atts['source'] ) );
 
 				$entry = new cnEntry( $result );

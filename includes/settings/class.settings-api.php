@@ -774,7 +774,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			switch ( $field['type'] ) {
 
 				case 'checkbox':
-
 					$out .= Field\Checkbox::create()
 										  ->setId( $name )
 										  ->addClass( 'checkbox' )
@@ -790,7 +789,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				case 'checkbox-group':
 				case 'multicheckbox':
-
 					$out .= Field\Description::create()
 											 ->addClass( 'description' )
 											 ->setId( "{$field['id']}-description" )
@@ -810,7 +808,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'number':
-
 					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 					$out .= sprintf( '<input type="number" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
@@ -829,7 +826,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 				 * field type.
 				 */
 				case 'cpt-checkbox-group':
-
 					$postTypes = get_post_types(
 						array(
 							'public'             => true,
@@ -856,7 +852,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'radio':
-
 					remapFieldOptions( $field );
 
 					$out .= Field\Description::create()
@@ -877,7 +872,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'select':
-
 					remapFieldOptions( $field );
 
 					$out .= Field\Description::create()
@@ -914,7 +908,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'text':
-
 					$sizes = array( 'small', 'regular', 'large' );
 					$size  = _array::get( $field, 'size', 'regular' );
 
@@ -939,7 +932,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'textarea':
-
 					$sizes = array( 'small', 'large' );
 					$size  = _array::get( $field, 'size', 'small' );
 
@@ -978,7 +970,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'rte':
-
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						printf(
@@ -1004,7 +995,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'page':
-
 					$out .= wp_dropdown_pages(
 						array(
 							'name'              => esc_html( $name ),
@@ -1018,7 +1008,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'cpt-pages':
-
 					$defaults = array(
 						'depth'                 => 0,
 						'child_of'              => 0,
@@ -1089,7 +1078,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'category':
-
 					$out .= cnTemplatePart::walker(
 						'term-select',
 						array(
@@ -1107,7 +1095,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'sortable_checklist':
-
 					// This will be used to store the order of the content blocks.
 					$blocks = array();
 
@@ -1238,7 +1225,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				case 'sortable_input-repeatable':
 				case 'sortable_input':
-
 					// This will be used to store the order of the content blocks.
 					$blocks = array();
 
@@ -1439,7 +1425,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				case 'sortable_iconpicker':
 				case 'sortable_iconpicker-repeatable':
-
 					// This will be used to store the order of the content blocks.
 					$blocks = array();
 
@@ -1806,7 +1791,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'colorpicker':
-
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						$out .= sprintf(
@@ -1828,7 +1812,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				default:
-
 					ob_start();
 
 					do_action( 'cn_settings_field-' . $field['type'], $name, $value, $field );

@@ -69,12 +69,10 @@ class cnLocate {
 		switch ( $return ) {
 
 			case 'url':
-
 				$result = $path ? cnURL::fromPath( $path ) : $path;
 				break;
 
 			default:
-
 				$result = $path;
 				break;
 		}

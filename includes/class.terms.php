@@ -3114,7 +3114,6 @@ class cnTerm {
 						break;
 
 					default:
-
 						$orderField = 't.name';
 						break;
 				}
@@ -3183,7 +3182,6 @@ class cnTerm {
 					break;
 
 				default:
-
 					$atts['orderby'] = 't.name';
 					break;
 			}

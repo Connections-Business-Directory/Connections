@@ -196,7 +196,6 @@ class cnEntry_HTML extends cnEntry {
 		switch ( $atts['image'] ) {
 
 			case 'photo':
-
 				if ( $this->getImageLinked() && ( $this->getImageDisplay() || 'edit' == $atts['action'] ) ) {
 
 					$displayImage  = true;
@@ -299,7 +298,6 @@ class cnEntry_HTML extends cnEntry {
 				break;
 
 			case 'logo':
-
 				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || 'edit' == $atts['action'] ) ) {
 
 					$displayImage  = true;
@@ -495,7 +493,6 @@ class cnEntry_HTML extends cnEntry {
 				 */
 				switch ( $atts['image'] ) {
 					case 'photo':
-
 						switch ( $atts['preset'] ) {
 
 							case 'entry':
@@ -522,7 +519,6 @@ class cnEntry_HTML extends cnEntry {
 						break;
 
 					case 'logo':
-
 						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_logo', 'width' ) . 'px';
 						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_logo', 'height' ) . 'px';
 						break;
@@ -536,7 +532,6 @@ class cnEntry_HTML extends cnEntry {
 			switch ( $atts['fallback']['type'] ) {
 
 				case 'block':
-
 					$atts['style']['display'] = 'inline-block';
 
 					$width  = absint( $atts['style']['width'] );

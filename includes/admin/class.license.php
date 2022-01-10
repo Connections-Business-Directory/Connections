@@ -652,7 +652,6 @@ HERERDOC;
 			switch ( $error ) {
 
 				case 'expired':
-
 					$status['type'] = 'error';
 					$status['code'] = 'expired';
 
@@ -674,49 +673,42 @@ HERERDOC;
 
 				case 'invalid_item_id':
 				case 'item_name_mismatch':
-
 					$status['type']    = 'error';
 					$status['code']    = 'item_name_mismatch';
 					$status['message'] = esc_html__( 'License entered is not for this item.', 'connections' );
 					break;
 
 				case 'missing':
-
 					$status['type']    = 'error';
 					$status['code']    = 'missing';
 					$status['message'] = esc_html__( 'Invalid license.', 'connections' );
 					break;
 
 				case 'revoked':
-
 					$status['type']    = 'error';
 					$status['code']    = 'revoked';
 					$status['message'] = esc_html__( 'License has been revoked.', 'connections' );
 					break;
 
 				case 'no_activations_left':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'no_activations_left';
 					$status['message'] = esc_html__( 'License activation limit has been reached.', 'connections' );
 					break;
 
 				case 'key_mismatch':
-
 					$status['type']    = 'error';
 					$status['code']    = 'key_mismatch';
 					$status['message'] = esc_html__( 'License key mismatch.', 'connections' );
 					break;
 
 				case 'license_not_activable':
-
 					$status['type']    = 'error';
 					$status['code']    = 'license_not_activable';
 					$status['message'] = esc_html__( 'Bundle license keys can not be activated. Use item license key instead.', 'connections' );
 					break;
 
 				default:
-
 					$status['type']    = 'error';
 					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
@@ -734,14 +726,12 @@ HERERDOC;
 			switch ( $data->license ) {
 
 				case 'invalid':
-
 					$status['type']    = 'error';
 					$status['code']    = 'invalid';
 					$status['message'] = esc_html__( 'License key invalid.', 'connections' );
 					break;
 
 				case 'expired':
-
 					$status['type'] = 'error';
 					$status['code'] = 'expired';
 
@@ -762,21 +752,18 @@ HERERDOC;
 					break;
 
 				case 'inactive':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'inactive';
 					$status['message'] = esc_html__( 'License is not active.', 'connections' );
 					break;
 
 				case 'disabled':
-
 					$status['type']    = 'error';
 					$status['code']    = 'disabled';
 					$status['message'] = esc_html__( 'License has been disabled.', 'connections' );
 					break;
 
 				case 'site_inactive':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'site_inactive';
 					$status['message'] = esc_html__( 'License is not active on this site.', 'connections' );
@@ -784,14 +771,12 @@ HERERDOC;
 
 				case 'invalid_item_id':
 				case 'item_name_mismatch':
-
 					$status['type']    = 'error';
 					$status['code']    = 'item_name_mismatch';
 					$status['message'] = esc_html__( 'License entered is not for this item.', 'connections' );
 					break;
 
 				case 'valid':
-
 					$status['type'] = 'success';
 					$status['code'] = 'valid';
 
@@ -815,21 +800,18 @@ HERERDOC;
 					break;
 
 				case 'deactivated':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'deactivated';
 					$status['message'] = esc_html__( 'License is deactivated.', 'connections' );
 					break;
 
 				case 'failed':
-
 					$status['type']    = 'error';
 					$status['code']    = 'failed';
 					$status['message'] = esc_html__( 'License validation failed.', 'connections' );
 					break;
 
 				default:
-
 					$status['type']    = 'error';
 					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
@@ -1134,17 +1116,14 @@ HERERDOC;
 		switch ( $action ) {
 
 			case 'activate':
-
 				$eddAction = 'activate_license';
 				break;
 
 			case 'deactivate':
-
 				$eddAction = 'deactivate_license';
 				break;
 
 			case 'status':
-
 				$eddAction = 'check_license';
 				break;
 		}
@@ -1178,7 +1157,6 @@ HERERDOC;
 		switch ( $action ) {
 
 			case 'activate':
-
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
@@ -1190,7 +1168,6 @@ HERERDOC;
 				return $data;
 
 			case 'deactivate':
-
 				// EDD SL reports either 'deactivated' or 'failed' as the license status.
 				// Unlike when activating a license, EDD does not report and error and its message.
 				// So...
@@ -1215,7 +1192,6 @@ HERERDOC;
 				return $data;
 
 			case 'status':
-
 				// Save license data in transient.
 				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 

@@ -297,7 +297,6 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_messenger_id':
-
 				/**
 				 * A messenger ID object.
 				 *
@@ -317,7 +316,6 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_messenger_ids':
-
 				/**
 				 * An index array of messenger ID objects.
 				 *
@@ -330,14 +328,12 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_messenger_id':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_messenger_id', $item );
 				};
 				break;
 
 			case 'cn_set_messenger_ids':
-
 				$this->filtered = apply_filters( 'cn_set_messenger_ids', $this->filtered );
 				break;
 		}

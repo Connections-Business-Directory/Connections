@@ -352,7 +352,6 @@ final class _url {
 				break;
 
 			case 'all':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . 'view/all/' );
 				} else {
@@ -362,7 +361,6 @@ final class _url {
 				break;
 
 			case 'submit':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . 'submit/' );
 				} else {
@@ -372,7 +370,6 @@ final class _url {
 				break;
 
 			case 'edit':
-
 				//if ( $wp_rewrite->using_permalinks() ) {
 				//
 				//	// The entry slug is saved in the db urlencoded so we'll expect when the permalink for entry name is
@@ -394,7 +391,6 @@ final class _url {
 				break;
 
 			case 'delete':
-
 				$result = Connections_Directory()->retrieve->entry( $atts['slug'] );
 
 				if ( false !== $result ) {
@@ -407,7 +403,6 @@ final class _url {
 				break;
 
 			case 'name':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 
 					// The entry slug is saved in the db urlencoded so we'll expect when the permalink for entry name is
@@ -420,7 +415,6 @@ final class _url {
 				break;
 
 			case 'detail':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/detail' );
 				} else {
@@ -430,7 +424,6 @@ final class _url {
 				break;
 
 			case 'department':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -440,7 +433,6 @@ final class _url {
 				break;
 
 			case 'organization':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -460,7 +452,6 @@ final class _url {
 			//	break;
 
 			case 'district':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['district_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -470,7 +461,6 @@ final class _url {
 				break;
 
 			case 'county':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['county_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -480,7 +470,6 @@ final class _url {
 				break;
 
 			case 'locality':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -490,7 +479,6 @@ final class _url {
 				break;
 
 			case 'region':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -500,7 +488,6 @@ final class _url {
 				break;
 
 			case 'postal_code':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -510,7 +497,6 @@ final class _url {
 				break;
 
 			case 'country':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . rawurlencode( $atts['slug'] ) );
 				} else {
@@ -520,7 +506,6 @@ final class _url {
 				break;
 
 			case 'character':
-
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['character_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
@@ -530,7 +515,6 @@ final class _url {
 				break;
 
 			case _string::endsWith( '-taxonomy-term', $atts['type'] ):
-
 				$taxonomy = _string::replaceLast( '-taxonomy-term', '', $atts['type'] );
 
 				$permalink = apply_filters(
@@ -542,7 +526,6 @@ final class _url {
 				break;
 
 			default:
-
 				if ( has_filter( "cn_permalink-{$atts['type']}" ) ) {
 
 					/**

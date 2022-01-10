@@ -280,7 +280,6 @@ final class cnLog_Email {
 		switch ( $type ) {
 
 			case 'headers':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 
 				if ( is_array( $value ) ) {
@@ -298,7 +297,6 @@ final class cnLog_Email {
 				break;
 
 			case 'from':
-
 				$value = esc_html( $value );
 
 				break;
@@ -307,7 +305,6 @@ final class cnLog_Email {
 			case 'cc':
 			case 'bcc':
 			case 'attachments':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 
 				if ( empty( $value ) ) {
@@ -611,7 +608,6 @@ final class cnLog_Email {
 		switch ( $key ) {
 
 			case 'headers':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 				$value = '<ul><li>' . implode( '</li><li>', $value ) . '</li></ul>';
 				break;
@@ -622,7 +618,6 @@ final class cnLog_Email {
 				break;
 
 			case 'from':
-
 				if ( empty( $value ) ) {
 
 					$value = '<p>' . esc_html__( 'None', 'connections' ) . '</p>';
@@ -638,7 +633,6 @@ final class cnLog_Email {
 			case 'cc':
 			case 'bcc':
 			case 'attachments':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 
 				if ( empty( $value ) ) {

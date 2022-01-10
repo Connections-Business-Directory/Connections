@@ -62,7 +62,6 @@ class Google_Static_Map extends Content_Block {
 		switch ( $property ) {
 
 			case 'maptype':
-
 				// Limit the map type to one of the valid types to prevent user error.
 				$permittedMapTypes = array( 'HYBRID', 'ROADMAP', 'SATELLITE', 'TERRAIN' );
 
@@ -73,7 +72,6 @@ class Google_Static_Map extends Content_Block {
 
 			case 'height':
 			case 'width':
-
 				$value = absint( $value );
 
 				$value = filter_var(
@@ -91,7 +89,6 @@ class Google_Static_Map extends Content_Block {
 				break;
 
 			case 'zoom':
-
 				$value = absint( $value );
 
 				$value = filter_var(

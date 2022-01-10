@@ -2403,7 +2403,6 @@ class cnTemplatePart {
 				break;
 
 			case 'radio':
-
 				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
 
 					$out = self::categoryInput( $atts );
@@ -2416,7 +2415,6 @@ class cnTemplatePart {
 				break;
 
 			case 'checkbox':
-
 				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
 
 					$out = self::categoryInput( $atts );
@@ -2429,7 +2427,6 @@ class cnTemplatePart {
 				break;
 
 			case 'link':
-
 				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
 
 					$out = self::categoryLink( $atts );
@@ -2446,7 +2443,6 @@ class cnTemplatePart {
 				break;
 
 			default:
-
 				$out = '';
 				break;
 		}

@@ -1140,7 +1140,6 @@ class cnTemplate_Customizer {
 			switch ( $feature ) {
 
 				case 'type':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
@@ -1178,7 +1177,6 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'width':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
@@ -1208,7 +1206,6 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'height':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
@@ -1238,7 +1235,6 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'crop_mode':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
@@ -1283,7 +1279,6 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'fallback':
-
 					$wp_customize->add_setting(
 						$option,
 						array(

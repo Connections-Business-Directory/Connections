@@ -282,12 +282,10 @@ final class cnAddress extends cnEntry_Collection_Item {
 			switch ( $name ) {
 
 				case 'latitude':
-
 					$this->coordinates->setLatitude( $value );
 					break;
 
 				case 'longitude':
-
 					$this->coordinates->setLongitude( $value );
 					break;
 
@@ -316,12 +314,10 @@ final class cnAddress extends cnEntry_Collection_Item {
 			switch ( $name ) {
 
 				case 'latitude':
-
 					$this->coordinates->setLatitude( null );
 					break;
 
 				case 'longitude':
-
 					$this->coordinates->setLongitude( null );
 					break;
 

@@ -594,7 +594,6 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-
 				// If the entry is being copied, the source slug needs copied because it is required
 				// in order to copy the source entry images to the new entry.
 				if ( ! empty( $id ) ) {
@@ -612,7 +611,6 @@ class cnEntry_Action {
 				break;
 
 			case 'update':
-
 				// If an entry is being edited, set the new slug, if a new slug was provided.
 				if ( isset( $data['slug'] ) && $data['slug'] != $entry->getSlug() ) {
 
@@ -788,7 +786,6 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_add_entry' ) ) {
 
@@ -822,7 +819,6 @@ class cnEntry_Action {
 				break;
 
 			case 'update':
-
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
@@ -1207,7 +1203,6 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-
 				foreach ( $meta as $row ) {
 
 					$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
@@ -1216,7 +1211,6 @@ class cnEntry_Action {
 				break;
 
 			case 'update':
-
 				foreach ( $meta as $metaID => $row ) {
 
 					cnMeta::update( 'entry', $id, $row['key'], $row['value'] );
@@ -1227,7 +1221,6 @@ class cnEntry_Action {
 				break;
 
 			case 'delete':
-
 				if ( empty( $meta ) ) {
 
 					$meta = cnMeta::get( 'entry', $id );

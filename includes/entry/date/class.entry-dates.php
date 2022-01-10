@@ -296,7 +296,6 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_date':
-
 				/**
 				 * A date object.
 				 *
@@ -316,7 +315,6 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_dates':
-
 				/**
 				 * An index array of date objects.
 				 *
@@ -329,14 +327,12 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_date':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_date', $item );
 				};
 				break;
 
 			case 'cn_set_dates':
-
 				$this->filtered = apply_filters( 'cn_set_dates', $this->filtered );
 				break;
 		}

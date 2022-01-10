@@ -75,22 +75,18 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 					switch ( $field ) {
 
 						case 'name':
-
 							$name = $row[ $header ];
 							break;
 
 						case 'slug':
-
 							$slug = $row[ $header ];
 							break;
 
 						case 'desc':
-
 							$desc = $row[ $header ];
 							break;
 
 						case 'parent':
-
 							// Since this is a string, lets make sure there's something there before proceeding.
 							if ( 0 < strlen( $row[ $header ] ) ) {
 

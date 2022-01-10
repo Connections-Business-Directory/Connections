@@ -530,7 +530,6 @@ class cnRetrieve {
 							 * Order the results based on the order of the supplied entry IDs
 							 */
 							case 'SPECIFIED':
-
 								if ( ! empty( $atts['id'] ) ) {
 									$orderBy = array( 'FIELD( ' . CN_ENTRY_TABLE . '.id, ' . implode( ', ', (array) $atts['id'] ) . ' )' );
 								}
@@ -540,7 +539,6 @@ class cnRetrieve {
 							 * Randomize the order of the results.
 							 */
 							case 'RANDOM':
-
 								$random   = true;
 								break;
 
@@ -548,7 +546,6 @@ class cnRetrieve {
 								 * Return the results in ASC or DESC order.
 								 */
 							default:
-
 								$orderBy[] = $field[0] . ' ' . $orderFlags[ $field[1] ];
 								break;
 						}
@@ -1363,13 +1360,11 @@ class cnRetrieve {
 		switch ( $field ) {
 
 			case 'id':
-
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $value );
 
 				break;
 
 			case 'slug':
-
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s', $value );
 
 				break;
@@ -1857,11 +1852,9 @@ class cnRetrieve {
 			switch ( $atts['return'] ) {
 
 				case 'id':
-
 					return $ids;
 
 				default:
-
 					return $this->entries(
 						array(
 							'id'               => $ids,

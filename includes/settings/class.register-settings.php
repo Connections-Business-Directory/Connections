@@ -4278,7 +4278,6 @@ class cnRegisterSettings {
 		switch ( $field['id'] ) {
 
 			case 'address-types':
-
 				$callable = array( 'cnOptions', 'getAddressTypesInUse' );
 				break;
 

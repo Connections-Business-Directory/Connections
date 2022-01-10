@@ -606,39 +606,32 @@ class cnEmail {
 		switch ( $property ) {
 
 			case 'header':
-
 				$this->header = array();
 				$this->charset = get_bloginfo( 'charset' );
 				$this->html( false );
 				break;
 
 			case 'to':
-
 				$this->to = array();
 				break;
 
 			case 'cc':
-
 				$this->cc = array();
 				break;
 
 			case 'bcc':
-
 				$this->bcc = array();
 				break;
 
 			case 'subject':
-
 				$this->subject = '';
 				break;
 
 			case 'message':
-
 				$this->message = '';
 				break;
 
 			default:
-
 				$this->header = array();
 				$this->charset = get_bloginfo( 'charset' );
 				$this->html( false );

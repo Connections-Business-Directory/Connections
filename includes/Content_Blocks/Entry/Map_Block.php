@@ -70,7 +70,6 @@ class Map_Block extends Content_Block {
 		switch ( $property ) {
 
 			case 'zoom':
-
 				$value = absint( $value );
 
 				$value = filter_var(

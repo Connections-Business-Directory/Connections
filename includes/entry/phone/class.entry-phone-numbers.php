@@ -297,7 +297,6 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_phone_number':
-
 				/**
 				 * A phone number object.
 				 *
@@ -317,7 +316,6 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_phone_numbers':
-
 				/**
 				 * An index array of phone number objects.
 				 *
@@ -330,14 +328,12 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_phone_number':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_phone_number', $item );
 				};
 				break;
 
 			case 'cn_set_phone_numbers':
-
 				$this->filtered = apply_filters( 'cn_set_phone_numbers', $this->filtered );
 				break;
 		}

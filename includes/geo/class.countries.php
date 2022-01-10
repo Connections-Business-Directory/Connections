@@ -112,17 +112,14 @@ class cnCountries {
 		switch ( $return ) {
 
 			case ARRAY_A:
-
 				return self::$countries[ $code ];
 				break;
 
 			case OBJECT:
-
 				return new cnCountry( self::$countries[ $code ] );
 				break;
 
 			default:
-
 				return new WP_Error(
 					'invalid_return_type_specified',
 					__( 'Invalid return type specified. Valid options are ARRAY_A and OBJECT.', 'connections' ),

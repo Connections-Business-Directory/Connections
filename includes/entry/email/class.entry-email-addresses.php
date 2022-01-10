@@ -297,7 +297,6 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_email_address':
-
 				/**
 				 * An email address object.
 				 *
@@ -317,7 +316,6 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_email_addresses':
-
 				/**
 				 * An indexed array of email address objects.
 				 *
@@ -330,14 +328,12 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_email_address':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_email_address', $item );
 				};
 				break;
 
 			case 'cn_set_email_addresses':
-
 				$this->filtered = apply_filters( 'cn_set_email_addresses', $this->filtered );
 				break;
 		}

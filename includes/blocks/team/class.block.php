@@ -339,17 +339,14 @@ class Team {
 		switch ( $atts['layout'] ) {
 
 			case 'grid':
-
 				$slug = "block-team-{$atts['layout']}-{$atts['variation']}-{$atts['style']}";
 				break;
 
 			case 'list':
-
 				$slug = "block-team-{$atts['layout']}";
 				break;
 
 			case 'table':
-
 				$slug = "block-team-{$atts['layout']}";
 				break;
 		}

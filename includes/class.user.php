@@ -587,19 +587,15 @@ class cnUser {
 			switch ( $visibility ) {
 
 				case 'public':
-
 					return ( current_user_can( 'connections_view_public' ) || ! cnOptions::loginRequired() );
 
 				case 'private':
-
 					return current_user_can( 'connections_view_private' );
 
 				case 'unlisted':
-
 					return ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) && current_user_can( 'connections_view_unlisted' );
 
 				default:
-
 					return false;
 			}
 
@@ -616,15 +612,12 @@ class cnUser {
 				switch ( $visibility ) {
 
 					case 'public':
-
 						return Connections_Directory()->options->getAllowPublicOverride();
 
 					case 'private':
-
 						return Connections_Directory()->options->getAllowPrivateOverride();
 
 					default:
-
 						return false;
 				}
 

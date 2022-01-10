@@ -115,18 +115,15 @@ final class _date {
 		switch ( $format ) {
 
 			case 'h':
-
 				$value = $value / HOUR_IN_SECONDS;
 				break;
 
 			case 'i':
-
 				$value = $value / MINUTE_IN_SECONDS;
 				break;
 
 			case 'O':
 			case 'P':
-
 				/**
 				 * @link https://stackoverflow.com/a/41403802/5351316
 				 */

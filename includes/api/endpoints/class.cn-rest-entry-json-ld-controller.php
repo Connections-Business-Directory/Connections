@@ -144,7 +144,6 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 		switch ( $entry->getEntryType() ) {
 
 			case 'individual':
-
 				$data['@type']           = 'Person';
 				$data['honorificPrefix'] = $entry->getHonorificPrefix();
 				$data['givenName']       = $entry->getFirstName();
@@ -160,7 +159,6 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 				break;
 
 			case 'family':
-
 				/**
 				 * Unfortunately there is no "Family" type available.
 				 * Use "Person" as the type with the "additionalType" set as "Family". Valid? Unsure.

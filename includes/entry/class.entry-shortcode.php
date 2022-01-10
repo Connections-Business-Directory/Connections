@@ -155,7 +155,6 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'addresses':
-
 				add_shortcode( 'cn_address', array( $this, 'address' ) );
 
 				$out = has_shortcode( $content, 'cn_address' ) ? do_shortcode( $content ) : '';
@@ -165,7 +164,6 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'phone_numbers':
-
 				add_shortcode( 'cn_phone', array( $this, 'phone' ) );
 
 				$out = has_shortcode( $content, 'cn_phone' ) ? do_shortcode( $content ) : '';
@@ -175,7 +173,6 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'email':
-
 				add_shortcode( 'cn_email', array( $this, 'email' ) );
 
 				$out = has_shortcode( $content, 'cn_email' ) ? do_shortcode( $content ) : '';
@@ -185,7 +182,6 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'im':
-
 				add_shortcode( 'cn_im', array( $this, 'im' ) );
 
 				$out = has_shortcode( $content, 'cn_im' ) ? do_shortcode( $content ) : '';
@@ -195,7 +191,6 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'social_networks':
-
 				add_shortcode( 'cn_social_network', array( $this, 'socialNetwork' ) );
 
 				$out = has_shortcode( $content, 'cn_social_network' ) ? do_shortcode( $content ) : '';
@@ -205,7 +200,6 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'links':
-
 				add_shortcode( 'cn_link', array( $this, 'link' ) );
 
 				$out = has_shortcode( $content, 'cn_link' ) ? do_shortcode( $content ) : '';
@@ -215,7 +209,6 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'dates':
-
 				add_shortcode( 'cn_date', array( $this, 'date' ) );
 
 				$out = has_shortcode( $content, 'cn_date' ) ? do_shortcode( $content ) : '';
@@ -233,7 +226,6 @@ class cnEntry_Shortcode {
 				break;
 
 			default:
-
 				// Custom shortcodes can be applied to the content using this filter.
 				$out = apply_filters( 'cn_entry_part-' . $atts['part'], $content, $atts, $this->entry );
 

@@ -296,7 +296,6 @@ final class cnEntry_Social_Networks extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_social_network':
-
 				/**
 				 * A social network object.
 				 *
@@ -316,7 +315,6 @@ final class cnEntry_Social_Networks extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_social_networks':
-
 				/**
 				 * An index array of social network objects.
 				 *
@@ -329,14 +327,12 @@ final class cnEntry_Social_Networks extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_social_network':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_social_network', $item );
 				};
 				break;
 
 			case 'cn_set_social_networks':
-
 				$this->filtered = apply_filters( 'cn_set_social_networks', $this->filtered );
 				break;
 		}

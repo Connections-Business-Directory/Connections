@@ -1146,7 +1146,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			switch ( $field ) {
 
 				case 'image_url':
-
 					if ( isset( $options['image']['meta']['original']['name'] ) && ! empty( $options['image']['meta']['original']['name'] ) ) {
 
 						$url = CN_IMAGE_BASE_URL . $data->slug . '/' . $options['image']['meta']['original']['name'];
@@ -1161,7 +1160,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 					break;
 
 				case 'logo_url':
-
 					if ( isset( $options['logo']['meta']['name'] ) && ! empty( $options['logo']['meta']['name'] ) ) {
 
 						$url = CN_IMAGE_BASE_URL . $data->slug . '/' . $options['logo']['meta']['name'];

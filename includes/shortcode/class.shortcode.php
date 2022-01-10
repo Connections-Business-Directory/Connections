@@ -349,7 +349,7 @@ class cnShortcode {
 				$chr = array_keys( $chr_map );   // but: for efficiency you should
 				$rpl = array_values( $chr_map ); // pre-calculate these two arrays
 
-				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, "UTF-8" ) );
+				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, 'UTF-8' ) );
 
 				$atts = shortcode_parse_atts( wp_unslash( $match[3] ) );
 				// error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );

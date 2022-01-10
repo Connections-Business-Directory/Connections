@@ -267,9 +267,9 @@ final class _color {
 
 		$color = trim( $color );
 
-		if ( preg_match( "/^[0-9ABCDEFabcdef\#]+$/i", $color ) ) {
+		if ( preg_match( '/^[0-9ABCDEFabcdef\#]+$/i', $color ) ) {
 
-			$color = preg_replace( "/[^0-9A-Fa-f]/", '', $color ); // Gets a proper hex string
+			$color = preg_replace( '/[^0-9A-Fa-f]/', '', $color ); // Gets a proper hex string
 			$rgb   = array();
 
 			// If a proper hex code, convert using bitwise operation. No overhead... faster
@@ -299,7 +299,7 @@ final class _color {
 				$out = false;
 			}
 
-		} elseif ( preg_match( "/^[0-9]+(,| |.)+[0-9]+(,| |.)+[0-9]+$/i", $color ) ) {
+		} elseif ( preg_match( '/^[0-9]+(,| |.)+[0-9]+(,| |.)+[0-9]+$/i', $color ) ) {
 
 			$spr = str_replace( array( ',', ' ', '.' ), ':', $color );
 			$e   = explode( ':', $spr );

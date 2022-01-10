@@ -2003,7 +2003,7 @@ class cnImage {
 		}
 
 		// Image name (just random-number)
-		$name = rand( 0, 100000 ) . ".jpg";
+		$name = rand( 0, 100000 ) . '.jpg';
 
 		// Take care of image files without extension:
 		$path = pathinfo( $tmp );
@@ -2012,7 +2012,7 @@ class cnImage {
 			if ( ! rename( $tmp, $tmpnew ) ) :
 				return '';
 			else :
-				$name = rand( 0, 100000 ) . ".jpg";
+				$name = rand( 0, 100000 ) . '.jpg';
 				$tmp  = $tmpnew;
 			endif;
 		endif;

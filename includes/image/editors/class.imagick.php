@@ -218,7 +218,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 				$midpoint = cnUtility::remapRange( $level, -100, 100, -20, 20 );
 				$quanta   = $this->image->getQuantumRange();
 
-				return $this->image->sigmoidalContrastImage( $sharpen, abs( $midpoint ), .5 * $quanta["quantumRangeLong"] );
+				return $this->image->sigmoidalContrastImage( $sharpen, abs( $midpoint ), .5 * $quanta['quantumRangeLong'] );
 
 			} catch ( Exception $e ) {
 

@@ -125,13 +125,13 @@ class cnValidate {
 		}
 
 		// test for IP address (IPv4)
-		$regex = "#^(https?|ftp|news|file)\:\/\/";
-		$regex .= "([0-9]{1,3}\.[0-9]{1,3}\.)#";
+		$regex = '#^(https?|ftp|news|file)\:\/\/';
+		$regex .= '([0-9]{1,3}\.[0-9]{1,3}\.)#';
 
 		if ( preg_match( $regex, $url_local ) ) {
 
-			$regex = "#^(https?|ftps)\:\/\/";
-			$regex .= "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#";
+			$regex = '#^(https?|ftps)\:\/\/';
+			$regex .= '([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#';
 
 			if ( ! preg_match( $regex, $url_local ) ) {
 
@@ -158,19 +158,19 @@ class cnValidate {
 
 		// construct the REGEX for standard processing
 		// scheme
-		$regex = "~^(https?|ftp|news|file)\:\/\/";
+		$regex = '~^(https?|ftp|news|file)\:\/\/';
 		// user and password (optional)
-		$regex .= "([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?";
+		$regex .= '([a-z0-9+!*(),;?&=$_.-]+(\:[a-z0-9+!*(),;?&=$_.-]+)?@)?';
 		// hostname or IP address
-		$regex .= "([a-z0-9+\$_-]+\.)*[a-z0-9+\$_-]{2,4}";
+		$regex .= '([a-z0-9+$_-]+\.)*[a-z0-9+$_-]{2,4}';
 		// port (optional)
-		$regex .= "(\:[0-9]{2,5})?";
+		$regex .= '(\:[0-9]{2,5})?';
 		// dir/file path (optional)
-		$regex .= "(\/([a-z0-9+\$_-]\.?)+)*\/?";
+		$regex .= '(\/([a-z0-9+$_-]\.?)+)*\/?';
 		// query (optional)
-		$regex .= "(\?[a-z+&\$_.-][a-z0-9;:@/&%=+\$_.-]*)?";
+		$regex .= '(\?[a-z+&$_.-][a-z0-9;:@/&%=+$_.-]*)?';
 		// anchor (optional)
-		$regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$~";
+		$regex .= '(#[a-z_.-][a-z0-9+$_.-]*)?$~';
 
 		// test it
 		$is_valid = preg_match( $regex, $url_local ) > 0;

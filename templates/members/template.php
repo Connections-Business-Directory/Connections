@@ -103,7 +103,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 			$address .= $value_address->state . ' ';
 			$address .= $value_address->zipcode;
 
-			$address_link  = "http://maps.google.com/?q=";
+			$address_link  = 'http://maps.google.com/?q=';
 			$address_link .= $value_address->line_one . ' ';
 
 			// Check for line2.

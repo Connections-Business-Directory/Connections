@@ -723,10 +723,10 @@ final class Term {
 		 */
 		$fields = implode( ', ', apply_filters( 'Connections_Directory/Query/Term/Get_Terms/Select_Fields', $selects, $args, $taxonomies ) );
 
-		$join .= " INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id";
+		$join .= ' INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
 
 		if ( ! empty( $this->query_vars['object_ids'] ) ) {
-			$join .= " INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id";
+			$join .= ' INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
 		}
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
@@ -760,7 +760,7 @@ final class Term {
 		}
 
 		$this->sql_clauses['select']  = "SELECT $distinct $fields";
-		$this->sql_clauses['from']    = "FROM " . CN_TERMS_TABLE . " AS t $join";
+		$this->sql_clauses['from']    = 'FROM ' . CN_TERMS_TABLE . " AS t $join";
 		$this->sql_clauses['orderby'] = $orderby ? "$orderby $order" : '';
 		$this->sql_clauses['limits']  = $limits;
 

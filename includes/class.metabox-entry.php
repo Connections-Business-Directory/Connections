@@ -2792,7 +2792,7 @@ class cnEntryMetabox {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT meta_key, meta_value, meta_id, entry_id FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d ORDER BY meta_key,meta_id",
+				'SELECT meta_key, meta_value, meta_id, entry_id FROM ' . CN_ENTRY_TABLE_META . ' WHERE entry_id = %d ORDER BY meta_key,meta_id',
 				$entry->getId()
 			),
 			ARRAY_A

@@ -306,7 +306,7 @@ class cnMeta {
 
 		if ( $unique && $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) FROM " . $table . " WHERE meta_key = %s AND $column = %d",
+				'SELECT COUNT(*) FROM ' . $table . " WHERE meta_key = %s AND $column = %d",
 				$key,
 				$id
 			)
@@ -618,7 +618,7 @@ class cnMeta {
 		}
 
 		if ( $value ) {
-			$query .= $wpdb->prepare( " AND meta_value = %s", $value );
+			$query .= $wpdb->prepare( ' AND meta_value = %s', $value );
 		}
 
 		$meta_ids = $wpdb->get_col( $query );
@@ -646,7 +646,7 @@ class cnMeta {
 		 */
 		do_action( "cn_delete_{$type}_meta", $meta_ids, $id, $key, $_meta_value );
 
-		$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . " )";
+		$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . ' )';
 
 		$count = $wpdb->query( $query );
 

@@ -370,6 +370,6 @@ class CN_Walker_Term_List extends Walker {
 	 */
 	public function end_el( &$output, $object, $depth = 0, $args = array() ) {
 
-		$output .= "</li>" . PHP_EOL;
+		$output .= '</li>' . PHP_EOL;
 	}
 }

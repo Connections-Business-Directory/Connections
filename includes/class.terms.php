@@ -123,7 +123,7 @@ class cnTerms {
 		if ( 'term_id' !== $field ) {
 
 			$queryTermID = $wpdb->prepare(
-				"SELECT DISTINCT tt.term_id from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE $field = %s ",
+				'SELECT DISTINCT tt.term_id from ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE $field = %s ",
 				$value
 			);
 			// print_r($queryTermID . '<br /><br />');
@@ -143,7 +143,7 @@ class cnTerms {
 		}
 
 		$queryChildrenIDs = $wpdb->prepare(
-			"SELECT DISTINCT * from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE parent = %d ",
+			'SELECT DISTINCT * from ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id WHERE parent = %d ',
 			$termID
 		);
 		// print_r($queryChildrenIDs . '<br /><br />');
@@ -344,7 +344,7 @@ class cnTerms {
 		$terms  = cnTerm::getRelationships( $entryID, 'category', array( 'fields' => 'ids' ) );
 		$result = cnTerm::deleteRelationships( $entryID, $terms, 'category' );
 
-		cnCache::clear( true, 'transient', "cn_category" );
+		cnCache::clear( true, 'transient', 'cn_category' );
 
 		return $result;
 	}
@@ -669,7 +669,7 @@ class cnTerm {
 		} else if ( 'tt_ids' == $args['fields'] ) {
 
 			$terms = $wpdb->get_col(
-				"SELECT tr.term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " AS tr INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.entry_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order"
+				'SELECT tr.term_taxonomy_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.entry_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order"
 			);
 
 			foreach ( $terms as $key => $tt_id ) {
@@ -826,7 +826,7 @@ class cnTerm {
 
 			if ( $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE entry_id = %d AND term_taxonomy_id = %d",
+					'SELECT term_taxonomy_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' WHERE entry_id = %d AND term_taxonomy_id = %d',
 					$object_id,
 					$tt_id
 				)
@@ -878,7 +878,7 @@ class cnTerm {
 
 				$delete_term_ids  = $wpdb->get_col(
 					$wpdb->prepare(
-						"SELECT tt.term_id FROM " . CN_TERM_TAXONOMY_TABLE . " AS tt WHERE tt.taxonomy = %s AND tt.term_taxonomy_id IN ($in_delete_tt_ids)",
+						'SELECT tt.term_id FROM ' . CN_TERM_TAXONOMY_TABLE . " AS tt WHERE tt.taxonomy = %s AND tt.term_taxonomy_id IN ($in_delete_tt_ids)",
 						$taxonomy
 					)
 				);
@@ -1012,7 +1012,7 @@ class cnTerm {
 
 			$deleted = $wpdb->query(
 				$wpdb->prepare(
-					"DELETE FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE entry_id = %d AND term_taxonomy_id IN ($in_tt_ids)",
+					'DELETE FROM ' . CN_TERM_RELATIONSHIP_TABLE . " WHERE entry_id = %d AND term_taxonomy_id IN ($in_tt_ids)",
 					$object_id
 				)
 			);
@@ -1277,7 +1277,7 @@ class cnTerm {
 
 				$count += (int) $wpdb->get_var(
 					$wpdb->prepare(
-						"SELECT COUNT(*) FROM " . CN_TERM_RELATIONSHIP_TABLE . ", " . CN_ENTRY_TABLE . " WHERE " . CN_ENTRY_TABLE . ".id = " . CN_TERM_RELATIONSHIP_TABLE . ".entry_id AND status = 'approved' AND visibility != 'unlisted' AND term_taxonomy_id = %d",
+						'SELECT COUNT(*) FROM ' . CN_TERM_RELATIONSHIP_TABLE . ', ' . CN_ENTRY_TABLE . ' WHERE ' . CN_ENTRY_TABLE . '.id = ' . CN_TERM_RELATIONSHIP_TABLE . ".entry_id AND status = 'approved' AND visibility != 'unlisted' AND term_taxonomy_id = %d",
 						$term
 					)
 				);
@@ -1327,8 +1327,8 @@ class cnTerm {
 
 		global $wpdb;
 
-		$select     = "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE ";
-		$tax_select = "SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE ";
+		$select     = 'SELECT term_id FROM ' . CN_TERMS_TABLE . ' as t WHERE ';
+		$tax_select = 'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' as tt ON tt.term_id = t.term_id WHERE ';
 
 		if ( is_int( $term ) ) {
 
@@ -1341,7 +1341,7 @@ class cnTerm {
 			if ( ! empty( $taxonomy ) ) {
 
 				return $wpdb->get_row(
-					$wpdb->prepare( $tax_select . $where . " AND tt.taxonomy = %s", $term, $taxonomy ),
+					$wpdb->prepare( $tax_select . $where . ' AND tt.taxonomy = %s', $term, $taxonomy ),
 					ARRAY_A
 				);
 
@@ -1375,20 +1375,20 @@ class cnTerm {
 			$where_fields[]      = $taxonomy;
 			$else_where_fields[] = $taxonomy;
 
-			if ( $result = $wpdb->get_row( $wpdb->prepare( "SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s $orderby $limit", $where_fields ), ARRAY_A ) ){
+			if ( $result = $wpdb->get_row( $wpdb->prepare( 'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s $orderby $limit", $where_fields ), ARRAY_A ) ){
 
 				return $result;
 			}
 
-			return $wpdb->get_row( $wpdb->prepare( "SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $else_where AND tt.taxonomy = %s $orderby $limit", $else_where_fields ), ARRAY_A );
+			return $wpdb->get_row( $wpdb->prepare( 'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $else_where AND tt.taxonomy = %s $orderby $limit", $else_where_fields ), ARRAY_A );
 		}
 
-		if ( $result = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $where $orderby $limit", $where_fields ) ) ) {
+		if ( $result = $wpdb->get_var( $wpdb->prepare( 'SELECT term_id FROM ' . CN_TERMS_TABLE . " as t WHERE $where $orderby $limit", $where_fields ) ) ) {
 
 			return $result;
 		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $else_where $orderby $limit", $else_where_fields ) );
+		return $wpdb->get_var( $wpdb->prepare( 'SELECT term_id FROM ' . CN_TERMS_TABLE . " as t WHERE $else_where $orderby $limit", $else_where_fields ) );
 	}
 
 	/**
@@ -1661,7 +1661,7 @@ class cnTerm {
 
 		$tt_id = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT tt.term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " AS tt INNER JOIN " . CN_TERMS_TABLE . " AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d",
+				'SELECT tt.term_taxonomy_id FROM ' . CN_TERM_TAXONOMY_TABLE . ' AS tt INNER JOIN ' . CN_TERMS_TABLE . ' AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d',
 				$taxonomy,
 				$term_id
 			)
@@ -1687,7 +1687,7 @@ class cnTerm {
 		 */
 		$duplicate_term = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT t.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " tt ON ( tt.term_id = t.term_id ) WHERE t.slug = %s AND tt.parent = %d AND tt.taxonomy = %s AND t.term_id < %d AND tt.term_taxonomy_id != %d",
+				'SELECT t.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' tt ON ( tt.term_id = t.term_id ) WHERE t.slug = %s AND tt.parent = %d AND tt.taxonomy = %s AND t.term_id < %d AND tt.term_taxonomy_id != %d',
 				$slug,
 				$parent,
 				$taxonomy,
@@ -1718,7 +1718,7 @@ class cnTerm {
 		 * @param int    $tt_id    Term taxonomy ID.
 		 * @param string $taxonomy Taxonomy slug.
 		 */
-		do_action( "cn_create_term", $term_id, $tt_id, $taxonomy );
+		do_action( 'cn_create_term', $term_id, $tt_id, $taxonomy );
 
 		/**
 		 * Fires after a new term is created for a specific taxonomy.
@@ -1750,7 +1750,7 @@ class cnTerm {
 		 *
 		 * @since 8.1.6
 		 */
-		do_action( "cn_created_term", $term_id, $tt_id, $taxonomy );
+		do_action( 'cn_created_term', $term_id, $tt_id, $taxonomy );
 
 		/**
 		 * Fires after a new term in a specific taxonomy is created, and after the term
@@ -1979,7 +1979,7 @@ class cnTerm {
 
 		$tt_id = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT tt.term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " AS tt INNER JOIN " . CN_TERMS_TABLE . " AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d",
+				'SELECT tt.term_taxonomy_id FROM ' . CN_TERM_TAXONOMY_TABLE . ' AS tt INNER JOIN ' . CN_TERMS_TABLE . ' AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d',
 				$taxonomy,
 				$term_id
 			)
@@ -2048,7 +2048,7 @@ class cnTerm {
 		// Clean the relationship caches for all object types using this term
 		$objects = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT entry_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
+				'SELECT entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' WHERE term_taxonomy_id = %d',
 				$tt_id
 			)
 		);
@@ -2069,7 +2069,7 @@ class cnTerm {
 		 * @param int    $tt_id    Term taxonomy ID.
 		 * @param string $taxonomy Taxonomy slug.
 		 */
-		do_action( "cn_edit_term", $term_id, $tt_id, $taxonomy );
+		do_action( 'cn_edit_term', $term_id, $tt_id, $taxonomy );
 
 		/**
 		 * Fires after a term in a specific taxonomy has been updated, but before the term
@@ -2098,7 +2098,7 @@ class cnTerm {
 		 * @param int    $tt_id    Term taxonomy ID.
 		 * @param string $taxonomy Taxonomy slug.
 		 */
-		do_action( "cn_edited_term", $term_id, $tt_id, $taxonomy );
+		do_action( 'cn_edited_term', $term_id, $tt_id, $taxonomy );
 
 		/**
 		 * Fires after a term for a specific taxonomy has been updated, and the term
@@ -2230,7 +2230,7 @@ class cnTerm {
 
 			$parent = $term_obj->parent;
 
-			$edit_ids = $wpdb->get_results( "SELECT term_id, term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " WHERE `parent` = " . (int) $term_obj->term_id );
+			$edit_ids = $wpdb->get_results( 'SELECT term_id, term_taxonomy_id FROM ' . CN_TERM_TAXONOMY_TABLE . ' WHERE `parent` = ' . (int) $term_obj->term_id );
 			$edit_tt_ids = wp_list_pluck( $edit_ids, 'term_taxonomy_id' );
 
 			/**
@@ -2267,7 +2267,7 @@ class cnTerm {
 
 		$objects = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT entry_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
+				'SELECT entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' WHERE term_taxonomy_id = %d',
 				$tt_id
 			)
 		);
@@ -2332,7 +2332,7 @@ class cnTerm {
 
 		// Delete the term if no taxonomies use it.
 		if ( ! $wpdb->get_var(
-			$wpdb->prepare( "SELECT COUNT(*) FROM " . CN_TERM_TAXONOMY_TABLE . " WHERE term_id = %d", $term )
+			$wpdb->prepare( 'SELECT COUNT(*) FROM ' . CN_TERM_TAXONOMY_TABLE . ' WHERE term_id = %d', $term )
 		)
 		) {
 			$wpdb->delete( CN_TERMS_TABLE, array( 'term_id' => $term ) );
@@ -2474,11 +2474,11 @@ class cnTerm {
 
 				if ( ! empty( $term->term_id ) ) {
 
-					$query = $wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s AND term_id != %d", $slug, $term->term_id );
+					$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_TERMS_TABLE . ' WHERE slug = %s AND term_id != %d', $slug, $term->term_id );
 
 				} else {
 
-					$query = $wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s", $slug );
+					$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_TERMS_TABLE . ' WHERE slug = %s', $slug );
 				}
 
 				if ( $wpdb->get_var( $query ) ) {
@@ -2489,7 +2489,7 @@ class cnTerm {
 
 						$alt_slug = $slug . "-$num";
 						$num++;
-						$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s", $alt_slug ) );
+						$slug_check = $wpdb->get_var( $wpdb->prepare( 'SELECT slug FROM ' . CN_TERMS_TABLE . ' WHERE slug = %s', $alt_slug ) );
 
 					} while ( $slug_check );
 
@@ -2557,7 +2557,7 @@ class cnTerm {
 			$tt_ids = implode( ', ', $tt_ids );
 
 			$terms  = $wpdb->get_results(
-				"SELECT term_id, taxonomy FROM " . CN_TERM_TAXONOMY_TABLE . " WHERE term_taxonomy_id IN ($tt_ids)"
+				'SELECT term_id, taxonomy FROM ' . CN_TERM_TAXONOMY_TABLE . " WHERE term_taxonomy_id IN ($tt_ids)"
 			);
 
 			$ids    = array();
@@ -3348,12 +3348,12 @@ class cnTerm {
 
 		if ( ! empty( $atts['name__like'] ) ) {
 
-			$where[] = $wpdb->prepare( " AND t.name LIKE %s", '%' . $wpdb->esc_like( $atts['name__like'] ) . '%' );
+			$where[] = $wpdb->prepare( ' AND t.name LIKE %s', '%' . $wpdb->esc_like( $atts['name__like'] ) . '%' );
 		}
 
 		if ( ! empty( $atts['description__like'] ) ) {
 
-			$where[] = $wpdb->prepare( " AND tt.description LIKE %s", '%' . $wpdb->esc_like( $atts['description__like'] ) . '%' );
+			$where[] = $wpdb->prepare( ' AND tt.description LIKE %s', '%' . $wpdb->esc_like( $atts['description__like'] ) . '%' );
 		}
 
 		if ( ! empty( $atts['object_ids'] ) ) {
@@ -3785,7 +3785,7 @@ class cnTerm {
 
 		$term = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE $field = %s $tax_clause LIMIT 1",
+				'SELECT t.*, tt.* FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE $field = %s $tax_clause LIMIT 1",
 				$value
 			)
 		);

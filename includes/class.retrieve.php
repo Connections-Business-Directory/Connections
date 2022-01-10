@@ -962,7 +962,7 @@ class cnRetrieve {
 
 			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
 					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category__not_in'] ) . ')';
+					WHERE 1=1 AND tt.term_id IN (' . implode( ', ', $atts['category__not_in'] ) . ')';
 
 			// Store the entryIDs that are to be excluded.
 			$results = $wpdb->get_col( $sql );
@@ -970,7 +970,7 @@ class cnRetrieve {
 
 			if ( ! empty( $results ) ) {
 
-				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ", ", $results ) . ')';
+				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ', ', $results ) . ')';
 			}
 		}
 
@@ -991,14 +991,14 @@ class cnRetrieve {
 				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
 				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
 						INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-						WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category__and'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category__and'] ) . ' ORDER BY tr.entry_id';
+						WHERE 1=1 AND tt.term_id IN (' . implode( ', ', $atts['category__and'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category__and'] ) . ' ORDER BY tr.entry_id';
 
 				// Store the entryIDs that exist on all of the supplied category IDs
 				$results = $wpdb->get_col( $sql );
 				// print_r($results);
 
 				if ( ! empty( $results ) ) {
-					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
+					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ', ', $results ) . ')';
 				} else {
 					$where[] = 'AND 1=2';
 				}
@@ -1025,19 +1025,19 @@ class cnRetrieve {
 			$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.taxonomy = \'category\'';
 
 			if ( ! empty( $categoryIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ", ", $categoryIDs ) . ')';
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ', ', $categoryIDs ) . ')';
 
 				unset( $categoryIDs );
 			}
 
 			if ( ! empty( $categoryExcludeIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ", ", $categoryExcludeIDs ) . ')';
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ', ', $categoryExcludeIDs ) . ')';
 
 				unset( $categoryExcludeIDs );
 			}
 
 			if ( ! empty( $categoryNames ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ", ", (array) $categoryNames ) . ')';
+				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ', ', (array) $categoryNames ) . ')';
 
 				unset( $categoryNames );
 			}

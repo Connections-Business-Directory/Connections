@@ -363,7 +363,7 @@ class cnTemplate_Customizer {
 			 * @param object               $template     The registered template properties.
 			 * @param string               $view         The current template view being customized.
 			 */
-			do_action( "cn_template_customizer_register", $wp_customize, $this->template, $view );
+			do_action( 'cn_template_customizer_register', $wp_customize, $this->template, $view );
 
 			/**
 			 * Register Customizer controls based on the current template view being customized.

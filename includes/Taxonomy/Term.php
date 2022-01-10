@@ -128,7 +128,7 @@ final class Term {
 			$_term = false;
 
 			// Grab all matching terms, in case any are shared between taxonomies.
-			$terms = $wpdb->get_results( $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE t.term_id = %d", $term_id ) );
+			$terms = $wpdb->get_results( $wpdb->prepare( 'SELECT t.*, tt.* FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id WHERE t.term_id = %d', $term_id ) );
 			if ( ! $terms ) {
 				return false;
 			}

@@ -903,7 +903,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						$out .= sprintf( '<label><input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s" %3$s/> %4$s</label><br />', $name, $key, $checked, $label );
 					}
 
-					$out .= "</span>";
+					$out .= '</span>';
 
 					break;
 
@@ -2145,7 +2145,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			nocache_headers();
 			header( 'Content-Type: application/json; charset=utf-8' );
 			header( 'Content-Disposition: attachment; filename=' . $filename  . '.json' );
-			header( "Expires: 0" );
+			header( 'Expires: 0' );
 
 			echo json_encode( self::getAll() );
 			exit;

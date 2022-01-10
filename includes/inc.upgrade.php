@@ -102,7 +102,7 @@ function cnRunDBUpgrade() {
 			echo '<ul>';
 
 			echo '<li>' , esc_html__( 'Changing "id" type-length/values to BIGINT(20)', 'connections' ) , "</li>\n";
-			if ( ! $wpdb->query( "ALTER TABLE " . CN_ENTRY_TABLE . " CHANGE id id BIGINT(20) NOT NULL AUTO_INCREMENT" ) ) {
+			if ( ! $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' CHANGE id id BIGINT(20) NOT NULL AUTO_INCREMENT' ) ) {
 				echo '<ul><li>', esc_html__( 'SUCCESS', 'connections' ), '</li></ul>';
 			}
 
@@ -172,7 +172,7 @@ function cnRunDBUpgrade() {
 			// Add the Uncategorized category to all previous entries.
 			$term = $connections->term->getTermBy( 'slug', 'uncategorized', 'category' );
 
-			$entryIDs = $wpdb->get_col( "SELECT id FROM " . CN_ENTRY_TABLE );
+			$entryIDs = $wpdb->get_col( 'SELECT id FROM ' . CN_ENTRY_TABLE );
 
 			$termID[] = $term->term_taxonomy_id;
 
@@ -274,7 +274,7 @@ function cnRunDBUpgrade() {
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_TABLE_META . "'" ) != CN_ENTRY_TABLE_META ) {
 				echo '<li>' , esc_html__( 'Add the entry meta table.', 'connections' ) , "</li>\n";
 
-				$entryTableMeta = "CREATE TABLE " . CN_ENTRY_TABLE_META . " (
+				$entryTableMeta = 'CREATE TABLE ' . CN_ENTRY_TABLE_META . " (
 			        meta_id bigint(20) unsigned NOT NULL auto_increment,
 					entry_id bigint(20) unsigned NOT NULL default '0',
 					meta_key varchar(255) default NULL,
@@ -303,7 +303,7 @@ function cnRunDBUpgrade() {
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_ADDRESS_TABLE . "'" ) != CN_ENTRY_ADDRESS_TABLE ) {
 				echo '<li>' , esc_html__( 'Add the entry address table.', 'connections' ) , "</li>\n";
 
-				$entryTableAddress = "CREATE TABLE " . CN_ENTRY_ADDRESS_TABLE . " (
+				$entryTableAddress = 'CREATE TABLE ' . CN_ENTRY_ADDRESS_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
 					`entry_id` bigint(20) unsigned NOT NULL default '0',
 					`order` tinyint unsigned NOT NULL default '0',
@@ -382,7 +382,7 @@ function cnRunDBUpgrade() {
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_PHONE_TABLE . "'" ) != CN_ENTRY_PHONE_TABLE ) {
 				echo '<li>Add the entry phone table.' , "</li>\n";
 
-				$entryTablePhone = "CREATE TABLE " . CN_ENTRY_PHONE_TABLE . " (
+				$entryTablePhone = 'CREATE TABLE ' . CN_ENTRY_PHONE_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
 					`entry_id` bigint(20) unsigned NOT NULL default '0',
 					`order` tinyint unsigned NOT NULL default '0',
@@ -441,7 +441,7 @@ function cnRunDBUpgrade() {
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_EMAIL_TABLE . "'" ) != CN_ENTRY_EMAIL_TABLE ) {
 				echo '<li>' , esc_html__( 'Add the entry email table.', 'connections' ) , "</li>\n";
 
-				$entryTableEmail = "CREATE TABLE " . CN_ENTRY_EMAIL_TABLE . " (
+				$entryTableEmail = 'CREATE TABLE ' . CN_ENTRY_EMAIL_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
 					`entry_id` bigint(20) unsigned NOT NULL default '0',
 					`order` tinyint unsigned NOT NULL default '0',
@@ -500,7 +500,7 @@ function cnRunDBUpgrade() {
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_MESSENGER_TABLE . "'" ) != CN_ENTRY_MESSENGER_TABLE ) {
 				echo '<li>' , esc_html__( 'Add the entry messenger table.', 'connections' ) , "</li>\n";
 
-				$entryTableMessenger = "CREATE TABLE " . CN_ENTRY_MESSENGER_TABLE . " (
+				$entryTableMessenger = 'CREATE TABLE ' . CN_ENTRY_MESSENGER_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
 					`entry_id` bigint(20) unsigned NOT NULL default '0',
 					`order` tinyint unsigned NOT NULL default '0',
@@ -555,7 +555,7 @@ function cnRunDBUpgrade() {
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_SOCIAL_TABLE . "'" ) != CN_ENTRY_SOCIAL_TABLE ) {
 				echo '<li>' , esc_html__( 'Add the entry social media table.', 'connections' ) , "</li>\n";
 
-				$entryTableSocialMedia = "CREATE TABLE " . CN_ENTRY_SOCIAL_TABLE . " (
+				$entryTableSocialMedia = 'CREATE TABLE ' . CN_ENTRY_SOCIAL_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
 					`entry_id` bigint(20) unsigned NOT NULL default '0',
 					`order` tinyint unsigned NOT NULL default '0',
@@ -610,7 +610,7 @@ function cnRunDBUpgrade() {
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_LINK_TABLE . "'" ) != CN_ENTRY_LINK_TABLE ) {
 				echo '<li>' , esc_html__( 'Add the entry link table.', 'connections' ) , "</li>\n";
 
-				$entryTableLink = "CREATE TABLE " . CN_ENTRY_LINK_TABLE . " (
+				$entryTableLink = 'CREATE TABLE ' . CN_ENTRY_LINK_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
 					`entry_id` bigint(20) unsigned NOT NULL default '0',
 					`order` tinyint unsigned NOT NULL default '0',
@@ -931,7 +931,7 @@ function cnRunDBUpgrade() {
 
 				echo '<li>' , esc_html__( 'Add the date table.', 'connections' ) , "</li>\n";
 
-				$entryTableDate = "CREATE TABLE " . CN_ENTRY_DATE_TABLE . " (
+				$entryTableDate = 'CREATE TABLE ' . CN_ENTRY_DATE_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
 					`entry_id` bigint(20) unsigned NOT NULL default '0',
 					`order` tinyint unsigned NOT NULL default '0',

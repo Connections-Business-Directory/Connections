@@ -550,7 +550,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$out .= '<strong><a class="row-title" href="' . $viewURL . '" title="' .
 				esc_attr( sprintf( esc_html__( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
 
-		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . "</a>";
+		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . '</a>';
 		$actions['view']   = '<a href="' . $viewURL . '">' . esc_html__( 'View', 'connections' ) . '</a>';
 
 		$out .= $this->row_actions( $actions );

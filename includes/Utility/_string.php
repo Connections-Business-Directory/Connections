@@ -309,7 +309,7 @@ final class _string {
 
 		// @todo This should probably use preg_quote() and not wp_slash(). What was I thinking???
 
-		return trim( preg_replace( "/[" . wp_slash( $what ) . "]+/u", $with, $string ), $what );
+		return trim( preg_replace( '/[' . wp_slash( $what ) . ']+/u', $with, $string ), $what );
 	}
 
 	/**

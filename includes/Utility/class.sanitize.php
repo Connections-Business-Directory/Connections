@@ -276,7 +276,7 @@ class cnSanitize {
 
 						return wp_unslash( balanceTags( $value ) );
 
-					case 'name';
+					case 'name':
 					case 'street':
 					case 'district':
 					case 'county':
@@ -293,8 +293,7 @@ class cnSanitize {
 						 */
 						return trim( wp_unslash( $value ) );
 
-					case 'url';
-
+					case 'url':
 						return esc_url_raw( $value );
 
 					case 'attribute':

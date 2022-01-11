@@ -121,7 +121,7 @@ class cnGeo {
 	 *
 	 * @return float|int|string
 	 */
-	static public function convert( $atts ) {
+	public static function convert( $atts ) {
 
 		_deprecated_function( __METHOD__, '10.3', 'Connections_Directory\Utility\Convert\_length()' );
 

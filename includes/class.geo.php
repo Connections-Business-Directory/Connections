@@ -62,7 +62,7 @@ class cnGeo {
 	 * @param array $atts        [optional]
 	 * @return float
 	 */
-	public static function distance( $origin , $destination , $atts = array() ) {
+	public static function distance( $origin, $destination, $atts = array() ) {
 		$defaultOrig = array(
 			'lat' => 0,
 			'lng' => 0,

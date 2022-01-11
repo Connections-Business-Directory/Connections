@@ -680,7 +680,6 @@ class cnEntry {
 	 * @access public
 	 * @since  8.5.14
 	 *
-	 *
 	 * @param int $order
 	 */
 	public function setOrder( $order ) {

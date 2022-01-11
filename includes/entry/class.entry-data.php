@@ -332,11 +332,11 @@ class cnEntry {
 		if ( ! is_null( $entry ) ) {
 
 			if ( isset( $entry->id ) ) {
-				$this->id = (integer) $entry->id;
+				$this->id = (int) $entry->id;
 			}
 
 			if ( isset( $entry->user ) ) {
-				$this->user = (integer) $entry->user;
+				$this->user = (int) $entry->user;
 			}
 
 			if ( isset( $entry->ts ) ) {
@@ -344,11 +344,11 @@ class cnEntry {
 			}
 
 			if ( isset( $entry->date_added ) ) {
-				$this->dateAdded = (integer) $entry->date_added;
+				$this->dateAdded = (int) $entry->date_added;
 			}
 
 			if ( isset( $entry->ordo ) ) {
-				$this->order = (integer) $entry->ordo;
+				$this->order = (int) $entry->ordo;
 			}
 
 			if ( isset( $entry->slug ) ) {
@@ -428,11 +428,11 @@ class cnEntry {
 			}
 
 			if ( isset( $entry->birthday ) ) {
-				$this->birthday = (integer) $entry->birthday;
+				$this->birthday = (int) $entry->birthday;
 			}
 
 			if ( isset( $entry->anniversary ) ) {
-				$this->anniversary = (integer) $entry->anniversary;
+				$this->anniversary = (int) $entry->anniversary;
 			}
 
 			if ( isset( $entry->bio ) ) {
@@ -529,7 +529,7 @@ class cnEntry {
 	 * @return int
 	 */
 	public function getId() {
-		return (integer) $this->id;
+		return (int) $this->id;
 	}
 
 	/**
@@ -553,7 +553,7 @@ class cnEntry {
 	 * @return int
 	 */
 	public function getUser() {
-		return (integer) empty( $this->user ) ? 0 : $this->user;
+		return (int) empty( $this->user ) ? 0 : $this->user;
 	}
 
 	/**

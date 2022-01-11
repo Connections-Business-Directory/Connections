@@ -32,7 +32,7 @@ class cnShortcode {
 	 */
 	public static function hooks() {
 
-		// Register the core shortcode with the WordPres Shortcode API.
+		// Register the core shortcode with the WordPress Shortcode API.
 		add_action( 'init', array( __CLASS__, 'register' ) );
 
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
@@ -563,7 +563,7 @@ class cnShortcode {
 	 */
 	public static function view( $atts, $content = '', $tag = 'connections' ) {
 
-		// Ensure that the $atts var passed from Wordpress is an array.
+		// Ensure that the $atts var passed from WordPress is an array.
 		if ( ! is_array( $atts ) ) {
 			$atts = (array) $atts;
 		}

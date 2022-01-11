@@ -37,7 +37,7 @@ if ( is_array( $mySQLMode ) ) {
 }
 ?>
 
-Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8?>&nbsp;Bit)
+Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8 ?>&nbsp;Bit)
 PHP Version:                <?php echo PHP_VERSION . PHP_EOL; ?>
 MySQL Version:              <?php echo $wpdb->db_version() . PHP_EOL; ?>
 SQL Mode:                   <?php echo ( isset( $sqlMode ) && ! empty( $sqlMode ) ? $sqlMode : 'Not Set' ) . PHP_EOL; ?>

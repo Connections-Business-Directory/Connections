@@ -254,15 +254,17 @@ $updates = get_plugin_updates();
 $muplugins = get_mu_plugins();
 
 if ( 0 < count( $muplugins ) ) : ?>
+
 -- Must-Use Plugins
 
-<?php foreach ( $muplugins as $plugin => $plugin_data ) {
-	echo $plugin_data['Name'] . ': ' . $plugin_data['Version'] . PHP_EOL;
-}
+<?php
+	foreach ( $muplugins as $plugin => $plugin_data ) {
+		echo $plugin_data['Name'] . ': ' . $plugin_data['Version'] . PHP_EOL;
+	}
 
-do_action( 'cn_sysinfo_after_wordpress_mu_plugins' );
-
-endif; ?>
+	do_action( 'cn_sysinfo_after_wordpress_mu_plugins' );
+endif;
+?>
 
 -- WordPress Active Plugins
 

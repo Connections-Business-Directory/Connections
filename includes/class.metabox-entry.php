@@ -689,7 +689,8 @@ class cnEntryMetabox {
 		 */
 		foreach ( $fieldset['sections'] as $section ) : ?>
 			<div class="cn-metabox-section <?php _escape::classNames( $section['class'], true ); ?>" id="<?php _escape::id( "cn-metabox-section-{$section['id']}", true ); ?>">
-				<?php foreach ( $section['fields'] as $field ) :
+				<?php
+				foreach ( $section['fields'] as $field ) :
 
 					if ( isset( $field['callback'] ) && is_callable( $field['callback'] ) ) {
 
@@ -728,9 +729,11 @@ class cnEntryMetabox {
 						$field['value']
 					);
 
-				endforeach; // End fields loop. ?>
+				endforeach; // End fields loop.
+				?>
 			</div>
-		<?php endforeach; // End sections loop.
+			<?php
+		endforeach; // End sections loop.
 	}
 
 	/**

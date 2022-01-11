@@ -1454,7 +1454,7 @@ class cnRetrieve {
 		// Create the "Last Name, First Name".
 		$select = '`id`, CONCAT( `last_name`, \', \', `first_name` ) as name';
 
-		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `last_name`' );
+		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `last_name`' );
 
 		foreach ( $results as $row ) {
 
@@ -1502,7 +1502,7 @@ class cnRetrieve {
 					  WHEN \'family\' THEN `family_name`
 					END, 1, 1 ) AS `char`';
 
-		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `char`' );
+		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`' );
 	}
 
 	/**

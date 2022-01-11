@@ -398,7 +398,7 @@ class cnUpload {
 			$info['base_rel_url'] = str_replace( network_home_url(), '', $info['base_url'] );
 
 			$info['img_base_path']    = trailingslashit( $info['base_path'] . CN_IMAGE_DIR_NAME );
-			$info['img_base_url']     = trailingslashit( $info['base_url']  . CN_IMAGE_DIR_NAME );
+			$info['img_base_url']     = trailingslashit( $info['base_url'] . CN_IMAGE_DIR_NAME );
 			$info['img_base_rel_url'] = trailingslashit( $info['base_rel_url'] . CN_IMAGE_DIR_NAME );
 
 		}

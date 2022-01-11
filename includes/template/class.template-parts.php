@@ -422,7 +422,7 @@ class cnTemplatePart {
 		} else {
 
 			$out .= '<form class="cn-form" id="cn-cat-select" method="get">';
-			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID .'">';
+			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID . '">';
 		}
 
 		//if ( is_customize_preview() ) {
@@ -2027,7 +2027,7 @@ class cnTemplatePart {
 			'prev_text'          => __( '&laquo;', 'connections' ),
 			'next_text'          => __( '&raquo;', 'connections' ),
 			'add_fragment'       => '',
-			'before_page_number' => '<span class="screen-reader-text">'.$translated.' </span>',
+			'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
 			'after_page_number'  => '',
 			'return'             => false,
 		);

@@ -122,7 +122,7 @@ class cnShortcode {
 		$pattern = get_shortcode_regex();
 		$found   = array();
 
-		if ( preg_match_all( '/'. $pattern .'/s', $content, $matches, PREG_SET_ORDER ) ) {
+		if ( preg_match_all( '/' . $pattern . '/s', $content, $matches, PREG_SET_ORDER ) ) {
 
 			if ( empty( $matches ) ) {
 
@@ -504,7 +504,7 @@ class cnShortcode {
 				 * $matches[6] == Unknown.
 				 */
 
-				if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches ) && array_key_exists( 2, $matches ) ) {
+				if ( preg_match_all( '/' . $pattern . '/s', $post->post_content, $matches ) && array_key_exists( 2, $matches ) ) {
 
 					// Build the results in a more usable format.
 					foreach ( $matches[2] as $key => $shortcode ) {

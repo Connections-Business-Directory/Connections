@@ -969,7 +969,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		}
 
 		$sql = $wpdb->prepare(
-			'SELECT * FROM ' . $atts['table'].' AS e
+			'SELECT * FROM ' . $atts['table'] . ' AS e
 			WHERE e.entry_id = %d
 			ORDER BY e.order DESC',
 			$id

@@ -2145,7 +2145,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			nocache_headers();
 			header( 'Content-Type: application/json; charset=utf-8' );
-			header( 'Content-Disposition: attachment; filename=' . $filename  . '.json' );
+			header( 'Content-Disposition: attachment; filename=' . $filename . '.json' );
 			header( 'Expires: 0' );
 
 			echo json_encode( self::getAll() );

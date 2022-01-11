@@ -929,8 +929,8 @@ class cnMeta {
 		// The query will not retrieve any meta key that begin with an '_' [underscore].
 		$sql = $wpdb->prepare(
 			'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %d',
-				// empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
-				absint( $limit )
+			// empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
+			absint( $limit )
 		);
 
 		$keys = $wpdb->get_col( $sql );

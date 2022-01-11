@@ -5,7 +5,7 @@
  *
  * @link https://github.com/laravel/framework
  */
-class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArray  {
+class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArray {
 
 	/**
 	 * The items contained in the collection.

@@ -401,7 +401,7 @@ add_filter(
 	 */
 	function( $html, $post ) {
 
-		if ( is_callable( [ 'SiteOrigin_Panels', 'renderer' ] ) ) {
+		if ( is_callable( array( 'SiteOrigin_Panels', 'renderer' ) ) ) {
 
 			/** @noinspection PhpUndefinedClassInspection */
 			$html = SiteOrigin_Panels::renderer()->render( $post->ID );

@@ -79,7 +79,7 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 
 		if ( ! is_array( $recent ) ) {
 
-			return [ $recent ];
+			return array( $recent );
 		}
 
 		return $recent;
@@ -118,7 +118,7 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 
 		if ( empty( $id ) ) {
 
-			return [];
+			return array();
 		}
 
 		$atts = array(

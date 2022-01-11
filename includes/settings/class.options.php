@@ -381,7 +381,7 @@ class cnOptions {
 	 *
 	 * @return array
 	 */
-	public function getAllActiveTemplates( ) {
+	public function getAllActiveTemplates() {
 		return $this->activeTemplates;
 	}
 

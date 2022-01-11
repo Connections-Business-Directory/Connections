@@ -900,7 +900,7 @@ class cnImage {
 						$height   = floor( $orig_h * ( $width / $orig_w ) );
 						$canvas_h = $height;
 
-					} else if ( $height && ! $width ) {
+					} elseif ( $height && ! $width ) {
 
 						$width    = floor( $orig_w * ( $height / $orig_h ) );
 						$canvas_w = $width;
@@ -933,7 +933,7 @@ class cnImage {
 
 						$height = floor( $orig_h * ( $width / $orig_w ) );
 
-					} else if ( $height && ! $width ) {
+					} elseif ( $height && ! $width ) {
 
 						$width = floor( $orig_w * ( $height / $orig_h ) );
 					}
@@ -980,7 +980,7 @@ class cnImage {
 
 				$src_w = $crop_width;
 
-			} else if ( isset( $width ) ) {
+			} elseif ( isset( $width ) ) {
 
 				$src_w = $width;
 
@@ -994,7 +994,7 @@ class cnImage {
 
 				$src_h = $crop_height;
 
-			} else if ( isset( $height ) ) {
+			} elseif ( isset( $height ) ) {
 
 				$src_h = $height;
 
@@ -1686,7 +1686,7 @@ class cnImage {
 				$img_path = $upload_info['base_path'] . $rel_path;
 
 				// #2 check if the image is in the current theme folder
-			} else if ( strpos( $source, $theme_url ) !== false ) {
+			} elseif ( strpos( $source, $theme_url ) !== false ) {
 
 				$rel_path = str_replace( $theme_url, '', $source );
 				$img_path = $theme_dir . $rel_path;

@@ -513,7 +513,7 @@ class cnTemplateFactory {
 
 					$templates->{ $template->slug } = new cnTemplate( $template );
 
-				} else if ( ! $template->legacy ) {
+				} elseif ( ! $template->legacy ) {
 
 					$templates->{ $template->slug } = new cnTemplate( $template );
 				}
@@ -545,7 +545,7 @@ class cnTemplateFactory {
 
 						$templates->{ $template->slug } = new cnTemplate( $template );
 
-					} else if ( ! $template->legacy ) {
+					} elseif ( ! $template->legacy ) {
 
 						$templates->{ $template->slug } = new cnTemplate( $template );
 					}

@@ -654,7 +654,7 @@ class cnTerm {
 
 			$objects = true;
 
-		} else if ( 'ids' == $args['fields'] || 'names' == $args['fields'] || 'slugs' == $args['fields'] ) {
+		} elseif ( 'ids' == $args['fields'] || 'names' == $args['fields'] || 'slugs' == $args['fields'] ) {
 
 			$_terms = $wpdb->get_col( $query );
 			$_field = ( 'ids' == $args['fields'] ) ? 'term_id' : 'name';
@@ -666,7 +666,7 @@ class cnTerm {
 
 			$terms = array_merge( $terms, $_terms );
 
-		} else if ( 'tt_ids' == $args['fields'] ) {
+		} elseif ( 'tt_ids' == $args['fields'] ) {
 
 			$terms = $wpdb->get_col(
 				'SELECT tr.term_taxonomy_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.entry_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order"
@@ -3757,13 +3757,13 @@ class cnTerm {
 				return false;
 			}
 
-		} else if ( 'name' == $field ) {
+		} elseif ( 'name' == $field ) {
 
 			// Assume already escaped
 			$value = wp_unslash( $value );
 			$field = 't.name';
 
-		} else if ( 'term_taxonomy_id' == $field ) {
+		} elseif ( 'term_taxonomy_id' == $field ) {
 
 			$value = (int) $value;
 			$field = 'tt.term_taxonomy_id';

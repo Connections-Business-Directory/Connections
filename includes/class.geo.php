@@ -890,7 +890,7 @@ class cnGeo {
 	 *
 	 * @return array  An associative array where the key is the country code and the values is the country dial code.
 	 */
-	public static function getCountryPhoneCodes(){
+	public static function getCountryPhoneCodes() {
 
 		$codes = cnCountries::getAll();
 		$codes = wp_list_pluck( $codes, 'calling_code', 'iso_3166_1_alpha2' );

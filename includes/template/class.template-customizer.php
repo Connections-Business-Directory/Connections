@@ -1941,8 +1941,8 @@ class cnTemplate_Customizer {
 
 		<div id="cn-customizer-messages">
 			<ul id="cn-customizer-message-list">
-				<li class="cn-customizer-message"><?php _e( 'Do not navigate away from the template customizer preview doing so could mean the loss of any unsaved changes.', 'connections' ) ?></li>
-				<li class="cn-customizer-message"><?php _e( 'If any shortcode override options have been used, they will have priority and the Template Customizer options will not have any effect.', 'connections' ) ?></li>
+				<li class="cn-customizer-message"><?php _e( 'Do not navigate away from the template customizer preview doing so could mean the loss of any unsaved changes.', 'connections' ); ?></li>
+				<li class="cn-customizer-message"><?php _e( 'If any shortcode override options have been used, they will have priority and the Template Customizer options will not have any effect.', 'connections' ); ?></li>
 			</ul>
 		</div>
 
@@ -1964,7 +1964,7 @@ class cnTemplate_Customizer {
 
 			<div id="cn-customizer-messages">
 				<ul id="cn-customizer-message-list">
-					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Template supports single view. You can click an entry name and customize the single entry view independently from the results list view.', 'connections' ) ?></li>
+					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Template supports single view. You can click an entry name and customize the single entry view independently from the results list view.', 'connections' ); ?></li>
 				</ul>
 			</div>
 
@@ -1988,7 +1988,7 @@ class cnTemplate_Customizer {
 
 			<div id="cn-customizer-messages">
 				<ul id="cn-customizer-message-list">
-					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Category select is for customization purposes only. It will not filter the results.', 'connections' ) ?></li>
+					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Category select is for customization purposes only. It will not filter the results.', 'connections' ); ?></li>
 				</ul>
 			</div>
 

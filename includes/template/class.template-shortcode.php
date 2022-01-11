@@ -64,7 +64,7 @@ class cnTemplate_Shortcode {
 	 *
 	 * @return array An array of the template shortcode tag attributes.
 	 */
-	private  function tags() {
+	private function tags() {
 
 		$tags = array(
 			'template' => array(

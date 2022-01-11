@@ -23,7 +23,7 @@ class cnEmail_DefaultTemplates {
 	 * @access private
 	 * @since 0.7.8
 	 * @var (object)
-	*/
+	 */
 	private static $instance;
 
 	/**

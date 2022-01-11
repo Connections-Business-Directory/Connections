@@ -22,7 +22,7 @@ class cnRole extends WP_Roles {
 	 * @access private
 	 * @since 0.7.5
 	 * @var (object) cnRole stores an instance of this class.
-	*/
+	 */
 	private static $instance;
 
 	/**

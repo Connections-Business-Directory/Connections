@@ -524,7 +524,7 @@ class cnRetrieve {
 							$field[1] = 'SORT_ASC';
 						}
 
-						switch ( $orderFlags[$field[1]] ) {
+						switch ( $orderFlags[ $field[1] ] ) {
 
 							/*
 							 * Order the results based on the order of the supplied entry IDs
@@ -3533,35 +3533,35 @@ class cnRetrieve {
 
 				switch ( $field[0] ) {
 				case 'id':
-					${$field[0]}[$key] = $entry->getId();
+					${$field[0]}[ $key ] = $entry->getId();
 					break;
 
 				case 'date_added':
-					${$field[0]}[$key] = $entry->getDateAdded( 'U' );
+					${$field[0]}[ $key ] = $entry->getDateAdded( 'U' );
 					break;
 
 				case 'date_modified':
-					${$field[0]}[$key] = $entry->getUnixTimeStamp();
+					${$field[0]}[ $key ] = $entry->getUnixTimeStamp();
 					break;
 
 				case 'first_name':
-					${$field[0]}[$key] = $entry->getFirstName();
+					${$field[0]}[ $key ] = $entry->getFirstName();
 					break;
 
 				case 'last_name':
-					${$field[0]}[$key] = $entry->getLastName();
+					${$field[0]}[ $key ] = $entry->getLastName();
 					break;
 
 				case 'title':
-					${$field[0]}[$key] = $entry->getTitle();
+					${$field[0]}[ $key ] = $entry->getTitle();
 					break;
 
 				case 'organization':
-					${$field[0]}[$key] = $entry->getOrganization();
+					${$field[0]}[ $key ] = $entry->getOrganization();
 					break;
 
 				case 'department':
-					${$field[0]}[$key] = $entry->getDepartment();
+					${$field[0]}[ $key ] = $entry->getDepartment();
 					break;
 
 				case ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ):
@@ -3570,23 +3570,23 @@ class cnRetrieve {
 
 						foreach ( $addresses as $address ) {
 							// ${$field[0]}[$key] = $address[$field[0]];
-							${$field[0]}[$key] = $address->$field[0];
+							${$field[0]}[ $key ] = $address->$field[0];
 
 							// Only set the data from the first address.
 							break;
 						}
 
 					} else {
-						${$field[0]}[$key] = null;
+						${$field[0]}[ $key ] = null;
 					}
 					break;
 
 				case 'birthday':
-					${$field[0]}[$key] = strtotime( $entry->getBirthday() );
+					${$field[0]}[ $key ] = strtotime( $entry->getBirthday() );
 					break;
 
 				case 'anniversary':
-					${$field[0]}[$key] = strtotime( $entry->getAnniversary() );
+					${$field[0]}[ $key ] = strtotime( $entry->getAnniversary() );
 					break;
 				}
 
@@ -3618,7 +3618,7 @@ class cnRetrieve {
 				}
 
 				// Must be pass as reference or the multisort will fail.
-				$sortParams[] = &$sortFlags[$flag];
+				$sortParams[] = &$sortFlags[ $flag ];
 				unset( $flag );
 			}
 		}
@@ -3642,7 +3642,7 @@ class cnRetrieve {
 				}
 
 				foreach ( $suppliedIDs as $entryID ) {
-					$sortedEntries[] = $entries[array_search( $entryID, $id )];
+					$sortedEntries[] = $entries[ array_search( $entryID, $id ) ];
 				}
 
 				$entries = $sortedEntries;

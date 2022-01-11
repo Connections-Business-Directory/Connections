@@ -462,18 +462,18 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					self::$registry[ $field['plugin_id'] ] = array();
 				}
 
-				if ( ! array_key_exists( $optionName, self::$registry[$field['plugin_id']] ) ) {
+				if ( ! array_key_exists( $optionName, self::$registry[ $field['plugin_id'] ] ) ) {
 
 					if ( in_array( $section, self::$coreSections ) ) {
 						// If the field was registered to one of the WP core sections, store the default value as a singular item.
-						self::$registry[$field['plugin_id']][$optionName] = $defaultValue;
+						self::$registry[ $field['plugin_id'] ][ $optionName ] = $defaultValue;
 					} else {
 						// If the field was registered to a section, store the default values as an array. // This is the recommended behaviour.
-						self::$registry[$field['plugin_id']][$optionName] = array( $field['id'] => $defaultValue );
+						self::$registry[ $field['plugin_id'] ][ $optionName ] = array( $field['id'] => $defaultValue );
 					}
 
 				} else {
-					self::$registry[$field['plugin_id']][$optionName][$field['id']] = $defaultValue;
+					self::$registry[ $field['plugin_id'] ][ $optionName ][ $field['id'] ] = $defaultValue;
 				}
 			}
 
@@ -767,7 +767,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			} else {
 
 				$values = get_option( $field['section'] );
-				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : null; // print_r($value);
+				$value  = ( isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : null; // print_r($value);
 				$name   = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 			}
 

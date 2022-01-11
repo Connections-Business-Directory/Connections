@@ -479,7 +479,7 @@ class cnOptions {
 	public function getFamilyRelation( $value ) {
 		$relations = $this->getDefaultFamilyRelationValues();
 
-		return $relations[$value];
+		return $relations[ $value ];
 	}
 
 	/**

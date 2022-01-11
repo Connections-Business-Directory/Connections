@@ -3623,9 +3623,6 @@ class cnRetrieve {
 			}
 		}
 
-		/*
-		 *
-		 */
 		if ( isset( $id ) && isset( $idOrder ) ) {
 			switch ( $idOrder ) {
 			case 'SPECIFIED':

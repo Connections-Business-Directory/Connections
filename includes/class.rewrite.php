@@ -176,6 +176,7 @@ class cnRewrite {
 		) {
 			// In some cases WP misinterprets the request as a page request and returns a 404.
 			$var['page'] = $var['pagename'] = $var['name'] = false;
+
 			$var[ CN_IMAGE_ENDPOINT ] = true;
 		}
 

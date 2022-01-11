@@ -31,7 +31,7 @@ class cnCache {
 		'site-transient',
 		'cache',
 		'option-cache',
-		);
+	);
 
 	private function __construct() {}
 

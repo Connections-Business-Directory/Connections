@@ -438,7 +438,7 @@ class cnUpload {
 			'mimes'             => array(),
 			'error_callback'    => array( $this, 'uploadErrorHandler' ),
 			'filename_callback' => array( $this, 'uniqueFilename' ),
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 

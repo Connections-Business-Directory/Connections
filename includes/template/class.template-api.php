@@ -170,7 +170,7 @@ class cnTemplateFactory {
 			'functions'   => '',
 			'parts'       => array(),
 			'supports'    => array(),
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 

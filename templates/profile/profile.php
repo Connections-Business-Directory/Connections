@@ -116,7 +116,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 					),
 					'single',
 				),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 

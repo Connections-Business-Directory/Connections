@@ -103,7 +103,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_large', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_large', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 
@@ -120,7 +120,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_medium', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_medium', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 
@@ -137,7 +137,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 
@@ -207,7 +207,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 

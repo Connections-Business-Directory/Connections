@@ -118,7 +118,7 @@ class cnEntry_Shortcode {
 
 		$defaults = array(
 			'part' => '',
-			);
+		);
 
 		// Normally we'd use shortcode_atts, but that strips keys from $atts that do not exist in $defaults.
 		// Since $atts can contain various option for the different callback methods, we'll use wp_parse_args()
@@ -257,7 +257,7 @@ class cnEntry_Shortcode {
 			'state'     => null,
 			'zipcode'   => null,
 			'country'   => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
@@ -272,7 +272,7 @@ class cnEntry_Shortcode {
 			'%country%',
 			'%latitude%',
 			'%longitude%',
-			);
+		);
 
 		$addresses = $this->entry->getAddresses( $atts );
 
@@ -289,7 +289,7 @@ class cnEntry_Shortcode {
 				'country'     => $address->country,
 				'latitude'    => $address->latitude,
 				'longitude'   => $address->longitude,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 		}
@@ -315,14 +315,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%number%',
-			);
+		);
 
 		$phoneNumbers = $this->entry->getPhoneNumbers( $atts );
 
@@ -331,7 +331,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type'   => $phone->name,
 				'number' => $phone->number,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -347,14 +347,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%address%',
-			);
+		);
 
 		$emailAddresses = $this->entry->getEmailAddresses( $atts );
 
@@ -363,7 +363,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type'    => $email->name,
 				'address' => $email->address,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -390,14 +390,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%id%',
-			);
+		);
 
 		$networks = $this->entry->getIm( $atts );
 
@@ -406,7 +406,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type' => $network->name,
 				'id'   => $network->id,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -433,14 +433,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%url%',
-			);
+		);
 
 		$networks = $this->entry->getSocialMedia( $atts );
 
@@ -449,7 +449,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type' => $network->name,
 				'url'  => $network->url,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -476,7 +476,7 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
@@ -484,7 +484,7 @@ class cnEntry_Shortcode {
 			'%type%',
 			'%title%',
 			'%url%',
-			);
+		);
 
 		$links = $this->entry->getLinks( $atts );
 
@@ -494,7 +494,7 @@ class cnEntry_Shortcode {
 				'type'  => $link->name,
 				'title' => $link->title,
 				'url'   => $link->url,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -521,14 +521,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%date%',
-			);
+		);
 
 		$dates = $this->entry->getDates( $atts );
 
@@ -537,7 +537,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type' => $date->name,
 				'date' => $date->date,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 

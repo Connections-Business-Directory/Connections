@@ -299,7 +299,7 @@ class CN_Walker_Term_List extends Walker {
 				'parent'     => $term->term_id,
 				'hide_empty' => false,
 				'fields'     => 'count',
-				)
+			)
 		);
 
 		if ( ! empty( $termChildren ) ) {

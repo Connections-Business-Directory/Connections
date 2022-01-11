@@ -262,16 +262,11 @@ final class cnLog_Email {
 	/**
 	 * Returns email log meta data item as human readable.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 *
-	 * @uses   cnFormatting::maybeJSONdecode()
-	 * @uses   esc_html()
-	 *
-	 * @param      $type
-	 * @param      $value
-	 * @param bool $echo  Whether to echo or not.
+	 * @param       $type
+	 * @param       $value
+	 * @param bool  $echo  Whether to echo or not.
 	 *
 	 * @return string
 	 */

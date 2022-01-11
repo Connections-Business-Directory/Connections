@@ -265,16 +265,38 @@ final class _format {
 		$map = array(
 			// PHP Date format character => jQueryUI Datepicker/DateTimepicker format character.
 			// Day.
-			'd' => 'dd', 'D' => 'D', 'j' => 'd', 'l' => 'DD', 'N' => '', 'S' => '', 'w' => '', 'z' => 'o',
+			'd' => 'dd',
+			'D' => 'D',
+			'j' => 'd',
+			'l' => 'DD',
+			'N' => '',
+			'S' => '',
+			'w' => '',
+			'z' => 'o',
 			// Week.
 			'W' => '',
 			// Month.
-			'F' => 'MM', 'm' => 'mm', 'M' => 'M', 'n' => 'm', 't' => '',
+			'F' => 'MM',
+			'm' => 'mm',
+			'M' => 'M',
+			'n' => 'm',
+			't' => '',
 			// Year.
-			'L' => '', 'o' => '', 'Y' => 'yy', 'y' => 'y',
+			'L' => '',
+			'o' => '',
+			'Y' => 'yy',
+			'y' => 'y',
 			// Time.
-			'a' => 'tt', 'A' => 'TT', 'B' => '',
-			'g' => 'h', 'G' => 'H', 'h' => 'hh', 'H' => 'HH', 'i' => 'mm', 's' => 'ss', 'u' => 'c',
+			'a' => 'tt',
+			'A' => 'TT',
+			'B' => '',
+			'g' => 'h',
+			'G' => 'H',
+			'h' => 'hh',
+			'H' => 'HH',
+			'i' => 'mm',
+			's' => 'ss',
+			'u' => 'c',
 		);
 
 		$format   = '';

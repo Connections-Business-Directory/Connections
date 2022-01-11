@@ -652,12 +652,12 @@ class cnPlugin_Updater {
 		}
 
 		$options = array(
-			'timeout'   => $timeout,
-			'sslverify' => cnHTTP::verifySSL(),
-			'body'      => array(
-				'url'        => home_url(),
-				'action'     => ! empty( $plugin ) ? 'info' : 'update-check',
-				'plugins'    => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$plugins ),
+			'timeout'    => $timeout,
+			'sslverify'  => cnHTTP::verifySSL(),
+			'body'       => array(
+				'url'     => home_url(),
+				'action'  => ! empty( $plugin ) ? 'info' : 'update-check',
+				'plugins' => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$plugins ),
 			),
 			'user-agent' => 'Connections Business Directory/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 		);

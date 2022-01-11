@@ -554,8 +554,8 @@ class Settings {
 	public function addTab( $id, $pageHook, $options ) {
 
 		$defaults = array(
-			'position'  => 10,
-			'title'     => '',
+			'position' => 10,
+			'title'    => '',
 		);
 
 		$options = wp_parse_args( $options, $defaults );

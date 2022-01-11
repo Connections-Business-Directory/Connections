@@ -2505,8 +2505,8 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'on_change'  => 'this.form.submit()',
-			'selected'   => $selected,
+			'on_change' => 'this.form.submit()',
+			'selected'  => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2566,7 +2566,7 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'selected'   => $selected,
+			'selected' => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2625,7 +2625,7 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'selected'   => $selected,
+			'selected' => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

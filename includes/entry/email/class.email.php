@@ -161,13 +161,13 @@ final class cnEmail_Address extends cnEntry_Collection_Item {
 	public function toArray() {
 
 		return array(
-			'id'          => $this->id,
-			'type'        => $this->type,
-			'name'        => $this->getName(),
-			'visibility'  => $this->visibility,
-			'order'       => $this->order,
-			'preferred'   => $this->preferred,
-			'address'     => $this->address,
+			'id'         => $this->id,
+			'type'       => $this->type,
+			'name'       => $this->getName(),
+			'visibility' => $this->visibility,
+			'order'      => $this->order,
+			'preferred'  => $this->preferred,
+			'address'    => $this->address,
 		);
 	}
 }

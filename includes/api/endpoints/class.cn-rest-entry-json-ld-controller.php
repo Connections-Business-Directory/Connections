@@ -106,7 +106,7 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 
 		$entries = array(
 			'@context' => 'http://schema.org',
-			'@graph' => array(),
+			'@graph'   => array(),
 		);
 
 		foreach ( $results as $result ) {

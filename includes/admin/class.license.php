@@ -443,17 +443,17 @@ HERERDOC;
 		);
 
 		$fields[] = array(
-			'plugin_id'         => 'connections',
-			'id'                => $this->slug,
-			'position'          => 10,
-			'page_hook'         => 'connections_page_connections_settings',
-			'tab'               => 'beta',
-			'section'           => 'beta',
-			'title'             => $this->name,
-			'desc'              => sprintf( __( 'Receive updates for pre-release versions of %s.', 'connections' ), $this->name ),
-			'help'              => '',
-			'type'              => 'checkbox',
-			'default'           => '',
+			'plugin_id' => 'connections',
+			'id'        => $this->slug,
+			'position'  => 10,
+			'page_hook' => 'connections_page_connections_settings',
+			'tab'       => 'beta',
+			'section'   => 'beta',
+			'title'     => $this->name,
+			'desc'      => sprintf( __( 'Receive updates for pre-release versions of %s.', 'connections' ), $this->name ),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => '',
 			// 'sanitize_callback' => array( $this, 'sanitizeBeta' ),
 		);
 

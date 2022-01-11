@@ -182,13 +182,13 @@ final class cnPhone extends cnEntry_Collection_Item {
 	public function toArray() {
 
 		return array(
-			'id'          => $this->id,
-			'type'        => $this->type,
-			'name'        => $this->getName(),
-			'visibility'  => $this->visibility,
-			'order'       => $this->order,
-			'preferred'   => $this->preferred,
-			'number'      => $this->number,
+			'id'         => $this->id,
+			'type'       => $this->type,
+			'name'       => $this->getName(),
+			'visibility' => $this->visibility,
+			'order'      => $this->order,
+			'preferred'  => $this->preferred,
+			'number'     => $this->number,
 		);
 	}
 }

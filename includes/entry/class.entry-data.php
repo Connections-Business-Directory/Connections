@@ -2555,7 +2555,7 @@ class cnEntry {
 						$children = cnTerm::getTaxonomyTerms(
 							'category',
 							array(
-								'child_of'   => $atts['child_of'],
+								'child_of' => $atts['child_of'],
 								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more then one level deep are not returned.
 								// 'object_ids' => $id,
 								// 'include'    => $term_ids,

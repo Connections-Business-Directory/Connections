@@ -177,13 +177,13 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$date = $this->getDate() instanceof DateTime ? $this->getDate()->format( 'Y-m-d' ) : '';
 
 		return array(
-			'id'          => $this->getID(),
-			'type'        => $this->type,
-			'name'        => $this->getName(),
-			'visibility'  => $this->visibility,
-			'order'       => $this->order,
-			'preferred'   => $this->preferred,
-			'date'        => $date,
+			'id'         => $this->getID(),
+			'type'       => $this->type,
+			'name'       => $this->getName(),
+			'visibility' => $this->visibility,
+			'order'      => $this->order,
+			'preferred'  => $this->preferred,
+			'date'       => $date,
 		);
 	}
 }

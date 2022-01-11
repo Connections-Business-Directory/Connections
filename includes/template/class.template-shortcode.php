@@ -67,63 +67,63 @@ class cnTemplate_Shortcode {
 	private  function tags() {
 
 		$tags = array(
-			'template'           => array(
+			'template' => array(
 				'desc'     => __( 'Template', 'connections' ),
 				'callback' => array( __CLASS__, 'do_shortcode' ),
-				),
-			'list_actions'        => array(
+			),
+			'list_actions' => array(
 				'desc'     => __( 'List Actions', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'listActions' ),
-				),
-			'head'               => array(
+			),
+			'head' => array(
 				'desc'     => __( 'Header', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'header' ),
-				),
-			'body'               => array(
+			),
+			'body' => array(
 				'desc'     => __( 'Body', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'body' ),
-				),
-			'no_results'         => array(
+			),
+			'no_results' => array(
 				'desc'     => __( 'No results message.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'noResults' ),
-				),
-			'cards'              => array(
+			),
+			'cards' => array(
 				'desc'     => __( 'Cards', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'cards' ),
-				),
+			),
 
-			'card'               => array(
+			'card' => array(
 				'desc'     => __( 'Entry.', 'connections' ),
 				'callback' => array( __CLASS__, 'processEntry' ),
-				),
-			'foot'               => array(
+			),
+			'foot' => array(
 				'desc'     => __( 'Footer', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'footer' ),
-				),
-			'return_to_target'   => array(
+			),
+			'return_to_target' => array(
 				'desc'     => __( 'Return to top.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'returnToTopTarget' ),
-				),
-			'character_index'    => array(
+			),
+			'character_index' => array(
 				'desc'     => __( 'Character index.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'index' ),
-				),
-			'pagination'         => array(
+			),
+			'pagination' => array(
 				'desc'     => __( 'Pagination control.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'pagination' ),
-				),
-			'search'             => array(
+			),
+			'search' => array(
 				'desc'     => __( 'Pagination control.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'search' ),
-				),
-			'form_open'          => array(
+			),
+			'form_open' => array(
 				'desc'     => __( 'Form open.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'formOpen' ),
-				),
-			'form_close'         => array(
+			),
+			'form_close' => array(
 				'desc'     => __( 'Form open.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'formClose' ),
-				),
+			),
 		);
 
 		$tags = apply_filters( 'cn_template_shortcodes', $tags );

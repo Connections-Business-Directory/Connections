@@ -321,14 +321,14 @@ class cnShortcode {
 
 				$chr_map = array(
 					// Windows codepage 1252
-					"\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
-					"\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
-					"\xC2\x8B" => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
-					"\xC2\x91" => "'", // U+0091⇒U+2018 left single quotation mark
-					"\xC2\x92" => "'", // U+0092⇒U+2019 right single quotation mark
-					"\xC2\x93" => '"', // U+0093⇒U+201C left double quotation mark
-					"\xC2\x94" => '"', // U+0094⇒U+201D right double quotation mark
-					"\xC2\x9B" => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
+					"\xC2\x82"     => "'", // U+0082⇒U+201A single low-9 quotation mark
+					"\xC2\x84"     => '"', // U+0084⇒U+201E double low-9 quotation mark
+					"\xC2\x8B"     => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
+					"\xC2\x91"     => "'", // U+0091⇒U+2018 left single quotation mark
+					"\xC2\x92"     => "'", // U+0092⇒U+2019 right single quotation mark
+					"\xC2\x93"     => '"', // U+0093⇒U+201C left double quotation mark
+					"\xC2\x94"     => '"', // U+0094⇒U+201D right double quotation mark
+					"\xC2\x9B"     => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
 
 					// Regular Unicode     // U+0022 quotation mark (")
 					// U+0027 apostrophe     (')

@@ -475,11 +475,11 @@ class cnTemplate_Customizer {
 		$wp_customize->add_section(
 			'cn_template_customizer_section_search',
 			array(
-				'title'       => __( 'Search', 'connections' ),
+				'title'      => __( 'Search', 'connections' ),
 				// 'description' => __( '', 'connections' ),
-				'panel'       => 'cn_template',
-				'priority'    => 5,
-				'capability'  => 'edit_theme_options',
+				'panel'      => 'cn_template',
+				'priority'   => 5,
+				'capability' => 'edit_theme_options',
 			)
 		);
 
@@ -620,10 +620,10 @@ class cnTemplate_Customizer {
 		$wp_customize->add_setting(
 			'connections_display_results[index]',
 			array(
-				'type'                 => 'option',
-				'default'              => 0,
-				'transport'            => 'refresh',
-				'capability'           => 'edit_theme_options',
+				'type'       => 'option',
+				'default'    => 0,
+				'transport'  => 'refresh',
+				'capability' => 'edit_theme_options',
 				// 'sanitize_callback'    => 'sanitize_text_field',
 				// 'sanitize_js_callback' => '',
 			)
@@ -645,10 +645,10 @@ class cnTemplate_Customizer {
 		$wp_customize->add_setting(
 			'connections_display_results[index_repeat]',
 			array(
-				'type'                 => 'option',
-				'default'              => 0,
-				'transport'            => 'refresh',
-				'capability'           => 'edit_theme_options',
+				'type'       => 'option',
+				'default'    => 0,
+				'transport'  => 'refresh',
+				'capability' => 'edit_theme_options',
 				// 'sanitize_callback'    => 'sanitize_text_field',
 				// 'sanitize_js_callback' => '',
 			)
@@ -670,10 +670,10 @@ class cnTemplate_Customizer {
 		$wp_customize->add_setting(
 			'connections_display_results[show_current_character]',
 			array(
-				'type'                 => 'option',
-				'default'              => 0,
-				'transport'            => 'refresh',
-				'capability'           => 'edit_theme_options',
+				'type'       => 'option',
+				'default'    => 0,
+				'transport'  => 'refresh',
+				'capability' => 'edit_theme_options',
 				// 'sanitize_callback'    => 'sanitize_text_field',
 				// 'sanitize_js_callback' => '',
 			)
@@ -758,10 +758,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][category_select]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -784,10 +784,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][show_empty_categories]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -810,10 +810,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][show_category_count]",
 				array(
-					'type'                 => 'option',
-					'default'              => false,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => false,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -900,10 +900,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][search]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -990,10 +990,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][pagination]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -1016,11 +1016,11 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][pagination_limit]",
 				array(
-					'type'       => 'option',
-					'default'    => 20,
-					'transport'  => 'refresh',
-					'capability' => 'edit_theme_options',
-					'sanitize_callback'    => 'absint',
+					'type'              => 'option',
+					'default'           => 20,
+					'transport'         => 'refresh',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'absint',
 					// 'sanitize_js_callback' => '',
 				)
 			);
@@ -1143,10 +1143,10 @@ class cnTemplate_Customizer {
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => 'photo',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => 'photo',
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1180,11 +1180,11 @@ class cnTemplate_Customizer {
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => '',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
-							'sanitize_callback'    => 'absint',
+							'type'              => 'option',
+							'default'           => '',
+							'transport'         => 'refresh',
+							'capability'        => 'edit_theme_options',
+							'sanitize_callback' => 'absint',
 							// 'sanitize_js_callback' => '',
 						)
 					);
@@ -1209,11 +1209,11 @@ class cnTemplate_Customizer {
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => '',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
-							'sanitize_callback'    => 'absint',
+							'type'              => 'option',
+							'default'           => '',
+							'transport'         => 'refresh',
+							'capability'        => 'edit_theme_options',
+							'sanitize_callback' => 'absint',
 							// 'sanitize_js_callback' => '',
 						)
 					);
@@ -1238,10 +1238,10 @@ class cnTemplate_Customizer {
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => '1',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => '1',
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1258,15 +1258,15 @@ class cnTemplate_Customizer {
 								'settings'    => $option,
 								'description' => __( 'Select the image crop mode.', 'connections' ),
 								'choices'     => array(
-									'1' => __(
+									'1'    => __(
 										'Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.',
 										'connections'
 									),
-									'2' => __(
+									'2'    => __(
 										'Resize proportionally to fit entire image into the specified dimensions and add margins if required.',
 										'connections'
 									),
-									'3'  => __(
+									'3'    => __(
 										'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 										'connections'
 									),
@@ -1282,10 +1282,10 @@ class cnTemplate_Customizer {
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => true,
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => true,
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1310,10 +1310,10 @@ class cnTemplate_Customizer {
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => __( 'No Image Available', 'connections' ),
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => __( 'No Image Available', 'connections' ),
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1366,10 +1366,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				$option,
 				array(
-					'type'                 => 'option',
-					'default'              => $args['default'],
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => $args['default'],
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -1420,10 +1420,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				$option,
 				array(
-					'type'                 => 'option',
-					'default'              => '',
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => '',
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -1918,8 +1918,8 @@ class cnTemplate_Customizer {
 
 		cnURL::permalink(
 			array(
-				'type' => 'home',
-				'text' => __( 'Go Back', 'connections' ),
+				'type'   => 'home',
+				'text'   => __( 'Go Back', 'connections' ),
 				'return' => false,
 			)
 		);

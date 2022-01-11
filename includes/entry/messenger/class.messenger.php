@@ -182,13 +182,13 @@ final class cnMessenger extends cnEntry_Collection_Item {
 	public function toArray() {
 
 		return array(
-			'id'          => $this->getID(),
-			'type'        => $this->type,
-			'name'        => $this->getName(),
-			'visibility'  => $this->visibility,
-			'order'       => $this->order,
-			'preferred'   => $this->preferred,
-			'uid'         => $this->getUserID(),
+			'id'         => $this->getID(),
+			'type'       => $this->type,
+			'name'       => $this->getName(),
+			'visibility' => $this->visibility,
+			'order'      => $this->order,
+			'preferred'  => $this->preferred,
+			'uid'        => $this->getUserID(),
 		);
 	}
 }

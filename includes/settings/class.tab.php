@@ -78,8 +78,8 @@ class Tab {
 
 		$defaults = array(
 			// 'id'        => '',
-			'position'  => 10,
-			'title'     => '',
+			'position' => 10,
+			'title'    => '',
 			// 'page_hook' => '',
 		);
 

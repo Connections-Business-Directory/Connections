@@ -448,7 +448,7 @@ class cnEntry_Shortcode {
 
 			$replace = array(
 				'type' => $network->name,
-				'url'   => $network->url,
+				'url'  => $network->url,
 				);
 
 			$out .= str_ireplace( $search, $replace, $content );

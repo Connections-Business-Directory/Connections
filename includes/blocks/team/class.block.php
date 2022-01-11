@@ -267,11 +267,11 @@ class Team {
 		}
 
 		$options = array(
-			'list_type'         => $attributes['listType'],
-			$category           => $attributes['categories'],
-			'exclude_category'  => $attributes['categoriesExclude'],
+			'list_type'        => $attributes['listType'],
+			$category          => $attributes['categories'],
+			'exclude_category' => $attributes['categoriesExclude'],
 			// Limit the number of entries displayed to 50ish (based on number of set columns), only in editor preview. max is 100ish.
-			'limit' => $attributes['isEditorPreview'] ? 50 - ( 50 % $attributes['columns'] ) : 100 - ( 100 % $attributes['columns'] ),
+			'limit'            => $attributes['isEditorPreview'] ? 50 - ( 50 % $attributes['columns'] ) : 100 - ( 100 % $attributes['columns'] ),
 		);
 
 		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );

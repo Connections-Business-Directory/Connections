@@ -25,7 +25,7 @@ class Upcoming {
 				// When displaying the block using ServerSideRender the attributes need to be defined
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
 				// and display the "Error loading block: Invalid parameter(s): attributes" message.
-				'attributes' => array(
+				'attributes'      => array(
 					'advancedBlockOptions' => array(
 						'type'    => 'string',
 						'default' => '',
@@ -66,11 +66,11 @@ class Upcoming {
 						'type'    => 'string',
 						'default' => 'anniversary-light',
 					),
-					'yearFormat'    => array(
+					'yearFormat' => array(
 						'type'    => 'string',
 						'default' => '%y ' . __( 'Year(s)', 'connections' ),
 					),
-					'yearType'    => array(
+					'yearType' => array(
 						'type'    => 'string',
 						'default' => 'upcoming',
 					),
@@ -101,17 +101,17 @@ class Upcoming {
 		// error_log( '$atts ' .  json_encode( $attributes, 128 ) );
 
 		$options = array(
-			'list_type'        => $attributes['listType'],
-			'days'             => $attributes['days'],
-			'include_today'    => $attributes['includeToday'],
-			'date_format'      => $attributes['dateFormat'],
-			'show_lastname'    => $attributes['displayLastName'],
-			'show_title'       => false,
-			'list_title'       => $attributes['heading'],
-			'no_results'       => $attributes['noResults'],
-			'template'         => $attributes['template'],
-			'year_format'      => $attributes['yearFormat'],
-			'year_type'        => $attributes['yearType'],
+			'list_type'     => $attributes['listType'],
+			'days'          => $attributes['days'],
+			'include_today' => $attributes['includeToday'],
+			'date_format'   => $attributes['dateFormat'],
+			'show_lastname' => $attributes['displayLastName'],
+			'show_title'    => false,
+			'list_title'    => $attributes['heading'],
+			'no_results'    => $attributes['noResults'],
+			'template'      => $attributes['template'],
+			'year_format'   => $attributes['yearFormat'],
+			'year_type'     => $attributes['yearType'],
 		);
 
 		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );

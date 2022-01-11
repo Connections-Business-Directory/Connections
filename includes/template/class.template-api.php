@@ -668,8 +668,8 @@ class cnTemplateFactory {
 
 		$type     = 'all';
 		$defaults = array(
-			'list_type'     => null,
-			'template'      => null,
+			'list_type' => null,
+			'template'  => null,
 		);
 
 		/**

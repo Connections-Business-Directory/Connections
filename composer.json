@@ -27,6 +27,8 @@
             "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
         ],
         "lint:php": "phpcs --report-file=PHPCS-report.txt",
+        "lint:php:report": "phpcs -s --report=source --report-width=120 --report-file=PHPCS-source-report.txt",
+        "lint:php:i18n": "phpcs --sniffs=WordPress.WP.I18n --report-file=PHPCS-i18n-report.txt",
         "lint:php:security": "phpcs --sniffs=WordPress.Security.EscapeOutput,WordPress.Security.NonceVerification,WordPress.Security.ValidatedSanitizedInput,WordPress.Security.SafeRedirect,WordPressVIPMinimum.Security.ProperEscapingFunction,WordPressVIPMinimum.Security.Mustache --report-file=PHPCS-security-report.txt",
         "phpcs": "phpcs",
         "phpcsi": "phpcs -i",

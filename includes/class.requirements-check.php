@@ -327,7 +327,7 @@ final class cnRequirements_Check {
 	public function php_version_notice() {
 
 		$message = sprintf(
-			__( 'The &#8220;%s&#8221; plugin cannot run on PHP versions older than %s. Please contact your web host and ask them to upgrade.', 'connections' ),
+			__( 'The &#8220;%1$s&#8221; plugin cannot run on PHP versions older than %2$s. Please contact your web host and ask them to upgrade.', 'connections' ),
 			$this->name,
 			$this->requirements['php']['min']
 		);
@@ -359,7 +359,7 @@ final class cnRequirements_Check {
 	public function php_tested_notice() {
 
 		$message = sprintf(
-			__( 'The &#8220;%s&#8221; plugin has not been tested on PHP versions newer than %s. This is informational only and the plugin should continue to function normally.', 'connections' ),
+			__( 'The &#8220;%1$s&#8221; plugin has not been tested on PHP versions newer than %2$s. This is informational only and the plugin should continue to function normally.', 'connections' ),
 			$this->name,
 			$this->requirements['php']['max']
 		);
@@ -378,7 +378,7 @@ final class cnRequirements_Check {
 	public function wp_version_notice() {
 
 		$message = sprintf(
-			__( 'The &#8220;%s&#8221; plugin cannot run on WordPress versions older than %s. Please update WordPress.', 'connections' ),
+			__( 'The &#8220;%1$s&#8221; plugin cannot run on WordPress versions older than %2$s. Please update WordPress.', 'connections' ),
 			$this->name,
 			$this->requirements['wp']['min']
 		);
@@ -410,7 +410,7 @@ final class cnRequirements_Check {
 	public function wp_tested_notice() {
 
 		$message = sprintf(
-			__( 'The &#8220;%s&#8221; plugin has not been tested on WordPress versions newer than %s. This is informational only and the plugin should continue to function normally.', 'connections' ),
+			__( 'The &#8220;%1$s&#8221; plugin has not been tested on WordPress versions newer than %2$s. This is informational only and the plugin should continue to function normally.', 'connections' ),
 			$this->name,
 			$this->requirements['wp']['max']
 		);
@@ -555,7 +555,7 @@ final class cnRequirements_Check {
 		<p>
 			<?php
 			printf(
-				esc_html__( 'Requires %s (%s), but (%s) is installed.', 'connections' ),
+				esc_html__( 'Requires %1$s (%2$s), but (%3$s) is installed.', 'connections' ),
 				'<strong>' . esc_html( $requirement['name'] ) . '</strong>',
 				'<strong>' . esc_html( $requirement['min'] ) . '</strong>',
 				'<strong>' . esc_html( $requirement['current'] ) . '</strong>'

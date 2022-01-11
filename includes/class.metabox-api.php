@@ -89,7 +89,6 @@ use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
  *
  * }
  * </code>
- *
  */
 
 /**

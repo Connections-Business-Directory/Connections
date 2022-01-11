@@ -470,7 +470,6 @@ class Popup extends Abstract_Layer {
 	 * @param string $content
 	 *
 	 * @return $this
-	 *
 	 */
 	public function setContent( $content ) {
 

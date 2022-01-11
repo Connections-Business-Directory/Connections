@@ -143,6 +143,7 @@ class cnRetrieve {
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
+		_format::toBoolean( $atts['parse_request'] );
 		_format::toBoolean( $atts['process_user_caps'] );
 		_format::toBoolean( $atts['suppress_filters'] );
 		/*

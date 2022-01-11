@@ -454,9 +454,9 @@ class cnTerm {
 			'update_meta_cache' => true,
 		);
 
-		$args     = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 
-		$terms    = array();
+		$terms = array();
 
 		// @todo Implement the following block of code.
 		//if ( count($taxonomies) > 1 ) {
@@ -535,7 +535,7 @@ class cnTerm {
 				break;
 
 			case 'slugs':
-				$select  = array( 't.slug' );
+				$select = array( 't.slug' );
 				break;
 
 			case 'all_with_entry_id':
@@ -557,11 +557,11 @@ class cnTerm {
 		 * @param array        $args       An array of term query arguments.
 		 * @param string|array $taxonomies A taxonomy or array of taxonomies.
 		 */
-		$fields  = implode( ', ', apply_filters( 'cn_get_term_relationship_fields', $select, $args, $taxonomies ) );
+		$fields = implode( ', ', apply_filters( 'cn_get_term_relationship_fields', $select, $args, $taxonomies ) );
 
-		$join    = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
+		$join = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
 
-		$where   = array(
+		$where = array(
 			"tt.taxonomy IN ($taxonomies)",
 			"AND tr.entry_id IN ($object_ids)",
 		);
@@ -584,7 +584,7 @@ class cnTerm {
 
 		$orderBy = "$orderby $order";
 
-		$pieces  = array( 'fields', 'join', 'where', 'orderBy' );
+		$pieces = array( 'fields', 'join', 'where', 'orderBy' );
 
 		/**
 		 * Filter the terms query SQL clauses.
@@ -876,14 +876,14 @@ class cnTerm {
 
 				$in_delete_tt_ids = "'" . implode( "', '", $delete_tt_ids ) . "'";
 
-				$delete_term_ids  = $wpdb->get_col(
+				$delete_term_ids = $wpdb->get_col(
 					$wpdb->prepare(
 						'SELECT tt.term_id FROM ' . CN_TERM_TAXONOMY_TABLE . " AS tt WHERE tt.taxonomy = %s AND tt.term_taxonomy_id IN ($in_delete_tt_ids)",
 						$taxonomy
 					)
 				);
 
-				$delete_term_ids  = array_map( 'intval', $delete_term_ids );
+				$delete_term_ids = array_map( 'intval', $delete_term_ids );
 
 				$remove = self::deleteRelationships( $object_id, $delete_term_ids, $taxonomy );
 
@@ -2230,7 +2230,7 @@ class cnTerm {
 
 			$parent = $term_obj->parent;
 
-			$edit_ids = $wpdb->get_results( 'SELECT term_id, term_taxonomy_id FROM ' . CN_TERM_TAXONOMY_TABLE . ' WHERE `parent` = ' . (int) $term_obj->term_id );
+			$edit_ids    = $wpdb->get_results( 'SELECT term_id, term_taxonomy_id FROM ' . CN_TERM_TAXONOMY_TABLE . ' WHERE `parent` = ' . (int) $term_obj->term_id );
 			$edit_tt_ids = wp_list_pluck( $edit_ids, 'term_taxonomy_id' );
 
 			/**
@@ -2556,11 +2556,11 @@ class cnTerm {
 			$tt_ids = array_map( 'intval', $ids );
 			$tt_ids = implode( ', ', $tt_ids );
 
-			$terms  = $wpdb->get_results(
+			$terms = $wpdb->get_results(
 				'SELECT term_id, taxonomy FROM ' . CN_TERM_TAXONOMY_TABLE . " WHERE term_taxonomy_id IN ($tt_ids)"
 			);
 
-			$ids    = array();
+			$ids = array();
 
 			foreach ( (array) $terms as $term ) {
 
@@ -3091,7 +3091,7 @@ class cnTerm {
 						break;
 
 					case 'include':
-						$include = implode( ',', wp_parse_id_list( $atts['include'] ) );
+						$include    = implode( ',', wp_parse_id_list( $atts['include'] ) );
 						$orderField = "FIELD( t.term_id, $include )";
 						break;
 
@@ -3161,7 +3161,7 @@ class cnTerm {
 					break;
 
 				case 'include':
-					$include = implode( ',', wp_parse_id_list( $atts['include'] ) );
+					$include         = implode( ',', wp_parse_id_list( $atts['include'] ) );
 					$atts['orderby'] = "FIELD( t.term_id, $include )";
 					break;
 
@@ -3290,7 +3290,7 @@ class cnTerm {
 			foreach ( $taxonomies as $_tax ) {
 
 				$term_hierarchy = _getTermHierarchy( $_tax );
-				$exclusions = array_merge( array_keys( $term_hierarchy ), $exclusions );
+				$exclusions     = array_merge( array_keys( $term_hierarchy ), $exclusions );
 			}
 		}
 
@@ -3335,12 +3335,12 @@ class cnTerm {
 
 			if ( is_array( $atts['slug'] ) ) {
 
-				$slug = array_map( 'sanitize_title', $atts['slug'] );
+				$slug    = array_map( 'sanitize_title', $atts['slug'] );
 				$where[] = " AND t.slug IN ('" . implode( "', '", $slug ) . "')";
 
 			} else {
 
-				$slug = sanitize_title( $atts['slug'] );
+				$slug    = sanitize_title( $atts['slug'] );
 				$where[] = " AND t.slug = '$slug'";
 			}
 
@@ -3459,7 +3459,7 @@ class cnTerm {
 			case 'count':
 				$orderBy = '';
 				// $order   = '';
-				$select  = array( 'COUNT(*)' );
+				$select = array( 'COUNT(*)' );
 				break;
 
 			case 'id=>name':
@@ -3482,7 +3482,7 @@ class cnTerm {
 		 */
 		$fields = implode( ', ', apply_filters( 'cn_get_terms_fields', $select, $atts, $taxonomies ) );
 
-		$join  .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
+		$join .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
 
 		if ( ! empty( $atts['object_ids'] ) ) {
 			$join .= ' INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
@@ -4382,7 +4382,7 @@ class cnTerm {
 
 		foreach ( $terms as &$node ) {
 
-			$node->children = array();
+			$node->children          = array();
 			$nodes[ $node->term_id ] =& $node;
 		}
 

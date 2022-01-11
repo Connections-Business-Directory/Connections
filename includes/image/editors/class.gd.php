@@ -188,7 +188,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			for ( $y = 0; $y < $h; $y++ ) {
 				// get current alpha value (represents the TANSPARENCY!)
 				$colorxy = imagecolorat( $image, $x, $y );
-				$alpha = ( $colorxy >> 24 ) & 0xFF;
+				$alpha   = ( $colorxy >> 24 ) & 0xFF;
 				// calculate new alpha
 				if ( 127 !== $minalpha ) {
 					$alpha = 127 + 127 * $opacity * ( $alpha - 127 ) / ( 127 - $minalpha );

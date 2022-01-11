@@ -145,7 +145,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 
 			$entry = new cnEntry( $result );
 
-			$data = $this->prepare_item_for_response( $entry, $request );
+			$data                  = $this->prepare_item_for_response( $entry, $request );
 			$entries['features'][] = $this->prepare_response_for_collection( $data );
 		}
 

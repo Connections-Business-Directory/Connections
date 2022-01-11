@@ -100,11 +100,11 @@ class cnOptions {
 
 		$this->options = is_array( $options ) ? $options : array();
 
-		$this->version = ( isset( $this->options['version'] ) && ! empty( $this->options['version'] ) ) ? $this->options['version'] : CN_CURRENT_VERSION;
+		$this->version   = ( isset( $this->options['version'] ) && ! empty( $this->options['version'] ) ) ? $this->options['version'] : CN_CURRENT_VERSION;
 		$this->dbVersion = ( isset( $this->options['db_version'] ) && ! empty( $this->options['db_version'] ) ) ? $this->options['db_version'] : CN_DB_VERSION;
 
 		$this->defaultTemplatesSet = $this->options['settings']['template']['defaults_set'];
-		$this->activeTemplates = (array) $this->options['settings']['template']['active'];
+		$this->activeTemplates     = (array) $this->options['settings']['template']['active'];
 
 		$this->defaultRolesSet = isset( $this->options['settings']['roles']['defaults_set'] ) && ! empty( $this->options['settings']['roles']['defaults_set'] ) ? $this->options['settings']['roles']['defaults_set'] : false;
 
@@ -118,9 +118,9 @@ class cnOptions {
 		 * not be the actual stored timestamp, it will be the timestamp adjusted
 		 * to the timezone set in MySQL.
 		 */
-		$mySQLTimeStamp = $wpdb->get_results( 'SELECT NOW() as timestamp' );
+		$mySQLTimeStamp       = $wpdb->get_results( 'SELECT NOW() as timestamp' );
 		$this->sqlCurrentTime = strtotime( $mySQLTimeStamp[0]->timestamp );
-		$this->sqlTimeOffset = time() - $this->sqlCurrentTime;
+		$this->sqlTimeOffset  = time() - $this->sqlCurrentTime;
 
 		/*
 		 * Add `default_option_{option}` hooks to make getting a few core settings quick and easy.
@@ -132,11 +132,11 @@ class cnOptions {
 	 * Saves the plug-in options to the database.
 	 */
 	public function saveOptions() {
-		$this->options['version'] = $this->version;
+		$this->options['version']    = $this->version;
 		$this->options['db_version'] = $this->dbVersion;
 
 		$this->options['settings']['template']['defaults_set'] = $this->defaultTemplatesSet;
-		$this->options['settings']['template']['active'] = $this->activeTemplates;
+		$this->options['settings']['template']['active']       = $this->activeTemplates;
 
 		$this->options['settings']['roles']['defaults_set'] = $this->defaultRolesSet;
 
@@ -266,10 +266,10 @@ class cnOptions {
 			$order   = cnArray::get( $options, 'entry-type.order', array() );
 
 			// Remove entry types from the order if they do not exist in the registered entry types to account for removed entry types.
-			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+			$order = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.
-			$type    = array_replace( array_flip( $order ), $registered, $type );
+			$type = array_replace( array_flip( $order ), $registered, $type );
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
@@ -675,7 +675,7 @@ class cnOptions {
 
 			$type   = cnArray::get( $options, 'phone-types.type', $registered );
 			$active = cnArray::get( $options, 'phone-types.active', array_flip( $registered ) );
-			$order = cnArray::get( $options, 'phone-types.order', array() );
+			$order  = cnArray::get( $options, 'phone-types.order', array() );
 
 			// Add active phone type registered via the `cn_phone_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_phone_options` filter.

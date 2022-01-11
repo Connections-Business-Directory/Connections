@@ -369,8 +369,8 @@ class cnEntry_DB {
 	 */
 	private function fields( $fields, $data ) {
 
-		$out = array();
-		$out['data'] = array();
+		$out           = array();
+		$out['data']   = array();
 		$out['format'] = array();
 
 		foreach ( $fields as $field => $row ) {

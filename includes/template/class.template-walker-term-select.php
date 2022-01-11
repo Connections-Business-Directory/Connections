@@ -157,7 +157,7 @@ class CN_Walker_Term_Select_List extends Walker {
 				/** This filter is documented in includes/template/class.template-walker-term-select.php */
 				$show_option_all = apply_filters( 'cn_list_cats', $atts['show_option_all'] );
 				$selected        = ( '0' === strval( $atts['selected'] ) ) ? " selected='selected'" : '';
-				$out .= "\t<option value='0'$selected>$show_option_all</option>\n";
+				$out            .= "\t<option value='0'$selected>$show_option_all</option>\n";
 			}
 
 			if ( $atts['show_option_none'] ) {
@@ -165,7 +165,7 @@ class CN_Walker_Term_Select_List extends Walker {
 				/** This filter is documented in includes/template/class.template-walker-term-select.php */
 				$show_option_none = apply_filters( 'cn_list_cats', $atts['show_option_none'] );
 				$selected         = selected( $atts['option_none_value'], $atts['selected'], false );
-				$out .= "\t<option value='" . esc_attr( $atts['option_none_value'] ) . "'$selected>$show_option_none</option>\n";
+				$out             .= "\t<option value='" . esc_attr( $atts['option_none_value'] ) . "'$selected>$show_option_none</option>\n";
 			}
 
 			if ( $atts['hierarchical'] ) {

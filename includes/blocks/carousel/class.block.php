@@ -670,7 +670,7 @@ class Carousel {
 
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 
-		$html = '';
+		$html  = '';
 		$html .= PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="slick-slider-block-' . $attributes['blockId'] . '" data-slick-slider-settings="' . $settingsJSON . '">' . PHP_EOL;
 		$html .= self::renderTemplate( $template, $queryResults, $carousel );
 		$html .= '</div><!--.slick-slider-section-->' . PHP_EOL;

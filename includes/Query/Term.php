@@ -592,7 +592,7 @@ final class Term {
 
 		if ( ! empty( $args['term_taxonomy_id'] ) ) {
 			if ( is_array( $args['term_taxonomy_id'] ) ) {
-				$tt_ids                                         = implode( ',', array_map( 'intval', $args['term_taxonomy_id'] ) );
+				$tt_ids = implode( ',', array_map( 'intval', $args['term_taxonomy_id'] ) );
 				$this->sql_clauses['where']['term_taxonomy_id'] = "tt.term_taxonomy_id IN ({$tt_ids})";
 			} else {
 				$this->sql_clauses['where']['term_taxonomy_id'] = $wpdb->prepare( 'tt.term_taxonomy_id = %d', $args['term_taxonomy_id'] );
@@ -666,9 +666,9 @@ final class Term {
 		$meta_clauses = $this->meta_query->get_clauses();
 
 		if ( ! empty( $meta_clauses ) ) {
-			$join                                     .= $mq_sql['join'];
+			$join                                    .= $mq_sql['join'];
 			$this->sql_clauses['where']['meta_query'] = preg_replace( '/^\s*AND\s*/', '', $mq_sql['where'] );
-			$distinct                                 .= 'DISTINCT';
+			$distinct                                .= 'DISTINCT';
 
 		}
 

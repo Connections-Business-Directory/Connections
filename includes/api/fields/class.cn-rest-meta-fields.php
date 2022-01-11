@@ -340,7 +340,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 				'default'     => isset( $args['default'] ) ? $args['default'] : null,
 			);
 
-			$rest_args = array_merge( $default_args, $rest_args );
+			$rest_args           = array_merge( $default_args, $rest_args );
 			$rest_args['schema'] = array_merge( $default_schema, $rest_args['schema'] );
 
 			$type = ! empty( $rest_args['type'] ) ? $rest_args['type'] : null;
@@ -354,7 +354,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 				$rest_args['schema']['items'] = array(
 					'type' => $rest_args['type'],
 				);
-				$rest_args['schema']['type'] = 'array';
+				$rest_args['schema']['type']  = 'array';
 			}
 
 			$registered[ $name ] = $rest_args;

@@ -863,7 +863,7 @@ class cnImage {
 			switch ( $crop_mode ) {
 
 				case 0:
-					$dims  = image_resize_dimensions(
+					$dims = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
 						( empty( $width ) ? null : $width ),
@@ -877,7 +877,7 @@ class cnImage {
 					break;
 
 				case 1:
-					$dims  = image_resize_dimensions(
+					$dims = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
 						( empty( $width ) ? null : $width ),
@@ -949,7 +949,7 @@ class cnImage {
 						$height = $final_height;
 					}
 
-					$dims  = image_resize_dimensions(
+					$dims = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
 						( empty( $width ) ? null : $width ),

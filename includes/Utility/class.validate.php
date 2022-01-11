@@ -125,12 +125,12 @@ class cnValidate {
 		}
 
 		// test for IP address (IPv4)
-		$regex = '#^(https?|ftp|news|file)\:\/\/';
+		$regex  = '#^(https?|ftp|news|file)\:\/\/';
 		$regex .= '([0-9]{1,3}\.[0-9]{1,3}\.)#';
 
 		if ( preg_match( $regex, $url_local ) ) {
 
-			$regex = '#^(https?|ftps)\:\/\/';
+			$regex  = '#^(https?|ftps)\:\/\/';
 			$regex .= '([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#';
 
 			if ( ! preg_match( $regex, $url_local ) ) {

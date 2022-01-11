@@ -385,7 +385,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					$optionName = $field['id'];
 				}
 
-				$options['id'] = $field['id'];
+				$options['id']   = $field['id'];
 				$options['type'] = $field['type'];
 				if ( isset( $field['desc'] ) ) {
 					$options['desc'] = $field['desc'];
@@ -1061,7 +1061,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						$select .= '<optgroup label="' . esc_attr( $type->labels->name ) . '">' . PHP_EOL;
 
 						$atts['post_type'] = $type->name;
-						$posts = get_pages( $atts );
+						$posts             = get_pages( $atts );
 
 						if ( ! empty( $posts ) ) {
 
@@ -1281,9 +1281,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					foreach ( $blocks as $key => $label ) {
 
 						$removeButton = '';
-						$checkbox = '';
-						$input    = '';
-						$hidden   = '';
+						$checkbox     = '';
+						$input        = '';
+						$hidden       = '';
 
 						if ( isset( $field['options']['required'] ) && in_array( $key, $field['options']['required'] ) ) {
 

@@ -281,13 +281,13 @@ class cnTemplateFactory {
 
 					// If the template has a core class, init it, passing its instance of cnTemplate,
 					// so it is easily accessible within its class.
-					$object  = new $template->class( $t );
+					$object = new $template->class( $t );
 					$t->setMe( $object );
 					$instance->template->{ $template->class } = $object;
 
 					// Add a reference to its instance of cnTemplate to the plugins globally accessible instance.
 					// This is to allow easy access when loading the template within the shortcode.
-					$instance->template->{ $template->slug }  = $t;
+					$instance->template->{ $template->slug } = $t;
 
 				} else {
 
@@ -345,17 +345,17 @@ class cnTemplateFactory {
 				$atts['custom']      = $template->custom;
 				$atts['legacy']      = true;
 
-				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
-				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
+				$atts['path'] = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
+				$atts['url']  = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
 
-				$atts['thumbnail']   = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
-				$atts['functions']   = isset( $template->phpPath ) ? 'functions.php' : '';
+				$atts['thumbnail'] = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
+				$atts['functions'] = isset( $template->phpPath ) ? 'functions.php' : '';
 
-				$parts['css']        = isset( $template->cssPath ) ? 'styles.css' : '';
-				$parts['js']         = isset( $template->jsPath ) ? 'template.js' : '';
-				$parts['card']       = 'template.php';
+				$parts['css']  = isset( $template->cssPath ) ? 'styles.css' : '';
+				$parts['js']   = isset( $template->jsPath ) ? 'template.js' : '';
+				$parts['card'] = 'template.php';
 
-				$atts['parts']       = $parts;
+				$atts['parts'] = $parts;
 
 				self::register( $atts );
 			}
@@ -442,9 +442,9 @@ class cnTemplateFactory {
 						$templates->{ $template->type }->{ $template->slug }->author      = $template->author;
 						$templates->{ $template->type }->{ $template->slug }->description = isset( $template->description ) ? $template->description : '';
 
-						$templates->{ $template->type }->{ $template->slug }->path        = $path;
-						$templates->{ $template->type }->{ $template->slug }->slug        = $template->slug ;
-						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? true : false;
+						$templates->{ $template->type }->{ $template->slug }->path   = $path;
+						$templates->{ $template->type }->{ $template->slug }->slug   = $template->slug ;
+						$templates->{ $template->type }->{ $template->slug }->custom = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? true : false;
 
 						if ( file_exists( $path . 'styles.css' ) ) {
 							$templates->{$template->type}->{$template->slug}->cssPath = true;

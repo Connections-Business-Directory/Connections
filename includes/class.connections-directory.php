@@ -179,10 +179,10 @@ final class Connections_Directory {
 
 			self::$instance = new self();
 
-			self::$file       = $file;
-			self::$pluginURL  = plugin_dir_url( $file );
-			self::$path       = plugin_dir_path( $file );
-			self::$basename   = plugin_basename( $file );
+			self::$file      = $file;
+			self::$pluginURL = plugin_dir_url( $file );
+			self::$path      = plugin_dir_path( $file );
+			self::$basename  = plugin_basename( $file );
 
 			require_once self::$path . 'includes/class.constants.php';
 			cnConstants::define();
@@ -528,7 +528,7 @@ final class Connections_Directory {
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 				 */
-				$options = get_option( 'connections_search' );
+				$options                    = get_option( 'connections_search' );
 				$options['keyword_enabled'] = 1;
 
 				update_option( 'connections_search', $options );
@@ -539,13 +539,13 @@ final class Connections_Directory {
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 				 */
-				$options = get_option( 'connections_compatibility' );
+				$options        = get_option( 'connections_compatibility' );
 				$options['css'] = 1;
 
 				update_option( 'connections_compatibility', $options );
 				unset( $options );
 
-				$options = get_option( 'connections_display_results' );
+				$options                   = get_option( 'connections_display_results' );
 				$options['search_message'] = 1;
 
 				update_option( 'connections_display_results', $options );

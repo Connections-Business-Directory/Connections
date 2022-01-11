@@ -29,7 +29,7 @@ class cnShortcode_Connections extends cnShortcode {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$html     = '';
+		$html = '';
 
 		if ( is_customize_preview() ) {
 

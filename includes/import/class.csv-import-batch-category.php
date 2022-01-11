@@ -271,17 +271,17 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 		if ( 0 < strlen( $slug ) ) {
 
-			$where    .= ' AND BINARY t.slug = %s';
+			$where   .= ' AND BINARY t.slug = %s';
 			$fields[] = sanitize_title( $slug );
 		}
 
 		if ( 0 < $parent ) {
 
-			$where .= ' AND tt.parent = %d';
+			$where   .= ' AND tt.parent = %d';
 			$fields[] = absint( $parent );
 		}
 
-		$where .= ' AND tt.taxonomy = %s';
+		$where   .= ' AND tt.taxonomy = %s';
 		$fields[] = $this->type;
 
 		if ( $result = $wpdb->get_row(

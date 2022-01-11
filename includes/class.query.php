@@ -92,7 +92,7 @@ class cnQuery {
 
 		} else {
 
-			$GLOBALS['wp_query']->query_vars[ $var ] = $value;
+			$GLOBALS['wp_query']->query_vars[ $var ]     = $value;
 			$GLOBALS['wp_the_query']->query_vars[ $var ] = $value;
 		}
 	}

@@ -362,14 +362,14 @@ class cnTemplatePart {
 		 */
 		$defaults = apply_filters( 'cn_form_open_default_atts', $defaults );
 
-		$atts     = wp_parse_args( $atts, $defaults );
+		$atts = wp_parse_args( $atts, $defaults );
 
 		/**
 		 * Filter the user supplied attributes.
 		 *
 		 * @since 8.5.14
 		 */
-		$atts     = apply_filters( 'cn_form_open_atts', $atts );
+		$atts = apply_filters( 'cn_form_open_atts', $atts );
 
 		$out = '';
 
@@ -1815,7 +1815,7 @@ class cnTemplatePart {
 				}
 				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . esc_attr__( 'Search', 'connections' ) . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
-			$out .= '</span>';
+			$out     .= '</span>';
 
 		}
 
@@ -2659,9 +2659,9 @@ class cnTemplatePart {
 		global $connections;
 
 		$selected = ( cnQuery::getVar( 'cn-cat' ) ) ? cnQuery::getVar( 'cn-cat' ) : array();
-		$level = 0;
-		$out = '';
-		$trClass = 'alternate';
+		$level    = 0;
+		$out      = '';
+		$trClass  = 'alternate';
 
 		$categories = $connections->retrieve->categories();
 
@@ -2714,8 +2714,8 @@ class cnTemplatePart {
 
 		// Build the table grid.
 		$table = array();
-		$rows = ceil( count( $categories ) / $atts['columns'] );
-		$keys = array_keys( $categories );
+		$rows  = ceil( count( $categories ) / $atts['columns'] );
+		$keys  = array_keys( $categories );
 
 		for ( $row = 1; $row <= $rows; $row++ ) {
 			for ( $col = 1; $col <= $atts['columns']; $col++ ) {
@@ -2870,8 +2870,8 @@ class cnTemplatePart {
 	private static function categoryLink( $atts = array() ) {
 		global $connections;
 
-		$level = 0;
-		$out = '';
+		$level   = 0;
+		$out     = '';
 		$trClass = 'alternate';
 
 		$categories = $connections->retrieve->categories();
@@ -2924,8 +2924,8 @@ class cnTemplatePart {
 
 		// Build the table grid.
 		$table = array();
-		$rows = ceil( count( $categories ) / $atts['columns'] );
-		$keys = array_keys( $categories );
+		$rows  = ceil( count( $categories ) / $atts['columns'] );
+		$keys  = array_keys( $categories );
 		for ( $row = 1; $row <= $rows; $row++ ) {
 			for ( $col = 1; $col <= $atts['columns']; $col++ ) {
 				$table[ $row ][ $col ] = array_shift( $keys );

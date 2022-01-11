@@ -447,7 +447,7 @@ class cnUpload {
 		 */
 		$filter['wp_handle_upload_prefilter'] = isset( $wp_filter['wp_handle_upload_prefilter'] ) ? $wp_filter['wp_handle_upload_prefilter'] : '';
 		$filter['upload_dir']                 = isset( $wp_filter['upload_dir'] ) ? $wp_filter['upload_dir'] : '';
-		$filter['wp_handle_upload'] = isset( $wp_filter['wp_handle_upload'] ) ? $wp_filter['wp_handle_upload'] : '';
+		$filter['wp_handle_upload']           = isset( $wp_filter['wp_handle_upload'] ) ? $wp_filter['wp_handle_upload'] : '';
 
 		/*
 		 * Remove all filters hooked into the upload_dir filter to prevent conflicts.

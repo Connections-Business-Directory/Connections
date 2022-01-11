@@ -188,24 +188,24 @@ final class cnAddress extends cnEntry_Collection_Item {
 		$default = cnOptions::getDefaultAddressType();
 
 		/** @noinspection DuplicatedCode */
-		$this->id          = (int) cnArray::get( $data, 'id', 0 );
+		$this->id = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred         = cnArray::get( $data, 'preferred', false );
+		$preferred = cnArray::get( $data, 'preferred', false );
 
-		$type              = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
-		$this->type        = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
-		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
-		$this->preferred   = cnFormatting::toBoolean( $preferred );
-		$this->line_1      = cnSanitize::field( 'street', cnArray::get( $data, 'line_1', '' ), 'raw' );
-		$this->line_2      = cnSanitize::field( 'street', cnArray::get( $data, 'line_2', '' ), 'raw' );
-		$this->line_3      = cnSanitize::field( 'street', cnArray::get( $data, 'line_3', '' ), 'raw' );
-		$this->line_4      = cnSanitize::field( 'street', cnArray::get( $data, 'line_4', '' ), 'raw' );
-		$this->district    = cnSanitize::field( 'district', cnArray::get( $data, 'district', '' ), 'raw' );
-		$this->county      = cnSanitize::field( 'county', cnArray::get( $data, 'county', '' ), 'raw' );
+		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
+		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
+		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
+		$this->preferred  = cnFormatting::toBoolean( $preferred );
+		$this->line_1     = cnSanitize::field( 'street', cnArray::get( $data, 'line_1', '' ), 'raw' );
+		$this->line_2     = cnSanitize::field( 'street', cnArray::get( $data, 'line_2', '' ), 'raw' );
+		$this->line_3     = cnSanitize::field( 'street', cnArray::get( $data, 'line_3', '' ), 'raw' );
+		$this->line_4     = cnSanitize::field( 'street', cnArray::get( $data, 'line_4', '' ), 'raw' );
+		$this->district   = cnSanitize::field( 'district', cnArray::get( $data, 'district', '' ), 'raw' );
+		$this->county     = cnSanitize::field( 'county', cnArray::get( $data, 'county', '' ), 'raw' );
 
-		$this->locality    = cnSanitize::field(
+		$this->locality = cnSanitize::field(
 			'locality',
 			cnArray::get( $data, 'locality', cnArray::get( $data, 'city', '' ) ),
 			'raw'
@@ -214,7 +214,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		/*
 		 * Need to check for `city`, `state` and `zipcode` in the array data for backwards compatibility.
 		 */
-		$this->region      = cnSanitize::field(
+		$this->region = cnSanitize::field(
 			'region',
 			cnArray::get( $data, 'region', cnArray::get( $data, 'state', '' ) ),
 			'raw'
@@ -242,8 +242,8 @@ final class cnAddress extends cnEntry_Collection_Item {
 			cnArray::get( $data, 'longitude' )
 		);
 
-		$this->latitude    = $this->coordinates->getLatitude();
-		$this->longitude   = $this->coordinates->getLongitude();
+		$this->latitude  = $this->coordinates->getLatitude();
+		$this->longitude = $this->coordinates->getLongitude();
 
 		// Previous versions set the type to the Select string from the drop down (bug), so set the name to 'Other'.
 		$this->name = ! isset( $types[ $this->type ] ) || 'Select' === $types[ $this->type ] ? 'Other' : $types[ $this->type ];
@@ -765,9 +765,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 		$address['line_two']   =& $this->line_2;
 		$address['line_three'] =& $this->line_3;
 
-		$address['city']     =& $this->locality;
-		$address['state']    =& $this->region;
-		$address['zipcode']  =& $this->postal_code;
+		$address['city']    =& $this->locality;
+		$address['state']   =& $this->region;
+		$address['zipcode'] =& $this->postal_code;
 
 		return $address;
 	}

@@ -233,8 +233,8 @@ class Google_Static_Map extends Content_Block {
 		$query['maptype'] = strtoupper( $this->get( 'maptype', 'ROADMAP' ) );
 		$query['zoom']    = $this->get( 'zoom', 13 );
 		// $query['scale'] = 2;
-		$query['format']  = 'png';
-		$query['key']     = $key;
+		$query['format'] = 'png';
+		$query['key']    = $key;
 
 		return http_build_query( $query, '', '&amp;' );
 	}

@@ -1121,7 +1121,7 @@ class cnEntry_Action {
 	 */
 	public static function geoCode( $address ) {
 
-		$query  = \Connections_Directory\Model\Format\Address\As_String::format( $address );
+		$query = \Connections_Directory\Model\Format\Address\As_String::format( $address );
 
 		/*
 		 * If the address is empty, no need to geocode.

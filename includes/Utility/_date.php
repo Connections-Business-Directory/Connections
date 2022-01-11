@@ -299,12 +299,12 @@ final class _date {
 
 				} elseif ( 'month' === $k ) {
 
-					$parsed = date_parse( $v );
+					$parsed        = date_parse( $v );
 					$matches[ $k ] = (int) $parsed['month'];
 
 				} elseif ( 'day' === $k ) {
 
-					$parsed = date_parse( $v );
+					$parsed        = date_parse( $v );
 					$matches[ $k ] = (int) $parsed['day'];
 				}
 			}

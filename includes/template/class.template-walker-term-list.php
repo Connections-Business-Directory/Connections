@@ -243,7 +243,7 @@ class CN_Walker_Term_List extends Walker {
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
-		$indent = str_repeat( "\t", $depth );
+		$indent  = str_repeat( "\t", $depth );
 		$output .= "$indent</ul>" . PHP_EOL;
 	}
 
@@ -316,13 +316,13 @@ class CN_Walker_Term_List extends Walker {
 				// cnTerm::get() can return NULL || an instance of WP_Error, so, lets check for that.
 				if ( is_null( $_current_category ) || is_wp_error( $_current_category ) ) {
 
-					$_current_category = new stdClass();
+					$_current_category         = new stdClass();
 					$_current_category->parent = 0;
 				}
 
 			} else {
 
-				$_current_category = new stdClass();
+				$_current_category         = new stdClass();
 				$_current_category->parent = 0;
 			}
 

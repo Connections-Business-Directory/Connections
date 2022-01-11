@@ -223,15 +223,15 @@ class cnEmail_Template {
 	 */
 	public static function content( $content ) {
 
-		$head       = self::head();
+		$head = self::head();
 
 		$bodyBefore = self::beforeBody();
 
-		$body       = self::body( $content );
+		$body = self::body( $content );
 
-		$bodyAfter  = self::afterBody();
+		$bodyAfter = self::afterBody();
 
-		$foot       = self::foot();
+		$foot = self::foot();
 
 		return $head . $bodyBefore . $body . $bodyAfter . $foot;
 	}

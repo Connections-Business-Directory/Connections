@@ -102,7 +102,7 @@ function _func( $function, $version, $replacement = '' ) {
 
 		do_action( 'deprecated_function_run', $function, $replacement, $version );
 
-		$log_string = "The {$function} function is deprecated since version {$version}.";
+		$log_string  = "The {$function} function is deprecated since version {$version}.";
 		$log_string .= $replacement ? " Replace with {$replacement}." : '';
 
 		error_log( $log_string );
@@ -137,8 +137,8 @@ function _hook( $hook, $version, $replacement = '', $message = '' ) {
 
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 
-		$message    = empty( $message ) ? '' : ' ' . $message;
-		$log_string = "{$hook} is deprecated since version {$version}";
+		$message     = empty( $message ) ? '' : ' ' . $message;
+		$log_string  = "{$hook} is deprecated since version {$version}";
 		$log_string .= $replacement ? "! Use {$replacement} instead." : ' with no alternative available.';
 
 		error_log( $log_string . $message );

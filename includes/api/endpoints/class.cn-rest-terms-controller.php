@@ -213,7 +213,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			unset( $count_args['offset'] );
 			$count_args['hide_empty'] = false;
 			$count_args['fields']     = 'count';
-			$total_terms = cnTerm::getTaxonomyTerms( $this->taxonomy, $count_args );
+			$total_terms              = cnTerm::getTaxonomyTerms( $this->taxonomy, $count_args );
 
 			// Ensure we don't return results when offset is out of bounds
 			// see https://core.trac.wordpress.org/ticket/35935
@@ -232,7 +232,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		foreach ( $query_result as $term ) {
 
-			$data = $this->prepare_item_for_response( $term, $request );
+			$data       = $this->prepare_item_for_response( $term, $request );
 			$response[] = $this->prepare_response_for_collection( $data );
 		}
 
@@ -240,7 +240,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		// Store pagination values for headers then unset for count query.
 		$per_page = (int) $prepared_args['number'];
-		$page = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
+		$page     = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
 
 		$response->header( 'X-WP-Total', (int) $total_terms );
 

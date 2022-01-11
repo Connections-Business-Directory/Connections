@@ -778,9 +778,9 @@ class cnShortcode {
 		}
 
 		// Create an array of supported post types.
-		$supportedPostTypes  = array( 'page' );
-		$CPTOptions          = get_option( 'connections_cpt', array() );
-		$supportedCPTTypes   = _array::get( $CPTOptions, 'supported', array() );
+		$supportedPostTypes = array( 'page' );
+		$CPTOptions         = get_option( 'connections_cpt', array() );
+		$supportedCPTTypes  = _array::get( $CPTOptions, 'supported', array() );
 
 		// The `$supportedCPTTypes` should always be an array, but had at least one user where this was not the case.
 		// To prevent PHP error notice, do an array check.

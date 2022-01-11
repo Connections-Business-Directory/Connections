@@ -477,8 +477,8 @@ HERERDOC;
 		global /*$status, $page, $s,*/ $totals;
 
 		$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
-		$screen = get_current_screen();
-		$status = self::statusMessage( $this );
+		$screen        = get_current_screen();
+		$status        = self::statusMessage( $this );
 
 		$type    = $status['type'];
 		$message = $status['message'];
@@ -647,7 +647,7 @@ HERERDOC;
 		if ( isset( $data->success ) && false === $data->success ) {
 
 			// $status = isset( $data[ $slug ] ) && isset( $data[ $slug ]->license ) ? $data[ $slug ]->license : 'unknown';
-			$error  = isset( $data->error ) ? $data->error : 'unknown';
+			$error = isset( $data->error ) ? $data->error : 'unknown';
 
 			switch ( $error ) {
 

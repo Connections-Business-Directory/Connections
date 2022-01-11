@@ -78,7 +78,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$response  = array();
+		$response = array();
 		// $total     = 0;
 		$endpoints = array(
 			'name',

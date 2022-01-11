@@ -304,7 +304,7 @@ final class _format {
 
 				if ( $escaping ) {
 
-					$format .= '\'';
+					$format  .= '\'';
 					$escaping = false;
 				}
 

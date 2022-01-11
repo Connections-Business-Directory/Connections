@@ -672,8 +672,8 @@ class cnScript {
 	 */
 	public static function storeCorejQuery( $scripts ) {
 
-		self::$corejQuery['jquery'] = $scripts->registered['jquery'];
-		self::$corejQuery['jquery-core'] = isset( $scripts->registered['jquery-core'] ) && $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : false;
+		self::$corejQuery['jquery']         = $scripts->registered['jquery'];
+		self::$corejQuery['jquery-core']    = isset( $scripts->registered['jquery-core'] ) && $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : false;
 		self::$corejQuery['jquery-migrate'] = isset( $scripts->registered['jquery-migrate'] ) && $scripts->registered['jquery-migrate'] ? $scripts->registered['jquery-migrate'] : false;
 	}
 

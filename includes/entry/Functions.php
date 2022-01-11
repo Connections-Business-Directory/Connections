@@ -91,8 +91,8 @@ class Functions {
 				break;
 
 			case 'taxonomy':
-				$terms   = $entry->getCategory();
-				$termIDs = wp_list_pluck( $terms, 'term_id' );
+				$terms                       = $entry->getCategory();
+				$termIDs                     = wp_list_pluck( $terms, 'term_id' );
 				$queryParameters['category'] = $termIDs;
 				break;
 

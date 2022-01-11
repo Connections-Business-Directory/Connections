@@ -231,8 +231,8 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 * @return array
 	 */
 	public function multi_resize( $sizes ) {
-		$metadata = array();
-		$orig_size = $this->size;
+		$metadata   = array();
+		$orig_size  = $this->size;
 		$orig_image = $this->image->getimage();
 
 		foreach ( $sizes as $size => $size_data ) {

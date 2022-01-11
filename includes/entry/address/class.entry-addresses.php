@@ -781,7 +781,7 @@ final class cnEntry_Addresses implements cnToArray {
 	public function query( $options = array() ) {
 
 		// Grab an instance of the Connections object.
-		$instance  = Connections_Directory();
+		$instance = Connections_Directory();
 
 		// Empty the Collection since fresh data is populating the Collection from the db.
 		$this->items    = new cnCollection();

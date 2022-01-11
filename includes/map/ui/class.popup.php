@@ -497,7 +497,7 @@ class Popup extends Abstract_Layer {
 
 		$data = HTML::attribute( 'data-array', $options );
 
-		$html = "<map-marker-popup {$data}>";
+		$html  = "<map-marker-popup {$data}>";
 		$html .= $this->getContent();
 		$html .= '</map-marker-popup>';
 

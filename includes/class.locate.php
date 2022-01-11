@@ -101,7 +101,7 @@ class cnLocate {
 	 */
 	private static function filePaths() {
 
-		$path  = array();
+		$path = array();
 
 		$template_directory = trailingslashit( 'connections-templates' );
 
@@ -186,7 +186,7 @@ class cnLocate {
 
 		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-			$region  = self::queryVarSlug( cnQuery::getVar( 'cn-region' ) );
+			$region = self::queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = self::fileName( $base, 'region', $region, $ext );
 			$files[] = self::fileName( $base, 'region', null, $ext );

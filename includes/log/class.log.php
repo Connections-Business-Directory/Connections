@@ -260,7 +260,7 @@ final class cnLog {
 	 * @since 8.2.10
 	 * @var   string
 	 */
-	const TAXONOMY  = 'cn_log_type';
+	const TAXONOMY = 'cn_log_type';
 
 	/**
 	 * @since 8.2.10

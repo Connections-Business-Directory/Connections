@@ -241,7 +241,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 */
 	protected function write( $data = '' ) {
 
-		$file = $this->fileContents();
+		$file  = $this->fileContents();
 		$file .= $data;
 		@file_put_contents( $this->file, $file );
 

@@ -53,7 +53,7 @@ class cnLog_Stateless extends WP_Error {
 			$error['wp_debug'][]    = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
 			$error_data['wp_debug'] = '';
 
-			$this->errors = $error;
+			$this->errors     = $error;
 			$this->error_data = $error_data;
 		}
 
@@ -75,15 +75,15 @@ class cnLog_Stateless extends WP_Error {
 		 *
 		 * NOTE: The same method is used for $this->error_data.
 		 */
-		$error = $this->errors;
+		$error            = $this->errors;
 		$error[ $code ][] = "[$execTime : $tick]: $message";
-		$this->errors = $error;
+		$this->errors     = $error;
 
 		if ( ! empty( $data ) ) {
 
-			$error_data = $this->error_data;
+			$error_data          = $this->error_data;
 			$error_data[ $code ] = $data;
-			$this->error_data = $error_data;
+			$this->error_data    = $error_data;
 		}
 
 	}

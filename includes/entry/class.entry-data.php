@@ -462,13 +462,13 @@ class cnEntry {
 
 				if ( isset( $this->options['image'] ) ) {
 
-					$this->imageLinked = $this->options['image']['linked'];
+					$this->imageLinked  = $this->options['image']['linked'];
 					$this->imageDisplay = $this->options['image']['display'];
 				}
 
 				if ( isset( $this->options['logo'] ) ) {
 
-					$this->logoLinked = $this->options['logo']['linked'];
+					$this->logoLinked  = $this->options['logo']['linked'];
 					$this->logoDisplay = $this->options['logo']['display'];
 				}
 
@@ -2638,7 +2638,7 @@ class cnEntry {
 	 */
 	public function setEntryType( $entryType ) {
 		$this->options['entry']['type'] = $entryType;
-		$this->entryType = $entryType;
+		$this->entryType                = $entryType;
 	}
 
 	/**
@@ -3618,9 +3618,9 @@ class cnEntry {
 		/**
 		 * @todo Are these really needed? If they are, this should be refactored to remove their usage.
 		 */
-		$connections->lastQuery = $wpdb->last_query;
+		$connections->lastQuery      = $wpdb->last_query;
 		$connections->lastQueryError = $wpdb->last_error;
-		$connections->lastInsertID = $wpdb->insert_id;
+		$connections->lastInsertID   = $wpdb->insert_id;
 
 		if ( false !== $result ) {
 

@@ -438,7 +438,7 @@ class cnDashboardMetabox {
 
 		$logo = CN_URL . 'assets/images/tsl-logo-v3.png';
 		// $url  = self_admin_url( 'plugin-install.php/?s=Connections+Business+Directory+Mobile+App+Manager+Plugin&tab=search&type=term');
-		$url  = self_admin_url( 'plugin-install.php?tab=connections' );
+		$url = self_admin_url( 'plugin-install.php?tab=connections' );
 		?>
 		<div class="two-third">
 			<p>Create your very own native mobile app for iOS and Android powered by WordPress and Connections Business Directory using the <a href="https://tinyscreenlabs.com/?tslref=connections">Tiny Screen Labs Mobile App Manager</a>.</p>

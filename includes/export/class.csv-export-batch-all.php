@@ -625,7 +625,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	private function explodeBreakoutHeader( $atts ) {
 
 		$headers = array();
-		$type   = $atts['type'];
+		$type    = $atts['type'];
 
 		if ( 0 === $type ) {
 
@@ -1077,7 +1077,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		global $wpdb;
 
 		$skipTables = array( CN_ENTRY_TABLE, CN_TERMS_TABLE );
-		$types     = array();
+		$types      = array();
 
 		// You can specify you only want home addresses in an export for example, if nothing is specified,
 		// get a list of all types from the breakout's table...

@@ -622,7 +622,7 @@ final class _string {
 
 				}
 
-				$truncate .= $tag[1];
+				$truncate     .= $tag[1];
 				$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
 
 				if ( $contentLength + $totalLength > $atts['length'] ) {
@@ -651,7 +651,7 @@ final class _string {
 
 				} else {
 
-					$truncate .= $tag[3];
+					$truncate    .= $tag[3];
 					$totalLength += $contentLength;
 				}
 

@@ -68,17 +68,17 @@ final class cnEmail_Address extends cnEntry_Collection_Item {
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultEmailType();
 
-		$this->id          = (int) cnArray::get( $data, 'id', 0 );
+		$this->id = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred         = cnArray::get( $data, 'preferred', false );
+		$preferred = cnArray::get( $data, 'preferred', false );
 
-		$type              = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
-		$this->type        = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
-		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
-		$this->preferred   = cnFormatting::toBoolean( $preferred );
-		$this->address     = sanitize_email( cnArray::get( $data, 'address', '' ) );
+		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
+		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
+		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
+		$this->preferred  = cnFormatting::toBoolean( $preferred );
+		$this->address    = sanitize_email( cnArray::get( $data, 'address', '' ) );
 
 		// $this->name = $types[ $this->type ];
 		$this->name = array_key_exists( $this->type, $types ) ? $types[ $this->type ] : $default[ $this->type ];
@@ -116,12 +116,12 @@ final class cnEmail_Address extends cnEntry_Collection_Item {
 	 */
 	protected function prepareContext( $self, $context ) {
 
-		$self->id          = absint( $self->id );
-		$self->type        = cnSanitize::field( 'attribute', $self->type, $context );
-		$self->visibility  = cnSanitize::field( 'attribute', $self->visibility, $context );
-		$self->order       = absint( $self->order );
-		$self->preferred   = cnFormatting::toBoolean( $self->preferred );
-		$self->address     = sanitize_email( $self->address );
+		$self->id         = absint( $self->id );
+		$self->type       = cnSanitize::field( 'attribute', $self->type, $context );
+		$self->visibility = cnSanitize::field( 'attribute', $self->visibility, $context );
+		$self->order      = absint( $self->order );
+		$self->preferred  = cnFormatting::toBoolean( $self->preferred );
+		$self->address    = sanitize_email( $self->address );
 
 		return $self;
 	}

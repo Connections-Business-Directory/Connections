@@ -68,11 +68,11 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultMessengerType();
 
-		$this->id         = (int) cnArray::get( $data, 'id', 0 );
+		$this->id = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred        = cnArray::get( $data, 'preferred', false );
+		$preferred = cnArray::get( $data, 'preferred', false );
 
-		$type             = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );

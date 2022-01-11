@@ -102,8 +102,8 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 			// $plugin['file']     = $file;
 			$plugin['basename'] = plugin_basename( $file );
 			// $plugin['slug']     = basename( $file, '.php' );
-			$plugin['slug']     = self::get_slug( $plugin['item_name'] );
-			$plugin['item_id']  = absint( $plugin['item_id'] );
+			$plugin['slug']    = self::get_slug( $plugin['item_name'] );
+			$plugin['item_id'] = absint( $plugin['item_id'] );
 
 			self::$licenses[ $plugin['basename'] ] = $plugin;
 

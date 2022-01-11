@@ -360,7 +360,7 @@ class cnPlugin_Updater {
 				if ( version_compare( self::$plugins[ $plugin->plugin ]['version'], $plugin->new_version, '<' ) ) {
 
 					$transient->response[ $plugin->plugin ] = $plugin;
-					$update[ $plugin->plugin ] = $plugin;
+					$update[ $plugin->plugin ]              = $plugin;
 
 					// Delete the plugin info transient set in the plugin_api filter for the view details/version links.
 					$cache_key = 'cn-edd_sl_rest_request_' . substr( md5( serialize( $plugin->slug ) ), 0, 15 );
@@ -369,7 +369,7 @@ class cnPlugin_Updater {
 				} else {
 
 					$transient->no_update[ $plugin->plugin ] = $plugin;
-					$no_update[ $plugin->plugin ] = $plugin;
+					$no_update[ $plugin->plugin ]            = $plugin;
 				}
 
 				// $transient->checked[ $plugin->plugin ] = self::$plugins[ $plugin->plugin ]['version'];

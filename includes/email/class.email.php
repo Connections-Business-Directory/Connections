@@ -242,7 +242,7 @@ class cnEmail {
 
 		} else {
 
-			$this->from['name'] = $name;
+			$this->from['name']  = $name;
 			$this->from['email'] = $email;
 
 		}
@@ -265,7 +265,7 @@ class cnEmail {
 		$count = count( $this->to );
 
 		$this->to[ $count ]['email'] = trim( $email );
-		$this->to[ $count ]['name'] = $name;
+		$this->to[ $count ]['name']  = $name;
 
 	}
 
@@ -285,7 +285,7 @@ class cnEmail {
 		$count = count( $this->cc );
 
 		$this->cc[ $count ]['email'] = trim( $email );
-		$this->cc[ $count ]['name'] = $name;
+		$this->cc[ $count ]['name']  = $name;
 
 	}
 
@@ -305,7 +305,7 @@ class cnEmail {
 		$count = count( $this->bcc );
 
 		$this->bcc[ $count ]['email'] = trim( $email );
-		$this->bcc[ $count ]['name'] = $name;
+		$this->bcc[ $count ]['name']  = $name;
 
 	}
 
@@ -395,14 +395,14 @@ class cnEmail {
 		/*
 		 * Allow extensions to filter the email before sending.
 		 */
-		$email['headers']     = apply_filters( 'cn_email_header', $email['headers'] );
-		$this->type           = apply_filters( 'cn_email_type', $this->type );
-		$this->charset        = apply_filters( 'cn_email_charset', $this->charset );
+		$email['headers'] = apply_filters( 'cn_email_header', $email['headers'] );
+		$this->type       = apply_filters( 'cn_email_type', $this->type );
+		$this->charset    = apply_filters( 'cn_email_charset', $this->charset );
 
-		$this->from           = apply_filters( 'cn_email_from', $this->from );
-		$email['to']          = apply_filters( 'cn_email_to', $email['to'] );
-		$this->cc             = apply_filters( 'cn_email_cc', $this->cc );
-		$this->bcc            = apply_filters( 'cn_email_bcc', $this->bcc );
+		$this->from  = apply_filters( 'cn_email_from', $this->from );
+		$email['to'] = apply_filters( 'cn_email_to', $email['to'] );
+		$this->cc    = apply_filters( 'cn_email_cc', $this->cc );
+		$this->bcc   = apply_filters( 'cn_email_bcc', $this->bcc );
 
 		$email['subject']     = apply_filters( 'cn_email_subject', $email['subject'] );
 		$email['message']     = apply_filters( 'cn_email_message', $email['message'] );
@@ -606,7 +606,7 @@ class cnEmail {
 		switch ( $property ) {
 
 			case 'header':
-				$this->header = array();
+				$this->header  = array();
 				$this->charset = get_bloginfo( 'charset' );
 				$this->html( false );
 				break;
@@ -632,12 +632,12 @@ class cnEmail {
 				break;
 
 			default:
-				$this->header = array();
+				$this->header  = array();
 				$this->charset = get_bloginfo( 'charset' );
 				$this->html( false );
 
-				$this->to = array();
-				$this->cc = array();
+				$this->to  = array();
+				$this->cc  = array();
 				$this->bcc = array();
 
 				$this->subject = '';

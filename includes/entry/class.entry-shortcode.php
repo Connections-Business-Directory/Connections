@@ -41,8 +41,8 @@ class cnEntry_Shortcode {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  string $content The content to be processed.
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  string  $content The content to be processed.
 	 *
 	 * @return string          The result.
 	 */

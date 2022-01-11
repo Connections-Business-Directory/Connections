@@ -27,8 +27,7 @@ class Carousel {
 				// When displaying the block using ServerSideRender the attributes need to be defined
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
 				// and display the "Error loading block: Invalid parameter(s): attributes" message.
-				'attributes'      => array(
-				),
+				'attributes'      => array(),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
 				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()

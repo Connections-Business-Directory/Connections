@@ -652,7 +652,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 				<?php
 
 				// If there were no tabs returned echo out an empty string.
-				if ( ! empty( $tabs ) ) { ?>
+				if ( ! empty( $tabs ) ) {
+					?>
 
 					<div class="nav-tab-wrapper">
 

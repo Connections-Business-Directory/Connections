@@ -129,7 +129,8 @@ ABSPATH                     <?php echo ABSPATH . PHP_EOL; ?>
 Permalink Structure:        <?php echo ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . PHP_EOL; ?>
 Active Theme:               <?php echo $theme . PHP_EOL; ?>
 <?php
-if ( $parent_theme !== $theme ) : ?>
+if ( $parent_theme !== $theme ) :
+	?>
 Parent Theme:               <?php echo $parent_theme . PHP_EOL; ?>
 <?php endif; ?>
 Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; ?>
@@ -157,7 +158,8 @@ if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $resp
 	$WP_REMOTE_POST = 'wp_remote_post() works';
 } else {
 	$WP_REMOTE_POST = 'wp_remote_post() does not work';
-} ?>
+}
+?>
 Remote Post:                <?php echo $WP_REMOTE_POST . PHP_EOL; ?>
 Table Prefix:               <?php echo 'Length: ' . strlen( $wpdb->prefix ) . '   Status: ' . ( strlen( $wpdb->prefix ) > 16 ? 'ERROR: Too long' : 'Acceptable' ) . PHP_EOL; ?>
 Admin AJAX:                 <?php echo /*( cn_test_ajax_works() ? 'Accessible' : 'Inaccessible' ) . */PHP_EOL; ?>
@@ -253,7 +255,8 @@ $updates = get_plugin_updates();
 // Must-use plugins
 $muplugins = get_mu_plugins();
 
-if ( 0 < count( $muplugins ) ) : ?>
+if ( 0 < count( $muplugins ) ) :
+	?>
 
 -- Must-Use Plugins
 
@@ -303,7 +306,8 @@ foreach ( $plugins as $plugin_path => $plugin ) {
 do_action( 'cn_sysinfo_after_wordpress_plugins_inactive' );
 
 // WordPress Multisite active plugins
-if ( is_multisite() ) : ?>
+if ( is_multisite() ) :
+	?>
 
 -- Network Active Plugins
 <?php

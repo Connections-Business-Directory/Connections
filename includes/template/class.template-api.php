@@ -443,7 +443,7 @@ class cnTemplateFactory {
 						$templates->{ $template->type }->{ $template->slug }->description = isset( $template->description ) ? $template->description : '';
 
 						$templates->{ $template->type }->{ $template->slug }->path   = $path;
-						$templates->{ $template->type }->{ $template->slug }->slug   = $template->slug ;
+						$templates->{ $template->type }->{ $template->slug }->slug   = $template->slug;
 						$templates->{ $template->type }->{ $template->slug }->custom = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? true : false;
 
 						if ( file_exists( $path . 'styles.css' ) ) {

@@ -3461,9 +3461,9 @@ class cnRetrieve {
 	 * @since  unknown
 	 * @deprecated since unknown
 	 *
-	 * @param array  $entries   A reference to an array of object $entries
-	 * @param string $orderBy
-	 * @param array|string|NULL [optional]
+	 * @param array             $entries A reference to an array of object $entries
+	 * @param string            $orderBy
+	 * @param array|string|NULL $suppliedIDs [optional]
 	 *
 	 * @return array of objects
 	 */

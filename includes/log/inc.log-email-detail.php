@@ -64,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php if ( $meta['cc'] ) : ?>
 			<tr>
 				<th><?php echo esc_html_x( 'CC', 'Courtesy copy email addresses.', 'connections' ); ?></th>
-				<td><?php cnLog_Email::viewLogItem( 'cc', $meta['cc'], true ) ?></td>
+				<td><?php cnLog_Email::viewLogItem( 'cc', $meta['cc'], true ); ?></td>
 			</tr>
 		<?php endif; ?>
 

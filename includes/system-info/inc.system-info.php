@@ -37,7 +37,7 @@ if ( is_array( $mySQLMode ) ) {
 }
 ?>
 
-Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8 ?>&nbsp;Bit)
+Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8; ?>&nbsp;Bit)
 PHP Version:                <?php echo PHP_VERSION . PHP_EOL; ?>
 MySQL Version:              <?php echo $wpdb->db_version() . PHP_EOL; ?>
 SQL Mode:                   <?php echo ( isset( $sqlMode ) && ! empty( $sqlMode ) ? $sqlMode : 'Not Set' ) . PHP_EOL; ?>
@@ -125,7 +125,7 @@ User Agent String:          <?php echo esc_html( $browser->getUserAgent() ) . PH
 <?php $locale = get_locale(); ?>
 Version:                    <?php echo get_bloginfo( 'version' ) . PHP_EOL; ?>
 Language:                   <?php echo ( ! empty( $locale ) ? $locale : 'en_US' ) . PHP_EOL; ?>
-ABSPATH                     <?php echo ABSPATH . PHP_EOL ?>
+ABSPATH                     <?php echo ABSPATH . PHP_EOL; ?>
 Permalink Structure:        <?php echo ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . PHP_EOL; ?>
 Active Theme:               <?php echo $theme . PHP_EOL; ?>
 <?php

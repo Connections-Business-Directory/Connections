@@ -1233,7 +1233,7 @@ class cnRegisterSettings {
 						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
 						'connections'
 					),
-					array(  'a' => array( 'href' => array(), 'target' => array() ) )
+					array( 'a' => array( 'href' => array(), 'target' => array() ) )
 				),
 				esc_url( 'https://connections-pro.com/documentation/settings/#Content_Blocks-2' )
 			),

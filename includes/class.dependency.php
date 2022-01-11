@@ -70,7 +70,7 @@ class cnDependency {
 
 		foreach ( $coreTemplates as $path ) {
 
-			file_exists( CN_TEMPLATE_PATH . $path ) AND include_once CN_TEMPLATE_PATH . $path;
+			file_exists( CN_TEMPLATE_PATH . $path ) && include_once CN_TEMPLATE_PATH . $path;
 		}
 
 		// Deprecated utility functions.

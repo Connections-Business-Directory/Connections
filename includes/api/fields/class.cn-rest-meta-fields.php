@@ -164,7 +164,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 			return new WP_Error(
 				'rest_cannot_delete',
 				/* translators: %s: custom field key */
-				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.' ), $name ),
+				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.', 'connections' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -173,7 +173,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 
 			return new WP_Error(
 				'rest_meta_database_error',
-				__( 'Could not delete meta value from database.' ),
+				__( 'Could not delete meta value from database.', 'connections' ),
 				array( 'key' => $name, 'status' => WP_Http::INTERNAL_SERVER_ERROR )
 			);
 		}
@@ -201,7 +201,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 			return new WP_Error(
 				'rest_cannot_update',
 				/* translators: %s: custom field key */
-				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.' ), $name ),
+				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.', 'connections' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -236,7 +236,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 			if ( ! delete_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
 				return new WP_Error(
 					'rest_meta_database_error',
-					__( 'Could not update meta value in database.' ),
+					__( 'Could not update meta value in database.', 'connections' ),
 					array( 'key' => $name, 'status' => WP_Http::INTERNAL_SERVER_ERROR )
 				);
 			}
@@ -246,7 +246,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 			if ( ! add_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
 				return new WP_Error(
 					'rest_meta_database_error',
-					__( 'Could not update meta value in database.' ),
+					__( 'Could not update meta value in database.', 'connections' ),
 					array( 'key' => $name, 'status' => WP_Http::INTERNAL_SERVER_ERROR )
 				);
 			}
@@ -273,7 +273,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 			return new WP_Error(
 				'rest_cannot_update',
 				/* translators: %s: custom field key */
-				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.' ), $name ),
+				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.', 'connections' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -293,7 +293,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 		if ( ! update_metadata( $meta_type, $object_id, $meta_key, $meta_value ) ) {
 			return new WP_Error(
 				'rest_meta_database_error',
-				__( 'Could not update meta value in database.' ),
+				__( 'Could not update meta value in database.', 'connections' ),
 				array( 'key' => $name, 'status' => WP_Http::INTERNAL_SERVER_ERROR )
 			);
 		}
@@ -375,7 +375,7 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 		$fields = $this->get_registered_fields();
 
 		$schema = array(
-			'description' => __( 'Meta fields.' ),
+			'description' => __( 'Meta fields.', 'connections' ),
 			'type'        => 'object',
 			'context'     => array( 'view', 'edit' ),
 			'properties'  => array(),

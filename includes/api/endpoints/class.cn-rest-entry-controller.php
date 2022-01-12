@@ -1615,12 +1615,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
 						'raw'      => array(
-							'description' => __( 'Biography for the entry, as it exists in the database.' ),
+							'description' => __( 'Biography for the entry, as it exists in the database.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'edit' ),
 						),
 						'rendered' => array(
-							'description' => __( 'HTML biography for the entry, transformed for display.' ),
+							'description' => __( 'HTML biography for the entry, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,
@@ -1633,12 +1633,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
 						'raw'      => array(
-							'description' => __( 'Excerpt for the entry, as it exists in the database.' ),
+							'description' => __( 'Excerpt for the entry, as it exists in the database.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'edit' ),
 						),
 						'rendered' => array(
-							'description' => __( 'HTML excerpt for the entry, transformed for display.' ),
+							'description' => __( 'HTML excerpt for the entry, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,
@@ -1651,12 +1651,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
 						'raw'      => array(
-							'description' => __( 'Notes for the entry, as it exists in the database.' ),
+							'description' => __( 'Notes for the entry, as it exists in the database.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'edit' ),
 						),
 						'rendered' => array(
-							'description' => __( 'HTML notes for the entry, transformed for display.' ),
+							'description' => __( 'HTML notes for the entry, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,

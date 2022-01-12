@@ -285,7 +285,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		$query_params = array(
 			'context'  => $this->get_context_param(),
 			'page'     => array(
-				'description'       => __( 'Current page of the collection.' ),
+				'description'       => __( 'Current page of the collection.', 'connections' ),
 				'type'              => 'integer',
 				'default'           => 1,
 				'sanitize_callback' => 'absint',
@@ -293,7 +293,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 				'minimum'           => 1,
 			),
 			'per_page' => array(
-				'description'       => __( 'Maximum number of items to be returned in result set.' ),
+				'description'       => __( 'Maximum number of items to be returned in result set.', 'connections' ),
 				'type'              => 'integer',
 				'default'           => 10,
 				'minimum'           => 1,
@@ -302,7 +302,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'search'   => array(
-				'description'       => __( 'Limit results to those matching a string.' ),
+				'description'       => __( 'Limit results to those matching a string.', 'connections' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',

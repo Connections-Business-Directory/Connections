@@ -288,7 +288,8 @@ class cnTemplate_Shortcode {
 
 			$callback = is_array( $tag['callback'] ) ? implode( '::', $tag['callback'] ) : $tag['callback'];
 
-			return __( sprintf( 'The %s is not a valid callback.', $callback ), 'connections' );
+			/* translators: Callback function name. */
+			return sprintf( __( 'The %s is not a valid callback.', 'connections' ), $callback );
 		}
 
 		// Merge the $atts passed by the core `connections`

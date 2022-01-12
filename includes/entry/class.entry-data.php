@@ -3087,8 +3087,8 @@ class cnEntry {
 								$meta['source'] = 'file';
 
 							} else {
-
-								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), $meta['path'] );
+								/* translators: The image file path. */
+								$meta = new WP_Error( 'image_not_found', sprintf( __( 'The file %s is not an image.', 'connections' ), basename( $meta['path'] ) ), $meta['path'] );
 							}
 
 						}
@@ -3151,8 +3151,8 @@ class cnEntry {
 								$meta['source'] = 'file';
 
 							} else {
-
-								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), $meta['path'] );
+								/* translators: The image file path. */
+								$meta = new WP_Error( 'image_not_found', sprintf( __( 'The file %s is not an image.', 'connections' ), basename( $meta['path'] ) ), $meta['path'] );
 							}
 
 						}

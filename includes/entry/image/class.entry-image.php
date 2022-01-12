@@ -70,7 +70,8 @@ final class cnEntry_Image {
 		if ( empty( $slug ) ) {
 			return new WP_Error(
 				'image_empty_slug',
-				__( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ),
+				/* translators: The image filename. */
+				sprintf( __( 'Failed to move legacy image %s.', 'connections' ), $filename ),
 				$legacyPath . $filename
 			);
 		}
@@ -156,7 +157,12 @@ final class cnEntry_Image {
 
 		}
 
-		return new WP_Error( 'image_move_legacy_image_error', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), $legacyPath . $filename );
+		return new WP_Error(
+			'image_move_legacy_image_error',
+			/* translators: The image filename. */
+			sprintf( __( 'Failed to move legacy image %s.', 'connections' ), $filename ),
+			$legacyPath . $filename
+		);
 	}
 
 	/**
@@ -199,7 +205,8 @@ final class cnEntry_Image {
 		if ( empty( $slug ) ) {
 			return new WP_Error(
 				'image_empty_slug',
-				__( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ),
+				/* translators: The image filename. */
+				sprintf( __( 'Failed to move legacy logo %s.', 'connections' ), $filename ),
 				$legacyPath . $filename
 			);
 		}
@@ -247,6 +254,11 @@ final class cnEntry_Image {
 
 		}
 
-		return new WP_Error( 'image_move_legacy_logo_error', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
+		return new WP_Error(
+			'image_move_legacy_logo_error',
+			/* translators: The image filename. */
+			sprintf( __( 'Failed to move legacy logo %s.', 'connections' ), $filename ),
+			$legacyPath . $filename
+		);
 	}
 }

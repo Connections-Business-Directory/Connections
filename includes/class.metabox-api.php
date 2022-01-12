@@ -749,8 +749,8 @@ class cnMetabox_Render {
 							}
 
 						}
-
-						echo '<p>' , esc_html__( sprintf( 'Invalid callback: %s', $callback ), 'connections' ) , '</p>';
+						/* translators: Callback function name. */
+						echo '<p>' , esc_html( sprintf( __( 'Invalid callback: %s', 'connections' ), $callback ) ) , '</p>';
 					}
 
 				echo '<div class="cn-clear"></div>';

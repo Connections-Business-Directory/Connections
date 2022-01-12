@@ -266,12 +266,13 @@ class cnScript {
 				'showDetailsTitle'         => __( 'Click to show details.', 'connections' ),
 				'hideDetailsTitle'         => __( 'Click to hide details.', 'connections' ),
 				'imageMaxFileSize'         => wp_max_upload_size(),
-				'imageMaxFileSizeExceeded' => __(
-					sprintf(
+				'imageMaxFileSizeExceeded' => sprintf(
+				/* translators: max upload filesize. */
+					__(
 						'Selected image exceeds maximum upload file size of %s. Please choose a different image.',
-						esc_html( size_format( wp_max_upload_size() ) )
+						'connections'
 					),
-					'connections'
+					esc_html( size_format( wp_max_upload_size() ) )
 				),
 				'categoryDiv'              => array(
 					'nonce'  => wp_create_nonce( 'set_category_div_height' ),

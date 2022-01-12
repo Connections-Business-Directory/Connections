@@ -224,7 +224,12 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		if ( empty( $hexColor ) ) {
 
-			return new WP_Error( 'image_colorize_error', __( 'Value passed to ' . get_class( $this ) . '::colorize() is an invalid hex color.', 'connections' ), $this->file );
+			return new WP_Error(
+				'image_colorize_error',
+				/* translators: Class method name. */
+				sprintf( __( 'Value passed to %s::colorize() is an invalid hex color.', 'connections' ), get_class( $this ) ),
+				$this->file
+			);
 		}
 
 		if ( function_exists( 'imagefilter' ) &&

@@ -1557,51 +1557,63 @@ class cnTemplate_Customizer {
 			),
 			'name_format' => array(
 				'label' => __( 'Name Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%prefix% %first% %middle% %last% %suffix%</code>' ), 'connections' ),
+				/* translators: The name format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%prefix% %first% %middle% %last% %suffix%</code>' ),
 			),
 			'contact_name_format' => array(
 				'label' => __( 'Contact Name Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %first% %last%</code>' ), 'connections' ),
+				/* translators: The contact name format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %first% %last%</code>' ),
 			),
 			'address_format' => array(
 				'label' => __( 'Address Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%</code>' ), 'connections' ),
+				/* translators: The address format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%</code>' ),
 			),
 			'email_format' => array(
 				'label' => __( 'Email Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %address%</code>' ), 'connections' ),
+				/* translators: The email format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %address%</code>' ),
 			),
 			'phone_format' => array(
 				'label' => __( 'Phone Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %number%</code>' ), 'connections' ),
+				/* translators:The phone format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %number%</code>' ),
 			),
 			'link_format' => array(
 				'label' => __( 'Link Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %title%</code>' ), 'connections' ),
+				/* translators: The link format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %title%</code>' ),
 			),
 			'date_format' => array(
 				'label' => __( 'Date Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %date%</code>' ), 'connections' ),
+				/* translators: The date format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %date%</code>' ),
 			),
 			'address_types' => array(
 				'label' => __( 'Display Address Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $addressTypes ) ) . '</code>', 'connections' ),
+				/* translators: The address types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $addressTypes ) . '</code>' ),
 			),
 			'phone_types' => array(
 				'label' => __( 'Display Phone Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $phoneTypes ) ) . '</code>', 'connections' ),
+				/* translators: The phone number types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $phoneTypes ) . '</code>' ),
 			),
 			'email_types' => array(
 				'label' => __( 'Display Email Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $emailTypes ) ) . '</code>', 'connections' ),
+				/* translators: The email types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $emailTypes ) . '</code>' ),
 			),
 			'date_types' => array(
 				'label' => __( 'Display Date Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $dateTypes ) ) . '</code>', 'connections' ),
+				/* translators: The date types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $dateTypes ) . '</code>' ),
 			),
 			'link_types' => array(
 				'label' => __( 'Display Link Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $linkTypes ) ) . '</code>', 'connections' ),
+				/* translators: The link types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $linkTypes ) . '</code>' ),
 			),
 		);
 

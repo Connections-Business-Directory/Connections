@@ -580,13 +580,14 @@ class cnImage {
 		 */
 
 		if ( path_is_absolute( $source ) ) {
-
-			$log->add( 'image_path', __( sprintf( 'Supplied Source Path: %s', $source ), 'connections' ) );
+			/* translators: Image file path. */
+			$log->add( 'image_path', sprintf( __( 'Supplied Source Path: %s', 'connections' ), $source ) );
 
 		} else {
 
 			$source = esc_url( $source );
-			$log->add( 'image_url', __( sprintf( 'Supplied Source URL: %s', $source ), 'connections' ) );
+			/* translators: Image file path. */
+			$log->add( 'image_url', sprintf( __( 'Supplied Source URL: %s', 'connections' ), $source ) );
 		}
 
 		if ( empty( $source ) ) {
@@ -675,8 +676,8 @@ class cnImage {
 
 			$crop_mode = 1;
 		}
-
-		$log->add( 'image_crop_mode', __( sprintf( 'Crop Mode: %d', $crop_mode ), 'connections' ) );
+		/* translators: Image crop mode. */
+		$log->add( 'image_crop_mode', sprintf( __( 'Crop Mode: %d', 'connections' ), $crop_mode ) );
 
 		// Crop can be defined as either an array or string, sanitized/validate both.
 		if ( is_array( $crop_focus ) || is_string( $crop_focus ) ) {
@@ -801,8 +802,8 @@ class cnImage {
 
 			return $image_info;
 		}
-
-		$log->add( 'image_path', __( sprintf( 'Verified Source Path: %s', $image_info['path'] ), 'connections' ) );
+		/* translators: Image file path. */
+		$log->add( 'image_path', sprintf( __( 'Verified Source Path: %s', 'connections' ), $image_info['path'] ) );
 
 		// This is the filename.
 		$basename = $image_info['basename'];
@@ -1131,8 +1132,10 @@ class cnImage {
 				return $editor;
 			}
 
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing class is %s', get_class( $editor ) ), 'connections' ) );
+			/* translators: Image editor parent class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing parent class is %s', 'connections' ), get_parent_class( $editor ) ) );
+			/* translators: Image editor class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing class is %s', 'connections' ), get_class( $editor ) ) );
 
 		} else {
 
@@ -1214,8 +1217,10 @@ class cnImage {
 				return $editor;
 			}
 
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing class is %s', get_class( $editor ) ), 'connections' ) );
+			/* translators: Image editor parent class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing parent class is %s', 'connections' ), get_parent_class( $editor ) ) );
+			/* translators: Image editor class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing class is %s', 'connections' ), get_class( $editor ) ) );
 
 			/*
 			 * Perform image manipulations.
@@ -1259,8 +1264,8 @@ class cnImage {
 								$log->add( 'image_resized', __( 'Image successfully resized with cropping.', 'connections' ) );
 
 							} elseif ( is_array( $crop_focus ) ) {
-
-								$log->add( 'image_resized', __( sprintf( 'Image successfully resized with cropping from origin %s,%s.', $crop_focus[0], $crop_focus[1] ), 'connections' ) );
+								/* translators: Image editor crop positions. */
+								$log->add( 'image_resized', sprintf( __( 'Image successfully resized with cropping from origin %1$s,%2$s.', 'connections' ), $crop_focus[0], $crop_focus[1] ) );
 							}
 
 							break;
@@ -1342,7 +1347,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_brightnes', __( sprintf( 'Brightness level %s applied.', $brightness ), 'connections' ) );
+				/* translators: Image brightness value. */
+				$log->add( 'image_filter_brightness', sprintf( __( 'Brightness level %s applied.', 'connections' ), $brightness ) );
 			}
 
 			if ( isset( $contrast ) ) {
@@ -1352,7 +1358,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_contrast', __( sprintf( 'Contrast level %s applied.', $contrast ), 'connections' ) );
+				/* translators: Image contrast value. */
+				$log->add( 'image_filter_contrast', sprintf( __( 'Contrast level %s applied.', 'connections' ), $contrast ) );
 			}
 
 			if ( isset( $colorize ) ) {
@@ -1362,7 +1369,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_colorize', __( sprintf( 'Colorized using %s.', $colorize ), 'connections' ) );
+				/* translators: Image colorized value. */
+				$log->add( 'image_filter_colorize', sprintf( __( 'Colorized using %s.', 'connections' ), $colorize ) );
 			}
 
 			if ( $detect_edges ) {
@@ -1432,7 +1440,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_smooth', __( sprintf( 'Smooth filter applied with level %s.', $smooth ), 'connections' ) );
+				/* translators: Image smoothness value. */
+				$log->add( 'image_filter_smooth', sprintf( __( 'Smooth filter applied with level %s.', 'connections' ), $smooth ) );
 			}
 
 
@@ -1444,12 +1453,14 @@ class cnImage {
 				}
 			}
 
-			$log->add( 'image_filter_opacity', __( sprintf( 'Opacity set at %d.', $opacity ), 'connections' ) );
+			/* translators: Image opacity value. */
+			$log->add( 'image_filter_opacity', sprintf( __( 'Opacity set at %d.', 'connections' ), $opacity ) );
 
 			// Set image save quality.
 			$editor->set_quality( $quality );
 
-			$log->add( 'image_save_quality', __( sprintf( 'Saving quality set at %s.', $editor->get_quality() ), 'connections' ) );
+			/* translators: Image quality value. */
+			$log->add( 'image_save_quality', sprintf( __( 'Saving quality set at %s.', 'connections' ), $editor->get_quality() ) );
 
 			// Save the new image, set file type to PNG if the opacity has been set less than 100 or if the crop mode is `2` and the canvas color was set to transparent.
 			if ( $opacity < 100 || ( 'transparent' === $canvas_color && 2 == $crop_mode ) || 'image/png' === $orig_mime_type ) {
@@ -1465,16 +1476,19 @@ class cnImage {
 				$mime_type = 'image/gif';
 			}
 
-			$log->add( 'image_save_mime_type', __( sprintf( 'Saving file as %s.', $mime_type ), 'connections' ) );
+			/* translators: Image mime type value. */
+			$log->add( 'image_save_mime_type', sprintf( __( 'Saving file as %s.', 'connections' ), $mime_type ) );
 
-			$log->add( 'image_save_file_path', __( sprintf( 'Saving file in path: %s', $destfilename ), 'connections' ) );
+			/* translators: Image save file path. */
+			$log->add( 'image_save_file_path', sprintf( __( 'Saving file in path: %s', 'connections' ), $destfilename ) );
 
 			$resized_file = $editor->save( $destfilename, $mime_type );
 
 			$log->add( 'image_save', __( 'File saved successfully.', 'connections' ) );
 		}
 
-		$log->add( 'image_cache_url', __( sprintf( 'Cache URL: %s', $img_url ), 'connections' ) );
+		/* translators: Image cache URI. */
+		$log->add( 'image_cache_url', sprintf( __( 'Cache URL: %s', 'connections' ), $img_url ) );
 
 		/*
 		 * Remove the cnImage filters.
@@ -1708,7 +1722,8 @@ class cnImage {
 
 				return new WP_Error(
 					'image_path_not_found',
-					__( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ),
+					/* translators: Image file path. */
+					sprintf( __( 'Image path %s does not exist.', 'connections' ), $img_path ),
 					$img_path
 				);
 			}
@@ -1720,7 +1735,8 @@ class cnImage {
 
 			return new WP_Error(
 				'image_not_image',
-				__( sprintf( 'The file %s is not an image.', basename( $img_path ) ), 'connections' ),
+				/* translators: Image file path. */
+				sprintf( __( 'The file %s is not an image.', 'connections' ), basename( $img_path ) ),
 				basename( $img_path )
 			);
 		}

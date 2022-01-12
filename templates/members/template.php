@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 
 /** @var cnEntry $entry */
-if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
+if ( count( $entry->getFamilyMembers() ) > 0 ) {
 
 	// create the div.
 	$member_listing        = '<div class="member-entry">';
@@ -170,7 +170,7 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 		$mobile_member_name .= '<br />' . $member_group->getFullFirstLastName() . ':<br />';
 
 		// Check for family member and display all info.
-		if ( sizeof( $member_group ) > 0 ) {
+		if ( count( $member_group ) > 0 ) {
 			// Check if array.
 			if ( is_array( $member_group->getPhoneNumbers() ) ) {
 				// Get all phone numbers for family members.

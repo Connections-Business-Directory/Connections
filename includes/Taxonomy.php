@@ -1000,7 +1000,9 @@ final class Taxonomy {
 			'page_hook' => $pageHook,
 			'tab'       => 'advanced',
 			'section'   => 'permalink',
+			/* translators: Taxonomy name. */
 			'title'     => sprintf( __( '%s Slug', 'connections' ), $this->labels->singular_name ),
+			/* translators: Taxonomy name. */
 			'desc'      => sprintf( __( 'Enter a permalink slug for the %s in the URL.', 'connections' ), strtolower( $this->labels->singular_name ) ),
 			'help'      => '',
 			'type'      => 'text',

@@ -252,6 +252,7 @@ class Content_Block {
 	 */
 	public function permission() {
 
+		/* translators: Class method name. */
 		return new WP_Error( 'invalid-method', sprintf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ ) );
 	}
 
@@ -328,6 +329,7 @@ class Content_Block {
 
 		} else {
 
+			/* translators: Class method name. */
 			printf( esc_html__( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
 		}
 	}

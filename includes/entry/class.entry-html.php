@@ -200,7 +200,9 @@ class cnEntry_HTML extends cnEntry {
 
 					$displayImage  = true;
 					$atts['class'] = 'cn-image photo';
-					$atts['alt']   = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
+					$atts['alt'] = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
 					$atts['title'] = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
 
 					$atts['alt']   = apply_filters( 'cn_photo_alt', $atts['alt'], $this );
@@ -279,7 +281,8 @@ class cnEntry_HTML extends cnEntry {
 
 							$displayImage = false;
 
-							$atts['fallback']['type']   = 'block';
+							$atts['fallback']['type'] = 'block';
+							/* translators: Image size. */
 							$atts['fallback']['string'] = sprintf( esc_html__( 'Photo present %s is not valid.', 'connections' ), $size );
 						}
 					}
@@ -302,7 +305,9 @@ class cnEntry_HTML extends cnEntry {
 
 					$displayImage  = true;
 					$atts['class'] = 'cn-image logo';
-					$atts['alt']   = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
+					$atts['alt'] = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
 					$atts['title'] = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
 					// $cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 

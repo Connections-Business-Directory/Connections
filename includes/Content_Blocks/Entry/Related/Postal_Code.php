@@ -63,6 +63,7 @@ class Postal_Code extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: Postal code. */
 						sprintf( __( 'Related by Zipcode - %s', 'connections' ), $queryParameters['zip_code'] )
 					);
 				}

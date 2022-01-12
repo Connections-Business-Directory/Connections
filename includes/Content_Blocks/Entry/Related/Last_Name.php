@@ -63,6 +63,7 @@ class Last_Name extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: A surname, family name, or last name. */
 						sprintf( __( 'Related by Last Name - %s', 'connections' ), $queryParameters['last_name'] )
 					);
 				}

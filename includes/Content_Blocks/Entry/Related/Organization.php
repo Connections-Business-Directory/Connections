@@ -63,6 +63,7 @@ class Organization extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: Organization name; an organized body of people with a particular purpose, a business. */
 						sprintf( __( 'Related by Organization - %s', 'connections' ), $queryParameters['organization'] )
 					);
 				}

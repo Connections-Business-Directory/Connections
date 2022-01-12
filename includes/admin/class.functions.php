@@ -229,7 +229,7 @@ class cnAdminFunction {
 
 		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
-
+			/* translators: Plugin version number. */
 			echo '<div class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $r->new_version ) ) . '</strong></div>';
 			echo '<ul><li>' . esc_html( wp_strip_all_tags( $r->upgrade_notice ) ) . '</li></ul>';
 		}
@@ -538,6 +538,7 @@ class cnAdminFunction {
 		// if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
 
 			$rate_text = sprintf(
+				/* translators: Plugin review URI's. */
 				__(
 					'Thank you for using <a href="%1$s" target="_blank">Connections Business Directory</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a>',
 					'connections'

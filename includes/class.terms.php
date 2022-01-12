@@ -1970,6 +1970,7 @@ class cnTerm {
 				return new WP_Error(
 					'duplicate_term_slug',
 					sprintf(
+						/* translators: Taxonomy slug name. */
 						__( 'The slug &#8220;%s&#8221; is already in use by another term', 'connections' ),
 						$slug
 					)

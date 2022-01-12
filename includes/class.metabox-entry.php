@@ -923,6 +923,7 @@ class cnEntryMetabox {
 		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
+			/* translators: Maximum file upload size. */
 			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}
@@ -989,6 +990,7 @@ class cnEntryMetabox {
 		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
+			/* translators: Maximum file upload size. */
 			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}

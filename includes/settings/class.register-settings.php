@@ -1123,6 +1123,7 @@ class cnRegisterSettings {
 			'title'     => __( 'Content Blocks', 'connections' ),
 			'desc'      => sprintf(
 				wp_kses(
+					/* translators: Plugin documentation URI. */
 					__(
 						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
 						'connections'
@@ -1229,6 +1230,7 @@ class cnRegisterSettings {
 			'title'     => __( 'Content Blocks', 'connections' ),
 			'desc'      => sprintf(
 				wp_kses(
+					/* translators: Plugin documentation URI. */
 					__(
 						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
 						'connections'
@@ -3873,6 +3875,7 @@ class cnRegisterSettings {
 			'tab'       => 'advanced',
 			'section'   => 'google_maps_geocoding_api',
 			'title'     => __( 'Server Key', 'connections' ),
+			/* translators: Google Maps API key URI. */
 			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Server Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/geocoding/get-api-key' ),
 			'help'      => '',
 			'type'      => 'text',
@@ -3889,6 +3892,7 @@ class cnRegisterSettings {
 			'tab'       => 'advanced',
 			'section'   => 'google_maps_geocoding_api',
 			'title'     => __( 'Browser Key', 'connections' ),
+			/* translators: Google Maps API key URI. */
 			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/javascript/get-api-key' ),
 			'help'      => '',
 			'type'      => 'text',

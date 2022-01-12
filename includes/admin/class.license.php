@@ -450,6 +450,7 @@ HERERDOC;
 			'tab'       => 'beta',
 			'section'   => 'beta',
 			'title'     => $this->name,
+			/* translators: Plugin name. */
 			'desc'      => sprintf( __( 'Receive updates for pre-release versions of %s.', 'connections' ), $this->name ),
 			'help'      => '',
 			'type'      => 'checkbox',
@@ -533,7 +534,7 @@ HERERDOC;
 
 		// Show the upgrade notice if it exists.
 		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
-
+			/* translators: Plugin version. */
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $info->new_version ) ) . '</strong></p>';
 			echo '<ul><li>' . _escape::html( wp_strip_all_tags( $info->upgrade_notice ) ) . '</li></ul>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
@@ -783,7 +784,7 @@ HERERDOC;
 					$expiryDate = strtotime( $data->expires );
 
 					if ( false !== $expiryDate ) {
-
+						/* translators: Date. */
 						$message = sprintf( esc_html__( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date( 'F jS Y', $expiryDate ) );
 
 					} elseif ( 'lifetime' == $data->expires ) {
@@ -1200,6 +1201,7 @@ HERERDOC;
 
 		return new WP_Error(
 			"cn_license_{$action}_error",
+			/* translators: Plugin license action name. */
 			sprintf( esc_html__( 'License %s error.', 'connections' ), $action ),
 			$query
 		);

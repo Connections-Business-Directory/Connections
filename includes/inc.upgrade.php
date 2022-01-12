@@ -99,6 +99,7 @@ function cnRunDBUpgrade() {
 		$dbVersion = $connections->options->getDBVersion();
 
 		if ( version_compare( $dbVersion, '0.1.0', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.0.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<ul>';
@@ -189,6 +190,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.1', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.1.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<h4>' , esc_html__( 'Setting all current entries to the "approved" status.', 'connections' ) , "</h4>\n";
@@ -202,6 +204,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.2', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.2.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<h4>' , esc_html__( 'Setting all current entries `entry_type` column.', 'connections' ) , "</h4>\n";
@@ -230,6 +233,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.3', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.3.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<ul>';
@@ -247,6 +251,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.4', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.4.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<ul>';
@@ -269,6 +274,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.5', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.5.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<ul>';
@@ -298,6 +304,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.6', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.6.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<ul>';
@@ -835,6 +842,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.7', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.7.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<ul>';
@@ -885,6 +893,7 @@ function cnRunDBUpgrade() {
 
 			$fields['fields_phone'] = array( 'number' );
 
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.8.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<p><strong>' , esc_html__( 'NOTE', 'connections' ) , ':</strong> ' , esc_html__( 'You might receive this error: "The used table type doesn\'t support FULLTEXT indexes".', 'connections' ) , '</p>';
@@ -925,6 +934,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.9', '<' ) ) {
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.1.9.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , "</h4>\n";
 
 			echo '<ul>';
@@ -982,6 +992,7 @@ function cnRunDBUpgrade() {
 
 		if ( version_compare( $dbVersion, '0.3', '<' ) ) {
 
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.3.', 'connections' ), esc_html( $connections->options->getDBVersion() ) ) , '</h4>' . PHP_EOL;
 
 			echo '<ul>' . PHP_EOL;
@@ -1003,6 +1014,7 @@ function cnRunDBUpgrade() {
 
 		if ( version_compare( $dbVersion, '0.4', '<' ) ) {
 
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ), esc_html( $connections->options->getDBVersion() ), esc_html( CN_DB_VERSION ) ) , '</h4>' . PHP_EOL;
 
 			echo '<ul>' . PHP_EOL;
@@ -1027,6 +1039,7 @@ function cnRunDBUpgrade() {
 
 		if ( version_compare( $dbVersion, '0.5', '<' ) ) {
 
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ), esc_html( $connections->options->getDBVersion() ), esc_html( CN_DB_VERSION ) ) , '</h4>' . PHP_EOL;
 
 			echo '<ul>' . PHP_EOL;
@@ -1048,6 +1061,7 @@ function cnRunDBUpgrade() {
 
 		if ( version_compare( $dbVersion, '0.6', '<' ) ) {
 
+			/* translators: Previous version number. */
 			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ), esc_html( $connections->options->getDBVersion() ), esc_html( CN_DB_VERSION ) ) , '</h4>' . PHP_EOL;
 
 			echo '<ul>' . PHP_EOL;
@@ -1114,6 +1128,7 @@ function cnAddTableColumn( $tableName, $columnName, $sql ) {
 		}
 	}
 
+	/* translators: Database column names. */
 	echo '<ul><li><strong>' , sprintf( esc_html__( 'Could not add column %1$s in table %2$s.', 'connections' ), esc_html( $columnName ), esc_html( $tableName ) ) , "</li></strong></ul>\n";
 
 	return false;

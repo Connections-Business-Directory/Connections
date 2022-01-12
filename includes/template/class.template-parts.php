@@ -301,6 +301,7 @@ class cnTemplatePart {
 
 		$atts = shortcode_atts( $defaults, $atts );
 
+		/* translators: Template name. */
 		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( esc_html__( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
 	}
 
@@ -1294,7 +1295,7 @@ class cnTemplatePart {
 				$term    = cnTerm::getBy( 'id', $categoryID, 'category' );
 				$terms[] = esc_html( $term->name );
 			}
-
+			/* translators: Taxonomy term names. */
 			$messages['cn-cat'] = sprintf( __( 'You are searching within category(ies): %s', 'connections' ), implode( ', ', $terms ) );
 		}
 
@@ -1313,6 +1314,7 @@ class cnTemplatePart {
 			array_walk( $queryVars['cn-s'], 'trim' );
 
 			$messages['cn-s'] = sprintf(
+				/* translators: Keyword search terms. */
 				__( 'You are searching for the keyword(s): %s', 'connections' ),
 				esc_html( implode( ', ', $queryVars['cn-s'] ) )
 			);
@@ -1321,6 +1323,7 @@ class cnTemplatePart {
 		if ( 1 === mb_strlen( $queryVars['cn-char'] ) ) {
 
 			$messages['cn-char'] = sprintf(
+				/* translators: Initial character search term. */
 				__( 'The results are being filtered by the character: %s', 'connections' ),
 				function_exists( 'mb_substr' ) ? mb_substr( $queryVars['cn-char'], 0, 1 ) : substr( $queryVars['cn-char'], 0, 1 )
 			);
@@ -1329,6 +1332,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-organization'] ) {
 
 			$messages['cn-organization'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the organization: %s', 'connections' ),
 				$queryVars['cn-organization']
 			);
@@ -1337,6 +1341,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-department'] ) {
 
 			$messages['cn-department'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the department: %s', 'connections' ),
 				$queryVars['cn-department']
 			);
@@ -1345,6 +1350,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-district'] ) {
 
 			$messages['cn-district'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the district: %s', 'connections' ),
 				$queryVars['cn-district']
 			);
@@ -1353,6 +1359,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-county'] ) {
 
 			$messages['cn-county'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the county: %s', 'connections' ),
 				$queryVars['cn-county']
 			);
@@ -1361,6 +1368,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-locality'] ) {
 
 			$messages['cn-locality'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the locality: %s', 'connections' ),
 				$queryVars['cn-locality']
 			);
@@ -1369,6 +1377,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-region'] ) {
 
 			$messages['cn-region'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the region: %s', 'connections' ),
 				$queryVars['cn-region']
 			);
@@ -1377,6 +1386,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-postal-code'] ) {
 
 			$messages['cn-postal-code'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the postal code: %s', 'connections' ),
 				$queryVars['cn-postal-code']
 			);
@@ -1385,6 +1395,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-country'] ) {
 
 			$messages['cn-country'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the country: %s', 'connections' ),
 				$queryVars['cn-country']
 			);
@@ -1687,6 +1698,7 @@ class cnTemplatePart {
 
 		$styles = cnHTML::attribute( 'style', $atts['style'] );
 
+		/* translators: Human readable timestamp. */
 		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp', true ) ) );
 
 		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? $styles : '' ) . '>' . $updated . '</' . $atts['tag'] . '>';

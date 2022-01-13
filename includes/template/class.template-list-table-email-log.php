@@ -548,8 +548,8 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 			'log_delete_' . $log['id']
 		);
 
-		$out .= '<strong><a class="row-title" href="' . $viewURL . '" title="' .
-				esc_attr( sprintf( esc_html__( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
+		/* translators: The email log subject line. Uses for the view link. */
+		$out .= '<strong><a class="row-title" href="' . $viewURL . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
 
 		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . '</a>';
 		$actions['view']   = '<a href="' . $viewURL . '">' . esc_html__( 'View', 'connections' ) . '</a>';

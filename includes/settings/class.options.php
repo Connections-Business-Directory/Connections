@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class to manage options using the Options API.
  *

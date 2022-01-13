@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The email template API.
  *

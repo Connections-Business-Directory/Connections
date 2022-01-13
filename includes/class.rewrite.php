@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Methods to be used in actions and filters to register query vars,
  * rewrite rules and canonical redirects.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package    Connections
  * @subpackage Template : Carousel

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Methods to be used to query entries.
  *

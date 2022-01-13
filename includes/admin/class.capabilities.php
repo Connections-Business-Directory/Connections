@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for registering and manageing the capabilities for Connections.
  *

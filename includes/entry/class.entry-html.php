@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class containing all necessary methods to output structured HTML output of an entry object.
  *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for processing entry administration actions.
  *

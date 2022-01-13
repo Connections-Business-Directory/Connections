@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for sending email.
  * The purpose of this wp_mail wrapper class is to

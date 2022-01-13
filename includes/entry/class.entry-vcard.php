@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Build vCard compliant output from cnEntry.
  *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The default email templates that can be used when sending email with cnEmail.
  *

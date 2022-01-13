@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class containing all the necessary methods to run queries on the database.
  *

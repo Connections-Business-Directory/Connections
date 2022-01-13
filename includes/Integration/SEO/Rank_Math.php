@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @todo Clear the sitemaps cache if it exists.
  * @link https://connections-pro.com/ticket/540240/

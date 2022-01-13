@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class to be used to render entry parts using shortcodes.
  *

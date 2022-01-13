@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Helper class to save entry data to the db.
  *

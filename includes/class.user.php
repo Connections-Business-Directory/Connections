@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Current user object using the User API..
  *

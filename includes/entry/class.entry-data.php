@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for working with an entry object.
  *

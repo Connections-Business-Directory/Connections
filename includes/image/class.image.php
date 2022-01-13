@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Uses WordPress's Image Editor Classes to crop/resize and/or filter images.
  *

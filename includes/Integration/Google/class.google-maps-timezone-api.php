@@ -1,5 +1,4 @@
 <?php
-
 /**
  * A PHP wrapper for the Google Maps Time Zone API.
  *

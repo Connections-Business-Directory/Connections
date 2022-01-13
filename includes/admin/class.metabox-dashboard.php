@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class registering the core metaboxes for the admin Dashboard.
  *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for building the custom schema for Connections and set its intial defaults.
  *

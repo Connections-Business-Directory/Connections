@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class to manage registration and enqueueing of the CSS and JS files.
  *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Store and retrieve cached values supporting various core WP caching API/s.
  *

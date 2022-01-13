@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Static class for displaying template parts.
  *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for working with the file system.
  *

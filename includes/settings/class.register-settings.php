@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Register the tabs, settings sections and section settings using the Settings API.
  *

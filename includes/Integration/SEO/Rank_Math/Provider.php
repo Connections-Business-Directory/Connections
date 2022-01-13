@@ -1,5 +1,4 @@
 <?php
-
 /** @noinspection DuplicatedCode */
 
 namespace Connections_Directory\Integration\SEO\Rank_Math;

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The dashboard admin page.
  *

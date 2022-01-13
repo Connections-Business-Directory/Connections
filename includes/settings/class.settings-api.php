@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Connections Settings API Wrapper Class
  *

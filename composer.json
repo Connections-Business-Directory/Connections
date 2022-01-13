@@ -37,5 +37,10 @@
     "support": {
         "issues": "https://wordpress.org/support/plugin/connections",
         "source": "https://github.com/Connections-Business-Directory/Connections"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

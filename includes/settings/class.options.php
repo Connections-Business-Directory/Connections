@@ -274,10 +274,10 @@ class cnOptions {
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
 
-			foreach ( $options as &$option ) {
-
-				$option = __( $option, 'connections' );
-			}
+			// foreach ( $options as &$option ) {
+			//
+			// 	$option = __( $option, 'connections' );
+			// }
 		}
 
 		return $options;
@@ -544,10 +544,10 @@ class cnOptions {
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
 
-			foreach ( $options as &$option ) {
-
-				$option = __( $option, 'connections' );
-			}
+			// foreach ( $options as &$option ) {
+			//
+			// 	$option = __( $option, 'connections' );
+			// }
 		}
 
 		return $options;
@@ -690,10 +690,10 @@ class cnOptions {
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
 
-			foreach ( $options as &$option ) {
-
-				$option = __( $option, 'connections' );
-			}
+			// foreach ( $options as &$option ) {
+			//
+			// 	$option = __( $option, 'connections' );
+			// }
 		}
 
 		return $options;
@@ -832,10 +832,10 @@ class cnOptions {
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
 
-			foreach ( $options as &$option ) {
-
-				$option = __( $option, 'connections' );
-			}
+			// foreach ( $options as &$option ) {
+			//
+			// 	$option = __( $option, 'connections' );
+			// }
 		}
 
 		return $options;
@@ -1145,10 +1145,10 @@ class cnOptions {
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
 
-			foreach ( $options as &$option ) {
-
-				$option = __( $option, 'connections' );
-			}
+			// foreach ( $options as &$option ) {
+			//
+			// 	$option = __( $option, 'connections' );
+			// }
 		}
 
 		return $options;
@@ -1287,10 +1287,10 @@ class cnOptions {
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
 
-			foreach ( $options as &$option ) {
-
-				$option = __( $option, 'connections' );
-			}
+			// foreach ( $options as &$option ) {
+			//
+			// 	$option = __( $option, 'connections' );
+			// }
 		}
 
 		return $options;
@@ -1437,10 +1437,10 @@ class cnOptions {
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
 
-			foreach ( $options as &$option ) {
-
-				$option = __( $option, 'connections' );
-			}
+			// foreach ( $options as &$option ) {
+			//
+			// 	$option = __( $option, 'connections' );
+			// }
 		}
 
 		return $options;

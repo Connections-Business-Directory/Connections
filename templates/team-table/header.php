@@ -10,32 +10,30 @@
 	</div>
 
 	<div class="cn-table-cell">
-		Name
+		<?php _ex( 'Name', 'team block table header', 'connections' ); ?>
 	</div>
 
 	<?php if ( $atts['displayExcerpt'] ) : ?>
 		<div class="cn-table-cell cn-team-member-excerpt">
-			Excerpt
+			<?php _ex( 'Excerpt', 'team block table header', 'connections' ); ?>
 		</div>
 	<?php endif; ?>
 
 	<?php if ( $atts['displayPhone'] ) : ?>
 		<div class="cn-table-cell cn-team-member-phone">
-			Phone
+			<?php _ex( 'Phone', 'team block table header', 'connections' ); ?>
 		</div>
 	<?php endif; ?>
-
 
 	<?php if ( $atts['displayEmail'] ) : ?>
 		<div class="cn-table-cell cn-team-member-email">
-			Email
+			<?php _ex( 'Email', 'team block table header', 'connections' ); ?>
 		</div>
 	<?php endif; ?>
 
-
 	<?php if ( $atts['displaySocial'] ) : ?>
 		<div class="cn-table-cell cn-team-member-social-media">
-			Social Media
+			<?php _ex( 'Social Media', 'team block table header', 'connections' ); ?>
 		</div>
 	<?php endif; ?>
 

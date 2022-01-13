@@ -107,7 +107,7 @@ final class Rank_Math {
 			 has_block( 'connections-directory/shortcode-connections', $object )
 		) {
 
-			add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
+			add_action( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
 
 			// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports and bulk operations.
 
@@ -222,7 +222,7 @@ final class Rank_Math {
 	 */
 	public static function maybeRemoveCoreMetaDescription() {
 
-		if ( has_filter( 'rank_math/head' ) ) {
+		if ( has_action( 'rank_math/head' ) ) {
 
 			remove_filter( 'wp_title', array( 'cnSEO', 'filterMetaTitle' ), 20 );
 			remove_filter( 'wp_head', array( 'cnSEO', 'metaDesc' ), 1 );

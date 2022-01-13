@@ -272,6 +272,8 @@ class Team {
 			'exclude_category' => $attributes['categoriesExclude'],
 			// Limit the number of entries displayed to 50ish (based on number of set columns), only in editor preview. max is 100ish.
 			'limit'            => $attributes['isEditorPreview'] ? 50 - ( 50 % $attributes['columns'] ) : 100 - ( 100 % $attributes['columns'] ),
+			// Allow the Additional Options field to override the `parse_request` parameter.
+			'parse_request'    => false,
 		);
 
 		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
@@ -293,7 +295,7 @@ class Team {
 			)
 		);
 
-		$options['parse_request'] = false;
+		// $options['parse_request'] = false;
 
 		$results = Connections_Directory()->retrieve->entries( $options );
 

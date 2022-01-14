@@ -70,9 +70,9 @@ function connectionsShowViewPage( $action = null ) {
 						do_action( 'cn_admin_form_add_entry_before', $entry, $form );
 
 						echo '<div id="postbox-container-1" class="postbox-container">';
-							echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
-								do_meta_boxes( $instance->pageHook->add, 'side', $entry );
-							echo '</div> <!-- #side-sortables -->';
+
+						do_meta_boxes( $instance->pageHook->add, 'side', $entry );
+
 						echo '</div> <!-- #postbox-container-1 -->';
 
 						echo '<div id="postbox-container-2" class="postbox-container">';
@@ -163,9 +163,9 @@ function connectionsShowViewPage( $action = null ) {
 						do_action( 'cn_admin_form_copy_entry_before', $entry, $form );
 
 						echo '<div id="postbox-container-1" class="postbox-container">';
-							echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
-								do_meta_boxes( $instance->pageHook->manage, 'side', $entry );
-							echo '</div> <!-- #side-sortables -->';
+
+						do_meta_boxes( $instance->pageHook->manage, 'side', $entry );
+
 						echo '</div> <!-- #postbox-container-1 -->';
 
 						echo '<div id="postbox-container-2" class="postbox-container">';
@@ -239,9 +239,9 @@ function connectionsShowViewPage( $action = null ) {
 						do_action( 'cn_admin_form_edit_entry_before', $entry, $form );
 
 						echo '<div id="postbox-container-1" class="postbox-container">';
-							echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
-								do_meta_boxes( $instance->pageHook->manage, 'side', $entry );
-							echo '</div> <!-- #side-sortables -->';
+
+						do_meta_boxes( $instance->pageHook->manage, 'side', $entry );
+
 						echo '</div> <!-- #postbox-container-1 -->';
 
 						echo '<div id="postbox-container-2" class="postbox-container">';

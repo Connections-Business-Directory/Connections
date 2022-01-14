@@ -625,7 +625,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	private function explodeBreakoutHeader( $atts ) {
 
 		$headers = array();
-		$type   = $atts['type'];
+		$type    = $atts['type'];
 
 		if ( 0 === $type ) {
 
@@ -911,8 +911,9 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 				foreach ( $terms as $term ) {
 					// $terms[] = $parent . ':' . $term->term_id;
-					if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) { $names[] = $term->name;
-                    }
+					if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) {
+						$names[] = $term->name;
+					}
 				}
 
 				$row[ $i ] = $this->escapeAndQuote( implode( ',', $names ) );
@@ -968,7 +969,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		}
 
 		$sql = $wpdb->prepare(
-			'SELECT * FROM ' . $atts['table'].' AS e
+			'SELECT * FROM ' . $atts['table'] . ' AS e
 			WHERE e.entry_id = %d
 			ORDER BY e.order DESC',
 			$id
@@ -1076,7 +1077,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		global $wpdb;
 
 		$skipTables = array( CN_ENTRY_TABLE, CN_TERMS_TABLE );
-		$types     = array();
+		$types      = array();
 
 		// You can specify you only want home addresses in an export for example, if nothing is specified,
 		// get a list of all types from the breakout's table...
@@ -1145,7 +1146,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			switch ( $field ) {
 
 				case 'image_url':
-
 					if ( isset( $options['image']['meta']['original']['name'] ) && ! empty( $options['image']['meta']['original']['name'] ) ) {
 
 						$url = CN_IMAGE_BASE_URL . $data->slug . '/' . $options['image']['meta']['original']['name'];
@@ -1160,7 +1160,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 					break;
 
 				case 'logo_url':
-
 					if ( isset( $options['logo']['meta']['name'] ) && ! empty( $options['logo']['meta']['name'] ) ) {
 
 						$url = CN_IMAGE_BASE_URL . $data->slug . '/' . $options['logo']['meta']['name'];

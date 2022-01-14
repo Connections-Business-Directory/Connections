@@ -51,23 +51,23 @@ final class cnLog_Email {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof cnLog_Email ) ) {
 
-			self::$instance = new cnLog_Email;
+			self::$instance = new cnLog_Email();
 
 			// Register log type.
 			add_filter( 'cn_log_types', array( __CLASS__, 'registerLogType' ) );
 
 			// Register the log view.
 			add_filter( 'cn_log_views', array( __CLASS__, 'registerLogView' ) );
-			add_action( 'admin_action_cn_log_email_view', array( __CLASS__, 'viewLog') );
+			add_action( 'admin_action_cn_log_email_view', array( __CLASS__, 'viewLog' ) );
 
 			// Add action to log email after they are sent.
 			add_action( 'cn_email_post_send', array( __CLASS__, 'add' ), 10, 11 );
 
 			// Add filter to format meta key for display.
-			add_filter( 'cn_log_meta_key', array( __CLASS__, 'metaKey') );
+			add_filter( 'cn_log_meta_key', array( __CLASS__, 'metaKey' ) );
 
 			// Add filter to format meta value for display.
-			add_filter( 'cn_log_meta_value', array( __CLASS__, 'metaValue'), 10, 2 );
+			add_filter( 'cn_log_meta_value', array( __CLASS__, 'metaValue' ), 10, 2 );
 		}
 	}
 
@@ -262,16 +262,11 @@ final class cnLog_Email {
 	/**
 	 * Returns email log meta data item as human readable.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 *
-	 * @uses   cnFormatting::maybeJSONdecode()
-	 * @uses   esc_html()
-	 *
-	 * @param      $type
-	 * @param      $value
-	 * @param bool $echo  Whether to echo or not.
+	 * @param       $type
+	 * @param       $value
+	 * @param bool  $echo  Whether to echo or not.
 	 *
 	 * @return string
 	 */
@@ -280,7 +275,6 @@ final class cnLog_Email {
 		switch ( $type ) {
 
 			case 'headers':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 
 				if ( is_array( $value ) ) {
@@ -298,7 +292,6 @@ final class cnLog_Email {
 				break;
 
 			case 'from':
-
 				$value = esc_html( $value );
 
 				break;
@@ -307,7 +300,6 @@ final class cnLog_Email {
 			case 'cc':
 			case 'bcc':
 			case 'attachments':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 
 				if ( empty( $value ) ) {
@@ -611,7 +603,6 @@ final class cnLog_Email {
 		switch ( $key ) {
 
 			case 'headers':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 				$value = '<ul><li>' . implode( '</li><li>', $value ) . '</li></ul>';
 				break;
@@ -622,7 +613,6 @@ final class cnLog_Email {
 				break;
 
 			case 'from':
-
 				if ( empty( $value ) ) {
 
 					$value = '<p>' . esc_html__( 'None', 'connections' ) . '</p>';
@@ -638,7 +628,6 @@ final class cnLog_Email {
 			case 'cc':
 			case 'bcc':
 			case 'attachments':
-
 				$value = cnFormatting::maybeJSONdecode( $value );
 
 				if ( empty( $value ) ) {

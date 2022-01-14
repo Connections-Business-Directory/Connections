@@ -47,7 +47,7 @@ class cnCustomizer_Control_Checkbox_Group extends WP_Customize_Control {
 	 * Enqueue control related scripts/styles.
 	 *
 	 * @access public
-     * @since  8.6.7
+	 * @since  8.6.7
 	 */
 	public function enqueue() {
 

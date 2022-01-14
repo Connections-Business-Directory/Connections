@@ -1,4 +1,17 @@
 <?php
+/**
+ * Form field Label object.
+ *
+ * @since 10.4
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections Business Directory
+ * @subpackage Connections\Form\Field
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2022, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory\Form\Field;
 
@@ -26,7 +39,7 @@ class Label {
 	/**
 	 * The field id the Label is attached to.
 	 *
-	 * 10.4
+	 * @since 10.4
 	 * @var string
 	 */
 	protected $for = '';
@@ -34,7 +47,8 @@ class Label {
 	/**
 	 * The Label text.
 	 *
-	 * @var string 10.4
+	 * @since 10.4
+	 * @var string
 	 */
 	protected $text = '';
 
@@ -73,7 +87,7 @@ class Label {
 	 *
 	 * @since 10.4
 	 *
-	 * @param $for
+	 * @param string $for The for attribute value.
 	 *
 	 * @return static
 	 */
@@ -89,7 +103,7 @@ class Label {
 	 *
 	 * @since 10.4
 	 *
-	 * @param $text
+	 * @param string $text The label text.
 	 *
 	 * @return static
 	 */
@@ -115,7 +129,7 @@ class Label {
 		$classNames = _string::applyPrefix( $prefix, $this->class );
 
 		/** @var string $id */
-		$id         = _string::applyPrefix( $prefix, $this->getId() );
+		$id = _string::applyPrefix( $prefix, $this->getId() );
 
 		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
 		_array::set( $attributes, 'id', _escape::id( $id ) );
@@ -155,6 +169,8 @@ class Label {
 	}
 
 	/**
+	 * Return object as string.
+	 *
 	 * @since 10.4
 	 *
 	 * @return string

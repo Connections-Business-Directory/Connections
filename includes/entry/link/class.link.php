@@ -123,27 +123,27 @@ final class cnLink extends cnEntry_Collection_Item {
 		$image  = cnArray::get( $data, 'image', false );
 		$logo   = cnArray::get( $data, 'logo', false );
 
-		$this->id          = (int) cnArray::get( $data, 'id', 0 );
-		$preferred         = cnArray::get( $data, 'preferred', false );
-		$url               = cnArray::get( $data, 'url', '' );
+		$this->id  = (int) cnArray::get( $data, 'id', 0 );
+		$preferred = cnArray::get( $data, 'preferred', false );
+		$url       = cnArray::get( $data, 'url', '' );
 
 		if ( is_string( $url ) && 0 < strlen( $url ) ) {
 
 			$url = cnSanitize::field( 'url', cnURL::prefix( $url ), 'raw' );
 		}
 
-		$type              = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
-		$this->type        = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
-		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
-		$this->preferred   = cnFormatting::toBoolean( $preferred );
-		$this->title       = cnSanitize::field( 'name', cnArray::get( $data, 'title', '' ), 'raw' );
-		$this->url         = is_string( $url ) ? $url : '';
-		$this->target      = cnSanitize::field( 'attribute', cnArray::get( $data, 'target', $target ), 'raw' );
-		$this->follow      = cnFormatting::toBoolean( $follow );
-		$this->image       = cnFormatting::toBoolean( $image );
-		$this->logo        = cnFormatting::toBoolean( $logo );
+		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
+		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
+		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
+		$this->preferred  = cnFormatting::toBoolean( $preferred );
+		$this->title      = cnSanitize::field( 'name', cnArray::get( $data, 'title', '' ), 'raw' );
+		$this->url        = is_string( $url ) ? $url : '';
+		$this->target     = cnSanitize::field( 'attribute', cnArray::get( $data, 'target', $target ), 'raw' );
+		$this->follow     = cnFormatting::toBoolean( $follow );
+		$this->image      = cnFormatting::toBoolean( $image );
+		$this->logo       = cnFormatting::toBoolean( $logo );
 
 		// $this->name = $types[ $this->type ];
 		$this->name = array_key_exists( $this->type, $types ) ? $types[ $this->type ] : $default[ $this->type ];

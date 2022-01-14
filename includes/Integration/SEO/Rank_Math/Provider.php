@@ -1,5 +1,4 @@
 <?php
-
 /** @noinspection DuplicatedCode */
 
 namespace Connections_Directory\Integration\SEO\Rank_Math;
@@ -49,7 +48,7 @@ final class Provider implements \RankMath\Sitemap\Providers\Provider {
 
 			if ( "{$name}-{$instanceID}" === $type ) {
 				return true;
-			} elseif ( $type === $name) {
+			} elseif ( $type === $name ) {
 				return true;
 			}
 		}

@@ -156,7 +156,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 
 			$this->template = $template;
 
-			add_filter( 'cn_list_atts-' . $template->getSlug() , array( __CLASS__, 'initOptions') );
+			add_filter( 'cn_list_atts-' . $template->getSlug(), array( __CLASS__, 'initOptions' ) );
 		}
 
 		/**

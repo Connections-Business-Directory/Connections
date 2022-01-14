@@ -73,15 +73,16 @@ final class Google_Maps implements Provider {
 
 	/**
 	 * Google Maps for Business
-	 * @link https://developers.google.com/maps/documentation/business/
+	 *
+	 * @link  https://developers.google.com/maps/documentation/business/
 	 *
 	 * @since 8.26
 	 *
-	 * @param string     $clientId   Your Client ID
-	 * @param string     $privateKey Your Private Key (optional)
-	 * @param string     $region     Region biasing (optional)
-	 * @param string     $apiKey     Google Geocoding API key (optional)
-	 * @param string     $channel    Google Channel parameter (optional)
+	 * @param string $clientId   Your Client ID
+	 * @param string $privateKey Your Private Key (optional)
+	 * @param string $region     Region biasing (optional)
+	 * @param string $apiKey     Google Geocoding API key (optional)
+	 * @param string $channel    Google Channel parameter (optional)
 	 *
 	 * @return Google_Maps
 	 */
@@ -98,8 +99,8 @@ final class Google_Maps implements Provider {
 	/**
 	 * @since 8.26
 	 *
-	 * @param string     $region Region biasing (optional)
-	 * @param string     $apiKey Google Geocoding API key (optional)
+	 * @param string $region Region biasing (optional)
+	 * @param string $apiKey Google Geocoding API key (optional)
 	 */
 	public function __construct( $apiKey, $region = null ) {
 
@@ -385,7 +386,6 @@ final class Google_Maps implements Provider {
 		switch ( $response->status ) {
 
 			case 'ZERO_RESULTS':
-
 				return new WP_Error(
 					'geocode_provider_no_results',
 					__( 'Returned zero results.', 'connections' ),
@@ -393,7 +393,6 @@ final class Google_Maps implements Provider {
 				);
 
 			case 'OVER_DAILY_LIMIT':
-
 				return new WP_Error(
 					'geocode_provider_over_daily_limit',
 					__(
@@ -404,7 +403,6 @@ final class Google_Maps implements Provider {
 				);
 
 			case 'OVER_QUERY_LIMIT':
-
 				return new WP_Error(
 					'geocode_provider_over_query_limit',
 					__( 'Daily query limit has been exceeded.', 'connections' ),
@@ -412,7 +410,6 @@ final class Google_Maps implements Provider {
 				);
 
 			case 'REQUEST_DENIED':
-
 				return new WP_Error(
 					'geocode_provider_request_denied',
 					__( 'Request has been denied.', 'connections' ),
@@ -420,7 +417,6 @@ final class Google_Maps implements Provider {
 				);
 
 			case 'INVALID_REQUEST':
-
 				return new WP_Error(
 					'geocode_provider_invalid_request',
 					__( 'An invalid request has been received.', 'connections' ),
@@ -428,7 +424,6 @@ final class Google_Maps implements Provider {
 				);
 
 			case 'UNKNOWN_ERROR':
-
 				return new WP_Error(
 					'geocode_provider_unknown_error',
 					__( 'An unknown error has occurred.', 'connections' ),
@@ -436,11 +431,9 @@ final class Google_Maps implements Provider {
 				);
 
 			case 'OK':
-
 				return $response;
 
 			default:
-
 				return new WP_Error(
 					'geocode_provider_unknown_status',
 					__( 'An unknown status response has been received.', 'connections' ),
@@ -463,35 +456,29 @@ final class Google_Maps implements Provider {
 
 		switch ( $type ) {
 			case 'postal_code':
-
 				$builder->setPostalCode( $values->long_name );
 				break;
 
 			case 'postal_code_suffix':
-
 				$builder->setPostalCodeSuffix( $values->long_name );
 				break;
 
 			case 'locality':
 			case 'postal_town':
-
 				$builder->setLocality( $values->long_name );
 				break;
 
 			case 'administrative_area_level_1':
-
 				$builder->setRegion( $values->long_name );
 				break;
 
 			case 'administrative_area_level_2':
-
 				$builder->setCounty( $values->long_name );
 				break;
 
 			case 'administrative_area_level_3':
 			case 'administrative_area_level_4':
 			case 'administrative_area_level_5':
-
 				// $builder->addAdminLevel( intval( substr( $type, - 1 ) ), $values->long_name, $values->short_name );
 				$builder->setMeta( $type, $values->long_name );
 				break;
@@ -501,7 +488,6 @@ final class Google_Maps implements Provider {
 			case 'sublocality_level_3':
 			case 'sublocality_level_4':
 			case 'sublocality_level_5':
-
 				$subLocalityLevel   = $builder->getMeta( 'subLocalityLevel', array() );
 				$subLocalityLevel[] = array(
 					'level' => intval( substr( $type, - 1 ) ),
@@ -512,13 +498,11 @@ final class Google_Maps implements Provider {
 				break;
 
 			case 'country':
-
 				$builder->setCountry( $values->long_name );
 				$builder->setCountryCode( $values->short_name );
 				break;
 
 			case 'street_number':
-
 				$builder->setStreetNumber( $values->long_name );
 				break;
 
@@ -528,7 +512,6 @@ final class Google_Maps implements Provider {
 				break;
 
 			case 'sublocality':
-
 				// $builder->setSubLocality( $values->long_name );
 				$builder->setMeta( $type, $values->long_name );
 				break;
@@ -546,7 +529,6 @@ final class Google_Maps implements Provider {
 			case 'park':
 			case 'point_of_interest':
 			case 'establishment':
-
 				$builder->setMeta( $type, $values->long_name );
 				break;
 

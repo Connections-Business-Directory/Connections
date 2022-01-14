@@ -1,5 +1,4 @@
 <?php
-
 /** @noinspection DuplicatedCode */
 
 namespace Connections_Directory\Integration\SEO\Yoast_SEO;
@@ -50,7 +49,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 
 			if ( "{$name}-{$instanceID}" === $type ) {
 				return true;
-			} elseif ( $type === $name) {
+			} elseif ( $type === $name ) {
 				return true;
 			}
 		}

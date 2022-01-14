@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The default email templates that can be used when sending email with cnEmail.
  *
@@ -23,7 +22,7 @@ class cnEmail_DefaultTemplates {
 	 * @access private
 	 * @since 0.7.8
 	 * @var (object)
-	*/
+	 */
 	private static $instance;
 
 	/**
@@ -46,7 +45,7 @@ class cnEmail_DefaultTemplates {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance = new self();
 
 			// Register the default templates.
 			add_action( 'plugins_loaded', array( __CLASS__, 'register' ) );

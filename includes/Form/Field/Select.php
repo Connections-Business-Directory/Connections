@@ -160,7 +160,7 @@ class Select extends Field {
 		$classNames = _string::applyPrefix( $prefix, $this->class );
 
 		/** @var string $id */
-		$id         = _string::applyPrefix( $prefix, $this->getId() );
+		$id = _string::applyPrefix( $prefix, $this->getId() );
 
 		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
 		_array::set( $attributes, 'id', _escape::id( $id ) );

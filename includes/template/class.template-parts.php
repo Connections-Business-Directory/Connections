@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Static class for displaying template parts.
  *
@@ -45,14 +44,14 @@ class cnTemplatePart {
 		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
 		add_action( 'Connections_Directory/Render/Template/Single_Entry/Before', array( __CLASS__, 'entryActions' ), 10, 2 );
 
-		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll') );
+		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll' ) );
 
-		add_action( 'cn_entry_action-back', array( __CLASS__, 'entryAction_Back'), 10, 2 );
-		add_action( 'cn_entry_action-vcard', array( __CLASS__, 'entryAction_vCard'), 10, 2 );
+		add_action( 'cn_entry_action-back', array( __CLASS__, 'entryAction_Back' ), 10, 2 );
+		add_action( 'cn_entry_action-vcard', array( __CLASS__, 'entryAction_vCard' ), 10, 2 );
 
 		add_action( 'cn_list_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
 
-		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
+		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription' ), 10, 2 );
 		add_action( 'cn_action_list_before', array( __CLASS__, 'searchingMessage' ), 11, 3 );
 
 		add_action( 'cn_list_character_index', array( __CLASS__, 'index' ) );
@@ -118,12 +117,13 @@ class cnTemplatePart {
 	 * @static
 	 * @uses   cnLocate::file()
 	 * @uses   load_template()
-	 * @param  string|array  $files        Template file(s) to search for, in order of priority.
-	 * @param  array         $params       An array of arguments that will be extract() if the template part is to be loaded.
-	 * @param  boolean       $load         If true the template file will be loaded.
-	 * @param  boolean       $require_once Whether to require_once or require. Default is to require_once.
 	 *
-	 * @return mixed string|bool           The template part file path, if one is located.
+	 * @param string|array $files        Template file(s) to search for, in order of priority.
+	 * @param array        $params       An array of arguments that will be extract() if the template part is to be loaded.
+	 * @param boolean      $load         If true the template file will be loaded.
+	 * @param boolean      $require_once Whether to require_once or require. Default is to require_once.
+	 *
+	 * @return string|bool The template part file path, if one is located.
 	 */
 	public static function locate( $files, $params, $load = false, $require_once = true ) {
 
@@ -148,22 +148,23 @@ class cnTemplatePart {
 	 * @access public
 	 * @static
 	 * @since  0.8.11
-	 * @global $posts
-	 * @global $post
-	 * @global $wp_did_header
-	 * @global $wp_query
-	 * @global $wp_rewrite
-	 * @global $wpdb
-	 * @global $wp_version
-	 * @global $wp
-	 * @global $id
-	 * @global $comment
-	 * @global $user_ID
-	 * @param  string  $file         The file path of the template part to be loaded.
-	 * @param  array   $params       An array of arguments that will be extract().
-	 * @param  bool    $require_once Whether to require_once or require. Default is to require_once.
+	 * @global       $posts
+	 * @global       $post
+	 * @global       $wp_did_header
+	 * @global       $wp_query
+	 * @global       $wp_rewrite
+	 * @global       $wpdb
+	 * @global       $wp_version
+	 * @global       $wp
+	 * @global       $id
+	 * @global       $comment
+	 * @global       $user_ID
 	 *
-	 * @return bool                  Unless the required file returns another value.
+	 * @param string $file         The file path of the template part to be loaded.
+	 * @param array  $params       An array of arguments that will be extract().
+	 * @param bool   $require_once Whether to require_once or require. Default is to require_once.
+	 *
+	 * @return bool Unless the required file returns another value.
 	 */
 	public static function load( $file, $params = array(), $require_once = true ) {
 
@@ -286,7 +287,9 @@ class cnTemplatePart {
 	 * @since  0.8
 	 * @static
 	 * @uses   shortcode_atts()
-	 * @param  array  $atts The shortcode $atts array.
+	 *
+	 * @param array $atts The shortcode $atts array.
+	 *
 	 * @return string       The error message.
 	 */
 	public static function loadTemplateError( $atts ) {
@@ -297,6 +300,7 @@ class cnTemplatePart {
 
 		$atts = shortcode_atts( $defaults, $atts );
 
+		/* translators: Template name. */
 		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( esc_html__( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
 	}
 
@@ -307,7 +311,8 @@ class cnTemplatePart {
 	 * @since  0.7.6.5
 	 * @uses   wp_parse_args()
 	 * @uses   apply_filters()
-	 * @param  array  $atts [optional]
+	 *
+	 * @param array $atts [optional]
 	 *
 	 * @return string
 	 */
@@ -357,14 +362,14 @@ class cnTemplatePart {
 		 */
 		$defaults = apply_filters( 'cn_form_open_default_atts', $defaults );
 
-		$atts     = wp_parse_args( $atts, $defaults );
+		$atts = wp_parse_args( $atts, $defaults );
 
 		/**
 		 * Filter the user supplied attributes.
 		 *
 		 * @since 8.5.14
 		 */
-		$atts     = apply_filters( 'cn_form_open_atts', $atts );
+		$atts = apply_filters( 'cn_form_open_atts', $atts );
 
 		$out = '';
 
@@ -417,7 +422,7 @@ class cnTemplatePart {
 		} else {
 
 			$out .= '<form class="cn-form" id="cn-cat-select" method="get">';
-			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID .'">';
+			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID . '">';
 		}
 
 		//if ( is_customize_preview() ) {
@@ -885,7 +890,7 @@ class cnTemplatePart {
 	 * @since  8.2.8
 	 * @static
 	 *
-	 * @param  array  $atts     The shortcode $atts array.
+	 * @param array $atts The shortcode $atts array.
 	 *
 	 * @return string
 	 */
@@ -918,7 +923,7 @@ class cnTemplatePart {
 	 * @since  8.2.8
 	 * @static
 	 *
-	 * @param  array  $atts     The shortcode $atts array.
+	 * @param array $atts The shortcode $atts array.
 	 *
 	 * @return string
 	 */
@@ -945,11 +950,10 @@ class cnTemplatePart {
 	/**
 	 * Output the result list actions.
 	 *
-	 * @access public
-	 * @since 0.7.6.5
-	 * @param  (array)  $atts [optional]
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
+	 * @since  0.7.6.5
+	 *
+	 * @param array $atts
+	 *
 	 * @return string
 	 */
 	public static function listActions( $atts = array() ) {
@@ -1018,7 +1022,7 @@ class cnTemplatePart {
 	 * @access private
 	 * @since  0.8
 	 *
-	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
+	 * @param array $atts The $atts from self::listActions() passed by the action callback.
 	 */
 	public static function listAction_ViewAll( $atts ) {
 
@@ -1262,7 +1266,7 @@ class cnTemplatePart {
 		$queryVars['cn-county']       = cnQuery::getVar( 'cn-county' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-county' ) ) ) : false;
 		$queryVars['cn-locality']     = cnQuery::getVar( 'cn-locality' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-locality' ) ) ) : false;
 		$queryVars['cn-region']       = cnQuery::getVar( 'cn-region' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-region' ) ) ) : false;
-		$queryVars['cn-postal-code']  = cnQuery::getVar( 'cn-postal-code' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ) :  false;
+		$queryVars['cn-postal-code']  = cnQuery::getVar( 'cn-postal-code' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ) : false;
 		$queryVars['cn-country']      = cnQuery::getVar( 'cn-country' ) ? esc_html( urldecode( cnQuery::getVar( 'cn-country' ) ) ) : false;
 		// if ( cnQuery::getVar('cn-near-coord') ) $queryVars['cn-near-coord']     = cnQuery::getVar('cn-near-coord');
 		// if ( cnQuery::getVar('cn-radius') ) $queryVars['cn-radius']             = cnQuery::getVar('cn-radius');
@@ -1290,7 +1294,7 @@ class cnTemplatePart {
 				$term    = cnTerm::getBy( 'id', $categoryID, 'category' );
 				$terms[] = esc_html( $term->name );
 			}
-
+			/* translators: Taxonomy term names. */
 			$messages['cn-cat'] = sprintf( __( 'You are searching within category(ies): %s', 'connections' ), implode( ', ', $terms ) );
 		}
 
@@ -1309,6 +1313,7 @@ class cnTemplatePart {
 			array_walk( $queryVars['cn-s'], 'trim' );
 
 			$messages['cn-s'] = sprintf(
+				/* translators: Keyword search terms. */
 				__( 'You are searching for the keyword(s): %s', 'connections' ),
 				esc_html( implode( ', ', $queryVars['cn-s'] ) )
 			);
@@ -1317,6 +1322,7 @@ class cnTemplatePart {
 		if ( 1 === mb_strlen( $queryVars['cn-char'] ) ) {
 
 			$messages['cn-char'] = sprintf(
+				/* translators: Initial character search term. */
 				__( 'The results are being filtered by the character: %s', 'connections' ),
 				function_exists( 'mb_substr' ) ? mb_substr( $queryVars['cn-char'], 0, 1 ) : substr( $queryVars['cn-char'], 0, 1 )
 			);
@@ -1325,6 +1331,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-organization'] ) {
 
 			$messages['cn-organization'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the organization: %s', 'connections' ),
 				$queryVars['cn-organization']
 			);
@@ -1333,6 +1340,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-department'] ) {
 
 			$messages['cn-department'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the department: %s', 'connections' ),
 				$queryVars['cn-department']
 			);
@@ -1341,6 +1349,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-district'] ) {
 
 			$messages['cn-district'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the district: %s', 'connections' ),
 				$queryVars['cn-district']
 			);
@@ -1349,6 +1358,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-county'] ) {
 
 			$messages['cn-county'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the county: %s', 'connections' ),
 				$queryVars['cn-county']
 			);
@@ -1357,6 +1367,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-locality'] ) {
 
 			$messages['cn-locality'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the locality: %s', 'connections' ),
 				$queryVars['cn-locality']
 			);
@@ -1365,6 +1376,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-region'] ) {
 
 			$messages['cn-region'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the region: %s', 'connections' ),
 				$queryVars['cn-region']
 			);
@@ -1373,6 +1385,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-postal-code'] ) {
 
 			$messages['cn-postal-code'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the postal code: %s', 'connections' ),
 				$queryVars['cn-postal-code']
 			);
@@ -1381,6 +1394,7 @@ class cnTemplatePart {
 		if ( $queryVars['cn-country'] ) {
 
 			$messages['cn-country'] = sprintf(
+				/* translators: Search term. */
 				__( 'The results are being filtered by the country: %s', 'connections' ),
 				$queryVars['cn-country']
 			);
@@ -1683,6 +1697,7 @@ class cnTemplatePart {
 
 		$styles = cnHTML::attribute( 'style', $atts['style'] );
 
+		/* translators: Human readable timestamp. */
 		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp', true ) ) );
 
 		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? $styles : '' ) . '>' . $updated . '</' . $atts['tag'] . '>';
@@ -1773,7 +1788,7 @@ class cnTemplatePart {
 	 * Create the search input.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access public
 	 * @version 1.0
@@ -1811,7 +1826,7 @@ class cnTemplatePart {
 				}
 				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . esc_attr__( 'Search', 'connections' ) . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
-			$out .= '</span>';
+			$out     .= '</span>';
 
 		}
 
@@ -1822,9 +1837,9 @@ class cnTemplatePart {
 	 * Outputs a submit button.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	name (string) The input name attribute.
-	 * 	value (string) The input value attribute.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     name (string) The input name attribute.
+	 *     value (string) The input value attribute.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access public
 	 * @version 1.0
@@ -2023,7 +2038,7 @@ class cnTemplatePart {
 			'prev_text'          => __( '&laquo;', 'connections' ),
 			'next_text'          => __( '&raquo;', 'connections' ),
 			'add_fragment'       => '',
-			'before_page_number' => '<span class="screen-reader-text">'.$translated.' </span>',
+			'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
 			'after_page_number'  => '',
 			'return'             => false,
 		);
@@ -2248,7 +2263,7 @@ class cnTemplatePart {
 	 * @since  8.5.18
 	 * @static
 	 *
-	 * @param array  $atts      The attributes array. {
+	 * @param array $atts The attributes array. {
 	 *
 	 *     @type bool   $link       Whether to format as link or as a string.
 	 *                              Default: FALSE
@@ -2323,8 +2338,8 @@ class cnTemplatePart {
 	 * @since 8.5.18
 	 * @deprecated 10.3.1
 	 *
-	 * @param int    $id        Category ID.
-	 * @param array  $atts      The attributes array. {
+	 * @param int   $id   Category ID.
+	 * @param array $atts The attributes array. {
 	 *
 	 *     @type bool   $link       Whether to format as link or as a string.
 	 *                              Default: FALSE
@@ -2403,7 +2418,6 @@ class cnTemplatePart {
 				break;
 
 			case 'radio':
-
 				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
 
 					$out = self::categoryInput( $atts );
@@ -2416,7 +2430,6 @@ class cnTemplatePart {
 				break;
 
 			case 'checkbox':
-
 				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
 
 					$out = self::categoryInput( $atts );
@@ -2429,7 +2442,6 @@ class cnTemplatePart {
 				break;
 
 			case 'link':
-
 				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
 
 					$out = self::categoryLink( $atts );
@@ -2446,7 +2458,6 @@ class cnTemplatePart {
 				break;
 
 			default:
-
 				$out = '';
 				break;
 		}
@@ -2458,16 +2469,16 @@ class cnTemplatePart {
 	 * The private function called by cnTemplate::category that outputs the select, multiselect; grouped and ungrouped.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
-	 * 	group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
-	 * 	default (string) The default string to show as the first item in the list. Used for select && multiselect only.
-	 * 	show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
-	 * 	select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
-	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     type (string) The output type of the categories. Valid options options are: select || multiselect
+	 *     group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
+	 *     default (string) The default string to show as the first item in the list. Used for select && multiselect only.
+	 *     show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
+	 *     select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
+	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
+	 *     parent_id (array) An array of root parent category IDs to limit the list to.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access  private
 	 * @version 1.0
@@ -2505,8 +2516,8 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'on_change'  => 'this.form.submit()',
-			'selected'   => $selected,
+			'on_change' => 'this.form.submit()',
+			'selected'  => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2566,7 +2577,7 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'selected'   => $selected,
+			'selected' => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2625,7 +2636,7 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'selected'   => $selected,
+			'selected' => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -2638,14 +2649,14 @@ class cnTemplatePart {
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
-	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
-	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
-	 * 	columns (int) The number of columns in the table.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     type (string) The output type of the categories. Valid options options are: select || multiselect
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
+	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
+	 *     parent_id (array) An array of root parent category IDs to limit the list to.
+	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
+	 *     columns (int) The number of columns in the table.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2659,9 +2670,9 @@ class cnTemplatePart {
 		global $connections;
 
 		$selected = ( cnQuery::getVar( 'cn-cat' ) ) ? cnQuery::getVar( 'cn-cat' ) : array();
-		$level = 0;
-		$out = '';
-		$trClass = 'alternate';
+		$level    = 0;
+		$out      = '';
+		$trClass  = 'alternate';
 
 		$categories = $connections->retrieve->categories();
 
@@ -2714,8 +2725,8 @@ class cnTemplatePart {
 
 		// Build the table grid.
 		$table = array();
-		$rows = ceil( count( $categories ) / $atts['columns'] );
-		$keys = array_keys( $categories );
+		$rows  = ceil( count( $categories ) / $atts['columns'] );
+		$keys  = array_keys( $categories );
 
 		for ( $row = 1; $row <= $rows; $row++ ) {
 			for ( $col = 1; $col <= $atts['columns']; $col++ ) {
@@ -2781,15 +2792,16 @@ class cnTemplatePart {
 	 * The private recursive function to build the list item.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string)
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
+	 *     type (string)
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
 	 *
 	 * @param object $category A category object.
-	 * @param int $level The current category level.
-	 * @param int $depth The depth limit.
-	 * @param array $selected An array of the selected category IDs.
-	 * @param array $atts
+	 * @param int    $level    The current category level.
+	 * @param int    $depth    The depth limit.
+	 * @param array  $selected An array of the selected category IDs.
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
 	private static function categoryInputOption( $category, $level, $depth, $selected, $atts ) {
@@ -2850,13 +2862,13 @@ class cnTemplatePart {
 	 *  - An unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
-	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
-	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
-	 * 	columns (int) The number of columns in the table.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
+	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
+	 *     parent_id (array) An array of root parent category IDs to limit the list to.
+	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
+	 *     columns (int) The number of columns in the table.
+	 *     return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2869,8 +2881,8 @@ class cnTemplatePart {
 	private static function categoryLink( $atts = array() ) {
 		global $connections;
 
-		$level = 0;
-		$out = '';
+		$level   = 0;
+		$out     = '';
 		$trClass = 'alternate';
 
 		$categories = $connections->retrieve->categories();
@@ -2923,8 +2935,8 @@ class cnTemplatePart {
 
 		// Build the table grid.
 		$table = array();
-		$rows = ceil( count( $categories ) / $atts['columns'] );
-		$keys = array_keys( $categories );
+		$rows  = ceil( count( $categories ) / $atts['columns'] );
+		$keys  = array_keys( $categories );
 		for ( $row = 1; $row <= $rows; $row++ ) {
 			for ( $col = 1; $col <= $atts['columns']; $col++ ) {
 				$table[ $row ][ $col ] = array_shift( $keys );
@@ -2987,15 +2999,16 @@ class cnTemplatePart {
 	 * The private recursive function to build the category link item.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string)
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
+	 *     type (string)
+	 *     show_empty (bool) Whether or not to display empty categories.
+	 *     show_count (bool) Whether or not to display the category count.
 	 *
 	 * @param object $category A category object.
-	 * @param int $level The current category level.
-	 * @param int $depth The depth limit.
-	 * @param array $slug An array of the category slugs to be used to build the permalink.
-	 * @param array $atts
+	 * @param int    $level    The current category level.
+	 * @param int    $depth    The depth limit.
+	 * @param array  $slug     An array of the category slugs to be used to build the permalink.
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
 	private static function categoryLinkDescendant( $category, $level, $depth, $slug, $atts ) {
@@ -3047,7 +3060,7 @@ class cnTemplatePart {
 				$queryCategorySlug = cnQuery::getVar( 'cn-cat-slug' );
 				if ( ! empty( $queryCategorySlug ) ) {
 					// If the category slug is a descendant, use the last slug from the URL for the query.
-					$queryCategorySlug = explode( '/' , $queryCategorySlug );
+					$queryCategorySlug = explode( '/', $queryCategorySlug );
 
 					if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) {
 						$currentCategory = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];

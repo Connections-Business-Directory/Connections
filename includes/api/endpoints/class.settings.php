@@ -127,6 +127,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
+				/* translators: Setting option name. */
 				sprintf( __( 'The %s option name is invalid.', 'connections' ), $request['option'] ),
 				array( 'status' => 404 )
 			);
@@ -235,6 +236,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
+				/* translators: Setting option name. */
 				sprintf( __( 'The %s option name is invalid.', 'connections' ), $request['option'] ),
 				array( 'status' => 404 )
 			);
@@ -286,7 +288,8 @@ class Settings extends WP_REST_Settings_Controller {
 			if ( is_wp_error( rest_validate_value_from_schema( get_option( $args['option_name'], false ), $args['schema'] ) ) ) {
 				return new WP_Error(
 					'rest_invalid_stored_value',
-					sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ),
+					/* translators: Setting option name. */
+					sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.', 'connections' ), $name ),
 					array( 'status' => 500 )
 				);
 			}
@@ -335,6 +338,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
+				/* translators: Setting option name. */
 				sprintf( __( 'The %s option name is invalid.', 'connections' ), $request['option'] ),
 				array( 'status' => 404 )
 			);

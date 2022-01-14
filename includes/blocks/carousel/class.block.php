@@ -27,8 +27,7 @@ class Carousel {
 				// When displaying the block using ServerSideRender the attributes need to be defined
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
 				// and display the "Error loading block: Invalid parameter(s): attributes" message.
-				'attributes'      => array(
-				),
+				'attributes'      => array(),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
 				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
@@ -109,7 +108,6 @@ class Carousel {
 		//		),
 		//	)
 		//);
-
 	}
 
 	/**
@@ -119,7 +117,7 @@ class Carousel {
 	 *
 	 * @param string $meta_value
 	 * @param string $meta_key
-	 * @param $meta_type
+	 * @param string $meta_type
 	 *
 	 * @return false|string
 	 */
@@ -157,7 +155,7 @@ class Carousel {
 			 * Sanitize listType.
 			 */
 			if ( array_key_exists( 'listType', $block ) &&
-			     in_array( $block['listType'], array( 'family', 'individual', 'organization' ) )
+				 in_array( $block['listType'], array( 'family', 'individual', 'organization' ) )
 			) {
 
 				$carousel['listType'] = sanitize_key( $block['listType'] );
@@ -399,7 +397,7 @@ class Carousel {
 			 * Sanitize image type.
 			 */
 			if ( array_key_exists( 'imageType', $block ) &&
-			     in_array( $block['imageType'], array( 'logo', 'photo' ) )
+				 in_array( $block['imageType'], array( 'logo', 'photo' ) )
 			) {
 
 				$carousel['imageType'] = sanitize_key( $block['imageType'] );
@@ -409,7 +407,7 @@ class Carousel {
 			 * Sanitize image shape.
 			 */
 			if ( array_key_exists( 'imageShape', $block ) &&
-			     in_array( $block['imageShape'], array( 'circle', 'square' ) )
+				 in_array( $block['imageShape'], array( 'circle', 'square' ) )
 			) {
 
 				$carousel['imageShape'] = sanitize_key( $block['imageShape'] );
@@ -670,7 +668,7 @@ class Carousel {
 
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 
-		$html = '';
+		$html  = '';
 		$html .= PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="slick-slider-block-' . $attributes['blockId'] . '" data-slick-slider-settings="' . $settingsJSON . '">' . PHP_EOL;
 		$html .= self::renderTemplate( $template, $queryResults, $carousel );
 		$html .= '</div><!--.slick-slider-section-->' . PHP_EOL;

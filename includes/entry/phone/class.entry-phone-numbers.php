@@ -122,12 +122,12 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 		}
 
 		$notEditableID = $this->filterBy( 'visibility', Connections_Directory()->currentUser->canNotView() )
-		                      ->getCollection()
-		                      ->pluck( 'id' )
-		                      ->toArray();
-		$existingID = $this->items->pluck( 'id' )->toArray();
-		$updatedID  = $new->pluck( 'id' )->toArray();
-		$deleted    = array_diff( $existingID, $updatedID, $notEditableID );
+							  ->getCollection()
+							  ->pluck( 'id' )
+							  ->toArray();
+		$existingID    = $this->items->pluck( 'id' )->toArray();
+		$updatedID     = $new->pluck( 'id' )->toArray();
+		$deleted       = array_diff( $existingID, $updatedID, $notEditableID );
 
 		// Remove phone numbers from collection which do not exist in the update array, because they were removed.
 		if ( 0 < count( $deleted ) ) {
@@ -254,8 +254,8 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_phone_number' )
-		     ->applyFilter( 'cn_phone_numbers' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_phone_numbers' )
+			 ->take( $limit );
 
 		return $this->filtered->values();
 	}
@@ -276,8 +276,8 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_phone_number' )
-		     ->applyFilter( 'cn_phone_numbers' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_phone_numbers' )
+			 ->take( $limit );
 
 		return $this->filtered->values()->toArray();
 	}
@@ -297,7 +297,6 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_phone_number':
-
 				/**
 				 * A phone number object.
 				 *
@@ -317,7 +316,6 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_phone_numbers':
-
 				/**
 				 * An index array of phone number objects.
 				 *
@@ -330,14 +328,12 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_phone_number':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_phone_number', $item );
 				};
 				break;
 
 			case 'cn_set_phone_numbers':
-
 				$this->filtered = apply_filters( 'cn_set_phone_numbers', $this->filtered );
 				break;
 		}
@@ -377,7 +373,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	 */
 	public function filterBy( $field, $value ) {
 
-		if ( in_array( $field, array( 'type') ) ) {
+		if ( in_array( $field, array( 'type' ) ) ) {
 
 			if ( ! empty( $value ) ) {
 
@@ -439,7 +435,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 	public function query( $options = array() ) {
 
 		// Grab an instance of the Connections object.
-		$instance  = Connections_Directory();
+		$instance = Connections_Directory();
 
 		// Empty the Collection since fresh data is populating the Collection from the db.
 		$this->items    = new cnCollection();

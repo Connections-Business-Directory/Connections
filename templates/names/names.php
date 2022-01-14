@@ -45,7 +45,7 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 				'custom'      => false,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'parts'       => array( 'css' => 'style.css' ),
-				);
+			);
 
 			cnTemplateFactory::register( $atts );
 		}

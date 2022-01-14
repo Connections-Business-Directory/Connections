@@ -78,7 +78,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$response  = array();
+		$response = array();
 		// $total     = 0;
 		$endpoints = array(
 			'name',
@@ -97,14 +97,14 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		$args = array(
 			// 'exclude'    => $request['exclude'],
 			// 'include'    => $request['include'],
-			'order'      => $request['order'],
-			'orderby'    => $request['orderby'],
+			'order'   => $request['order'],
+			'orderby' => $request['orderby'],
 			// 'post'       => $request['post'],
 			// 'hide_empty' => $request['hide_empty'],
-			'number'     => cnArray::get( $request, 'per_page' ),
-			'offset'     => cnArray::get( $request, 'offset' ),
-			'search'     => cnArray::get( $request, 'search' ),
-			'type'       => cnArray::get( $request, 'type' ),
+			'number'  => cnArray::get( $request, 'per_page' ),
+			'offset'  => cnArray::get( $request, 'offset' ),
+			'search'  => cnArray::get( $request, 'search' ),
+			'type'    => cnArray::get( $request, 'type' ),
 			// 'slug'       => $request['slug'],
 		);
 
@@ -159,7 +159,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		switch ( $type ) {
 
 			case 'name':
-
 				$select[] = 'name.*';
 				$from[]   = '(SELECT ' . CN_ENTRY_TABLE . '.*, CASE `entry_type`
 							  WHEN \'individual\' THEN CONCAT( `first_name`, \' \',  `last_name` )
@@ -186,7 +185,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			case 'title':
 			case 'organization':
 			case 'department':
-
 				$select[] = CN_ENTRY_TABLE . '.*';
 				$from[]   = CN_ENTRY_TABLE;
 
@@ -207,7 +205,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			case 'state':
 			case 'zipcode':
 			case 'country':
-
 				$select[] = CN_ENTRY_ADDRESS_TABLE . '.*';
 				$from[]   = CN_ENTRY_ADDRESS_TABLE;
 
@@ -286,29 +283,29 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	public function get_collection_params() {
 
 		$query_params = array(
-			'context'                => $this->get_context_param(),
-			'page'                   => array(
-				'description'        => __( 'Current page of the collection.' ),
-				'type'               => 'integer',
-				'default'            => 1,
-				'sanitize_callback'  => 'absint',
-				'validate_callback'  => 'rest_validate_request_arg',
-				'minimum'            => 1,
+			'context'  => $this->get_context_param(),
+			'page'     => array(
+				'description'       => __( 'Current page of the collection.', 'connections' ),
+				'type'              => 'integer',
+				'default'           => 1,
+				'sanitize_callback' => 'absint',
+				'validate_callback' => 'rest_validate_request_arg',
+				'minimum'           => 1,
 			),
-			'per_page'               => array(
-				'description'        => __( 'Maximum number of items to be returned in result set.' ),
-				'type'               => 'integer',
-				'default'            => 10,
-				'minimum'            => 1,
-				'maximum'            => 100,
-				'sanitize_callback'  => 'absint',
-				'validate_callback'  => 'rest_validate_request_arg',
+			'per_page' => array(
+				'description'       => __( 'Maximum number of items to be returned in result set.', 'connections' ),
+				'type'              => 'integer',
+				'default'           => 10,
+				'minimum'           => 1,
+				'maximum'           => 100,
+				'sanitize_callback' => 'absint',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'search'                 => array(
-				'description'        => __( 'Limit results to those matching a string.' ),
-				'type'               => 'string',
-				'sanitize_callback'  => 'sanitize_text_field',
-				'validate_callback'  => 'rest_validate_request_arg',
+			'search'   => array(
+				'description'       => __( 'Limit results to those matching a string.', 'connections' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);
 
@@ -329,30 +326,30 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		//);
 
 		$query_params['offset'] = array(
-			'description'        => __( 'Offset the result set by a specific number of items.', 'connections' ),
-			'type'               => 'integer',
-			'sanitize_callback'  => 'absint',
-			'validate_callback'  => 'rest_validate_request_arg',
+			'description'       => __( 'Offset the result set by a specific number of items.', 'connections' ),
+			'type'              => 'integer',
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		$query_params['order']      = array(
-			'description'           => __( 'Order sort attribute ascending or descending.', 'connections' ),
-			'type'                  => 'string',
-			'sanitize_callback'     => 'sanitize_key',
-			'default'               => 'asc',
-			'enum'                  => array(
+		$query_params['order'] = array(
+			'description'       => __( 'Order sort attribute ascending or descending.', 'connections' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'sanitize_key',
+			'default'           => 'asc',
+			'enum'              => array(
 				'asc',
 				'desc',
 			),
-			'validate_callback'     => 'rest_validate_request_arg',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		$query_params['orderby']    = array(
-			'description'           => __( 'Sort collection by resource attribute.', 'connections' ),
-			'type'                  => 'string',
-			'sanitize_callback'     => 'sanitize_key',
-			'default'               => 'name',
-			'enum'                  => array(
+		$query_params['orderby'] = array(
+			'description'       => __( 'Sort collection by resource attribute.', 'connections' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'sanitize_key',
+			'default'           => 'name',
+			'enum'              => array(
 				'id',
 				'include',
 				'name',
@@ -361,7 +358,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 				'description',
 				'count',
 			),
-			'validate_callback'     => 'rest_validate_request_arg',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		//$query_params['hide_empty'] = array(

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Helper class to save entry data to the db.
  *
@@ -189,7 +188,7 @@ class cnEntry_DB {
 	 *
 	 * @return array
 	 */
-	public function update( $table, $fields, $data, $index )  {
+	public function update( $table, $fields, $data, $index ) {
 
 		$result = array();
 
@@ -369,18 +368,18 @@ class cnEntry_DB {
 	 */
 	private function fields( $fields, $data ) {
 
-		$out = array();
-		$out['data'] = array();
+		$out           = array();
+		$out['data']   = array();
 		$out['format'] = array();
 
 		foreach ( $fields as $field => $row ) {
 
 			if ( ( is_array( $data ) && isset( $data[ $row['key'] ] ) ) ||
-			     ( is_object( $data ) && isset( $data->{$row['key']} ) ) ) {
+				 ( is_object( $data ) && isset( $data->{$row['key']} ) ) ) {
 
-				$out['data'][ $field ] = $data->{$row['key']};
+				$out['data'][ $field ]  = $data->{$row['key']};
 				$out['value'][ $field ] = $data->{$row['key']};
-				$out['format'][] = $row['format'];
+				$out['format'][]        = $row['format'];
 			}
 		}
 

@@ -1,11 +1,10 @@
 <?php
-
 /**
  * Class for registering and manageing the capabilities for Connections.
  *
  * @package     Connections
  * @subpackage  Roles
- * @extends		WP_Roles
+ * @extends     WP_Roles
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.7.5
@@ -22,7 +21,7 @@ class cnRole extends WP_Roles {
 	 * @access private
 	 * @since 0.7.5
 	 * @var (object) cnRole stores an instance of this class.
-	*/
+	 */
 	private static $instance;
 
 	/**
@@ -41,7 +40,7 @@ class cnRole extends WP_Roles {
 			/*
 			 * Initiate an instance of the class.
 			 */
-			self::$instance = new self;
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -80,9 +79,9 @@ class cnRole extends WP_Roles {
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @param (string)  $role The role name.
-	 * @param (string)  $cap The capability.
-	 * @param (bool) $grant Whether or no to grant the capability to the roloe or not.
+	 * @param string $role The role name.
+	 * @param string $cap The capability.
+	 * @param bool   $grant Whether or no to grant the capability to the roloe or not.
 	 * @return void
 	 */
 	public static function add( $role, $cap, $grant = true ) {
@@ -100,8 +99,8 @@ class cnRole extends WP_Roles {
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @param (string)  $role The role name.
-	 * @param (string)  $cap  The capability.
+	 * @param string $role The role name.
+	 * @param string $cap  The capability.
 	 * @return void
 	 */
 	public static function remove( $role, $cap ) {
@@ -119,9 +118,9 @@ class cnRole extends WP_Roles {
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @param  (string)  $role The role name.
-	 * @param  (string)  $cap  The capability.
-	 * @return (bool)
+	 * @param  string $role The role name.
+	 * @param  string $cap  The capability.
+	 * @return bool
 	 */
 	public static function hasCapability( $role, $cap ) {
 
@@ -143,7 +142,7 @@ class cnRole extends WP_Roles {
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @param (array)  $roles [optional]
+	 * @param array $roles [optional]
 	 * @return void
 	 */
 	public static function reset( $roles = array() ) {

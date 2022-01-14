@@ -319,7 +319,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	protected function get_sortable_columns() {
 
-		$columns =  array(
+		$columns = array(
 			'name'        => array( 'name', false ),
 			'description' => array( 'description', false ),
 			'slug'        => array( 'slug', false ),
@@ -601,8 +601,8 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			"{$this->taxonomy}_edit_{$term->term_id}"
 		);
 
-		$out .= '<strong><a class="row-title" href="' . esc_url( $editURL ) . '" title="' .
-				esc_attr( sprintf( esc_html__( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
+		/* translators: Taxonomy term name. */
+		$out .= '<strong><a class="row-title" href="' . esc_url( $editURL ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
 		$actions['edit'] = '<a href="' . esc_url( $editURL ) . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 

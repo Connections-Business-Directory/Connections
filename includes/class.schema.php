@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for building the custom schema for Connections and set its intial defaults.
  *
@@ -417,13 +416,13 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_TERM_RELATIONSHIP_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			entry_id bigint(20) unsigned NOT NULL default 0,
 			term_taxonomy_id bigint(20) unsigned NOT NULL default 0,
 			term_order int(11) NOT NULL default 0,
 			PRIMARY KEY  (entry_id,term_taxonomy_id),
 			KEY term_taxonomy_id (term_taxonomy_id)
-			)";
+			)';
 
 		$sql[] = 'ENGINE=' . self::getEngine();
 

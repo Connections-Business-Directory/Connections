@@ -411,8 +411,9 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$subject = esc_attr( $log['subject'] );
 		$id      = esc_attr( $log['id'] );
 
+		/* translators: The email log subject line. Used for screen reader text for a checkbox. */
 		return '<label class="screen-reader-text" for="cb-select-' . $id . '">' . sprintf( esc_html__( 'Select %s', 'connections' ), $subject ) . '</label>' .
-		       '<input type="checkbox" name="log[]" value="' . $id . '" id="cb-select-' . $id . '" />';
+			   '<input type="checkbox" name="log[]" value="' . $id . '" id="cb-select-' . $id . '" />';
 	}
 
 	/**
@@ -536,21 +537,21 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		$deleteURL = $form->tokenURL(
 			add_query_arg(
 				array(
-					'page' => 'connections_tools',
-					'tab'  => 'logs',
-					'type' => $this->type,
+					'page'      => 'connections_tools',
+					'tab'       => 'logs',
+					'type'      => $this->type,
 					'cn-action' => 'delete_log',
-					'id' => $log['id'],
+					'id'        => $log['id'],
 				),
 				self_admin_url( 'admin.php' )
 			),
 			'log_delete_' . $log['id']
 		);
 
-		$out .= '<strong><a class="row-title" href="' . $viewURL . '" title="' .
-		        esc_attr( sprintf( esc_html__( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
+		/* translators: The email log subject line. Uses for the view link. */
+		$out .= '<strong><a class="row-title" href="' . $viewURL . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'connections' ), $subject ) ) . '">' . $subject . '</a></strong><br />';
 
-		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . "</a>";
+		$actions['delete'] = "<a class='delete-log' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . '</a>';
 		$actions['view']   = '<a href="' . $viewURL . '">' . esc_html__( 'View', 'connections' ) . '</a>';
 
 		$out .= $this->row_actions( $actions );

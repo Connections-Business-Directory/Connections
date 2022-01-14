@@ -145,7 +145,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 
 			$entry = new cnEntry( $result );
 
-			$data = $this->prepare_item_for_response( $entry, $request );
+			$data                  = $this->prepare_item_for_response( $entry, $request );
 			$entries['features'][] = $this->prepare_response_for_collection( $data );
 		}
 
@@ -198,7 +198,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 				$type = 'Person';
 				break;
 
-			case  'organization':
+			case 'organization':
 				$type = 'Organization';
 				break;
 
@@ -220,11 +220,11 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 				),
 			),
 			'properties' => array(
-				'id'        => $entry->getId(),
-				'type'      => $type,
-				'slug'      => $entry->getSlug(),
-				'permalink' => $entry->getPermalink(),
-				'name'      => $entry->getName(),
+				'id'           => $entry->getId(),
+				'type'         => $type,
+				'slug'         => $entry->getSlug(),
+				'permalink'    => $entry->getPermalink(),
+				'name'         => $entry->getName(),
 				'title'        => $entry->getTitle(),
 				'department'   => $entry->getDepartment() ? array( '@type' => 'Organization', 'name' => $entry->getDepartment() ) : null,
 				'organization' => $entry->getOrganization() ? array( '@type' => 'Organization', 'name' => $entry->getOrganization() ) : null,

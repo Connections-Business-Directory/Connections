@@ -337,17 +337,14 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		switch ( $context ) {
 
 			case 'display':
-
 				$this->escapeForDisplay();
 				break;
 
 			case 'edit':
-
 				$this->escapeForEdit();
 				break;
 
 			case 'db':
-
 				$this->escapeForSaving();
 				break;
 		}

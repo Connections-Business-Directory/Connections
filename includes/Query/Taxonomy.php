@@ -88,7 +88,7 @@ final class Taxonomy extends WP_Tax_Query {
 				// Store the alias with this clause, so later siblings can use it.
 				$clause['alias'] = $alias;
 
-				$join .= " LEFT JOIN " . CN_TERM_RELATIONSHIP_TABLE;
+				$join .= ' LEFT JOIN ' . CN_TERM_RELATIONSHIP_TABLE;
 				$join .= $i ? " AS $alias" : '';
 				$join .= " ON ($this->primary_table.$this->primary_id_column = $alias.entry_id)";
 			}
@@ -119,9 +119,9 @@ final class Taxonomy extends WP_Tax_Query {
 
 			$terms = implode( ',', $terms );
 
-			$where = "(
+			$where = '(
 				SELECT COUNT(1)
-				FROM " . CN_TERM_RELATIONSHIP_TABLE . "
+				FROM ' . CN_TERM_RELATIONSHIP_TABLE . "
 				WHERE term_taxonomy_id IN ($terms)
 				AND entry_id = $this->primary_table.$this->primary_id_column
 			) = $num_terms";
@@ -131,11 +131,11 @@ final class Taxonomy extends WP_Tax_Query {
 			$where = $wpdb->prepare(
 				"$operator (
 				SELECT 1
-				FROM " . CN_TERM_RELATIONSHIP_TABLE . "
-				INNER JOIN " . CN_TERM_TAXONOMY_TABLE . "
-				ON " . CN_TERM_TAXONOMY_TABLE . ".term_taxonomy_id = " . CN_TERM_RELATIONSHIP_TABLE . ".term_taxonomy_id
-				WHERE " . CN_TERM_TAXONOMY_TABLE . ".taxonomy = %s
-				AND " . CN_TERM_RELATIONSHIP_TABLE . ".entry_id = $this->primary_table.$this->primary_id_column
+				FROM " . CN_TERM_RELATIONSHIP_TABLE . '
+				INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . '
+				ON ' . CN_TERM_TAXONOMY_TABLE . '.term_taxonomy_id = ' . CN_TERM_RELATIONSHIP_TABLE . '.term_taxonomy_id
+				WHERE ' . CN_TERM_TAXONOMY_TABLE . '.taxonomy = %s
+				AND ' . CN_TERM_RELATIONSHIP_TABLE . ".entry_id = $this->primary_table.$this->primary_id_column
 			)",
 				$clause['taxonomy']
 			);

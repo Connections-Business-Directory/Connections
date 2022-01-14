@@ -68,9 +68,9 @@ final class cnEntry_Social_Network extends cnEntry_Collection_Item {
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultSocialNetworkType();
 
-		$this->id         = (int) cnArray::get( $data, 'id', 0 );
-		$preferred        = cnArray::get( $data, 'preferred', false );
-		$type             = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$this->id  = (int) cnArray::get( $data, 'id', 0 );
+		$preferred = cnArray::get( $data, 'preferred', false );
+		$type      = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
@@ -174,13 +174,13 @@ final class cnEntry_Social_Network extends cnEntry_Collection_Item {
 	public function toArray() {
 
 		return array(
-			'id'          => $this->getID(),
-			'type'        => $this->type,
-			'name'        => $this->getName(),
-			'visibility'  => $this->visibility,
-			'order'       => $this->order,
-			'preferred'   => $this->preferred,
-			'url'         => $this->url,
+			'id'         => $this->getID(),
+			'type'       => $this->type,
+			'name'       => $this->getName(),
+			'visibility' => $this->visibility,
+			'order'      => $this->order,
+			'preferred'  => $this->preferred,
+			'url'        => $this->url,
 		);
 	}
 }

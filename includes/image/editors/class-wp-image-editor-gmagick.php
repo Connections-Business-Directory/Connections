@@ -73,10 +73,9 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		}
 
 		try {
-			$gmagick = new Gmagick;
+			$gmagick = new Gmagick();
 			return ( (bool) $gmagick->queryformats( $gmagick_extension ) );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return false;
 		}
 	}
@@ -107,8 +106,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			}
 
 			$this->mime_type = $this->get_mime_type( $this->image->getimageformat() );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'invalid_image', $e->getMessage(), $this->file );
 		}
 
@@ -134,15 +132,13 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 		if ( is_wp_error( $quality_result ) ) {
 			return $quality_result;
-		}
-		else {
+		} else {
 			$quality = $this->quality;
 		}
 
 		try {
 			$this->image->setcompressionquality( $quality );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_quality_error', $e->getMessage() );
 		}
 
@@ -167,8 +163,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 					'width'  => $this->image->getimagewidth(),
 					'height' => $this->image->getimageheight(),
 				);
-			}
-			catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				return new WP_Error( 'invalid_image', __( 'Could not read image size', 'connections' ), $this->file );
 			}
 		}
@@ -187,12 +182,13 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	/**
 	 * Resizes current image.
 	 *
-	 * @since 3.5.0
+	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @param int $max_w
-	 * @param int $max_h
+	 * @param int     $max_w
+	 * @param int     $max_h
 	 * @param boolean $crop
+	 *
 	 * @return boolean|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
@@ -217,8 +213,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			 * $this->image->thumbnailimage( $dst_w, $dst_h );
 			 */
 			$this->image->scaleimage( $dst_w, $dst_h );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_resize_error', $e->getMessage() );
 		}
 
@@ -236,8 +231,8 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 * @return array
 	 */
 	public function multi_resize( $sizes ) {
-		$metadata = array();
-		$orig_size = $this->size;
+		$metadata   = array();
+		$orig_size  = $this->size;
 		$orig_image = $this->image->getimage();
 
 		foreach ( $sizes as $size => $size_data ) {
@@ -247,7 +242,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
-			if( ! is_wp_error( $resize_result ) ) {
+			if ( ! is_wp_error( $resize_result ) ) {
 				$resized = $this->_save( $this->image );
 
 				$this->image->clear();
@@ -256,7 +251,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 				if ( ! is_wp_error( $resized ) ) {
 					unset( $resized['path'] );
-					$metadata[$size] = $resized;
+					$metadata[ $size ] = $resized;
 				}
 			}
 
@@ -271,17 +266,17 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	/**
 	 * Crops Image.
 	 *
-	 * @since 3.5.0
+	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @param string|int $src The source file or Attachment ID.
-	 * @param int $src_x The start x position to crop from.
-	 * @param int $src_y The start y position to crop from.
-	 * @param int $src_w The width to crop.
-	 * @param int $src_h The height to crop.
-	 * @param int $dst_w Optional. The destination width.
-	 * @param int $dst_h Optional. The destination height.
+	 * @param int     $src_x   The start x position to crop from.
+	 * @param int     $src_y   The start y position to crop from.
+	 * @param int     $src_w   The width to crop.
+	 * @param int     $src_h   The height to crop.
+	 * @param int     $dst_w   Optional. The destination width.
+	 * @param int     $dst_h   Optional. The destination height.
 	 * @param boolean $src_abs Optional. If the source crop points are absolute.
+	 *
 	 * @return boolean|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {
@@ -306,8 +301,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 				$this->image->scaleimage( $dst_w, $dst_h );
 				return $this->update_size();
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_crop_error', $e->getMessage() );
 		}
 
@@ -330,8 +324,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		 */
 		try {
 			$this->image->rotateimage( new GmagickPixel( 'none' ), 360 - $angle );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_rotate_error', $e->getMessage() );
 		}
 
@@ -357,8 +350,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			if ( $vert ) {
 				$this->image->flopimage();
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_flip_error', $e->getMessage() );
 		}
 
@@ -384,8 +376,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			try {
 				$this->image->setimageformat( strtoupper( $this->get_extension( $this->mime_type ) ) );
-			}
-			catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				return new WP_Error( 'image_save_error', $e->getMessage(), $this->file );
 			}
 		}
@@ -409,8 +400,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			// Reset original Format
 			$this->image->setimageformat( $orig_format );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_save_error', $e->getMessage(), $filename );
 		}
 
@@ -451,8 +441,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 			// Reset Image to original Format
 			$this->image->setimageformat( $this->get_extension( $this->mime_type ) );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_stream_error', $e->getMessage() );
 		}
 

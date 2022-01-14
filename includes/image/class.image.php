@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Uses WordPress's Image Editor Classes to crop/resize and/or filter images.
  *
@@ -410,61 +409,61 @@ class cnImage {
 	 * @todo  Should an option be added to control the order filters should be applied be added? Filter order can affect result...
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	width (int|string) Width in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 	height (int|string) Height in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     width (int|string) Width in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     height (int|string) Height in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
 	 *
-	 * 	negate (bool) Whether or not to apply the negate filter. Default: FALSE
-	 * 	grayscale (bool) Whether or not to apply the grayscale filter. Default: FALSE
-	 * 	brightness (int) Adjust the image brightness. Valid range is -255–255 (-255 = min brightness, 0 = no change, +255 = max brightness). Default: 0
-	 * 	colorize (string) Colorize the image. Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied. Default: NULL
-	 * 		@see  cnColor::$colors for a list of valid named colors.
-	 * 	contrast (int) Ajust the image contrast. Valid range is -100–100 (-100 = max contrast, 0 = no change, +100 = min contrast [note the direction]) Default: 0
-	 * 	detect_edges (bool) Whether of not to apply the detect edges filter. Default: FALSE
-	 * 	emboss (bool) Whether or not to apply the emboss filter. Default: FALSE
-	 * 	gassian_blur (bool) Whether of not to apply a gaussian blur. Default: FALSE
-	 * 	blur (bool) Whether or not to apply the blur filter. Default: FALSE
-	 * 	sketchy (bool) Whether or not to apply the the skethy filter. Default: FALSE
-	 * 	sharpen (bool) Whether or not to apply the sharpen filter. Default: FALSE
-	 * 	smooth (int) Apply the smooth filter. Valid range is -100–100 (-100 = max smooth, 100 = min smooth). Default: NULL
-	 * 	opacity (int) Set the image opacity. Valid range is 0–100 (0 = fully transparent, 100 = fully opaque). Default: 100
+	 *     negate (bool) Whether or not to apply the negate filter. Default: FALSE
+	 *     grayscale (bool) Whether or not to apply the grayscale filter. Default: FALSE
+	 *     brightness (int) Adjust the image brightness. Valid range is -255–255 (-255 = min brightness, 0 = no change, +255 = max brightness). Default: 0
+	 *     colorize (string) Colorize the image. Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied. Default: NULL
+	 *         @see  cnColor::$colors for a list of valid named colors.
+	 *     contrast (int) Ajust the image contrast. Valid range is -100–100 (-100 = max contrast, 0 = no change, +100 = min contrast [note the direction]) Default: 0
+	 *     detect_edges (bool) Whether of not to apply the detect edges filter. Default: FALSE
+	 *     emboss (bool) Whether or not to apply the emboss filter. Default: FALSE
+	 *     gassian_blur (bool) Whether of not to apply a gaussian blur. Default: FALSE
+	 *     blur (bool) Whether or not to apply the blur filter. Default: FALSE
+	 *     sketchy (bool) Whether or not to apply the the skethy filter. Default: FALSE
+	 *     sharpen (bool) Whether or not to apply the sharpen filter. Default: FALSE
+	 *     smooth (int) Apply the smooth filter. Valid range is -100–100 (-100 = max smooth, 100 = min smooth). Default: NULL
+	 *     opacity (int) Set the image opacity. Valid range is 0–100 (0 = fully transparent, 100 = fully opaque). Default: 100
 	 *
-	 * 	crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
-	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
-	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
-	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
-	 * 			Use the canvas_color option to set the color to be used when adding margins.
-	 * 		3 == Resize proportionally adjusting size of scaled image so there are no margins added.
-	 * 	crop_focus (array|string) The crop focus/positional cropping is used to determine the center origin of a crop when crop_mode is set 1.
-	 * 		Valid range is (float) 0.0–1.0
-	 * 		Default: array( .5, .5)
-	 * 		Text options are also supported:
-	 * 			'left,top' | array( 'left', 'top' ) == array( 0, 0 )
-	 * 			'center,top' | array( 'center', 'top' ) == array( .5, 0 )
-	 * 			'right,top' | array( 'right', 'top' ) == array( 1, 0 )
-	 * 			'left,center' | array( 'left', 'center' )  == array( 0, .5 )
-	 * 			'center,center' | array( 'center', 'center' ) == array( .5, .5) [the default crop focus].
-	 * 			'right,center' | array( 'right', 'center' ) == array( 1, .5 )
-	 * 			'left,bottom' | array( 'left', 'bottom' ) == array( 0, 1 )
-	 * 			'center,bottom' | array( 'center', 'bottom' ) == array( .5, 1 )
-	 * 			'right,bottom' | array( 'right', 'bottom' ) == array( 1, 1 )
+	 *     crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
+	 *         0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
+	 *         1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
+	 *         2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
+	 *             Use the canvas_color option to set the color to be used when adding margins.
+	 *         3 == Resize proportionally adjusting size of scaled image so there are no margins added.
+	 *     crop_focus (array|string) The crop focus/positional cropping is used to determine the center origin of a crop when crop_mode is set 1.
+	 *         Valid range is (float) 0.0–1.0
+	 *         Default: array( .5, .5)
+	 *         Text options are also supported:
+	 *             'left,top' | array( 'left', 'top' ) == array( 0, 0 )
+	 *             'center,top' | array( 'center', 'top' ) == array( .5, 0 )
+	 *             'right,top' | array( 'right', 'top' ) == array( 1, 0 )
+	 *             'left,center' | array( 'left', 'center' )  == array( 0, .5 )
+	 *             'center,center' | array( 'center', 'center' ) == array( .5, .5) [the default crop focus].
+	 *             'right,center' | array( 'right', 'center' ) == array( 1, .5 )
+	 *             'left,bottom' | array( 'left', 'bottom' ) == array( 0, 1 )
+	 *             'center,bottom' | array( 'center', 'bottom' ) == array( .5, 1 )
+	 *             'right,bottom' | array( 'right', 'bottom' ) == array( 1, 1 )
 	 *
-	 * 	crop_only (bool) Whether or not to just crop the image.
-	 * 		If set to TRUE, crop_x, crop_y, crop_width, crop_height must be supplied.
-	 * 		This overrides crop_mode.
-	 * 		Default: FALSE
-	 * 	crop_x (int|string) The x-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 	crop_y (int|string) The y-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 	crop_width (int|string) The resize width of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 		The width option can be set to determine the final scaled width.
-	 * 	crop_height (int|string) The resize height of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
-	 * 		The height option can be set to determine the final scaled height.
+	 *     crop_only (bool) Whether or not to just crop the image.
+	 *         If set to TRUE, crop_x, crop_y, crop_width, crop_height must be supplied.
+	 *         This overrides crop_mode.
+	 *         Default: FALSE
+	 *     crop_x (int|string) The x-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     crop_y (int|string) The y-axis crop origin start in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *     crop_width (int|string) The resize width of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *         The width option can be set to determine the final scaled width.
+	 *     crop_height (int|string) The resize height of the crop in pixels or percentage. If using percentage, the percentage symbol must be included, example `50%`.
+	 *         The height option can be set to determine the final scaled height.
 	 *
-	 * 	canvas_color (string) Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied or set to 'transparent'.
-	 * 		The canvas_color is only used when using crop_mode=2. This will be the color of the margins.
-	 * 		Default: #FFFFFF
-	 * 		@see  cnColor::$colors for a list of valid named colors.
+	 *     canvas_color (string) Either a valid hex-color #000000–#ffffff or a HTML named color like `red` can be supplied or set to 'transparent'.
+	 *         The canvas_color is only used when using crop_mode=2. This will be the color of the margins.
+	 *         Default: #FFFFFF
+	 *         @see  cnColor::$colors for a list of valid named colors.
 	 *
-	 * 	quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
+	 *     quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
 	 *
 	 * @param  string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
 	 * @param  array  $atts   An associative array containing the options used to process the image.
@@ -580,13 +579,14 @@ class cnImage {
 		 */
 
 		if ( path_is_absolute( $source ) ) {
-
-			$log->add( 'image_path', __( sprintf( 'Supplied Source Path: %s', $source ), 'connections' ) );
+			/* translators: Image file path. */
+			$log->add( 'image_path', sprintf( __( 'Supplied Source Path: %s', 'connections' ), $source ) );
 
 		} else {
 
 			$source = esc_url( $source );
-			$log->add( 'image_url', __( sprintf( 'Supplied Source URL: %s', $source ), 'connections' ) );
+			/* translators: Image file path. */
+			$log->add( 'image_url', sprintf( __( 'Supplied Source URL: %s', 'connections' ), $source ) );
 		}
 
 		if ( empty( $source ) ) {
@@ -675,8 +675,8 @@ class cnImage {
 
 			$crop_mode = 1;
 		}
-
-		$log->add( 'image_crop_mode', __( sprintf( 'Crop Mode: %d', $crop_mode ), 'connections' ) );
+		/* translators: Image crop mode. */
+		$log->add( 'image_crop_mode', sprintf( __( 'Crop Mode: %d', 'connections' ), $crop_mode ) );
 
 		// Crop can be defined as either an array or string, sanitized/validate both.
 		if ( is_array( $crop_focus ) || is_string( $crop_focus ) ) {
@@ -734,12 +734,12 @@ class cnImage {
 			} else {
 
 				if ( ( ! $crop_focus[0] >= 0 || ! $crop_focus <= 1 ) &&
-				     ( filter_var( (float) $crop_focus[0], FILTER_VALIDATE_FLOAT ) === false ) ) {
+					 ( filter_var( (float) $crop_focus[0], FILTER_VALIDATE_FLOAT ) === false ) ) {
 					$crop_focus[0] = .5;
 				}
 
 				if ( ( ! $crop_focus[1] >= 0 || ! $crop_focus <= 1 ) &&
-				     ( filter_var( (float) $crop_focus[1], FILTER_VALIDATE_FLOAT ) === false ) ) {
+					 ( filter_var( (float) $crop_focus[1], FILTER_VALIDATE_FLOAT ) === false ) ) {
 					$crop_focus[1] = .5;
 				}
 
@@ -801,8 +801,8 @@ class cnImage {
 
 			return $image_info;
 		}
-
-		$log->add( 'image_path', __( sprintf( 'Verified Source Path: %s', $image_info['path'] ), 'connections' ) );
+		/* translators: Image file path. */
+		$log->add( 'image_path', sprintf( __( 'Verified Source Path: %s', 'connections' ), $image_info['path'] ) );
 
 		// This is the filename.
 		$basename = $image_info['basename'];
@@ -863,8 +863,7 @@ class cnImage {
 			switch ( $crop_mode ) {
 
 				case 0:
-
-					$dims  = image_resize_dimensions(
+					$dims = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
 						( empty( $width ) ? null : $width ),
@@ -878,8 +877,7 @@ class cnImage {
 					break;
 
 				case 1:
-
-					$dims  = image_resize_dimensions(
+					$dims = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
 						( empty( $width ) ? null : $width ),
@@ -893,7 +891,6 @@ class cnImage {
 					break;
 
 				case 2:
-
 					$canvas_w = $width;
 					$canvas_h = $height;
 
@@ -903,7 +900,7 @@ class cnImage {
 						$height   = floor( $orig_h * ( $width / $orig_w ) );
 						$canvas_h = $height;
 
-					} else if ( $height && ! $width ) {
+					} elseif ( $height && ! $width ) {
 
 						$width    = floor( $orig_w * ( $height / $orig_h ) );
 						$canvas_w = $width;
@@ -931,13 +928,12 @@ class cnImage {
 					break;
 
 				case 3:
-
 					// generate new w/h if not provided
 					if ( $width && ! $height ) {
 
 						$height = floor( $orig_h * ( $width / $orig_w ) );
 
-					} else if ( $height && ! $width ) {
+					} elseif ( $height && ! $width ) {
 
 						$width = floor( $orig_w * ( $height / $orig_h ) );
 					}
@@ -953,7 +949,7 @@ class cnImage {
 						$height = $final_height;
 					}
 
-					$dims  = image_resize_dimensions(
+					$dims = image_resize_dimensions(
 						$orig_w,
 						$orig_h,
 						( empty( $width ) ? null : $width ),
@@ -984,7 +980,7 @@ class cnImage {
 
 				$src_w = $crop_width;
 
-			} else if ( isset( $width ) ) {
+			} elseif ( isset( $width ) ) {
 
 				$src_w = $width;
 
@@ -998,7 +994,7 @@ class cnImage {
 
 				$src_h = $crop_height;
 
-			} else if ( isset( $height ) ) {
+			} elseif ( isset( $height ) ) {
 
 				$src_h = $height;
 
@@ -1088,12 +1084,12 @@ class cnImage {
 			( $crop_focus ? ( is_array( $crop_focus ) ? str_replace( '.', '', join( '', $crop_focus ) ) : '1' ) : '0' ) .
 			$crop_mode .
 			( $crop_only ? '1' : '0' ) .
-			(isset( $src_x ) ? str_pad( (string)$src_x, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $src_y ) ? str_pad( (string)$src_y, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $src_w ) ? str_pad( (string)$src_w, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $src_h ) ? str_pad( (string)$src_h, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $dst_w ) ? str_pad( (string)$dst_w, 5, '0', STR_PAD_LEFT ) : '00000') .
-			(isset( $dst_h ) ? str_pad( (string)$dst_h, 5, '0', STR_PAD_LEFT ) : '00000') .
+			( isset( $src_x ) ? str_pad( (string) $src_x, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $src_y ) ? str_pad( (string) $src_y, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $src_w ) ? str_pad( (string) $src_w, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $src_h ) ? str_pad( (string) $src_h, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $dst_w ) ? str_pad( (string) $dst_w, 5, '0', STR_PAD_LEFT ) : '00000' ) .
+			( isset( $dst_h ) ? str_pad( (string) $dst_h, 5, '0', STR_PAD_LEFT ) : '00000' ) .
 			str_pad( preg_replace( '#^\##', '', $canvas_color ), 8, '0', STR_PAD_LEFT ) .
 			str_pad( (string) $quality, 3, '0', STR_PAD_LEFT );
 
@@ -1135,8 +1131,10 @@ class cnImage {
 				return $editor;
 			}
 
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing class is %s', get_class( $editor ) ), 'connections' ) );
+			/* translators: Image editor parent class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing parent class is %s', 'connections' ), get_parent_class( $editor ) ) );
+			/* translators: Image editor class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing class is %s', 'connections' ), get_class( $editor ) ) );
 
 		} else {
 
@@ -1218,8 +1216,10 @@ class cnImage {
 				return $editor;
 			}
 
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing class is %s', get_class( $editor ) ), 'connections' ) );
+			/* translators: Image editor parent class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing parent class is %s', 'connections' ), get_parent_class( $editor ) ) );
+			/* translators: Image editor class name. */
+			$log->add( 'image_editor_engine', sprintf( __( 'Image processing class is %s', 'connections' ), get_class( $editor ) ) );
 
 			/*
 			 * Perform image manipulations.
@@ -1231,7 +1231,6 @@ class cnImage {
 					switch ( $crop_mode ) {
 
 						case 0:
-
 							if ( is_wp_error(
 								$result = $editor->resize(
 									( empty( $width ) ? null : $width ),
@@ -1248,7 +1247,6 @@ class cnImage {
 							break;
 
 						case 1:
-
 							if ( is_wp_error(
 								$result = $editor->resize(
 									( empty( $width ) ? null : $width ),
@@ -1265,14 +1263,13 @@ class cnImage {
 								$log->add( 'image_resized', __( 'Image successfully resized with cropping.', 'connections' ) );
 
 							} elseif ( is_array( $crop_focus ) ) {
-
-								$log->add( 'image_resized', __( sprintf( 'Image successfully resized with cropping from origin %s,%s.', $crop_focus[0], $crop_focus[1] ), 'connections' ) );
+								/* translators: Image editor crop positions. */
+								$log->add( 'image_resized', sprintf( __( 'Image successfully resized with cropping from origin %1$s,%2$s.', 'connections' ), $crop_focus[0], $crop_focus[1] ) );
 							}
 
 							break;
 
 						case 2:
-
 							if ( is_wp_error(
 								$result = $editor->resize_padded(
 									$canvas_w,
@@ -1295,7 +1292,6 @@ class cnImage {
 							break;
 
 						case 3:
-
 							if ( is_wp_error(
 								$result = $editor->resize(
 									( empty( $width ) ? null : $width ),
@@ -1350,7 +1346,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_brightnes', __( sprintf( 'Brightness level %s applied.', $brightness ), 'connections' ) );
+				/* translators: Image brightness value. */
+				$log->add( 'image_filter_brightness', sprintf( __( 'Brightness level %s applied.', 'connections' ), $brightness ) );
 			}
 
 			if ( isset( $contrast ) ) {
@@ -1360,7 +1357,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_contrast', __( sprintf( 'Contrast level %s applied.', $contrast ), 'connections' ) );
+				/* translators: Image contrast value. */
+				$log->add( 'image_filter_contrast', sprintf( __( 'Contrast level %s applied.', 'connections' ), $contrast ) );
 			}
 
 			if ( isset( $colorize ) ) {
@@ -1370,7 +1368,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_colorize', __( sprintf( 'Colorized using %s.', $colorize ), 'connections' ) );
+				/* translators: Image colorized value. */
+				$log->add( 'image_filter_colorize', sprintf( __( 'Colorized using %s.', 'connections' ), $colorize ) );
 			}
 
 			if ( $detect_edges ) {
@@ -1440,7 +1439,8 @@ class cnImage {
 					return $result;
 				}
 
-				$log->add( 'image_filter_smooth', __( sprintf( 'Smooth filter applied with level %s.', $smooth ), 'connections' ) );
+				/* translators: Image smoothness value. */
+				$log->add( 'image_filter_smooth', sprintf( __( 'Smooth filter applied with level %s.', 'connections' ), $smooth ) );
 			}
 
 
@@ -1452,12 +1452,14 @@ class cnImage {
 				}
 			}
 
-			$log->add( 'image_filter_opacity', __( sprintf( 'Opacity set at %d.', $opacity ), 'connections' ) );
+			/* translators: Image opacity value. */
+			$log->add( 'image_filter_opacity', sprintf( __( 'Opacity set at %d.', 'connections' ), $opacity ) );
 
 			// Set image save quality.
 			$editor->set_quality( $quality );
 
-			$log->add( 'image_save_quality', __( sprintf( 'Saving quality set at %s.', $editor->get_quality() ), 'connections' ) );
+			/* translators: Image quality value. */
+			$log->add( 'image_save_quality', sprintf( __( 'Saving quality set at %s.', 'connections' ), $editor->get_quality() ) );
 
 			// Save the new image, set file type to PNG if the opacity has been set less than 100 or if the crop mode is `2` and the canvas color was set to transparent.
 			if ( $opacity < 100 || ( 'transparent' === $canvas_color && 2 == $crop_mode ) || 'image/png' === $orig_mime_type ) {
@@ -1473,16 +1475,19 @@ class cnImage {
 				$mime_type = 'image/gif';
 			}
 
-			$log->add( 'image_save_mime_type', __( sprintf( 'Saving file as %s.', $mime_type ), 'connections' ) );
+			/* translators: Image mime type value. */
+			$log->add( 'image_save_mime_type', sprintf( __( 'Saving file as %s.', 'connections' ), $mime_type ) );
 
-			$log->add( 'image_save_file_path', __( sprintf( 'Saving file in path: %s', $destfilename ), 'connections' ) );
+			/* translators: Image save file path. */
+			$log->add( 'image_save_file_path', sprintf( __( 'Saving file in path: %s', 'connections' ), $destfilename ) );
 
 			$resized_file = $editor->save( $destfilename, $mime_type );
 
 			$log->add( 'image_save', __( 'File saved successfully.', 'connections' ) );
 		}
 
-		$log->add( 'image_cache_url', __( sprintf( 'Cache URL: %s', $img_url ), 'connections' ) );
+		/* translators: Image cache URI. */
+		$log->add( 'image_cache_url', sprintf( __( 'Cache URL: %s', 'connections' ), $img_url ) );
 
 		/*
 		 * Remove the cnImage filters.
@@ -1505,12 +1510,10 @@ class cnImage {
 		switch ( $return ) {
 
 			case 'base64':
-
 				$image = 'data:image/' . ( isset( $mime_type ) ? $mime_type : $orig_mime_type ) . ';base64,' . base64_encode( file_get_contents( $destfilename ) );
 				break;
 
 			case 'data':
-
 				$image = array(
 					'name'   => "{$dst_rel_path}-{$suffix}.{$ext}",
 					'path'   => $destfilename,
@@ -1525,17 +1528,14 @@ class cnImage {
 				break;
 
 			case 'editor':
-
 				$image = $editor;
 				break;
 
 			case 'stream':
-
 				$image = $editor->stream();
 				break;
 
 			default:
-
 				$image = $img_url;
 				break;
 		}
@@ -1609,19 +1609,19 @@ class cnImage {
 			// left and top.
 			// This maths takes our ideal offsets and gets as close to it as possible.
 
-			if ( $ideal_s_x < 0 ):
+			if ( $ideal_s_x < 0 ) :
 				$s_x = 0;
-			elseif ( $ideal_s_x + $crop_w > $orig_w ):
+			elseif ( $ideal_s_x + $crop_w > $orig_w ) :
 				$s_x = $orig_w - $crop_w;
-			else:
+			else :
 				$s_x = floor( $ideal_s_x );
 			endif;
 
-			if ( $ideal_s_y < 0 ):
+			if ( $ideal_s_y < 0 ) :
 				$s_y = 0;
-			elseif ( $ideal_s_y + $crop_h > $orig_h ):
+			elseif ( $ideal_s_y + $crop_h > $orig_h ) :
 				$s_y = $orig_h - $crop_h;
-			else:
+			else :
 				$s_y = floor( $ideal_s_y );
 			endif;
 
@@ -1699,7 +1699,7 @@ class cnImage {
 				$img_path = $upload_info['base_path'] . $rel_path;
 
 				// #2 check if the image is in the current theme folder
-			} else if ( strpos( $source, $theme_url ) !== false ) {
+			} elseif ( strpos( $source, $theme_url ) !== false ) {
 
 				$rel_path = str_replace( $theme_url, '', $source );
 				$img_path = $theme_dir . $rel_path;
@@ -1721,7 +1721,8 @@ class cnImage {
 
 				return new WP_Error(
 					'image_path_not_found',
-					__( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ),
+					/* translators: Image file path. */
+					sprintf( __( 'Image path %s does not exist.', 'connections' ), $img_path ),
 					$img_path
 				);
 			}
@@ -1733,7 +1734,8 @@ class cnImage {
 
 			return new WP_Error(
 				'image_not_image',
-				__( sprintf( 'The file %s is not an image.', basename( $img_path ) ), 'connections' ),
+				/* translators: Image file path. */
+				sprintf( __( 'The file %s is not an image.', 'connections' ), basename( $img_path ) ),
 				basename( $img_path )
 			);
 		}
@@ -2016,16 +2018,16 @@ class cnImage {
 		}
 
 		// Image name (just random-number)
-		$name = rand( 0, 100000 ) . ".jpg";
+		$name = rand( 0, 100000 ) . '.jpg';
 
 		// Take care of image files without extension:
 		$path = pathinfo( $tmp );
-		if ( ! isset( $path['extension'] ) ):
+		if ( ! isset( $path['extension'] ) ) :
 			$tmpnew = $tmp . '.tmp';
-			if ( ! rename( $tmp, $tmpnew ) ):
+			if ( ! rename( $tmp, $tmpnew ) ) :
 				return '';
-			else:
-				$name = rand( 0, 100000 ) . ".jpg";
+			else :
+				$name = rand( 0, 100000 ) . '.jpg';
 				$tmp  = $tmpnew;
 			endif;
 		endif;

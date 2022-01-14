@@ -63,10 +63,10 @@ class Section {
 		$this->pluginID = $pluginID;
 
 		$defaults = array(
-			'position'  => 10,
-			'title'     => '',
-			'desc    '  => '',
-			'tab'       => '',
+			'position' => 10,
+			'title'    => '',
+			'desc'     => '',
+			'tab'      => '',
 		);
 
 		$this->options = wp_parse_args( $options, $defaults );
@@ -119,11 +119,11 @@ class Section {
 	public function addField( $id, $field ) {
 
 		$defaults = array(
-			'position'  => 10,
-			'title'     => '',
-			'desc'      => '',
-			'help'      => '',
-			'type'      => '',
+			'position' => 10,
+			'title'    => '',
+			'desc'     => '',
+			'help'     => '',
+			'type'     => '',
 		);
 
 		$field = wp_parse_args( $field, $defaults );

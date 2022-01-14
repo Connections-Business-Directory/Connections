@@ -21,7 +21,10 @@ add_filter(
 
 		return apply_filters_deprecated(
 			'cn_cpt_rewrite_rule-landing',
-			array( $rules, $post->rewrite['slug']),
+			array(
+				$rules,
+				$post->rewrite['slug'],
+			),
 			'10.2',
 			'Connections_Directory/Rewrite/CPT_Rules/Landing'
 		);

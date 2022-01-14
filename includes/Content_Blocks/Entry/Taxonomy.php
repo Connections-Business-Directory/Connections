@@ -29,9 +29,9 @@ class Taxonomy extends Content_Block {
 	 *
 	 * @since 10.2
 	 *
-	 * @param string $id
+	 * @param string                          $id
 	 * @param \Connections_Directory\Taxonomy $taxonomy
-	 * @param array  $atts
+	 * @param array                           $atts
 	 */
 	public function __construct( $id, $taxonomy, $atts = array() ) {
 

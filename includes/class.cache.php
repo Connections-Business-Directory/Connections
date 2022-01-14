@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Store and retrieve cached values supporting various core WP caching API/s.
  *
@@ -31,7 +30,7 @@ class cnCache {
 		'site-transient',
 		'cache',
 		'option-cache',
-		);
+	);
 
 	private function __construct() {}
 

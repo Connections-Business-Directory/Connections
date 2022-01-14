@@ -67,7 +67,7 @@ class cnTemplate_Customizer {
 
 		// add_action( 'wp_head', array( $this', 'remove_head_actions'), -1 );
 
-		add_filter( 'admin_url', array( $this, 'admin_url'), 10, 3 );
+		add_filter( 'admin_url', array( $this, 'admin_url' ), 10, 3 );
 		add_filter( 'cn_permalink', array( $this, 'permalink' ), 10, 2 );
 
 		add_filter( 'cn_template_customizer_template', array( $this, 'getTemplate' ) );
@@ -81,9 +81,9 @@ class cnTemplate_Customizer {
 		// add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
 
 		// add_action( 'template_include', array( $this, 'customizerPage' ) );
-		add_action( 'customize_register', array( $this, 'registerControls') );
-		add_action( 'customize_register', array( $this, 'registerSections') );
-		add_action( 'customize_register', array( $this, 'registerTemplateControls') );
+		add_action( 'customize_register', array( $this, 'registerControls' ) );
+		add_action( 'customize_register', array( $this, 'registerSections' ) );
+		add_action( 'customize_register', array( $this, 'registerTemplateControls' ) );
 		add_filter( 'customize_section_active', array( $this, 'removeSections' ), 10, 2 );
 		add_filter( 'customize_control_active', array( $this, 'setActiveControls' ), 10, 2 );
 
@@ -296,7 +296,7 @@ class cnTemplate_Customizer {
 	 * @uses   cnTemplate_Customizer::registerStringControls()
 	 * @uses   cnTemplate_Customizer::registerAdvancedControls()
 	 *
-	 * @param array $features
+	 * @param array                $features
 	 * @param WP_Customize_Manager $wp_customize
 	 */
 	private function registerFeatures( $features, $wp_customize ) {
@@ -336,7 +336,7 @@ class cnTemplate_Customizer {
 
 				if ( isset( $options[ $view ]['advanced'] ) ) {
 
-					$this->registerAdvancedControls( $view , $options[ $view ]['advanced'] );
+					$this->registerAdvancedControls( $view, $options[ $view ]['advanced'] );
 				}
 
 				/**
@@ -363,7 +363,7 @@ class cnTemplate_Customizer {
 			 * @param object               $template     The registered template properties.
 			 * @param string               $view         The current template view being customized.
 			 */
-			do_action( "cn_template_customizer_register", $wp_customize, $this->template, $view );
+			do_action( 'cn_template_customizer_register', $wp_customize, $this->template, $view );
 
 			/**
 			 * Register Customizer controls based on the current template view being customized.
@@ -475,11 +475,11 @@ class cnTemplate_Customizer {
 		$wp_customize->add_section(
 			'cn_template_customizer_section_search',
 			array(
-				'title'       => __( 'Search', 'connections' ),
+				'title'      => __( 'Search', 'connections' ),
 				// 'description' => __( '', 'connections' ),
-				'panel'       => 'cn_template',
-				'priority'    => 5,
-				'capability'  => 'edit_theme_options',
+				'panel'      => 'cn_template',
+				'priority'   => 5,
+				'capability' => 'edit_theme_options',
 			)
 		);
 
@@ -615,15 +615,15 @@ class cnTemplate_Customizer {
 		 * @param WP_Customize_Manager $wp_customize
 		 * @param string               $slug         The template that is being customized slug.
 		 */
-		do_action( 'cn_template_customizer_section_global_display_before-' . $this->slug , $wp_customize );
+		do_action( 'cn_template_customizer_section_global_display_before-' . $this->slug, $wp_customize );
 
 		$wp_customize->add_setting(
 			'connections_display_results[index]',
 			array(
-				'type'                 => 'option',
-				'default'              => 0,
-				'transport'            => 'refresh',
-				'capability'           => 'edit_theme_options',
+				'type'       => 'option',
+				'default'    => 0,
+				'transport'  => 'refresh',
+				'capability' => 'edit_theme_options',
 				// 'sanitize_callback'    => 'sanitize_text_field',
 				// 'sanitize_js_callback' => '',
 			)
@@ -645,10 +645,10 @@ class cnTemplate_Customizer {
 		$wp_customize->add_setting(
 			'connections_display_results[index_repeat]',
 			array(
-				'type'                 => 'option',
-				'default'              => 0,
-				'transport'            => 'refresh',
-				'capability'           => 'edit_theme_options',
+				'type'       => 'option',
+				'default'    => 0,
+				'transport'  => 'refresh',
+				'capability' => 'edit_theme_options',
 				// 'sanitize_callback'    => 'sanitize_text_field',
 				// 'sanitize_js_callback' => '',
 			)
@@ -670,10 +670,10 @@ class cnTemplate_Customizer {
 		$wp_customize->add_setting(
 			'connections_display_results[show_current_character]',
 			array(
-				'type'                 => 'option',
-				'default'              => 0,
-				'transport'            => 'refresh',
-				'capability'           => 'edit_theme_options',
+				'type'       => 'option',
+				'default'    => 0,
+				'transport'  => 'refresh',
+				'capability' => 'edit_theme_options',
 				// 'sanitize_callback'    => 'sanitize_text_field',
 				// 'sanitize_js_callback' => '',
 			)
@@ -749,7 +749,7 @@ class cnTemplate_Customizer {
 			 * @param WP_Customize_Manager $wp_customize
 			 * @param string               $slug         The template that is being customized slug.
 			 */
-			do_action( 'cn_template_customizer_section_category_select_before-' . $template->slug , $wp_customize, $template );
+			do_action( 'cn_template_customizer_section_category_select_before-' . $template->slug, $wp_customize, $template );
 
 			$base = 'connections_template';
 			$slug = $template->slug;
@@ -758,10 +758,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][category_select]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -784,10 +784,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][show_empty_categories]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -810,10 +810,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][show_category_count]",
 				array(
-					'type'                 => 'option',
-					'default'              => false,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => false,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -891,7 +891,7 @@ class cnTemplate_Customizer {
 			 * @param WP_Customize_Manager $wp_customize
 			 * @param string               $slug         The template that is being customized slug.
 			 */
-			do_action( 'cn_template_customizer_section_search_before-' . $template->slug , $wp_customize, $template );
+			do_action( 'cn_template_customizer_section_search_before-' . $template->slug, $wp_customize, $template );
 
 			$base = 'connections_template';
 			$slug = $template->slug;
@@ -900,10 +900,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][search]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -981,7 +981,7 @@ class cnTemplate_Customizer {
 			 * @param WP_Customize_Manager $wp_customize
 			 * @param string               $slug         The template that is being customized slug.
 			 */
-			do_action( 'cn_template_customizer_section_pagination_before-' . $template->slug , $wp_customize, $template );
+			do_action( 'cn_template_customizer_section_pagination_before-' . $template->slug, $wp_customize, $template );
 
 			$base = 'connections_template';
 			$slug = $template->slug;
@@ -990,10 +990,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][pagination]",
 				array(
-					'type'                 => 'option',
-					'default'              => true,
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => true,
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -1016,11 +1016,11 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				"{$base}_{$slug}[card][pagination_limit]",
 				array(
-					'type'       => 'option',
-					'default'    => 20,
-					'transport'  => 'refresh',
-					'capability' => 'edit_theme_options',
-					'sanitize_callback'    => 'absint',
+					'type'              => 'option',
+					'default'           => 20,
+					'transport'         => 'refresh',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'absint',
 					// 'sanitize_js_callback' => '',
 				)
 			);
@@ -1140,14 +1140,13 @@ class cnTemplate_Customizer {
 			switch ( $feature ) {
 
 				case 'type':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => 'photo',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => 'photo',
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1178,15 +1177,14 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'width':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => '',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
-							'sanitize_callback'    => 'absint',
+							'type'              => 'option',
+							'default'           => '',
+							'transport'         => 'refresh',
+							'capability'        => 'edit_theme_options',
+							'sanitize_callback' => 'absint',
 							// 'sanitize_js_callback' => '',
 						)
 					);
@@ -1208,15 +1206,14 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'height':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => '',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
-							'sanitize_callback'    => 'absint',
+							'type'              => 'option',
+							'default'           => '',
+							'transport'         => 'refresh',
+							'capability'        => 'edit_theme_options',
+							'sanitize_callback' => 'absint',
 							// 'sanitize_js_callback' => '',
 						)
 					);
@@ -1238,14 +1235,13 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'crop_mode':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => '1',
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => '1',
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1262,15 +1258,15 @@ class cnTemplate_Customizer {
 								'settings'    => $option,
 								'description' => __( 'Select the image crop mode.', 'connections' ),
 								'choices'     => array(
-									'1' => __(
+									'1'    => __(
 										'Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.',
 										'connections'
 									),
-									'2' => __(
+									'2'    => __(
 										'Resize proportionally to fit entire image into the specified dimensions and add margins if required.',
 										'connections'
 									),
-									'3'  => __(
+									'3'    => __(
 										'Resize proportionally adjusting the size of scaled image so there are no margins added.',
 										'connections'
 									),
@@ -1283,14 +1279,13 @@ class cnTemplate_Customizer {
 					break;
 
 				case 'fallback':
-
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => true,
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => true,
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1315,10 +1310,10 @@ class cnTemplate_Customizer {
 					$wp_customize->add_setting(
 						$option,
 						array(
-							'type'                 => 'option',
-							'default'              => __( 'No Image Available', 'connections' ),
-							'transport'            => 'refresh',
-							'capability'           => 'edit_theme_options',
+							'type'       => 'option',
+							'default'    => __( 'No Image Available', 'connections' ),
+							'transport'  => 'refresh',
+							'capability' => 'edit_theme_options',
 							// 'sanitize_callback'    => 'sanitize_text_field',
 							// 'sanitize_js_callback' => '',
 						)
@@ -1371,10 +1366,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				$option,
 				array(
-					'type'                 => 'option',
-					'default'              => $args['default'],
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => $args['default'],
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -1425,10 +1420,10 @@ class cnTemplate_Customizer {
 			$wp_customize->add_setting(
 				$option,
 				array(
-					'type'                 => 'option',
-					'default'              => '',
-					'transport'            => 'refresh',
-					'capability'           => 'edit_theme_options',
+					'type'       => 'option',
+					'default'    => '',
+					'transport'  => 'refresh',
+					'capability' => 'edit_theme_options',
 					// 'sanitize_callback'    => 'sanitize_text_field',
 					// 'sanitize_js_callback' => '',
 				)
@@ -1562,51 +1557,63 @@ class cnTemplate_Customizer {
 			),
 			'name_format' => array(
 				'label' => __( 'Name Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%prefix% %first% %middle% %last% %suffix%</code>' ), 'connections' ),
+				/* translators: The name format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%prefix% %first% %middle% %last% %suffix%</code>' ),
 			),
 			'contact_name_format' => array(
 				'label' => __( 'Contact Name Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %first% %last%</code>' ), 'connections' ),
+				/* translators: The contact name format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %first% %last%</code>' ),
 			),
 			'address_format' => array(
 				'label' => __( 'Address Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%</code>' ), 'connections' ),
+				/* translators: The address format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%</code>' ),
 			),
 			'email_format' => array(
 				'label' => __( 'Email Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %address%</code>' ), 'connections' ),
+				/* translators: The email format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %address%</code>' ),
 			),
 			'phone_format' => array(
 				'label' => __( 'Phone Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %number%</code>' ), 'connections' ),
+				/* translators:The phone format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %number%</code>' ),
 			),
 			'link_format' => array(
 				'label' => __( 'Link Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %title%</code>' ), 'connections' ),
+				/* translators: The link format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %title%</code>' ),
 			),
 			'date_format' => array(
 				'label' => __( 'Date Format', 'connections' ),
-				'desc'  => __( sprintf( 'Default: %s', '<code>%label%%separator% %date%</code>' ), 'connections' ),
+				/* translators: The date format tokens. */
+				'desc'  => sprintf( __( 'Default: %s', 'connections' ), '<code>%label%%separator% %date%</code>' ),
 			),
 			'address_types' => array(
 				'label' => __( 'Display Address Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $addressTypes ) ) . '</code>', 'connections' ),
+				/* translators: The address types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $addressTypes ) . '</code>' ),
 			),
 			'phone_types' => array(
 				'label' => __( 'Display Phone Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $phoneTypes ) ) . '</code>', 'connections' ),
+				/* translators: The phone number types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $phoneTypes ) . '</code>' ),
 			),
 			'email_types' => array(
 				'label' => __( 'Display Email Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $emailTypes ) ) . '</code>', 'connections' ),
+				/* translators: The email types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $emailTypes ) . '</code>' ),
 			),
 			'date_types' => array(
 				'label' => __( 'Display Date Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $dateTypes ) ) . '</code>', 'connections' ),
+				/* translators: The date types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $dateTypes ) . '</code>' ),
 			),
 			'link_types' => array(
 				'label' => __( 'Display Link Types', 'connections' ),
-				'desc'  => __( sprintf( 'Valid: %s', '<code>' . implode( '</code>, <code>', $linkTypes ) ) . '</code>', 'connections' ),
+				/* translators: The link types. */
+				'desc'  => sprintf( __( 'Valid: %s', 'connections' ), '<code>' . implode( '</code>, <code>', $linkTypes ) . '</code>' ),
 			),
 		);
 
@@ -1777,7 +1784,7 @@ class cnTemplate_Customizer {
 		if ( cnString::startsWith( 'cn_', $control->id ) ) {
 
 			if ( cnString::startsWith( "cn_{$this->slug}_{$this->view}", $control->id ) ||
-			     in_array( $control->section, $exemptions ) ) {
+				 in_array( $control->section, $exemptions ) ) {
 
 				$active = true;
 
@@ -1923,8 +1930,8 @@ class cnTemplate_Customizer {
 
 		cnURL::permalink(
 			array(
-				'type' => 'home',
-				'text' => __( 'Go Back', 'connections' ),
+				'type'   => 'home',
+				'text'   => __( 'Go Back', 'connections' ),
 				'return' => false,
 			)
 		);
@@ -1946,8 +1953,8 @@ class cnTemplate_Customizer {
 
 		<div id="cn-customizer-messages">
 			<ul id="cn-customizer-message-list">
-				<li class="cn-customizer-message"><?php _e( 'Do not navigate away from the template customizer preview doing so could mean the loss of any unsaved changes.', 'connections' ) ?></li>
-				<li class="cn-customizer-message"><?php _e( 'If any shortcode override options have been used, they will have priority and the Template Customizer options will not have any effect.', 'connections' ) ?></li>
+				<li class="cn-customizer-message"><?php _e( 'Do not navigate away from the template customizer preview doing so could mean the loss of any unsaved changes.', 'connections' ); ?></li>
+				<li class="cn-customizer-message"><?php _e( 'If any shortcode override options have been used, they will have priority and the Template Customizer options will not have any effect.', 'connections' ); ?></li>
 			</ul>
 		</div>
 
@@ -1969,7 +1976,7 @@ class cnTemplate_Customizer {
 
 			<div id="cn-customizer-messages">
 				<ul id="cn-customizer-message-list">
-					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Template supports single view. You can click an entry name and customize the single entry view independently from the results list view.', 'connections' ) ?></li>
+					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Template supports single view. You can click an entry name and customize the single entry view independently from the results list view.', 'connections' ); ?></li>
 				</ul>
 			</div>
 
@@ -1993,7 +2000,7 @@ class cnTemplate_Customizer {
 
 			<div id="cn-customizer-messages">
 				<ul id="cn-customizer-message-list">
-					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Category select is for customization purposes only. It will not filter the results.', 'connections' ) ?></li>
+					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Category select is for customization purposes only. It will not filter the results.', 'connections' ); ?></li>
 				</ul>
 			</div>
 

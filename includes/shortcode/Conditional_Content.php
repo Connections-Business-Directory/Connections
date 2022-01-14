@@ -314,7 +314,7 @@ class Conditional_Content extends cnShortcode {
 
 		$condition    = false;
 		$roles        = $wp_roles->roles;
-		$capabilities = [];
+		$capabilities = array();
 
 		foreach ( $roles as $role ) {
 

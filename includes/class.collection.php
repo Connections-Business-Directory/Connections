@@ -5,7 +5,7 @@
  *
  * @link https://github.com/laravel/framework
  */
-class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArray  {
+class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArray {
 
 	/**
 	 * The items contained in the collection.
@@ -373,15 +373,23 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 			switch ( $operator ) {
 				default:
 				case '=':
-				case '==':  return $retrieved == $value;
+				case '==':
+					return $retrieved == $value;
 				case '!=':
-				case '<>':  return $retrieved != $value;
-				case '<':   return $retrieved < $value;
-				case '>':   return $retrieved > $value;
-				case '<=':  return $retrieved <= $value;
-				case '>=':  return $retrieved >= $value;
-				case '===': return $retrieved === $value;
-				case '!==': return $retrieved !== $value;
+				case '<>':
+					return $retrieved != $value;
+				case '<':
+					return $retrieved < $value;
+				case '>':
+					return $retrieved > $value;
+				case '<=':
+					return $retrieved <= $value;
+				case '>=':
+					return $retrieved >= $value;
+				case '===':
+					return $retrieved === $value;
+				case '!==':
+					return $retrieved !== $value;
 			}
 		};
 	}
@@ -1161,7 +1169,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	public function chunk( $size ) {
 
 		if ( $size <= 0 ) {
-			return new self;
+			return new self();
 		}
 
 		$chunks = array();

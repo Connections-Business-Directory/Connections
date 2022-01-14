@@ -63,6 +63,7 @@ class Locality extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: City name. */
 						sprintf( __( 'Related by City - %s', 'connections' ), $queryParameters['city'] )
 					);
 				}

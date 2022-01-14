@@ -63,6 +63,7 @@ class Region extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: A region such as a state or province. */
 						sprintf( __( 'Related by State - %s', 'connections' ), $queryParameters['state'] )
 					);
 				}

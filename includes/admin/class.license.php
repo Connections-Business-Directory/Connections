@@ -173,8 +173,8 @@ class cnLicense {
 		add_action( "cn_settings_field-license_{$this->slug}", array( $this, 'field' ), 10, 3 );
 
 		$file = plugin_basename( $this->file );
-		add_action( "in_plugin_update_message-{$file}", array( __CLASS__, 'changelog'), 10, 2 );
-		add_action( "after_plugin_row_$file", array( $this, 'licenseStatus'), 10, 3 );
+		add_action( "in_plugin_update_message-{$file}", array( __CLASS__, 'changelog' ), 10, 2 );
+		add_action( "after_plugin_row_$file", array( $this, 'licenseStatus' ), 10, 3 );
 
 		add_action( 'admin_head-plugins.php', array( __CLASS__, 'style' ) );
 
@@ -376,7 +376,7 @@ HERERDOC;
 	 * @access private
 	 * @since  0.8
 	 * @static
-	 * @param  array  $sections
+	 * @param array $sections
 	 *
 	 * @return array  The settings sections options array.
 	 */
@@ -443,17 +443,18 @@ HERERDOC;
 		);
 
 		$fields[] = array(
-			'plugin_id'         => 'connections',
-			'id'                => $this->slug,
-			'position'          => 10,
-			'page_hook'         => 'connections_page_connections_settings',
-			'tab'               => 'beta',
-			'section'           => 'beta',
-			'title'             => $this->name,
-			'desc'              => sprintf( __( 'Receive updates for pre-release versions of %s.', 'connections' ), $this->name ),
-			'help'              => '',
-			'type'              => 'checkbox',
-			'default'           => '',
+			'plugin_id' => 'connections',
+			'id'        => $this->slug,
+			'position'  => 10,
+			'page_hook' => 'connections_page_connections_settings',
+			'tab'       => 'beta',
+			'section'   => 'beta',
+			'title'     => $this->name,
+			/* translators: Plugin name. */
+			'desc'      => sprintf( __( 'Receive updates for pre-release versions of %s.', 'connections' ), $this->name ),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => '',
 			// 'sanitize_callback' => array( $this, 'sanitizeBeta' ),
 		);
 
@@ -477,8 +478,8 @@ HERERDOC;
 		global /*$status, $page, $s,*/ $totals;
 
 		$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
-		$screen = get_current_screen();
-		$status = self::statusMessage( $this );
+		$screen        = get_current_screen();
+		$status        = self::statusMessage( $this );
 
 		$type    = $status['type'];
 		$message = $status['message'];
@@ -533,7 +534,7 @@ HERERDOC;
 
 		// Show the upgrade notice if it exists.
 		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
-
+			/* translators: Plugin version. */
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $info->new_version ) ) . '</strong></p>';
 			echo '<ul><li>' . _escape::html( wp_strip_all_tags( $info->upgrade_notice ) ) . '</li></ul>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
@@ -647,12 +648,11 @@ HERERDOC;
 		if ( isset( $data->success ) && false === $data->success ) {
 
 			// $status = isset( $data[ $slug ] ) && isset( $data[ $slug ]->license ) ? $data[ $slug ]->license : 'unknown';
-			$error  = isset( $data->error ) ? $data->error : 'unknown';
+			$error = isset( $data->error ) ? $data->error : 'unknown';
 
 			switch ( $error ) {
 
 				case 'expired':
-
 					$status['type'] = 'error';
 					$status['code'] = 'expired';
 
@@ -674,49 +674,42 @@ HERERDOC;
 
 				case 'invalid_item_id':
 				case 'item_name_mismatch':
-
 					$status['type']    = 'error';
 					$status['code']    = 'item_name_mismatch';
 					$status['message'] = esc_html__( 'License entered is not for this item.', 'connections' );
 					break;
 
 				case 'missing':
-
 					$status['type']    = 'error';
 					$status['code']    = 'missing';
 					$status['message'] = esc_html__( 'Invalid license.', 'connections' );
 					break;
 
 				case 'revoked':
-
 					$status['type']    = 'error';
 					$status['code']    = 'revoked';
 					$status['message'] = esc_html__( 'License has been revoked.', 'connections' );
 					break;
 
 				case 'no_activations_left':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'no_activations_left';
 					$status['message'] = esc_html__( 'License activation limit has been reached.', 'connections' );
 					break;
 
 				case 'key_mismatch':
-
 					$status['type']    = 'error';
 					$status['code']    = 'key_mismatch';
 					$status['message'] = esc_html__( 'License key mismatch.', 'connections' );
 					break;
 
 				case 'license_not_activable':
-
 					$status['type']    = 'error';
 					$status['code']    = 'license_not_activable';
 					$status['message'] = esc_html__( 'Bundle license keys can not be activated. Use item license key instead.', 'connections' );
 					break;
 
 				default:
-
 					$status['type']    = 'error';
 					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
@@ -734,14 +727,12 @@ HERERDOC;
 			switch ( $data->license ) {
 
 				case 'invalid':
-
 					$status['type']    = 'error';
 					$status['code']    = 'invalid';
 					$status['message'] = esc_html__( 'License key invalid.', 'connections' );
 					break;
 
 				case 'expired':
-
 					$status['type'] = 'error';
 					$status['code'] = 'expired';
 
@@ -762,21 +753,18 @@ HERERDOC;
 					break;
 
 				case 'inactive':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'inactive';
 					$status['message'] = esc_html__( 'License is not active.', 'connections' );
 					break;
 
 				case 'disabled':
-
 					$status['type']    = 'error';
 					$status['code']    = 'disabled';
 					$status['message'] = esc_html__( 'License has been disabled.', 'connections' );
 					break;
 
 				case 'site_inactive':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'site_inactive';
 					$status['message'] = esc_html__( 'License is not active on this site.', 'connections' );
@@ -784,21 +772,19 @@ HERERDOC;
 
 				case 'invalid_item_id':
 				case 'item_name_mismatch':
-
 					$status['type']    = 'error';
 					$status['code']    = 'item_name_mismatch';
 					$status['message'] = esc_html__( 'License entered is not for this item.', 'connections' );
 					break;
 
 				case 'valid':
-
 					$status['type'] = 'success';
 					$status['code'] = 'valid';
 
 					$expiryDate = strtotime( $data->expires );
 
 					if ( false !== $expiryDate ) {
-
+						/* translators: Date. */
 						$message = sprintf( esc_html__( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date( 'F jS Y', $expiryDate ) );
 
 					} elseif ( 'lifetime' == $data->expires ) {
@@ -815,21 +801,18 @@ HERERDOC;
 					break;
 
 				case 'deactivated':
-
 					$status['type']    = 'warning';
 					$status['code']    = 'deactivated';
 					$status['message'] = esc_html__( 'License is deactivated.', 'connections' );
 					break;
 
 				case 'failed':
-
 					$status['type']    = 'error';
 					$status['code']    = 'failed';
-					$status['message'] = esc_html__( 'License validation failed.' , 'connections' );
+					$status['message'] = esc_html__( 'License validation failed.', 'connections' );
 					break;
 
 				default:
-
 					$status['type']    = 'error';
 					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
@@ -1072,16 +1055,16 @@ HERERDOC;
 	public function setClearCacheOption( WP_Upgrader $upgrader_object, $hook_extra ) {
 
 		if ( is_array( $hook_extra ) &&
-		     array_key_exists( 'action', $hook_extra ) &&
-		     array_key_exists( 'type', $hook_extra ) &&
-		     array_key_exists( 'plugins', $hook_extra )
+			 array_key_exists( 'action', $hook_extra ) &&
+			 array_key_exists( 'type', $hook_extra ) &&
+			 array_key_exists( 'plugins', $hook_extra )
 		) {
 
 			// Check first that array contain required keys to prevent undefined index error.
 			if ( 'update' === $hook_extra['action'] &&
-			     'plugin' === $hook_extra['type'] &&
-			     is_array( $hook_extra['plugins'] ) &&
-			     ! empty( $hook_extra['plugins'] )
+				 'plugin' === $hook_extra['type'] &&
+				 is_array( $hook_extra['plugins'] ) &&
+				 ! empty( $hook_extra['plugins'] )
 			) {
 
 				foreach ( $hook_extra['plugins'] as $slug ) {
@@ -1134,17 +1117,14 @@ HERERDOC;
 		switch ( $action ) {
 
 			case 'activate':
-
 				$eddAction = 'activate_license';
 				break;
 
 			case 'deactivate':
-
 				$eddAction = 'deactivate_license';
 				break;
 
 			case 'status':
-
 				$eddAction = 'check_license';
 				break;
 		}
@@ -1178,7 +1158,6 @@ HERERDOC;
 		switch ( $action ) {
 
 			case 'activate':
-
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
@@ -1190,7 +1169,6 @@ HERERDOC;
 				return $data;
 
 			case 'deactivate':
-
 				// EDD SL reports either 'deactivated' or 'failed' as the license status.
 				// Unlike when activating a license, EDD does not report and error and its message.
 				// So...
@@ -1215,7 +1193,6 @@ HERERDOC;
 				return $data;
 
 			case 'status':
-
 				// Save license data in transient.
 				// set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
@@ -1224,6 +1201,7 @@ HERERDOC;
 
 		return new WP_Error(
 			"cn_license_{$action}_error",
+			/* translators: Plugin license action name. */
 			sprintf( esc_html__( 'License %s error.', 'connections' ), $action ),
 			$query
 		);

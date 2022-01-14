@@ -238,7 +238,7 @@ final class Nominatim implements Provider {
 			}
 
 			$builder->setStreetNumber( property_exists( $item->address, 'house_number' ) ? $item->address->house_number : null );
-			$builder->setStreetName( property_exists( $item->address,'road' ) ? $item->address->road : null );
+			$builder->setStreetName( property_exists( $item->address, 'road' ) ? $item->address->road : null );
 			$builder->setLocality( property_exists( $item->address, 'city' ) ? $item->address->city : null );
 			$builder->setCounty( property_exists( $item->address, 'county' ) ? $item->address->county : null );
 			$builder->setRegion( property_exists( $item->address, 'state' ) ? $item->address->state : null );

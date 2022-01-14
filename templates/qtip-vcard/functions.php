@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template functions.
  *
@@ -29,8 +28,8 @@ if ( ! class_exists( 'qTipvCard' ) ) {
 			wp_enqueue_style( 'connections-qtip' );
 
 			// Update the permitted shortcode attribute the user may use and overrride the template defaults as needed.
-			add_filter( 'cn_list_atts_permitted-qtip-vcard' , array( &$this, 'initShortcodeAtts' ) );
-			add_filter( 'cn_list_atts-qtip-vcard' , array( &$this, 'initTemplateOptions' ) );
+			add_filter( 'cn_list_atts_permitted-qtip-vcard', array( &$this, 'initShortcodeAtts' ) );
+			add_filter( 'cn_list_atts-qtip-vcard', array( &$this, 'initTemplateOptions' ) );
 
 			add_action(
 				'wp_footer',

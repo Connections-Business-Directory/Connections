@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for working with an entry object.
  *
@@ -332,11 +331,11 @@ class cnEntry {
 		if ( ! is_null( $entry ) ) {
 
 			if ( isset( $entry->id ) ) {
-				$this->id = (integer) $entry->id;
+				$this->id = (int) $entry->id;
 			}
 
 			if ( isset( $entry->user ) ) {
-				$this->user = (integer) $entry->user;
+				$this->user = (int) $entry->user;
 			}
 
 			if ( isset( $entry->ts ) ) {
@@ -344,11 +343,11 @@ class cnEntry {
 			}
 
 			if ( isset( $entry->date_added ) ) {
-				$this->dateAdded = (integer) $entry->date_added;
+				$this->dateAdded = (int) $entry->date_added;
 			}
 
 			if ( isset( $entry->ordo ) ) {
-				$this->order = (integer) $entry->ordo;
+				$this->order = (int) $entry->ordo;
 			}
 
 			if ( isset( $entry->slug ) ) {
@@ -428,11 +427,11 @@ class cnEntry {
 			}
 
 			if ( isset( $entry->birthday ) ) {
-				$this->birthday = (integer) $entry->birthday;
+				$this->birthday = (int) $entry->birthday;
 			}
 
 			if ( isset( $entry->anniversary ) ) {
-				$this->anniversary = (integer) $entry->anniversary;
+				$this->anniversary = (int) $entry->anniversary;
 			}
 
 			if ( isset( $entry->bio ) ) {
@@ -462,13 +461,13 @@ class cnEntry {
 
 				if ( isset( $this->options['image'] ) ) {
 
-					$this->imageLinked = $this->options['image']['linked'];
+					$this->imageLinked  = $this->options['image']['linked'];
 					$this->imageDisplay = $this->options['image']['display'];
 				}
 
 				if ( isset( $this->options['logo'] ) ) {
 
-					$this->logoLinked = $this->options['logo']['linked'];
+					$this->logoLinked  = $this->options['logo']['linked'];
 					$this->logoDisplay = $this->options['logo']['display'];
 				}
 
@@ -504,7 +503,7 @@ class cnEntry {
 				$this->status = $entry->status;
 			}
 
-			$this->ruid = uniqid( $this->getId() , false );
+			$this->ruid = uniqid( $this->getId(), false );
 
 		} else {
 
@@ -529,7 +528,7 @@ class cnEntry {
 	 * @return int
 	 */
 	public function getId() {
-		return (integer) $this->id;
+		return (int) $this->id;
 	}
 
 	/**
@@ -553,7 +552,7 @@ class cnEntry {
 	 * @return int
 	 */
 	public function getUser() {
-		return (integer) empty( $this->user ) ? 0 : $this->user;
+		return (int) empty( $this->user ) ? 0 : $this->user;
 	}
 
 	/**
@@ -584,7 +583,7 @@ class cnEntry {
 	 * Timestamp format can be sent as a string variable.
 	 * Returns $timeStamp
 	 *
-	 * @param mixed string|null  $format
+	 * @param string|null $format
 	 *
 	 * @return string
 	 */
@@ -680,7 +679,6 @@ class cnEntry {
 	 * @access public
 	 * @since  8.5.14
 	 *
-	 *
 	 * @param int $order
 	 */
 	public function setOrder( $order ) {
@@ -750,7 +748,7 @@ class cnEntry {
 		$permalink = '';
 
 		if ( ( current_user_can( 'connections_manage' ) && current_user_can( 'connections_view_menu' ) ) &&
-		     ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) )
+			 ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) )
 		) {
 
 			$permalink = cnURL::permalink(
@@ -786,12 +784,10 @@ class cnEntry {
 			switch ( $context ) {
 
 				case 'rest':
-
 					$permalink = get_rest_url( null, "cn-api/v1/entry/{$this->getId()}" );
 					break;
 
 				default:
-
 					$permalink = cnURL::permalink(
 						array(
 							'type'       => 'delete',
@@ -862,7 +858,7 @@ class cnEntry {
 			$num = 0;
 
 			// Keep incrementing $num, until a space for a unique slug is found.
-			while( in_array( ( $slug . '-' . ++$num ), $slugs ) );
+			while ( in_array( ( $slug . '-' . ++$num ), $slugs ) );
 
 			// Update $slug with the suffix.
 			$slug = $slug . "-$num";
@@ -879,7 +875,7 @@ class cnEntry {
 	 *
 	 * $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
 	 *
-	 * @param array $atts   {
+	 * @param array  $atts {
 	 *     Optional
 	 *
 	 *     @type string $format The format the name should be returned as.
@@ -1112,7 +1108,7 @@ class cnEntry {
 	 *
 	 * @uses cnString::normalize()
 	 *
-	 * @param array $atts {
+	 * @param array  $atts {
 	 *     Optional
 	 *
 	 *     @type string $format The format the name should be returned as.
@@ -1351,7 +1347,7 @@ class cnEntry {
 	 * @param string $firstName
 	 * @param string $context   The context in which it should be sanitized.
 	 */
-	public function setContactFirstName( $firstName, $context = 'db'  ) {
+	public function setContactFirstName( $firstName, $context = 'db' ) {
 
 		$this->contactFirstName = cnSanitize::field( 'name', $firstName, $context );
 	}
@@ -1534,14 +1530,14 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->addresses->filterBy( 'type', $atts['type'] )
-                            ->filterBy( 'district', $atts['district'] )
-                            ->filterBy( 'county', $atts['county'] )
-                            ->filterBy( 'city', $atts['city'] )
-                            ->filterBy( 'state', $atts['state'] )
-                            ->filterBy( 'zipcode', $atts['zipcode'] )
-                            ->filterBy( 'country', $atts['country'] )
-                            ->filterBy( 'preferred', $atts['preferred'] )
-                            ->escapeFor( $context );
+							->filterBy( 'district', $atts['district'] )
+							->filterBy( 'county', $atts['county'] )
+							->filterBy( 'city', $atts['city'] )
+							->filterBy( 'state', $atts['state'] )
+							->filterBy( 'zipcode', $atts['zipcode'] )
+							->filterBy( 'country', $atts['country'] )
+							->filterBy( 'preferred', $atts['preferred'] )
+							->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->addresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1572,7 +1568,7 @@ class cnEntry {
 	 * @access public
 	 * @since  0.7.3
 	 *
-	 * @param array     $data       {
+	 * @param array $data {
 	 *
 	 *     @type int    $id         The address ID if it was retrieved from the db.
 	 *     @type bool   $preferred  Whether the address is the preferred address or not.
@@ -1619,9 +1615,9 @@ class cnEntry {
 	public function getPhoneNumbers( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1629,8 +1625,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->phoneNumbers->filterBy( 'type', $atts['type'] )
-			                   ->filterBy( 'preferred', $atts['preferred'] )
-			                   ->escapeFor( $context );
+							   ->filterBy( 'preferred', $atts['preferred'] )
+							   ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->phoneNumbers->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1645,8 +1641,8 @@ class cnEntry {
 			}
 
 			$results = $this->phoneNumbers->query( $atts )
-			                              ->escapeFor( $context )
-			                              ->getCollectionAsObjects();
+										  ->escapeFor( $context )
+										  ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1661,7 +1657,7 @@ class cnEntry {
 	 * @access public
 	 * @since  0.7.3
 	 *
-	 * @param array     $data       {
+	 * @param array $data {
 	 *
 	 *     @type int    $id         The phone number ID if it was retrieved from the db.
 	 *     @type bool   $preferred  Whether or not the phone number is the preferred.
@@ -1693,9 +1689,9 @@ class cnEntry {
 	public function getEmailAddresses( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1703,8 +1699,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->emailAddresses->filterBy( 'type', $atts['type'] )
-			                     ->filterBy( 'preferred', $atts['preferred'] )
-			                     ->escapeFor( $context );
+								 ->filterBy( 'preferred', $atts['preferred'] )
+								 ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->emailAddresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1719,8 +1715,8 @@ class cnEntry {
 			}
 
 			$results = $this->emailAddresses->query( $atts )
-			                                ->escapeFor( $context )
-			                                ->getCollectionAsObjects();
+											->escapeFor( $context )
+											->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1775,9 +1771,9 @@ class cnEntry {
 	public function getIm( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1785,8 +1781,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->im->filterBy( 'type', $atts['type'] )
-			         ->filterBy( 'preferred', $atts['preferred'] )
-			         ->escapeFor( $context );
+					 ->filterBy( 'preferred', $atts['preferred'] )
+					 ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->im->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1801,8 +1797,8 @@ class cnEntry {
 			}
 
 			$results = $this->im->query( $atts )
-			                    ->escapeFor( $context )
-			                    ->getCollectionAsObjects();
+								->escapeFor( $context )
+								->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1866,9 +1862,9 @@ class cnEntry {
 	public function getSocialMedia( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1876,8 +1872,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->socialMedia->filterBy( 'type', $atts['type'] )
-			                  ->filterBy( 'preferred', $atts['preferred'] )
-			                  ->escapeFor( $context );
+							  ->filterBy( 'preferred', $atts['preferred'] )
+							  ->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->socialMedia->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1892,8 +1888,8 @@ class cnEntry {
 			}
 
 			$results = $this->socialMedia->query( $atts )
-			                             ->escapeFor( $context )
-			                             ->getCollectionAsObjects();
+										 ->escapeFor( $context )
+										 ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -1961,10 +1957,10 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->links->filterBy( 'type', $atts['type'] )
-			            ->filterBy( 'preferred', $atts['preferred'] )
-			            ->filterBy( 'image', $atts['image'] )
-			            ->filterBy( 'logo', $atts['logo'] )
-			            ->escapeFor( $context );
+						->filterBy( 'preferred', $atts['preferred'] )
+						->filterBy( 'image', $atts['image'] )
+						->filterBy( 'logo', $atts['logo'] )
+						->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->links->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -1979,8 +1975,8 @@ class cnEntry {
 			}
 
 			$results = $this->links->query( $atts )
-			                       ->escapeFor( $context )
-			                       ->getCollectionAsObjects();
+								   ->escapeFor( $context )
+								   ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls to get links with different params return expected results.
@@ -2016,8 +2012,8 @@ class cnEntry {
 			'preferred' => null,
 		);
 
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
+		$atts         = cnSanitize::args( $atts, $defaults );
+		$atts['id']   = $this->getId();
 		$atts['type'] = array( 'personal', 'website' ); // The 'personal' type is provided for legacy support. Versions 0.7.1.6 an older.
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2089,9 +2085,9 @@ class cnEntry {
 	public function getDates( $atts = array(), $cached = true, $saving = false, $context = 'display' ) {
 
 		$defaults = array(
-			'preferred'   => false,
-			'type'        => array(),
-			'limit'       => null,
+			'preferred' => false,
+			'type'      => array(),
+			'limit'     => null,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -2099,8 +2095,8 @@ class cnEntry {
 		if ( $cached ) {
 
 			$this->dates->filterBy( 'type', $atts['type'] )
-			            ->filterBy( 'preferred', $atts['preferred'] )
-			            ->escapeFor( $context );
+						->filterBy( 'preferred', $atts['preferred'] )
+						->escapeFor( $context );
 
 			if ( ! $saving ) {
 				$this->dates->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
@@ -2115,8 +2111,8 @@ class cnEntry {
 			}
 
 			$results = $this->dates->query( $atts )
-			                       ->escapeFor( $context )
-			                       ->getCollectionAsObjects();
+								   ->escapeFor( $context )
+								   ->getCollectionAsObjects();
 		}
 
 		// The filters need to be reset so additional calls with different params return expected results.
@@ -2143,8 +2139,8 @@ class cnEntry {
 		 * with version 0.7.2.6 and older.
 		 */
 		$anniversaries = $this->dates->filterBy( 'type', 'anniversary' )
-		                             ->escapeFor( 'db' )
-		                             ->getCollection( 1 );
+									 ->escapeFor( 'db' )
+									 ->getCollection( 1 );
 
 		$this->dates->resetFilters();
 
@@ -2165,8 +2161,8 @@ class cnEntry {
 		}
 
 		$birthdays = $this->dates->filterBy( 'type', 'birthday' )
-		                         ->escapeFor( 'db' )
-		                         ->getCollection( 1 );
+								 ->escapeFor( 'db' )
+								 ->getCollection( 1 );
 
 		$this->dates->resetFilters();
 
@@ -2557,7 +2553,7 @@ class cnEntry {
 						$children = cnTerm::getTaxonomyTerms(
 							'category',
 							array(
-								'child_of'   => $atts['child_of'],
+								'child_of' => $atts['child_of'],
 								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more then one level deep are not returned.
 								// 'object_ids' => $id,
 								// 'include'    => $term_ids,
@@ -2640,7 +2636,7 @@ class cnEntry {
 	 */
 	public function setEntryType( $entryType ) {
 		$this->options['entry']['type'] = $entryType;
-		$this->entryType = $entryType;
+		$this->entryType                = $entryType;
 	}
 
 	/**
@@ -2732,7 +2728,7 @@ class cnEntry {
 	/**
 	 * Sets $imageDisplay.
 	 *
-	 * @param bool  $imageDisplay
+	 * @param bool $imageDisplay
 	 * @see entry::$imageDisplay
 	 */
 	public function setImageDisplay( $imageDisplay ) {
@@ -2751,7 +2747,7 @@ class cnEntry {
 	/**
 	 * Sets $imageLinked.
 	 *
-	 * @param bool  $imageLinked
+	 * @param bool $imageLinked
 	 * @see entry::$imageLinked
 	 */
 	public function setImageLinked( $imageLinked ) {
@@ -2856,7 +2852,7 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @param  array  $meta
+	 * @param  array $meta
 	 */
 	public function setOriginalLogoMeta( $meta ) {
 
@@ -2868,7 +2864,7 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @param  array  $meta
+	 * @param  array $meta
 	 */
 	public function setOriginalImageMeta( $meta ) {
 
@@ -2902,19 +2898,16 @@ class cnEntry {
 		switch ( $type ) {
 
 			case 'logo':
-
 				// Build the URL to the original image.
 				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getLogoName();
 				break;
 
 			case 'photo':
-
 				// Build the URL to the original image.
 				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getImageNameOriginal();
 				break;
 
 			default:
-
 				$path = '';
 				break;
 		}
@@ -2957,12 +2950,10 @@ class cnEntry {
 		switch ( $type ) {
 
 			case 'logo':
-
 				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getLogoName();
 				break;
 
 			case 'photo':
-
 				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getImageNameOriginal();
 				break;
 		}
@@ -2974,30 +2965,30 @@ class cnEntry {
 	 * Return an array of image meta data.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) Valid options: logo | photo | custom. Default: photo
-	 * 	size (string) Valid options depend on `type`.
-	 * 		If `type` is `logo`: original | scaled. Default: original
-	 * 		If `type` is `photo`: original | thumbnail | medium | large. Default: original
-	 * 		If `type` is `custom`: Not used, use the `width` and `height` to set the custom size.
-	 * 	width (int) The width of the `custom` size.
-	 * 	height (int) The height of the `custom` size.
-	 * 	crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
-	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
-	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
-	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
-	 * 			Use the canvas_color option to set the color to be used when adding margins.
-	 * 		3 == Resize proportionally adjusting size of scaled image so there are no margins added.
-	 * 	quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 80
+	 *     type (string) Valid options: logo | photo | custom. Default: photo
+	 *     size (string) Valid options depend on `type`.
+	 *         If `type` is `logo`: original | scaled. Default: original
+	 *         If `type` is `photo`: original | thumbnail | medium | large. Default: original
+	 *         If `type` is `custom`: Not used, use the `width` and `height` to set the custom size.
+	 *     width (int) The width of the `custom` size.
+	 *     height (int) The height of the `custom` size.
+	 *     crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
+	 *         0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
+	 *         1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
+	 *         2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
+	 *             Use the canvas_color option to set the color to be used when adding margins.
+	 *         3 == Resize proportionally adjusting size of scaled image so there are no margins added.
+	 *     quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 80
 	 *
 	 * The return array will contain the following keys and their value:
-	 * 	name   => (string) The image name.
-	 * 	path   => (string) The absolute image path.
-	 * 	url    => (string) The image URL.
-	 * 	width  => (int) The image width.
-	 * 	height => (int) The image height.
-	 * 	size   => (string) The image size in a string, `height="yyy" width="xxx"`, that can be used directly in an img tag.
-	 * 	mime   => (string) The image mime type.
-	 * 	type   => (int) The IMAGETYPE_XXX constants indicating the type of the image.
+	 *     name   => (string) The image name.
+	 *     path   => (string) The absolute image path.
+	 *     url    => (string) The image URL.
+	 *     width  => (int) The image width.
+	 *     height => (int) The image height.
+	 *     size   => (string) The image size in a string, `height="yyy" width="xxx"`, that can be used directly in an img tag.
+	 *     mime   => (string) The image mime type.
+	 *     type   => (int) The IMAGETYPE_XXX constants indicating the type of the image.
 	 *
 	 * @access public
 	 * @since  8.1
@@ -3009,7 +3000,7 @@ class cnEntry {
 	 * @uses   WP_Error
 	 * @uses   is_wp_error()
 	 *
-	 * @param  array  $atts
+	 * @param  array $atts
 	 *
 	 * @return mixed array|WP_Error
 	 */
@@ -3064,7 +3055,6 @@ class cnEntry {
 		switch ( $atts['type'] ) {
 
 			case 'logo':
-
 				switch ( $atts['size'] ) {
 
 					case 'original':
@@ -3096,8 +3086,8 @@ class cnEntry {
 								$meta['source'] = 'file';
 
 							} else {
-
-								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), $meta['path'] );
+								/* translators: The image file path. */
+								$meta = new WP_Error( 'image_not_found', sprintf( __( 'The file %s is not an image.', 'connections' ), basename( $meta['path'] ) ), $meta['path'] );
 							}
 
 						}
@@ -3105,7 +3095,6 @@ class cnEntry {
 						break;
 
 					default:
-
 						$meta = cnImage::get(
 							$this->getOriginalImageURL( $atts['type'] ),
 							array(
@@ -3130,11 +3119,9 @@ class cnEntry {
 				break;
 
 			case 'photo':
-
 				switch ( $atts['size'] ) {
 
 					case 'original':
-
 						$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
 						$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
 
@@ -3163,8 +3150,8 @@ class cnEntry {
 								$meta['source'] = 'file';
 
 							} else {
-
-								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), $meta['path'] );
+								/* translators: The image file path. */
+								$meta = new WP_Error( 'image_not_found', sprintf( __( 'The file %s is not an image.', 'connections' ), basename( $meta['path'] ) ), $meta['path'] );
 							}
 
 						}
@@ -3172,7 +3159,6 @@ class cnEntry {
 						break;
 
 					default:
-
 						if ( in_array( $atts['size'], $sizes ) ) {
 
 							$meta = cnImage::get(
@@ -3630,9 +3616,9 @@ class cnEntry {
 		/**
 		 * @todo Are these really needed? If they are, this should be refactored to remove their usage.
 		 */
-		$connections->lastQuery = $wpdb->last_query;
+		$connections->lastQuery      = $wpdb->last_query;
 		$connections->lastQueryError = $wpdb->last_error;
-		$connections->lastInsertID = $wpdb->insert_id;
+		$connections->lastInsertID   = $wpdb->insert_id;
 
 		if ( false !== $result ) {
 
@@ -3703,56 +3689,56 @@ class cnEntry {
 			cnFileSystem::xrmdir( $path );
 		}
 
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_TABLE . ' WHERE id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_TABLE . ' WHERE id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the addresses if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the phone numbers if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the email addresses if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_EMAIL_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_EMAIL_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the IM IDs if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_MESSENGER_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_MESSENGER_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the social network IDs if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_SOCIAL_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_SOCIAL_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the links if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_LINK_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_LINK_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *
 		 *
 		 * @TODO Only delete the dates if deleting the entry was successful
 		 */
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE entry_id = %d' , $id ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE entry_id = %d', $id ) );
 
 		/**
 		 *

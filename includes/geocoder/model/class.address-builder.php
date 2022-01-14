@@ -150,8 +150,7 @@ final class Address_Builder {
 
 		try {
 			$this->bounds = new Bounds( $south, $west, $north, $east );
-		}
-		catch ( \InvalidArgumentException $e ) {
+		} catch ( \InvalidArgumentException $e ) {
 			$this->bounds = null;
 		}
 

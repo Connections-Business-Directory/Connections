@@ -23,8 +23,8 @@ final class _format {
 	 * @deprecated 9.11
 	 *
 	 * @param string $string
-	 * @param bool $allowHTML
-	 * @param array $permittedTags
+	 * @param bool   $allowHTML
+	 * @param array  $permittedTags
 	 *
 	 * @return string
 	 */
@@ -187,8 +187,8 @@ final class _format {
 	 * @deprecated 8.2.9 Use {@see _string::excerpt()} instead.
 	 * @see _string::excerpt()
 	 *
-	 * @param  string  $string String to create the excerpt from.
-	 * @param  array   $atts {
+	 * @param string $string String to create the excerpt from.
+	 * @param array  $atts {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int    $length       The length, number of words, of the excerpt to create.
@@ -265,16 +265,38 @@ final class _format {
 		$map = array(
 			// PHP Date format character => jQueryUI Datepicker/DateTimepicker format character.
 			// Day.
-			'd' => 'dd', 'D' => 'D', 'j' => 'd', 'l' => 'DD', 'N' => '', 'S' => '', 'w' => '', 'z' => 'o',
+			'd' => 'dd',
+			'D' => 'D',
+			'j' => 'd',
+			'l' => 'DD',
+			'N' => '',
+			'S' => '',
+			'w' => '',
+			'z' => 'o',
 			// Week.
 			'W' => '',
 			// Month.
-			'F' => 'MM', 'm' => 'mm', 'M' => 'M', 'n' => 'm', 't' => '',
+			'F' => 'MM',
+			'm' => 'mm',
+			'M' => 'M',
+			'n' => 'm',
+			't' => '',
 			// Year.
-			'L' => '', 'o' => '', 'Y' => 'yy', 'y' => 'y',
+			'L' => '',
+			'o' => '',
+			'Y' => 'yy',
+			'y' => 'y',
 			// Time.
-			'a' => 'tt', 'A' => 'TT', 'B' => '',
-			'g' => 'h', 'G' => 'H', 'h' => 'hh', 'H' => 'HH', 'i' => 'mm', 's' => 'ss', 'u' => 'c',
+			'a' => 'tt',
+			'A' => 'TT',
+			'B' => '',
+			'g' => 'h',
+			'G' => 'H',
+			'h' => 'hh',
+			'H' => 'HH',
+			'i' => 'mm',
+			's' => 'ss',
+			'u' => 'c',
 		);
 
 		$format   = '';
@@ -304,7 +326,7 @@ final class _format {
 
 				if ( $escaping ) {
 
-					$format .= '\'';
+					$format  .= '\'';
 					$escaping = false;
 				}
 

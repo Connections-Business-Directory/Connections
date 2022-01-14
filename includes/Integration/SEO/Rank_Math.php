@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @todo Clear the sitemaps cache if it exists.
  * @link https://connections-pro.com/ticket/540240/
@@ -104,10 +103,10 @@ final class Rank_Math {
 		}
 
 		if ( has_shortcode( $object->post_content, 'connections' ) ||
-		     has_block( 'connections-directory/shortcode-connections', $object )
+			 has_block( 'connections-directory/shortcode-connections', $object )
 		) {
 
-			add_filter( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
+			add_action( 'rank_math/head', array( __CLASS__, 'setupImageMeta' ) );
 
 			// @todo Run `ping_search_engines()` after new Entry is published. Need to take care that this does not occur doing CSV imports and bulk operations.
 
@@ -222,7 +221,7 @@ final class Rank_Math {
 	 */
 	public static function maybeRemoveCoreMetaDescription() {
 
-		if ( has_filter( 'rank_math/head' ) ) {
+		if ( has_action( 'rank_math/head' ) ) {
 
 			remove_filter( 'wp_title', array( 'cnSEO', 'filterMetaTitle' ), 20 );
 			remove_filter( 'wp_head', array( 'cnSEO', 'metaDesc' ), 1 );
@@ -245,7 +244,7 @@ final class Rank_Math {
 	public static function maybeDisableAdjacentURL( $disable ) {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ||
-		     cnQuery::getVar( 'cn-cat-slug' )
+			 cnQuery::getVar( 'cn-cat-slug' )
 		) {
 
 			$disable = true;

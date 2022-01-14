@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class containing all necessary methods to output structured HTML output of an entry object.
  *
@@ -130,12 +129,12 @@ class cnEntry_HTML extends cnEntry {
 	 * @access public
 	 * @since unknown
 	 * @version 1.0
-	 * @param array   $atts [optional]
+	 * @param array $atts [optional]
 	 * @return string
 	 */
 	public function getImage( $atts = array() ) {
 
-		$displayImage  = false;
+		$displayImage = false;
 		// $cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 		$tag           = array();
@@ -196,12 +195,13 @@ class cnEntry_HTML extends cnEntry {
 		switch ( $atts['image'] ) {
 
 			case 'photo':
-
 				if ( $this->getImageLinked() && ( $this->getImageDisplay() || 'edit' == $atts['action'] ) ) {
 
 					$displayImage  = true;
 					$atts['class'] = 'cn-image photo';
-					$atts['alt']   = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
+					$atts['alt'] = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
 					$atts['title'] = sprintf( esc_html__( 'Photo of %s', 'connections' ), $this->getName() );
 
 					$atts['alt']   = apply_filters( 'cn_photo_alt', $atts['alt'], $this );
@@ -280,7 +280,8 @@ class cnEntry_HTML extends cnEntry {
 
 							$displayImage = false;
 
-							$atts['fallback']['type']   = 'block';
+							$atts['fallback']['type'] = 'block';
+							/* translators: Image size. */
 							$atts['fallback']['string'] = sprintf( esc_html__( 'Photo present %s is not valid.', 'connections' ), $size );
 						}
 					}
@@ -299,12 +300,13 @@ class cnEntry_HTML extends cnEntry {
 				break;
 
 			case 'logo':
-
 				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || 'edit' == $atts['action'] ) ) {
 
 					$displayImage  = true;
 					$atts['class'] = 'cn-image logo';
-					$atts['alt']   = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
+					$atts['alt'] = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
+					/* translators: Directory entry name. */
 					$atts['title'] = sprintf( esc_html__( 'Logo for %s', 'connections' ), $this->getName() );
 					// $cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
@@ -495,7 +497,6 @@ class cnEntry_HTML extends cnEntry {
 				 */
 				switch ( $atts['image'] ) {
 					case 'photo':
-
 						switch ( $atts['preset'] ) {
 
 							case 'entry':
@@ -522,7 +523,6 @@ class cnEntry_HTML extends cnEntry {
 						break;
 
 					case 'logo':
-
 						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_logo', 'width' ) . 'px';
 						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_logo', 'height' ) . 'px';
 						break;
@@ -536,7 +536,6 @@ class cnEntry_HTML extends cnEntry {
 			switch ( $atts['fallback']['type'] ) {
 
 				case 'block':
-
 					$atts['style']['display'] = 'inline-block';
 
 					$width  = absint( $atts['style']['width'] );
@@ -2350,7 +2349,7 @@ class cnEntry_HTML extends cnEntry {
 	 * @access public
 	 * @since  8.5.19
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 *
 	 * @return string
 	 */
@@ -2478,13 +2477,13 @@ class cnEntry_HTML extends cnEntry {
 	 * The actions should hook into `cn_output_meta_field-{key}` to be rendered.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	id (string) The custom block ID to render.
-	 * 	order (mixed) array | string  An indexed array of custom content block IDs that should be rendered in the order in the array.
-	 * 		If a string is provided, it should be a comma delimited string containing the content block IDs. It will be converted to an array.
-	 * 	exclude (array) An indexed array of custom content block IDs that should be excluded from being rendered.
-	 * 	include (array) An indexed array of custom content block IDs that should be rendered.
-	 * 		NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the
-	 * 		same custom content block ID exists in both, the custom content block will be excluded.
+	 *     id (string) The custom block ID to render.
+	 *     order (mixed) array | string  An indexed array of custom content block IDs that should be rendered in the order in the array.
+	 *         If a string is provided, it should be a comma delimited string containing the content block IDs. It will be converted to an array.
+	 *     exclude (array) An indexed array of custom content block IDs that should be excluded from being rendered.
+	 *     include (array) An indexed array of custom content block IDs that should be rendered.
+	 *         NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the
+	 *         same custom content block ID exists in both, the custom content block will be excluded.
 	 *
 	 * @since 0.8
 	 *

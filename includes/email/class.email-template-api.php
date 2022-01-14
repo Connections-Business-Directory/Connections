@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The email template API.
  *
@@ -35,7 +34,7 @@ class cnEmail_Template {
 	 * @access private
 	 * @since 0.7.8
 	 * @var object
-	*/
+	 */
 	private static $instance;
 
 	/**
@@ -57,7 +56,7 @@ class cnEmail_Template {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance  = new self;
+			self::$instance  = new self();
 			self::$templates = new stdClass();
 		}
 	}
@@ -89,12 +88,12 @@ class cnEmail_Template {
 	 *  url (string) [required] The base URL to the templates's folder.
 	 *  thumbnail (string) [optional] The template's thumnail file name.
 	 *  parts (array) [optional] The template parts.
-	 *  	Accepted values for parts:
-	 *  		head (string) [optional] The action callback that should be run for the email template head. The output will come right after the </head> tag.
-	 *  		body-before (string) The action callback that should be run before the email content.
-	 *  		body (string) [required] The file name of the PHP file used to render the entry content.
-	 *  		body-after (string) [optional] The action callback that should be run after the email content.
-	 *  		foot (string) [optional] The action callback that should be run for the email template foot. The output will come right before the </body> tag.
+	 *      Accepted values for parts:
+	 *          head (string) [optional] The action callback that should be run for the email template head. The output will come right after the </head> tag.
+	 *          body-before (string) The action callback that should be run before the email content.
+	 *          body (string) [required] The file name of the PHP file used to render the entry content.
+	 *          body-after (string) [optional] The action callback that should be run after the email content.
+	 *          foot (string) [optional] The action callback that should be run for the email template foot. The output will come right before the </body> tag.
 	 *
 	 * @access public
 	 * @since 0.7.8
@@ -223,15 +222,15 @@ class cnEmail_Template {
 	 */
 	public static function content( $content ) {
 
-		$head       = self::head();
+		$head = self::head();
 
 		$bodyBefore = self::beforeBody();
 
-		$body       = self::body( $content );
+		$body = self::body( $content );
 
-		$bodyAfter  = self::afterBody();
+		$bodyAfter = self::afterBody();
 
-		$foot       = self::foot();
+		$foot = self::foot();
 
 		return $head . $bodyBefore . $body . $bodyAfter . $foot;
 	}
@@ -250,7 +249,7 @@ class cnEmail_Template {
 	 */
 	public static function stripTags( $content ) {
 
-		$tags = array('</p>', '<br />', '<br/>', '<br>', '<hr />', '<hr>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</tr>');
+		$tags = array( '</p>', '<br />', '<br/>', '<br>', '<hr />', '<hr>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</tr>' );
 
 		$content = wpautop( $content, true );
 

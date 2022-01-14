@@ -267,11 +267,13 @@ class Team {
 		}
 
 		$options = array(
-			'list_type'         => $attributes['listType'],
-			$category           => $attributes['categories'],
-			'exclude_category'  => $attributes['categoriesExclude'],
+			'list_type'        => $attributes['listType'],
+			$category          => $attributes['categories'],
+			'exclude_category' => $attributes['categoriesExclude'],
 			// Limit the number of entries displayed to 50ish (based on number of set columns), only in editor preview. max is 100ish.
-			'limit' => $attributes['isEditorPreview'] ? 50 - ( 50 % $attributes['columns'] ) : 100 - ( 100 % $attributes['columns'] ),
+			'limit'            => $attributes['isEditorPreview'] ? 50 - ( 50 % $attributes['columns'] ) : 100 - ( 100 % $attributes['columns'] ),
+			// Allow the Additional Options field to override the `parse_request` parameter.
+			'parse_request'    => false,
 		);
 
 		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
@@ -293,7 +295,7 @@ class Team {
 			)
 		);
 
-		$options['parse_request'] = false;
+		// $options['parse_request'] = false;
 
 		$results = Connections_Directory()->retrieve->entries( $options );
 
@@ -339,17 +341,14 @@ class Team {
 		switch ( $atts['layout'] ) {
 
 			case 'grid':
-
 				$slug = "block-team-{$atts['layout']}-{$atts['variation']}-{$atts['style']}";
 				break;
 
 			case 'list':
-
 				$slug = "block-team-{$atts['layout']}";
 				break;
 
 			case 'table':
-
 				$slug = "block-team-{$atts['layout']}";
 				break;
 		}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Connections Settings API Wrapper Class
  *
@@ -26,11 +25,11 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 	class cnSettingsAPI {
 
 		/**
-	     * Singleton instance
-	     *
-	     * @var cnSettingsAPI
-	     */
-	    private static $instance;
+		 * Singleton instance
+		 *
+		 * @var cnSettingsAPI
+		 */
+		private static $instance;
 
 		/**
 		 * Array stores all tabs registered thru this API.
@@ -55,7 +54,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Array of all WP core settings sections.
 		 * @var array
 		 */
-		private static $coreSections = array('default', 'remote_publishing', 'post_via_email', 'avatars', 'embeds', 'uploads', 'optional');
+		private static $coreSections = array( 'default', 'remote_publishing', 'post_via_email', 'avatars', 'embeds', 'uploads', 'optional' );
 
 		/**
 		 * The array of all registerd quicktag textareas.
@@ -102,11 +101,11 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * NOTE: The filters for the tabs, sections and fields should be added before running init()
 		 *
 		 * NOTE: The recommended action to hook into is plugins_loaded. This will ensure the actions
-		 * 	within this class are run at the appropriate times.
+		 *       within this class are run at the appropriate times.
 		 *
 		 * NOTE: The high priority is used to make sure the actions registered in this API are run
-		 * 	first. This is to help ensure registered settings are available to other actions registered
-		 * 	to the admin_init and init hooks.
+		 *       first. This is to help ensure registered settings are available to other actions registered
+		 *       to the admin_init and init hooks.
 		 *
 		 * @author Steven A. Zahm
 		 * @since 0.7.3.0
@@ -130,16 +129,16 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Returns the registered tabs based on the supplied admin page hook.
 		 *
 		 * Filters:
-		 * 	cn_register_admin_tabs	=>	Allow new tabs to be registered.
-		 * 	cn_filter_admin_tabs	=>	Allow tabs to be filtered.
+		 *     cn_register_admin_tabs => Allow new tabs to be registered.
+		 *     cn_filter_admin_tabs   => Allow tabs to be filtered.
 		 *
 		 * The array construct for registering a tab:
-		 * 	array(
-		 * 		'id' => 'string',			// ID used to identify this tab and with which to register the settings sections
-		 * 		'position' => int,			// Set the position of the section. The lower the int the further left the tab will be place in the bank.
-		 * 		'title' => 'string',		// Title of the tab to be displayed on the admin page
-		 * 		'page_hook' => 'string'		// Admin page on which to add this section of options
-		 * 	}
+		 *     array(
+		 *         'id'        => 'string', // ID used to identify this tab and with which to register the settings sections
+		 *         'position'  => int,      // Set the position of the section. The lower the int the further left the tab will be place in the bank.
+		 *         'title'     => 'string', // Title of the tab to be displayed on the admin page
+		 *         'page_hook' => 'string'  // Admin page on which to add this section of options
+		 *     }
 		 *
 		 * @access private
 		 * @since  0.7.3.0
@@ -168,27 +167,27 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Registers the settings sections with the WordPress Settings API.
 		 *
 		 * Filters:
-		 * 	cn_register_admin_setting_section	=>	Register the settings sections.
-		 * 	cn_filter_admin_setting_section	=>	Filter the settings sections.
+		 *     cn_register_admin_setting_section => Register the settings sections.
+		 *     cn_filter_admin_setting_section   => Filter the settings sections.
 		 *
 		 * The array construct for registering a settings section:
-		 * 	array(
-		 * 		'tab' => 'string',			// The tab ID in which the settings section is to be hooked to. [optional]
-		 * 		'id' => 'string',			// ID used to identify this section and with which to register setting fields [required]
-		 * 		'position' => int,			// Set the position of the section. Lower int will place the section higher on the settings page. [optional]
-		 * 		'title' => 'string',		// Title to be displayed on the admin page [required]
-		 * 		'callback' => 'string',		// Callback used to render the description of the section [required]
-		 * 		'page_hook' => 'string'		// Admin page on which to add this section of options [required]
-		 * 	}
+		 *     array(
+		 *         'tab'       => 'string', // The tab ID in which the settings section is to be hooked to. [optional]
+		 *         'id'        => 'string', // ID used to identify this section and with which to register setting fields [required]
+		 *         'position'  => int,      // Set the position of the section. Lower int will place the section higher on the settings page. [optional]
+		 *         'title'     => 'string', // Title to be displayed on the admin page [required]
+		 *         'callback'  => 'string', // Callback used to render the description of the section [required]
+		 *         'page_hook' => 'string'  // Admin page on which to add this section of options [required]
+		 *     }
 		 *
 		 * NOTE: Use the one of the following to hook a settings section to one of the WP core settings pages.
-		 * 	page_hook: discussion
-		 * 	page_hook: general
-		 * 	page_hook: media
-		 * 	page_hook: permalink
-		 * 	page_hook: privacy
-		 * 	page_hook: reading
-		 * 	page_hook: writing
+		 *     page_hook: discussion
+		 *     page_hook: general
+		 *     page_hook: media
+		 *     page_hook: permalink
+		 *     page_hook: privacy
+		 *     page_hook: reading
+		 *     page_hook: writing
 		 *
 		 * @access private
 		 * @since  0.7.3.0
@@ -248,31 +247,31 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * Registers the settings fields to the registered settings sections with the WordPress Settings API.
 		 *
 		 * Filters:
-		 * 	cn_register_settings_fields	=>	Register the settings section fields.
-		 * 	cn_filter_settings_fields	=>	Filter the settings section fields.
+		 *     cn_register_settings_fields => Register the settings section fields.
+		 *     cn_filter_settings_fields   => Filter the settings section fields.
 		 *
 		 * The array construct for registering a settings section:
-		 * 	array(
-		 * 		'plugin_id',					// A unique ID for the plugin registering its settings. Recommend using the plugin slug.
-		 * 		'id' => 'string',				// ID used to identify this field. [required]
-		 * 										//	*must be unique. Recommend prefix with plugin slug if not registered to a settings section.
-		 * 		'position' => int,				// Set the position of the field. Lower int will place the field higher on the section. [optional]
-		 * 		'page_hook' => 'string',		// Admin page on which to add this section of options [required]
-		 * 		'tab' => 'string',				// The tab ID in which the field is to be hooked to. [optional]
-		 * 										//	*required, if the field is to be shown on a specific registered tab.
-		 * 		'section' => 'string',			// The section in which the field is to be hooked to. [optional]
-		 * 										//	*required, if field is to be shown in a specific registered section. Recommend prefix with plugin slug.
-		 * 		'title' => 'string',			// The field title. [required]
-		 * 		'type' => 'string',				// The field type. [required] Valid values : text, textarea, checkbox, multicheckbox, radio, select, rte
-		 * 		'size' => 'string,				// The field size. [optional] Valid values : small | regular | large *only used for the text field type.
-		 * 		'show_option_none' => 'string'	// The string to show when no value has been chosen. [required *only for the page field type] *only used for the page field type.
-		 * 		'option_none_value' => 'string'	// The value to use when no value has been chosen. [required *only for the page field type] *only used for the page field type.
-		 * 		'desc' => 'string',				// The field description text. [optional]
-		 * 		'help' => 'string',				// The field help text. [optional]
-		 * 		'options' => array||string,		// The fields options. [optional]
-		 * 		'default' => array||string,		// The fields default values. [optional]
-		 * 		'sanitize_callback' => 'string'	// A callback function that sanitizes the settings's value. [optional]
-		 * 	}
+		 *     array(
+		 *         'plugin_id',                    // A unique ID for the plugin registering its settings. Recommend using the plugin slug.
+		 *         'id' => 'string',               // ID used to identify this field. [required]
+		 *                                         // *must be unique. Recommend prefix with plugin slug if not registered to a settings section.
+		 *         'position' => int,              // Set the position of the field. Lower int will place the field higher on the section. [optional]
+		 *         'page_hook' => 'string',        // Admin page on which to add this section of options [required]
+		 *         'tab' => 'string',              // The tab ID in which the field is to be hooked to. [optional]
+		 *                                         // *required, if the field is to be shown on a specific registered tab.
+		 *         'section' => 'string',          // The section in which the field is to be hooked to. [optional]
+		 *                                         // *required, if field is to be shown in a specific registered section. Recommend prefix with plugin slug.
+		 *         'title' => 'string',            // The field title. [required]
+		 *         'type' => 'string',             // The field type. [required] Valid values : text, textarea, checkbox, multicheckbox, radio, select, rte
+		 *         'size' => 'string,              // The field size. [optional] Valid values : small | regular | large *only used for the text field type.
+		 *         'show_option_none' => 'string'  // The string to show when no value has been chosen. [required *only for the page field type] *only used for the page field type.
+		 *         'option_none_value' => 'string' // The value to use when no value has been chosen. [required *only for the page field type] *only used for the page field type.
+		 *         'desc' => 'string',             // The field description text. [optional]
+		 *         'help' => 'string',             // The field help text. [optional]
+		 *         'options' => array||string,     // The fields options. [optional]
+		 *         'default' => array||string,     // The fields default values. [optional]
+		 *         'sanitize_callback' => 'string' // A callback function that sanitizes the settings's value. [optional]
+		 *     }
 		 *
 		 * SUPPORTED FIELD TYPES:
 		 *  checkbox
@@ -289,45 +288,45 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 *  category [shows a drop down of Connections categories]
 		 *
 		 * RECOMMENDED: The following sanitize_callback to use based on field type.
-		 * 	Reference: http://codex.wordpress.org/Data_Validation
+		 *     Reference: http://codex.wordpress.org/Data_Validation
 		 *
-		 * 	rte = wp_kses_post
-		 * 	quicktag = wp_kses_data
-		 * 	textarea = esc_textarea [for plain text]
-		 * 	textarea = esc_html [for text containing HTML]
-		 * 	text = sanitize_text_field [for plain text]
-		 * 	text = esc_url_raw [for URLs, not safe for display, use esc_url when displaying.]
-		 * 	checkbox = intval [checkbox values should be saved as either 1 or 0]
-		 *
-		 * NOTE:
-		 * 	Fields registered to a section will be saved as a serialized associative array where the section ID is the option_name
-		 * 	in the DB and with each field ID being the array keys.
-		 *
-		 * 	Fields not registered to a section will be stored as a single row in the DB where the field ID is the option_name.
+		 *     rte = wp_kses_post
+		 *     quicktag = wp_kses_data
+		 *     textarea = esc_textarea [for plain text]
+		 *     textarea = esc_html [for text containing HTML]
+		 *     text = sanitize_text_field [for plain text]
+		 *     text = esc_url_raw [for URLs, not safe for display, use esc_url when displaying.]
+		 *     checkbox = intval [checkbox values should be saved as either 1 or 0]
 		 *
 		 * NOTE:
-		 * 	Because the filter 'cn_register_settings_fields' runs on the 'init' hook you can not use the value stored in a variable
-		 * 	returned from add_menu_page() or add_submenu_page() because it will not be available. Manually set the page_hook
-		 * 	to the string returned from those functions.
+		 *     Fields registered to a section will be saved as a serialized associative array where the section ID is the option_name
+		 *     in the DB and with each field ID being the array keys.
+		 *
+		 *     Fields not registered to a section will be stored as a single row in the DB where the field ID is the option_name.
+		 *
+		 * NOTE:
+		 *     Because the filter 'cn_register_settings_fields' runs on the 'init' hook you can not use the value stored in a variable
+		 *     returned from add_menu_page() or add_submenu_page() because it will not be available. Manually set the page_hook
+		 *     to the string returned from those functions.
 		 *
 		 * NOTE: Use the one of the following to hook a settings field to one of the core settings pages.
-		 * 	page_hook: discussion => section: default [optional]
-		 * 	page_hook: discussion => section: avatars
-		 * 	page_hook: general => section: default [optional]
-		 * 	page_hook: media => section: default [optional]
-		 * 	page_hook: media => section: embeds
-		 * 	page_hook: media => section: uploads
-		 * 	page_hook: permalink => section: default [optional]
-		 * 	page_hook: permalink => section: optional
-		 * 	page_hook: privacy => section: default [optional]
-		 * 	page_hook: reading => section: default [optional]
-		 * 	page_hook: writing => section: default [optional]
-		 * 	page_hook: writing => section: post_via_email
-		 * 	page_hook: writing => section: remote_publishing
+		 *     page_hook: discussion => section: default [optional]
+		 *     page_hook: discussion => section: avatars
+		 *     page_hook: general => section: default [optional]
+		 *     page_hook: media => section: default [optional]
+		 *     page_hook: media => section: embeds
+		 *     page_hook: media => section: uploads
+		 *     page_hook: permalink => section: default [optional]
+		 *     page_hook: permalink => section: optional
+		 *     page_hook: privacy => section: default [optional]
+		 *     page_hook: reading => section: default [optional]
+		 *     page_hook: writing => section: default [optional]
+		 *     page_hook: writing => section: post_via_email
+		 *     page_hook: writing => section: remote_publishing
 		 *
 		 * NOTE: Even though settings fields can be registered to a WP core settings page or a custom settings page
-		 * 	without being registered to a section it would be best practice to avoid doing this. It is recommended
-		 *	that sections be registered and then settings fields be hooked to those sections.
+		 *       without being registered to a section it would be best practice to avoid doing this. It is recommended
+		 *       that sections be registered and then settings fields be hooked to those sections.
 		 *
 		 * @access private
 		 * @since  0.7.3.0
@@ -385,7 +384,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					$optionName = $field['id'];
 				}
 
-				$options['id'] = $field['id'];
+				$options['id']   = $field['id'];
 				$options['type'] = $field['type'];
 				if ( isset( $field['desc'] ) ) {
 					$options['desc'] = $field['desc'];
@@ -435,7 +434,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					);
 
 					if ( //( isset( $field['show_in_rest'] ) && TRUE === $field['show_in_rest'] ) &&
-					     ( isset( $field['schema'] ) && is_array( $field['schema'] ) )
+						 ( isset( $field['schema'] ) && is_array( $field['schema'] ) )
 					) {
 
 						self::$rest = cnArray::add(
@@ -462,18 +461,18 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					self::$registry[ $field['plugin_id'] ] = array();
 				}
 
-				if ( ! array_key_exists( $optionName, self::$registry[$field['plugin_id']] ) ) {
+				if ( ! array_key_exists( $optionName, self::$registry[ $field['plugin_id'] ] ) ) {
 
-					if ( in_array( $section , self::$coreSections ) ) {
+					if ( in_array( $section, self::$coreSections ) ) {
 						// If the field was registered to one of the WP core sections, store the default value as a singular item.
-						self::$registry[$field['plugin_id']][$optionName] = $defaultValue;
+						self::$registry[ $field['plugin_id'] ][ $optionName ] = $defaultValue;
 					} else {
 						// If the field was registered to a section, store the default values as an array. // This is the recommended behaviour.
-						self::$registry[$field['plugin_id']][$optionName] = array( $field['id'] => $defaultValue );
+						self::$registry[ $field['plugin_id'] ][ $optionName ] = array( $field['id'] => $defaultValue );
 					}
 
 				} else {
-					self::$registry[$field['plugin_id']][$optionName][$field['id']] = $defaultValue;
+					self::$registry[ $field['plugin_id'] ][ $optionName ][ $field['id'] ] = $defaultValue;
 				}
 			}
 
@@ -652,7 +651,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 				<?php
 
 				// If there were no tabs returned echo out an empty string.
-				if ( ! empty( $tabs ) ) { ?>
+				if ( ! empty( $tabs ) ) {
+					?>
 
 					<div class="nav-tab-wrapper">
 
@@ -746,8 +746,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		 * The callback used to render the settings field types.
 		 *
 		 * Credit to Tareq. Some of the code to render the form fields were pickup from his Settings API
-		 * 	http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/
-		 * 	https://github.com/tareq1988/wordpress-settings-api-class
+		 *     http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/
+		 *     https://github.com/tareq1988/wordpress-settings-api-class
 		 *
 		 * @author Steven A. Zahm
 		 * @since  0.7.3.0
@@ -759,7 +759,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			$out = '';
 
-			if ( in_array( $field['section'] , self::$coreSections ) ) {
+			if ( in_array( $field['section'], self::$coreSections ) ) {
 
 				$value = get_option( $field['id'] ); // print_r($value);
 				$name  = sprintf( '%1$s', $field['id'] );
@@ -767,14 +767,13 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			} else {
 
 				$values = get_option( $field['section'] );
-				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : null; // print_r($value);
+				$value  = ( isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : null; // print_r($value);
 				$name   = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 			}
 
 			switch ( $field['type'] ) {
 
 				case 'checkbox':
-
 					$out .= Field\Checkbox::create()
 										  ->setId( $name )
 										  ->addClass( 'checkbox' )
@@ -790,7 +789,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				case 'checkbox-group':
 				case 'multicheckbox':
-
 					$out .= Field\Description::create()
 											 ->addClass( 'description' )
 											 ->setId( "{$field['id']}-description" )
@@ -810,7 +808,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'number':
-
 					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 					$out .= sprintf( '<input type="number" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
@@ -829,7 +826,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 				 * field type.
 				 */
 				case 'cpt-checkbox-group':
-
 					$postTypes = get_post_types(
 						array(
 							'public'             => true,
@@ -856,7 +852,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'radio':
-
 					remapFieldOptions( $field );
 
 					$out .= Field\Description::create()
@@ -877,7 +872,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'select':
-
 					remapFieldOptions( $field );
 
 					$out .= Field\Description::create()
@@ -903,19 +897,17 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					$out .= '<span style="background-color: white; border-color: #DFDFDF; border-radius: 3px; border-width: 1px; border-style: solid; display: block; height: 90px; padding: 0 3px; overflow: auto; width: 25em;">';
 
-					foreach ( $field['options'] as $key => $label )
-					{
-						$checked = checked( true , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , false );
+					foreach ( $field['options'] as $key => $label ) {
+						$checked = checked( true, ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ), false );
 
 						$out .= sprintf( '<label><input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s" %3$s/> %4$s</label><br />', $name, $key, $checked, $label );
 					}
 
-					$out .= "</span>";
+					$out .= '</span>';
 
 					break;
 
 				case 'text':
-
 					$sizes = array( 'small', 'regular', 'large' );
 					$size  = _array::get( $field, 'size', 'regular' );
 
@@ -940,7 +932,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'textarea':
-
 					$sizes = array( 'small', 'large' );
 					$size  = _array::get( $field, 'size', 'small' );
 
@@ -979,11 +970,10 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'rte':
-
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						printf(
-                            '<div class="description"> %1$s</div>',
+							'<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
@@ -991,7 +981,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 					// Set the rte defaults.
 					$defaults = array(
-						'textarea_name' => sprintf( '%1$s' , $name ),
+						'textarea_name' => sprintf( '%1$s', $name ),
 					);
 
 					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
@@ -1005,7 +995,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'page':
-
 					$out .= wp_dropdown_pages(
 						array(
 							'name'              => esc_html( $name ),
@@ -1019,7 +1008,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'cpt-pages':
-
 					$defaults = array(
 						'depth'                 => 0,
 						'child_of'              => 0,
@@ -1073,7 +1061,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 						$select .= '<optgroup label="' . esc_attr( $type->labels->name ) . '">' . PHP_EOL;
 
 						$atts['post_type'] = $type->name;
-						$posts = get_pages( $atts );
+						$posts             = get_pages( $atts );
 
 						if ( ! empty( $posts ) ) {
 
@@ -1090,7 +1078,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'category':
-
 					$out .= cnTemplatePart::walker(
 						'term-select',
 						array(
@@ -1108,7 +1095,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'sortable_checklist':
-
 					// This will be used to store the order of the content blocks.
 					$blocks = array();
 
@@ -1160,15 +1146,15 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$checkbox = cnHTML::input(
 								array(
-									'type'    => 'checkbox',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
-									'disabled'=> true,
-									'label'   => $label,
-									'layout'  => '%field%%label%',
-									'return'  => true,
+									'type'     => 'checkbox',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[active][]',
+									'checked'  => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
+									'disabled' => true,
+									'label'    => $label,
+									'layout'   => '%field%%label%',
+									'return'   => true,
 								),
 								$key
 							);
@@ -1179,7 +1165,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1194,7 +1180,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%%label%',
 									'return'  => true,
@@ -1205,13 +1191,13 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 						$hidden = cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[order][]',
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'type'   => 'hidden',
+								'prefix' => '',
+								'id'     => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'   => esc_attr( $name ) . '[order][]',
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							$key
 						);
@@ -1239,7 +1225,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				case 'sortable_input-repeatable':
 				case 'sortable_input':
-
 					// This will be used to store the order of the content blocks.
 					$blocks = array();
 
@@ -1296,23 +1281,23 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					foreach ( $blocks as $key => $label ) {
 
 						$removeButton = '';
-						$checkbox = '';
-						$input    = '';
-						$hidden   = '';
+						$checkbox     = '';
+						$input        = '';
+						$hidden       = '';
 
 						if ( isset( $field['options']['required'] ) && in_array( $key, $field['options']['required'] ) ) {
 
 							$checkbox = cnHTML::input(
 								array(
-									'type'    => 'checkbox',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => 'checked="checked"',
-									'disabled'=> true,
+									'type'     => 'checkbox',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[active][]',
+									'checked'  => 'checked="checked"',
+									'disabled' => true,
 									// 'label'   => $label,
-									'layout'  => '%field%',
-									'return'  => true,
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								$key
 							);
@@ -1323,7 +1308,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1332,16 +1317,16 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									'type'     => 'text',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[type][' . $key . ']',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
-									'disabled'=> true,
-									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'layout'  => '%field%',
-									'return'  => true,
+									'disabled' => true,
+									'data'     => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1354,7 +1339,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%',
 									'return'  => true,
@@ -1364,15 +1349,15 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									'type'   => 'text',
+									'prefix' => '',
+									'id'     => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'   => esc_attr( $name ) . '[type][' . $key . ']',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
-									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'layout'  => '%field%',
-									'return'  => true,
+									'data'   => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout' => '%field%',
+									'return' => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1380,13 +1365,13 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 						$hidden = cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[order][]',
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'type'   => 'hidden',
+								'prefix' => '',
+								'id'     => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'   => esc_attr( $name ) . '[order][]',
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							$key
 						);
@@ -1440,7 +1425,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				case 'sortable_iconpicker':
 				case 'sortable_iconpicker-repeatable':
-
 					// This will be used to store the order of the content blocks.
 					$blocks = array();
 
@@ -1461,7 +1445,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					$out = $out . PHP_EOL;
 
 					// Add the template/token item to be used for cloning when adding a new item by the user.
-					$field['options']['items'] = array( '%token%' => '%template%') + $field['options']['items'];
+					$field['options']['items'] = array( '%token%' => '%template%' ) + $field['options']['items'];
 
 					// Create the array to be used to render the output in the correct order.
 					// This will have to take into account content blocks being added and removed.
@@ -1505,9 +1489,9 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					foreach ( $blocks as $key => $label ) {
 
 						$removeButton = '';
-						$checkbox = '';
-						$input    = '';
-						$hidden   = '';
+						$checkbox     = '';
+						$input        = '';
+						$hidden       = '';
 
 						/*
 						 * Custom items the label is actually an array of the font icon meta,
@@ -1523,15 +1507,15 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$checkbox = cnHTML::input(
 								array(
-									'type'    => 'checkbox',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => 'checked="checked"',
-									'disabled'=> true,
+									'type'     => 'checkbox',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[active][]',
+									'checked'  => 'checked="checked"',
+									'disabled' => true,
 									// 'label'   => $label,
-									'layout'  => '%field%',
-									'return'  => true,
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								$key
 							);
@@ -1542,7 +1526,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'layout'  => '%field%',
 									'return'  => true,
 								),
@@ -1551,16 +1535,16 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									'type'     => 'text',
+									'prefix'   => '',
+									'id'       => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'     => esc_attr( $name ) . '[type][' . $key . ']',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
-									'disabled'=> true,
-									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'layout'  => '%field%',
-									'return'  => true,
+									'disabled' => true,
+									'data'     => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout'   => '%field%',
+									'return'   => true,
 								),
 								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
 							);
@@ -1577,7 +1561,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 										'id'   => esc_attr( $name ) . '[active][%token%]',
 										'name' => esc_attr( $name ) . '[active][]',
 									),
-									'checked' => isset( $value['active'] ) ? checked( true , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , false ) : '',
+									'checked' => isset( $value['active'] ) ? checked( true, ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ), false ) : '',
 									'label'   => $label,
 									'layout'  => '%field%',
 									'return'  => true,
@@ -1587,21 +1571,21 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 							$input = cnHTML::input(
 								array(
-									'type'    => 'text',
-									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[icon][' . $key . '][name]',
-									'name'    => esc_attr( $name ) . '[icon][' . $key . '][name]',
+									'type'   => 'text',
+									'prefix' => '',
+									'id'     => esc_attr( $name ) . '[icon][' . $key . '][name]',
+									'name'   => esc_attr( $name ) . '[icon][' . $key . '][name]',
 									// 'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									// 'label'   => $label,
 									// 'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
-									'data'    => array(
+									'data'   => array(
 										'id'         => esc_attr( $name ) . '[icon][%token%][name]',
 										'name'       => esc_attr( $name ) . '[icon][%token%][name]',
 										'custom'     => ! array_key_exists( $key, $field['options']['items'] ) ? 1 : 0,
 										'registered' => array_key_exists( $key, $field['options']['items'] ) ? 1 : 0,
 									),
-									'layout'  => '%field%',
-									'return'  => true,
+									'layout' => '%field%',
+									'return' => true,
 								),
 								sanitize_text_field( isset( $value['icon'][ $key ]['name'] ) ? $value['icon'][ $key ]['name'] : $field['options']['items'][ $key ] )
 							);
@@ -1624,125 +1608,125 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 						$hidden = cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[order][]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'id'     => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'   => esc_attr( $name ) . '[order][]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[order][%token%]',
 									'name' => esc_attr( $name ) . '[order][]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							$key
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][slug]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][slug]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][slug]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][slug]',
+								'data'   => array(
 									'id  ' => esc_attr( $name ) . '[icon][%token%][slug]',
 									'name' => esc_attr( $name ) . '[icon][%token%][slug]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['slug'] ) ? $value['icon'][ $key ]['slug'] : $key )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-background-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-background-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
+								'data'   => array(
 									'id  ' => esc_attr( $name ) . '[icon][%token%][background-color]',
 									'name' => esc_attr( $name ) . '[icon][%token%][background-color]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-color'] ) ? $value['icon'][ $key ]['background-color'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-hover-background-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-hover-background-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[icon][%token%][background-color-hover]',
 									'name' => esc_attr( $name ) . '[icon][%token%][background-color-hover]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-color-hover'] ) ? $value['icon'][ $key ]['background-color-hover'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-background-transparent' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-background-transparent' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[icon][%token%][background-transparent]',
 									'name' => esc_attr( $name ) . '[icon][%token%][background-transparent]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['background-transparent'] ) ? $value['icon'][ $key ]['background-transparent'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-foreground-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-foreground-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
+								'data'   => array(
 									'id  ' => esc_attr( $name ) . '[icon][%token%][foreground-color]',
 									'name' => esc_attr( $name ) . '[icon][%token%][foreground-color]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color'] ) ? $value['icon'][ $key ]['foreground-color'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
-								'type'    => 'hidden',
-								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-hover-foreground-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
-								'data'    => array(
+								'type'   => 'hidden',
+								'prefix' => '',
+								'class'  => array( 'cn-brandicon-hover-foreground-color' ),
+								'id'     => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
+								'name'   => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
+								'data'   => array(
 									'id'   => esc_attr( $name ) . '[icon][%token%][foreground-color-hover]',
 									'name' => esc_attr( $name ) . '[icon][%token%][foreground-color-hover]',
 								),
-								'label'   => '',
-								'layout'  => '%field%',
-								'return'  => true,
+								'label'  => '',
+								'layout' => '%field%',
+								'return' => true,
 							),
 							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color-hover'] ) ? $value['icon'][ $key ]['foreground-color-hover'] : '' )
 						);
@@ -1807,7 +1791,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'colorpicker':
-
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						$out .= sprintf(
@@ -1829,7 +1812,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				default:
-
 					ob_start();
 
 					do_action( 'cn_settings_field-' . $field['type'], $name, $value, $field );
@@ -1857,7 +1839,7 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 				echo 'quicktags("' . esc_js( $id ) . '");';
 			}
 
-		    echo '/* ]]> */</script>';
+			echo '/* ]]> */</script>';
 		}
 
 		/**
@@ -2162,8 +2144,8 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 			nocache_headers();
 			header( 'Content-Type: application/json; charset=utf-8' );
-			header( 'Content-Disposition: attachment; filename=' . $filename  . '.json' );
-			header( "Expires: 0" );
+			header( 'Content-Disposition: attachment; filename=' . $filename . '.json' );
+			header( 'Expires: 0' );
 
 			echo json_encode( self::getAll() );
 			exit;

@@ -122,12 +122,12 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 		}
 
 		$notEditableID = $this->filterBy( 'visibility', Connections_Directory()->currentUser->canNotView() )
-		                      ->getCollection()
-		                      ->pluck( 'id' )
-		                      ->toArray();
-		$existingID = $this->items->pluck( 'id' )->toArray();
-		$updatedID  = $new->pluck( 'id' )->toArray();
-		$deleted    = array_diff( $existingID, $updatedID, $notEditableID );
+							  ->getCollection()
+							  ->pluck( 'id' )
+							  ->toArray();
+		$existingID    = $this->items->pluck( 'id' )->toArray();
+		$updatedID     = $new->pluck( 'id' )->toArray();
+		$deleted       = array_diff( $existingID, $updatedID, $notEditableID );
 
 		// Remove email addresses from collection which do not exist in the update array, because they were removed.
 		if ( 0 < count( $deleted ) ) {
@@ -254,8 +254,8 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_email_address' )
-		     ->applyFilter( 'cn_email_addresses' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_email_addresses' )
+			 ->take( $limit );
 
 		return $this->filtered->values();
 	}
@@ -276,8 +276,8 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_email_address' )
-		     ->applyFilter( 'cn_email_addresses' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_email_addresses' )
+			 ->take( $limit );
 
 		return $this->filtered->values()->toArray();
 	}
@@ -297,7 +297,6 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_email_address':
-
 				/**
 				 * An email address object.
 				 *
@@ -317,7 +316,6 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_email_addresses':
-
 				/**
 				 * An indexed array of email address objects.
 				 *
@@ -330,14 +328,12 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_email_address':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_email_address', $item );
 				};
 				break;
 
 			case 'cn_set_email_addresses':
-
 				$this->filtered = apply_filters( 'cn_set_email_addresses', $this->filtered );
 				break;
 		}
@@ -377,7 +373,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 */
 	public function filterBy( $field, $value ) {
 
-		if ( in_array( $field, array( 'type') ) ) {
+		if ( in_array( $field, array( 'type' ) ) ) {
 
 			if ( ! empty( $value ) ) {
 
@@ -439,7 +435,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	public function query( $options = array() ) {
 
 		// Grab an instance of the Connections object.
-		$instance  = Connections_Directory();
+		$instance = Connections_Directory();
 
 		// Empty the Collection since fresh data is populating the Collection from the db.
 		$this->items    = new cnCollection();

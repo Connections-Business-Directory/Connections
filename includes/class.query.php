@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Methods to be used to query entries.
  *
@@ -92,7 +91,7 @@ class cnQuery {
 
 		} else {
 
-			$GLOBALS['wp_query']->query_vars[ $var ] = $value;
+			$GLOBALS['wp_query']->query_vars[ $var ]     = $value;
 			$GLOBALS['wp_the_query']->query_vars[ $var ] = $value;
 		}
 	}
@@ -103,7 +102,7 @@ class cnQuery {
 	 *
 	 * @global wpdb $wpdb
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 *
 	 * @return string
 	 */
@@ -127,7 +126,7 @@ class cnQuery {
 		$atts['relation'] = in_array( $atts['relation'], array( 'AND', 'OR' ) ) ? strtoupper( $atts['relation'] ) : 'AND';
 
 		if ( ( is_string( $atts['value'] ) && 0 < strlen( $atts['field'] ) )
-		     || ( is_array( $atts['value'] ) && 0 < count( $atts['value'] ) ) ) {
+			 || ( is_array( $atts['value'] ) && 0 < count( $atts['value'] ) ) ) {
 
 			$value = cnFunction::parseStringList( $atts['value'], $atts['delimiter'] );
 			$count = count( $value );

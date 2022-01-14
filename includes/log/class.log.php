@@ -260,7 +260,7 @@ final class cnLog {
 	 * @since 8.2.10
 	 * @var   string
 	 */
-	const TAXONOMY  = 'cn_log_type';
+	const TAXONOMY = 'cn_log_type';
 
 	/**
 	 * @since 8.2.10
@@ -289,7 +289,7 @@ final class cnLog {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof cnLog ) ) {
 
-			self::$instance = new cnLog;
+			self::$instance = new cnLog();
 
 			// Register log post type.
 			add_action( 'init', array( __CLASS__, 'registerPostType' ), 1 );

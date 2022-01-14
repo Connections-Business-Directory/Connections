@@ -63,6 +63,7 @@ class County extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: County. The largest territorial division for local government within a state of the U.S. */
 						sprintf( __( 'Related by County - %s', 'connections' ), $queryParameters['county'] )
 					);
 				}

@@ -48,7 +48,7 @@ final class cnEntry_Addresses implements cnToArray {
 
 				$this->fromArray( maybe_unserialize( $data ) );
 
-			} elseif( is_array( $data ) ) {
+			} elseif ( is_array( $data ) ) {
 
 				$this->fromArray( $data );
 			}
@@ -230,12 +230,12 @@ final class cnEntry_Addresses implements cnToArray {
 		}
 
 		$notEditableID = $this->filterBy( 'visibility', Connections_Directory()->currentUser->canNotView() )
-		                   ->getCollection()
-		                   ->pluck( 'id' )
-		                   ->toArray();
-		$existingID = $this->items->pluck( 'id' )->toArray();
-		$updatedID  = $new->pluck( 'id' )->toArray();
-		$deleted    = array_diff( $existingID, $updatedID, $notEditableID );
+						   ->getCollection()
+						   ->pluck( 'id' )
+						   ->toArray();
+		$existingID    = $this->items->pluck( 'id' )->toArray();
+		$updatedID     = $new->pluck( 'id' )->toArray();
+		$deleted       = array_diff( $existingID, $updatedID, $notEditableID );
 
 		// Remove addresses from collection which do not exist in the update array, because they were removed.
 		if ( 0 < count( $deleted ) ) {
@@ -469,7 +469,6 @@ final class cnEntry_Addresses implements cnToArray {
 		switch ( $filter ) {
 
 			case 'cn_address':
-
 				/**
 				 * An address object.
 				 *
@@ -500,7 +499,6 @@ final class cnEntry_Addresses implements cnToArray {
 				break;
 
 			case 'cn_addresses':
-
 				/**
 				 * An index array of address objects.
 				 *
@@ -513,14 +511,12 @@ final class cnEntry_Addresses implements cnToArray {
 				break;
 
 			case 'cn_set_address':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_address', $item );
 				};
 				break;
 
 			case 'cn_set_addresses':
-
 				$this->filtered = apply_filters( 'cn_set_addresses', $this->filtered );
 				break;
 		}
@@ -590,17 +586,14 @@ final class cnEntry_Addresses implements cnToArray {
 		switch ( $context ) {
 
 			case 'display':
-
 				$this->escapeForDisplay();
 				break;
 
 			case 'edit':
-
 				$this->escapeForEdit();
 				break;
 
 			case 'db':
-
 				$this->escapeForSaving();
 				break;
 		}
@@ -788,7 +781,7 @@ final class cnEntry_Addresses implements cnToArray {
 	public function query( $options = array() ) {
 
 		// Grab an instance of the Connections object.
-		$instance  = Connections_Directory();
+		$instance = Connections_Directory();
 
 		// Empty the Collection since fresh data is populating the Collection from the db.
 		$this->items    = new cnCollection();

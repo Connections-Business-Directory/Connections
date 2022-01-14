@@ -199,10 +199,10 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		 */
 		$prepared_args = apply_filters( "cn_rest_{$this->taxonomy}_query", $prepared_args, $request );
 
-		if ( ! empty( $prepared_args['post'] )  ) {
+		if ( ! empty( $prepared_args['post'] ) ) {
 
 			$query_result = $this->get_terms_for_post( $prepared_args );
-			$total_terms = $this->total_terms;
+			$total_terms  = $this->total_terms;
 
 		} else {
 
@@ -213,7 +213,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 			unset( $count_args['offset'] );
 			$count_args['hide_empty'] = false;
 			$count_args['fields']     = 'count';
-			$total_terms = cnTerm::getTaxonomyTerms( $this->taxonomy, $count_args );
+			$total_terms              = cnTerm::getTaxonomyTerms( $this->taxonomy, $count_args );
 
 			// Ensure we don't return results when offset is out of bounds
 			// see https://core.trac.wordpress.org/ticket/35935
@@ -232,7 +232,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		foreach ( $query_result as $term ) {
 
-			$data = $this->prepare_item_for_response( $term, $request );
+			$data       = $this->prepare_item_for_response( $term, $request );
 			$response[] = $this->prepare_response_for_collection( $data );
 		}
 
@@ -240,7 +240,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		// Store pagination values for headers then unset for count query.
 		$per_page = (int) $prepared_args['number'];
-		$page = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
+		$page     = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
 
 		$response->header( 'X-WP-Total', (int) $total_terms );
 
@@ -592,7 +592,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_database( $request ) {
 
-		$prepared_term = new stdClass;
+		$prepared_term = new stdClass();
 
 		$schema = $this->get_item_schema();
 
@@ -789,65 +789,65 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	public function get_item_schema() {
 
 		$schema = array(
-			'$schema'              => 'http://json-schema.org/draft-04/schema#',
-			'title'                => $this->taxonomy,
-			'type'                 => 'object',
-			'properties'           => array(
-				'id'               => array(
-					'description'  => __( 'Unique identifier for the resource.', 'connections' ),
-					'type'         => 'integer',
-					'context'      => array( 'view', 'embed', 'edit' ),
-					'readonly'     => true,
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => $this->taxonomy,
+			'type'       => 'object',
+			'properties' => array(
+				'id' => array(
+					'description' => __( 'Unique identifier for the resource.', 'connections' ),
+					'type'        => 'integer',
+					'context'     => array( 'view', 'embed', 'edit' ),
+					'readonly'    => true,
 				),
-				'count'            => array(
-					'description'  => __( 'Number of published posts for the resource.', 'connections' ),
-					'type'         => 'integer',
-					'context'      => array( 'view', 'edit' ),
-					'readonly'     => true,
+				'count' => array(
+					'description' => __( 'Number of published posts for the resource.', 'connections' ),
+					'type'        => 'integer',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
 				),
-				'description'      => array(
-					'description'  => __( 'HTML description of the resource.', 'connections' ),
-					'type'         => 'string',
-					'context'      => array( 'view', 'edit' ),
-					'arg_options'  => array(
+				'description' => array(
+					'description' => __( 'HTML description of the resource.', 'connections' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+					'arg_options' => array(
 						'sanitize_callback' => 'wp_filter_post_kses',
 					),
 				),
-				'link'             => array(
-					'description'  => __( 'URL to the resource.', 'connections' ),
-					'type'         => 'string',
-					'format'       => 'uri',
-					'context'      => array( 'view', 'embed', 'edit' ),
-					'readonly'     => true,
+				'link' => array(
+					'description' => __( 'URL to the resource.', 'connections' ),
+					'type'        => 'string',
+					'format'      => 'uri',
+					'context'     => array( 'view', 'embed', 'edit' ),
+					'readonly'    => true,
 				),
-				'name'             => array(
-					'description'  => __( 'HTML title for the resource.', 'connections' ),
-					'type'         => 'string',
-					'context'      => array( 'view', 'embed', 'edit' ),
-					'arg_options'  => array(
+				'name' => array(
+					'description' => __( 'HTML title for the resource.', 'connections' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'embed', 'edit' ),
+					'arg_options' => array(
 						'sanitize_callback' => 'sanitize_text_field',
 					),
-					'required'     => true,
+					'required'    => true,
 				),
-				'slug'             => array(
-					'description'  => __( 'An alphanumeric identifier for the resource unique to its type.', 'connections' ),
-					'type'         => 'string',
-					'context'      => array( 'view', 'embed', 'edit' ),
-					'arg_options'  => array(
+				'slug' => array(
+					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'connections' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'embed', 'edit' ),
+					'arg_options' => array(
 						'sanitize_callback' => array( $this, 'sanitize_slug' ),
 					),
 				),
-				'taxonomy'         => array(
-					'description'  => __( 'Type attribution for the resource.', 'connections' ),
-					'type'         => 'string',
-					'enum'         => array( $this->taxonomy ),
-					'context'      => array( 'view', 'embed', 'edit' ),
-					'readonly'     => true,
+				'taxonomy' => array(
+					'description' => __( 'Type attribution for the resource.', 'connections' ),
+					'type'        => 'string',
+					'enum'        => array( $this->taxonomy ),
+					'context'     => array( 'view', 'embed', 'edit' ),
+					'readonly'    => true,
 				),
-				'parent'           => array(
-					'description'  => __( 'The id for the parent of the resource.', 'connections' ),
-					'type'         => 'integer',
-					'context'      => array( 'view', 'edit' ),
+				'parent' => array(
+					'description' => __( 'The id for the parent of the resource.', 'connections' ),
+					'type'        => 'integer',
+					'context'     => array( 'view', 'edit' ),
 				),
 			),
 		);
@@ -871,44 +871,44 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		$query_params['context']['default'] = 'view';
 
 		$query_params['exclude'] = array(
-			'description'        => __( 'Ensure result set excludes specific ids.', 'connections' ),
-			'type'               => 'array',
-			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
+			'description'       => __( 'Ensure result set excludes specific ids.', 'connections' ),
+			'type'              => 'array',
+			'default'           => array(),
+			'sanitize_callback' => 'wp_parse_id_list',
 		);
 
 		$query_params['include'] = array(
-			'description'        => __( 'Limit result set to specific ids.', 'connections' ),
-			'type'               => 'array',
-			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
+			'description'       => __( 'Limit result set to specific ids.', 'connections' ),
+			'type'              => 'array',
+			'default'           => array(),
+			'sanitize_callback' => 'wp_parse_id_list',
 		);
 
 		$query_params['offset'] = array(
-			'description'        => __( 'Offset the result set by a specific number of items.', 'connections' ),
-			'type'               => 'integer',
-			'sanitize_callback'  => 'absint',
-			'validate_callback'  => 'rest_validate_request_arg',
+			'description'       => __( 'Offset the result set by a specific number of items.', 'connections' ),
+			'type'              => 'integer',
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		$query_params['order']      = array(
-			'description'           => __( 'Order sort attribute ascending or descending.', 'connections' ),
-			'type'                  => 'string',
-			'sanitize_callback'     => 'sanitize_key',
-			'default'               => 'asc',
-			'enum'                  => array(
+		$query_params['order'] = array(
+			'description'       => __( 'Order sort attribute ascending or descending.', 'connections' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'sanitize_key',
+			'default'           => 'asc',
+			'enum'              => array(
 				'asc',
 				'desc',
 			),
-			'validate_callback'     => 'rest_validate_request_arg',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		$query_params['orderby']    = array(
-			'description'           => __( 'Sort collection by resource attribute.', 'connections' ),
-			'type'                  => 'string',
-			'sanitize_callback'     => 'sanitize_key',
-			'default'               => 'name',
-			'enum'                  => array(
+		$query_params['orderby'] = array(
+			'description'       => __( 'Sort collection by resource attribute.', 'connections' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'sanitize_key',
+			'default'           => 'name',
+			'enum'              => array(
 				'id',
 				'include',
 				'name',
@@ -917,37 +917,36 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 				'description',
 				'count',
 			),
-			'validate_callback'     => 'rest_validate_request_arg',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		$query_params['hide_empty'] = array(
-			'description'           => __( 'Whether to hide resources not assigned to any posts.', 'connections' ),
-			'type'                  => 'boolean',
-			'default'               => false,
-			'validate_callback'     => 'rest_validate_request_arg',
+			'description'       => __( 'Whether to hide resources not assigned to any posts.', 'connections' ),
+			'type'              => 'boolean',
+			'default'           => false,
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		$query_params['parent'] = array(
-			'description'        => __( 'Limit result set to resources assigned to a specific parent.', 'connections' ),
-			'type'               => 'integer',
-			'sanitize_callback'  => 'absint',
-			'validate_callback'  => 'rest_validate_request_arg',
+			'description'       => __( 'Limit result set to resources assigned to a specific parent.', 'connections' ),
+			'type'              => 'integer',
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		$query_params['post'] = array(
-			'description'           => __( 'Limit result set to resources assigned to a specific post.', 'connections' ),
-			'type'                  => 'integer',
-			'default'               => null,
-			'validate_callback'     => 'rest_validate_request_arg',
+			'description'       => __( 'Limit result set to resources assigned to a specific post.', 'connections' ),
+			'type'              => 'integer',
+			'default'           => null,
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		$query_params['slug']    = array(
-			'description'        => __( 'Limit result set to resources with a specific slug.', 'connections' ),
-			'type'               => 'string',
-			'validate_callback'  => 'rest_validate_request_arg',
+		$query_params['slug'] = array(
+			'description'       => __( 'Limit result set to resources with a specific slug.', 'connections' ),
+			'type'              => 'string',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		return $query_params;
 	}
 }
-

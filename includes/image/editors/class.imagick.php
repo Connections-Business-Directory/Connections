@@ -16,9 +16,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param  int   $level 0–100
+	 * @param int $level 0–100
 	 *
-	 * @return mixed boolean | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function opacity( $level ) {
 
@@ -112,7 +112,12 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 		if ( empty( $hexColor ) ) {
 
-			return new WP_Error( 'image_colorize_error', __( 'Value passed to ' . get_class( $this ) . '::colorize() is an invalid hex color.', 'connections' ), $this->file );
+			return new WP_Error(
+				'image_colorize_error',
+				/* translators: Class method name. */
+				sprintf( __( 'Value passed to %s::colorize() is an invalid hex color.', 'connections' ), get_class( $this ) ),
+				$this->file
+			);
 		}
 
 		try {
@@ -142,7 +147,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 		try {
 
-			return $this->image->modulateImage( 100, 0,100 );
+			return $this->image->modulateImage( 100, 0, 100 );
 
 		} catch ( Exception $e ) {
 
@@ -218,7 +223,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 				$midpoint = cnUtility::remapRange( $level, -100, 100, -20, 20 );
 				$quanta   = $this->image->getQuantumRange();
 
-				return $this->image->sigmoidalContrastImage( $sharpen, abs( $midpoint ), .5 * $quanta["quantumRangeLong"] );
+				return $this->image->sigmoidalContrastImage( $sharpen, abs( $midpoint ), .5 * $quanta['quantumRangeLong'] );
 
 			} catch ( Exception $e ) {
 
@@ -322,7 +327,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 			return $this->image->blurImage( 0, 1 );
 
-		} catch (Exception $e) {
+		} catch ( Exception $e ) {
 
 			return new WP_Error( 'image_gaussian_blur_error', $e->getMessage(), $this->file );
 		}

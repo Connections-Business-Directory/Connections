@@ -55,15 +55,15 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		$cmp_y = $orig_h / $height;
 
 		// calculate x or y coordinate and width or height of source
-		if ($cmp_x > $cmp_y) {
+		if ( $cmp_x > $cmp_y ) {
 
 			$src_w = round( $orig_w / $cmp_x * $cmp_y );
-			$src_x = round( ($orig_w - ($orig_w / $cmp_x * $cmp_y)) / 2 );
+			$src_x = round( ( $orig_w - ( $orig_w / $cmp_x * $cmp_y ) ) / 2 );
 
-		} else if ($cmp_y > $cmp_x) {
+		} elseif ( $cmp_y > $cmp_x ) {
 
 			$src_h = round( $orig_h / $cmp_y * $cmp_x );
-			$src_y = round( ($orig_h - ($orig_h / $cmp_y * $cmp_x)) / 2 );
+			$src_y = round( ( $orig_h - ( $orig_h / $cmp_y * $cmp_x ) ) / 2 );
 
 		}
 
@@ -131,9 +131,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param  int   $level 0–100
+	 * @param int $level 0–100
 	 *
-	 * @return mixed boolean | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function opacity( $level ) {
 
@@ -157,11 +157,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 	// from: http://php.net/manual/en/function.imagefilter.php
 	// params: image resource id, opacity (eg. 0.0-1.0)
-	protected function _opacity($image, $opacity) {
-		if (!function_exists( 'imagealphablending' ) ||
-			!function_exists( 'imagecolorat' ) ||
-			!function_exists( 'imagecolorallocatealpha' ) ||
-			!function_exists( 'imagesetpixel' )) {
+	protected function _opacity( $image, $opacity ) {
+		if ( ! function_exists( 'imagealphablending' ) ||
+			 ! function_exists( 'imagecolorat' ) ||
+			 ! function_exists( 'imagecolorallocatealpha' ) ||
+			 ! function_exists( 'imagesetpixel' ) ) {
 			return false;
 		}
 
@@ -174,10 +174,10 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		// find the most opaque pixel in the image (the one with the smallest alpha value)
 		$minalpha = 127;
-		for ($x = 0; $x < $w; $x++) {
-			for ($y = 0; $y < $h; $y++) {
-				$alpha = (imagecolorat( $image, $x, $y ) >> 24 ) & 0xFF;
-				if( $alpha < $minalpha ) {
+		for ( $x = 0; $x < $w; $x++ ) {
+			for ( $y = 0; $y < $h; $y++ ) {
+				$alpha = ( imagecolorat( $image, $x, $y ) >> 24 ) & 0xFF;
+				if ( $alpha < $minalpha ) {
 					$minalpha = $alpha;
 				}
 			}
@@ -188,7 +188,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			for ( $y = 0; $y < $h; $y++ ) {
 				// get current alpha value (represents the TANSPARENCY!)
 				$colorxy = imagecolorat( $image, $x, $y );
-				$alpha = ( $colorxy >> 24 ) & 0xFF;
+				$alpha   = ( $colorxy >> 24 ) & 0xFF;
 				// calculate new alpha
 				if ( 127 !== $minalpha ) {
 					$alpha = 127 + 127 * $opacity * ( $alpha - 127 ) / ( 127 - $minalpha );
@@ -198,7 +198,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 				// get the color index with new alpha
 				$alphacolorxy = imagecolorallocatealpha( $image, ( $colorxy >> 16 ) & 0xFF, ( $colorxy >> 8 ) & 0xFF, $colorxy & 0xFF, $alpha );
 				// set pixel with the new color + opacity
-				if(!imagesetpixel( $image, $x, $y, $alphacolorxy )) {
+				if ( ! imagesetpixel( $image, $x, $y, $alphacolorxy ) ) {
 					return false;
 				}
 			}
@@ -224,7 +224,12 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		if ( empty( $hexColor ) ) {
 
-			return new WP_Error( 'image_colorize_error', __( 'Value passed to ' . get_class( $this ) . '::colorize() is an invalid hex color.', 'connections' ), $this->file );
+			return new WP_Error(
+				'image_colorize_error',
+				/* translators: Class method name. */
+				sprintf( __( 'Value passed to %s::colorize() is an invalid hex color.', 'connections' ), get_class( $this ) ),
+				$this->file
+			);
 		}
 
 		if ( function_exists( 'imagefilter' ) &&

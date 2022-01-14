@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class to geocode addresses.
  *
@@ -57,12 +56,12 @@ class cnGeo {
 	 * @since 0.7.30
 	 * @version 1.0
 	 * @uses wp_parse_args()
-	 * @param array   $origin
-	 * @param array   $destination
-	 * @param array   $atts        [optional]
+	 * @param array $origin
+	 * @param array $destination
+	 * @param array $atts        [optional]
 	 * @return float
 	 */
-	public static function distance( $origin , $destination , $atts = array() ) {
+	public static function distance( $origin, $destination, $atts = array() ) {
 		$defaultOrig = array(
 			'lat' => 0,
 			'lng' => 0,
@@ -88,8 +87,9 @@ class cnGeo {
 		$degreeLat = deg2rad( $dest['lat'] - $orig['lat'] );
 		$degreeLng = deg2rad( $dest['lng'] - $orig['lng'] );
 
-		$a = sin( $degreeLat/2 ) * sin( $degreeLat/2 ) + cos( deg2rad( $orig['lat'] ) ) * cos( deg2rad( $dest['lat'] ) ) * sin( $degreeLng/2 ) * sin( $degreeLng/2 );
+		$a = sin( $degreeLat / 2 ) * sin( $degreeLat / 2 ) + cos( deg2rad( $orig['lat'] ) ) * cos( deg2rad( $dest['lat'] ) ) * sin( $degreeLng / 2 ) * sin( $degreeLng / 2 );
 		$c = 2 * asin( sqrt( $a ) );
+
 		$distance = $radius * $c; // Result is in (SI) km.
 
 		if ( $atts['echo'] ) {
@@ -116,11 +116,11 @@ class cnGeo {
 	 *
 	 * @since 0.7.3
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 *
 	 * @return float|int|string
 	 */
-	static public function convert( $atts ) {
+	public static function convert( $atts ) {
 
 		_deprecated_function( __METHOD__, '10.3', 'Connections_Directory\Utility\Convert\_length()' );
 
@@ -165,8 +165,8 @@ class cnGeo {
 	// */
 	//public function closest( $lat, $lng, $max_distance = 25, $max_locations = 10, $units = 'mi', $fields = false ) {
 	//	/*
-    //     *  Allow for changing of units of measurement
-    //     */
+	//     *  Allow for changing of units of measurement
+	//     */
 	//	switch ( $units ) {
 	//	case 'mi':
 	//		//radius of the great circle in miles
@@ -179,8 +179,8 @@ class cnGeo {
 	//	}
 	//
 	//	/*
-    //     *  Support the selection of certain fields
-    //     */
+	//     *  Support the selection of certain fields
+	//     */
 	//	if ( ! $fields ) {
 	//		$this->db->select( '*' );
 	//	}
@@ -191,8 +191,8 @@ class cnGeo {
 	//	}
 	//
 	//	/*
-    //     *  Generate the select field for disctance
-    //     */
+	//     *  Generate the select field for disctance
+	//     */
 	//	$disctance_select = sprintf(
 	//		"( %d * acos( cos( radians(%s) ) " .
 	//		" * cos( radians( lat ) ) " .
@@ -208,28 +208,28 @@ class cnGeo {
 	//	);
 	//
 	//	/*
-    //     *  Add distance field
-    //     */
+	//     *  Add distance field
+	//     */
 	//	$this->db->select( $disctance_select, false );
 	//
 	//	/*
-    //     *  Make sure the results are within the search criteria
-    //     */
+	//     *  Make sure the results are within the search criteria
+	//     */
 	//	$this->db->having( 'distance <', $max_distance, false );
 	//
 	//	/*
-    //     *  Limit the number of results that the search will return
-    //     */
+	//     *  Limit the number of results that the search will return
+	//     */
 	//	$this->db->limit( $max_locations );
 	//
 	//	/*
-    //     *  Return the results by the closest locations first
-    //     */
+	//     *  Return the results by the closest locations first
+	//     */
 	//	$this->db->order_by( 'distance', 'ASC' );
 	//
 	//	/*
-    //     *  Define the table that we are querying
-    //     */
+	//     *  Define the table that we are querying
+	//     */
 	//	$this->db->from( $this->table_name );
 	//
 	//	$query = $this->db->get();
@@ -889,7 +889,7 @@ class cnGeo {
 	 *
 	 * @return array  An associative array where the key is the country code and the values is the country dial code.
 	 */
-	public static function getCountryPhoneCodes(){
+	public static function getCountryPhoneCodes() {
 
 		$codes = cnCountries::getAll();
 		$codes = wp_list_pluck( $codes, 'calling_code', 'iso_3166_1_alpha2' );

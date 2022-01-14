@@ -63,6 +63,7 @@ class Title extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: Words associated with a person's name, including titles designating rank, office, or nobility. */
 						sprintf( __( 'Related by Title - %s', 'connections' ), $queryParameters['title'] )
 					);
 				}

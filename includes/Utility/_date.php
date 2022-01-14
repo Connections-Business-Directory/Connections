@@ -115,18 +115,15 @@ final class _date {
 		switch ( $format ) {
 
 			case 'h':
-
 				$value = $value / HOUR_IN_SECONDS;
 				break;
 
 			case 'i':
-
 				$value = $value / MINUTE_IN_SECONDS;
 				break;
 
 			case 'O':
 			case 'P':
-
 				/**
 				 * @link https://stackoverflow.com/a/41403802/5351316
 				 */
@@ -170,7 +167,7 @@ final class _date {
 			$isDst = (int) date( 'I' );
 		}
 
-		$offset   *= HOUR_IN_SECONDS;
+		$offset  *= HOUR_IN_SECONDS;
 		$timezone = timezone_name_from_abbr( '', $offset, $isDst );
 
 		if ( false === $timezone ) {
@@ -180,8 +177,8 @@ final class _date {
 				foreach ( $abbr as $city ) {
 
 					if ( (bool) $city['dst'] === (bool) $isDst &&
-					     strlen( $city['timezone_id'] ) > 0 &&
-					     $city['offset'] == $offset
+						 strlen( $city['timezone_id'] ) > 0 &&
+						 $city['offset'] == $offset
 					) {
 
 						$timezone = $city['timezone_id'];
@@ -296,18 +293,18 @@ final class _date {
 
 				// Year, month, day, hour, minute, second and fraction should be coerced from string to int.
 				if ( in_array( $k, array( 'year', 'month', 'day', 'hour', 'minute', 'second', 'fraction' ) )
-				     && is_numeric( $v ) ) {
+					 && is_numeric( $v ) ) {
 
 					$matches[ $k ] = (int) $v;
 
 				} elseif ( 'month' === $k ) {
 
-					$parsed = date_parse( $v );
+					$parsed        = date_parse( $v );
 					$matches[ $k ] = (int) $parsed['month'];
 
 				} elseif ( 'day' === $k ) {
 
-					$parsed = date_parse( $v );
+					$parsed        = date_parse( $v );
 					$matches[ $k ] = (int) $parsed['day'];
 				}
 			}
@@ -345,13 +342,13 @@ final class _date {
 		if ( false !== $pos ) {
 
 			$datetime = array(
-				'year'          => '1970',
-				'month'         => '01',
-				'day'           => '01',
-				'hour'          => '00',
-				'minute'        => '00',
-				'second'        => '00',
-				'fraction'      => '000000',
+				'year'     => '1970',
+				'month'    => '01',
+				'day'      => '01',
+				'hour'     => '00',
+				'minute'   => '00',
+				'second'   => '00',
+				'fraction' => '000000',
 			);
 
 		} else {
@@ -360,13 +357,13 @@ final class _date {
 			list( $usec, $sec ) = explode( ' ', microtime() );
 
 			$datetime = array(
-				'year'          => date( 'Y', $sec ),
-				'month'         => date( 'm', $sec ),
-				'day'           => date( 'd', $sec ),
-				'hour'          => date( 'H', $sec ),
-				'minute'        => date( 'i', $sec ),
-				'second'        => date( 's', $sec ),
-				'fraction'      => substr( $usec, 2, 6 ),
+				'year'     => date( 'Y', $sec ),
+				'month'    => date( 'm', $sec ),
+				'day'      => date( 'd', $sec ),
+				'hour'     => date( 'H', $sec ),
+				'minute'   => date( 'i', $sec ),
+				'second'   => date( 's', $sec ),
+				'fraction' => substr( $usec, 2, 6 ),
 			);
 		}
 
@@ -381,7 +378,7 @@ final class _date {
 
 				// Existing value exists in supplied parsed date.
 				if ( array_key_exists( $keys[ $char ][0], $parsed ) &&
-				     false !== $parsed[ $keys[ $char ][0] ]
+					 false !== $parsed[ $keys[ $char ][0] ]
 				) {
 
 					/*
@@ -399,15 +396,15 @@ final class _date {
 
 		// If meridiem is set add/subtract 12 to the hour based on AM/PM so strtotime() will create the correct time.
 		if ( array_key_exists( 'meridiem', $parsed ) &&
-		     'PM' == strtoupper( $parsed['meridiem'] ) &&
-		     12 > $datetime['hour']
+			 'PM' == strtoupper( $parsed['meridiem'] ) &&
+			 12 > $datetime['hour']
 		) {
 
 			$datetime['hour'] = 12 + $datetime['hour'];
 
 		} elseif ( array_key_exists( 'meridiem', $parsed ) &&
-		           'AM' == strtoupper( $parsed['meridiem'] ) &&
-		           12 <= $datetime['hour']
+				   'AM' == strtoupper( $parsed['meridiem'] ) &&
+				   12 <= $datetime['hour']
 		) {
 
 			$datetime['hour'] = $datetime['hour'] - 12;

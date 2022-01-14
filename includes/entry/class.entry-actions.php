@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for processing entry administration actions.
  *
@@ -25,8 +24,8 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param  (array)  $data The data to be used when adding an entry.
-	 * @return (bool)
+	 * @param array $data The data to be used when adding an entry.
+	 * @return bool
 	 */
 	public static function add( $data ) {
 
@@ -38,9 +37,9 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param  (int)	$id		The entry ID.
-	 * @param  (array)  $data 	The data to be used when updating an entry.
-	 * @return (bool)
+	 * @param int   $id   The entry ID.
+	 * @param array $data The data to be used when updating an entry.
+	 * @return bool
 	 */
 	public static function update( $id, $data ) {
 
@@ -52,9 +51,9 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param  (int)	$id		The entry ID inwhich to duplicate.
-	 * @param  (array)  $data [optional] 	The data to be used when duplicating an entry. Will be used add/replace existing data.
-	 * @return (bool)
+	 * @param int   $id              The entry ID inwhich to duplicate.
+	 * @param array $data [optional] The data to be used when duplicating an entry. Will be used add/replace existing data.
+	 * @return bool
 	 */
 	public static function copy( $id, $data = array() ) {
 
@@ -103,7 +102,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_large', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_large', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 
@@ -120,7 +119,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_medium', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_medium', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 
@@ -137,7 +136,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 
@@ -207,7 +206,7 @@ class cnEntry_Action {
 				'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
 				'sub_dir'   => $entrySlug,
-				),
+			),
 			'data'
 		);
 
@@ -279,7 +278,7 @@ class cnEntry_Action {
 
 			$files = new DirectoryIterator( $sourcePath );
 
-			foreach( $files as $file ) {
+			foreach ( $files as $file ) {
 
 				if ( $file->isDot() ) { continue; }
 
@@ -302,7 +301,7 @@ class cnEntry_Action {
 	 * Deletes the image and its variations from an entry.
 	 *
 	 * NOTE: The entry slug should be run thru rawurldecode() before being passed
-	 * 		 to this method as $source.
+	 *       to this method as $source.
 	 *
 	 * @access private
 	 * @since  8.1
@@ -353,7 +352,7 @@ class cnEntry_Action {
 		$files         = new DirectoryIterator( $path );
 		$filesFiltered = new RegexIterator( $files, sprintf( '~%s-[a-f0-9]{32}.%s~i', preg_quote( $info['filename'] ), preg_quote( $info['extension'] ) ) );
 
-		foreach( $filesFiltered as $file ) {
+		foreach ( $filesFiltered as $file ) {
 
 			if ( is_callable( $file, 'isDot' ) ) {
 
@@ -594,7 +593,6 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-
 				// If the entry is being copied, the source slug needs copied because it is required
 				// in order to copy the source entry images to the new entry.
 				if ( ! empty( $id ) ) {
@@ -612,7 +610,6 @@ class cnEntry_Action {
 				break;
 
 			case 'update':
-
 				// If an entry is being edited, set the new slug, if a new slug was provided.
 				if ( isset( $data['slug'] ) && $data['slug'] != $entry->getSlug() ) {
 
@@ -788,7 +785,6 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_add_entry' ) ) {
 
@@ -822,7 +818,6 @@ class cnEntry_Action {
 				break;
 
 			case 'update':
-
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
@@ -1125,7 +1120,7 @@ class cnEntry_Action {
 	 */
 	public static function geoCode( $address ) {
 
-		$query  = \Connections_Directory\Model\Format\Address\As_String::format( $address );
+		$query = \Connections_Directory\Model\Format\Address\As_String::format( $address );
 
 		/*
 		 * If the address is empty, no need to geocode.
@@ -1207,7 +1202,6 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-
 				foreach ( $meta as $row ) {
 
 					$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
@@ -1216,7 +1210,6 @@ class cnEntry_Action {
 				break;
 
 			case 'update':
-
 				foreach ( $meta as $metaID => $row ) {
 
 					cnMeta::update( 'entry', $id, $row['key'], $row['value'] );
@@ -1227,7 +1220,6 @@ class cnEntry_Action {
 				break;
 
 			case 'delete':
-
 				if ( empty( $meta ) ) {
 
 					$meta = cnMeta::get( 'entry', $id );

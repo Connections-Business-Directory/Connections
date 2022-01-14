@@ -66,6 +66,7 @@ final class Actions {
 		} else {
 
 			$message = sprintf(
+			/* translators: Taxonomy name. */
 				__( 'You are not authorized to add %s. Please contact the admin if you received this message in error.', 'connections' ),
 				strtolower( $taxonomy->getLabels()->name )
 			);
@@ -127,6 +128,7 @@ final class Actions {
 				$referer = remove_query_arg( array( 'cn-action', 'id', '_wpnonce' ), wp_get_raw_referer() );
 				$goBack  = '<a href="' . esc_url( wp_validate_redirect( esc_url_raw( $referer ), admin_url( "admin.php?page=connections_manage_{$taxonomy->getSlug()}_terms" ) ) ) . '">' . esc_html( $taxonomy->getLabels()->back_to_items ) . '</a>';
 				$message = sprintf(
+					/* translators: Taxonomy name. */
 					_x( '%s has been updated.', 'taxonomy term has been updated', 'connections' ),
 					$taxonomy->getLabels()->singular_name
 				);
@@ -137,6 +139,7 @@ final class Actions {
 		} else {
 
 			$message = sprintf(
+				/* translators: Taxonomy name. */
 				__( 'You are not authorized to edit %s. Please contact the admin if you received this message in error.', 'connections' ),
 				strtolower( $taxonomy->getLabels()->name )
 			);
@@ -183,6 +186,7 @@ final class Actions {
 		} else {
 
 			$message = sprintf(
+				/* translators: Taxonomy name. */
 				__( 'You are not authorized to delete %s. Please contact the admin if you received this message in error.', 'connections' ),
 				strtolower( $taxonomy->getLabels()->name )
 			);
@@ -249,6 +253,7 @@ final class Actions {
 		} else {
 
 			$message = sprintf(
+				/* translators: Taxonomy name. */
 				__( 'You are not authorized to delete %s. Please contact the admin if you received this message in error.', 'connections' ),
 				strtolower( $taxonomy->getLabels()->name )
 			);

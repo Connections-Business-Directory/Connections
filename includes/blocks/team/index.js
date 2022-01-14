@@ -623,7 +623,7 @@ export default registerBlockType(
 							<HierarchicalTermSelector
 								taxonomy='category'
 								terms={ JSON.parse( categoriesExclude ) }
-								onChange={ ( value ) => setAttributes( { Categories: JSON.stringify( value ) } ) }
+								onChange={ ( value ) => setAttributes( { categoriesExclude: JSON.stringify( value ) } ) }
 							/>
 
 						</PanelBody>

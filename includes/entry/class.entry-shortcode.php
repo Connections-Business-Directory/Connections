@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class to be used to render entry parts using shortcodes.
  *
@@ -41,8 +40,8 @@ class cnEntry_Shortcode {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  string $content The content to be processed.
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  string  $content The content to be processed.
 	 *
 	 * @return string          The result.
 	 */
@@ -118,7 +117,7 @@ class cnEntry_Shortcode {
 
 		$defaults = array(
 			'part' => '',
-			);
+		);
 
 		// Normally we'd use shortcode_atts, but that strips keys from $atts that do not exist in $defaults.
 		// Since $atts can contain various option for the different callback methods, we'll use wp_parse_args()
@@ -155,8 +154,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'addresses':
-
-				add_shortcode( 'cn_address', array( $this, 'address') );
+				add_shortcode( 'cn_address', array( $this, 'address' ) );
 
 				$out = has_shortcode( $content, 'cn_address' ) ? do_shortcode( $content ) : '';
 
@@ -165,8 +163,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'phone_numbers':
-
-				add_shortcode( 'cn_phone', array( $this, 'phone') );
+				add_shortcode( 'cn_phone', array( $this, 'phone' ) );
 
 				$out = has_shortcode( $content, 'cn_phone' ) ? do_shortcode( $content ) : '';
 
@@ -175,8 +172,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'email':
-
-				add_shortcode( 'cn_email', array( $this, 'email') );
+				add_shortcode( 'cn_email', array( $this, 'email' ) );
 
 				$out = has_shortcode( $content, 'cn_email' ) ? do_shortcode( $content ) : '';
 
@@ -185,8 +181,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'im':
-
-				add_shortcode( 'cn_im', array( $this, 'im') );
+				add_shortcode( 'cn_im', array( $this, 'im' ) );
 
 				$out = has_shortcode( $content, 'cn_im' ) ? do_shortcode( $content ) : '';
 
@@ -195,8 +190,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'social_networks':
-
-				add_shortcode( 'cn_social_network', array( $this, 'socialNetwork') );
+				add_shortcode( 'cn_social_network', array( $this, 'socialNetwork' ) );
 
 				$out = has_shortcode( $content, 'cn_social_network' ) ? do_shortcode( $content ) : '';
 
@@ -205,8 +199,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'links':
-
-				add_shortcode( 'cn_link', array( $this, 'link') );
+				add_shortcode( 'cn_link', array( $this, 'link' ) );
 
 				$out = has_shortcode( $content, 'cn_link' ) ? do_shortcode( $content ) : '';
 
@@ -215,8 +208,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'dates':
-
-				add_shortcode( 'cn_date', array( $this, 'date') );
+				add_shortcode( 'cn_date', array( $this, 'date' ) );
 
 				$out = has_shortcode( $content, 'cn_date' ) ? do_shortcode( $content ) : '';
 
@@ -233,7 +225,6 @@ class cnEntry_Shortcode {
 				break;
 
 			default:
-
 				// Custom shortcodes can be applied to the content using this filter.
 				$out = apply_filters( 'cn_entry_part-' . $atts['part'], $content, $atts, $this->entry );
 
@@ -265,7 +256,7 @@ class cnEntry_Shortcode {
 			'state'     => null,
 			'zipcode'   => null,
 			'country'   => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
@@ -280,7 +271,7 @@ class cnEntry_Shortcode {
 			'%country%',
 			'%latitude%',
 			'%longitude%',
-			);
+		);
 
 		$addresses = $this->entry->getAddresses( $atts );
 
@@ -297,7 +288,7 @@ class cnEntry_Shortcode {
 				'country'     => $address->country,
 				'latitude'    => $address->latitude,
 				'longitude'   => $address->longitude,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 		}
@@ -323,14 +314,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%number%',
-			);
+		);
 
 		$phoneNumbers = $this->entry->getPhoneNumbers( $atts );
 
@@ -339,7 +330,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type'   => $phone->name,
 				'number' => $phone->number,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -355,14 +346,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%address%',
-			);
+		);
 
 		$emailAddresses = $this->entry->getEmailAddresses( $atts );
 
@@ -371,7 +362,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type'    => $email->name,
 				'address' => $email->address,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -398,14 +389,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%id%',
-			);
+		);
 
 		$networks = $this->entry->getIm( $atts );
 
@@ -414,7 +405,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type' => $network->name,
 				'id'   => $network->id,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -441,14 +432,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%url%',
-			);
+		);
 
 		$networks = $this->entry->getSocialMedia( $atts );
 
@@ -456,8 +447,8 @@ class cnEntry_Shortcode {
 
 			$replace = array(
 				'type' => $network->name,
-				'url'   => $network->url,
-				);
+				'url'  => $network->url,
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -484,7 +475,7 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
@@ -492,7 +483,7 @@ class cnEntry_Shortcode {
 			'%type%',
 			'%title%',
 			'%url%',
-			);
+		);
 
 		$links = $this->entry->getLinks( $atts );
 
@@ -502,7 +493,7 @@ class cnEntry_Shortcode {
 				'type'  => $link->name,
 				'title' => $link->title,
 				'url'   => $link->url,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 
@@ -529,14 +520,14 @@ class cnEntry_Shortcode {
 		$defaults = array(
 			'preferred' => false,
 			'type'      => null,
-			);
+		);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
 
 		$search = array(
 			'%type%',
 			'%date%',
-			);
+		);
 
 		$dates = $this->entry->getDates( $atts );
 
@@ -545,7 +536,7 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type' => $date->name,
 				'date' => $date->date,
-				);
+			);
 
 			$out .= str_ireplace( $search, $replace, $content );
 

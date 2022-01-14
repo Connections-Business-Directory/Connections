@@ -88,47 +88,38 @@ class cnSanitize {
 		switch ( $type ) {
 
 			case 'text':
-
 				$string = sanitize_text_field( $string );
 				break;
 
 			case 'textarea':
-
 				$string = trim( wp_unslash( $string ) );
 				break;
 
 			case 'quicktag':
-
 				$string = self::quicktag( $string );
 				break;
 
 			case 'html':
-
 				$string = self::html( $string );
 				break;
 
 			case 'url':
-
 				$string = esc_url_raw( $string );
 				break;
 
 			case 'email':
-
 				$string = sanitize_email( $string );
 				break;
 
 			case 'integer':
-
 				$string = self::integer( $string );
 				break;
 
 			case 'currency':
-
 				$string = self::currency( $string );
 				break;
 
 			case 'color':
-
 				$string = self::hexColor( $string );
 				break;
 
@@ -230,24 +221,19 @@ class cnSanitize {
 		switch ( $context ) {
 
 			case 'raw':
-
 				switch ( $field ) {
 
 					case 'url':
-
 						return esc_url_raw( $value );
 
 					default:
-
 						return $value;
 				}
 
 			case 'edit':
-
 				switch ( $field ) {
 
 					case 'excerpt':
-
 						return self::string( 'textarea', $value );
 
 					case 'name':
@@ -261,29 +247,24 @@ class cnSanitize {
 					case 'phone-number':
 					case 'messenger-id':
 					case 'date':
-
 						// This is the same as the post title on the edit-form-advanced.php admin page.
 						return esc_attr( esc_textarea( $value ) );
 
 					case 'url':
-
 						return esc_url( $value );
 
 					case 'attribute':
-
 						return esc_attr( $value );
 				}
 
 				break;
 
 			case 'db':
-
 				switch ( $field ) {
 
 					case 'bio':
 					case 'notes':
 					case 'excerpt':
-
 						/**
 						 * Match the post content sanitation before being inserted in the db.
 						 * See the `content_save_pre` filters.
@@ -295,7 +276,7 @@ class cnSanitize {
 
 						return wp_unslash( balanceTags( $value ) );
 
-					case 'name';
+					case 'name':
 					case 'street':
 					case 'district':
 					case 'county':
@@ -306,32 +287,27 @@ class cnSanitize {
 					case 'phone-number':
 					case 'messenger-id':
 					case 'date':
-
 						/**
 						 * Matches the post title sanitation before being inserted in the db.
 						 * Aee the `title_save_pre` filters.
 						 */
 						return trim( wp_unslash( $value ) );
 
-					case 'url';
-
+					case 'url':
 						return esc_url_raw( $value );
 
 					case 'attribute':
-
 						return esc_attr( $value );
 				}
 
 				break;
 
 			default:
-
 				switch ( $field ) {
 
 					case 'bio':
 					case 'notes':
 					case 'excerpt':
-
 						/**
 						 * Versions prior to 8.2.9 saved the bio and notes field slashed in the db.
 						 * Unslash them when displaying before displaying them.
@@ -349,20 +325,16 @@ class cnSanitize {
 					case 'phone-number':
 					case 'messenger-id':
 					case 'date':
-
 						// This is the same as the filters applied via the `the_title` filter for the post title.
 						return esc_html( trim( convert_chars( wptexturize( $value ) ) ) );
 
 					case 'url':
-
 						return esc_url( $value );
 
 					case 'attribute':
-
 						return esc_attr( $value );
 
 					case 'js':
-
 						return esc_js( $value );
 				}
 
@@ -383,9 +355,9 @@ class cnSanitize {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  mixed $value
-	 * @param  array $options An associative array of options.
-	 * @param  mixed $default [optional] The value to return if value does not exist in the options array.
+	 * @param mixed $value
+	 * @param array $options An associative array of options.
+	 * @param mixed $default [optional] The value to return if value does not exist in the options array.
 	 *
 	 * @return mixed
 	 */
@@ -421,9 +393,9 @@ class cnSanitize {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  array  $values   An index array of values.
-	 * @param  array  $options  An associative array of the valid options.
-	 * @param  array  $defaults [optional] The values to return if no values exists in the options array.
+	 * @param array $values   An index array of values.
+	 * @param array $options  An associative array of the valid options.
+	 * @param array $defaults [optional] The values to return if no values exists in the options array.
 	 *
 	 * @return array
 	 */

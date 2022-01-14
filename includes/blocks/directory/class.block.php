@@ -25,7 +25,7 @@ class Directory {
 				// When displaying the block using ServerSideRender the attributes need to be defined
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
 				// and display the "Error loading block: Invalid parameter(s): attributes" message.
-				'attributes' => array(
+				'attributes'      => array(
 					'advancedBlockOptions' => array(
 						'type'    => 'string',
 						'default' => '',

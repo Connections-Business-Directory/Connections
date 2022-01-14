@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class to manage registration and enqueueing of the CSS and JS files.
  *
@@ -88,7 +87,7 @@ class cnScript {
 		add_action( 'cn_frontend_enqueue_styles', array( __CLASS__, 'inlineBrandiconStyles' ) );
 
 		add_action( 'wp_print_scripts', array( __CLASS__, 'jQueryFixr' ), 999 );
-		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery'), 999 );
+		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery' ), 999 );
 	}
 
 	/**
@@ -266,12 +265,13 @@ class cnScript {
 				'showDetailsTitle'         => __( 'Click to show details.', 'connections' ),
 				'hideDetailsTitle'         => __( 'Click to hide details.', 'connections' ),
 				'imageMaxFileSize'         => wp_max_upload_size(),
-				'imageMaxFileSizeExceeded' => __(
-					sprintf(
+				'imageMaxFileSizeExceeded' => sprintf(
+				/* translators: max upload filesize. */
+					__(
 						'Selected image exceeds maximum upload file size of %s. Please choose a different image.',
-						esc_html( size_format( wp_max_upload_size() ) )
+						'connections'
 					),
-					'connections'
+					esc_html( size_format( wp_max_upload_size() ) )
 				),
 				'categoryDiv'              => array(
 					'nonce'  => wp_create_nonce( 'set_category_div_height' ),
@@ -364,10 +364,10 @@ class cnScript {
 		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 
-		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.19.1' , true );
+		wp_register_script( 'jquery-validate', $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ), '1.19.1', true );
 
 		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', true );
-		wp_register_script( 'js-cookie', $url . "assets/vendor/js-cookie/js.cookie.js", array(), '2.2.1', true );
+		wp_register_script( 'js-cookie', $url . 'assets/vendor/js-cookie/js.cookie.js', array(), '2.2.1', true );
 		wp_register_script(
 			'frontend',
 			"{$url}assets/dist/js/bundle.js",
@@ -446,7 +446,7 @@ class cnScript {
 
 		if ( is_rtl() ) {
 
-			wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array('cn-public'), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array( 'cn-public' ), CN_CURRENT_VERSION );
 		}
 
 		// This will locate the custom CSS file to be enqueued.
@@ -588,10 +588,10 @@ class cnScript {
 
 		foreach ( $posts as $post ) {
 
-			if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+			if ( preg_match_all( '/' . $pattern . '/s', $post->post_content, $matches )
 				&& array_key_exists( 2, $matches )
-				&& in_array( 'connections', $matches[2] ) )
-			{
+				&& in_array( 'connections', $matches[2] )
+			) {
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueStyles' ) );
 
@@ -672,8 +672,8 @@ class cnScript {
 	 */
 	public static function storeCorejQuery( $scripts ) {
 
-		self::$corejQuery['jquery'] = $scripts->registered['jquery'];
-		self::$corejQuery['jquery-core'] = isset( $scripts->registered['jquery-core'] ) && $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : false;
+		self::$corejQuery['jquery']         = $scripts->registered['jquery'];
+		self::$corejQuery['jquery-core']    = isset( $scripts->registered['jquery-core'] ) && $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : false;
 		self::$corejQuery['jquery-migrate'] = isset( $scripts->registered['jquery-migrate'] ) && $scripts->registered['jquery-migrate'] ? $scripts->registered['jquery-migrate'] : false;
 	}
 
@@ -892,13 +892,11 @@ class cnScript {
 		switch ( $shape ) {
 
 			case 'circle':
-
-				$css .= "i[class^=cn-brandicon] { border-radius: 50%; }" . PHP_EOL;
+				$css .= 'i[class^=cn-brandicon] { border-radius: 50%; }' . PHP_EOL;
 				break;
 
 			case 'square':
-
-				$css .= "i[class^=cn-brandicon] { border-radius: 0; }" . PHP_EOL;
+				$css .= 'i[class^=cn-brandicon] { border-radius: 0; }' . PHP_EOL;
 				break;
 		}
 
@@ -977,7 +975,7 @@ class cnScript {
 	 * @see    registerCSS()
 	 * @see    cnLocate::filePaths()
 	 *
-	 * @param  array  $paths An index array containing the file paths to be searched.
+	 * @param array $paths An index array containing the file paths to be searched.
 	 *
 	 * @return array
 	 */
@@ -999,7 +997,7 @@ class cnScript {
 	 *
 	 * @see    registerCSS()
 	 *
-	 * @param  array  $paths An index array containing the file paths to be searched.
+	 * @param array $paths An index array containing the file paths to be searched.
 	 *
 	 * @return array
 	 */

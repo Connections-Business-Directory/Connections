@@ -32,13 +32,13 @@ class cnShortcode {
 	 */
 	public static function hooks() {
 
-		// Register the core shortcode with the WordPres Shortcode API.
-		add_action( 'init', array( __CLASS__, 'register') );
+		// Register the core shortcode with the WordPress Shortcode API.
+		add_action( 'init', array( __CLASS__, 'register' ) );
 
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 		// remove_filter( 'the_content', 'wpautop' );
 
-		add_filter( 'content_save_pre',  array( __CLASS__, 'clean' ) );
+		add_filter( 'content_save_pre', array( __CLASS__, 'clean' ) );
 		// add_filter( 'the_content',  array( __CLASS__, 'clean' ), 5 ); // Run before cnShortcode::single()
 
 		add_filter( 'content_save_pre', array( __CLASS__, 'removeCodePreTags' ) );
@@ -122,7 +122,7 @@ class cnShortcode {
 		$pattern = get_shortcode_regex();
 		$found   = array();
 
-		if ( preg_match_all( '/'. $pattern .'/s', $content, $matches, PREG_SET_ORDER ) ) {
+		if ( preg_match_all( '/' . $pattern . '/s', $content, $matches, PREG_SET_ORDER ) ) {
 
 			if ( empty( $matches ) ) {
 
@@ -167,7 +167,6 @@ class cnShortcode {
 		switch ( $return ) {
 
 			case 'atts':
-
 				$atts = array();
 
 				foreach ( $found as $shortcode ) {
@@ -322,14 +321,14 @@ class cnShortcode {
 
 				$chr_map = array(
 					// Windows codepage 1252
-					"\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
-					"\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
-					"\xC2\x8B" => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
-					"\xC2\x91" => "'", // U+0091⇒U+2018 left single quotation mark
-					"\xC2\x92" => "'", // U+0092⇒U+2019 right single quotation mark
-					"\xC2\x93" => '"', // U+0093⇒U+201C left double quotation mark
-					"\xC2\x94" => '"', // U+0094⇒U+201D right double quotation mark
-					"\xC2\x9B" => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
+					"\xC2\x82"     => "'", // U+0082⇒U+201A single low-9 quotation mark
+					"\xC2\x84"     => '"', // U+0084⇒U+201E double low-9 quotation mark
+					"\xC2\x8B"     => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
+					"\xC2\x91"     => "'", // U+0091⇒U+2018 left single quotation mark
+					"\xC2\x92"     => "'", // U+0092⇒U+2019 right single quotation mark
+					"\xC2\x93"     => '"', // U+0093⇒U+201C left double quotation mark
+					"\xC2\x94"     => '"', // U+0094⇒U+201D right double quotation mark
+					"\xC2\x9B"     => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
 
 					// Regular Unicode     // U+0022 quotation mark (")
 					// U+0027 apostrophe     (')
@@ -350,7 +349,7 @@ class cnShortcode {
 				$chr = array_keys( $chr_map );   // but: for efficiency you should
 				$rpl = array_values( $chr_map ); // pre-calculate these two arrays
 
-				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, "UTF-8" ) );
+				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, 'UTF-8' ) );
 
 				$atts = shortcode_parse_atts( wp_unslash( $match[3] ) );
 				// error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
@@ -505,7 +504,7 @@ class cnShortcode {
 				 * $matches[6] == Unknown.
 				 */
 
-				if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches ) && array_key_exists( 2, $matches ) ) {
+				if ( preg_match_all( '/' . $pattern . '/s', $post->post_content, $matches ) && array_key_exists( 2, $matches ) ) {
 
 					// Build the results in a more usable format.
 					foreach ( $matches[2] as $key => $shortcode ) {
@@ -564,7 +563,7 @@ class cnShortcode {
 	 */
 	public static function view( $atts, $content = '', $tag = 'connections' ) {
 
-		// Ensure that the $atts var passed from Wordpress is an array.
+		// Ensure that the $atts var passed from WordPress is an array.
 		if ( ! is_array( $atts ) ) {
 			$atts = (array) $atts;
 		}
@@ -603,7 +602,6 @@ class cnShortcode {
 		switch ( $view ) {
 
 			case 'submit':
-
 				if ( has_action( 'cn_submit_entry_form' ) ) {
 
 					ob_start();
@@ -623,13 +621,11 @@ class cnShortcode {
 				break;
 
 			case 'landing':
-
 				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
 
 				break;
 
 			case 'search':
-
 				if ( has_action( 'cn_submit_search_form' ) ) {
 
 					ob_start();
@@ -646,7 +642,6 @@ class cnShortcode {
 				break;
 
 			case 'results':
-
 				if ( has_action( 'cn_submit_search_results' ) ) {
 
 					ob_start();
@@ -664,14 +659,12 @@ class cnShortcode {
 
 			// Show the standard result list.
 			case 'card':
-
 				return cnShortcode_Connections::shortcode( $atts, $content );
 
 				break;
 
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
-
 				if ( ! is_array( $atts ) ) {
 					$atts = array();
 				}
@@ -688,11 +681,9 @@ class cnShortcode {
 
 			// Show the entry detail using a template based on the entry type.
 			case 'detail':
-
 				switch ( cnQuery::getVar( 'cn-process' ) ) {
 
 					case 'edit':
-
 						if ( has_action( 'cn_edit_entry_form' ) ) {
 
 							// Check to see if the entry has been linked to a user ID.
@@ -734,7 +725,6 @@ class cnShortcode {
 						break;
 
 					default:
-
 						// Ensure an array is passed the the cnRetrieve::entries method.
 						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
 
@@ -752,7 +742,6 @@ class cnShortcode {
 
 			// Show the standard result list.
 			default:
-
 				// return cnShortcode_Connections::shortcode( $atts, $content );
 
 				if ( has_action( "cn_view_$view" ) ) {
@@ -789,9 +778,9 @@ class cnShortcode {
 		}
 
 		// Create an array of supported post types.
-		$supportedPostTypes  = array( 'page' );
-		$CPTOptions          = get_option( 'connections_cpt', array() );
-		$supportedCPTTypes   = _array::get( $CPTOptions, 'supported', array() );
+		$supportedPostTypes = array( 'page' );
+		$CPTOptions         = get_option( 'connections_cpt', array() );
+		$supportedCPTTypes  = _array::get( $CPTOptions, 'supported', array() );
 
 		// The `$supportedCPTTypes` should always be an array, but had at least one user where this was not the case.
 		// To prevent PHP error notice, do an array check.
@@ -907,7 +896,7 @@ class cnShortcode {
 	 *
 	 * @return string
 	 */
-	public static function removePBR( $content ){
+	public static function removePBR( $content ) {
 
 		$content = strtr(
 			$content,

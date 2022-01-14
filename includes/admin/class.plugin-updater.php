@@ -258,7 +258,7 @@ class cnPlugin_Updater {
 		 */
 		if ( ! is_object( $transient ) ) {
 
-			$transient = new stdClass;
+			$transient = new stdClass();
 		}
 
 		/**
@@ -313,7 +313,7 @@ class cnPlugin_Updater {
 				$checked[ $file ] = $p['Version'];
 
 				if ( ( ! isset( $transient->checked[ $file ] ) || strval( $transient->checked[ $file ] ) !== strval( $p['Version'] ) )
-				     && array_key_exists( $file, self::$plugins ) /* Skip all plugins not registered with this class. */
+					 && array_key_exists( $file, self::$plugins ) /* Skip all plugins not registered with this class. */
 				) {
 
 					$plugin_changed = true;
@@ -325,7 +325,7 @@ class cnPlugin_Updater {
 				foreach ( $transient->response as $plugin_file => $update_details ) {
 
 					if ( ! isset( $plugins[ $plugin_file ] )
-					     && array_key_exists( $plugin_file, self::$plugins ) /* Skip all plugins not registered with this class. */
+						 && array_key_exists( $plugin_file, self::$plugins ) /* Skip all plugins not registered with this class. */
 					) {
 
 						$plugin_changed = true;
@@ -360,7 +360,7 @@ class cnPlugin_Updater {
 				if ( version_compare( self::$plugins[ $plugin->plugin ]['version'], $plugin->new_version, '<' ) ) {
 
 					$transient->response[ $plugin->plugin ] = $plugin;
-					$update[ $plugin->plugin ] = $plugin;
+					$update[ $plugin->plugin ]              = $plugin;
 
 					// Delete the plugin info transient set in the plugin_api filter for the view details/version links.
 					$cache_key = 'cn-edd_sl_rest_request_' . substr( md5( serialize( $plugin->slug ) ), 0, 15 );
@@ -369,7 +369,7 @@ class cnPlugin_Updater {
 				} else {
 
 					$transient->no_update[ $plugin->plugin ] = $plugin;
-					$no_update[ $plugin->plugin ] = $plugin;
+					$no_update[ $plugin->plugin ]            = $plugin;
 				}
 
 				// $transient->checked[ $plugin->plugin ] = self::$plugins[ $plugin->plugin ]['version'];
@@ -448,7 +448,6 @@ class cnPlugin_Updater {
 			//	break;
 
 			default:
-
 				if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 
 					$timeout = 2 * HOUR_IN_SECONDS;
@@ -485,13 +484,13 @@ class cnPlugin_Updater {
 
 			if ( $timeout > ( time() - $last_checked ) ) {
 
-				$response  = isset( $cached['response'] )  ? $cached['response']  : array();
+				$response  = isset( $cached['response'] ) ? $cached['response'] : array();
 				$no_update = isset( $cached['no_update'] ) ? $cached['no_update'] : array();
-				$checked   = isset( $cached['checked'] )   ? $cached['checked']   : array();
+				$checked   = isset( $cached['checked'] ) ? $cached['checked'] : array();
 
-				$transient->response  = isset( $transient->response )  ? array_merge( $transient->response, $response )   : $response;
+				$transient->response  = isset( $transient->response ) ? array_merge( $transient->response, $response ) : $response;
 				$transient->no_update = isset( $transient->no_update ) ? array_merge( $transient->no_update, $no_update ) : $no_update;
-				$transient->checked   = isset( $transient->checked )   ? array_merge( $transient->checked, $checked )     : $checked;
+				$transient->checked   = isset( $transient->checked ) ? array_merge( $transient->checked, $checked ) : $checked;
 
 				$transient->last_checked = $last_checked;
 			}
@@ -653,12 +652,12 @@ class cnPlugin_Updater {
 		}
 
 		$options = array(
-			'timeout'   => $timeout,
-			'sslverify' => cnHTTP::verifySSL(),
-			'body'      => array(
-				'url'        => home_url(),
-				'action'     => ! empty( $plugin ) ? 'info' : 'update-check',
-				'plugins'    => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$plugins ),
+			'timeout'    => $timeout,
+			'sslverify'  => cnHTTP::verifySSL(),
+			'body'       => array(
+				'url'     => home_url(),
+				'action'  => ! empty( $plugin ) ? 'info' : 'update-check',
+				'plugins' => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$plugins ),
 			),
 			'user-agent' => 'Connections Business Directory/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 		);

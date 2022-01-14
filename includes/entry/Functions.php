@@ -55,59 +55,48 @@ class Functions {
 		switch ( $atts['relation'] ) {
 
 			case 'last_name':
-
 				$queryParameters['last_name'] = $entry->getName( array( 'format' => '%last%' ) );
 				break;
 
 			case 'title':
-
 				$queryParameters['title'] = empty( $entry->getTitle() ) ? '1=2' : $entry->getTitle();
 				break;
 
 			case 'organization':
-
 				$queryParameters['organization'] = empty( $entry->getOrganization() ) ? '1=2' : $entry->getOrganization();
 				break;
 
 			case 'department':
-
 				$queryParameters['department'] = empty( $entry->getDepartment() ) ? '1=2' : $entry->getDepartment();
 				break;
 
 			case 'district':
-
 				$queryParameters['district'] = false === $address || empty( $address->getDistrict() ) ? '1=2' : $address->getDistrict();
 				break;
 
 			case 'county':
-
 				$queryParameters['county'] = false === $address || empty( $address->getCounty() ) ? '1=2' : $address->getCounty();
 				break;
 
 			case 'locality':
-
 				$queryParameters['city'] = false === $address || empty( $address->getLocality() ) ? '1=2' : $address->getLocality();
 				break;
 
 			case 'region':
-
 				$queryParameters['state'] = false === $address || empty( $address->getRegion() ) ? '1=2' : $address->getRegion();
 				break;
 
 			case 'postal_code':
-
 				$queryParameters['zip_code'] = false === $address || empty( $address->getPostalCode() ) ? '1=2' : $address->getPostalCode();
 				break;
 
 			case 'taxonomy':
-
-				$terms   = $entry->getCategory();
-				$termIDs = wp_list_pluck( $terms, 'term_id' );
+				$terms                       = $entry->getCategory();
+				$termIDs                     = wp_list_pluck( $terms, 'term_id' );
 				$queryParameters['category'] = $termIDs;
 				break;
 
 			default:
-
 				return $related;
 
 		}

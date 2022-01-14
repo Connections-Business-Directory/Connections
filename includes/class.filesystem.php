@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class for working with the file system.
  *
@@ -168,9 +167,9 @@ class cnFileSystem {
 	 * @static
 	 * @url    http://stackoverflow.com/a/12763962
 	 * @uses   self::mkdir()
-	 * @param  string   $source      Source path
-	 * @param  string   $dest        Destination path
-	 * @param  int      $permissions New folder creation permissions
+	 * @param string $source      Source path
+	 * @param string $dest        Destination path
+	 * @param int    $permissions New folder creation permissions
 	 *
 	 * @return bool     Returns true on success, false on failure
 	 */
@@ -297,8 +296,8 @@ class cnUpload {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param array  $file Reference to a single element of $_FILES.
-	 * @param array  $atts An associative array containing the upload params.
+	 * @param array $file Reference to a single element of $_FILES.
+	 * @param array $atts An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
@@ -398,7 +397,7 @@ class cnUpload {
 			$info['base_rel_url'] = str_replace( network_home_url(), '', $info['base_url'] );
 
 			$info['img_base_path']    = trailingslashit( $info['base_path'] . CN_IMAGE_DIR_NAME );
-			$info['img_base_url']     = trailingslashit( $info['base_url']  . CN_IMAGE_DIR_NAME );
+			$info['img_base_url']     = trailingslashit( $info['base_url'] . CN_IMAGE_DIR_NAME );
 			$info['img_base_rel_url'] = trailingslashit( $info['base_rel_url'] . CN_IMAGE_DIR_NAME );
 
 		}
@@ -420,8 +419,8 @@ class cnUpload {
 	 * @uses   wp_handle_upload()
 	 * @uses   remove_filter()
 	 *
-	 * @param array  $file Reference to a single element of $_FILES.
-	 * @param array  $atts An associative array containing the upload params.
+	 * @param array $file Reference to a single element of $_FILES.
+	 * @param array $atts An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
@@ -438,7 +437,7 @@ class cnUpload {
 			'mimes'             => array(),
 			'error_callback'    => array( $this, 'uploadErrorHandler' ),
 			'filename_callback' => array( $this, 'uniqueFilename' ),
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
@@ -447,7 +446,7 @@ class cnUpload {
 		 */
 		$filter['wp_handle_upload_prefilter'] = isset( $wp_filter['wp_handle_upload_prefilter'] ) ? $wp_filter['wp_handle_upload_prefilter'] : '';
 		$filter['upload_dir']                 = isset( $wp_filter['upload_dir'] ) ? $wp_filter['upload_dir'] : '';
-		$filter['wp_handle_upload'] = isset( $wp_filter['wp_handle_upload'] ) ? $wp_filter['wp_handle_upload'] : '';
+		$filter['wp_handle_upload']           = isset( $wp_filter['wp_handle_upload'] ) ? $wp_filter['wp_handle_upload'] : '';
 
 		/*
 		 * Remove all filters hooked into the upload_dir filter to prevent conflicts.
@@ -629,7 +628,7 @@ class cnUpload {
 
 		if ( 'unfiltered_upload' == $cap ) {
 
-			$caps = array('');
+			$caps = array( '' );
 		}
 
 		return $caps;

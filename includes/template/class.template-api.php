@@ -45,7 +45,7 @@ class cnTemplateFactory {
 	 *
 	 * @since 0.7.6
 	 * @var static
-	*/
+	 */
 	private static $instance;
 
 	/**
@@ -142,10 +142,10 @@ class cnTemplateFactory {
 	 *  thumbnail (string) [optional] The template's thumbnail file name.
 	 *  functions (string) [required] The name of the templates functions file. NOTE: required only when registering legacy templates.
 	 *  parts (array) [optional] The name of the template's CSS|JS|PHP file for rendering the entry info. NOTE: required only when registering legacy templates.
-	 *  	Accepted values for parts:
-	 *  		css (string) [optional] The file name of the CSS file.
-	 *  		js (string) [optional] The file name of the JS file.
-	 *  		card (string) [required] The file name of the PHP file used to render the entry content.
+	 *      Accepted values for parts:
+	 *          css (string) [optional] The file name of the CSS file.
+	 *          js (string) [optional] The file name of the JS file.
+	 *          card (string) [required] The file name of the PHP file used to render the entry content.
 	 *
 	 * @since 0.7.6
 	 *
@@ -170,7 +170,7 @@ class cnTemplateFactory {
 			'functions'   => '',
 			'parts'       => array(),
 			'supports'    => array(),
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
@@ -212,8 +212,8 @@ class cnTemplateFactory {
 	 *
 	 * @access public
 	 * @since 0.7.6
-	 * @param  string $slug
-	 * @param  string [optional] $type
+	 * @param string $slug
+	 * @param string $type
 	 * @return void
 	 */
 	public static function unregister( $slug, $type = '' ) {
@@ -281,13 +281,13 @@ class cnTemplateFactory {
 
 					// If the template has a core class, init it, passing its instance of cnTemplate,
 					// so it is easily accessible within its class.
-					$object  = new $template->class( $t );
+					$object = new $template->class( $t );
 					$t->setMe( $object );
 					$instance->template->{ $template->class } = $object;
 
 					// Add a reference to its instance of cnTemplate to the plugins globally accessible instance.
 					// This is to allow easy access when loading the template within the shortcode.
-					$instance->template->{ $template->slug }  = $t;
+					$instance->template->{ $template->slug } = $t;
 
 				} else {
 
@@ -319,7 +319,7 @@ class cnTemplateFactory {
 			// Build a catalog of all legacy templates.
 			self::scan();
 
-			set_transient( 'cn_legacy_templates', self::$legacy, 60*60*24 );
+			set_transient( 'cn_legacy_templates', self::$legacy, 60 * 60 * 24 );
 
 		} else {
 
@@ -345,17 +345,17 @@ class cnTemplateFactory {
 				$atts['custom']      = $template->custom;
 				$atts['legacy']      = true;
 
-				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
-				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
+				$atts['path'] = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
+				$atts['url']  = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
 
-				$atts['thumbnail']   = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
-				$atts['functions']   = isset( $template->phpPath ) ? 'functions.php' : '';
+				$atts['thumbnail'] = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
+				$atts['functions'] = isset( $template->phpPath ) ? 'functions.php' : '';
 
-				$parts['css']        = isset( $template->cssPath ) ? 'styles.css' : '';
-				$parts['js']         = isset( $template->jsPath ) ? 'template.js' : '';
-				$parts['card']       = 'template.php';
+				$parts['css']  = isset( $template->cssPath ) ? 'styles.css' : '';
+				$parts['js']   = isset( $template->jsPath ) ? 'template.js' : '';
+				$parts['card'] = 'template.php';
 
-				$atts['parts']       = $parts;
+				$atts['parts'] = $parts;
 
 				self::register( $atts );
 			}
@@ -442,9 +442,9 @@ class cnTemplateFactory {
 						$templates->{ $template->type }->{ $template->slug }->author      = $template->author;
 						$templates->{ $template->type }->{ $template->slug }->description = isset( $template->description ) ? $template->description : '';
 
-						$templates->{ $template->type }->{ $template->slug }->path        = $path;
-						$templates->{ $template->type }->{ $template->slug }->slug        = $template->slug ;
-						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? true : false;
+						$templates->{ $template->type }->{ $template->slug }->path   = $path;
+						$templates->{ $template->type }->{ $template->slug }->slug   = $template->slug;
+						$templates->{ $template->type }->{ $template->slug }->custom = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? true : false;
 
 						if ( file_exists( $path . 'styles.css' ) ) {
 							$templates->{$template->type}->{$template->slug}->cssPath = true;
@@ -513,7 +513,7 @@ class cnTemplateFactory {
 
 					$templates->{ $template->slug } = new cnTemplate( $template );
 
-				} else if ( ! $template->legacy ) {
+				} elseif ( ! $template->legacy ) {
 
 					$templates->{ $template->slug } = new cnTemplate( $template );
 				}
@@ -545,7 +545,7 @@ class cnTemplateFactory {
 
 						$templates->{ $template->slug } = new cnTemplate( $template );
 
-					} else if ( ! $template->legacy ) {
+					} elseif ( ! $template->legacy ) {
 
 						$templates->{ $template->slug } = new cnTemplate( $template );
 					}
@@ -668,8 +668,8 @@ class cnTemplateFactory {
 
 		$type     = 'all';
 		$defaults = array(
-			'list_type'     => null,
-			'template'      => null,
+			'list_type' => null,
+			'template'  => null,
 		);
 
 		/**
@@ -685,10 +685,10 @@ class cnTemplateFactory {
 
 		if ( ! empty( $atts['list_type'] ) ) {
 
-			$permittedTypes = array( 'individual', 'organization', 'family', 'connection_group');
+			$permittedTypes = array( 'individual', 'organization', 'family', 'connection_group' );
 
 			// Convert to array. Trim the space characters if present.
-			$atts['list_type'] = explode( ',' , str_replace( ' ', '', $atts['list_type'] ) );
+			$atts['list_type'] = explode( ',', str_replace( ' ', '', $atts['list_type'] ) );
 
 			// Set the template type to the first in the entry type from the supplied if multiple list types are provided.
 			if ( in_array( $atts['list_type'][0], $permittedTypes ) ) {

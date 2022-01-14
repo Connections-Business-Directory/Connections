@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @todo Clear the sitemaps cache if it exists.
  * @link https://connections-pro.com/ticket/540240/
@@ -45,7 +44,7 @@ final class Yoast_SEO {
 	 */
 	public static function init() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && function_exists( 'wpseo_init' )) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) && function_exists( 'wpseo_init' ) ) {
 
 			self::$instance = $self = new self();
 
@@ -117,7 +116,7 @@ final class Yoast_SEO {
 		}
 
 		if ( has_shortcode( $object->post_content, 'connections' ) ||
-		     has_block( 'connections-directory/shortcode-connections', $object )
+			 has_block( 'connections-directory/shortcode-connections', $object )
 		) {
 
 			/*
@@ -137,7 +136,7 @@ final class Yoast_SEO {
 
 			add_filter( 'wpseo_twitter_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
 			add_filter( 'wpseo_twitter_description', array( __CLASS__, 'transformDescription' ), 10, 2 );
-			add_filter( 'wpseo_twitter_image', array( __CLASS__, 'transformImage'), 10, 2 );
+			add_filter( 'wpseo_twitter_image', array( __CLASS__, 'transformImage' ), 10, 2 );
 
 			add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
 		}
@@ -272,7 +271,7 @@ final class Yoast_SEO {
 	public static function maybeDisplayAdjacentURL( $url ) {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ||
-		     cnQuery::getVar( 'cn-cat-slug' )
+			 cnQuery::getVar( 'cn-cat-slug' )
 		) {
 
 			$url = '';
@@ -365,7 +364,7 @@ final class Yoast_SEO {
 	 * @noinspection PhpUndefinedNamespaceInspection
 	 * @noinspection PhpUndefinedClassInspection
 	 *
-	 * @param string $url
+	 * @param string                                            $url
 	 * @param Yoast\WP\SEO\Presentations\Indexable_Presentation $presentation
 	 *
 	 * @return string

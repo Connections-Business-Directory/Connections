@@ -115,8 +115,8 @@ final class Provider extends WP_Sitemaps_Provider {
 
 			$sitemap_entry = array(
 				// 'changefreq' => '',
-				'lastmod'    => $lastModified->format( DATE_W3C ),
-				'loc'        => _url::permalink(
+				'lastmod' => $lastModified->format( DATE_W3C ),
+				'loc'     => _url::permalink(
 					array(
 						'data'       => 'url',
 						'force_home' => _format::toBoolean( $args['force_home'] ),
@@ -265,12 +265,12 @@ final class Provider extends WP_Sitemaps_Provider {
 	public function getQueryArgs( $instanceID ) {
 
 		$defaults = array(
-			'limit'             => wp_sitemaps_get_max_urls( $this->object_type ),
-			'lock'              => true,
-			'order_by'          => array( 'id' ),
+			'limit'      => wp_sitemaps_get_max_urls( $this->object_type ),
+			'lock'       => true,
+			'order_by'   => array( 'id' ),
 			// 'process_user_caps' => false,
-			'status'            => array( 'approved' ),
-			'visibility'        => array( 'public' ),
+			'status'     => array( 'approved' ),
+			'visibility' => array( 'public' ),
 		);
 
 		$args = $this->instances[ $instanceID ];

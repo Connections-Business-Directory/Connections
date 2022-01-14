@@ -309,7 +309,7 @@ final class _string {
 
 		// @todo This should probably use preg_quote() and not wp_slash(). What was I thinking???
 
-		return trim( preg_replace( "/[" . wp_slash( $what ) . "]+/u", $with, $string ), $what );
+		return trim( preg_replace( '/[' . wp_slash( $what ) . ']+/u', $with, $string ), $what );
 	}
 
 	/**
@@ -352,8 +352,8 @@ final class _string {
 	 * @since  8.1.5
 	 * @static
 	 *
-	 * @param  string  $string String to create the excerpt from.
-	 * @param  array   $atts {
+	 * @param string $string String to create the excerpt from.
+	 * @param array  $atts {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int    $length       The length, number of words, of the excerpt to create.
@@ -460,7 +460,7 @@ final class _string {
 
 		// Determine if the string ends with a HTML tag or word.
 		if ( ( ! preg_match( '/[\s\?\.\!]$/', $excerpt ) ) &&
-		     ( false !== $lastCloseTag && ( false !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
+			 ( false !== $lastCloseTag && ( false !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
 
 			// Inside last HTML tag
 			if ( $appendMore ) {
@@ -495,7 +495,7 @@ final class _string {
 	 *
 	 * @param string $string        String containing HTML tags
 	 * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
-	 * @param string  $allowed_tags Optional. String of tags which will not be stripped.
+	 * @param string $allowed_tags  Optional. String of tags which will not be stripped.
 	 *
 	 * @return string The processed string.
 	 */
@@ -622,7 +622,7 @@ final class _string {
 
 				}
 
-				$truncate .= $tag[1];
+				$truncate     .= $tag[1];
 				$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
 
 				if ( $contentLength + $totalLength > $atts['length'] ) {
@@ -651,7 +651,7 @@ final class _string {
 
 				} else {
 
-					$truncate .= $tag[3];
+					$truncate    .= $tag[3];
 					$totalLength += $contentLength;
 				}
 

@@ -75,22 +75,18 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 					switch ( $field ) {
 
 						case 'name':
-
 							$name = $row[ $header ];
 							break;
 
 						case 'slug':
-
 							$slug = $row[ $header ];
 							break;
 
 						case 'desc':
-
 							$desc = $row[ $header ];
 							break;
 
 						case 'parent':
-
 							// Since this is a string, lets make sure there's something there before proceeding.
 							if ( 0 < strlen( $row[ $header ] ) ) {
 
@@ -197,7 +193,7 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			 * NOTE: If the term ancestors name just happens to be a numeric string that could cause unpredictable
 			 * result for the term being inserted and its ancestors.
 			 */
-			$name = is_numeric( $term[0] )? absint( $term[0] ): $term[0];
+			$name = is_numeric( $term[0] ) ? absint( $term[0] ) : $term[0];
 			$slug = isset( $term[1] ) && ! empty( $term[1] ) ? $term[1] : '';
 			// error_log( 'Slug: ' . print_r( $slug, TRUE ) );
 			// error_log( 'Parent ID: ' . print_r( $parent_id, TRUE ) );
@@ -235,11 +231,11 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 	 * @access private
 	 * @since  8.5.5
 	 *
-	 * @param int|string  $term The term name or term ID to check.
-	 * @param string      $slug The term slug.
-	 * @param int         $parent The term parent ID.
+	 * @param int|string $term   The term name or term ID to check.
+	 * @param string     $slug   The term slug.
+	 * @param int        $parent The term parent ID.
 	 *
-	 * @return bool|int   The parent term ID if it exists, FALSE if it does not.
+	 * @return bool|int  The parent term ID if it exists, FALSE if it does not.
 	 */
 	private function termExists( $term, $slug = '', $parent = 0 ) {
 
@@ -275,17 +271,17 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 		if ( 0 < strlen( $slug ) ) {
 
-			$where    .= ' AND BINARY t.slug = %s';
+			$where   .= ' AND BINARY t.slug = %s';
 			$fields[] = sanitize_title( $slug );
 		}
 
 		if ( 0 < $parent ) {
 
-			$where .= ' AND tt.parent = %d';
+			$where   .= ' AND tt.parent = %d';
 			$fields[] = absint( $parent );
 		}
 
-		$where .= ' AND tt.taxonomy = %s';
+		$where   .= ' AND tt.taxonomy = %s';
 		$fields[] = $this->type;
 
 		if ( $result = $wpdb->get_row(

@@ -628,11 +628,12 @@ map-marker-popup {
 .leaflet-tile img,
 img.leaflet-tile,
 img.leaflet-marker-icon,
-img.leaflet-marker-shadow{
+img.leaflet-marker-shadow {
 	-webkit-border-radius: unset;
 	border-radius: unset;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
+	opacity: 1 !important;
 }
 
 /*

@@ -1,5 +1,66 @@
 == Changelog ==
 
+= 10.4.10 01/14/2022 =
+* TWEAK: Multiple placeholders should be ordered.
+* TWEAK: Ensure parameter is cast to boolean.
+* TWEAK: Ensure the Team Block table headings are translation ready.
+* TWEAK: Allow the Additional Options field to override the `parse_request` parameter.
+* TWEAK: Ensure map tile images are set at opacity of `1` to prevent themes from hiding them.
+* TWEAK: Remove the `div` from around the `do_meta_boxes()` function call on the admin Manage page so WordPress will properly apply CSS classes for different screen-sizes/orientations.
+* BUG: Add missing text domains.
+* BUG: The translation $text arg must be a single string literal.
+* BUG: Correct excluding categories in the Team Block.
+* BUG: Hook `rank_math/head` is an action, not a filter.
+* OTHER: Correct misspellings.
+* DEV: Output phpcs security report to a separate file.
+* DEV: Missing space before array closer.
+* DEV: Spaces must be used for mid-line alignment; tabs are not allowed.
+* DEV: Code cleanup, adding/removing spaces to ensure code formatting compliance.
+* DEV: The CASE body must start on the line following the statement.
+* DEV: There must be no space before the colon in a CASE statement.
+* DEV: CASE statements must be defined using a colon.
+* DEV: String does not require double quotes; use single quotes instead.
+* DEV: Parenthesis should always be used when instantiating a new object.
+* DEV: phpDoc formatting corrections.
+* DEV: Array double arrow not aligned correctly.
+* DEV: Correct switch case statement formatting.
+* DEV: Array double arrow not aligned correctly.
+* DEV: Scope keyword must be followed by a single space.
+* DEV: Add a couple more phpcs reports.
+* DEV: Equals sign not aligned correctly.
+* DEV: Array keys must be surrounded by spaces unless they contain a string or an integer.
+* DEV: Empty array declaration must have no space between the parentheses.
+* DEV: Expected 1 space after array opener.
+* DEV: Each item in a multi-line array must be on a new line.
+* DEV: Expected 1 space before closing PHP tag.
+* DEV: Expected 0 spaces between parenthesis of function declaration.
+* DEV: There must be no blank line following an inline comment.
+* DEV: Empty block comment not allowed.
+* DEV: The static declaration must come after the visibility declaration.
+* DEV: Multi-line function call not indented correctly.
+* DEV: Logical operator "and" is prohibited; use "&&" instead.
+* DEV: Expected 1 space before opening brace.
+* DEV: There must be a single blank line after a tag group.
+* DEV: Expected 1 space before opening brace.
+* DEV: Space found before semicolon.
+* DEV: Expected 0 spaces between argument and comma.
+* DEV: Additional blank lines found at end of doc comment.
+* DEV: phpDoc updates.
+* DEV: PHP tags must be on a line by themselves.
+* DEV: Expected space before asterisk.
+* DEV: Short array syntax is not allowed.
+* DEV: Empty lines are not allowed in multi-line function calls.
+* DEV: Inline PHP statement must end with a semicolon.
+* DEV: Short form type keywords must be used.
+* DEV: Usage of ELSE IF is discouraged; use ELSEIF instead.
+* DEV: Concat operator must be surrounded by a single space.
+* DEV: Array closer not aligned correctly.
+* DEV: A gettext call containing placeholders was found, but was not accompanied by a "translators:" comment on the line above to clarify the meaning of the placeholders.
+* DEV: The use of function `sizeof()` is forbidden; use `count()` instead.
+* DEV: Add `config:allow-plugins` to composer.json.
+* DEV: Updates to `.travis.yml`.
+* DEV: There must be no blank lines before the file comment.
+
 = 10.4.9 01/07/2022 =
 * NEW: Add support for the `%title%`, `%organization%`, and `%department%` tokens when setting the name format when calling the `getNameBlock()` method.
 * TWEAK: Hook into the `upgrader_process_complete` action to clear addon plugin update checks.

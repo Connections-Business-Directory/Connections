@@ -68,11 +68,11 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultDateType();
 
-		$this->id         = (int) cnArray::get( $data, 'id', 0 );
+		$this->id = (int) cnArray::get( $data, 'id', 0 );
 
-		$preferred        = cnArray::get( $data, 'preferred', false );
+		$preferred = cnArray::get( $data, 'preferred', false );
 
-		$type             = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
@@ -80,7 +80,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
 		// $this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
 
-		$this->date       = date_create(
+		$this->date = date_create(
 			cnArray::get( $data, 'date', '' ),
 			new DateTimeZone( 'UTC' )
 		);
@@ -177,13 +177,13 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$date = $this->getDate() instanceof DateTime ? $this->getDate()->format( 'Y-m-d' ) : '';
 
 		return array(
-			'id'          => $this->getID(),
-			'type'        => $this->type,
-			'name'        => $this->getName(),
-			'visibility'  => $this->visibility,
-			'order'       => $this->order,
-			'preferred'   => $this->preferred,
-			'date'        => $date,
+			'id'         => $this->getID(),
+			'type'       => $this->type,
+			'name'       => $this->getName(),
+			'visibility' => $this->visibility,
+			'order'      => $this->order,
+			'preferred'  => $this->preferred,
+			'date'       => $date,
 		);
 	}
 }

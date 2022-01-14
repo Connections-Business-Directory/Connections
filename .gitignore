@@ -92,3 +92,6 @@ composer.lock
 /vendor/phpspec/
 /vendor/webmozart/
 /PHPCS-report.txt
+/PHPCS-security-report.txt
+/PHPCS-i18n-report.txt
+/PHPCS-source-report.txt

@@ -315,7 +315,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			// If an option group was left open, ensure it is closed before closing the select.
 			if ( $walker->close_group ) {
 
-				$select .= "\t" . '</optgroup>' . PHP_EOL;
+				$select             .= "\t" . '</optgroup>' . PHP_EOL;
 				$walker->close_group = false;
 			}
 
@@ -385,7 +385,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( $args['group'] && $this->close_group && 0 === $depth ) {
 
-			$out .= "\t" . '</optgroup>' . PHP_EOL;
+			$out              .= "\t" . '</optgroup>' . PHP_EOL;
 			$this->close_group = false;
 		}
 	}

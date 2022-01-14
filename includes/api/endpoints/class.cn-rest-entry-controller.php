@@ -142,7 +142,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 			$entry = new cnOutput( $result );
 
-			$data = $this->prepare_item_for_response( $entry, $request );
+			$data      = $this->prepare_item_for_response( $entry, $request );
 			$entries[] = $this->prepare_response_for_collection( $data );
 		}
 
@@ -235,7 +235,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			 */
 
 			if ( 'edit' === $request['context'] &&
-			     ( ! current_user_can( 'connections_edit_entry' ) || ! current_user_can( 'connections_edit_entry_moderated' ) )
+				 ( ! current_user_can( 'connections_edit_entry' ) || ! current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
 				return new WP_Error(
@@ -281,7 +281,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$data     = $this->prepare_item_for_response( $entry, $request );
 		$response = rest_ensure_response( $data );
 
-		$response->link_header( 'alternate',  $entry->getPermalink(), array( 'type' => 'text/html' ) );
+		$response->link_header( 'alternate', $entry->getPermalink(), array( 'type' => 'text/html' ) );
 
 		return $response;
 	}
@@ -520,7 +520,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$context = cnArray::get( $request, 'context', 'view' );
 
 		if ( $context &&
-		     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 		) {
 
 			if ( is_field_included( 'fn.raw', $fields ) ) {
@@ -647,10 +647,10 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		foreach ( $addresses as $address ) {
 
 			$object = array(
-				'id'               => $address->id,
-				'order'            => $address->order,
-				'preferred'        => $address->preferred,
-				'type'             => $address->type,
+				'id'        => $address->id,
+				'order'     => $address->order,
+				'preferred' => $address->preferred,
+				'type'      => $address->type,
 			);
 
 			cnArray::set(
@@ -714,7 +714,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			);
 
 			if ( 'edit' === $request['context'] &&
-			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
 				cnArray::set( $object, 'street_address.raw', $address->line_1 );
@@ -762,10 +762,10 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		foreach ( $numbers as $phone ) {
 
 			$object = array(
-				'id'               => $phone->id,
-				'order'            => $phone->order,
-				'preferred'        => $phone->preferred,
-				'type'             => $phone->type,
+				'id'        => $phone->id,
+				'order'     => $phone->order,
+				'preferred' => $phone->preferred,
+				'type'      => $phone->type,
 			);
 
 			cnArray::set(
@@ -775,7 +775,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			);
 
 			if ( 'edit' === $request['context'] &&
-			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
 				cnArray::set( $object, 'number.raw', $phone->number );
@@ -810,10 +810,10 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		foreach ( $emailAddresses as $email ) {
 
 			$object = array(
-				'id'               => $email->id,
-				'order'            => $email->order,
-				'preferred'        => $email->preferred,
-				'type'             => $email->type,
+				'id'        => $email->id,
+				'order'     => $email->order,
+				'preferred' => $email->preferred,
+				'type'      => $email->type,
 			);
 
 			cnArray::set(
@@ -823,7 +823,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			);
 
 			if ( 'edit' === $request['context'] &&
-			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
 				cnArray::set( $object, 'address.raw', $email->address );
@@ -1072,7 +1072,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			'title'       => $this->rest_base,
 			'type'        => 'object',
 			'properties'  => array(
-				'id'   => array(
+				'id' => array(
 					'description' => __( 'Unique identifier for the entry.', 'connections' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
@@ -1092,7 +1092,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 						'sanitize_callback' => 'sanitize_title',
 					),
 				),
-				'link'         => array(
+				'link' => array(
 					'description' => __( 'URL to the object.', 'connections' ),
 					'type'        => 'string',
 					'format'      => 'uri',
@@ -1231,8 +1231,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
 						'organization_name' => array(
-							'type'        => 'object',
-							'properties'  => array(
+							'type'       => 'object',
+							'properties' => array(
 								'raw'      => array(
 									'description' => __( 'Organization name as it exists in the database.', 'connections' ),
 									'type'        => 'string',
@@ -1247,8 +1247,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							),
 						),
 						'organization_unit' => array(
-							'type'        => 'object',
-							'properties'  => array(
+							'type'       => 'object',
+							'properties' => array(
 								'raw'      => array(
 									'description' => __( 'Department (organization unit) as it exists in the database.', 'connections' ),
 									'type'        => 'string',
@@ -1270,8 +1270,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
 						'given_name' => array(
-							'type'        => 'object',
-							'properties'  => array(
+							'type'       => 'object',
+							'properties' => array(
 								'raw'      => array(
 									'description' => __( 'First name as it exists in the database.', 'connections' ),
 									'type'        => 'string',
@@ -1286,8 +1286,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							),
 						),
 						'family_name' => array(
-							'type'        => 'object',
-							'properties'  => array(
+							'type'       => 'object',
+							'properties' => array(
 								'raw'      => array(
 									'description' => __( 'Last name as it exists in the database.', 'connections' ),
 									'type'        => 'string',
@@ -1614,13 +1614,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
-						'raw'       => array(
-							'description' => __( 'Biography for the entry, as it exists in the database.' ),
+						'raw'      => array(
+							'description' => __( 'Biography for the entry, as it exists in the database.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'edit' ),
 						),
-						'rendered'  => array(
-							'description' => __( 'HTML biography for the entry, transformed for display.' ),
+						'rendered' => array(
+							'description' => __( 'HTML biography for the entry, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,
@@ -1632,13 +1632,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
-						'raw'       => array(
-							'description' => __( 'Excerpt for the entry, as it exists in the database.' ),
+						'raw'      => array(
+							'description' => __( 'Excerpt for the entry, as it exists in the database.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'edit' ),
 						),
-						'rendered'  => array(
-							'description' => __( 'HTML excerpt for the entry, transformed for display.' ),
+						'rendered' => array(
+							'description' => __( 'HTML excerpt for the entry, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,
@@ -1650,13 +1650,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(
-						'raw'       => array(
-							'description' => __( 'Notes for the entry, as it exists in the database.' ),
+						'raw'      => array(
+							'description' => __( 'Notes for the entry, as it exists in the database.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'edit' ),
 						),
-						'rendered'  => array(
-							'description' => __( 'HTML notes for the entry, transformed for display.' ),
+						'rendered' => array(
+							'description' => __( 'HTML notes for the entry, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,

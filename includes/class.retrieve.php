@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class containing all the necessary methods to run queries on the database.
  *
@@ -85,25 +84,25 @@ class cnRetrieve {
 		$instance = Connections_Directory();
 		$request  = Request::get();
 
-		$select[]             = CN_ENTRY_TABLE . '.*';
-		$from[]               = CN_ENTRY_TABLE;
-		$join                 = array();
-		$where[]              = 'WHERE 1=1';
-		$having               = array();
-		$orderBy              = array();
-		$random               = false;
-		$visibility           = array();
+		$select[]   = CN_ENTRY_TABLE . '.*';
+		$from[]     = CN_ENTRY_TABLE;
+		$join       = array();
+		$where[]    = 'WHERE 1=1';
+		$having     = array();
+		$orderBy    = array();
+		$random     = false;
+		$visibility = array();
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['list_type']             = null;
-		$defaults['category']              = null;
+		$defaults['list_type'] = null;
+		$defaults['category']  = null;
 		// Map category attributes to new attribute names and set defaults.
-		$defaults['category__and']         = _array::get( $atts, 'category_in', array() );
-		$defaults['category__not_in']      = _array::get( $atts, 'exclude_category', array() );
-		$defaults['category_name__in']     = _array::get( $atts, 'category_name', array() );
-		$defaults['category_slug__in']     = _array::get( $atts, 'category_slug', array() );
+		$defaults['category__and']     = _array::get( $atts, 'category_in', array() );
+		$defaults['category__not_in']  = _array::get( $atts, 'exclude_category', array() );
+		$defaults['category_name__in'] = _array::get( $atts, 'category_name', array() );
+		$defaults['category_slug__in'] = _array::get( $atts, 'category_slug', array() );
 		// $defaults['wp_current_category']   = FALSE;
 		$defaults['char']                  = '';
 		$defaults['id']                    = null;
@@ -132,17 +131,18 @@ class cnRetrieve {
 		$defaults['search_terms']          = null;
 
 		// $atts vars to support showing entries within a specified radius.
-		$defaults['near_addr']             = null;
-		$defaults['latitude']              = null;
-		$defaults['longitude']             = null;
-		$defaults['radius']                = 10;
-		$defaults['unit']                  = 'mi';
+		$defaults['near_addr'] = null;
+		$defaults['latitude']  = null;
+		$defaults['longitude'] = null;
+		$defaults['radius']    = 10;
+		$defaults['unit']      = 'mi';
 
-		$defaults['parse_request']         = ! _array::get( $atts, 'lock', false );
-		$defaults['suppress_filters']      = false;
+		$defaults['parse_request']    = ! _array::get( $atts, 'lock', false );
+		$defaults['suppress_filters'] = false;
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
+		_format::toBoolean( $atts['parse_request'] );
 		_format::toBoolean( $atts['process_user_caps'] );
 		_format::toBoolean( $atts['suppress_filters'] );
 		/*
@@ -307,7 +307,7 @@ class cnRetrieve {
 		if ( 0 < strlen( $atts['char'] ) ) {
 
 			$initialChar = function_exists( 'mb_substr' ) ? mb_substr( $atts['char'], 0, 1 ) : substr( $atts['char'], 0, 1 );
-			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s', $wpdb->esc_like( $initialChar ) . '%' );
+			$having[]    = $wpdb->prepare( 'HAVING sort_column LIKE %s', $wpdb->esc_like( $initialChar ) . '%' );
 		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied filters.
@@ -345,20 +345,20 @@ class cnRetrieve {
 			$atts['radius'] = _length::convert( $atts['radius'], $atts['unit'] )->to( 'km' );
 
 			// Limiting bounding box (in degrees).
-			$minLat = $atts['latitude'] - rad2deg( $atts['radius']/$earthRadius );
-			$maxLat = $atts['latitude'] + rad2deg( $atts['radius']/$earthRadius );
-			$minLng = $atts['longitude'] - rad2deg( $atts['radius']/$earthRadius/cos( deg2rad( $atts['latitude'] ) ) );
-			$maxLng = $atts['longitude'] + rad2deg( $atts['radius']/$earthRadius/cos( deg2rad( $atts['latitude'] ) ) );
+			$minLat = $atts['latitude'] - rad2deg( $atts['radius'] / $earthRadius );
+			$maxLat = $atts['latitude'] + rad2deg( $atts['radius'] / $earthRadius );
+			$minLng = $atts['longitude'] - rad2deg( $atts['radius'] / $earthRadius / cos( deg2rad( $atts['latitude'] ) ) );
+			$maxLng = $atts['longitude'] + rad2deg( $atts['radius'] / $earthRadius / cos( deg2rad( $atts['latitude'] ) ) );
 
 			// Convert origin of geographic circle to radians.
 			$atts['latitude']  = deg2rad( $atts['latitude'] );
 			$atts['longitude'] = deg2rad( $atts['longitude'] );
 
 			// Add the SELECT statement that adds the `radius` column.
-			$select[] = $wpdb->prepare( 'acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 AS distance' , $atts['latitude'] , $atts['latitude'] , $atts['longitude'] );
+			$select[] = $wpdb->prepare( 'acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 AS distance', $atts['latitude'], $atts['latitude'], $atts['longitude'] );
 
 			// Create a subquery that will limit the rows that have the cosine law applied to within the bounding box.
-			$geoSubselect = $wpdb->prepare( '(SELECT entry_id FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE latitude>%f AND latitude<%f AND longitude>%f AND longitude<%f) AS geo_bound' , $minLat , $maxLat , $minLng , $maxLng );
+			$geoSubselect = $wpdb->prepare( '(SELECT entry_id FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE latitude>%f AND latitude<%f AND longitude>%f AND longitude<%f) AS geo_bound', $minLat, $maxLat, $minLng, $maxLng );
 			// The subquery needs to be added to the beginning of the array so the inner joins on the other tables are joined to the CN_ENTRY_TABLE
 			array_unshift( $from, $geoSubselect );
 
@@ -368,7 +368,7 @@ class cnRetrieve {
 			}
 
 			// Add the WHERE statement to limit the query to a geographic circle per the defined radius.
-			$where[] = $wpdb->prepare( 'AND acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 < %f' , $atts['latitude'] , $atts['latitude'] , $atts['longitude'] , $atts['radius'] );
+			$where[] = $wpdb->prepare( 'AND acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 < %f', $atts['latitude'], $atts['latitude'], $atts['longitude'], $atts['radius'] );
 
 			// This is required otherwise addresses the user may not have permissions to view will be included in the query
 			// which could be confusing since entries could appear to be outside of the search radius when in fact the entry
@@ -445,7 +445,7 @@ class cnRetrieve {
 		// For each field the sort order can be defined.
 		/** @noinspection PhpWrongForeachArgumentTypeInspection */
 		foreach ( $atts['order_by'] as $orderByField ) {
-			$orderByAtts[] = explode( '|' , $orderByField );
+			$orderByAtts[] = explode( '|', $orderByField );
 		}
 
 		// Build the ORDER BY query segment
@@ -477,7 +477,7 @@ class cnRetrieve {
 					if ( isset( $meta[1] ) && ! empty( $meta[1] ) ) {
 
 						isset( $k ) ? $k++ : $k = 0;
-						$atts = cnArray::add( $atts, "meta_query.meta_query.{$k}.key", $meta[1] );
+						$atts                   = cnArray::add( $atts, "meta_query.meta_query.{$k}.key", $meta[1] );
 
 						if ( 1 < count( $atts['meta_query']['meta_query'] ) ) {
 
@@ -514,7 +514,7 @@ class cnRetrieve {
 					$field[1] = strtoupper( trim( $field[1] ) );
 
 					// If a user included a sort flag that is invalid/mis-spelled it is skipped since it can not be used.
-					if ( array_key_exists( $field[1] , $orderFlags ) ) {
+					if ( array_key_exists( $field[1], $orderFlags ) ) {
 
 						/*
 						 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
@@ -524,13 +524,12 @@ class cnRetrieve {
 							$field[1] = 'SORT_ASC';
 						}
 
-						switch ( $orderFlags[$field[1]] ) {
+						switch ( $orderFlags[ $field[1] ] ) {
 
 							/*
 							 * Order the results based on the order of the supplied entry IDs
 							 */
 							case 'SPECIFIED':
-
 								if ( ! empty( $atts['id'] ) ) {
 									$orderBy = array( 'FIELD( ' . CN_ENTRY_TABLE . '.id, ' . implode( ', ', (array) $atts['id'] ) . ' )' );
 								}
@@ -540,15 +539,13 @@ class cnRetrieve {
 							 * Randomize the order of the results.
 							 */
 							case 'RANDOM':
-
-								$random   = true;
+								$random = true;
 								break;
 
 								/*
 								 * Return the results in ASC or DESC order.
 								 */
 							default:
-
 								$orderBy[] = $field[0] . ' ' . $orderFlags[ $field[1] ];
 								break;
 						}
@@ -584,7 +581,7 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query LIMIT and OFFSET.
 		 */
-		$limit  = empty( $atts['limit'] )  ? '' : $wpdb->prepare( ' LIMIT %d ', $atts['limit'] );
+		$limit  = empty( $atts['limit'] ) ? '' : $wpdb->prepare( ' LIMIT %d ', $atts['limit'] );
 		$offset = empty( $atts['offset'] ) ? '' : $wpdb->prepare( ' OFFSET %d ', $atts['offset'] );
 		/*
 		 * // END --> Set up the query LIMIT and OFFSET.
@@ -660,16 +657,16 @@ class cnRetrieve {
 			// $this->cache( $sql, $results );
 
 			// The most recent query to have been executed by cnRetrieve::entries.
-			$instance->lastQuery      = $wpdb->last_query;
+			$instance->lastQuery = $wpdb->last_query;
 
 			// The most recent query error to have been generated by cnRetrieve::entries.
 			$instance->lastQueryError = $wpdb->last_error;
 
 			// ID generated for an AUTO_INCREMENT column by the most recent INSERT query.
-			$instance->lastInsertID   = $wpdb->insert_id;
+			$instance->lastInsertID = $wpdb->insert_id;
 
 			// The number of rows returned by the last query.
-			$instance->resultCount    = $wpdb->num_rows;
+			$instance->resultCount = $wpdb->num_rows;
 
 			// The number of rows returned by the last query without the limit clause set
 			$foundRows                    = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
@@ -712,7 +709,7 @@ class cnRetrieve {
 
 			set_query_var( 'cn-pg', 0 );
 			$atts['offset'] = 0;
-			$results = $this->entries( $atts );
+			$results        = $this->entries( $atts );
 		}
 
 		return $results;
@@ -965,7 +962,7 @@ class cnRetrieve {
 
 			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
 					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category__not_in'] ) . ')';
+					WHERE 1=1 AND tt.term_id IN (' . implode( ', ', $atts['category__not_in'] ) . ')';
 
 			// Store the entryIDs that are to be excluded.
 			$results = $wpdb->get_col( $sql );
@@ -973,7 +970,7 @@ class cnRetrieve {
 
 			if ( ! empty( $results ) ) {
 
-				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ", ", $results ) . ')';
+				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ', ', $results ) . ')';
 			}
 		}
 
@@ -994,14 +991,14 @@ class cnRetrieve {
 				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
 				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
 						INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-						WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category__and'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category__and'] ) . ' ORDER BY tr.entry_id';
+						WHERE 1=1 AND tt.term_id IN (' . implode( ', ', $atts['category__and'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category__and'] ) . ' ORDER BY tr.entry_id';
 
 				// Store the entryIDs that exist on all of the supplied category IDs
 				$results = $wpdb->get_col( $sql );
 				// print_r($results);
 
 				if ( ! empty( $results ) ) {
-					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
+					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ', ', $results ) . ')';
 				} else {
 					$where[] = 'AND 1=2';
 				}
@@ -1028,19 +1025,19 @@ class cnRetrieve {
 			$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.taxonomy = \'category\'';
 
 			if ( ! empty( $categoryIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ", ", $categoryIDs ) . ')';
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ', ', $categoryIDs ) . ')';
 
 				unset( $categoryIDs );
 			}
 
 			if ( ! empty( $categoryExcludeIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ", ", $categoryExcludeIDs ) . ')';
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ', ', $categoryExcludeIDs ) . ')';
 
 				unset( $categoryExcludeIDs );
 			}
 
 			if ( ! empty( $categoryNames ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ", ", (array) $categoryNames ) . ')';
+				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ', ', (array) $categoryNames ) . ')';
 
 				unset( $categoryNames );
 			}
@@ -1363,13 +1360,11 @@ class cnRetrieve {
 		switch ( $field ) {
 
 			case 'id':
-
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $value );
 
 				break;
 
 			case 'slug':
-
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s', $value );
 
 				break;
@@ -1435,7 +1430,7 @@ class cnRetrieve {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$out = array();
+		$out     = array();
 		$where[] = 'WHERE 1=1';
 
 		$defaults = array(
@@ -1459,7 +1454,7 @@ class cnRetrieve {
 		// Create the "Last Name, First Name".
 		$select = '`id`, CONCAT( `last_name`, \', \', `first_name` ) as name';
 
-		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `last_name`' );
+		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `last_name`' );
 
 		foreach ( $results as $row ) {
 
@@ -1507,7 +1502,7 @@ class cnRetrieve {
 					  WHEN \'family\' THEN `family_name`
 					END, 1, 1 ) AS `char`';
 
-		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `char`' );
+		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`' );
 	}
 
 	/**
@@ -1551,7 +1546,7 @@ class cnRetrieve {
 				}
 
 				if ( current_user_can( 'connections_view_unlisted' ) &&
-				     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
+					 ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
 
 					$visibility[] = 'unlisted';
 				}
@@ -1774,7 +1769,7 @@ class cnRetrieve {
 			$exclude = array();
 
 			// Reset the WHERE clause.
-			$where   = array();
+			$where = array();
 
 			// Only select the entries with a date.
 			$where[] = sprintf( 'AND ( `%s` != \'\' )', $atts['type'] );
@@ -1857,11 +1852,9 @@ class cnRetrieve {
 			switch ( $atts['return'] ) {
 
 				case 'id':
-
 					return $ids;
 
 				default:
-
 					return $this->entries(
 						array(
 							'id'               => $ids,
@@ -1985,7 +1978,7 @@ class cnRetrieve {
 	 *         @type float $longitude
 	 *     }
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2060,7 +2053,7 @@ class cnRetrieve {
 				break;
 
 			case 'region':
-				$select  = array( 'a.state' );
+				$select = array( 'a.state' );
 				break;
 
 			case 'postal-code':
@@ -2154,7 +2147,7 @@ class cnRetrieve {
 	 *                                   Accepts: homephone, homefax, cellphone, workphone, workfax and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2251,7 +2244,7 @@ class cnRetrieve {
 	 *                                   Accepts: personal, work and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2348,7 +2341,7 @@ class cnRetrieve {
 	 *                                   Accepts: aim, yahoo, jabber, messenger, skype and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2445,7 +2438,7 @@ class cnRetrieve {
 	 *                                   Accepts: Any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2542,7 +2535,7 @@ class cnRetrieve {
 	 *                                   Accepts: blog, website and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2654,7 +2647,7 @@ class cnRetrieve {
 	 *                                   Accepts: Any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2747,8 +2740,8 @@ class cnRetrieve {
 	 *  http://devzone.zend.com/26/using-mysql-full-text-searching/
 	 *  http://onlamp.com/onlamp/2003/06/26/fulltext.html
 	 *
-	 * @since  0.7.2.0
-	 * @param  array   $atts [optional]
+	 * @since 0.7.2.0
+	 * @param array $atts [optional]
 	 *
 	 * @return array
 	 */
@@ -2757,11 +2750,11 @@ class cnRetrieve {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$results    = array();
-		$scored     = array();
-		$fields     = cnSettingsAPI::get( 'connections', 'search', 'fields' );
+		$results = array();
+		$scored  = array();
+		$fields  = cnSettingsAPI::get( 'connections', 'search', 'fields' );
 
-		$fields     = apply_filters( 'cn_search_fields', $fields );
+		$fields = apply_filters( 'cn_search_fields', $fields );
 
 		// If no search search fields are set, return an empty array.
 		if ( empty( $fields ) ) {
@@ -3018,10 +3011,10 @@ class cnRetrieve {
 						 */
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $word ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $word ) );
 					}
 
-					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
+					$where[] = '( ' . implode( ') OR (', $like ) . ')';
 
 				}
 
@@ -3030,9 +3023,9 @@ class cnRetrieve {
 				 */
 				$orderBy = empty( $terms ) ? '' : ' ORDER BY score';
 
-				$sql     = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
+				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
 
-				$scored  = $wpdb->get_results( $sql, ARRAY_A );
+				$scored = $wpdb->get_results( $sql, ARRAY_A );
 			}
 
 			/*
@@ -3080,10 +3073,10 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $word ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $word ) );
 					}
 
-					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
+					$where[] = '( ' . implode( ') OR (', $like ) . ')';
 
 				}
 
@@ -3149,10 +3142,10 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $word ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $word ) );
 					}
 
-					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
+					$where[] = '( ' . implode( ') OR (', $like ) . ')';
 
 				}
 
@@ -3259,12 +3252,12 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['entry'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
-				$sql =  'SELECT ' . CN_ENTRY_TABLE . '.id
+				$sql = 'SELECT ' . CN_ENTRY_TABLE . '.id
 									FROM ' . CN_ENTRY_TABLE . '
-									WHERE (' . implode( ') OR (' , $like ) . ')';
+									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
@@ -3285,12 +3278,12 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['address'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
-				$sql =  'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
+				$sql = 'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_ADDRESS_TABLE . '
-									WHERE (' . implode( ') OR (' , $like ) . ')';
+									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
@@ -3311,12 +3304,12 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['phone'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
-				$sql =  'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
+				$sql = 'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
 									FROM ' . CN_ENTRY_PHONE_TABLE . '
-									WHERE (' . implode( ') OR (' , $like ) . ')';
+									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
@@ -3348,7 +3341,7 @@ class cnRetrieve {
 	 */
 	protected function parse_search_terms( $terms ) {
 		$strtolower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
-		$checked = array();
+		$checked    = array();
 
 		$stopwords = $this->get_search_stopwords();
 
@@ -3406,7 +3399,7 @@ class cnRetrieve {
 		);
 
 		$stopwords = array();
-		foreach( $words as $word ) {
+		foreach ( $words as $word ) {
 			$word = trim( $word, "\r\n\t " );
 			if ( $word ) {
 				$stopwords[] = $word;
@@ -3468,9 +3461,9 @@ class cnRetrieve {
 	 * @since  unknown
 	 * @deprecated since unknown
 	 *
-	 * @param array   $entries A reference to an array of object $entries
-	 * @param string  $orderBy
-	 * @param mixed   array|string|NULL [optional]
+	 * @param array             $entries A reference to an array of object $entries
+	 * @param string            $orderBy
+	 * @param array|string|NULL $suppliedIDs [optional]
 	 *
 	 * @return array of objects
 	 */
@@ -3500,13 +3493,13 @@ class cnRetrieve {
 		);
 
 		$sortFlags = array(
-			'SPECIFIED' => 'SPECIFIED',
-			'RANDOM' => 'RANDOM',
-			'SORT_ASC' => SORT_ASC,
-			'SORT_DESC' => SORT_DESC,
+			'SPECIFIED'    => 'SPECIFIED',
+			'RANDOM'       => 'RANDOM',
+			'SORT_ASC'     => SORT_ASC,
+			'SORT_DESC'    => SORT_DESC,
 			'SORT_REGULAR' => SORT_REGULAR,
 			'SORT_NUMERIC' => SORT_NUMERIC,
-			'SORT_STRING' => SORT_STRING,
+			'SORT_STRING'  => SORT_STRING,
 		);
 
 		$specifiedIDOrder = false;
@@ -3540,35 +3533,35 @@ class cnRetrieve {
 
 				switch ( $field[0] ) {
 				case 'id':
-					${$field[0]}[$key] = $entry->getId();
+					${$field[0]}[ $key ] = $entry->getId();
 					break;
 
 				case 'date_added':
-					${$field[0]}[$key] = $entry->getDateAdded( 'U' );
+					${$field[0]}[ $key ] = $entry->getDateAdded( 'U' );
 					break;
 
 				case 'date_modified':
-					${$field[0]}[$key] = $entry->getUnixTimeStamp();
+					${$field[0]}[ $key ] = $entry->getUnixTimeStamp();
 					break;
 
 				case 'first_name':
-					${$field[0]}[$key] = $entry->getFirstName();
+					${$field[0]}[ $key ] = $entry->getFirstName();
 					break;
 
 				case 'last_name':
-					${$field[0]}[$key] = $entry->getLastName();
+					${$field[0]}[ $key ] = $entry->getLastName();
 					break;
 
 				case 'title':
-					${$field[0]}[$key] = $entry->getTitle();
+					${$field[0]}[ $key ] = $entry->getTitle();
 					break;
 
 				case 'organization':
-					${$field[0]}[$key] = $entry->getOrganization();
+					${$field[0]}[ $key ] = $entry->getOrganization();
 					break;
 
 				case 'department':
-					${$field[0]}[$key] = $entry->getDepartment();
+					${$field[0]}[ $key ] = $entry->getDepartment();
 					break;
 
 				case ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ):
@@ -3577,24 +3570,23 @@ class cnRetrieve {
 
 						foreach ( $addresses as $address ) {
 							// ${$field[0]}[$key] = $address[$field[0]];
-							${$field[0]}[$key] = $address->$field[0];
+							${$field[0]}[ $key ] = $address->$field[0];
 
 							// Only set the data from the first address.
 							break;
 						}
 
-					}
-					else {
-						${$field[0]}[$key] = null;
+					} else {
+						${$field[0]}[ $key ] = null;
 					}
 					break;
 
 				case 'birthday':
-					${$field[0]}[$key] = strtotime( $entry->getBirthday() );
+					${$field[0]}[ $key ] = strtotime( $entry->getBirthday() );
 					break;
 
 				case 'anniversary':
-					${$field[0]}[$key] = strtotime( $entry->getAnniversary() );
+					${$field[0]}[ $key ] = strtotime( $entry->getAnniversary() );
 					break;
 				}
 
@@ -3626,14 +3618,11 @@ class cnRetrieve {
 				}
 
 				// Must be pass as reference or the multisort will fail.
-				$sortParams[] = &$sortFlags[$flag];
+				$sortParams[] = &$sortFlags[ $flag ];
 				unset( $flag );
 			}
 		}
 
-		/*
-		 *
-		 */
 		if ( isset( $id ) && isset( $idOrder ) ) {
 			switch ( $idOrder ) {
 			case 'SPECIFIED':
@@ -3642,7 +3631,7 @@ class cnRetrieve {
 				/*
 					 * Convert the supplied IDs value to an array if it is not.
 					 */
-				if ( !is_array( $suppliedIDs ) && !empty( $suppliedIDs ) ) {
+				if ( ! is_array( $suppliedIDs ) && ! empty( $suppliedIDs ) ) {
 					// Trim the space characters if present.
 					$suppliedIDs = str_replace( ' ', '', $suppliedIDs );
 					// Convert to array.
@@ -3650,7 +3639,7 @@ class cnRetrieve {
 				}
 
 				foreach ( $suppliedIDs as $entryID ) {
-					$sortedEntries[] = $entries[array_search( $entryID, $id )];
+					$sortedEntries[] = $entries[ array_search( $entryID, $id ) ];
 				}
 
 				$entries = $sortedEntries;
@@ -3695,7 +3684,7 @@ class cnRetrieve {
 	 * @uses   current_user_can()
 	 * @uses   $wpdb->get_var()
 	 *
-	 * @param  (array)
+	 * @param array $atts
 	 *
 	 * @return int
 	 */
@@ -3704,7 +3693,7 @@ class cnRetrieve {
 		/**  @var wpdb $wpdb */
 		global $wpdb;
 
-		$where[]    = 'WHERE 1=1';
+		$where[] = 'WHERE 1=1';
 
 		$defaults = array(
 			'public_override'  => true,
@@ -3730,7 +3719,7 @@ class cnRetrieve {
 	 * @access private
 	 * @version 1.0
 	 * @since 0.7.1.6
-	 * @param array   $results
+	 * @param array $results
 	 * @return array
 	 */
 	public function removeUnknownDateAdded( $results ) {
@@ -3767,8 +3756,8 @@ class cnRetrieve {
 	/**
 	 * Retrieve the children of the supplied parent.
 	 *
-	 * @param string $field
-	 * @param mixed  int|string $value
+	 * @param string     $field
+	 * @param int|string $value
 	 *
 	 * @return array
 	 */

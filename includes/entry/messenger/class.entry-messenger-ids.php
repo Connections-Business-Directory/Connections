@@ -122,12 +122,12 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 		}
 
 		$notEditableID = $this->filterBy( 'visibility', Connections_Directory()->currentUser->canNotView() )
-		                      ->getCollection()
-		                      ->pluck( 'id' )
-		                      ->toArray();
-		$existingID = $this->items->pluck( 'id' )->toArray();
-		$updatedID  = $new->pluck( 'id' )->toArray();
-		$deleted    = array_diff( $existingID, $updatedID, $notEditableID );
+							  ->getCollection()
+							  ->pluck( 'id' )
+							  ->toArray();
+		$existingID    = $this->items->pluck( 'id' )->toArray();
+		$updatedID     = $new->pluck( 'id' )->toArray();
+		$deleted       = array_diff( $existingID, $updatedID, $notEditableID );
 
 		// Remove messenger IDs from collection which do not exist in the update array, because they were removed.
 		if ( 0 < count( $deleted ) ) {
@@ -254,8 +254,8 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 	public function getCollection( $limit = null ) {
 
 		$this->applyFilter( 'cn_messenger_id' )
-		     ->applyFilter( 'cn_messenger_ids' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_messenger_ids' )
+			 ->take( $limit );
 
 		return $this->filtered->values();
 	}
@@ -276,8 +276,8 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 	public function getCollectionAsArray( $limit = null ) {
 
 		$this->applyFilter( 'cn_messenger_id' )
-		     ->applyFilter( 'cn_messenger_ids' )
-		     ->take( $limit );
+			 ->applyFilter( 'cn_messenger_ids' )
+			 ->take( $limit );
 
 		return $this->filtered->values()->toArray();
 	}
@@ -297,7 +297,6 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 		switch ( $filter ) {
 
 			case 'cn_messenger_id':
-
 				/**
 				 * A messenger ID object.
 				 *
@@ -317,7 +316,6 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_messenger_ids':
-
 				/**
 				 * An index array of messenger ID objects.
 				 *
@@ -330,14 +328,12 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_messenger_id':
-
 				$callback = function( $item ) {
 					return apply_filters( 'cn_set_messenger_id', $item );
 				};
 				break;
 
 			case 'cn_set_messenger_ids':
-
 				$this->filtered = apply_filters( 'cn_set_messenger_ids', $this->filtered );
 				break;
 		}
@@ -377,7 +373,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 	 */
 	public function filterBy( $field, $value ) {
 
-		if ( in_array( $field, array( 'type') ) ) {
+		if ( in_array( $field, array( 'type' ) ) ) {
 
 			if ( ! empty( $value ) ) {
 

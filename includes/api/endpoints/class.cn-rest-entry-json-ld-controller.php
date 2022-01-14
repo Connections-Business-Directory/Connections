@@ -106,14 +106,14 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 
 		$entries = array(
 			'@context' => 'http://schema.org',
-			'@graph' => array(),
+			'@graph'   => array(),
 		);
 
 		foreach ( $results as $result ) {
 
 			$entry = new cnEntry( $result );
 
-			$data = $this->prepare_item_for_response( $entry, $request );
+			$data                = $this->prepare_item_for_response( $entry, $request );
 			$entries['@graph'][] = $this->prepare_response_for_collection( $data );
 		}
 
@@ -144,7 +144,6 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 		switch ( $entry->getEntryType() ) {
 
 			case 'individual':
-
 				$data['@type']           = 'Person';
 				$data['honorificPrefix'] = $entry->getHonorificPrefix();
 				$data['givenName']       = $entry->getFirstName();
@@ -153,14 +152,12 @@ class CN_REST_Entry_JSONLD_Controller extends CN_REST_Entry_Controller {
 				$data['honorificSuffix'] = $entry->getHonorificSuffix();
 				break;
 
-			case  'organization':
-
+			case 'organization':
 				$data['@type'] = 'Organization';
 				$data['name']  = $entry->getName();
 				break;
 
 			case 'family':
-
 				/**
 				 * Unfortunately there is no "Family" type available.
 				 * Use "Person" as the type with the "additionalType" set as "Family". Valid? Unsure.

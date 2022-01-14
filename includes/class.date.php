@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Trigger the autoloader for the `Connections_Directory\Utility\_date::class` class using class_exists().
  *

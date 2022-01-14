@@ -63,6 +63,7 @@ class District extends Related {
 
 					$this->set(
 						'heading',
+						/* translators: District name; a regional district is an administrative subdivision of the county. */
 						sprintf( __( 'Related by District - %s', 'connections' ), $queryParameters['district'] )
 					);
 				}

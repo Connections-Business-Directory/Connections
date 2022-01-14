@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Metadata API.
  *
@@ -252,12 +251,12 @@ class cnMeta {
 	 * @uses   wpdb::inset()
 	 * @uses   wp_cache_delete()
 	 *
-	 * @param string $type    The type of object the meta data is for; ie. entry and term.
-	 * @param int    $id      The object ID.
-	 * @param string $key     Metadata key.
-	 * @param string $value   Metadata value.
-	 * @param bool $unique    [optional] Whether the specified metadata key should be unique for the object.
-	 *                        If TRUE, and the object already has a value for the specified metadata key, no change will be made.
+	 * @param string $type   The type of object the meta data is for; ie. entry and term.
+	 * @param int    $id     The object ID.
+	 * @param string $key    Metadata key.
+	 * @param string $value  Metadata value.
+	 * @param bool   $unique [optional] Whether the specified metadata key should be unique for the object.
+	 *                       If TRUE, and the object already has a value for the specified metadata key, no change will be made.
 	 *
 	 * @return mixed          int|bool The metadata ID on successful insert or FALSE on failure.
 	 */
@@ -306,7 +305,7 @@ class cnMeta {
 
 		if ( $unique && $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) FROM " . $table . " WHERE meta_key = %s AND $column = %d",
+				'SELECT COUNT(*) FROM ' . $table . " WHERE meta_key = %s AND $column = %d",
 				$key,
 				$id
 			)
@@ -618,7 +617,7 @@ class cnMeta {
 		}
 
 		if ( $value ) {
-			$query .= $wpdb->prepare( " AND meta_value = %s", $value );
+			$query .= $wpdb->prepare( ' AND meta_value = %s', $value );
 		}
 
 		$meta_ids = $wpdb->get_col( $query );
@@ -646,7 +645,7 @@ class cnMeta {
 		 */
 		do_action( "cn_delete_{$type}_meta", $meta_ids, $id, $key, $_meta_value );
 
-		$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . " )";
+		$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . ' )';
 
 		$count = $wpdb->query( $query );
 
@@ -929,8 +928,8 @@ class cnMeta {
 		// The query will not retrieve any meta key that begin with an '_' [underscore].
 		$sql = $wpdb->prepare(
 			'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %d',
-				// empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
-				absint( $limit )
+			// empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
+			absint( $limit )
 		);
 
 		$keys = $wpdb->get_col( $sql );
@@ -1002,7 +1001,7 @@ class cnMeta {
 
 								// Field found, it's private ... exit the loops.
 								$private = true;
-								continue(2);
+								continue( 2 );
 							}
 						}
 					}

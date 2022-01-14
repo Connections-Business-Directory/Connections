@@ -40,8 +40,8 @@ class cnLocate {
 	 * @static
 	 * @uses   filePaths()
 	 *
-	 * @param  array $files An indexed array of file names to search for.
-	 * @param  string $return
+	 * @param array  $files  An indexed array of file names to search for.
+	 * @param string $return
 	 *
 	 * @return mixed bool|string The absolute file system path to the located file. False is file not found.
 	 */
@@ -69,12 +69,10 @@ class cnLocate {
 		switch ( $return ) {
 
 			case 'url':
-
 				$result = $path ? cnURL::fromPath( $path ) : $path;
 				break;
 
 			default:
-
 				$result = $path;
 				break;
 		}
@@ -103,7 +101,7 @@ class cnLocate {
 	 */
 	private static function filePaths() {
 
-		$path  = array();
+		$path = array();
 
 		$template_directory = trailingslashit( 'connections-templates' );
 
@@ -188,7 +186,7 @@ class cnLocate {
 
 		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-			$region  = self::queryVarSlug( cnQuery::getVar( 'cn-region' ) );
+			$region = self::queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = self::fileName( $base, 'region', $region, $ext );
 			$files[] = self::fileName( $base, 'region', null, $ext );

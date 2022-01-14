@@ -37,7 +37,7 @@ if ( is_array( $mySQLMode ) ) {
 }
 ?>
 
-Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8?>&nbsp;Bit)
+Operating System:           <?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8; ?>&nbsp;Bit)
 PHP Version:                <?php echo PHP_VERSION . PHP_EOL; ?>
 MySQL Version:              <?php echo $wpdb->db_version() . PHP_EOL; ?>
 SQL Mode:                   <?php echo ( isset( $sqlMode ) && ! empty( $sqlMode ) ? $sqlMode : 'Not Set' ) . PHP_EOL; ?>
@@ -55,9 +55,9 @@ Upload Max Filesize:        <?php echo ini_get( 'upload_max_filesize' ) . PHP_EO
 Time Limit:                 <?php echo ini_get( 'max_execution_time' ) . PHP_EOL; ?>
 Max Input Vars:             <?php echo ini_get( 'max_input_vars' ) . PHP_EOL; ?>
 Allow URL fopen:            <?php echo cnFormatting::toYesNo( ini_get( 'allow_url_fopen' ) ) . PHP_EOL; ?>
-PCRE Backtrack Limit        <?php echo ini_get( 'pcre.backtrack_limit' ). PHP_EOL; ?>
+PCRE Backtrack Limit        <?php echo ini_get( 'pcre.backtrack_limit' ) . PHP_EOL; ?>
 Display Errors:             <?php echo ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . PHP_EOL; ?>
-PHP Arg Seperator:          <?php echo ini_get( 'arg_separator.output' ). PHP_EOL; ?>
+PHP Arg Seperator:          <?php echo ini_get( 'arg_separator.output' ) . PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_php_config' ); ?>
 
 -- PHP Extensions
@@ -66,8 +66,8 @@ cURL:                       <?php echo ( function_exists( 'curl_init' ) ? 'Suppo
 fsockopen:                  <?php echo ( function_exists( 'fsockopen' ) ? 'Supported' : 'Not Supported' ) . PHP_EOL; ?>
 SOAP Client:                <?php echo ( class_exists( 'SoapClient' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
 Suhosin:                    <?php echo ( extension_loaded( 'suhosin' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
-Exif:                       <?php echo ( is_callable( 'exif_read_data' ) ? 'Version: ' . substr( phpversion( 'exif' ), 0, 4 ) : 'Not Installed' ) . PHP_EOL ; ?>
-IPTC Parse:                 <?php echo ( is_callable( 'iptcparse' )  ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
+Exif:                       <?php echo ( is_callable( 'exif_read_data' ) ? 'Version: ' . substr( phpversion( 'exif' ), 0, 4 ) : 'Not Installed' ) . PHP_EOL; ?>
+IPTC Parse:                 <?php echo ( is_callable( 'iptcparse' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
 XML Parse:                  <?php echo ( is_callable( 'xml_parser_create' ) ? 'Installed' : 'Not Installed' ) . PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_php_ext' ); ?>
 
@@ -125,11 +125,12 @@ User Agent String:          <?php echo esc_html( $browser->getUserAgent() ) . PH
 <?php $locale = get_locale(); ?>
 Version:                    <?php echo get_bloginfo( 'version' ) . PHP_EOL; ?>
 Language:                   <?php echo ( ! empty( $locale ) ? $locale : 'en_US' ) . PHP_EOL; ?>
-ABSPATH                     <?php echo ABSPATH . PHP_EOL ?>
+ABSPATH                     <?php echo ABSPATH . PHP_EOL; ?>
 Permalink Structure:        <?php echo ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . PHP_EOL; ?>
 Active Theme:               <?php echo $theme . PHP_EOL; ?>
 <?php
-if ( $parent_theme !== $theme ) : ?>
+if ( $parent_theme !== $theme ) :
+	?>
 Parent Theme:               <?php echo $parent_theme . PHP_EOL; ?>
 <?php endif; ?>
 Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; ?>
@@ -157,7 +158,8 @@ if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $resp
 	$WP_REMOTE_POST = 'wp_remote_post() works';
 } else {
 	$WP_REMOTE_POST = 'wp_remote_post() does not work';
-} ?>
+}
+?>
 Remote Post:                <?php echo $WP_REMOTE_POST . PHP_EOL; ?>
 Table Prefix:               <?php echo 'Length: ' . strlen( $wpdb->prefix ) . '   Status: ' . ( strlen( $wpdb->prefix ) > 16 ? 'ERROR: Too long' : 'Acceptable' ) . PHP_EOL; ?>
 Admin AJAX:                 <?php echo /*( cn_test_ajax_works() ? 'Accessible' : 'Inaccessible' ) . */PHP_EOL; ?>
@@ -253,16 +255,19 @@ $updates = get_plugin_updates();
 // Must-use plugins
 $muplugins = get_mu_plugins();
 
-if ( 0 < count( $muplugins ) ) : ?>
+if ( 0 < count( $muplugins ) ) :
+	?>
+
 -- Must-Use Plugins
 
-<?php foreach ( $muplugins as $plugin => $plugin_data ) {
-	echo $plugin_data['Name'] . ': ' . $plugin_data['Version'] . PHP_EOL;
-}
+<?php
+	foreach ( $muplugins as $plugin => $plugin_data ) {
+		echo $plugin_data['Name'] . ': ' . $plugin_data['Version'] . PHP_EOL;
+	}
 
-do_action( 'cn_sysinfo_after_wordpress_mu_plugins' );
-
-endif; ?>
+	do_action( 'cn_sysinfo_after_wordpress_mu_plugins' );
+endif;
+?>
 
 -- WordPress Active Plugins
 
@@ -301,7 +306,8 @@ foreach ( $plugins as $plugin_path => $plugin ) {
 do_action( 'cn_sysinfo_after_wordpress_plugins_inactive' );
 
 // WordPress Multisite active plugins
-if ( is_multisite() ) : ?>
+if ( is_multisite() ) :
+	?>
 
 -- Network Active Plugins
 <?php

@@ -454,7 +454,6 @@ class cnEntryMetabox {
 			switch ( true ) {
 
 				case ( 'edit_entry' == $action || 'edit' == $action ):
-
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a></div>';
 					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , esc_attr__( 'Update', 'connections' ) , '" /></div>';
@@ -462,7 +461,6 @@ class cnEntryMetabox {
 					break;
 
 				case ( 'copy_entry' == $action || 'copy' == $action ):
-
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
 					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a>';
 					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_attr__( 'Add Entry', 'connections' ) , '" /></div>';
@@ -470,7 +468,6 @@ class cnEntryMetabox {
 					break;
 
 				default:
-
 					echo '<input type="hidden" name="cn-action" value="add_entry"/>';
 					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_attr__( 'Add Entry', 'connections' ) , '" /></div>';
 
@@ -692,7 +689,8 @@ class cnEntryMetabox {
 		 */
 		foreach ( $fieldset['sections'] as $section ) : ?>
 			<div class="cn-metabox-section <?php _escape::classNames( $section['class'], true ); ?>" id="<?php _escape::id( "cn-metabox-section-{$section['id']}", true ); ?>">
-				<?php foreach ( $section['fields'] as $field ) :
+				<?php
+				foreach ( $section['fields'] as $field ) :
 
 					if ( isset( $field['callback'] ) && is_callable( $field['callback'] ) ) {
 
@@ -731,9 +729,11 @@ class cnEntryMetabox {
 						$field['value']
 					);
 
-				endforeach; // End fields loop. ?>
+				endforeach; // End fields loop.
+				?>
 			</div>
-		<?php endforeach; // End sections loop.
+			<?php
+		endforeach; // End sections loop.
 	}
 
 	/**
@@ -923,6 +923,7 @@ class cnEntryMetabox {
 		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
+			/* translators: Maximum file upload size. */
 			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}
@@ -989,6 +990,7 @@ class cnEntryMetabox {
 		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
+			/* translators: Maximum file upload size. */
 			printf( esc_html__( 'Maximum upload file size: %s.', 'connections' ), esc_html( size_format( wp_max_upload_size() ) ) );
 		echo '</p>';
 	}
@@ -2795,7 +2797,7 @@ class cnEntryMetabox {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT meta_key, meta_value, meta_id, entry_id FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d ORDER BY meta_key,meta_id",
+				'SELECT meta_key, meta_value, meta_id, entry_id FROM ' . CN_ENTRY_TABLE_META . ' WHERE entry_id = %d ORDER BY meta_key,meta_id',
 				$entry->getId()
 			),
 			ARRAY_A

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Register the tabs, settings sections and section settings using the Settings API.
  *
@@ -286,7 +285,7 @@ class cnRegisterSettings {
 			'page_hook'    => $settings,
 			'show_in_rest' => true,
 			'schema'       => array(
-				'type' => 'object',
+				'type'        => 'object',
 				'description' => __(
 					'Enable or disable various actions that are shown above the single entry in the detail view.',
 					'connections'
@@ -1123,6 +1122,7 @@ class cnRegisterSettings {
 			'title'     => __( 'Content Blocks', 'connections' ),
 			'desc'      => sprintf(
 				wp_kses(
+					/* translators: Plugin documentation URI. */
 					__(
 						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
 						'connections'
@@ -1229,11 +1229,12 @@ class cnRegisterSettings {
 			'title'     => __( 'Content Blocks', 'connections' ),
 			'desc'      => sprintf(
 				wp_kses(
+					/* translators: Plugin documentation URI. */
 					__(
 						'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
 						'connections'
 					),
-					array(  'a' => array( 'href' => array(), 'target' => array() ) )
+					array( 'a' => array( 'href' => array(), 'target' => array() ) )
 				),
 				esc_url( 'https://connections-pro.com/documentation/settings/#Content_Blocks-2' )
 			),
@@ -1457,32 +1458,32 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		// Grab the address types.
 		$addressTypes = cnOptions::getCoreAddressTypes();
 
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'address-types',
-			'position'  => 10,
-			'page_hook' => $settings,
-			'tab'       => 'field-configuration',
-			'section'   => 'fieldset-address',
-			'title'     => __( 'Address Type Options', 'connections' ),
-			'desc'      => __(
+			'plugin_id'         => 'connections',
+			'id'                => 'address-types',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'field-configuration',
+			'section'           => 'fieldset-address',
+			'title'             => __( 'Address Type Options', 'connections' ),
+			'desc'              => __(
 				'Choose which address types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new address. Deactivating an address type will not effect previously saved entries. Add custom address types by clicking the "Add" button. Custom address types can be removed but only if no addresses are saved with that type. The "core" address types of "Home, School, Work and Other" can not be removed. A "Remove" button will display for address types which can be safely removed.',
 				'connections'
 			),
-			'help'      => '',
-			'type'      => 'sortable_input-repeatable',
-			'options'   => array(
+			'help'              => '',
+			'type'              => 'sortable_input-repeatable',
+			'options'           => array(
 				'items'    => $addressTypes,
 				// Any types registered via the `cn_address_options` need to be set as required.
 				'required' => array_keys( apply_filters( 'cn_address_options', array() ) ),
 			),
-			'default'   => array(
+			'default'           => array(
 				'order'  => array_keys( $addressTypes ),
 				// Any types registered via the `cn_address_options` filter should be set as active (enabled).
 				// The `cn_address_options` filter is applied in case a user has removed types using the filter.
@@ -1491,7 +1492,7 @@ class cnRegisterSettings {
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeAddressFieldsetSettings' ),
-			'schema' => array(
+			'schema'            => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -1591,7 +1592,7 @@ class cnRegisterSettings {
 				'county',
 				'country',
 			),
-			'schema' => array(
+			'schema'    => array(
 				'type'  => 'array',
 				'items' => array( 'type' => 'string' ),
 			),
@@ -1688,7 +1689,7 @@ class cnRegisterSettings {
 				'native'  => __( 'Native', 'connections' ),
 			),
 			'default'   => 'native',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1731,32 +1732,32 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		// Grab the phone types.
 		$phoneTypes = cnOptions::getCorePhoneTypes();
 
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'phone-types',
-			'position'  => 30,
-			'page_hook' => $settings,
-			'tab'       => 'field-configuration',
-			'section'   => 'fieldset-phone',
-			'title'     => __( 'Phone Type Options', 'connections' ),
-			'desc'      => __(
+			'plugin_id'         => 'connections',
+			'id'                => 'phone-types',
+			'position'          => 30,
+			'page_hook'         => $settings,
+			'tab'               => 'field-configuration',
+			'section'           => 'fieldset-phone',
+			'title'             => __( 'Phone Type Options', 'connections' ),
+			'desc'              => __(
 				'Choose which phone types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new phone. Deactivating an phone type will not effect previously saved entries. Add custom phone types by clicking the "Add" button. Custom phone types can be removed but only if no phone are saved with that type. The "core" phone types of "Home Phone, Home Fax, Cell Phone, Work Phone and Work Fax" can not be removed. A "Remove" button will display for phone types which can be safely removed.',
 				'connections'
 			),
-			'help'      => '',
-			'type'      => 'sortable_input-repeatable',
-			'options'   => array(
+			'help'              => '',
+			'type'              => 'sortable_input-repeatable',
+			'options'           => array(
 				'items'    => $phoneTypes,
 				// Any types registered via the `cn_phone_options` need to be set as required.
 				'required' => array_keys( apply_filters( 'cn_phone_options', array() ) ),
 			),
-			'default'   => array(
+			'default'           => array(
 				'order'  => array_keys( $phoneTypes ),
 				// Any types registered via the `cn_phone_options` filter should be set as active (enabled).
 				// The `cn_phone_options` filter is applied in case a user has removed types using the filter.
@@ -1765,7 +1766,7 @@ class cnRegisterSettings {
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizePhoneFieldsetSettings' ),
-			'schema' => array(
+			'schema'            => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -1875,32 +1876,32 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		// Grab the email types.
 		$emailTypes = cnOptions::getCoreEmailTypes();
 
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'email-types',
-			'position'  => 30,
-			'page_hook' => $settings,
-			'tab'       => 'field-configuration',
-			'section'   => 'fieldset-email',
-			'title'     => __( 'Email Type Options', 'connections' ),
-			'desc'      => __(
+			'plugin_id'         => 'connections',
+			'id'                => 'email-types',
+			'position'          => 30,
+			'page_hook'         => $settings,
+			'tab'               => 'field-configuration',
+			'section'           => 'fieldset-email',
+			'title'             => __( 'Email Type Options', 'connections' ),
+			'desc'              => __(
 				'Choose which email types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new email address. Deactivating an email type will not effect previously saved entries. Add custom email types by clicking the "Add" button. Custom email types can be removed but only if no email addresses are saved with that type. The "core" email types of "Personal Email and Work Email" can not be removed. A "Remove" button will display for email types which can be safely removed.',
 				'connections'
 			),
-			'help'      => '',
-			'type'      => 'sortable_input-repeatable',
-			'options'   => array(
+			'help'              => '',
+			'type'              => 'sortable_input-repeatable',
+			'options'           => array(
 				'items'    => $emailTypes,
 				// Any types registered via the `cn_email_options` need to be set as required.
 				'required' => array_keys( apply_filters( 'cn_email_options', array() ) ),
 			),
-			'default'   => array(
+			'default'           => array(
 				'order'  => array_keys( $emailTypes ),
 				// Any types registered via the `cn_email_options` filter should be set as active (enabled).
 				// The `cn_email_options` filter is applied in case a user has removed types using the filter.
@@ -1909,7 +1910,7 @@ class cnRegisterSettings {
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeEmailFieldsetSettings' ),
-			'schema' => array(
+			'schema'            => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -2019,32 +2020,32 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		// Grab the messenger types.
 		$imTypes = cnOptions::getCoreMessengerTypes();
 
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'messenger-types',
-			'position'  => 30,
-			'page_hook' => $settings,
-			'tab'       => 'field-configuration',
-			'section'   => 'fieldset-messenger',
-			'title'     => __( 'Messenger Type Options', 'connections' ),
-			'desc'      => __(
+			'plugin_id'         => 'connections',
+			'id'                => 'messenger-types',
+			'position'          => 30,
+			'page_hook'         => $settings,
+			'tab'               => 'field-configuration',
+			'section'           => 'fieldset-messenger',
+			'title'             => __( 'Messenger Type Options', 'connections' ),
+			'desc'              => __(
 				'Choose which instant messenger types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new messenger ID. Deactivating an instant messenger type will not effect previously saved entries. Add custom instant messenger types by clicking the "Add" button. Custom instant messenger types can be removed but only if no messenger ID\'s are saved with that type. The "core" instant messenger types can not be removed. A "Remove" button will display for instant messenger types which can be safely removed.',
 				'connections'
 			),
-			'help'      => '',
-			'type'      => 'sortable_input-repeatable',
-			'options'   => array(
+			'help'              => '',
+			'type'              => 'sortable_input-repeatable',
+			'options'           => array(
 				'items'    => $imTypes,
 				// Any types registered via the `cn_instant_messenger_options` need to be set as required.
 				'required' => array_keys( apply_filters( 'cn_instant_messenger_options', array() ) ),
 			),
-			'default'   => array(
+			'default'           => array(
 				'order'  => array_keys( $imTypes ),
 				// Any types registered via the `cn_instant_messenger_options` filter should be set as active (enabled).
 				// The `cn_instant_messenger_options` filter is applied in case a user has removed types using the filter.
@@ -2053,7 +2054,7 @@ class cnRegisterSettings {
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeMessengerFieldsetSettings' ),
-			'schema' => array(
+			'schema'            => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -2163,32 +2164,32 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		// Grab the link types.
 		$linkTypes = cnOptions::getCoreLinkTypes();
 
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'link-types',
-			'position'  => 30,
-			'page_hook' => $settings,
-			'tab'       => 'field-configuration',
-			'section'   => 'fieldset-link',
-			'title'     => __( 'Link Type Options', 'connections' ),
-			'desc'      => __(
+			'plugin_id'         => 'connections',
+			'id'                => 'link-types',
+			'position'          => 30,
+			'page_hook'         => $settings,
+			'tab'               => 'field-configuration',
+			'section'           => 'fieldset-link',
+			'title'             => __( 'Link Type Options', 'connections' ),
+			'desc'              => __(
 				'Choose which link types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new link. Deactivating a link type will not effect previously saved entries. Add custom link types by clicking the "Add" button. Custom link types can be removed but only if no links are saved with that type. The "core" link types can not be removed. A "Remove" button will display for link types which can be safely removed.',
 				'connections'
 			),
-			'help'      => '',
-			'type'      => 'sortable_input-repeatable',
-			'options'   => array(
+			'help'              => '',
+			'type'              => 'sortable_input-repeatable',
+			'options'           => array(
 				'items'    => $linkTypes,
 				// Any types registered via the `cn_link_options` need to be set as required.
 				'required' => array_keys( apply_filters( 'cn_link_options', array() ) ),
 			),
-			'default'   => array(
+			'default'           => array(
 				'order'  => array_keys( $linkTypes ),
 				// Any types registered via the `cn_link_options` filter should be set as active (enabled).
 				// The `cn_link_options` filter is applied in case a user has removed types using the filter.
@@ -2197,7 +2198,7 @@ class cnRegisterSettings {
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeLinkFieldsetSettings' ),
-			'schema' => array(
+			'schema'            => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -2286,7 +2287,7 @@ class cnRegisterSettings {
 				'same' => __( 'Same Window', 'connections' ),
 			),
 			'default'   => 'new',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2308,7 +2309,7 @@ class cnRegisterSettings {
 				'dofollow' => __( 'Follow', 'connections' ),
 			),
 			'default'   => 'nofollow',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2423,32 +2424,32 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		// Grab the date types.
 		$dateTypes = cnOptions::getCoreDateTypes();
 
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'date-types',
-			'position'  => 30,
-			'page_hook' => $settings,
-			'tab'       => 'field-configuration',
-			'section'   => 'fieldset-date',
-			'title'     => __( 'Date Type Options', 'connections' ),
-			'desc'      => __(
+			'plugin_id'         => 'connections',
+			'id'                => 'date-types',
+			'position'          => 30,
+			'page_hook'         => $settings,
+			'tab'               => 'field-configuration',
+			'section'           => 'fieldset-date',
+			'title'             => __( 'Date Type Options', 'connections' ),
+			'desc'              => __(
 				'Choose which date event types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a date event. Deactivating a date type will not effect previously saved entries. Add custom date types by clicking the "Add" button. Custom date types can be removed but only if no date events are saved with that type. The "core" date types can not be removed. A "Remove" button will display for date types which can be safely removed.',
 				'connections'
 			),
-			'help'      => '',
-			'type'      => 'sortable_input-repeatable',
-			'options'   => array(
+			'help'              => '',
+			'type'              => 'sortable_input-repeatable',
+			'options'           => array(
 				'items'    => $dateTypes,
 				// Any types registered via the `cn_date_options` need to be set as required.
 				'required' => array_keys( apply_filters( 'cn_date_options', array() ) ),
 			),
-			'default'   => array(
+			'default'           => array(
 				'order'  => array_keys( $dateTypes ),
 				// Any types registered via the `cn_date_options` filter should be set as active (enabled).
 				// The `cn_date_options` filter is applied in case a user has removed types using the filter.
@@ -2457,7 +2458,7 @@ class cnRegisterSettings {
 			),
 			// Only need to add this once, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeDateFieldsetSettings' ),
-			'schema' => array(
+			'schema'            => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -2567,7 +2568,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2584,13 +2585,13 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'radio',
-			'options' => array(
+			'options'   => array(
 				'circle'  => __( 'Circle', 'connections' ),
 				'rounded' => __( 'Rounded Corners', 'connections' ),
 				'square'  => __( 'Square', 'connections' ),
 			),
 			'default'   => 'rounded',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2612,7 +2613,7 @@ class cnRegisterSettings {
 				'global'     => __( 'Global Icon Colors', 'connections' ),
 			),
 			'default'   => 'individual',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2654,7 +2655,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#BEBDBD',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2672,7 +2673,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#E8E8E8',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2690,7 +2691,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#FFFFFF',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2708,32 +2709,32 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#FFFFFF',
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		// Grab the social types.
 		$socialMediaTypes = cnOptions::getCoreSocialNetworkTypes();
 
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'social-network-types',
-			'position'  => 30,
-			'page_hook' => $settings,
-			'tab'       => 'field-configuration',
-			'section'   => 'fieldset-social-networks',
-			'title'     => __( 'Social Network Type Options', 'connections' ),
-			'desc'      => __(
+			'plugin_id'         => 'connections',
+			'id'                => 'social-network-types',
+			'position'          => 30,
+			'page_hook'         => $settings,
+			'tab'               => 'field-configuration',
+			'section'           => 'fieldset-social-networks',
+			'title'             => __( 'Social Network Type Options', 'connections' ),
+			'desc'              => __(
 				'Choose which social network types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a social network. Deactivating a social network will not effect previously saved entries. Add custom social network types by clicking the "Add" button. Custom social network types can be removed but only if no social networks of that type are assigned to an entry. The "core" social network types can not be removed. A "Remove" button will display for social network types which can be safely removed.',
 				'connections'
 			),
-			'help'      => '',
-			'type'      => 'sortable_iconpicker-repeatable',
-			'options'   => array(
+			'help'              => '',
+			'type'              => 'sortable_iconpicker-repeatable',
+			'options'           => array(
 				'items'    => $socialMediaTypes,
 				// Any types registered via the `cn_social_network_options` need to be set as required.
 				'required' => array_keys( apply_filters( 'cn_social_network_options', array() ) ),
 			),
-			'default'   => array(
+			'default'           => array(
 				'order'  => array_keys( $socialMediaTypes ),
 				// Any types registered via the `cn_social_network_options` filter should be set as active (enabled).
 				// The `cn_social_network_options` filter is applied in case a user has removed types using the filter.
@@ -2742,7 +2743,7 @@ class cnRegisterSettings {
 			),
 			// Only need to add this once, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSocialNetworkFieldsetSettings' ),
-			'schema' => array(
+			'schema'            => array(
 				'type'       => 'object',
 				'properties' => array(
 					'order'  => array(
@@ -2750,7 +2751,7 @@ class cnRegisterSettings {
 						'items' => array( 'type' => 'string' ),
 					),
 					'icon' => array(
-						'type' => 'object',
+						'type'       => 'object',
 						'properties' => array_fill_keys(
 							array_keys( cnOptions::getRegisteredSocialNetworkTypes() ),
 							array(
@@ -2767,7 +2768,7 @@ class cnRegisterSettings {
 							)
 						),
 					),
-					'active'   => array(
+					'active' => array(
 						'type'  => 'array',
 						'items' => array( 'type' => 'string' ),
 					),
@@ -3873,6 +3874,7 @@ class cnRegisterSettings {
 			'tab'       => 'advanced',
 			'section'   => 'google_maps_geocoding_api',
 			'title'     => __( 'Server Key', 'connections' ),
+			/* translators: Google Maps API key URI. */
 			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Server Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/geocoding/get-api-key' ),
 			'help'      => '',
 			'type'      => 'text',
@@ -3889,6 +3891,7 @@ class cnRegisterSettings {
 			'tab'       => 'advanced',
 			'section'   => 'google_maps_geocoding_api',
 			'title'     => __( 'Browser Key', 'connections' ),
+			/* translators: Google Maps API key URI. */
 			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/javascript/get-api-key' ),
 			'help'      => '',
 			'type'      => 'text',
@@ -4278,7 +4281,6 @@ class cnRegisterSettings {
 		switch ( $field['id'] ) {
 
 			case 'address-types':
-
 				$callable = array( 'cnOptions', 'getAddressTypesInUse' );
 				break;
 
@@ -4541,30 +4543,30 @@ class cnRegisterSettings {
 		/*
 		 * Build the array to store the user preferences.
 		 */
-		$search['family_name']        = in_array( 'family_name' , $fields ) ? true : false;
-		$search['first_name']         = in_array( 'first_name' , $fields ) ? true : false;
-		$search['middle_name']        = in_array( 'middle_name' , $fields ) ? true : false;
-		$search['last_name']          = in_array( 'last_name' , $fields ) ? true : false;
-		$search['title']              = in_array( 'title' , $fields ) ? true : false;
-		$search['organization']       = in_array( 'organization' , $fields ) ? true : false;
-		$search['department']         = in_array( 'department' , $fields ) ? true : false;
-		$search['contact_first_name'] = in_array( 'contact_first_name' , $fields ) ? true : false;
-		$search['contact_last_name']  = in_array( 'contact_last_name' , $fields ) ? true : false;
-		$search['bio']                = in_array( 'bio' , $fields ) ? true : false;
-		$search['notes']              = in_array( 'notes' , $fields ) ? true : false;
+		$search['family_name']        = in_array( 'family_name', $fields ) ? true : false;
+		$search['first_name']         = in_array( 'first_name', $fields ) ? true : false;
+		$search['middle_name']        = in_array( 'middle_name', $fields ) ? true : false;
+		$search['last_name']          = in_array( 'last_name', $fields ) ? true : false;
+		$search['title']              = in_array( 'title', $fields ) ? true : false;
+		$search['organization']       = in_array( 'organization', $fields ) ? true : false;
+		$search['department']         = in_array( 'department', $fields ) ? true : false;
+		$search['contact_first_name'] = in_array( 'contact_first_name', $fields ) ? true : false;
+		$search['contact_last_name']  = in_array( 'contact_last_name', $fields ) ? true : false;
+		$search['bio']                = in_array( 'bio', $fields ) ? true : false;
+		$search['notes']              = in_array( 'notes', $fields ) ? true : false;
 
-		$search['address_line_1']     = in_array( 'address_line_1' , $fields ) ? true : false;
-		$search['address_line_2']     = in_array( 'address_line_2' , $fields ) ? true : false;
-		$search['address_line_3']     = in_array( 'address_line_3' , $fields ) ? true : false;
-		$search['address_line_4']     = in_array( 'address_line_4' , $fields ) ? true : false;
-		$search['address_district']   = in_array( 'address_district' , $fields ) ? true : false;
-		$search['address_county']     = in_array( 'address_county' , $fields ) ? true : false;
-		$search['address_city']       = in_array( 'address_city' , $fields ) ? true : false;
-		$search['address_state']      = in_array( 'address_state' , $fields ) ? true : false;
-		$search['address_zipcode']    = in_array( 'address_zipcode' , $fields ) ? true : false;
-		$search['address_country']    = in_array( 'address_country' , $fields ) ? true : false;
+		$search['address_line_1']   = in_array( 'address_line_1', $fields ) ? true : false;
+		$search['address_line_2']   = in_array( 'address_line_2', $fields ) ? true : false;
+		$search['address_line_3']   = in_array( 'address_line_3', $fields ) ? true : false;
+		$search['address_line_4']   = in_array( 'address_line_4', $fields ) ? true : false;
+		$search['address_district'] = in_array( 'address_district', $fields ) ? true : false;
+		$search['address_county']   = in_array( 'address_county', $fields ) ? true : false;
+		$search['address_city']     = in_array( 'address_city', $fields ) ? true : false;
+		$search['address_state']    = in_array( 'address_state', $fields ) ? true : false;
+		$search['address_zipcode']  = in_array( 'address_zipcode', $fields ) ? true : false;
+		$search['address_country']  = in_array( 'address_country', $fields ) ? true : false;
 
-		$search['phone_number']       = in_array( 'phone_number' , $fields ) ? true : false;
+		$search['phone_number'] = in_array( 'phone_number', $fields ) ? true : false;
 
 		// var_dump($search);
 

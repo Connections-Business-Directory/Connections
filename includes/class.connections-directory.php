@@ -11,7 +11,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.9';
+	const VERSION = '10.4.10';
 
 	/**
 	 * Stores the instance of this class.
@@ -179,10 +179,10 @@ final class Connections_Directory {
 
 			self::$instance = new self();
 
-			self::$file       = $file;
-			self::$pluginURL  = plugin_dir_url( $file );
-			self::$path       = plugin_dir_path( $file );
-			self::$basename   = plugin_basename( $file );
+			self::$file      = $file;
+			self::$pluginURL = plugin_dir_url( $file );
+			self::$path      = plugin_dir_path( $file );
+			self::$basename  = plugin_basename( $file );
 
 			require_once self::$path . 'includes/class.constants.php';
 			cnConstants::define();
@@ -338,7 +338,7 @@ final class Connections_Directory {
 		add_action( 'cn_process_status', array( 'cnEntry_Action', 'clearCache' ) );
 		add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'clearCache' ) );
 		add_action( 'cn_process_bulk_delete', array( 'cnEntry_Action', 'clearCache' ) );
-		add_action( 'update_option_permalink_structure' , array( 'cnEntry_Action', 'clearCache' ) );
+		add_action( 'update_option_permalink_structure', array( 'cnEntry_Action', 'clearCache' ) );
 
 		// Add actions to update the term taxonomy counts when entry status or visibility has been updated via the bulk actions.
 		add_action( 'cn_process_status', array( 'cnEntry_Action', 'updateTermCount' ) );
@@ -401,7 +401,7 @@ final class Connections_Directory {
 		add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );
 
 		// Register the callback to support downloading of vCards
-		add_action( 'template_redirect' , array( 'cnEntry_vCard', 'download' ) );
+		add_action( 'template_redirect', array( 'cnEntry_vCard', 'download' ) );
 
 		// Geocode the address using Google Geocoding API.
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
@@ -429,7 +429,7 @@ final class Connections_Directory {
 		switch ( true ) {
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '0.7.3', '<' ) ) :
+			case ( version_compare( $version, '0.7.3', '<' ) ):
 				/*
 				 * Retrieve the settings stored prior to 0.7.3 and migrate them
 				 * so they will be accessible in the structure supported by the
@@ -517,43 +517,42 @@ final class Connections_Directory {
 					}
 
 					if ( false === get_option( 'connections_debug' ) ) {
-						update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+						update_option( 'connections_debug', array( 'debug_messages' => $options['debug'] ) );
 					}
 
 					unset( $options );
 				}
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '0.7.4', '<' ) ) :
+			case ( version_compare( $version, '0.7.4', '<' ) ):
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 				 */
-				$options = get_option( 'connections_search' );
+				$options                    = get_option( 'connections_search' );
 				$options['keyword_enabled'] = 1;
 
 				update_option( 'connections_search', $options );
 				unset( $options );
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '0.8', '<' ) ) :
+			case ( version_compare( $version, '0.8', '<' ) ):
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 				 */
-				$options = get_option( 'connections_compatibility' );
+				$options        = get_option( 'connections_compatibility' );
 				$options['css'] = 1;
 
 				update_option( 'connections_compatibility', $options );
 				unset( $options );
 
-				$options = get_option( 'connections_display_results' );
+				$options                   = get_option( 'connections_display_results' );
 				$options['search_message'] = 1;
 
 				update_option( 'connections_display_results', $options );
 				unset( $options );
 
 			/** @noinspection PhpMissingBreakStatementInspection */
-			case ( version_compare( $version, '8.5.19', '<' ) ) :
-
+			case ( version_compare( $version, '8.5.19', '<' ) ):
 				$options = get_option( 'connections_permalink' );
 
 				$options['district_base'] = 'district';

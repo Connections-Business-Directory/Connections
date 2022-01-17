@@ -896,43 +896,43 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Upgrade Notice ==
 
 = 10.2 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.3 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.3.1 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.3.2 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.1 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.2 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.3 =
-It is recommended to backup before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.5 =
-It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.6 =
-It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.7 =
-It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.8 =
-It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.9 =
-It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.10 =
-It is recommended to backup before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

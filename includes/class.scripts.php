@@ -91,21 +91,12 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `admin_init` and `init` actions.
+	 *
 	 * Register the external JS libraries that may be enqueued in either the admin or frontend.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
-	 * @static
-	 *
-	 * @global $connections
-	 *
-	 * @uses   is_admin()
-	 * @uses   is_ssl()
-	 * @uses   wp_register_script()
-	 * @uses   wp_max_upload_size()
-	 * @uses   size_format()
-	 * @uses   esc_html()
-	 * @uses   wp_localize_script()
+	 * @internal
+	 * @since 0.7.3.2
 	 *
 	 * @return void
 	 */

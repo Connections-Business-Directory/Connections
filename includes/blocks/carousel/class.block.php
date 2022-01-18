@@ -2,7 +2,6 @@
 namespace Connections_Directory\Blocks;
 
 use cnArray;
-use cnEntry;
 use cnTemplate as Template;
 use Connections_Directory\Utility\_escape;
 

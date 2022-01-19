@@ -91,7 +91,7 @@ class cnScript {
 	}
 
 	/**
-	 * Callback for the `admin_init` and `init` actions.
+	 * Callback for the `admin_init` and `wp` actions.
 	 *
 	 * Register the external JS libraries that may be enqueued in either the admin or frontend.
 	 *
@@ -369,24 +369,13 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `admin_init` and `wp` actions.
+	 *
 	 * Registers the CSS libraries that may be enqueued in the admin or frontend.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
+	 * @internal
+	 * @since 0.7.3.2
 	 * @static
-	 *
-	 * @uses   add_filter()
-	 * @uses   is_admin()
-	 * @uses   wp_register_style()
-	 * @uses   get_user_option()
-	 * @uses   is_rtl()
-	 * @uses   cnSettingsAPI::get()
-	 * @uses   cnLocate::file()
-	 * @uses   cnLocate::fileNames()
-	 * @uses   wp_style_is()
-	 * @uses   remove_filter()
-	 *
-	 * @return void
 	 */
 	public static function registerCSS() {
 

@@ -44,6 +44,7 @@ class Blocks {
 	 *
 	 * Enqueues block assets for editor only.
 	 *
+	 * @internal
 	 * @since 8.31
 	 */
 	public static function enqueueEditorAssets() {
@@ -102,6 +103,7 @@ class Blocks {
 	 *
 	 * Enqueues block assets for both editor and frontend.
 	 *
+	 * @internal
 	 * @since 8.31
 	 */
 	public static function enqueueAssets() {
@@ -146,6 +148,7 @@ class Blocks {
 	 *
 	 * Register the Connections category for the blocks.
 	 *
+	 * @internal
 	 * @since 8.31
 	 *
 	 * @param array    $categories Array of block categories.

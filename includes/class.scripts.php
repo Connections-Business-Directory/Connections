@@ -97,8 +97,6 @@ class cnScript {
 	 *
 	 * @internal
 	 * @since 0.7.3.2
-	 *
-	 * @return void
 	 */
 	public static function registerScripts() {
 

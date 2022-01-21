@@ -4,7 +4,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnArray;
 use cnEntry;
-use cnOutput;
+use cnEntry_HTML;
 use cnTemplate as Template;
 use cnTemplateFactory;
 use Connections_Directory\Content_Block;
@@ -120,11 +120,13 @@ class Related extends Content_Block {
 	}
 
 	/**
+	 * Render the template HTML.
+	 *
 	 * @since 9.8
 	 *
-	 * @param Template   $template
-	 * @param cnOutput[] $related
-	 * @param array      $attributes
+	 * @param Template       $template   Instance of the Template object.
+	 * @param cnEntry_HTML[] $related    Array of Entry objects.
+	 * @param array          $attributes The carousel instance attributes.
 	 *
 	 * @return string
 	 */

@@ -35,7 +35,7 @@ class Last_Viewed extends Recently_Viewed {
 		);
 
 		/*
-		 * In this case, do not call the parent constructor because we do not wan the parent::hooks() method to run.
+		 * In this case, do not call the parent constructor because we do not want the parent::hooks() method to run.
 		 * But, we still to run the Content_Block constructor, so, lets call it directly.
 		 */
 		Content_Block::__construct( $id, $atts );

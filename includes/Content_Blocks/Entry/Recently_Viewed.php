@@ -37,7 +37,6 @@ class Recently_Viewed extends Content_Block {
 
 		parent::__construct( $id, $atts );
 
-		// $this->setProperties( $this->properties );
 		$this->hooks();
 	}
 

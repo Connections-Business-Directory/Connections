@@ -388,6 +388,12 @@ class Content_Block {
 
 				$html = $this->get( 'before' ) . $html . $this->get( 'after' );
 			}
+
+			// Frontend script.
+			if ( 0 < strlen( $html ) && ! empty( $handle = $this->get( 'script_handle' ) ) ) {
+
+				wp_enqueue_script( $handle );
+			}
 		}
 
 		if ( true === $echo ) {

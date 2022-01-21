@@ -199,10 +199,10 @@ class Content_Blocks {
 				wp_enqueue_style( $handle );
 			}
 
-			// Frontend script.
-			if ( ! empty( $handle = $block->get( 'script_handle' ) ) ) {
-				wp_enqueue_script( $handle );
-			}
+			// // Frontend script.
+			// if ( ! empty( $handle = $block->get( 'script_handle' ) ) ) {
+			// 	wp_enqueue_script( $handle );
+			// }
 		}
 	}
 

@@ -503,7 +503,6 @@ class cnScript {
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
-			// wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-chosen' );
 
@@ -681,7 +680,6 @@ class cnScript {
 
 			wp_enqueue_style( 'cn-admin' );
 			// wp_enqueue_style( 'cn-admin-jquery-ui' );
-			// wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
 			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
 			// wp_enqueue_style( 'cn-brandicons' );

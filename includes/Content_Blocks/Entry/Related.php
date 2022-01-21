@@ -42,7 +42,6 @@ class Related extends Content_Block {
 
 		if ( ! $template instanceof Template ) {
 
-			// echo '<p>' . esc_html__( 'Template not found.', 'connections' ) . '</p>';
 			return;
 		}
 
@@ -55,7 +54,6 @@ class Related extends Content_Block {
 
 		if ( 0 >= count( $related ) ) {
 
-			// echo '<p>' . esc_html__( 'No directory entries found.', 'connections' ) . '</p>' . PHP_EOL;
 			return;
 		}
 
@@ -160,7 +158,6 @@ class Related extends Content_Block {
 		foreach ( $related as $entry ) {
 
 			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $attributes );
-			// do_action( 'cn_template-names', $entry, $template, $attributes );
 		}
 
 		$html = ob_get_clean();

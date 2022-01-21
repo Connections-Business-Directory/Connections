@@ -20,6 +20,9 @@ class Carousel {
 	 */
 	public static function register() {
 
+		/**
+		 * @see \WP_Block_Type::__construct()
+		 */
 		register_block_type(
 			'connections-directory/carousel',
 			array(
@@ -27,12 +30,11 @@ class Carousel {
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
 				// and display the "Error loading block: Invalid parameter(s): attributes" message.
 				'attributes'      => array(),
-				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
-				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
-				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// 'editor_script'   => '', // Editor only script handle. @since 5.0.0
+				// 'editor_style'    => '', // Editor only style handle. @since 5.0.0
+				// 'script'          => '', // Frontend and Editor script handle. @since 5.0.0
+				// 'style'           => '', // Frontend and Editor style handle. @since 5.0.0
+				// 'view_script'     => '', // Frontend only script handle. @since 5.9.0
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)

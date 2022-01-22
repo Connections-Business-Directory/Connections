@@ -184,6 +184,7 @@ class Content_Blocks {
 	 *
 	 * Enqueue the script handles registered with the Content Block attributes.
 	 *
+	 * @internal
 	 * @since 9.6
 	 */
 	public static function enqueueScripts() {

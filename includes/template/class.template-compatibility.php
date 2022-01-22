@@ -21,7 +21,7 @@ class cnTemplate_Compatibility {
 	public static function hooks() {
 
 		add_filter( 'cn_template_required_js-cmap', array( __CLASS__, 'enqueueChosen' ), 99 );
-		add_filter( 'cn_template_required_js-cmap', array( __CLASS__, 'enqueuegoMap' ), 99 );
+		// add_filter( 'cn_template_required_js-cmap', array( __CLASS__, 'enqueuegoMap' ), 99 );
 
 		add_filter( 'cn_template_required_js-excerpt-plus', array( __CLASS__, 'enqueueChosen' ), 99 );
 

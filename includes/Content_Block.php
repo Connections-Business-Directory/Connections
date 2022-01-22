@@ -4,7 +4,10 @@ namespace Connections_Directory;
 
 use cnArray;
 use cnFormatting;
+use cnQuery;
 use cnSanitize;
+use cnSettingsAPI;
+use Connections_Directory\Utility\_array;
 use WP_Error;
 
 /**
@@ -254,6 +257,29 @@ class Content_Block {
 
 		/* translators: Class method name. */
 		return new WP_Error( 'invalid-method', sprintf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ ) );
+	}
+
+	/**
+	 * Whether the Content Block is active.
+	 *
+	 * @since 10.4.11
+	 *
+	 * @return bool
+	 */
+	public function isActive() {
+
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+
+			$settings = cnSettingsAPI::get( 'connections', 'display_single', 'content_block' );
+
+		} else {
+
+			$settings = cnSettingsAPI::get( 'connections', 'display_list', 'content_block' );
+		}
+
+		$active = _array::get( $settings, 'active', array() );
+
+		return in_array( $this->getID(), $active );
 	}
 
 	/**

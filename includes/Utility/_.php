@@ -127,6 +127,26 @@ final class _ {
 	}
 
 	/**
+	 * Compare desired to the current version of WordPress.
+	 *
+	 * @since 10.4.11
+	 *
+	 * @param string $required The version to compare.
+	 * @param string $operator The operator.
+	 *
+	 * @return bool
+	 */
+	public static function isWPVersion( $required, $operator = '>=' ) {
+
+		global $wp_version;
+
+		// Strip off any -alpha, -beta, -RC, -src suffixes.
+		list( $version ) = explode( '-', $wp_version );
+
+		return version_compare( $version, $required, $operator );
+	}
+
+	/**
 	 * Clean up an array, comma- or space-separated list of IDs.
 	 *
 	 * @since 8.2.9

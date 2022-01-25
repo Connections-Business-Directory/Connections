@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_url;
+
 /**
  * Class cnScript
  */
@@ -88,6 +90,42 @@ class cnScript {
 
 		add_action( 'wp_print_scripts', array( __CLASS__, 'jQueryFixr' ), 999 );
 		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery' ), 999 );
+	}
+
+	/**
+	 * Get asset metadata, to be used for enqueueing assets.
+	 *
+	 * The dependency metadata is generated via `@wordpress/dependency-extraction-webpack-plugin`.
+	 *
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/packages/packages-dependency-extraction-webpack-plugin/
+	 *
+	 * @since 10.4.11
+	 *
+	 * @param string $key Asset key filename as defined by the script entry.
+	 *
+	 * @return array{dependencies: array, src: string, version: false|int}
+	 */
+	public static function getAssetMetadata( $key ) {
+
+		$dependencyPath = Connections_Directory()->pluginPath() . 'assets/dist/require/dependencies.php';
+		$assetsPath     = Connections_Directory()->pluginPath() . "assets/dist/{$key}";
+		$urlBase        = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
+
+		$asset = file_exists( $dependencyPath )
+			? require $dependencyPath
+			: array(
+				'dependencies' => array(),
+				'version'      => filemtime( $assetsPath ),
+			);
+
+		if ( array_key_exists( $key, $asset ) ) {
+
+			$asset = $asset[ $key ];
+		}
+
+		$asset['src'] = "{$urlBase}assets/dist/{$key}";
+
+		return $asset;
 	}
 
 	/**

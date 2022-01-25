@@ -437,16 +437,6 @@ class cnScript {
 		wp_register_style( 'cn-admin-jquery-ui', $url . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
 		wp_register_style( 'cn-admin-jquery-datepicker', $url . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
 
-		if ( is_rtl() ) {
-
-			wp_register_style(
-				'cn-admin-rtl',
-				"{$url}assets/dist/css/admin.rtl.css",
-				array( 'cn-admin' ),
-				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/admin.rtl.css" )
-			);
-		}
-
 		// This will locate the CSS file to be enqueued.
 		// $coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
 		// var_dump($coreCSS);
@@ -459,11 +449,6 @@ class cnScript {
 			array(),
 			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/frontend.css" )
 		);
-
-		if ( is_rtl() ) {
-
-			wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array( 'cn-public' ), CN_CURRENT_VERSION );
-		}
 
 		// This will locate the custom CSS file to be enqueued.
 		$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', null, null, 'css' ), 'url' );

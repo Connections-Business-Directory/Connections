@@ -778,6 +778,7 @@ class cnScript {
 	 */
 	public static function maybeEnqueueStyle() {
 
+		$homeID = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );
 		$object = get_queried_object();
 
 		if ( ! $object instanceof \WP_Post ) {
@@ -785,7 +786,9 @@ class cnScript {
 			return false;
 		}
 
-		return has_shortcode( $object->post_content, 'connections' ) || has_block( 'connections-directory/shortcode-connections', $object );
+		return has_shortcode( $object->post_content, 'connections' )
+			   || has_block( 'connections-directory/shortcode-connections', $object )
+			   || $object->ID === (int) $homeID;
 	}
 
 	/**

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add various actions and filters to ensure proper backward compatibilty
+ * Add various actions and filters to ensure proper backward compatibility
  * with the commercial templates.
  *
  * @package     Connections

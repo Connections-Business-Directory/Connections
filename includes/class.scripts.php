@@ -776,7 +776,7 @@ class cnScript {
 	 *
 	 * @return bool
 	 */
-	private static function maybeEnqueueStyle() {
+	public static function maybeEnqueueStyle() {
 
 		$object = get_queried_object();
 

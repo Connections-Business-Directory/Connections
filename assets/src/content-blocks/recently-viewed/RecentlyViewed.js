@@ -1,20 +1,19 @@
 /**
  * WordPress dependencies
  */
-const { __, _n, _nx, _x } = wp.i18n;
-const { apiFetch } = wp;
-const {
-	      Spinner,
-      } = wp.components;
-const { Component, Fragment, render } = wp.element;
-const { addQueryArgs } = wp.url;
+import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
+import { Spinner } from '@wordpress/components';
+import { Component, Fragment, render } from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * Internal dependencies
  */
 import {
 	EntryImage,
-	EntryName, EntryTitle,
+	EntryName,
+	EntryTitle,
 } from "@Connections-Directory/components";
 
 const ENDPOINT = '/cn-api/v1/recently_viewed/';

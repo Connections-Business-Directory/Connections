@@ -31,7 +31,7 @@ class Management extends Content_Block {
 
 		$atts = array(
 			'name'                => __( 'Entry Management', 'connections' ),
-			// 'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Javascript',
+			// 'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Script',
 			// 'style_handle'        => 'wp-jquery-ui-dialog',
 			'permission_callback' => array( $this, 'permission' ),
 		);
@@ -40,7 +40,7 @@ class Management extends Content_Block {
 
 		if ( $this->isPermitted() ) {
 
-			$this->set( 'script_handle', 'Connections_Directory/Content_Block/Entry_Management/Javascript' );
+			$this->set( 'script_handle', 'Connections_Directory/Content_Block/Entry_Management/Script' );
 			$this->set( 'style_handle', 'wp-jquery-ui-dialog' );
 		}
 
@@ -72,7 +72,7 @@ class Management extends Content_Block {
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		wp_register_script(
-			'Connections_Directory/Content_Block/Entry_Management/Javascript',
+			'Connections_Directory/Content_Block/Entry_Management/Script',
 			$url . "assets/js/cn-entry-management{$min}.js",
 			array( 'jquery-ui-dialog', 'wp-api-request' ),
 			CN_CURRENT_VERSION,

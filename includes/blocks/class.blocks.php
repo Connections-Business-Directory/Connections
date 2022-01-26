@@ -26,9 +26,6 @@ class Blocks {
 		// Enqueue the editor assets for the blocks.
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueueEditorAssets' ) );
 
-		// Enqueue the frontend block assets.
-		add_action( 'enqueue_block_assets', array( __CLASS__, 'enqueueAssets' ) );
-
 		// Register Connections blocks category.
 		add_filter( 'block_categories', array( __CLASS__, 'registerCategories' ), 10, 2 );
 
@@ -96,51 +93,6 @@ class Blocks {
 		);
 
 		wp_set_script_translations( 'connections-block-directory', 'connections' );
-	}
-
-	/**
-	 * Callback for the `enqueue_block_assets` action.
-	 *
-	 * Enqueues block assets for both editor and frontend.
-	 *
-	 * @internal
-	 * @since 8.31
-	 */
-	public static function enqueueAssets() {
-
-		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
-		$path = Connections_Directory()->pluginPath();
-
-		/*
-		 * Enqueue admin assets only.
-		 */
-		if ( is_admin() ) {}
-
-		/*
-		 * Enqueue frontend assets only.
-		 */
-		if ( ! is_admin() ) {
-
-			wp_enqueue_script(
-				'connections-blocks',
-				"{$url}assets/dist/js/blocks-public.js",
-				array( 'wp-element', 'wp-html-entities' ),
-				\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks-public.js" ),
-				true
-			);
-		}
-
-		/*
-		 * Enqueue admin and frontend assets.
-		 */
-		wp_enqueue_style(
-			'connections-blocks',
-			"{$url}assets/dist/css/blocks-editor.css",
-			array(),
-			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/blocks-editor.css" )
-		);
 	}
 
 	/**

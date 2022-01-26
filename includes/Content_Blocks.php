@@ -2,6 +2,8 @@
 
 namespace Connections_Directory;
 
+use cnScript;
+
 /**
  * Class Content_Blocks
  *
@@ -195,15 +197,22 @@ class Content_Blocks {
 
 		foreach ( $blocks as $block ) {
 
-			// Frontend styles.
-			if ( ! empty( $handle = $block->get( 'style_handle' ) ) ) {
+			$handle = $block->get( 'style_handle' );
+
+			/**
+			 * Frontend styles.
+			 * @todo CSS should only be enqueued when on a page with either the Block or the shortcode.
+			 * @see \cnScript::maybeEnqueueStyle()
+			 */
+			if ( $block->isActive() && ! empty( $handle ) && cnScript::maybeEnqueueStyle() ) {
 				wp_enqueue_style( $handle );
 			}
 
-			// // Frontend script.
-			// if ( ! empty( $handle = $block->get( 'script_handle' ) ) ) {
-			// 	wp_enqueue_script( $handle );
-			// }
+			/**
+			 * The script is enqueued when the block content is rendered.
+			 *
+			 * @see Content_Block::render()
+			 */
 		}
 	}
 

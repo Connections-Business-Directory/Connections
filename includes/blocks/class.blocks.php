@@ -2,7 +2,10 @@
 
 namespace Connections_Directory;
 
-use cnURL as URL;
+use cnOptions;
+use cnScript;
+use cnTemplateFactory;
+use Connections_Directory\Utility\_url;
 
 /**
  * Class Blocks
@@ -46,12 +49,10 @@ class Blocks {
 	 */
 	public static function enqueueEditorAssets() {
 
-		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
+		$url  = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
 		$path = Connections_Directory()->pluginPath();
 
-		\cnScript::enqueueStyles();
+		cnScript::enqueueStyles();
 
 		$jsDependencies = array(
 			'lodash',
@@ -84,10 +85,10 @@ class Blocks {
 				'blockSettings' => array(
 					'templates'  => array(
 						'active'     => Connections_Directory()->options->getActiveTemplate( 'all' ),
-						'registered' => \cnTemplateFactory::getOptions(),
+						'registered' => cnTemplateFactory::getOptions(),
 					),
-					'entryTypes' => \cnOptions::getEntryTypeOptions(),
-					'dateTypes'  => \cnOptions::getDateTypeOptions(),
+					'entryTypes' => cnOptions::getEntryTypeOptions(),
+					'dateTypes'  => cnOptions::getDateTypeOptions(),
 				),
 			)
 		);

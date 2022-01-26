@@ -62,6 +62,7 @@ class Management extends Content_Block {
 	 *
 	 * Register the Content Block scripts. They will be enqueued via the `script` and `styles` Content Block attributes.
 	 *
+	 * @internal
 	 * @since 9.6
 	 */
 	public static function registerScripts() {

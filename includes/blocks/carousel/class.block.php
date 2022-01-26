@@ -2,8 +2,10 @@
 namespace Connections_Directory\Blocks;
 
 use cnArray;
+use cnScript;
 use cnTemplate as Template;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_url;
 
 /**
  * Class Carousel
@@ -21,6 +23,13 @@ class Carousel {
 	public static function register() {
 
 		/**
+		 * Scripts and styles need to be registered before the block is registered,
+		 * so the scrip and style hooks are available when registering the block.
+		 */
+		self::registerScripts();
+		self::registerStyles();
+
+		/**
 		 * @see \WP_Block_Type::__construct()
 		 */
 		register_block_type(
@@ -33,7 +42,7 @@ class Carousel {
 				// 'editor_script'   => '', // Editor only script handle. @since 5.0.0
 				// 'editor_style'    => '', // Editor only style handle. @since 5.0.0
 				// 'script'          => '', // Frontend and Editor script handle. @since 5.0.0
-				// 'style'           => '', // Frontend and Editor style handle. @since 5.0.0
+				'style'           => 'Connections_Directory/Block/Carousel/Style', // Frontend and Editor style handle. @since 5.0.0
 				// 'view_script'     => '', // Frontend only script handle. @since 5.9.0
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
@@ -436,6 +445,44 @@ class Carousel {
 	}
 
 	/**
+	 * Register the scripts.
+	 *
+	 * @since 10.4.11
+	 */
+	private static function registerScripts() {
+
+		$asset = cnScript::getAssetMetadata( 'block/carousel/script.js' );
+
+		wp_register_script(
+			'Connections_Directory/Block/Carousel/Script',
+			$asset['src'],
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+	}
+
+	/**
+	 * Register the styles.
+	 *
+	 * @since 10.4.11
+	 */
+	private static function registerStyles() {
+
+		$path     = Connections_Directory()->pluginPath();
+		$urlBase  = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
+		$rtl      = is_rtl() ? '.rtl' : '';
+		$filename = "style{$rtl}.css";
+
+		wp_register_style(
+			'Connections_Directory/Block/Carousel/Style',
+			"{$urlBase}assets/dist/block/carousel/{$filename}",
+			array(),
+			filemtime( "{$path}assets/dist/block/carousel/{$filename}" )
+		);
+	}
+
+	/**
 	 * Callback for the `wp_print_scripts` action.
 	 *
 	 * Print Blocks style tag in header.
@@ -603,6 +650,11 @@ class Carousel {
 
 			return '';
 		}
+
+		/*
+		 * Note: Eventually this can be set as the `view_script` handle when registering the block.
+		 */
+		wp_enqueue_script( 'Connections_Directory/Block/Carousel/Script' );
 
 		/**
 		 * @link https://stackoverflow.com/a/6661561/5351316

@@ -288,7 +288,7 @@ img.cn-image {
 	margin: 0 1px 2px;
 }
 
-@import "brandicons";
+@import "brandicons/style";
 
 /*
  * Link Styles
@@ -578,9 +578,9 @@ input#cn-submit {
 /*
  * Import Content Block Styles
  */
-@import "content-blocks";
-@import "content-block-related-carousel";
-@import "content-block-recently-viewed";
+@import "content-blocks/style-shared";
+@import "content-blocks/recently-viewed/style";
+@import "content-blocks/related-carousel/style";
 
 /*
  * Tables

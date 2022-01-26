@@ -3,6 +3,7 @@
 namespace Connections_Directory\Blocks;
 
 use cnTemplate as Template;
+use Connections_Directory\Utility\_url;
 
 /**
  * Class Team
@@ -31,6 +32,12 @@ class Team {
 	 * @since 8.39
 	 */
 	public static function register() {
+
+		/**
+		 * Scripts and styles need to be registered before the block is registered,
+		 * so the scrip and style hooks are available when registering the block.
+		 */
+		self::registerStyles();
 
 		register_block_type(
 			'connections-directory/team',
@@ -161,10 +168,30 @@ class Team {
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
 				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
 				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				'style'           => 'Connections_Directory/Block/Team/Style', // Registered CSS handle. Global, enqueued on the editor page and frontend.
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
+		);
+	}
+
+	/**
+	 * Register the styles.
+	 *
+	 * @since 10.4.11
+	 */
+	private static function registerStyles() {
+
+		$path     = Connections_Directory()->pluginPath();
+		$urlBase  = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
+		$rtl      = is_rtl() ? '.rtl' : '';
+		$filename = "style{$rtl}.css";
+
+		wp_register_style(
+			'Connections_Directory/Block/Team/Style',
+			"{$urlBase}assets/dist/block/team/{$filename}",
+			array(),
+			filemtime( "{$path}assets/dist/block/team/{$filename}" )
 		);
 	}
 

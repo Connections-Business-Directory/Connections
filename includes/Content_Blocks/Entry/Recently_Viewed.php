@@ -4,6 +4,7 @@ namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use cnOutput;
+use cnScript;
 use Connections_Directory\Content_Block;
 use Connections_Directory\Utility\_escape;
 use WP_Post;
@@ -33,6 +34,7 @@ class Recently_Viewed extends Content_Block {
 			'name'                => __( 'Recently Viewed Entries', 'connections' ),
 			'permission_callback' => '__return_true',
 			'heading'             => __( 'Recently Viewed', 'connections' ),
+			'script_handle'       => 'Connections_Directory/Content_Block/Recently_Viewed/Script',
 		);
 
 		parent::__construct( $id, $atts );
@@ -45,11 +47,33 @@ class Recently_Viewed extends Content_Block {
 	 */
 	private function hooks() {
 
+		add_action( 'init', array( __CLASS__, 'registerScripts' ) );
 		add_action(
 			'Connections_Directory/Render/Template/Single_Entry/After',
 			array( __CLASS__, 'entryIDJavaScriptObject' ),
 			10,
 			2
+		);
+	}
+
+	/**
+	 * Callback for the `init` action.
+	 *
+	 * Register the Content Block scripts. They will be enqueued via the `script` and `styles` Content Block attributes.
+	 *
+	 * @internal
+	 * @since 10.4.11
+	 */
+	public static function registerScripts() {
+
+		$asset = cnScript::getAssetMetadata( 'content-block/recently-viewed/script.js' );
+
+		wp_register_script(
+			'Connections_Directory/Content_Block/Recently_Viewed/Script',
+			$asset['src'],
+			$asset['dependencies'],
+			$asset['version'],
+			true
 		);
 	}
 
@@ -84,7 +108,7 @@ class Recently_Viewed extends Content_Block {
 		}
 
 		wp_add_inline_script(
-			'frontend',
+			'Connections_Directory/Content_Block/Recently_Viewed/Script',
 			"var cnViewing = {$encoded};",
 			'before'
 		);

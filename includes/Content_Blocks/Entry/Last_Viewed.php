@@ -32,6 +32,7 @@ class Last_Viewed extends Recently_Viewed {
 			'name'                => __( 'Last Viewed Entry', 'connections' ),
 			'permission_callback' => '__return_true',
 			'heading'             => __( 'Last Viewed', 'connections' ),
+			'script_handle'       => 'Connections_Directory/Content_Block/Recently_Viewed/Script',
 		);
 
 		/*

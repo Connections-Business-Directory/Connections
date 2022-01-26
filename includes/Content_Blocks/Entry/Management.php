@@ -44,7 +44,7 @@ class Management extends Content_Block {
 			$this->set( 'style_handle', 'wp-jquery-ui-dialog' );
 		}
 
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'registerScripts' ) );
+		add_action( 'init', array( __CLASS__, 'registerScripts' ) );
 	}
 
 	/**
@@ -58,7 +58,7 @@ class Management extends Content_Block {
 	}
 
 	/**
-	 * Callback for the `wp_enqueue_scripts` action.
+	 * Callback for the `init` action.
 	 *
 	 * Register the Content Block scripts. They will be enqueued via the `script` and `styles` Content Block attributes.
 	 *

@@ -39,6 +39,8 @@ class Department extends Related {
 			'name'                => __( 'Related Entries by Department', 'connections' ),
 			'permission_callback' => '__return_true',
 			'heading'             => __( 'Related by Department', 'connections' ),
+			'script_handle'       => 'Connections_Directory/Block/Carousel/Script',
+			'style_handle'        => 'Connections_Directory/Block/Carousel/Style',
 		);
 
 		parent::__construct( $id, $atts );

@@ -39,6 +39,8 @@ class County extends Related {
 			'name'                => __( 'Related Entries by County', 'connections' ),
 			'permission_callback' => '__return_true',
 			'heading'             => __( 'Related by County', 'connections' ),
+			'script_handle'       => 'Connections_Directory/Block/Carousel/Script',
+			'style_handle'        => 'Connections_Directory/Block/Carousel/Style',
 		);
 
 		parent::__construct( $id, $atts );

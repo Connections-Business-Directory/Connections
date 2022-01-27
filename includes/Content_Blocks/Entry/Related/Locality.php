@@ -39,6 +39,8 @@ class Locality extends Related {
 			'name'                => __( 'Related Entries by City', 'connections' ),
 			'permission_callback' => '__return_true',
 			'heading'             => __( 'Related by City', 'connections' ),
+			'script_handle'       => 'Connections_Directory/Block/Carousel/Script',
+			'style_handle'        => 'Connections_Directory/Block/Carousel/Style',
 		);
 
 		parent::__construct( $id, $atts );

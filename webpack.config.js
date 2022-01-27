@@ -6,6 +6,7 @@ const webpack = require( 'webpack' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
+const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const inProduction = ('production' === process.env.NODE_ENV);
@@ -17,31 +18,21 @@ const inProduction = ('production' === process.env.NODE_ENV);
  * WordPress dependencies
  */
 // const defaultConfig = require( '@wordpress/scripts/config/webpack.config.js' );
+const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 
 const config = {
 	// ...defaultConfig,
 	mode:      process.env.NODE_ENV === 'production' ? 'production' : 'development',
-	// Ensure modules like magnific know jQuery is external (loaded via WP).
 	externals: {
-		react:       'React',
-		'react-dom': 'ReactDOM',
-		tinymce:     'tinymce',
-		moment:      'moment',
-		jquery:      'jQuery',
-		$:           'jQuery',
-		lodash:      'lodash',
-		'lodash-es': 'lodash',
+		// react:       'React',
+		// 'react-dom': 'ReactDOM',
+		// tinymce:     'tinymce',
+		// moment:      'moment',
+		// jquery:      'jQuery',
+		// $:           'jQuery',
+		// lodash:      'lodash',
+		// 'lodash-es': 'lodash',
 		//https://www.cssigniter.com/importing-gutenberg-core-wordpress-libraries-es-modules-blocks/
-		// 'wp.i18n': '@wordpress/i18n',
-		// 'wp.blocks': {
-		// 	window: [ 'wp', 'blocks' ],
-		// },
-		// 'wp.compose': '@wordpress/compose',
-		// 'wp.data': '@wordpress/data',
-		// 'wp.date': '@wordpress/date',
-		// 'wp.editor': '@wordpress/editor',
-		// 'wp.element': '@wordpress/element',
-		// 'wp.utils': '@wordpress/utils',
 	},
 	devtool:   'source-map',
 	module:    {
@@ -166,6 +157,25 @@ const config = {
 	// Plugins. Gotta have em'.
 	plugins:      [
 
+		new DependencyExtractionWebpackPlugin( {
+			combineAssets: true,
+			combinedOutputFile: 'require/dependencies.php',
+			injectPolyfill: false,
+			// outputFilename: 'require/[name].php', // Seems to require package version >3.2.1
+			// Example showing how to have an external library queued as a dependency.
+			// @link https://github.com/Automattic/woocommerce-payments/blob/develop/CONTRIBUTING.md
+			// requestToExternal( request ) {
+			// 	if ( request === 'js-cookie' ) { // The import library name.
+			// 		return 'Cookies'; //
+			// 	}
+			// },
+			// requestToHandle: function( request ) {
+			// 	if ( request === 'js-cookie' ) { // The import library name.
+			// 		return 'js-cookie'; // The library handle registered with wp_register_script()
+			// 	}
+			// },
+		} ),
+
 		// Removes the "dist" folder before building.
 		new CleanWebpackPlugin( {
 			verbose: true
@@ -173,8 +183,10 @@ const config = {
 
 		// new ExtractTextPlugin( 'css/[name].css' ),
 		new MiniCssExtractPlugin( {
-			filename: `css/[name].css`
+			filename: `[name].css`
 		} ),
+
+		new RemoveEmptyScriptsPlugin(),
 
 		// Copy vendor files to ensure 3rd party plugins relying on a script handle to exist continue to be enqueued.
 		new CopyWebpackPlugin(
@@ -246,7 +258,28 @@ const config = {
 				// sourceMap: true,
 				test: /\.js(\?.*)?$/i,
 			} )
-		]
+		],
+		removeEmptyChunks: true,
+		// splitChunks: {
+		// 	cacheGroups: {
+		// 		stylesEditor: {
+		// 			type: 'css/mini-extract',
+		// 			name: 'block-styles-editor',
+		// 			chunks: ( chunk )=>{
+		// 				return chunk.name === 'block-styles-editor';
+		// 			},
+		// 			enforce: true,
+		// 		},
+		// 		stylesShared: {
+		// 			type: 'css/mini-extract',
+		// 			name: 'block-styles-shared',
+		// 			chunks: ( chunk )=>{
+		// 				return chunk.name === 'block-styles-shared';
+		// 			},
+		// 			enforce: true,
+		// 		},
+		// 	},
+		// },
 	},
 	resolve: {
 		// Alias @Connections-Directory to the blocks folder so components can be imported like:
@@ -261,31 +294,23 @@ const config = {
 };
 
 module.exports = [
-	// Object.assign({
-	// 	entry: {
-	// 		'frontend': ['./assets/src/css/public.scss', './assets/src/js/public.js'],
-	// 		'backend': ['./assets/src/css/admin.scss', './assets/src/js/admin.js'],
-	// 	},
-	// 	output: {
-	// 		path: path.join( __dirname, './assets/dist/' ),
-	// 		filename: 'js/[name].js',
-	// 	},
-	// }, config),
 	Object.assign( {
 			entry: {
-				'babel-polyfill': '@babel/polyfill',
-				'blocks-editor': './includes/blocks/blocks.js',
-				'blocks-public': './includes/blocks/public.js',
-				'icon-picker': './assets/src',
-				'bundle': './assets/js/index.js',
-				'admin': './assets/css/cn-admin.scss',
-				'frontend': './assets/css/cn-user.scss',
+				'admin/icon-picker/script': './assets/src/sortable-iconpicker',
+				'admin/style': './assets/src/admin.scss',
+				'frontend/style': './assets/src/frontend.scss',
+				'block/editor/style': './includes/blocks/components/style.scss',
+				'block/editor/script': './includes/blocks/index.js',
+				'block/carousel/script': './includes/blocks/carousel/public',
+				'block/carousel/style': './includes/blocks/carousel/style.scss',
+				'block/team/style': './includes/blocks/team/style.scss',
+				'content-block/recently-viewed/script': './assets/src/content-blocks/recently-viewed',
 			},
 
 			// Tell webpack where to output.
 			output: {
 				path: path.resolve( __dirname, './assets/dist/' ),
-				filename: 'js/[name].js',
+				filename: '[name].js',
 				// library: ['wp', '[name]'],
 				// libraryTarget: 'window',
 			},

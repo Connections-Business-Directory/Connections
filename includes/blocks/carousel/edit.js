@@ -70,10 +70,10 @@ import { isNumber } from "@Connections-Directory/components/utility";
 import './style.scss';
 
 const {
-	      entryTypes,
-	      // dateTypes,
-	      // templates
-      } = cbDir.blockSettings;
+	entryTypes,
+	// dateTypes,
+	// templates,
+} = cbDir.blockSettings;
 
 const ENDPOINT = '/cn-api/v1/entry/';
 

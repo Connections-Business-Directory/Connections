@@ -30,10 +30,10 @@ import {
 // import './styles/public.scss';
 
 const {
-	      entryTypes,
-	      dateTypes,
-	      templates
-      } = cbDir.blockSettings;
+	entryTypes,
+	dateTypes,
+	templates
+} = cbDir.blockSettings;
 
 /**
  * Register Block

@@ -34,10 +34,10 @@ import {
 import './style.scss';
 
 const {
-	      entryTypes,
-	      // dateTypes,
-	      // templates
-      } = cbDir.blockSettings;
+	entryTypes,
+	// dateTypes,
+	// templates,
+} = cbDir.blockSettings;
 
 const colorIndicator = ( label, value ) => (
 	<Fragment>

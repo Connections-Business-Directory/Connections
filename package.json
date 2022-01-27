@@ -1,142 +1,154 @@
 {
-  "name": "connections",
-  "title": "Connections Business Directory",
-  "version": "10.4.10",
-  "description": "Business directory plugin for WordPress.",
-  "homepage": "https://connections-pro.com/",
-  "author": {
-    "name": "Steven A Zahm",
-    "email": "",
-    "url": "https://connections-pro.com/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Connections-Business-Directory/Connections"
-  },
-  "bugs": {
-    "url": "https://github.com/Connections-Business-Directory/Connections/issues",
-    "email": ""
-  },
-  "license": "GPLv2+",
-  "private": true,
-  "config": {
-    "makepot": {
-      "type": "wp-plugin",
-      "domain": "connections",
-      "src": "connections.php",
-      "dest": "languages/",
-      "header": {
-        "bugs": "https://connections-pro.com/support/forum/translations/",
-        "team": "WP-Translations (https://wp-translations.org/)",
-        "last_translator": "WP-Translations <wpt@wp-translations.org>",
-        "language": "en_US"
-      }
+    "name": "connections",
+    "title": "Connections Business Directory",
+    "version": "10.4.10",
+    "description": "Business directory plugin for WordPress.",
+    "homepage": "https://connections-pro.com/",
+    "author": {
+        "name": "Steven A Zahm",
+        "email": "",
+        "url": "https://connections-pro.com/"
     },
-    "uglify": {
-      "core": {
-        "src": "assets/js/",
-        "dest": "assets/js/"
-      }
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Connections-Business-Directory/Connections"
+    },
+    "bugs": {
+        "url": "https://github.com/Connections-Business-Directory/Connections/issues",
+        "email": ""
+    },
+    "license": "GPLv2+",
+    "private": true,
+    "config": {
+        "makepot": {
+            "type": "wp-plugin",
+            "domain": "connections",
+            "src": "connections.php",
+            "dest": "languages/",
+            "header": {
+                "bugs": "https://connections-pro.com/support/forum/translations/",
+                "team": "WP-Translations (https://wp-translations.org/)",
+                "last_translator": "WP-Translations <wpt@wp-translations.org>",
+                "language": "en_US"
+            }
+        },
+        "uglify": {
+            "core": {
+                "src": "assets/js/",
+                "dest": "assets/js/"
+            }
+        }
+    },
+    "engines": {
+        "node": "^16.0.0",
+        "npm": "^8.0"
+    },
+    "eslintConfig": {
+        "extends": [
+            "plugin:@wordpress/eslint-plugin/recommended"
+        ]
+    },
+    "browserslist": [
+        "> 1%",
+        "ie >= 11",
+        "last 1 Android versions",
+        "last 1 ChromeAndroid versions",
+        "last 2 Chrome versions",
+        "last 2 Firefox versions",
+        "last 2 Safari versions",
+        "last 2 iOS versions",
+        "last 2 Edge versions",
+        "last 2 Opera versions"
+    ],
+    "dependencies": {
+        "@fonticonpicker/fonticonpicker": "^3.1.1",
+        "@fortawesome/fontawesome-free": "^5.15.3",
+        "@fortawesome/fontawesome-svg-core": "^1.2.35",
+        "@fortawesome/free-brands-svg-icons": "^5.15.3",
+        "@fortawesome/free-regular-svg-icons": "^5.15.3",
+        "@fortawesome/free-solid-svg-icons": "^5.15.3",
+        "@fortawesome/react-fontawesome": "^0.1.14",
+        "@wordpress/api-fetch": "^5.2.6",
+        "@wordpress/block-editor": "^8.0.13",
+        "@wordpress/blocks": "^11.1.5",
+        "@wordpress/components": "^19.2.0",
+        "@wordpress/compose": "^5.0.7",
+        "@wordpress/data": "^6.1.5",
+        "@wordpress/element": "^4.0.4",
+        "@wordpress/html-entities": "^3.2.3",
+        "@wordpress/i18n": "^4.2.4",
+        "@wordpress/server-side-render": "^3.0.17",
+        "@wordpress/url": "^3.3.1",
+        "chosen-js": "^1.8.7",
+        "js-cookie": "^2.2.1",
+        "leaflet": "^1.7.1",
+        "picturefill": "^3.0.3",
+        "pure-react-carousel": "^1.27.6",
+        "query-string": "^7.0.0",
+        "react-slick": "^0.28.1",
+        "script-loader": "^0.7.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.14.3",
+        "@babel/plugin-proposal-object-rest-spread": "^7.14.4",
+        "@babel/plugin-transform-react-jsx": "^7.14.3",
+        "@babel/polyfill": "^7.12.1",
+        "@babel/preset-env": "^7.14.4",
+        "@wordpress/babel-preset-default": "6.1.0",
+        "@wordpress/browserslist-config": "4.0.0",
+        "@wordpress/dependency-extraction-webpack-plugin": "^3.2.1",
+        "@wordpress/eslint-plugin": "9.0.5",
+        "autoprefixer": "^10.2.6",
+        "babel-loader": "8.2.2",
+        "babel-preset-env": "^1.7.0",
+        "classnames": "^2.3.1",
+        "clean-webpack-plugin": "^3.0.0",
+        "copy-webpack-plugin": "^9.0.0",
+        "cross-env": "7.0.3",
+        "css-loader": "^5.2.6",
+        "cssnano": "^5.0.5",
+        "eslint": "^7.27.0",
+        "expose-loader": "^3.0.0",
+        "file-loader": "^6.2.0",
+        "grunt": "^1.4.0",
+        "grunt-checktextdomain": "^1.0.1",
+        "grunt-contrib-clean": "^2.0.0",
+        "grunt-contrib-compress": "^2.0.0",
+        "grunt-contrib-copy": "^1.0.0",
+        "grunt-contrib-csslint": "^2.0.0",
+        "grunt-contrib-cssmin": "^4.0.0",
+        "grunt-contrib-jshint": "^3.0.0",
+        "grunt-contrib-uglify": "^5.0.1",
+        "grunt-exec": "~3.0.0",
+        "grunt-potomo": "~3.5.0",
+        "grunt-wp-i18n": "^1.0.3",
+        "grunt-wp-readme-to-markdown": "^2.0.1",
+        "load-grunt-tasks": "^5.1.0",
+        "lodash": "^4.17.21",
+        "logfile-grunt": "^0.4.0",
+        "mini-css-extract-plugin": "^1.6.0",
+        "postcss": ">=8.3.0",
+        "postcss-loader": "^5.3.0",
+        "sass-loader": "^12.3.0",
+        "slick-carousel": "^1.8.1",
+        "style-loader": "^2.0.0",
+        "terser-webpack-plugin": "^5.0.0",
+        "uglify-es": "3.3.9",
+        "url-loader": "^4.1.1",
+        "webpack": "^5.0.0",
+        "webpack-cli": "^4.0.0",
+        "webpack-remove-empty-scripts": "^0.7.2",
+        "webpack-rtl-plugin": "^2.0.0",
+        "wp-pot": "^1.9.8"
+    },
+    "scripts": {
+        "start": "npm install && npm run watch",
+        "dev": "cross-env webpack",
+        "production": "cross-env NODE_ENV=production webpack",
+        "build": "npm run production",
+        "watch": "cross-env webpack --watch",
+        "lint": "npm run lint:js & npm run lint:scss",
+        "lint:js": "eslint assets/src/**/*.js blocks/**/*.js",
+        "lint:scss": "stylelint assets/src/**/*.scss"
     }
-  },
-  "engines": {
-    "node": "^16.0.0",
-    "npm": "^8.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:@wordpress/eslint-plugin/recommended"
-    ]
-  },
-  "browserslist": [
-    "> 1%",
-    "ie >= 11",
-    "last 1 Android versions",
-    "last 1 ChromeAndroid versions",
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Safari versions",
-    "last 2 iOS versions",
-    "last 2 Edge versions",
-    "last 2 Opera versions"
-  ],
-  "dependencies": {
-    "@fonticonpicker/fonticonpicker": "^3.1.1",
-    "@fortawesome/fontawesome-free": "^5.15.3",
-    "@fortawesome/fontawesome-svg-core": "^1.2.35",
-    "@fortawesome/free-brands-svg-icons": "^5.15.3",
-    "@fortawesome/free-regular-svg-icons": "^5.15.3",
-    "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@fortawesome/react-fontawesome": "^0.1.14",
-    "chosen-js": "^1.8.7",
-    "js-cookie": "^2.2.1",
-    "leaflet": "^1.7.1",
-    "picturefill": "^3.0.3",
-    "pure-react-carousel": "^1.27.6",
-    "query-string": "^7.0.0",
-    "react-slick": "^0.28.1",
-    "script-loader": "^0.7.2"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.14.4",
-    "@babel/plugin-transform-react-jsx": "^7.14.3",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.14.4",
-    "@wordpress/babel-preset-default": "6.1.0",
-    "@wordpress/browserslist-config": "4.0.0",
-    "@wordpress/eslint-plugin": "9.0.5",
-    "autoprefixer": "^10.2.6",
-    "babel-loader": "8.2.2",
-    "babel-preset-env": "^1.7.0",
-    "classnames": "^2.3.1",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^9.0.0",
-    "cross-env": "7.0.3",
-    "css-loader": "^5.2.6",
-    "cssnano": "^5.0.5",
-    "eslint": "^7.27.0",
-    "expose-loader": "^3.0.0",
-    "file-loader": "^6.2.0",
-    "grunt": "^1.4.0",
-    "grunt-checktextdomain": "^1.0.1",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-compress": "^2.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-csslint": "^2.0.0",
-    "grunt-contrib-cssmin": "^4.0.0",
-    "grunt-contrib-jshint": "^3.0.0",
-    "grunt-contrib-uglify": "^5.0.1",
-    "grunt-exec": "~3.0.0",
-    "grunt-potomo": "~3.5.0",
-    "grunt-wp-i18n": "^1.0.3",
-    "grunt-wp-readme-to-markdown": "^2.0.1",
-    "load-grunt-tasks": "^5.1.0",
-    "lodash": "^4.17.21",
-    "logfile-grunt": "^0.4.0",
-    "mini-css-extract-plugin": "^1.6.0",
-    "postcss": ">=8.3.0",
-    "postcss-loader": "^5.3.0",
-    "react-select": "^4.3.1",
-    "sass-loader": "^12.3.0",
-    "slick-carousel": "^1.8.1",
-    "style-loader": "^2.0.0",
-    "terser-webpack-plugin": "^5.0.0",
-    "uglify-es": "3.3.9",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.0.0",
-    "webpack-cli": "^4.0.0",
-    "webpack-rtl-plugin": "^2.0.0",
-    "wp-pot": "^1.9.8"
-  },
-  "scripts": {
-    "start": "npm install && npm run watch",
-    "dev": "cross-env webpack",
-    "production": "cross-env NODE_ENV=production webpack",
-    "build": "npm run production",
-    "watch": "cross-env webpack --watch",
-    "lint": "npm run lint:js & npm run lint:scss",
-    "lint:js": "eslint assets/src/**/*.js blocks/**/*.js",
-    "lint:scss": "stylelint assets/src/**/*.scss"
-  }
 }

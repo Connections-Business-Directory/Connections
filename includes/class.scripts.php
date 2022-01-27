@@ -421,6 +421,7 @@ class cnScript {
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
+		$rtl = is_rtl() ? '.rtl' : '';
 
 		$path = Connections_Directory()->pluginPath();
 
@@ -429,9 +430,9 @@ class cnScript {
 
 		wp_register_style(
 			'cn-admin',
-			"{$url}assets/dist/css/admin.css",
+			"{$url}assets/dist/admin/style{$rtl}.css",
 			array(),
-			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/admin.css" )
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/admin/style{$rtl}.css" )
 		);
 
 		wp_register_style( 'cn-admin-jquery-ui', $url . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
@@ -445,9 +446,9 @@ class cnScript {
 		// wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
 		wp_register_style(
 			'cn-public',
-			"{$url}assets/dist/css/frontend.css",
+			"{$url}assets/dist/frontend/style{$rtl}.css",
 			array(),
-			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/frontend.css" )
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/frontend/style{$rtl}.css" )
 		);
 
 		// This will locate the custom CSS file to be enqueued.

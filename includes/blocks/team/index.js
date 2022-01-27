@@ -28,11 +28,6 @@ import {
 	RangeControl,
 } from '@Connections-Directory/components';
 
-/**
- * Import styles.
- */
-import './style.scss';
-
 const {
 	entryTypes,
 	// dateTypes,

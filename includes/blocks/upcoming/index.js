@@ -24,10 +24,6 @@ import ServerSideRender from '@wordpress/server-side-render';
  */
 import { RangeControl } from '@Connections-Directory/components';
 
-// Import CSS
-import './styles/editor.scss';
-import './styles/public.scss';
-
 const { dateTypes } = cbDir.blockSettings;
 
 /**

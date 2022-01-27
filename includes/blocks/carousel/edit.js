@@ -64,11 +64,6 @@ import {
 
 import { isNumber } from "@Connections-Directory/components/utility";
 
-/**
- * Import styles.
- */
-import './style.scss';
-
 const {
 	entryTypes,
 	// dateTypes,

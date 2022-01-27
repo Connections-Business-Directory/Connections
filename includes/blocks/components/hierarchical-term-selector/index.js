@@ -17,7 +17,6 @@ import { addQueryArgs } from '@wordpress/url';
  * Internal dependencies
  */
 import { buildTermsTree } from '../../utils/terms';
-import './style.scss';
 
 /**
  * Module Constants

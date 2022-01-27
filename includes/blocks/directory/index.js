@@ -25,10 +25,6 @@ import {
 	PageSelect
 } from '@Connections-Directory/components';
 
-// Import CSS
-// import './styles/editor.scss';
-// import './styles/public.scss';
-
 const {
 	entryTypes,
 	dateTypes,

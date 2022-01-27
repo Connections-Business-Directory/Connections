@@ -51,30 +51,24 @@ class Blocks {
 
 		$url  = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
 		$path = Connections_Directory()->pluginPath();
+		$rtl  = is_rtl() ? '.rtl' : '';
 
 		cnScript::enqueueStyles();
 
-		$jsDependencies = array(
-			'lodash',
-			'wp-plugins',
-			'wp-element',
-			'wp-edit-post',
-			'wp-i18n',
-			'wp-api-request',
-			'wp-data',
-			'wp-hooks',
-			'wp-plugins',
-			'wp-components',
-			'wp-blocks',
-			'wp-editor',
-			'wp-compose',
+		wp_enqueue_style(
+			'connections-block-styles-editor',
+			"{$url}assets/dist/block/editor/style{$rtl}.css",
+			array(),
+			filemtime( "{$path}assets/dist/block/editor/style{$rtl}.css" )
 		);
+
+		$asset = cnScript::getAssetMetadata( 'block/editor/script.js' );
 
 		wp_enqueue_script(
 			'connections-block-directory',
-			"{$url}assets/dist/js/blocks-editor.js",
-			$jsDependencies,
-			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks-editor.js" ),
+			$asset['src'],
+			$asset['dependencies'],
+			$asset['version'],
 			true
 		);
 

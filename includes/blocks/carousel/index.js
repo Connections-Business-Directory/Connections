@@ -1,9 +1,8 @@
 /**
  * WordPress dependencies
  */
-const { __, _n, _nx, _x } = wp.i18n;
-const { registerBlockType } = wp.blocks;
-// const { withSelect } = wp.data;
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Block dependencies

@@ -6,13 +6,12 @@ import { unescape as unescapeString, without, find, invoke, startCase } from 'lo
 /**
  * WordPress dependencies
  */
-const { __, _x, _n, sprintf } = wp.i18n;
-const { Component } = wp.element;
-const { CheckboxControl, withSpokenMessages, Spinner } = wp.components;
-// const { withSelect, withDispatch } = wp.data;
-const { withInstanceId, compose } = wp.compose;
-const { apiFetch } = wp;
-const { addQueryArgs } = wp.url;
+import { __, _x, _n, sprintf } from '@wordpress/i18n';
+import { Component } from '@wordpress/element';
+import { CheckboxControl, withSpokenMessages, Spinner } from '@wordpress/components';
+import { withInstanceId, compose } from '@wordpress/compose';
+import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * Internal dependencies

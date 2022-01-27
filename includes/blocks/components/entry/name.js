@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-const { Component, Fragment } = wp.element;
-const { decodeEntities } = wp.htmlEntities;
+import { Component } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
 
 class EntryName extends Component {
 

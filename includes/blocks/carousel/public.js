@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-const { render } = wp.element;
-const { decodeEntities } = wp.htmlEntities;
+import { render } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
 
 /**
  * Internal dependencies

@@ -1,9 +1,9 @@
 /**
  * WordPress dependencies
  */
-const { apiFetch } = wp;
-const { registerStore } = wp.data;
-const { addQueryArgs } = wp.url;
+import apiFetch from '@wordpress/api-fetch';
+import { registerStore } from '@wordpress/data';
+import { addQueryArgs } from '@wordpress/url';
 
 const ENDPOINT = '/cn-api/v1/entry/';
 

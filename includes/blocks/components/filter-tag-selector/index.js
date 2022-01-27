@@ -14,10 +14,10 @@ import {
 /**
  * WordPress dependencies
  */
-const { Component } = wp.element;
-const { FormTokenField } = wp.components;
-const { apiFetch } = wp;
-const { addQueryArgs } = wp.url;
+import { Component } from '@wordpress/element';
+import { FormTokenField } from '@wordpress/components';
+import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * Module constants

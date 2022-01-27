@@ -1,47 +1,37 @@
 /**
  * WordPress dependencies
  */
-const { apiFetch } = wp;
-const { __, _n, _nx, _x } = wp.i18n;
-// const { registerBlockType } = wp.blocks;
-const {
-	      ColorPalette,
-	      InspectorControls,
-	      InspectorAdvancedControls,
-      } = wp.blockEditor;
-const {
-	      BaseControl,
-	      ColorIndicator,
-	      RadioControl,
-	      // Placeholder,
-	      // QueryControls,
-	      PanelBody,
-	      // RangeControl,
-	      SelectControl,
-	      Spinner,
-	      TextControl,
-	      // Toolbar,
-	      // ButtonGroup,
-	      // Button,
-	      // TabPanel,
-	      // Dashicon,
-	      ToggleControl
-      } = wp.components;
-const { compose, withInstanceId } = wp.compose;
-const {
-	      select,
-	      // subscribe,
-	      withDispatch,
-	      withSelect,
-      } = wp.data;
-const {
-	      // ColorPalette,
-	      // InspectorControls,
-	      // InspectorAdvancedControls,
-      } = wp.editor;
-const { Component, Fragment } = wp.element;
-// const { decodeEntities } = wp.htmlEntities;
-const { addQueryArgs } = wp.url;
+import apiFetch from '@wordpress/api-fetch';
+import { __ } from '@wordpress/i18n';
+import {
+	ColorPalette,
+	InspectorControls,
+	InspectorAdvancedControls,
+} from '@wordpress/block-editor';
+import {
+	BaseControl,
+	ColorIndicator,
+	RadioControl,
+	PanelBody,
+	SelectControl,
+	Spinner,
+	TextControl,
+	ToggleControl
+} from '@wordpress/components';
+import {
+	compose,
+	withInstanceId
+} from '@wordpress/compose';
+import {
+	select,
+	withDispatch,
+	withSelect,
+} from '@wordpress/data';
+import {
+	Component,
+	Fragment
+} from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * External dependencies

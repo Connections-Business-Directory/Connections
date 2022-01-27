@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-const { groupBy } = lodash;
+import { groupBy } from 'lodash';
 
 /**
  * Returns terms in a tree form.

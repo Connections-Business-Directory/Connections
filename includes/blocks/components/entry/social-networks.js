@@ -1,13 +1,12 @@
 /**
  * WordPress dependencies
  */
-const { Component } = wp.element;
-// const { decodeEntities } = wp.htmlEntities;
+import { Component } from '@wordpress/element';
 
 /**
  * External dependencies
  */
-import { cloneDeep, findIndex, has, isUndefined } from 'lodash';
+import { isUndefined } from 'lodash';
 
 /**
  * Internal dependencies

@@ -1,29 +1,23 @@
 /**
  * WordPress dependencies
  */
-const { __, _n, _nx, _x } = wp.i18n;
-const { registerBlockType } = wp.blocks;
-const {
-	      InspectorControls,
-	      InspectorAdvancedControls,
-      } = wp.blockEditor;
-const {
-	      ExternalLink,
-	      PanelBody,
-	      // RangeControl,
-	      RadioControl,
-	      SelectControl,
-	      // ServerSideRender,
-	      TextControl,
-	      ToggleControl,
-      } = wp.components;
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import {
+	InspectorControls,
+	InspectorAdvancedControls,
+} from '@wordpress/block-editor';
+import {
+	ExternalLink,
+	PanelBody,
+	RadioControl,
+	SelectControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
 
-const {
-	      // Component,
-	      Fragment,
-      } = wp.element;
-
-const { serverSideRender: ServerSideRender, } = wp;
+import { Fragment } from '@wordpress/element';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies

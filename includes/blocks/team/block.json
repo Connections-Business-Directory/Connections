@@ -1,0 +1,136 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 1,
+    "name": "connections-directory/team",
+    "title": "Team",
+    "category": "connections-directory",
+    "description": "Display members of your team. Use multiple Team blocks to create a team page.",
+    "keywords": [
+        "team",
+        "person"
+    ],
+    "version": "1.0",
+    "textdomain": "connections",
+    "attributes": {
+        "advancedBlockOptions": {
+            "type": "string",
+            "default": ""
+        },
+        "categories": {
+            "type": "string",
+            "default": "[]"
+        },
+        "categoriesExclude": {
+            "type": "string",
+            "default": "[]"
+        },
+        "categoriesIn": {
+            "type": "boolean",
+            "default": false
+        },
+        "columns": {
+            "type": "integer",
+            "default": 3
+        },
+        "borderColor": {
+            "type": "string",
+            "default": "#BABABA"
+        },
+        "borderRadius": {
+            "type": "integer",
+            "default": 12
+        },
+        "borderWidth": {
+            "type": "integer",
+            "default": 1
+        },
+        "displayDropShadow": {
+            "type": "boolean",
+            "default": true
+        },
+        "displayEmail": {
+            "type": "boolean",
+            "default": true
+        },
+        "displayExcerpt": {
+            "type": "boolean",
+            "default": false
+        },
+        "displayPhone": {
+            "type": "boolean",
+            "default": true
+        },
+        "displaySocial": {
+            "type": "boolean",
+            "default": true
+        },
+        "displayTitle": {
+            "type": "boolean",
+            "default": true
+        },
+        "excerptWordLimit": {
+            "type": "string",
+            "default": "10"
+        },
+        "gutterWidth": {
+            "type": "integer",
+            "default": 25
+        },
+        "imageBorderColor": {
+            "type": "string",
+            "default": "#BABABA"
+        },
+        "imageBorderRadius": {
+            "type": "integer",
+            "default": 0
+        },
+        "imageBorderWidth": {
+            "type": "integer",
+            "default": 0
+        },
+        "imageCropMode": {
+            "type": "string",
+            "default": "1"
+        },
+        "imageShape": {
+            "type": "string",
+            "default": "square"
+        },
+        "imageType": {
+            "type": "string",
+            "default": "photo"
+        },
+        "isEditorPreview": {
+            "type": "boolean",
+            "default": true
+        },
+        "layout": {
+            "type": "string",
+            "default": "grid"
+        },
+        "listType": {
+            "type": "string",
+            "default": "all"
+        },
+        "position": {
+            "type": "string",
+            "default": "left"
+        },
+        "style": {
+            "type": "string",
+            "default": "clean"
+        },
+        "variation": {
+            "type": "string",
+            "default": "card"
+        }
+    },
+    "supports": {
+        "className": false,
+        "customClassName": false,
+        "html": false
+    },
+    "style": [
+        "Connections_Directory/Block/Team/Style"
+    ]
+}

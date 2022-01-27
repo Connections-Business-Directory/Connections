@@ -1,0 +1,128 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 1,
+    "name": "connections-directory/shortcode-connections",
+    "title": "Directory",
+    "category": "connections-directory",
+    "description": "Display members of your team in a carousel.",
+    "keywords": [
+        "connections",
+        "directory"
+    ],
+    "version": "1.0",
+    "textdomain": "connections",
+    "attributes": {
+        "advancedBlockOptions": {
+            "type": "string",
+            "default": ""
+        },
+        "categories": {
+            "type": "string",
+            "default": "[]"
+        },
+        "characterIndex": {
+            "type": "boolean",
+            "default": true
+        },
+        "city": {
+            "type": "array",
+            "default": []
+        },
+        "county": {
+            "type": "array",
+            "default": []
+        },
+        "country": {
+            "type": "array",
+            "default": []
+        },
+        "department": {
+            "type": "array",
+            "default": []
+        },
+        "district": {
+            "type": "array",
+            "default": []
+        },
+        "excludeCategories": {
+            "type": "string",
+            "default": "[]"
+        },
+        "forceHome": {
+            "type": "boolean",
+            "default": false
+        },
+        "fullName": {
+            "type": "array",
+            "default": []
+        },
+        "homePage": {
+            "type": "string",
+            "default": ""
+        },
+        "inCategories": {
+            "type": "boolean",
+            "default": false
+        },
+        "isEditorPreview": {
+            "type": "boolean",
+            "default": true
+        },
+        "lastName": {
+            "type": "array",
+            "default": []
+        },
+        "listType": {
+            "type": "string",
+            "default": "all"
+        },
+        "order": {
+            "type": "string",
+            "default": "asc"
+        },
+        "orderBy": {
+            "type": "string",
+            "default": "asc"
+        },
+        "orderRandom": {
+            "type": "boolean",
+            "default": false
+        },
+        "organization": {
+            "type": "array",
+            "default": []
+        },
+        "parseQuery": {
+            "type": "boolean",
+            "default": true
+        },
+        "repeatCharacterIndex": {
+            "type": "boolean",
+            "default": false
+        },
+        "sectionHead": {
+            "type": "boolean",
+            "default": false
+        },
+        "state": {
+            "type": "array",
+            "default": []
+        },
+        "template": {
+            "type": "string"
+        },
+        "title": {
+            "type": "array",
+            "default": []
+        },
+        "zipcode": {
+            "type": "array",
+            "default": []
+        }
+    },
+    "supports": {
+        "className": false,
+        "customClassName": false,
+        "html": false
+    }
+}

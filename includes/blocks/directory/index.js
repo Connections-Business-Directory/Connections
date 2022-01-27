@@ -154,7 +154,7 @@ export default registerBlockType(
 			},
 			template:             {
 				type:    'string',
-				default: templates.active
+				// default: templates.active
 			},
 			title:                {
 				type:    'array',

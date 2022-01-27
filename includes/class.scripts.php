@@ -280,9 +280,9 @@ class cnScript {
 
 			wp_register_script(
 				'cn-icon-picker',
-				"{$url}assets/dist/js/icon-picker.js",
+				"{$url}assets/dist/admin/icon-picker/script.js",
 				array( 'jquery-ui-dialog' ),
-				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/icon-picker.js" ),
+				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/admin/icon-picker/script.js" ),
 				true
 			);
 

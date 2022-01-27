@@ -270,7 +270,7 @@ export default registerBlockType(
 								help={__( 'Select which to use when displaying the directory.', 'connections' )}
 								value={template}
 								options={templateOptions}
-								onChange={( template ) => setAttributes( { template: template } )}
+								onChange={( value ) => setAttributes( { template: value } )}
 							/>
 						</PanelBody>
 

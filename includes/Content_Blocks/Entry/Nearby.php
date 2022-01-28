@@ -40,6 +40,8 @@ class Nearby extends Content_Block {
 			'name'                => __( 'Entries Nearby', 'connections' ),
 			'permission_callback' => '__return_true',
 			'heading'             => __( 'Entries Nearby', 'connections' ),
+			'script_handle'       => 'Connections_Directory/Block/Carousel/Script',
+			'style_handle'        => 'Connections_Directory/Block/Carousel/Style',
 		);
 
 		parent::__construct( $id, $atts );

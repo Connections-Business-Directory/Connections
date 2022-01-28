@@ -1,0 +1,1574 @@
+/*------------------------------------------------------------------------------
+  Common across all pages.
+------------------------------------------------------------------------------*/
+.cn-float-left {
+	float: left;
+}
+
+.cn-clear, .clearboth {
+	clear: both;
+}
+
+.cn-center {
+	text-align: center;
+}
+
+/*
+ * Make sure the correct icon font library is used.
+ */
+//i[class^='cn-brandicon'] {
+//	font-family: 'Connections-Brandicons' !important;
+//}
+
+i.fa {
+	font-family: 'Font Awesome 5 Free' !important;
+}
+
+/*------------------------------------------------------------------------------
+  Manage page.
+------------------------------------------------------------------------------*/
+.tablenav .tablenav-pages a.cn-char {
+	margin-bottom: 6px;
+}
+
+.tablenav .tablenav-pages .cn-char-current {
+	height: auto;
+	padding: 8px;
+}
+
+.detailsbutton {
+	cursor: pointer;
+}
+
+table.connections .unapproved {
+	background-color: #FFFFE0;
+}
+
+/*table.connections tr.entrydetails td {*/
+	/*border-color: transparent #DFDFDF;*/
+/*}*/
+
+/*table.connections tr.entrynotes td {*/
+	/*border-color: transparent #DFDFDF #DFDFDF;*/
+/*}*/
+
+table.connections .cn-image-style {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background: #F1F1F1;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F1F1F1), color-stop(100%, #E3E3E3));
+	background: -webkit-linear-gradient(top, #F1F1F1 0%, #E3E3E3 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(#F1F1F1), to(#E3E3E3));
+	background: linear-gradient(top, #F1F1F1 0%, #E3E3E3 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f1f1f1', endColorstr='#e3e3e3', GradientType=0);
+	border: 1px solid #E3E3E3;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	line-height: 0;
+	margin: 0 0 5px;
+	max-width: 100%;
+	padding: 5px;
+	width: auto;
+}
+
+table.connections .cn-image-none {
+	color: #AAAAAA;
+	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
+	text-align: center;
+	text-shadow: 1px 1px 0 #FFFFFF;
+}
+
+table.connections .cn-image {
+	border: none !important;
+	height: auto !important;
+	left: 0 !important;
+	margin: 0 !important;
+	max-height: none !important;
+	max-width: 100%;
+	padding: 0 !important;
+	position: relative !important;
+	top: 0 !important;
+	/*width: 100% !important;*/
+}
+
+span.cn-image-style {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	line-height: 0;
+	margin: 0 0 5px;
+	max-width: 100%;
+	padding: 5px;
+	width: auto;
+}
+
+span.cn-image-none {
+	color: #AAAAAA;
+	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
+	text-align: center;
+	text-shadow: 1px 1px 0 #FFFFFF;
+}
+
+#cn-list img {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+img.cn-image {
+	border: none !important;
+	height: auto !important;
+	left: 0 !important;
+	margin: 0 !important;
+	max-height: none !important;
+	max-width: 100%;
+	padding: 0 !important;
+	position: relative !important;
+	top: 0 !important;
+	width: auto; /* For proper IE8 support for max-width, width:auto needs to be defined. */
+}
+
+table.connections .approve {
+	color: #006505;
+	display: inline;
+}
+
+table.connections .unapprove {
+	color: #D98500;
+}
+
+table.connections .action:hover {
+	color: #D54E21;
+}
+
+table.connections .phone-numbers {
+	margin-bottom: 6px;
+}
+
+table.connections .phone {
+	display: block;
+}
+
+table.connections .email-addresses {
+	margin-bottom: 6px;
+}
+
+table.connections .email {
+	display: block;
+}
+
+table.connections .im-ids {
+	margin-bottom: 6px;
+}
+
+table.connections .im {
+	display: block;
+}
+
+table.connections .social-networks {
+	margin-bottom: 6px;
+}
+
+table.connections .social-network {
+	display: block;
+}
+
+table.connections .links {
+	margin-bottom: 6px;
+}
+
+table.connections .link {
+	display: block;
+}
+
+/* Date */
+table.connections .date-name {
+	font-weight: bold;
+}
+
+table.connections .date-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
+table.connections .vevent {
+	display: block;
+}
+
+table.connections .vevent .summary {
+	font-weight: bold;
+}
+
+/*------------------------------------------------------------------------------
+  Template page.
+------------------------------------------------------------------------------*/
+#currenttheme,
+#installthemes {
+	border-color: #DDDDDD;
+	border-spacing: 0;
+	border-width: 1px 0;
+	border-style: solid none;
+	margin: 10px auto;
+	width: 100%;
+}
+
+#currenttheme td,
+#installthemes td {
+	vertical-align: top;
+}
+
+#currenttheme img {
+	float: left;
+	border-width: 0;
+	margin-right: 1em;
+	margin-bottom: 1.5em;
+	margin-left: 0;
+	width: 150px;
+	height: auto;
+}
+
+#currenttheme a,
+#availablethemes a {
+	text-decoration: none;
+}
+
+#currenttheme .current_template {
+	border-left: 0;
+	border-right: 0;
+	width: 33%;
+}
+
+#currenttheme .current_template h3.error {
+	font-weight: bold;
+	color: #F00000;
+}
+
+#availablethemes .current_template {
+	border-left: 0;
+	border-right: 0;
+}
+
+#availablethemes .template_instructions {
+	padding-left: 12px;
+	border-right: 0;
+}
+
+#availablethemes .install_template {
+	border-left: 0;
+	border-right: 0;
+}
+
+#availablethemes .center-thumbnail img {
+	display: block;
+	margin: 0 auto;
+}
+
+/* Template Page Styles for 3.3 */
+#availablethemes {
+	margin: 10px auto;
+	width: 100%;
+}
+
+#availablethemes .available-theme {
+	/*display: table-cell;*/
+	/*margin: 0;*/
+	padding: 20px;
+	vertical-align: top;
+	width: 33%;
+}
+
+/* Style for "No thumbnail Available" */
+#current-template .template-thumbnail-none,
+#availablethemes .template-thumbnail-none {
+	/*-webkit-border-radius: 4px;*/
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	/*-webkit-box-shadow: 0 3px 4px 2px rgba(100, 100, 100, .4);*/
+	/*box-shadow: 0 3px 4px 2px rgba(100, 100, 100, .4);*/
+	/*-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=180, Color='#CCC')";*/
+	background: #E3E3E3;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E3E3E3), color-stop(100%, #F1F1F1));
+	background: -webkit-linear-gradient(top, #E3E3E3 1%, #F1F1F1 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E3E3E3), to(#F1F1F1));
+	background: linear-gradient(top, #E3E3E3 1%, #F1F1F1 100%);
+	border: 1px solid #D3D3D3;
+	margin: auto;
+}
+
+#current-template .template-thumbnail-none p,
+#availablethemes .template-thumbnail-none p {
+	color: #AAAAAA;
+	font-weight: 700;
+	text-align: center;
+	text-shadow: 1px 1px 0 #FFFFFF;
+	padding: 5px;
+}
+
+/*------------------------------------------------------------------------------
+  Dashboard page.
+------------------------------------------------------------------------------*/
+div.rss-widget li {
+	margin-bottom: 14px;
+}
+
+/*div.rss-widget h4 {*/
+	/*font-size: 1.2em;*/
+	/*margin: 0;*/
+/*}*/
+
+/*div.rss-widget h4 a {*/
+	/*text-decoration: none;*/
+/*}*/
+
+div.rss-widget .rss-date {
+	margin-bottom: 8px;
+}
+
+#metabox-system ul {
+	margin-left: 12px;
+}
+
+/*#dashboard-widgets-wrap .one-half {*/
+	/*width: 48%;*/
+/*}*/
+
+#dashboard-widgets-wrap .one-third {
+	width: 30.66%;
+}
+
+#dashboard-widgets-wrap .two-third {
+	width: 65.33%;
+}
+
+#dashboard-widgets-wrap .one-half, .one-third, .two-third {
+	position: relative;
+	margin-right: 4%;
+	float: left;
+}
+
+#dashboard-widgets-wrap .last {
+	margin-right: 0;
+	clear: right;
+}
+
+.cn-dashboard-upcoming {
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	position: relative;
+}
+
+.cn-dashboard-upcoming a {
+	text-decoration: none;
+}
+
+.cn-dashboard-upcoming .cn-upcoming-row {
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-upcoming .cn-upcoming-row-alternate {
+	background-color: #F9F9F9;
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-upcoming .cn-upcoming-date {
+	position: absolute;
+	right: 4px;
+}
+
+.cn-dashboard-recent-added {
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	position: relative;
+}
+
+.cn-dashboard-recent-added a {
+	text-decoration: none;
+}
+
+.cn-dashboard-recent-added .cn-list-row {
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-added .cn-list-row-alternate {
+	background-color: #F9F9F9;
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-added .cn-list-date {
+	position: absolute;
+	right: 4px;
+}
+
+.cn-dashboard-recent-modified {
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	position: relative;
+}
+
+.cn-dashboard-recent-modified a {
+	text-decoration: none;
+}
+
+.cn-dashboard-recent-modified .cn-list-row {
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-modified .cn-list-row-alternate {
+	background-color: #F9F9F9;
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-modified .cn-list-date {
+	position: absolute;
+	right: 4px;
+}
+
+/*------------------------------------------------------------------------------
+  Button Styles
+
+  NOTES:
+  The `body[class*="connections"]` selector is to ensure core WP admin style can be overridden.
+  CSSLint reports this as being slow.
+  @todo See if there is a admin filter for the body classes that can be hooked into to define custom classes.
+------------------------------------------------------------------------------*/
+
+/*noinspection CssOverwrittenProperties*/
+body[class*="connections"] .cn-button {
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: none;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.1)), to(rgba(0, 0, 0, 0.2)));
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+	border: #000000;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-bottom-color: #000000;
+	border-bottom-color: rgba(0, 0, 0, 0.4);
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+}
+
+body[class*="connections"] .cn-button:hover {
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.1)));
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+body[class*="connections"] .cn-button:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.2)), to(rgba(255, 255, 255, 0.1)));
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+	top: 1px;
+}
+
+body[class*="connections"] .cn-button-blue,
+body[class*="connections"] .cn-button-blue:hover,
+body[class*="connections"] .cn-button-blue:active {
+	background-color: #00ADEE;
+}
+
+body[class*="connections"] .cn-button-blue:focus {
+	-webkit-box-shadow: 0 0 0 1px #00ADEE, 0 0 2px 1px rgba(0, 173, 238, .8);
+	box-shadow: 0 0 0 1px #00ADEE, 0 0 2px 1px rgba(0, 173, 238, .8);
+}
+
+body[class*="connections"] .cn-button-green,
+body[class*="connections"] .cn-button-green:hover,
+body[class*="connections"] .cn-button-green:active {
+	background-color: #91BD09;
+}
+
+body[class*="connections"] .cn-button-green:focus {
+	-webkit-box-shadow: 0 0 0 1px #91BD09, 0 0 2px 1px rgba(145, 189, 9, .8);
+	box-shadow: 0 0 0 1px #91BD09, 0 0 2px 1px rgba(145, 189, 9, .8);
+}
+
+body[class*="connections"] .cn-button-warning,
+body[class*="connections"] .cn-button-warning:focus,
+body[class*="connections"] .cn-button-warning:hover,
+body[class*="connections"] .cn-button-warning:active {
+	background-color: #CE0000;
+	color: #FFFFFF;
+}
+
+body[class*="connections"] .cn-button-warning:focus {
+	border-color: #CE0000;
+	-webkit-box-shadow: 0 0 0 1px #CE0000, 0 0 2px 1px rgba(206, 0, 0, .8);
+	box-shadow: 0 0 0 1px #CE0000, 0 0 2px 1px rgba(206, 0, 0, .8);
+}
+
+body[class*="connections"] .cn-button span {
+	color: #FFFFFF;
+	line-height: 1em;
+	padding: 0.5em 0;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+	white-space: nowrap;
+}
+
+body[class*="connections"] .cn-button-full,
+body[class*="connections"] .cn-button-full span {
+	display: block;
+}
+
+body[class*="connections"] .cn-button-large {
+	font-size: 1em;
+	font-weight: 700;
+}
+
+#cancel-button {
+	float: left;
+}
+
+#cancel-button .button {
+	display: inline-block;
+}
+
+.button-warning:hover {
+	background: #CE0000 none repeat scroll 0 0;
+	color: #FFFFFF;
+}
+
+.button {
+	margin: 1px;
+}
+
+.button-primary {
+	margin: 1px;
+	padding: 3px 10px;
+}
+
+.postbox .cn-remove-button {
+	/*bottom: 0;*/
+	/*display: inline-block;*/
+	/*margin: 0;*/
+	/*position: absolute;*/
+	/*right: 10px;*/
+	margin: 0;
+	text-align: right;
+}
+
+/*------------------------------------------------------------------------------
+  Add/Edit page.
+------------------------------------------------------------------------------*/
+
+/* Highlight error fields. */
+#cn-form input[type="text"].error,
+#cn-form input[type="checkbox"].error {
+	background-color: #FDE9EA;
+	border: 1px solid #FDCED0;
+	-webkit-box-shadow: 0 0 8px #CE0000;
+	box-shadow: 0 0 8px #CE0000;
+}
+
+#cn-form input[type="text"].error:focus,
+#cn-form input[type="checkbox"].error:focus {
+	border: 1px solid #CE0000;
+	outline: none;
+}
+
+/* Widget Styles */
+
+/* overqualified selector being used to override core WP style. */
+.widget-top a.widget-action {
+	display: block;
+}
+.widget-top a.widget-action:after {
+	/*padding: 10px 6px 0;*/
+	padding: 0;
+}
+
+.widget-top .widget-title {
+	min-height: 26.5px;
+	padding: 6px 9px;
+	overflow: hidden;
+	position: relative;
+}
+
+.widget-title h4 {
+	overflow: visible;
+	padding: 0;
+	white-space: normal;
+}
+
+.widget-title h4 select {
+	height: 1.75em;
+	padding: 3px 24px 3px 8px;
+	/*margin-top: -10px;*/
+	vertical-align: baseline;
+}
+
+.widget-title h4 label {
+	line-height: normal;
+	margin-right: 6px;
+	vertical-align: text-top;
+}
+
+.widget-title h4 .adddress-type {
+	white-space: nowrap;
+	float: left;
+}
+
+.widget-title h4 .visibility {
+	/*position: absolute;
+	right: 0;
+	top: 10px;*/
+	white-space: nowrap;
+	float: right;
+	padding-top: 4px;
+}
+
+@media only screen
+and (max-width: 780px) {
+
+	.widget-title h4 .visibility {
+		padding-top: .75em;
+	}
+
+}
+
+.widget-title h4 .visibility .cn-radio-option {
+	padding-right: 4px;
+}
+
+.widget-title h4 .visibility label {
+	font-weight: normal;
+}
+
+.widget-inside,
+.widget-description {
+	display: block;
+	padding: 12px 12px 10px;
+	position: relative;
+}
+
+.widget-title-action:hover {
+	cursor: pointer;
+}
+
+.widget-placeholder {
+	background-color: #FCFCFC;
+	border: 1px dashed;
+	margin: 0 auto 20px;
+	height: 60px;
+	width: 100%;
+}
+
+.widgets-sortables {
+	background: transparent none;
+}
+
+.widget-inside label {
+	padding-right: 10px;
+}
+
+/* The "Publish" metabox styles. */
+#entry-type {
+	border: 1px solid #DFDFDF;
+	margin: 6px;
+	padding: 10px;
+}
+
+#submitdiv #visibility {
+	border: 1px solid #DFDFDF;
+	margin: 6px;
+	padding: 10px;
+}
+
+#submitdiv #visibility:before {
+	content: none;
+}
+
+#minor-publishing {
+	margin: 10px;
+}
+
+/* The "Category" metabox styles. */
+.categorydiv .ui-resizable {
+	position: relative;
+}
+
+.categorydiv div.tabs-panel {
+	max-height: 100%;
+}
+
+.categorydiv .ui-resizable-e, .categorydiv .ui-resizable-s {
+	display: none;
+	width: 0;
+	height: 0;
+}
+
+.categorydiv .ui-resizable-se {
+	cursor: se-resize;
+	width: 12px;
+	height: 12px;
+	right: 1px;
+	bottom: 1px;
+	display: block;
+	position: absolute;
+}
+
+/* The "Name" metabox styles. */
+#metabox-name .cn-metabox-section {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+#metabox-name input[type="text"] {
+	width: 100%;
+}
+
+#cn-metabox-section-name span {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 0 5px 0 0;
+}
+
+#cn-metabox-section-name span:last-of-type {
+	padding: 0;
+}
+
+#cn-metabox-section-name input {
+	margin: 0;
+}
+
+#cn-name-prefix {
+	display: inline-block;
+	width: 12.5%;
+}
+
+#cn-name-first {
+	width: 25%;
+}
+
+#cn-name-middle {
+	width: 25%;
+}
+
+#cn-name-last {
+	width: 25%;
+}
+
+#cn-name-suffix {
+	width: 12.5%;
+}
+
+#cn-contact-first-name {
+	display: inline-block;
+	width: 50%;
+}
+
+#cn-contact-last-name {
+	display: inline-block;
+	width: 50%;
+}
+
+/* Family entry/relations. */
+#cn-relations {
+	/*text-align: center*/
+}
+
+#cn-relations select {
+	/*text-align: left;*/
+	width: 250px;
+}
+
+#cn-relations li {
+	/*text-align: left;*/
+	/*width: 250px;*/
+}
+
+/* The "Address" metabox. */
+#metabox-address .address-line {
+	display: table;
+	width: 100%;
+}
+
+#metabox-address .address-line label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
+
+#metabox-address .address-line input {
+	display: table-cell;
+	width: 100%;
+}
+/*#metabox-address .address-local input {*/
+	/*width: 80%;*/
+/*}*/
+
+#metabox-address .address-local-extended {
+	display: table;
+	width: 100%;
+}
+
+#metabox-address .address-district,
+#metabox-address .address-county {
+	display: table-cell;
+	width: 50%;
+}
+
+#metabox-address .address-district input,
+#metabox-address .address-county input {
+	width: 100%;
+}
+
+#metabox-address .address-region {
+	display: table;
+}
+
+#metabox-address .address-city {
+	/*float: left;*/
+	display: table-cell;
+	width: 29%;
+}
+
+#metabox-address .address-city input {
+	width: 100%;
+}
+
+#metabox-address .address-state {
+	/*float: left;*/
+	display: table-cell;
+	width: 20%;
+}
+
+#metabox-address .address-state input {
+	width: 100%;
+}
+
+#metabox-address .address-zipcode {
+	/*float: left;*/
+	display: table-cell;
+	width: 20%;
+}
+
+#metabox-address .address-zipcode input {
+	width: 100%;
+}
+
+#metabox-address .address-country {
+	/*clear: both;*/
+	/*width: 52%;*/
+	display: table;
+	width: 100%;
+}
+
+#metabox-address .address-country input,
+#metabox-address .address-country .chosen-container {
+	width: 100% !important;
+}
+
+#metabox-address .address-geo {
+	display: table;
+}
+
+#metabox-address .address-latitude {
+	/*float: left;*/
+	display: table-cell;
+	width: 29%;
+}
+
+#metabox-address .address-latitude input {
+	width: 100%;
+}
+
+#metabox-address .address-longitude {
+	/*float: left;*/
+	display: table-cell;
+	width: 29%;
+}
+
+#metabox-address .address-longitude input {
+	width: 100%;
+}
+
+#metabox-address .geocode-button-container {
+	display: table-cell;
+	vertical-align: bottom;
+}
+
+#metabox-address .map {
+	border: solid 1px #DFDFDF;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 10px 0 20px;
+}
+
+/* The "Phone" metabox. */
+#metabox-phone .widget-inside .phone-number-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-phone .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
+#metabox-phone .widget-inside input[type="text"] {
+	display: table-cell;
+	width: 100%;
+}
+
+/* The "Email" metabox. */
+#metabox-email .widget-inside .email-address-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-email .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
+#metabox-email .widget-inside input[type="text"] {
+	display: table-cell;
+	width: 100%;
+}
+
+/* The "Messenger" metabox. */
+#metabox-messenger .widget-inside .messenger-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-messenger .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
+#metabox-messenger .widget-inside input[type="text"] {
+	display: table-cell;
+	width: 100%;
+}
+
+/* The "Social Media Network" metabox. */
+#metabox-social-media .widget-inside .social-media-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-social-media .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
+#metabox-social-media .widget-inside input[type="text"] {
+	display: table-cell;
+	width: 100%;
+}
+
+/* The "Link" metabox. */
+#metabox-links .widget-inside input[type="text"] {
+	/*margin-right: 10px;*/
+	width: 100%;
+}
+
+#metabox-links .widget-inside input[type="radio"] {
+	margin: 0 4px 0 10px;
+	vertical-align: middle;
+	width: auto;
+}
+
+#metabox-links .link-url-container,
+#metabox-links .link-target-follow-container {
+	margin-bottom: 10px;
+}
+
+/* The "Dates" metabox. */
+#metabox-date .widget-inside input[type="text"] {
+	padding: 2px;
+	width: 17.5em;
+}
+
+/* The "Image" and "Logo" metabox styles. */
+/* Be very specific with this selector or the images used in rendering the Google Map will be affected, */
+#metabox-image img {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+#metabox-image .cn-radio-group {
+	margin-bottom: 10px;
+}
+
+#metabox-logo img {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+#metabox-logo .cn-radio-group {
+	margin-bottom: 10px;
+}
+
+/* Bio and Notes metabox */
+#cn-metabox-id-bio > th,
+#cn-metabox-id-notes > th {
+	display: none;
+}
+
+/* Upgrade Page Styles */
+#connections-upgrade ul {
+	padding-left: 20px !important;
+	list-style-type: disc !important;
+}
+
+form .add {
+	font-style: normal;
+	padding: 12px 0 0;
+	text-align: right;
+}
+
+/*------------------------------------------------------------------------------
+  Settings page.
+------------------------------------------------------------------------------*/
+.cn-sortable-checklist label {
+	vertical-align: baseline;
+}
+
+#cn-relations .fa-sort,
+[class^="cn-sortable"] .fa-sort {
+	cursor: move;
+	padding-bottom: 4px;
+	vertical-align: middle;
+}
+
+// @link https://stackoverflow.com/a/45890842/5351316
+a.cn-social-network-icon-setting-button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	vertical-align: baseline;
+
+	i.cn-brandicon-token {
+		vertical-align: bottom;
+	}
+}
+
+.wrap-licenses .form-table,
+.wrap-licenses .form-table caption,
+.wrap-licenses .form-table tbody,
+.wrap-licenses .form-table td,
+.wrap-licenses .form-table tfoot,
+.wrap-licenses .form-table th,
+.wrap-licenses .form-table thead,
+.wrap-licenses .form-table tr {
+	display: block;
+}
+.wrap-licenses .form-table tr {
+	float: left;
+	margin: 0 15px 15px 0;
+	background: #fff;
+	border: 1px solid #ccc;
+	width: 30.5%;
+	max-width: 350px;
+	padding: 14px;
+	min-height: 220px;
+	position: relative;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.wrap-licenses .form-table th {
+	background: #f9f9f9;
+	padding: 14px;
+	border-bottom: 1px solid #ccc;
+	margin: -14px -14px 20px;
+	width: 100%;
+}
+.wrap-licenses .form-table td {
+	padding: 0;
+}
+.wrap-licenses .form-table td input.regular-text {
+	margin: 0 0 8px;
+	width: 100%;
+}
+.wrap-licenses .form-table td span.description {
+	display: block;
+	position: absolute;
+	background: #fafafa;
+	padding: 14px;
+	border-top: 1px solid #eee;
+	margin: 20px -14px -14px;
+	min-height: 67px;
+	width: 100%;
+	bottom: 14px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.wrap-licenses p.submit {
+	clear: both;
+}
+
+/*------------------------------------------------------------------------------
+  Metabox default styling. This is to support the new metabox API for custom fields.
+------------------------------------------------------------------------------*/
+.cn-metabox-section {
+	border-bottom: 1px solid #E9E9E9;
+	margin: 1.33em 0;
+	padding-bottom: 1.33em;
+}
+
+.cn-metabox-section:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.cn-metabox-table th label {
+	display: inline-block;
+}
+
+.mceIframeContainer {
+	background: #FFFFFF;
+}
+
+.cn-radio-option {
+	margin-bottom: 6px;
+}
+
+.cn-radio-option:last-child {
+	margin-bottom: auto;
+}
+
+span.cn-radio-option {
+	padding-right: 18px;
+}
+
+.cn-datepicker {
+	padding: 2px;
+	max-width: 100%;
+	width: 17.5em;
+}
+
+.cn-slider-container {
+	width: 25em;
+}
+
+.cn-metabox-section table {
+	border: none;
+	margin: 0;
+	text-align: left;
+	width: 100%;
+	-webkit-border-image: none;
+	-o-border-image: none;
+	border-image: none;
+}
+
+.cn-metabox-section table tr th {
+	padding: 0;
+	border: none;
+	text-transform: none;
+}
+
+.cn-metabox-section table tr .cn-metabox-label {
+	width: 200px;
+}
+
+.cn-metabox-section table tr .cn-metabox-label-empty {
+	display: none;
+	width: 0;
+}
+
+.cn-metabox-section table tr td {
+	border: none;
+	padding: 0;
+}
+
+.cn-metabox-section table tr th,
+.cn-metabox-section table tr td {
+	padding-bottom: 20px;
+}
+
+.cn-metabox-section table tr:last-child th,
+.cn-metabox-section table tr:last-child td {
+	padding-bottom: 0;
+}
+
+/*------------------------------------------------------------------------------
+  Custom Fields [ Since most of these were lifted from core WP these will have to be verified and remove unused rules. ]
+------------------------------------------------------------------------------*/
+
+#meta-fields thead th {
+	padding: 5px 8px 8px;
+}
+
+/* The double ID is required to override core WP admin styles. */
+#metabox-meta #meta-fields .submit {
+	border: 0 none;
+	float: none;
+	padding: 0 8px 8px;
+}
+
+#side-sortables #meta-fields .submit {
+	margin: 0;
+	padding: 0;
+}
+
+#side-sortables #meta-fields #the-list textarea {
+	height: 85px;
+}
+
+#side-sortables #meta-fields td.left input,
+#side-sortables #meta-fields td.left select,
+#side-sortables #meta-fields #newmetaleft a {
+	margin: 3px 3px 0;
+}
+
+#meta-fields table {
+	margin: 0;
+	width: 100%;
+	border: 1px solid;
+	border-spacing: 0;
+}
+
+#meta-fields tr {
+	vertical-align: top;
+}
+
+#meta-fields table input,
+#meta-fields table select,
+#meta-fields table textarea {
+	width: 96%;
+	margin: 8px;
+}
+
+#side-sortables #meta-fields table input,
+#side-sortables #meta-fields table select,
+#side-sortables #meta-fields table textarea {
+	margin: 3px;
+}
+
+#meta-fields th.left,
+#meta-fields td.left {
+	width: 38%;
+}
+
+#meta-fields .submit input {
+	margin: 0;
+	width: auto;
+}
+
+#meta-fields #newmetaleft a {
+	display: inline-block;
+	margin: 0 8px 8px;
+	text-decoration: none;
+}
+
+.no-js #meta-fields #enternew {
+	display: none;
+}
+
+/*#post-body-content .compat-attachment-fields {*/
+	/*margin-bottom: 20px;*/
+/*}*/
+
+/*.compat-attachment-fields th {*/
+	/*padding-top: 5px;*/
+	/*padding-right: 10px;*/
+/*}*/
+
+/*
+ * From colors-fresh.css -- Custom Fields
+ */
+/*#meta .inside label.spam,*/
+/*#meta .inside label.deleted {*/
+	/*color: red;*/
+/*}*/
+
+/*#meta .inside label.waiting {*/
+	/*color: orange;*/
+/*}*/
+
+/*#meta .inside label.approved {*/
+	/*color: green;*/
+/*}*/
+
+#meta-fields table {
+	border-color: #DFDFDF;
+	background-color: #F9F9F9;
+}
+
+#meta-fields thead th {
+	background-color: #F1F1F1;
+}
+
+/* START => repeatable */
+/*.form-table.cn-metabox .meta_box_repeatable {*/
+	/*width: 510px;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable th {*/
+	/*width: auto !important;*/
+	/*padding: 5px 10px;*/
+	/*border-bottom: 1px dashed #CCCCCC;*/
+	/*text-transform: uppercase;*/
+	/*font-size: 10px;*/
+	/*text-shadow: none;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable tfoot th {*/
+	/*border-bottom: none;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable td {*/
+	/*width: auto !important;*/
+	/*vertical-align: top;*/
+	/*padding: 10px;*/
+	/*border-bottom: 1px dashed #CCCCCC;*/
+	/*background: #EEEEEE;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable tr:nth-child(even) td {*/
+	/*background: none;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable td * {*/
+	/*display: block;*/
+	/*margin-bottom: 3px;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable td .meta_box_upload_image_button,*/
+/*.form-table.cn-metabox .meta_box_repeatable td small,*/
+/*.form-table.cn-metabox .meta_box_repeatable td small a {*/
+	/*display: inline-block;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable td label {*/
+	/*display: block;*/
+	/*float: left;*/
+	/*width: 100px;*/
+	/*font-weight: bold;*/
+	/*line-height: 30px;*/
+	/*clear: left;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable td p {*/
+	/*margin: 0;*/
+	/*float: left;*/
+	/*padding-bottom: 5px;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable td textarea {*/
+	/*width: 300px;*/
+/*}*/
+
+/*.form-table.cn-metabox .meta_box_repeatable .repeatable_id {*/
+	/*background: #CCCCCC;*/
+	/*width: 30px;*/
+	/*text-align: center;*/
+/*}*/
+
+/*.meta_box_repeatable .sort_label {*/
+	/*display: block;*/
+	/*width: 20px;*/
+	/*height: 17px;*/
+	/*background: url("../images/sprite-repeatable-field.png") no-repeat -68px -100px;*/
+/*}*/
+
+/*.meta_box_repeatable .sort {*/
+	/*display: block;*/
+	/*width: 20px;*/
+	/*height: 15px;*/
+	/*background: url("../images/sprite-repeatable-field.png") 0 -100px;*/
+	/*margin-top: 6px;*/
+	/*cursor: move;*/
+/*}*/
+
+/*.meta_box_repeatable_add,*/
+/*.meta_box_repeatable_remove {*/
+	/*display: block;*/
+	/*width: 18px;*/
+	/*height: 16px;*/
+	/*background: url("../images/sprite-repeatable-field.png");*/
+	/*margin-top: 5px;*/
+/*}*/
+
+/*.meta_box_repeatable_add {*/
+	/*background-position: -30px -100px;*/
+/*}*/
+
+/*.meta_box_repeatable_remove {*/
+	/*background-position: -50px -100px;*/
+/*}*/
+
+/*.meta_box_repeatable tr:first-child .meta_box_repeatable_remove,*/
+/*.meta_box_repeatable tr:first-child > td > .sort {*/
+	/*display: none;*/
+/*}*/
+
+/* END => repeatable */
+
+/*table.cn_metabox textarea.cn_textarea_code { font-family: Consolas,Monaco,monospace; line-height: 16px; }
+table.cn_metabox input.cn_text_small { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_timepicker { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_text_money { width: 90px; margin-right: 15px;}
+table.cn_metabox input.cn_text_medium { width: 230px; margin-right: 15px;}
+table.cn_metabox input.cn_upload_file { width: 65%; }
+table.cn_metabox li { font-size:12px; margin: 1px 0 5px 0; line-height: 16px; }
+table.cn_metabox ul { padding-top:5px; margin: 0; }
+table.cn_metabox select { font-size:12px; margin-top: 3px;}
+
+
+.cn_radio_inline { padding: 4px 0 0 0;}
+.cn_radio_inline_option {display: inline; padding-right: 18px;}
+table.cn_metabox input[type="radio"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox input[type="checkbox"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox .mceLayout {border:1px solid #DFDFDF !important;}
+table.cn_metabox .mceIframeContainer {background:#FFF;}
+table.cn_metabox .meta_mce {width:97%;}
+table.cn_metabox .meta_mce textarea {width:100%;}
+table.cn_metabox .cn_media_status {  margin: 10px 0 0 0;}
+table.cn_metabox .cn_media_status .img_status, table.cn_metabox .cn_media_status .embed_status {  position: relative; }
+table.cn_metabox .cn_media_status .img_status img, table.cn_metabox .cn_media_status .embed_status { border:1px solid #DFDFDF; background: #FAFAFA; max-width:350px; padding: 5px; -moz-border-radius: 2px; border-radius: 2px;}
+table.cn_metabox .cn_media_status .embed_status { float: left; max-width:800px;}
+table.cn_metabox .cn_media_status .img_status .cn_remove_file_button, table.cn_metabox .cn_media_status .embed_status .cn_remove_file_button { text-indent: -9999px; background: url(images/ico-delete.png); width: 16px; height: 16px; position: absolute; top: -5px; left: -5px;}*/
+
+/* Sidebar placement adjustments */
+/*.inner-sidebar table.cn_metabox input[type=text], #side-sortables table.cn_metabox input[type=text], table.cn_metabox textarea { width: 95%; }
+.inner-sidebar table.cn_metabox .cn_media_status .img_status img, #side-sortables table.cn_metabox .cn_media_status .img_status img, .inner-sidebar table.cn_metabox .cn_media_status .embed_status img, #side-sortables table.cn_metabox .cn_media_status .embed_status img { width: 90%; }
+.postbox table.cn_metabox .cn-spinner { float: left; }*/
+
+/*------------------------------------------------------------------------------
+  Tools page
+------------------------------------------------------------------------------*/
+#cn-email-log-details {
+	width: 96%
+}
+
+#cn-email-log-details th {
+	text-align: right;
+	vertical-align: top;
+	padding: 3px;
+	width: 8em
+}
+
+#cn-email-log-details td {
+	padding: 3px;
+	border: 1px solid #ccc;
+	background-color: white;
+}
+
+/*------------------------------------------------------------------------------
+  Export Tools Tab
+------------------------------------------------------------------------------*/
+
+.status {
+	background-color: #F4F4F4;
+	padding: 12px 12px;
+	margin: 20px -12px -23px;
+	border-style: solid;
+	border-width: 1px 0;
+	border-color: #EAE9E9;
+	overflow: auto;
+	position: relative;
+}
+
+.status .spinner {
+	margin: 0 10px;
+}
+
+.import-progress,
+.export-progress {
+	background: #DDDDDD;
+	position: absolute;
+	bottom: 15px;
+	height: 15px;
+	width: 95%;
+}
+
+.import-progress div,
+.export-progress div {
+	height: 100%;
+	background: #CCCCCC;
+	width: 0;
+}
+
+.admin-color-fresh .import-progress div,
+.admin-color-fresh .export-progress div {
+	background: #0073AA;
+}
+
+.admin-color-light .import-progress div,
+.admin-color-light .export-progress div {
+	background: #888888;
+}
+
+.admin-color-blue .import-progress div,
+.admin-color-blue .export-progress div {
+	background: #096484;
+}
+
+.admin-color-coffee .import-progress div,
+.admin-color-coffee .export-progress div {
+	background: #C7A589;
+}
+
+.admin-color-ectoplasm .import-progress div,
+.admin-color-ectoplasm .export-progress div {
+	background: #A3B745;
+}
+
+.admin-color-midnight .import-progress div,
+.admin-color-midnight .export-progress div {
+	background: #E14D43;
+}
+
+.admin-color-sunrise .import-progress div,
+.admin-color-sunrise .export-progress div {
+	background: #DD823B;
+}
+
+// Import custom styles for fonticonpicker.
+@import "fonticonpicker/style";
+
+// Import the social network styles.
+@import "brandicons/style";

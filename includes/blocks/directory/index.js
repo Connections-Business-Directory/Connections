@@ -1,27 +1,20 @@
 /**
  * WordPress dependencies
  */
-const { __, _n, _nx, _x } = wp.i18n;
-// const { select } = wp.data;
-const { registerBlockType } = wp.blocks;
-const {
-	      InspectorControls,
-	      InspectorAdvancedControls,
-      } = wp.blockEditor;
-const {
-	      // ServerSideRender,
-	      PanelBody,
-	      // CheckboxControl,
-	      SelectControl,
-	      TextControl,
-	      ToggleControl
-      } = wp.components;
-const {
-	      // Component,
-	      Fragment,
-      } = wp.element;
-
-const { serverSideRender: ServerSideRender, } = wp;
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import {
+	InspectorControls,
+	InspectorAdvancedControls,
+} from '@wordpress/block-editor';
+import {
+	PanelBody,
+	SelectControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies
@@ -32,15 +25,11 @@ import {
 	PageSelect
 } from '@Connections-Directory/components';
 
-// Import CSS
-// import './styles/editor.scss';
-// import './styles/public.scss';
-
 const {
-	      entryTypes,
-	      dateTypes,
-	      templates
-      } = cbDir.blockSettings;
+	entryTypes,
+	dateTypes,
+	templates
+} = cbDir.blockSettings;
 
 /**
  * Register Block
@@ -165,7 +154,7 @@ export default registerBlockType(
 			},
 			template:             {
 				type:    'string',
-				default: templates.active
+				// default: templates.active
 			},
 			title:                {
 				type:    'array',
@@ -281,7 +270,7 @@ export default registerBlockType(
 								help={__( 'Select which to use when displaying the directory.', 'connections' )}
 								value={template}
 								options={templateOptions}
-								onChange={( template ) => setAttributes( { template: template } )}
+								onChange={( value ) => setAttributes( { template: value } )}
 							/>
 						</PanelBody>
 

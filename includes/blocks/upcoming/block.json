@@ -1,0 +1,70 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 1,
+    "name": "connections-directory/shortcode-upcoming",
+    "title": "Upcoming",
+    "category": "connections-directory",
+    "description": "Display the list of upcoming event dates.",
+    "keywords": [
+        "directory",
+        "event",
+        "upcoming"
+    ],
+    "version": "1.0",
+    "textdomain": "connections",
+    "attributes": {
+        "advancedBlockOptions": {
+            "type": "string",
+            "default": ""
+        },
+        "displayLastName": {
+            "type": "boolean",
+            "default": false
+        },
+        "dateFormat": {
+            "type": "string",
+            "default": "F jS"
+        },
+        "days": {
+            "type": "integer",
+            "default": 30
+        },
+        "heading": {
+            "type": "string",
+            "default": ""
+        },
+        "includeToday": {
+            "type": "boolean",
+            "default": true
+        },
+        "isEditorPreview": {
+            "type": "boolean",
+            "default": true
+        },
+        "listType": {
+            "type": "string",
+            "default": "birthday"
+        },
+        "noResults": {
+            "type": "string",
+            "default": "No results."
+        },
+        "template": {
+            "type": "string",
+            "default": "anniversary-light"
+        },
+        "yearFormat": {
+            "type": "string",
+            "default": "%y Year(s)"
+        },
+        "yearType": {
+            "type": "string",
+            "default": "upcoming"
+        }
+    },
+    "supports": {
+        "className": false,
+        "customClassName": false,
+        "html": false
+    }
+}

@@ -2,9 +2,10 @@
 namespace Connections_Directory\Blocks;
 
 use cnArray;
-use cnEntry;
+use cnScript;
 use cnTemplate as Template;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_url;
 
 /**
  * Class Carousel
@@ -21,6 +22,42 @@ class Carousel {
 	 */
 	public static function register() {
 
+		/**
+		 * Scripts and styles need to be registered before the block is registered,
+		 * so the scrip and style hooks are available when registering the block.
+		 */
+		self::registerScripts();
+		self::registerStyles();
+
+		/**
+		 * In WordPress >= 5.8 the preferred method to register blocks is the block.json file.
+		 *
+		 * NOTE: It seems this block can not be registered with the block.json file.
+		 *       The post meta seems to break (the `carousels` attribute).
+		 *       Revisit this when the minimum supported WP version is 5.8.
+		 *
+		 * NOTE: When the minimum supported version of WP is 5.8. Convert block to API version 2.
+		 *       The `block.json` file will have to be imported into the javascript and passed to
+		 *       the `registerBlockType()` function.
+		 *
+		 *       @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#javascript-client-side
+		 *
+		 * @link https://make.wordpress.org/core/2021/06/23/block-api-enhancements-in-wordpress-5-8/
+		 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
+		 * @see  \WP_Block_Type::__construct()
+		 */
+		// if ( _::isWPVersion( '5.8' ) ) {
+		//
+		// 	register_block_type(
+		// 		__DIR__,
+		// 		array(
+		// 			'render_callback' => array( __CLASS__, 'render' ),
+		// 		)
+		// 	);
+		//
+		// 	return;
+		// }
+
 		register_block_type(
 			'connections-directory/carousel',
 			array(
@@ -28,12 +65,11 @@ class Carousel {
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
 				// and display the "Error loading block: Invalid parameter(s): attributes" message.
 				'attributes'      => array(),
-				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				// 'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
-				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
-				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
-				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// 'editor_script'   => '', // Editor only script handle. @since 5.0.0
+				// 'editor_style'    => '', // Editor only style handle. @since 5.0.0
+				// 'script'          => '', // Frontend and Editor script handle. @since 5.0.0
+				'style'           => 'Connections_Directory/Block/Carousel/Style', // Frontend and Editor style handle. @since 5.0.0
+				// 'view_script'     => '', // Frontend only script handle. @since 5.9.0
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
@@ -435,6 +471,44 @@ class Carousel {
 	}
 
 	/**
+	 * Register the scripts.
+	 *
+	 * @since 10.4.11
+	 */
+	private static function registerScripts() {
+
+		$asset = cnScript::getAssetMetadata( 'block/carousel/script.js' );
+
+		wp_register_script(
+			'Connections_Directory/Block/Carousel/Script',
+			$asset['src'],
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+	}
+
+	/**
+	 * Register the styles.
+	 *
+	 * @since 10.4.11
+	 */
+	private static function registerStyles() {
+
+		$path     = Connections_Directory()->pluginPath();
+		$urlBase  = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
+		$rtl      = is_rtl() ? '.rtl' : '';
+		$filename = "style{$rtl}.css";
+
+		wp_register_style(
+			'Connections_Directory/Block/Carousel/Style',
+			"{$urlBase}assets/dist/block/carousel/{$filename}",
+			array(),
+			filemtime( "{$path}assets/dist/block/carousel/{$filename}" )
+		);
+	}
+
+	/**
 	 * Callback for the `wp_print_scripts` action.
 	 *
 	 * Print Blocks style tag in header.
@@ -602,6 +676,11 @@ class Carousel {
 
 			return '';
 		}
+
+		/*
+		 * Note: Eventually this can be set as the `view_script` handle when registering the block.
+		 */
+		wp_enqueue_script( 'Connections_Directory/Block/Carousel/Script' );
 
 		/**
 		 * @link https://stackoverflow.com/a/6661561/5351316

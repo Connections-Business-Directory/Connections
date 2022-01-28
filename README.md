@@ -247,6 +247,65 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.11 01/28/2022 =
+
+* NEW: Introduce `Content_Block::isActive()`.
+* NEW: Introduce `_::isWPVersion()`.
+* NEW: Introduce `cnScript::getAssetMetadata()`.
+* NEW: Introduce `Carousel::registerScripts()` and `Carousel::registerStyles()` and enqueue block assets when required.
+* NEW: Introduce `Team::registerStyles()` and enqueue block assets when required.
+* TWEAK: Enqueue Content Block scripts only when displayed and not globally.
+* TWEAK: Change `cnScript::maybeEnqueueStyle()` from `private` to `public`.
+* TWEAK: Check of the current queried object id is the directory homepage id in `cnScript::maybeEnqueueStyle()`.
+* TWEAK: Remove registration of old/out of date admin/frontend RTL styles.
+* TWEAK: Rename script handle for the Management Content Block for consistency.
+* TWEAK: Change the action hook in which the Management Content Block script is registered.
+* TWEAK: Update the Last Viewed and Recently Viewed Content Blocks to register their own assets on enqueue them only
+  when required.
+* TWEAK: Remove the global enqueueing of block assets.
+* TWEAK: Enqueue Content Block styles only when it is active and on the directory homepage and not globally.
+* TWEAK: Move the Recently Viewed Content Block assets to a sub folder to improve organization. Use imports in scripts
+  instead of referencing globals to enable code completion.
+* TWEAK: Move the Related Content Block assets to a sub folder to improve organization.
+* TWEAK: Move the shared Content Block assets to a sub folder to improve organization.
+* TWEAK: Move the brandicon assets to a sub folder to improve organization.
+* TWEAK: Move the fonticonpicker assets to a sub folder to improve organization.
+* TWEAK: Rename source styles for consistency.
+* TWEAK: Remove unused style assets.
+* TWEAK: Rename `blocks.js` to `index.js` for consistency. Adjust import path for consistency.
+* TWEAK: Remove the public entry point for blocks in favor of individual block entry points so block assets can be
+  loaded as necessary instead of globally.
+* TWEAK: Add the script and style handles to the Nearby and Related Content Blocks so the can be loaded as required
+  instead of globally.
+* TWEAK: Register Blocks with `blocks.json` if the WordPress version is 5.8 or greater.
+* TWEAK: Use imports in Block scripts instead of referencing globals to enable code completion.
+* TWEAK: Do not import Block style. Use webpack entry to process separately.
+* TWEAK: Enqueue the RTL styles built by webpack.
+* TWEAK: Remove registration and enqueuing of global Block script.
+* TWEAK: Update the registration and enqueuing of the Block Editor assets.
+* TWEAK: Update the URL and file path of the iconpicker library when registering its assets.
+* BUG: The Recently Viewed API Endpoint should not parse requests or apply query filters.
+* BUG: Do not set default for the template attribute as it causes the setting to be lost during saving.
+* OTHER: Correct misspellingS.
+* DEV: Remove unused import.
+* DEV: phpDoc updates.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Remove commented out code.
+* DEV: Adjust phpcs parallel value.
+* DEV: Qualifier can be replaced with an imports.
+* DEV: Correct code alignment.
+* DEV: Rename variable.
+* DEV: Add style entry point for Block components.
+* DEV: Update `package.json`.
+* DEV: Update `webpack.config.js`.
+* DEV: Update `dist` files.
+* DEV: Update node packages.
+* DEV: Delete `.jshintrc`.
+* DEV: Add `.eslintrc`.
+* DEV: Remove use of deprecated `file_loader` and `url-loader`.
+* DEV: Remove deprecated commented out code.
+* DEV: Bump minimum WordPress version to 5.3.
+
 = 10.4.10 01/14/2022 =
 
 * TWEAK: Multiple placeholders should be ordered.
@@ -852,64 +911,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Introduce action/filter deprecation hooks. During AJAX, REST or if WP Environment is set to "production", messages will be logged instead of output on screen.
 * DEV: Use new deprecated filter hook wrapper function in the deprecated filters files.
 * DEV: Use new deprecated action hook wrapper function in the deprecated action file.
-
-= 10.2 04/15/2021 =
-* FEATURE: First pass at adding custom taxonomy API.
-* NEW: Introduce `_string::insert()`.
-* NEW: Introduce `cnRewrite::getPermalinkSlugs()`.
-* NEW: Introduce `cnRewrite::generateRule()`.
-* NEW: Introduce `cnShortcode::isSupportedPostType()` helper method.
-* NEW: Introduce `cnShortcode::getHomeID()` helper method.
-* NEW: Introduce `cnMetaboxAPI::defaultPageHooks()`.
-* NEW: Introduce 'object_ids' parameter in `cnTerm::getTaxonomyTerms()`.
-* NEW: Introduce the `Connections_Directory/Content_Blocks/Register` filter.
-* TWEAK: Do array check be attempting to marge array to prevent potential PHP notice in some scenarios.
-* TWEAK: Move the WordPress mShot integration class to the integration folder and adjust the namespace accordingly.
-* TWEAK: Remove use of deprecated class `cnFormatting` in `cnCategory`.
-* TWEAK: Enable the transform URL in the Rank Math integration.
-* TWEAK: Register the namespaced rewrite tags which will be used to generate the rewrite rules.
-* TWEAK: Add `noreferrer` and `nofollow` attributes to the social media network links.
-* TWEAK: Ensure date is instance of DateTime before adding to date to Entry Dates.
-* TWEAK: Ensure date is instance of DateTime before setting the date format when adding backwards support for the anniversary and birthday date fields.
-* TWEAK: Update `[connections]` shortcode defaults to use the `cnShortcode::getHomeID()` helper method for the `home_id` shortcode attribute.
-* TWEAK: Ensure cloned fields are shown.
-* TWEAK: Remove use of deprecated `click` jQuery function.
-* TWEAK: Remove use of deprecated `bind` jQuery function.
-* TWEAK: Remove use of deprecated method `cnFormatting::maybeJSONdecode()` in `cnMeta`.
-* TWEAK: Use `strnatcasecmp` when sorting the admin menu array key index.
-* TWEAK: Add `class` parameter to form tag.
-* TWEAK: Add support for a default value for the text field input in the Settings API.
-* TWEAK: Utilize `cnShortcode::getHomeID()` and set the `force_home` attribute default to false in the callbacks for the view all list action and the character index.
-* TWEAK: Add `echo` attribute to the term list walker renderer.
-* TWEAK: Add `categorychecklist` class to the term list walker so it inherits the proper styles from WP.
-* TWEAK: Utilize `cnMetaboxAPI::defaultPageHooks()` when registering core default entry metaboxes.
-* TWEAK: Use strict comparison in `cnTerm::descendants()`.
-* TWEAK: Do not set variable in comparison in `cnTerm::descendants()`.
-* TWEAK: Eliminate the possibility of a trailing comma in the entry categories list when using the Split Categories addon.
-* TWEAK: Reset the Entry category block properties to their defaults after rendering.
-* TWEAK: Remove the locality, region, and postal code from the request query vars.
-* TWEAK: Use `self` instead of `static` when initiating SEO integration classes since they are final classes.
-* TWEAK: Only add the SEO filters if the `[connections` shortcode or Directory block is used on the queried post.
-* TWEAK: Check if the query post object is a support post type in the canonical redirect when on the front page.
-* BUG: The persistent log taxonomy should not have rewrite rules generated.
-* BUG: Only custom post types that are publicly queryable and have rewrite rules should be valid options when choosing to enable custom post type support.
-* BUG: Correct `implode()` usage. Array must be 2nd parameter.
-* BUG: Prevent characters from being removed from the beginning/end of post titles.
-* BUG: Refactor `cnEntry::getCategory()` to display attached children categories no matter the descendent depth.
-* BUG: Correct hook registration.
-* BUG: Add the missing schema for the bio and notes fields to the REST API endpoint.
-* COMPATIBILITY: Invalidate the Rank Math sitemaps cache when adding/deleting/updating and Entry.
-* COMPATIBILITY: Update plugin compatibility checks for WP Mail Logging and Email Log Plugin to be PHP 8.0 compliant.
-* COMPATIBILITY: Compatibility with the Post Categories by User for WordPress plugin by preventing this plugin from hiding the categories on the Connections admin pages.
-* OTHER: Update max WordPress version in compatibility check.
-* OTHER: Correct misspelling.
-* OTHER: Correct code formatting.
-* DEV: Remove commented out code.
-* DEV: Add a couple of todo's.
-* DEV: phpDoc corrections.
-* DEV: Add deprecated SiteShot file for loading via legacy code. Reorder the class alias to prevent a PHP warning message.
-* DEV: Remove curly bracket array access from CSV library.
-* DEV: Update min/max PHP and WP requirements.
-* DEV: Correct PHP8 optional parameter before required parameter notice.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

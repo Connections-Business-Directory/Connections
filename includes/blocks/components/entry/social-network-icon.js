@@ -1,8 +1,7 @@
 /**
  * WordPress dependencies
  */
-const { Component } = wp.element;
-// const { decodeEntities } = wp.htmlEntities;
+import { Component } from '@wordpress/element';
 
 class SocialNetworkIcon extends Component {
 

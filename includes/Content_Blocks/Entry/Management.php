@@ -31,7 +31,7 @@ class Management extends Content_Block {
 
 		$atts = array(
 			'name'                => __( 'Entry Management', 'connections' ),
-			// 'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Javascript',
+			// 'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Script',
 			// 'style_handle'        => 'wp-jquery-ui-dialog',
 			'permission_callback' => array( $this, 'permission' ),
 		);
@@ -40,11 +40,11 @@ class Management extends Content_Block {
 
 		if ( $this->isPermitted() ) {
 
-			$this->set( 'script_handle', 'Connections_Directory/Content_Block/Entry_Management/Javascript' );
+			$this->set( 'script_handle', 'Connections_Directory/Content_Block/Entry_Management/Script' );
 			$this->set( 'style_handle', 'wp-jquery-ui-dialog' );
 		}
 
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'registerScripts' ) );
+		add_action( 'init', array( __CLASS__, 'registerScripts' ) );
 	}
 
 	/**
@@ -58,10 +58,11 @@ class Management extends Content_Block {
 	}
 
 	/**
-	 * Callback for the `wp_enqueue_scripts` action.
+	 * Callback for the `init` action.
 	 *
 	 * Register the Content Block scripts. They will be enqueued via the `script` and `styles` Content Block attributes.
 	 *
+	 * @internal
 	 * @since 9.6
 	 */
 	public static function registerScripts() {
@@ -71,7 +72,7 @@ class Management extends Content_Block {
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		wp_register_script(
-			'Connections_Directory/Content_Block/Entry_Management/Javascript',
+			'Connections_Directory/Content_Block/Entry_Management/Script',
 			$url . "assets/js/cn-entry-management{$min}.js",
 			array( 'jquery-ui-dialog', 'wp-api-request' ),
 			CN_CURRENT_VERSION,

@@ -1,12 +1,12 @@
 <?php
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Add various actions and filters to ensure proper backward compatibilty
+ * Add various actions and filters to ensure proper backward compatibility
  * with the commercial templates.
  *
  * @package     Connections

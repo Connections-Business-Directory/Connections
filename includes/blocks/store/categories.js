@@ -1,15 +1,9 @@
 /**
  * WordPress dependencies
  */
-const { addQueryArgs } = wp.url;
-
-const {
-	      registerStore,
-      } = wp.data;
-
-const {
-	      apiFetch
-      } = wp;
+import { addQueryArgs } from '@wordpress/url';
+import { registerStore } from '@wordpress/data';
+import apiFetch from '@wordpress/api-fetch';
 
 const actions = {
 	receiveItems( terms ) {

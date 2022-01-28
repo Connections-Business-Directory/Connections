@@ -2,18 +2,22 @@
  * External dependencies
  */
 import classnames from 'classnames';
-const { isFinite } = lodash;
+import { isFinite } from 'lodash';
 
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { withInstanceId } = wp.compose;
+import { __ } from '@wordpress/i18n';
+import { withInstanceId } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
-const { BaseControl, Button, Dashicon } = wp.components;
+import {
+	BaseControl,
+	Button,
+	Dashicon
+} from '@wordpress/components';
 
 function RangeControl( {
 	                       className,

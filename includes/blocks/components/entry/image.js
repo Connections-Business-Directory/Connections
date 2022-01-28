@@ -1,9 +1,9 @@
 /**
  * WordPress dependencies
  */
-const { Component } = wp.element;
-const { decodeEntities } = wp.htmlEntities;
-const { __, _n, _nx, _x, sprintf } = wp.i18n;
+import { Component } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
+import { __, sprintf } from '@wordpress/i18n';
 
 /**
  * External dependencies

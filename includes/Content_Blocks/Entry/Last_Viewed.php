@@ -32,10 +32,11 @@ class Last_Viewed extends Recently_Viewed {
 			'name'                => __( 'Last Viewed Entry', 'connections' ),
 			'permission_callback' => '__return_true',
 			'heading'             => __( 'Last Viewed', 'connections' ),
+			'script_handle'       => 'Connections_Directory/Content_Block/Recently_Viewed/Script',
 		);
 
 		/*
-		 * In this case, do not call the parent constructor because we do not wan the parent::hooks() method to run.
+		 * In this case, do not call the parent constructor because we do not want the parent::hooks() method to run.
 		 * But, we still to run the Content_Block constructor, so, lets call it directly.
 		 */
 		Content_Block::__construct( $id, $atts );

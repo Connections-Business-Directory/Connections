@@ -4,7 +4,10 @@ namespace Connections_Directory;
 
 use cnArray;
 use cnFormatting;
+use cnQuery;
 use cnSanitize;
+use cnSettingsAPI;
+use Connections_Directory\Utility\_array;
 use WP_Error;
 
 /**
@@ -257,6 +260,29 @@ class Content_Block {
 	}
 
 	/**
+	 * Whether the Content Block is active.
+	 *
+	 * @since 10.4.11
+	 *
+	 * @return bool
+	 */
+	public function isActive() {
+
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+
+			$settings = cnSettingsAPI::get( 'connections', 'display_single', 'content_block' );
+
+		} else {
+
+			$settings = cnSettingsAPI::get( 'connections', 'display_list', 'content_block' );
+		}
+
+		$active = _array::get( $settings, 'active', array() );
+
+		return in_array( $this->getID(), $active );
+	}
+
+	/**
 	 * Whether the current user is permitted to view the Content Block.
 	 *
 	 * @since 9.7
@@ -387,6 +413,12 @@ class Content_Block {
 			} elseif ( 0 < strlen( $html ) && false === $this->get( 'render_container' ) ) {
 
 				$html = $this->get( 'before' ) . $html . $this->get( 'after' );
+			}
+
+			// Frontend script.
+			if ( 0 < strlen( $html ) && ! empty( $handle = $this->get( 'script_handle' ) ) ) {
+
+				wp_enqueue_script( $handle );
 			}
 		}
 

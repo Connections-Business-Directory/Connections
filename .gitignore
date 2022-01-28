@@ -91,6 +91,9 @@ composer.lock
 /vendor/phpdocumentor/
 /vendor/phpspec/
 /vendor/webmozart/
+/vendor/php-stubs/
+/vendor/phpstan/
+/vendor/szepeviktor/
 /PHPCS-report.txt
 /PHPCS-security-report.txt
 /PHPCS-i18n-report.txt

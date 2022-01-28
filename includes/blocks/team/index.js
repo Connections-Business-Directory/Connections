@@ -1,33 +1,24 @@
 /**
  * WordPress dependencies
  */
-const { __, _n, _nx, _x } = wp.i18n;
-// const { select } = wp.data;
-const { registerBlockType } = wp.blocks;
-const {
-	      BaseControl,
-	      // CheckboxControl,
-	      ColorIndicator,
-	      ColorPalette,
-	      PanelBody,
-	      RadioControl,
-	      // RangeControl,
-	      SelectControl,
-	      // ServerSideRender,
-	      TextControl,
-	      ToggleControl
-      } = wp.components;
-const {
-	      // ColorPalette,
-	      InspectorControls,
-	      InspectorAdvancedControls,
-      } = wp.blockEditor;
-const {
-	      // Component,
-	      Fragment,
-      } = wp.element;
-
-const { serverSideRender: ServerSideRender, } = wp;
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import {
+	BaseControl,
+	ColorIndicator,
+	ColorPalette,
+	PanelBody,
+	RadioControl,
+	SelectControl,
+	TextControl,
+	ToggleControl
+} from '@wordpress/components';
+import {
+	InspectorControls,
+	InspectorAdvancedControls,
+} from '@wordpress/block-editor';
+import { Fragment } from '@wordpress/element';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies
@@ -37,16 +28,11 @@ import {
 	RangeControl,
 } from '@Connections-Directory/components';
 
-/**
- * Import styles.
- */
-import './style.scss';
-
 const {
-	      entryTypes,
-	      // dateTypes,
-	      // templates
-      } = cbDir.blockSettings;
+	entryTypes,
+	// dateTypes,
+	// templates,
+} = cbDir.blockSettings;
 
 const colorIndicator = ( label, value ) => (
 	<Fragment>

@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 1,
+    "name": "connections-directory/carousel",
+    "title": "Carousel",
+    "category": "connections-directory",
+    "description": "Display members of your team in a carousel.",
+    "keywords": [
+        "carousel",
+        "slider"
+    ],
+    "version": "1.0",
+    "textdomain": "connections",
+    "attributes": {
+        "blockId": {
+            "type": "string"
+        },
+        "borderRadius": {
+            "type": "integer",
+            "default": 12
+        },
+        "borderWidth": {
+            "type": "integer",
+            "default": 1
+        },
+        "carousels": {
+            "type": "string",
+            "default": "[]",
+            "source": "meta",
+            "meta": "_cbd_carousel_blocks"
+        },
+        "displayDropShadow": {
+            "type": "boolean",
+            "default": true
+        },
+        "excerptWordLimit": {
+            "type": "string",
+            "default": "10"
+        },
+        "imageBorderColor": {
+            "type": "string",
+            "default": "#BABABA"
+        },
+        "imageBorderRadius": {
+            "type": "integer",
+            "default": 0
+        },
+        "imageBorderWidth": {
+            "type": "integer",
+            "default": 0
+        },
+        "imageCropMode": {
+            "type": "string",
+            "default": "1"
+        },
+        "imageShape": {
+            "type": "string",
+            "default": "square"
+        },
+        "imageType": {
+            "type": "string",
+            "default": "photo"
+        }
+    },
+    "supports": {
+        "className": false,
+        "customClassName": false,
+        "html": false
+    },
+    "style": [
+        "Connections_Directory/Block/Carousel/Style"
+    ]
+}

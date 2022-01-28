@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-const { render } = wp.element;
-const { decodeEntities } = wp.htmlEntities;
+import { render } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
 
 /**
  * Internal dependencies
@@ -15,11 +15,6 @@ import { decodeROT13 } from "@Connections-Directory/components/rot13";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-/**
- * Import styles.
- */
-import './style.scss';
 
 const carousels = document.querySelectorAll( '.slick-slider-block' );
 

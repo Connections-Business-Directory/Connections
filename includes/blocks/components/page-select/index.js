@@ -1,19 +1,19 @@
 /**
  * External dependencies
  */
-const { get } = lodash;
+import { get } from 'lodash';
 
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { select, withSelect } = wp.data;
-const { Spinner } = wp.components;
+import { __ } from '@wordpress/i18n';
+import { withSelect } from '@wordpress/data';
+import { Spinner, TreeSelect } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
-const { TreeSelect } = wp.components;
+// import { TreeSelect } from '@wordpress/components';
 
 // Import components
 import { buildTermsTree } from '../../utils/terms';

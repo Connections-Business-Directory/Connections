@@ -2,6 +2,8 @@
 
 namespace Connections_Directory\Blocks;
 
+use Connections_Directory\Utility\_;
+
 /**
  * Class Directory
  *
@@ -18,6 +20,31 @@ class Directory {
 	 * @since 8.31
 	 */
 	public static function register() {
+
+		/**
+		 * In WordPress >= 5.8 the preferred method to register blocks is the block.json file.
+		 *
+		 * NOTE: When the minimum supported version of WP is 5.8. Convert block to API version 2.
+		 *       The `block.json` file will have to be imported into the javascript and passed to
+		 *       the `registerBlockType()` function.
+		 *
+		 *       @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#javascript-client-side
+		 *
+		 * @link https://make.wordpress.org/core/2021/06/23/block-api-enhancements-in-wordpress-5-8/
+		 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
+		 * @see  \WP_Block_Type::__construct()
+		 */
+		if ( _::isWPVersion( '5.8' ) ) {
+
+			register_block_type(
+				__DIR__,
+				array(
+					'render_callback' => array( __CLASS__, 'render' ),
+				)
+			);
+
+			return;
+		}
 
 		register_block_type(
 			'connections-directory/shortcode-connections',

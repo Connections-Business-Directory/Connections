@@ -1,0 +1,775 @@
+/*
+ * Common
+ */
+#cn-entry-actions {
+	margin: 20px 0;
+	padding: 0 0 0 2em;
+}
+
+#cn-list .vcard span {
+	display: initial;
+}
+
+/* This is for WP Mailto Links support. This is to ensure the dummy text is hidden as intended. ref: @link http://connections-pro.com/support/topic/email-displays-odd/*/
+#cn-list .vcard span.wpml-nodis {
+	display: none;
+}
+
+#cn-list .cn-clear {
+	clear: both;
+}
+
+#cn-list .cn-list-head {
+	position: relative;
+}
+
+.cn-list .cn-list-head::before,
+.cn-list .cn-list-head::after,
+.cn-list .cn-list-body::before,
+.cn-list .cn-list-body::after,
+.cn-list .cn-list-foot::before,
+.cn-list .cn-list-foot::after,
+.cn-list form.cn-form:before,
+.cn-list form.cn-form:after,
+.cn-list .cn-alphaindex::before,
+.cn-list .cn-alphaindex::after,
+.cn-entry-content-block-list::before,
+.cn-entry-content-block-list::after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+#cn-list .cn-category-breadcrumb {
+	margin: 20px auto;
+}
+
+#cn-list .cn-list-section-head h4 {
+	font-size: 16px;
+	padding: 0;
+	margin: .8em 0;
+}
+
+#cn-list .cn-alphaindex {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 12px 0;
+	position: relative;
+}
+
+#cn-list label {
+	cursor: pointer;
+}
+
+#wpadminbar #wp-admin-bar-connections-entry-edit > .ab-item:before {
+	content: '\f464';
+	top: 2px;
+}
+
+/*
+ * Image / Logo Styles
+ */
+#cn-list span.cn-image-style {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	line-height: 0;
+	margin: 0 0 5px;
+	max-width: 100%;
+	padding: 5px;
+	width: auto;
+}
+
+#cn-list span.cn-image-none {
+	color: #AAAAAA;
+	display: inline-block;
+	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
+	text-align: center;
+	text-shadow: 1px 1px 0 #FFFFFF;
+	position: relative;
+
+	span {
+		position: absolute;
+		top: 1em;
+		right: 0;
+		left: 0;
+		text-align: center;
+	}
+}
+
+#cn-list img {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+img.cn-image {
+	border: none !important;
+	height: auto !important;
+	left: 0 !important;
+	margin: 0 !important;
+	max-height: none !important;
+	max-width: 100%;
+	padding: 0 !important;
+	position: relative !important;
+	top: 0 !important;
+	visibility: visible;
+	width: auto; /* For proper IE8 support for max-width, width:auto needs to be defined. */
+}
+
+/*
+ * Name and Org Styles
+ */
+#cn-list span.fn {
+	display: inline-block;
+}
+
+#cn-list span.org {
+	display: block;
+}
+
+#cn-list span.organization-name {
+	display: block;
+}
+
+#cn-list span.organization-unit {
+	display: block;
+}
+
+#cn-list span.title {
+	display: block;
+}
+
+#cn-list span.contact-name {
+	display: block;
+}
+
+#cn-list span.contact-label {
+	font-weight: bold;
+}
+
+/*
+ * Family styles.
+ */
+#cn-list ul.cn-relations {
+	line-height: normal;
+	list-style: none;
+	margin: 0 0 10px;
+}
+
+#cn-list ul.cn-relations li {
+	margin: 0;
+}
+
+#cn-list span.cn-relation-label {
+	font-weight: bold;
+}
+
+/*
+ * Address Styles
+ */
+#cn-list span.address-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#cn-list span.adr {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#cn-list span.adr span.address-name {
+	display: block;
+	font-weight: bold;
+}
+
+#cn-list span.adr span.street-address {
+	display: block;
+}
+
+#cn-list span.adr span.extended-address {
+	display: block;
+}
+
+#cn-list span.adr span.country-name {
+	display: block;
+}
+
+#cn-list span.adr span.geo, div#cn-list span.adr span.geo span.latitude, div#cn-list span.adr span.geo span.longitude {
+	display: block;
+}
+
+/*
+ * Phone Styles
+ */
+#cn-list span.phone-number-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#cn-list span.tel {
+	display: block;
+	margin: 0 0 5px;
+}
+
+#cn-list span.tel span.phone-name {
+	font-weight: bold;
+}
+
+/*
+ * Email Styles
+ */
+#cn-list span.email-address-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#cn-list span.email {
+	background-image: none;
+	display: block;
+	float: none;
+	margin: 0;
+}
+
+#cn-list span.email span.email-name {
+	font-weight: bold;
+}
+
+/*
+ * IM Styles
+ */
+#cn-list span.im-network-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#cn-list span.im-network {
+	display: block;
+}
+
+#cn-list span.im-network span.im-name {
+	font-weight: bold;
+}
+
+/*
+ * Social Media Network Styles
+ */
+.social-media-block {
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	margin-bottom: 10px;
+}
+
+.social-media-block a.url {
+	color: transparent;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+}
+
+.social-media-block img {
+	border: none;
+	margin: 0;
+	padding: 0;
+	max-height: none;
+	max-width: none;
+	width: auto;
+}
+
+.social-media-network {
+	display: inline-block;
+	margin: 0 1px 2px;
+}
+
+@import "brandicons/style";
+
+/*
+ * Link Styles
+ */
+#cn-list span.link-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#cn-list span.link {
+	display: block;
+}
+
+#cn-list span.link span.link-name {
+	font-weight: bold;
+}
+
+/*
+ * Date Styles
+ */
+#cn-list span.date-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
+#cn-list span.date {
+	display: block;
+}
+
+#cn-list span.date span.date-name {
+	font-weight: bold;
+}
+
+/*
+ * Anniversary/Birthday vEvent Styles
+ */
+#cn-list .vevent abbr {
+	border: 0;
+	cursor: default;
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+#cn-list abbr.dtstart {
+	text-decoration: none;
+}
+
+#cn-list span.vevent {
+	display: block;
+}
+
+span.date-name {
+	font-weight: bold;
+}
+
+/*
+ * Why o` why do theme's insist on floating and setting form widths globally???
+ * Apparently they also love setting inputs to blocks rather than the default inline!
+ */
+#cn-list span input,
+#cn-list span input[type="text"] {
+	display: inline;
+	float: none;
+	min-width: 0;
+	width: auto;
+	max-width: 100%;
+}
+
+/*
+ * A few style style from Chosen with the selectors more specific so the theme's don't
+ * easily override them. I'm sure I'll have to add to this list as I run across theme conflicts.
+ */
+#cn-list .chosen-container .chosen-search input {
+	width: 100%;
+}
+
+#cn-list .chosen-container-multi .chosen-choices .search input {
+	line-height: normal;
+}
+
+#cn-list .chosen-container .chosen-results .active-result {
+	background: none !important;
+}
+
+#cn-list .chosen-container .chosen-results .highlighted {
+	background: #3875D7 !important;
+	color: #FFFFFF;
+}
+
+#cn-list .chosen-container ul.chosen-results {
+	clear: both !important;
+	margin: 0 4px 4px 0;
+	max-height: 240px;
+	padding: 0 0 0 4px;
+	position: relative;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#cn-list .chosen-container .chosen-results li {
+	line-height: 15px;
+	padding: 5px 6px;
+	margin: 0;
+	list-style: none !important;
+	color: black;
+	text-transform: none;
+	font-size: 100% !important;
+	border: none !important;
+	background-image: none !important;
+}
+
+#cn-list .chosen-container .chosen-results li.group-result {
+	color: #999999;
+	text-transform: uppercase;
+}
+
+#cn-list .chosen-container-single .chosen-single {
+	line-height: 24px !important;
+}
+
+#cn-list .chosen-choices li:after {
+	border: none;
+}
+
+/*
+ * Search Message
+ */
+#cn-search-messages,
+#cn-customizer-messages {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-left: 4px solid #FFBA00;
+	padding: 10px 12px;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	margin: 12px 2px 12px 0;
+}
+
+#cn-clear-search {
+	text-align: right;
+}
+
+a#cn-clear-search-button {
+	text-decoration: none;
+}
+
+/*
+ * Search control styles.
+ */
+.cn-search label[for="cn-s"] {
+	display: none;
+}
+
+#cn-search-input {
+	background: #FFFFFF none;
+	border: 1px solid #DFDFDF;
+	border-right-width: 0;
+	-webkit-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #888888;
+	display: inline-block;
+	font-size: 12px;
+	float: none;
+	min-height: auto;
+	height: 28px;
+	line-height: 20px;
+	margin: 1px 0 1px 1px !important;
+	padding: 3px 6px;
+	text-align: left;
+	vertical-align: bottom;
+	width: 140px;
+}
+
+#cn-search-input:focus {
+	color: #373737;
+}
+
+input#cn-search-submit {
+	background: #FFFFFF url(../images/icons/search.png) no-repeat 8px center;
+	border: 1px solid #DFDFDF;
+	border-left-width: 0;
+	-webkit-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	cursor: pointer;
+	font-size: 12px;
+	float: none;
+	height: 28px;
+	line-height: 20px;
+	margin: 1px 1px 1px 0 !important;
+	min-height: auto;
+	padding: 3px;
+	text-align: left;
+	vertical-align: bottom;
+	width: 30px !important;
+}
+
+/*
+ * Pagination control styles.
+ */
+#cn-page-nav {
+	/*clear: both;*/
+	display: block;
+	font-size: 12px;
+	margin: 20px 0;
+	text-align: center;
+}
+
+/* Setting clear breaks Market */
+#cn-page-nav a,
+#cn-page-nav .page-numbers {
+	color: #AAAAAA;
+	display: initial;
+	text-decoration: none;
+	background-color: #EEEEEE;
+	padding: 3px 6px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid;
+	font-size: 12px;
+	font-weight: bold;
+	margin: 0 1px 0 0;
+}
+
+#cn-page-nav a:active, #cn-page-nav a:visited {
+	color: #AAAAAA;
+}
+
+#cn-page-nav a.disabled,
+#cn-page-nav .page-numbers.current,
+#cn-page-nav .page-numbers.dots {
+	color: #CCCCCC;
+}
+
+#cn-page-nav input {
+	background: #FFFFFF none;
+	border: 1px solid #DFDFDF;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #888888;
+	display: inline;
+	float: none;
+	font-size: 12px;
+	height: auto;
+	line-height: 15px;
+	margin: 1px;
+	padding: 3px;
+	text-align: center;
+	vertical-align: baseline;
+	width: 30px;
+}
+
+/*
+ * Submit Button
+ */
+input#cn-submit {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	color: #666666;
+	display: inline;
+	-webkit-box-shadow: 0 1px 2px 1px rgba(100, 100, 100, .4);
+	box-shadow: 0 1px 2px 1px rgba(100, 100, 100, .4);
+	float: none;
+	background: #E3E3E3;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E3E3E3), to(#F1F1F1));
+	background: -webkit-linear-gradient(top, #E3E3E3 1%, #F1F1F1 100%);
+	background: linear-gradient(to bottom, #E3E3E3 1%, #F1F1F1 100%);
+	border: 1px solid #D3D3D3;
+	font-size: 12px;
+	margin: 2px;
+	padding: 3px 8px;
+	position: relative;
+	vertical-align: top;
+}
+
+/*
+ * Import Content Block Styles
+ */
+@import "content-blocks/style-shared";
+@import "content-blocks/recently-viewed/style";
+@import "content-blocks/related-carousel/style";
+
+/*
+ * Tables
+ * @todo these styles interfere with the templates that use tables.
+ */
+/*#cn-list table { border: none; border-collapse: separate; float: none; margin: 0; width: 100%; }
+#cn-list table tr { background: transparent; }
+#cn-list table tr.alternate { background: #F1F1F1; }
+#cn-list table td { background: transparent; border: none; line-height: normal; margin: 0; padding: 0; }
+#cn-list table, #cn-list th, #cn-list td { color: #888; font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif; font-size: 12px; vertical-align: top; }
+#cn-list table td ul { list-style: none; margin: 6px 0px 6px 6px; padding: 0; text-indent: 0; }
+#cn-list table td li { font-size: 100%; letter-spacing: normal; list-style: none; margin: 0; padding: 0;}
+#cn-list table td ul ul { margin: 6px 0px 6px 16px; }
+#cn-list table td ul li:before { content: ""; }
+#cn-list table td input[type="checkbox"] { margin: 0 0 2px; padding: 0; vertical-align: middle;}
+#cn-list table td input[type="radio"] { margin: 0 0 2px; padding: 0; vertical-align: middle;}*/
+
+/*
+ * This should help to keep themes from breaking Google Maps by setting the img to max-width: 100%;
+ */
+.gm-style img {
+	border: 0;
+	-webkit-border-radius: unset;
+	border-radius: unset;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	background-color: transparent;
+	max-width: none !important;
+}
+
+/*
+ * Hide custom elements for the maps.
+ */
+map-control-layers,
+map-tilelayer,
+map-layergroup,
+map-marker,
+map-marker-popup {
+	display: none;
+}
+
+/*
+ * Stop themes from applying styles to Leaflet map tiles.
+ */
+.leaflet-tile img,
+img.leaflet-tile,
+img.leaflet-marker-icon,
+img.leaflet-marker-shadow {
+	-webkit-border-radius: unset;
+	border-radius: unset;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	opacity: 1 !important;
+}
+
+/*
+ * More styles to fix things themes break,
+ */
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	margin: 0;
+}
+
+.leaflet-control-layers label {
+	margin: 0;
+}
+
+input.leaflet-control-layers-selector {
+	width: auto;
+	margin: 2px auto auto;
+	vertical-align: unset;
+}
+
+.leaflet-control-container .leaflet-control a,
+.leaflet-control-container .leaflet-control a:hover {
+	text-decoration: none;
+}
+
+/*
+ * Return to top.
+ */
+#cn-list span.cn-return-to-top img {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	display: inline-block;
+	float: none;
+	margin: 0 0 -6px;
+	max-width: none;
+	padding: 5px;
+}
+
+/*
+ * Core CSS for the custom metabox and fields.
+ */
+.cn-metabox input {
+	padding: 1px 6px;
+}
+
+.cn-metabox input.small-text {
+	width: 50px;
+}
+
+.cn-metabox input.regular-text {
+	display: block;
+	width: 25em;
+}
+
+.cn-metabox input.large-text {
+	width: 99%;
+}
+
+.cn-metabox span.cn-radio-option {
+	padding-right: 10px;
+}
+
+.cn-metabox div.cn-radio-option {
+	margin-bottom: 6px;
+}
+
+.cn-metabox textarea.small-text {
+	height: 196px;
+	width: 49%;
+}
+
+.cn-metabox textarea.large-text {
+	height: 196px;
+	width: 99%;
+}
+
+/*
+ * Turns the term list into a column.
+ * DISABLE b/c it's experimental.
+ */
+/*ul.cn-cat-tree {*/
+	/*-moz-columns: 4 250px;*/
+	/*-moz-column-gap: 20px;*/
+	/*-webkit-columns: 4 250px;*/
+	/*-webkit-column-gap: 20px;*/
+	/*columns: 4 250px;*/
+	/*column-gap: 20px;*/
+	/*font-weight: 700;*/
+	/*text-align: left;*/
+/*}*/
+
+/*ul.cn-cat-tree ul {*/
+	/*margin: 0;*/
+/*}*/
+
+/*ul.cn-cat-tree li a {*/
+	/*color: rgb(18,97,161) !important;*/
+	/*text-decoration: underline;*/
+/*}*/
+
+/*
+ * Prevent child terms from breaking into next column.
+ *
+ * ref: http://stackoverflow.com/a/7785711/5351316
+ */
+/*ul.cn-cat-tree li {*/
+	/*margin: 0;*/
+	/*-webkit-column-break-inside: avoid; !* Chrome, Safari *!*/
+	/*page-break-inside: avoid;           !* Theoretically FF 20+ *!*/
+	/*break-inside: avoid-column;         !* IE 11 *!*/
+	/*display: table;                     !* Actually FF 20+ *!*/
+	/*padding-bottom: 18px;*/
+/*}*/
+
+/*ul.children.cn-cat-children li {*/
+	/*display: inline-block;*/
+	/*font-weight: 500;*/
+	/*padding-bottom: 0;*/
+/*}*/
+
+/*ul.children.cn-cat-children li a {*/
+	/*text-decoration: none;*/
+/*}*/
+
+/*ul.children.cn-cat-children li .cn-cat-count {*/
+	/*display: none;*/
+/*}*/
+
+/*
+ * Add content to the end of every child term item except the last one.
+ *
+ * ref: http://stackoverflow.com/a/22730212/5351316
+ */
+/*ul.children.cn-cat-children li:not(:last-child):after {*/
+	/*content: ",";*/
+	/*margin: 0;*/
+	/*padding: 0;*/
+/*}*/

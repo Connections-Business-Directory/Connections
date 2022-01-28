@@ -122,11 +122,13 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 		}
 
 		$atts = array(
-			'id'         => $id,
-			'id__not_in' => cnArray::get( $queryParams, 'exclude', null ),
-			'limit'      => cnArray::get( $queryParams, 'per_page', 10 ),
-			'offset'     => cnArray::get( $queryParams, 'offset', 0 ),
-			'order_by'   => 'id|SPECIFIED',
+			'id'               => $id,
+			'id__not_in'       => cnArray::get( $queryParams, 'exclude', null ),
+			'limit'            => cnArray::get( $queryParams, 'per_page', 10 ),
+			'offset'           => cnArray::get( $queryParams, 'offset', 0 ),
+			'order_by'         => 'id|SPECIFIED',
+			'parse_request'    => false,
+			'suppress_filters' => true,
 		);
 
 		return Connections_Directory()->retrieve->entries( $atts );

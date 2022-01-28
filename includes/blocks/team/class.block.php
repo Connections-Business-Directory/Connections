@@ -3,6 +3,8 @@
 namespace Connections_Directory\Blocks;
 
 use cnTemplate as Template;
+use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_url;
 
 /**
  * Class Team
@@ -31,6 +33,37 @@ class Team {
 	 * @since 8.39
 	 */
 	public static function register() {
+
+		/**
+		 * Scripts and styles need to be registered before the block is registered,
+		 * so the scrip and style hooks are available when registering the block.
+		 */
+		self::registerStyles();
+
+		/**
+		 * In WordPress >= 5.8 the preferred method to register blocks is the block.json file.
+		 *
+		 * NOTE: When the minimum supported version of WP is 5.8. Convert block to API version 2.
+		 *       The `block.json` file will have to be imported into the javascript and passed to
+		 *       the `registerBlockType()` function.
+		 *
+		 *       @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#javascript-client-side
+		 *
+		 * @link https://make.wordpress.org/core/2021/06/23/block-api-enhancements-in-wordpress-5-8/
+		 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
+		 * @see  \WP_Block_Type::__construct()
+		 */
+		if ( _::isWPVersion( '5.8' ) ) {
+
+			register_block_type(
+				__DIR__,
+				array(
+					'render_callback' => array( __CLASS__, 'render' ),
+				)
+			);
+
+			return;
+		}
 
 		register_block_type(
 			'connections-directory/team',
@@ -161,10 +194,30 @@ class Team {
 				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
 				// 'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
 				// 'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
-				// 'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				'style'           => 'Connections_Directory/Block/Team/Style', // Registered CSS handle. Global, enqueued on the editor page and frontend.
 				// The callback function used to render the block.
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
+		);
+	}
+
+	/**
+	 * Register the styles.
+	 *
+	 * @since 10.4.11
+	 */
+	private static function registerStyles() {
+
+		$path     = Connections_Directory()->pluginPath();
+		$urlBase  = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
+		$rtl      = is_rtl() ? '.rtl' : '';
+		$filename = "style{$rtl}.css";
+
+		wp_register_style(
+			'Connections_Directory/Block/Team/Style',
+			"{$urlBase}assets/dist/block/team/{$filename}",
+			array(),
+			filemtime( "{$path}assets/dist/block/team/{$filename}" )
 		);
 	}
 

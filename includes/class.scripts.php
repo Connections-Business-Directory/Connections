@@ -9,10 +9,12 @@
  * @since       0.7.6.4
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Utility\_url;
 
 /**
  * Class cnScript
@@ -91,23 +93,48 @@ class cnScript {
 	}
 
 	/**
+	 * Get asset metadata, to be used for enqueueing assets.
+	 *
+	 * The dependency metadata is generated via `@wordpress/dependency-extraction-webpack-plugin`.
+	 *
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/packages/packages-dependency-extraction-webpack-plugin/
+	 *
+	 * @since 10.4.11
+	 *
+	 * @param string $key Asset key filename as defined by the script entry.
+	 *
+	 * @return array{dependencies: array, src: string, version: false|int}
+	 */
+	public static function getAssetMetadata( $key ) {
+
+		$dependencyPath = Connections_Directory()->pluginPath() . 'assets/dist/require/dependencies.php';
+		$assetsPath     = Connections_Directory()->pluginPath() . "assets/dist/{$key}";
+		$urlBase        = _url::makeProtocolRelative( Connections_Directory()->pluginURL() );
+
+		$asset = file_exists( $dependencyPath )
+			? require $dependencyPath
+			: array(
+				'dependencies' => array(),
+				'version'      => filemtime( $assetsPath ),
+			);
+
+		if ( array_key_exists( $key, $asset ) ) {
+
+			$asset = $asset[ $key ];
+		}
+
+		$asset['src'] = "{$urlBase}assets/dist/{$key}";
+
+		return $asset;
+	}
+
+	/**
+	 * Callback for the `admin_init` and `wp` actions.
+	 *
 	 * Register the external JS libraries that may be enqueued in either the admin or frontend.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
-	 * @static
-	 *
-	 * @global $connections
-	 *
-	 * @uses   is_admin()
-	 * @uses   is_ssl()
-	 * @uses   wp_register_script()
-	 * @uses   wp_max_upload_size()
-	 * @uses   size_format()
-	 * @uses   esc_html()
-	 * @uses   wp_localize_script()
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.3.2
 	 */
 	public static function registerScripts() {
 
@@ -253,9 +280,9 @@ class cnScript {
 
 			wp_register_script(
 				'cn-icon-picker',
-				"{$url}assets/dist/js/icon-picker.js",
+				"{$url}assets/dist/admin/icon-picker/script.js",
 				array( 'jquery-ui-dialog' ),
-				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/icon-picker.js" ),
+				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/admin/icon-picker/script.js" ),
 				true
 			);
 
@@ -368,34 +395,16 @@ class cnScript {
 
 		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', true );
 		wp_register_script( 'js-cookie', $url . 'assets/vendor/js-cookie/js.cookie.js', array(), '2.2.1', true );
-		wp_register_script(
-			'frontend',
-			"{$url}assets/dist/js/bundle.js",
-			array( 'lodash', 'wp-api-fetch', 'wp-components', 'wp-url' ),
-			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/bundle.js" ),
-			true
-		);
 	}
 
 	/**
+	 * Callback for the `admin_init` and `wp` actions.
+	 *
 	 * Registers the CSS libraries that may be enqueued in the admin or frontend.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
+	 * @internal
+	 * @since 0.7.3.2
 	 * @static
-	 *
-	 * @uses   add_filter()
-	 * @uses   is_admin()
-	 * @uses   wp_register_style()
-	 * @uses   get_user_option()
-	 * @uses   is_rtl()
-	 * @uses   cnSettingsAPI::get()
-	 * @uses   cnLocate::file()
-	 * @uses   cnLocate::fileNames()
-	 * @uses   wp_style_is()
-	 * @uses   remove_filter()
-	 *
-	 * @return void
 	 */
 	public static function registerCSS() {
 
@@ -405,6 +414,7 @@ class cnScript {
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
+		$rtl = is_rtl() ? '.rtl' : '';
 
 		$path = Connections_Directory()->pluginPath();
 
@@ -413,23 +423,13 @@ class cnScript {
 
 		wp_register_style(
 			'cn-admin',
-			"{$url}assets/dist/css/admin.css",
+			"{$url}assets/dist/admin/style{$rtl}.css",
 			array(),
-			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/admin.css" )
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/admin/style{$rtl}.css" )
 		);
 
 		wp_register_style( 'cn-admin-jquery-ui', $url . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
 		wp_register_style( 'cn-admin-jquery-datepicker', $url . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
-
-		if ( is_rtl() ) {
-
-			wp_register_style(
-				'cn-admin-rtl',
-				"{$url}assets/dist/css/admin.rtl.css",
-				array( 'cn-admin' ),
-				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/admin.rtl.css" )
-			);
-		}
 
 		// This will locate the CSS file to be enqueued.
 		// $coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
@@ -439,15 +439,10 @@ class cnScript {
 		// wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
 		wp_register_style(
 			'cn-public',
-			"{$url}assets/dist/css/frontend.css",
+			"{$url}assets/dist/frontend/style{$rtl}.css",
 			array(),
-			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/frontend.css" )
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/frontend/style{$rtl}.css" )
 		);
-
-		if ( is_rtl() ) {
-
-			wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array( 'cn-public' ), CN_CURRENT_VERSION );
-		}
 
 		// This will locate the custom CSS file to be enqueued.
 		$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', null, null, 'css' ), 'url' );
@@ -525,7 +520,6 @@ class cnScript {
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
-			// wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-chosen' );
 
@@ -621,7 +615,6 @@ class cnScript {
 
 		// wp_enqueue_script( 'cn-ui' );
 		wp_enqueue_script( 'picturefill' );
-		wp_enqueue_script( 'frontend' );
 	}
 
 	/**
@@ -703,7 +696,6 @@ class cnScript {
 
 			wp_enqueue_style( 'cn-admin' );
 			// wp_enqueue_style( 'cn-admin-jquery-ui' );
-			// wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
 			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
 			// wp_enqueue_style( 'cn-brandicons' );
@@ -762,8 +754,9 @@ class cnScript {
 	 *
 	 * @return bool
 	 */
-	private static function maybeEnqueueStyle() {
+	public static function maybeEnqueueStyle() {
 
+		$homeID = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' );
 		$object = get_queried_object();
 
 		if ( ! $object instanceof \WP_Post ) {
@@ -771,7 +764,9 @@ class cnScript {
 			return false;
 		}
 
-		return has_shortcode( $object->post_content, 'connections' ) || has_block( 'connections-directory/shortcode-connections', $object );
+		return has_shortcode( $object->post_content, 'connections' )
+			   || has_block( 'connections-directory/shortcode-connections', $object )
+			   || $object->ID === (int) $homeID;
 	}
 
 	/**

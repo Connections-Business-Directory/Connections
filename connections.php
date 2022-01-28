@@ -5,7 +5,7 @@
  * @author    Steven A. Zahm
  * @license   GPL-2.0+
  * @link      https://connections-pro.com
- * @copyright 2021 Steven A. Zahm
+ * @copyright 2022 Steven A. Zahm
  *
  * @wordpress-plugin
  * Plugin Name:       Connections Business Directory

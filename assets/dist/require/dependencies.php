@@ -2,7 +2,7 @@
 return array(
 	'admin/icon-picker/script.js' => array(
 		'dependencies' => array( 'jquery' ),
-		'version'      => '8f1eacd9a2d73db8c49576415c26153e',
+		'version'      => 'a3d5a6ee27fb432e5b1e5da3bea2e8f0',
 	),
 	'admin/style.js' => array(
 		'dependencies' => array(),
@@ -10,7 +10,7 @@ return array(
 	),
 	'frontend/style.js' => array(
 		'dependencies' => array(),
-		'version'      => '11e770e712f6ae9176a301a66d4bcc19',
+		'version'      => 'e3242f6493a0e0c32e18bc31bdcff147',
 	),
 	'block/editor/style.js' => array(
 		'dependencies' => array(),
@@ -29,11 +29,10 @@ return array(
 			'wp-element',
 			'wp-html-entities',
 			'wp-i18n',
-			'wp-polyfill',
 			'wp-server-side-render',
 			'wp-url',
 		),
-		'version'      => '2debfaf6cacb3ef7c630cec3a57001f2',
+		'version'      => '514fde2eb5940ad1ae0ff7493f6edd9d',
 	),
 	'block/carousel/script.js' => array(
 		'dependencies' => array(
@@ -41,15 +40,15 @@ return array(
 			'wp-element',
 			'wp-html-entities',
 		),
-		'version'      => '34bc3e0d9cdef2c284dbe5a8c3c9f658',
+		'version'      => '1e29121182cfbbf74c3d53cfa9ca126f',
 	),
 	'block/carousel/style.js' => array(
 		'dependencies' => array(),
-		'version'      => 'b3379c03496e4deccee50f2bc4ebb418',
+		'version'      => 'cc7959a8e6efef7ac4128d382b262868',
 	),
 	'block/team/style.js' => array(
 		'dependencies' => array(),
-		'version'      => '62a11b45668a488f1cb91cf0c3e89b5f',
+		'version'      => '593f205459949a7655d71862fb599234',
 	),
 	'content-block/recently-viewed/script.js' => array(
 		'dependencies' => array(
@@ -63,6 +62,6 @@ return array(
 			'wp-i18n',
 			'wp-url',
 		),
-		'version'      => '59a8cf52953c95eeeaaffb319703300d',
+		'version'      => 'ebeb0523e49a849496c56abdbcee6684',
 	),
 );

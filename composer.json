@@ -16,11 +16,14 @@
         "php-coveralls/php-coveralls": "*",
         "phpcompatibility/php-compatibility": "*",
         "phpcompatibility/phpcompatibility-wp": "*",
+        "phpstan/phpstan": "*",
         "phpunit/phpunit": "*",
         "poststatus/wptest": "dev-master",
         "sirbrillig/phpcs-variable-analysis": "*",
         "squizlabs/php_codesniffer": "*",
-        "wp-coding-standards/wpcs": "*"
+        "wp-coding-standards/wpcs": "*",
+        "szepeviktor/phpstan-wordpress": "^1.0",
+        "phpstan/extension-installer": "^1.1"
     },
     "scripts": {
         "install-codestandards": [
@@ -40,7 +43,8 @@
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     }
 }

@@ -10,9 +10,6 @@ const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const inProduction = ('production' === process.env.NODE_ENV);
-// const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-// const UglifyJsPlugin = require( "uglifyjs-webpack-plugin" );
-// const wpPot = require( 'wp-pot' );
 
 /**
  * WordPress dependencies
@@ -64,35 +61,9 @@ const config = {
 				// ]
 			},
 
-			// Create RTL styles.
-			// {
-			// 	test: /\.css$/,
-			// 	loader: ExtractTextPlugin.extract( 'style-loader' )
-			// },
-
 			// SASS to CSS.
 			{
 				test: /\.scss$/,
-				// use: ExtractTextPlugin.extract( {
-				// 	use: [ {
-				// 		loader: 'css-loader',
-				// 		options: {
-				// 			sourceMap: true
-				// 		}
-				// 	}, {
-				// 		loader: 'postcss-loader',
-				// 		options: {
-				// 			options: {},
-				// 			sourceMap: true
-				// 		}
-				// 	}, {
-				// 		loader: 'sass-loader',
-				// 		options: {
-				// 			sourceMap: true,
-				// 			outputStyle: (inProduction ? 'compressed' : 'nested')
-				// 		}
-				// 	} ]
-				// } )
 				use:  [
 					MiniCssExtractPlugin.loader,
 					{
@@ -154,7 +125,6 @@ const config = {
 			verbose: true
 		} ),
 
-		// new ExtractTextPlugin( 'css/[name].css' ),
 		new MiniCssExtractPlugin( {
 			filename: `[name].css`
 		} ),
@@ -224,9 +194,6 @@ const config = {
 	],
 	optimization: {
 		minimizer: [
-			// new UglifyJsPlugin( {
-			// 	sourceMap: true
-			// } )
 			new TerserPlugin( {
 				// sourceMap: true,
 				test: /\.js(\?.*)?$/i,
@@ -292,9 +259,6 @@ module.exports = [
 
 // inProd?
 if ( inProduction ) {
-
-	// Uglify JS.
-	// config.plugins.push( new webpack.optimize.UglifyJsPlugin( { sourceMap: true } ) );
 
 	// Minify CSS.
 	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );

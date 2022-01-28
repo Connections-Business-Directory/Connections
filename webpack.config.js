@@ -43,19 +43,6 @@ const config = {
 				use:  [ 'style-loader', 'css-loader' ]
 			},
 
-			// {
-			// 	test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-			// 	use: [
-			// 		{
-			// 			loader: 'file-loader',
-			// 			options: {
-			// 				name: '[name].[ext]',
-			// 				outputPath: 'fonts/'
-			// 			}
-			// 		}
-			// 	]
-			// },
-
 			{
 				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
 				use:  [
@@ -311,8 +298,6 @@ module.exports = [
 			output: {
 				path: path.resolve( __dirname, './assets/dist/' ),
 				filename: '[name].js',
-				// library: ['wp', '[name]'],
-				// libraryTarget: 'window',
 			},
 		},
 		config
@@ -321,14 +306,6 @@ module.exports = [
 
 // inProd?
 if ( inProduction ) {
-
-	// // POT file.
-	// wpPot( {
-	// 	package: 'ConvertKit',
-	// 	domain: 'convertkit',
-	// 	destFile: 'languages/convertkit.pot',
-	// 	relativeTo: './',
-	// });
 
 	// Uglify JS.
 	// config.plugins.push( new webpack.optimize.UglifyJsPlugin( { sourceMap: true } ) );

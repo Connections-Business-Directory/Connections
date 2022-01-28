@@ -1,25 +1,25 @@
 /**
  * External dependencies
  */
-const path = require( 'path' );
-const webpack = require( 'webpack' );
-const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
-const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
-const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
-const TerserPlugin = require( 'terser-webpack-plugin' );
-const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
-const inProduction = ('production' === process.env.NODE_ENV);
+const path = require('path');
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const TerserPlugin = require('terser-webpack-plugin');
+const WebpackRTLPlugin = require('webpack-rtl-plugin');
+const inProduction = 'production' === process.env.NODE_ENV;
 
 /**
  * WordPress dependencies
  */
 // const defaultConfig = require( '@wordpress/scripts/config/webpack.config.js' );
-const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
 
 const config = {
 	// ...defaultConfig,
-	mode:      process.env.NODE_ENV === 'production' ? 'production' : 'development',
+	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	externals: {
 		// react:       'React',
 		// 'react-dom': 'ReactDOM',
@@ -31,13 +31,12 @@ const config = {
 		// 'lodash-es': 'lodash',
 		//https://www.cssigniter.com/importing-gutenberg-core-wordpress-libraries-es-modules-blocks/
 	},
-	devtool:   'source-map',
-	module:    {
+	devtool: 'source-map',
+	module: {
 		rules: [
-
 			{
 				test: /\.(css)$/,
-				use:  [ 'style-loader', 'css-loader' ]
+				use: ['style-loader', 'css-loader'],
 			},
 
 			{
@@ -47,14 +46,14 @@ const config = {
 
 			// Use Babel to compile JS.
 			{
-				test:    /\.js$/,
+				test: /\.js$/,
 				exclude: /node_modules/,
-				use:     {
-					loader:  'babel-loader',
+				use: {
+					loader: 'babel-loader',
 					options: {
 						// plugins: ['lodash'],
-						presets: [ '@wordpress/default' ]
-					}
+						presets: ['@wordpress/default'],
+					},
 				},
 				// loaders: [
 				// 	'babel-loader'
@@ -64,27 +63,29 @@ const config = {
 			// SASS to CSS.
 			{
 				test: /\.scss$/,
-				use:  [
+				use: [
 					MiniCssExtractPlugin.loader,
 					{
-						loader:  'css-loader',
+						loader: 'css-loader',
 						options: {
-							sourceMap: true
-						}
-					}, {
+							sourceMap: true,
+						},
+					},
+					{
 						loader: 'postcss-loader',
 						// options: {
 						// 	options:   {},
 						// 	sourceMap: true
 						// }
-					}, {
-						loader:  'sass-loader',
+					},
+					{
+						loader: 'sass-loader',
 						options: {
-							sourceMap:   true,
+							sourceMap: true,
 							// outputStyle: ( inProduction ? 'compressed' : 'nested' )
 						},
-					}
-				]
+					},
+				],
 			},
 
 			// Image files.
@@ -94,14 +95,13 @@ const config = {
 				generator: {
 					filename: 'images/[name][ext]',
 				},
-			}
-		]
+			},
+		],
 	},
 
 	// Plugins. Gotta have em'.
-	plugins:      [
-
-		new DependencyExtractionWebpackPlugin( {
+	plugins: [
+		new DependencyExtractionWebpackPlugin({
 			combineAssets: true,
 			combinedOutputFile: 'require/dependencies.php',
 			injectPolyfill: false,
@@ -118,86 +118,90 @@ const config = {
 			// 		return 'js-cookie'; // The library handle registered with wp_register_script()
 			// 	}
 			// },
-		} ),
+		}),
 
 		// Removes the "dist" folder before building.
-		new CleanWebpackPlugin( {
-			verbose: true
-		} ),
+		new CleanWebpackPlugin({
+			verbose: true,
+		}),
 
-		new MiniCssExtractPlugin( {
-			filename: `[name].css`
-		} ),
+		new MiniCssExtractPlugin({
+			filename: `[name].css`,
+		}),
 
 		new RemoveEmptyScriptsPlugin(),
 
 		// Copy vendor files to ensure 3rd party plugins relying on a script handle to exist continue to be enqueued.
-		new CopyWebpackPlugin(
-			{
-				patterns: [
-					{
-						context: './node_modules/chosen-js/',
-						from: '*',
-						to: path.resolve( __dirname, './assets/vendor/chosen/' ),
-						globOptions: {
-							ignore: [
-								'**/chosen.proto*.js'
-							]
-						}
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					context: './node_modules/chosen-js/',
+					from: '*',
+					to: path.resolve(__dirname, './assets/vendor/chosen/'),
+					globOptions: {
+						ignore: ['**/chosen.proto*.js'],
 					},
-					{
-						context: './node_modules/@fortawesome/fontawesome-free/css/',
-						from: 'all*.css',
-						to: path.resolve( __dirname, './assets/vendor/fontawesome/css/' ),
+				},
+				{
+					context:
+						'./node_modules/@fortawesome/fontawesome-free/css/',
+					from: 'all*.css',
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/fontawesome/css/'
+					),
+				},
+				{
+					context:
+						'./node_modules/@fortawesome/fontawesome-free/webfonts/',
+					from: '*',
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/fontawesome/webfonts/'
+					),
+				},
+				{
+					context:
+						'./node_modules/@fonticonpicker/fonticonpicker/dist/',
+					from: '**',
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/fonticonpicker/'
+					),
+				},
+				{
+					context: './node_modules/picturefill/dist/',
+					from: '**',
+					to: path.resolve(__dirname, './assets/vendor/picturefill/'),
+					globOptions: {
+						ignore: ['**/plugins/**/*'],
 					},
-					{
-						context: './node_modules/@fortawesome/fontawesome-free/webfonts/',
-						from: '*',
-						to: path.resolve( __dirname, './assets/vendor/fontawesome/webfonts/' ),
+				},
+				{
+					context: './node_modules/js-cookie/src/',
+					from: '**',
+					to: path.resolve(__dirname, './assets/vendor/js-cookie/'),
+					globOptions: {
+						ignore: ['**/plugins/**/*'],
 					},
-					{
-						context: './node_modules/@fonticonpicker/fonticonpicker/dist/',
-						from: '**',
-						to: path.resolve( __dirname, './assets/vendor/fonticonpicker/' ),
-					},
-					{
-						context: './node_modules/picturefill/dist/',
-						from: '**',
-						to: path.resolve( __dirname, './assets/vendor/picturefill/' ),
-						globOptions: {
-							ignore: [
-								'**/plugins/**/*'
-							]
-						}
-					},
-					{
-						context: './node_modules/js-cookie/src/',
-						from: '**',
-						to: path.resolve( __dirname, './assets/vendor/js-cookie/' ),
-						globOptions: {
-							ignore: [
-								'**/plugins/**/*'
-							]
-						}
-					},
-					// {
-					// 	context: './node_modules/leaflet/dist/',
-					// 	from:    'leaflet.*',
-					// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
-					// },
-				]
-			}
-		),
+				},
+				// {
+				// 	context: './node_modules/leaflet/dist/',
+				// 	from:    'leaflet.*',
+				// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
+				// },
+			],
+		}),
 
 		// Create RTL CSS.
-		new WebpackRTLPlugin()
+		new WebpackRTLPlugin(),
 	],
 	optimization: {
 		minimizer: [
-			new TerserPlugin( {
+			new TerserPlugin({
 				// sourceMap: true,
 				test: /\.js(\?.*)?$/i,
-			} )
+			}),
 		],
 		removeEmptyChunks: true,
 		// splitChunks: {
@@ -225,16 +229,20 @@ const config = {
 		// Alias @Connections-Directory to the blocks folder so components can be imported like:
 		// import { PageSelect } from '@Connections-Directory/components';
 		alias: {
-			'@Connections-Directory': path.resolve( __dirname, './includes/blocks/' )
-		}
+			'@Connections-Directory': path.resolve(
+				__dirname,
+				'./includes/blocks/'
+			),
+		},
 	},
 	stats: {
-		children: false
+		children: false,
 	},
 };
 
 module.exports = [
-	Object.assign( {
+	Object.assign(
+		{
 			entry: {
 				'admin/icon-picker/script': './assets/src/sortable-iconpicker',
 				'admin/style': './assets/src/admin.scss',
@@ -244,22 +252,22 @@ module.exports = [
 				'block/carousel/script': './includes/blocks/carousel/public',
 				'block/carousel/style': './includes/blocks/carousel/style.scss',
 				'block/team/style': './includes/blocks/team/style.scss',
-				'content-block/recently-viewed/script': './assets/src/content-blocks/recently-viewed',
+				'content-block/recently-viewed/script':
+					'./assets/src/content-blocks/recently-viewed',
 			},
 
 			// Tell webpack where to output.
 			output: {
-				path: path.resolve( __dirname, './assets/dist/' ),
+				path: path.resolve(__dirname, './assets/dist/'),
 				filename: '[name].js',
 			},
 		},
 		config
-	)
+	),
 ];
 
 // inProd?
-if ( inProduction ) {
-
+if (inProduction) {
 	// Minify CSS.
-	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );
+	config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true }));
 }

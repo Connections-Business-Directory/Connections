@@ -44,17 +44,8 @@ const config = {
 			},
 
 			{
-				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-				use:  [
-					{
-						loader:  'url-loader',
-						options: {
-							name:       '[name].[ext]',
-							limit:      100000,
-							outputPath: 'fonts/'
-						}
-					}
-				]
+				test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+				type: 'asset/inline',
 			},
 
 			// Use Babel to compile JS.
@@ -128,15 +119,10 @@ const config = {
 			// Image files.
 			{
 				test: /\.(png|jpe?g|gif|svg)$/,
-				use:  [
-					{
-						loader:  'file-loader',
-						options: {
-							name:       'images/[name].[ext]',
-							publicPath: '../'
-						}
-					}
-				]
+				type: 'asset/resource',
+				generator: {
+					filename: 'images/[name][ext]',
+				},
 			}
 		]
 	},

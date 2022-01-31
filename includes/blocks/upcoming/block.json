@@ -39,7 +39,7 @@
         },
         "isEditorPreview": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "listType": {
             "type": "string",

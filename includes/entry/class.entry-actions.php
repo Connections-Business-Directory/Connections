@@ -201,6 +201,7 @@ class cnEntry_Action {
 		if ( is_wp_error( $logo ) ) {
 
 			cnMessage::set( 'error', implode( '<br />', $logo->get_error_messages() ) );
+			return false;
 		}
 
 		// Output the debug log.

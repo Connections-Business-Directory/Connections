@@ -325,8 +325,8 @@ export default registerBlockType(
 										},
 										...entryTypeSelectOptions,
 									] }
-									onChange={ ( listType ) =>
-										setAttributes( { listType } )
+									onChange={ ( value ) =>
+										setAttributes( { listType: value } )
 									}
 								/>
 							</div>
@@ -343,11 +343,9 @@ export default registerBlockType(
 							<HierarchicalTermSelector
 								taxonomy="category"
 								terms={ JSON.parse( categories ) }
-								onChange={ ( categories ) =>
+								onChange={ ( value ) =>
 									setAttributes( {
-										categories: JSON.stringify(
-											categories
-										),
+										categories: JSON.stringify( value ),
 									} )
 								}
 							/>
@@ -380,10 +378,10 @@ export default registerBlockType(
 							<HierarchicalTermSelector
 								taxonomy="category"
 								terms={ JSON.parse( excludeCategories ) }
-								onChange={ ( excludeCategories ) =>
+								onChange={ ( value ) =>
 									setAttributes( {
 										excludeCategories: JSON.stringify(
-											excludeCategories
+											value
 										),
 									} )
 								}
@@ -833,8 +831,8 @@ export default registerBlockType(
 									},
 									...dateTypeSelectOptions,
 								] }
-								onChange={ ( orderBy ) =>
-									setAttributes( { orderBy } )
+								onChange={ ( value ) =>
+									setAttributes( { orderBy: value } )
 								}
 								disabled={ !! orderRandom }
 							/>
@@ -859,14 +857,14 @@ export default registerBlockType(
 										value: 'random',
 									},
 								] }
-								onChange={ ( order ) =>
+								onChange={ ( value ) =>
 									setAttributes( {
-										order,
+										order: value,
 										orderBy:
-											'random' === order
+											'random' === value
 												? 'default'
 												: orderBy,
-										orderRandom: 'random' === order,
+										orderRandom: 'random' === value,
 									} )
 								}
 							/>
@@ -900,8 +898,8 @@ export default registerBlockType(
 								'connections'
 							) }
 							value={ homePage }
-							onChange={ ( homePage ) =>
-								setAttributes( { homePage } )
+							onChange={ ( value ) =>
+								setAttributes( { homePage: value } )
 							}
 							disabled={ !! forceHome }
 						/>

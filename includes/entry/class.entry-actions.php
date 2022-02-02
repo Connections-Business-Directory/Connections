@@ -63,19 +63,13 @@ class cnEntry_Action {
 	/**
 	 * Process an image upload, creating the three size variations and caching them for later use.
 	 *
-	 * NOTE: The entry slug should be run thru rawurldecode() before being passed to this method.
+	 * NOTE: The entry slug should be run through rawurldecode() before being passed to this method.
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
-	 * @uses   Connections_Directory()
-	 * @uses   is_wp_error()
-	 * @uses   cnMessage::set()
-	 * @uses   cnImage::get()
-	 * @uses   is_admin()
+	 * @since 8.1
+	 *
 	 * @param  string $entrySlug The entry slug.
 	 *
-	 * @return array             An associative array containing the the details about the uploaded image.
+	 * @return array|false An associative array containing the details about the uploaded image or false on failure.
 	 */
 	private static function processImage( $entrySlug ) {
 
@@ -167,19 +161,13 @@ class cnEntry_Action {
 	/**
 	 * Process a logo upload, creating its size variation and caching it for later use.
 	 *
-	 * NOTE: The entry slug should be run thru rawurldecode() before being passed to this method.
+	 * NOTE: The entry slug should be run through rawurldecode() before being passed to this method.
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
-	 * @uses   Connections_Directory()
-	 * @uses   is_wp_error()
-	 * @uses   cnMessage::set()
-	 * @uses   cnImage::get()
-	 * @uses   is_admin()
-	 * @param  string $entrySlug The entry slug.
+	 * @since 8.1
 	 *
-	 * @return array             An associative array containing the the details about the uploaded logo.
+	 * @param string $entrySlug The entry slug.
+	 *
+	 * @return array|false An associative array containing the details about the uploaded logo or false on failure.
 	 */
 	private static function processLogo( $entrySlug ) {
 
@@ -213,6 +201,7 @@ class cnEntry_Action {
 		if ( is_wp_error( $logo ) ) {
 
 			cnMessage::set( 'error', implode( '<br />', $logo->get_error_messages() ) );
+			return false;
 		}
 
 		// Output the debug log.

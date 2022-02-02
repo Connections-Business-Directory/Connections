@@ -51,7 +51,6 @@
             "plugin:@wordpress/eslint-plugin/recommended"
         ]
     },
-    "prettier": "@wordpress/prettier-config",
     "dependencies": {
         "@fonticonpicker/fonticonpicker": "^3.1.0",
         "@fortawesome/fontawesome-free": "^5.15.0",
@@ -103,6 +102,7 @@
         "lodash": "^4.17.00",
         "mini-css-extract-plugin": "^2.0.0",
         "postcss-loader": "^6.0.0",
+        "prettier": "npm:wp-prettier@^2.2.1-beta-1",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",
         "sass-loader": "^12.4.0",

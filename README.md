@@ -247,6 +247,26 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.12 02/02/2022 =
+
+* TWEAK: Apply eslinit and wp-prettier to the Directory Block `index.js` file.
+* TWEAK: Rename `onChange` event variables, so they do not conflict with previously declared variables of the same name.
+* TWEAK: Update the Directory block to break out the edit and save callbacks to improve maintenance.
+* BUG: Change `isEditorPreview` default block value from `true` to `false`.
+* BUG: On mobile, set the default option to disabled/hidden, so it is not selectable by the user when using the mobile
+  OS native select control.
+* BUG: Add missing return on error when processing a logo image.
+* DEV: Format `webpack.config.js` using prettier.
+* DEV: Adjust .eslintrc config to add path to babel config.
+* DEV: Update npm packages.
+* DEV: Correct `.editorconfig` syntax error.
+* DEV: Add Prettier config.
+* DEV: Add stylelint and config.
+* DEV: phpDoc corrections.
+* DEV: Switch from Prettier to WP_Prettier.
+* DEV: Remove the `eslintConfig` key from `package.json` since the config exists in `.eslintrc`.
+* DEV: Update dist files.
+
 = 10.4.11 01/28/2022 =
 
 * NEW: Introduce `Content_Block::isActive()`.

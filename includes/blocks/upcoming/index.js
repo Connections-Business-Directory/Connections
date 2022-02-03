@@ -133,8 +133,8 @@ export default registerBlockType( 'connections-directory/shortcode-upcoming', {
 							label={ __( 'Type', 'connections' ) }
 							value={ listType }
 							options={ dateTypeSelectOptions }
-							onChange={ ( listType ) =>
-								setAttributes( { listType } )
+							onChange={ ( value ) =>
+								setAttributes( { listType: value } )
 							}
 						/>
 
@@ -145,8 +145,8 @@ export default registerBlockType( 'connections-directory/shortcode-upcoming', {
 								{ label: 'Light', value: 'anniversary-light' },
 								{ label: 'Dark', value: 'anniversary-dark' },
 							] }
-							onChange={ ( template ) =>
-								setAttributes( { template } )
+							onChange={ ( value ) =>
+								setAttributes( { template: value } )
 							}
 						/>
 
@@ -161,9 +161,9 @@ export default registerBlockType( 'connections-directory/shortcode-upcoming', {
 								'connections'
 							) }
 							value={ heading }
-							onChange={ ( newValue ) => {
+							onChange={ ( value ) => {
 								setAttributes( {
-									heading: newValue,
+									heading: value,
 								} );
 							} }
 						/>
@@ -188,7 +188,9 @@ export default registerBlockType( 'connections-directory/shortcode-upcoming', {
 								'connections'
 							) }
 							value={ days }
-							onChange={ ( days ) => setAttributes( { days } ) }
+							onChange={ ( value ) =>
+								setAttributes( { days: value } )
+							}
 							min={ 0 }
 							max={ 90 }
 							allowReset={ true }

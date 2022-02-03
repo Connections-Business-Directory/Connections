@@ -279,7 +279,7 @@ export default registerBlockType( 'connections-directory/shortcode-upcoming', {
 						label={ __( 'Years Since Format', 'connections' ) }
 						help={
 							<ExternalLink
-								href="http://php.net/manual/en/dateinterval.format.php"
+								href="https://www.php.net/manual/en/dateinterval.format.php"
 								target="_blank"
 							>
 								{ __(

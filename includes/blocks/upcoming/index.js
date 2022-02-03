@@ -152,10 +152,13 @@ export default registerBlockType( 'connections-directory/shortcode-upcoming', {
 
 						<TextControl
 							label={ __( 'Heading', 'connections' ) }
-							help={ __(
-								'Type %d to insert the number of days in the heading.',
-								'connections'
-							) }
+							help={
+								/* translators: Number of days from settings field. */
+								__(
+									'Type %d to insert the number of days in the heading.',
+									'connections'
+								)
+							}
 							placeholder={ __(
 								'Type the heading here.',
 								'connections'

@@ -1,10 +1,8 @@
 {
-  "extends": [
-	"plugin:@wordpress/eslint-plugin/recommended"
-  ],
-  "parserOptions": {
-	"babelOptions": {
-	  "configFile": "./.babelrc"
+	"extends": ["plugin:@wordpress/eslint-plugin/recommended"],
+	"parserOptions": {
+		"babelOptions": {
+			"configFile": "./.babelrc"
+		}
 	}
-  }
 }

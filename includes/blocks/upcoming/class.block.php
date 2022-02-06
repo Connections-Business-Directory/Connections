@@ -15,7 +15,7 @@ class Upcoming {
 	/**
 	 * Callback for the `init` action.
 	 *
-	 * Register the test block.
+	 * Register the block.
 	 *
 	 * @since 8.32
 	 */

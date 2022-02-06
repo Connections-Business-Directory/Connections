@@ -87,7 +87,7 @@ class Upcoming {
 					),
 					'noResults'            => array(
 						'type'    => 'string',
-						'default' => '',
+						'default' => 'No results.',
 					),
 					'template'             => array(
 						'type'    => 'string',

@@ -130,7 +130,5 @@
         "customClassName": false,
         "html": false
     },
-    "style": [
-        "Connections_Directory/Block/Team/Style"
-    ]
+    "style": "Connections_Directory/Block/Team/Style"
 }

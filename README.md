@@ -247,6 +247,24 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.13 02/07/2022 =
+
+* TWEAK: Update the Upcoming Block `index.js` file to utilize the `block.json` for registering the block metadata and
+  split out the edit and save callbacks to separate files for easier maintainability.
+* TWEAK: When registering the Carousel and Team Blocks pass the `style` parameter as strings instead of arrays.
+* BUG: Correct default for no results when registering the Upcoming Block.
+* OTHER: Update URL to PHP data interval formatting.
+* OTHER: Rename onChange event variables, so they do not conflict with previously declared variables of the same name.
+* OTHER: Add "translators" comment.
+* DEV: Apply eslinit and wp-prettier to the Upcoming Block `index.js` file.
+* DEV: Apply Prettier to `.eslintrc`.
+* DEV: Add `allowedTextDomain` to rules for `@wordpress/i18n-text-domain` in `.eslintrc`.
+* DEV: Add `@wordpress/npm-package-json-lint-config`.
+* DEV: phpDoc updates.
+* DEV: Update Composer required PHP version.
+* DEV: Add `johnpbloch/wordpress-core-installer` to `allow-plugins` in `composer.json`.
+* DEV: Update dist files.
+
 = 10.4.12 02/02/2022 =
 
 * TWEAK: Apply eslinit and wp-prettier to the Directory Block `index.js` file.

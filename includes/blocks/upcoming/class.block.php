@@ -15,7 +15,7 @@ class Upcoming {
 	/**
 	 * Callback for the `init` action.
 	 *
-	 * Register the test block.
+	 * Register the block.
 	 *
 	 * @since 8.32
 	 */
@@ -87,7 +87,7 @@ class Upcoming {
 					),
 					'noResults'            => array(
 						'type'    => 'string',
-						'default' => '',
+						'default' => 'No results.',
 					),
 					'template'             => array(
 						'type'    => 'string',

@@ -8,7 +8,7 @@
     "homepage": "https://connections-pro.com/",
     "license": "GPL-2.0+",
     "require": {
-        "php": "^5.6 - ^7.4"
+        "php": "^7.4"
     },
     "require-dev": {
         "automattic/vipwpcs": "*",

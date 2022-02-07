@@ -44,6 +44,7 @@
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
+            "johnpbloch/wordpress-core-installer": true,
             "phpstan/extension-installer": true
         }
     }

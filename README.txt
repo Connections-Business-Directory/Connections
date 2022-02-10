@@ -249,6 +249,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.14 02/10/2022 =
+* BUG: Set the default publish action to the sanitized request variable and allow filter to override it.
+
 = 10.4.13 02/07/2022 =
 * TWEAK: Update the Upcoming Block `index.js` file to utilize the `block.json` for registering the block metadata and split out the edit and save callbacks to separate files for easier maintainability.
 * TWEAK: When registering the Carousel and Team Blocks pass the `style` parameter as strings instead of arrays.
@@ -970,4 +973,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.13 =
+It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.14 =
 It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

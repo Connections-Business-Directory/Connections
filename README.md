@@ -247,6 +247,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.14 02/10/2022 =
+
+* BUG: Set the default publish action to the sanitized request variable and allow filter to override it.
+
 = 10.4.13 02/07/2022 =
 
 * TWEAK: Update the Upcoming Block `index.js` file to utilize the `block.json` for registering the block metadata and

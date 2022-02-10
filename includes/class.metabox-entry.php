@@ -365,7 +365,7 @@ class cnEntryMetabox {
 		global $plugin_page;
 
 		$defaults = array(
-			'action'     => null,
+			'action'     => Request\Admin_Action::input()->value(),
 			'entry_type' => cnOptions::getEntryTypes(),
 			'default'    => array(
 				'type'       => 'individual',
@@ -397,7 +397,7 @@ class cnEntryMetabox {
 		$atts            = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );
 		$atts['default'] = wp_parse_args( $atts['default'], $defaults['default'] );
 
-		$action = Request\Admin_Action::input()->value();
+		$action = $atts['action'];
 
 		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
 		$type       = $entry->getId() ? $entry->getEntryType() : $atts['default']['type'];

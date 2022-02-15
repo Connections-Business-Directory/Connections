@@ -222,7 +222,7 @@ Using FTP
 4. Activate the plugin on the Plugins admin page.
 
 = How do I display the business directory on my site? =
-We have a [QuickStart](https://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
+We have a [QuickStart](https://connections-pro.com/documentation/install/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
 
 = Will it work with my theme? =
 Connections Business Directory has been designed to work with any theme.
@@ -241,9 +241,8 @@ Yes this is possible but there is a special setup required to do so. It is recom
 3. Activate Connections Business Directory on the subsites you wish to use Connections.
 
 = What are the requirements to run Connections? =
-* **WordPress version:** >= 4.4
-* **PHP version:** >= 5.2.4 ( >= 7.0 is highly recommended)
-* **NOTE:** Upgrading from version 0.6.1 and newer only, is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
+* **WordPress version:** >= 2.3
+* **PHP version:** >= 5.6.20 ( 7.1 is highly recommended)
 
 == Changelog ==
 

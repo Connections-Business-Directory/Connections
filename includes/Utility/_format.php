@@ -76,11 +76,9 @@ final class _format {
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
 	 *
-	 * @access public
-	 * @since  unknown
-	 * @static
+	 * @since unknown
 	 *
-	 * @param  string|int|bool $value
+	 * @param string|int|bool|null $value The value to convert to a boolean value.
 	 *
 	 * @return bool
 	 */

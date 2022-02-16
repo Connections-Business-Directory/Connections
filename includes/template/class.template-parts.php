@@ -1893,11 +1893,6 @@ class cnTemplatePart {
 		$characters = cnRetrieve::getCharacters( $atts );
 		// $currentPageURL = add_query_arg( array( 'page' => FALSE , 'cn-action' => 'cn_filter' )  );
 
-		// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.
-		if ( is_admin() ) {
-			$form = new cnFormObjects();
-		}
-
 		if ( 1 < mb_strlen( $current ) ) {
 
 			$current = '';
@@ -1910,6 +1905,9 @@ class cnTemplatePart {
 
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
+
+				// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.
+				$form = new cnFormObjects();
 
 				$links[] = '<a' . ( $current === $char ? ' class="cn-char-current button"' : ' class="cn-char button"' ) . ' href="' . esc_url( $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ), 'filter' ) ) . '">' . $char . '</a> ' . PHP_EOL;
 

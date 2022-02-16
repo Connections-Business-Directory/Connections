@@ -218,14 +218,14 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 	 * @param bool   $buffer       Whether or not to buffer the template output.
 	 * @param bool   $require_once Whether or not to require() or require_once() the template part.
 	 *
-	 * @return string|null|bool The template path if not $load is FALSE.
-	 *                          Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
-	 *                          NULL will be returned when the filtered collection is empty.
+	 * @return string|bool The template path if not $load is FALSE.
+	 *                     Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
+	 *                     Empty string will be returned when the filtered collection is empty.
 	 */
 	public function render( $template = 'hcard', $atts = array(), $load = true, $buffer = false, $require_once = false ) {
 
 		if ( $this->filtered->isEmpty() ) {
-			return null;
+			return '';
 		}
 
 		$html = cnTemplatePart::get(

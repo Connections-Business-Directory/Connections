@@ -97,7 +97,7 @@ class cnRetrieve {
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults['list_type'] = null;
-		$defaults['category']  = null;
+		$defaults['category']  = '';
 		// Map category attributes to new attribute names and set defaults.
 		$defaults['category__and']     = _array::get( $atts, 'category_in', array() );
 		$defaults['category__not_in']  = _array::get( $atts, 'exclude_category', array() );
@@ -171,10 +171,9 @@ class cnRetrieve {
 		if ( ! empty( $atts['slug'] ) || ! empty( $atts['category_slug__in'] ) ) {
 
 			$atts['list_type']        = null;
-			$atts['category']         = null;
-			$atts['category__and']    = null;
-			$atts['category__not_in'] = null;
-			$atts['category__and']    = null;
+			$atts['category']         = '';
+			$atts['category__and']    = '';
+			$atts['category__not_in'] = '';
 			// $atts['wp_current_category'] = NULL;
 		}
 
@@ -1502,7 +1501,11 @@ class cnRetrieve {
 					  WHEN \'family\' THEN `family_name`
 					END, 1, 1 ) AS `char`';
 
-		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`' );
+		$results = $wpdb->get_col(
+				'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`'
+		);
+
+		return array_filter( $results, 'is_string' );
 	}
 
 	/**

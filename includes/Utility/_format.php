@@ -91,6 +91,11 @@ final class _format {
 			return $value;
 		}
 
+		if ( is_null( $value ) ) {
+
+			$value = false;
+		}
+
 		$value = filter_var( strtolower( $value ), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 
 		if ( is_null( $value ) ) {

@@ -1340,7 +1340,7 @@ class cnEntry_HTML extends cnEntry {
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
 		$this->addresses->resetFilters();
 
-		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
 
 			$html = cnString::replaceWhatWith( $html, ' ' );
 			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
@@ -1670,7 +1670,7 @@ class cnEntry_HTML extends cnEntry {
 		// The filters need to be reset so additional calls to get email addresses with different params return expected results.
 		$this->emailAddresses->resetFilters();
 
-		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
 
 			$html = cnString::replaceWhatWith( $html, ' ' );
 			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
@@ -1747,7 +1747,7 @@ class cnEntry_HTML extends cnEntry {
 		// The filters need to be reset so additional calls to get messenger IDs with different params return expected results.
 		$this->im->resetFilters();
 
-		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
 
 			$html = cnString::replaceWhatWith( $html, ' ' );
 			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
@@ -2005,7 +2005,7 @@ class cnEntry_HTML extends cnEntry {
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->links->resetFilters();
 
-		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
 
 			$html = cnString::replaceWhatWith( $html, ' ' );
 			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
@@ -2089,7 +2089,7 @@ class cnEntry_HTML extends cnEntry {
 		// The filters need to be reset so additional calls to get links with different params return expected results.
 		$this->dates->resetFilters();
 
-		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
 
 			$html = cnString::replaceWhatWith( $html, ' ' );
 			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;

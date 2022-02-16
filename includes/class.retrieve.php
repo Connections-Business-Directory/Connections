@@ -1466,12 +1466,11 @@ class cnRetrieve {
 	/**
 	 * Retrieve the unique initial characters of all entries in the entry table sorted by character.
 	 *
-	 * @access public
-	 * @since  0.7.4
+	 * @since 0.7.4
 	 *
 	 * @param array $atts
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function getCharacters( $atts = array() ) {
 

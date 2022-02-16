@@ -90,8 +90,7 @@ final class _format {
 		}
 
 		if ( is_null( $value ) ) {
-
-			$value = false;
+			return false;
 		}
 
 		$value = filter_var( strtolower( $value ), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );

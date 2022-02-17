@@ -3534,62 +3534,62 @@ class cnRetrieve {
 				$entry = new cnEntry( $row );
 
 				switch ( $field[0] ) {
-				case 'id':
-					${$field[0]}[ $key ] = $entry->getId();
-					break;
+					case 'id':
+						${$field[0]}[ $key ] = $entry->getId();
+						break;
 
-				case 'date_added':
-					${$field[0]}[ $key ] = $entry->getDateAdded( 'U' );
-					break;
+					case 'date_added':
+						${$field[0]}[ $key ] = $entry->getDateAdded( 'U' );
+						break;
 
-				case 'date_modified':
-					${$field[0]}[ $key ] = $entry->getUnixTimeStamp();
-					break;
+					case 'date_modified':
+						${$field[0]}[ $key ] = $entry->getUnixTimeStamp();
+						break;
 
-				case 'first_name':
-					${$field[0]}[ $key ] = $entry->getFirstName();
-					break;
+					case 'first_name':
+						${$field[0]}[ $key ] = $entry->getFirstName();
+						break;
 
-				case 'last_name':
-					${$field[0]}[ $key ] = $entry->getLastName();
-					break;
+					case 'last_name':
+						${$field[0]}[ $key ] = $entry->getLastName();
+						break;
 
-				case 'title':
-					${$field[0]}[ $key ] = $entry->getTitle();
-					break;
+					case 'title':
+						${$field[0]}[ $key ] = $entry->getTitle();
+						break;
 
-				case 'organization':
-					${$field[0]}[ $key ] = $entry->getOrganization();
-					break;
+					case 'organization':
+						${$field[0]}[ $key ] = $entry->getOrganization();
+						break;
 
-				case 'department':
-					${$field[0]}[ $key ] = $entry->getDepartment();
-					break;
+					case 'department':
+						${$field[0]}[ $key ] = $entry->getDepartment();
+						break;
 
-				case ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ):
-					if ( $entry->getAddresses() ) {
-						$addresses = $entry->getAddresses();
+					case ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ):
+						if ( $entry->getAddresses() ) {
+							$addresses = $entry->getAddresses();
 
-						foreach ( $addresses as $address ) {
-							// ${$field[0]}[$key] = $address[$field[0]];
-							${$field[0]}[ $key ] = $address->$field[0];
+							foreach ( $addresses as $address ) {
+								// ${$field[0]}[$key] = $address[$field[0]];
+								${$field[0]}[ $key ] = $address->$field[0];
 
-							// Only set the data from the first address.
-							break;
+								// Only set the data from the first address.
+								break;
+							}
+
+						} else {
+							${$field[0]}[ $key ] = null;
 						}
+						break;
 
-					} else {
-						${$field[0]}[ $key ] = null;
-					}
-					break;
+					case 'birthday':
+						${$field[0]}[ $key ] = strtotime( $entry->getBirthday() );
+						break;
 
-				case 'birthday':
-					${$field[0]}[ $key ] = strtotime( $entry->getBirthday() );
-					break;
-
-				case 'anniversary':
-					${$field[0]}[ $key ] = strtotime( $entry->getAnniversary() );
-					break;
+					case 'anniversary':
+						${$field[0]}[ $key ] = strtotime( $entry->getAnniversary() );
+						break;
 				}
 
 			}
@@ -3627,29 +3627,29 @@ class cnRetrieve {
 
 		if ( isset( $id ) && isset( $idOrder ) ) {
 			switch ( $idOrder ) {
-			case 'SPECIFIED':
-				$sortedEntries = array();
+				case 'SPECIFIED':
+					$sortedEntries = array();
 
-				/*
+					/*
 					 * Convert the supplied IDs value to an array if it is not.
 					 */
-				if ( ! is_array( $suppliedIDs ) && ! empty( $suppliedIDs ) ) {
-					// Trim the space characters if present.
-					$suppliedIDs = str_replace( ' ', '', $suppliedIDs );
-					// Convert to array.
-					$suppliedIDs = explode( ',', $suppliedIDs );
-				}
+					if ( ! is_array( $suppliedIDs ) && ! empty( $suppliedIDs ) ) {
+						// Trim the space characters if present.
+						$suppliedIDs = str_replace( ' ', '', $suppliedIDs );
+						// Convert to array.
+						$suppliedIDs = explode( ',', $suppliedIDs );
+					}
 
-				foreach ( $suppliedIDs as $entryID ) {
-					$sortedEntries[] = $entries[ array_search( $entryID, $id ) ];
-				}
+					foreach ( $suppliedIDs as $entryID ) {
+						$sortedEntries[] = $entries[ array_search( $entryID, $id ) ];
+					}
 
-				$entries = $sortedEntries;
-				return $entries;
+					$entries = $sortedEntries;
+					return $entries;
 
-			case 'RANDOM':
-				shuffle( $entries );
-				return $entries;
+				case 'RANDOM':
+					shuffle( $entries );
+					return $entries;
 			}
 		}
 

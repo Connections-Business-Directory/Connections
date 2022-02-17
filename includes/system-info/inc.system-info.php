@@ -46,7 +46,6 @@ Webserver Info:             <?php echo Connections_Directory\Request\Server_Soft
 
 -- PHP Configuration
 
-Safe Mode:                  <?php echo ( ini_get( 'safe_mode' ) ? 'Enabled' : 'Disabled' ) . PHP_EOL; ?>
 Memory Limit:               <?php echo ini_get( 'memory_limit' ) . PHP_EOL; ?>
 Memory Used:                <?php echo ( function_exists( 'memory_get_usage' ) ? round( memory_get_usage() / 1024 / 1024, 2 ) . 'MB' : 'Unknown' ) . PHP_EOL; ?>
 Upload Max Size:            <?php echo ini_get( 'upload_max_filesize' ) . PHP_EOL; ?>

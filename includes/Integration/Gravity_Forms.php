@@ -23,7 +23,7 @@ final class Gravity_Forms {
 	/**
 	 * @since 10.2
 	 */
-	public function __constructor() {
+	public function __construct() {
 		/* Do nothing here */
 	}
 

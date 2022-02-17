@@ -3509,7 +3509,7 @@ class cnRetrieve {
 		// Build an array of each field to sort by and attributes.
 		$sortFields = explode( ',', $orderBy );
 
-		// For each field the sort order can be defined as well as the sort type
+		// For each field the sort order can be defined as well as the sort type.
 		foreach ( $sortFields as $sortField ) {
 			$sortAtts[] = explode( '|', $sortField );
 		}

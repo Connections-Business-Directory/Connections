@@ -161,7 +161,7 @@ class cnScript {
 		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery', 'cn-google-maps-api' ), '1.3.3', true );
 		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery', 'cn-google-maps-api', 'jquery-gomap' ), '2.1.2', true );
 
-		// The Quform unregisters this script, so lets ensure its registered so it can be enqueued.
+		// The Quform unregisters this script, so let's ensure its registered, so it can be enqueued.
 		if ( ! wp_script_is( 'jquery-form', 'registered' ) ) {
 			wp_register_script( 'jquery-form', "/wp-includes/js/jquery/jquery.form$min.js", array( 'jquery' ), '4.2.1', true );
 		}

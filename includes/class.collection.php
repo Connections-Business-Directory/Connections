@@ -995,29 +995,22 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	}
 
 	/**
-	 * Get one or more items randomly from the collection.
+	 * Get one or a specified number of items randomly from the collection.
 	 *
-	 * @param  int|null $amount
+	 * @param int|null $number
 	 *
 	 * @return mixed
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function random( $amount = 1 ) {
+	public function random( $number = null ) {
 
-		if ( $amount > ( $count = $this->count() ) ) {
-			throw new InvalidArgumentException( "You requested {$amount} items, but there are only {$count} items in the collection." );
+		if ( is_null( $number ) ) {
+
+			return cnArray::random( $this->items );
 		}
 
-		$keys = array_rand( $this->items, $amount );
-
-		if ( count( func_get_args() ) == 0 ) {
-			return $this->items[ $keys ];
-		}
-
-		$keys = ! is_array( $keys ) ? array( $keys ) : $keys;
-
-		return new self( array_intersect_key( $this->items, array_flip( $keys ) ) );
+		return new self( cnArray::random( $this->items, $number ) );
 	}
 
 	/**

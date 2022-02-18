@@ -1,5 +1,22 @@
 == Changelog ==
 
+= 10.4.15 02/18/2022 =
+* NEW: Introduce `_array::random()`.
+* TWEAK: PHP 8.1 compatibility fixes.
+* TWEAK: Remove redundant `is_admin()` check.
+* TWEAK: Return `false` if `null` is passed to `_format::toBoolean`.
+* TWEAK: Tighten logic as to when to output the Entry data blocks.
+* TWEAK: Remove deprecated `init_get()` call in the system info.
+* TWEAK: Remove two unused deprecated validation functions.
+* TWEAK: Update `cnCollection::random()` to utilize `_array::random()`.
+* TWEAK: Add version parameter to Google Maps API request URL.
+* BUG: Correct function name.
+* OTHER: Correct misspelling.
+* DEV: phpDoc updates.
+* DEV: Update LeafletJS to latest.
+* DEV: Correct code indent.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+
 = 10.4.14 02/10/2022 =
 * BUG: Set the default publish action to the sanitized request variable and allow filter to override it.
 

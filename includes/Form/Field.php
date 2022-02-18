@@ -9,7 +9,7 @@ use Connections_Directory\Form\Field\Attribute\Disabled;
 use Connections_Directory\Form\Field\Attribute\Label;
 use Connections_Directory\Form\Field\Attribute\Name;
 use Connections_Directory\Form\Field\Attribute\Prefix;
-use Connections_Directory\Form\Field\Attribute\Readonly;
+use Connections_Directory\Form\Field\Attribute\Read_Only;
 use Connections_Directory\Form\Field\Attribute\Required;
 use Connections_Directory\Form\Field\Attribute\Style;
 use Connections_Directory\Form\Field\Attribute\Id;
@@ -31,7 +31,7 @@ abstract class Field implements Interfaces\Field {
 	use Label;
 	use Name;
 	use Prefix;
-	use Readonly; // @todo Needs renamed @link https://php.watch/versions/8.1/readonly
+	use Read_Only;
 	use Required;
 	use Style;
 	use Value;

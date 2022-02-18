@@ -995,29 +995,22 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	}
 
 	/**
-	 * Get one or more items randomly from the collection.
+	 * Get one or a specified number of items randomly from the collection.
 	 *
-	 * @param  int|null $amount
+	 * @param int|null $number
 	 *
 	 * @return mixed
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function random( $amount = 1 ) {
+	public function random( $number = null ) {
 
-		if ( $amount > ( $count = $this->count() ) ) {
-			throw new InvalidArgumentException( "You requested {$amount} items, but there are only {$count} items in the collection." );
+		if ( is_null( $number ) ) {
+
+			return cnArray::random( $this->items );
 		}
 
-		$keys = array_rand( $this->items, $amount );
-
-		if ( count( func_get_args() ) == 0 ) {
-			return $this->items[ $keys ];
-		}
-
-		$keys = ! is_array( $keys ) ? array( $keys ) : $keys;
-
-		return new self( array_intersect_key( $this->items, array_flip( $keys ) ) );
+		return new self( cnArray::random( $this->items, $number ) );
 	}
 
 	/**
@@ -1485,6 +1478,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return ArrayIterator
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator() {
 
 		return new ArrayIterator( $this->items );
@@ -1507,6 +1501,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 *
 	 * @return int
 	 */
+	#[\ReturnTypeWillChange]
 	public function count() {
 
 		return count( $this->items );
@@ -1525,54 +1520,54 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	/**
 	 * Determine if an item exists at an offset.
 	 *
-	 * @param  mixed $key
+	 * @param mixed $offset An offset to check for.
 	 *
 	 * @return bool
 	 */
-	public function offsetExists( $key ) {
+	#[\ReturnTypeWillChange]
+	public function offsetExists( $offset ) {
 
-		return array_key_exists( $key, $this->items );
+		return array_key_exists( $offset, $this->items );
 	}
 
 	/**
 	 * Get an item at a given offset.
 	 *
-	 * @param  mixed $key
+	 * @param mixed $offset The offset to retrieve.
 	 *
 	 * @return mixed
 	 */
-	public function offsetGet( $key ) {
+	#[\ReturnTypeWillChange]
+	public function offsetGet( $offset ) {
 
-		return $this->items[ $key ];
+		return $this->items[ $offset ];
 	}
 
 	/**
 	 * Set the item at a given offset.
 	 *
-	 * @param  mixed $key
-	 * @param  mixed $value
-	 *
-	 * @return void
+	 * @param mixed $offset The offset to assign the value to.
+	 * @param mixed $value  The value to set.
 	 */
-	public function offsetSet( $key, $value ) {
+	#[\ReturnTypeWillChange]
+	public function offsetSet( $offset, $value ) {
 
-		if ( is_null( $key ) ) {
+		if ( is_null( $offset ) ) {
 			$this->items[] = $value;
 		} else {
-			$this->items[ $key ] = $value;
+			$this->items[ $offset ] = $value;
 		}
 	}
 
 	/**
 	 * Unset the item at a given offset.
 	 *
-	 * @param  string $key
-	 *
-	 * @return void
+	 * @param string $offset The offset to unset.
 	 */
-	public function offsetUnset( $key ) {
+	#[\ReturnTypeWillChange]
+	public function offsetUnset( $offset ) {
 
-		unset( $this->items[ $key ] );
+		unset( $this->items[ $offset ] );
 	}
 
 	///**

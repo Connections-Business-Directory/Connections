@@ -403,61 +403,59 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	/**
 	 * Determine if an item exists at an offset.
 	 *
-	 * @access public
-	 * @since  8.10
+	 * @since 8.10
 	 *
-	 * @param  mixed $key
+	 * @param mixed $offset An offset to check for.
 	 *
 	 * @return bool
 	 */
-	public function offsetExists( $key ) {
+	#[\ReturnTypeWillChange]
+	public function offsetExists( $offset ) {
 
-		return $this->__isset( $key );
+		return $this->__isset( $offset );
 	}
 
 	/**
 	 * Get an item at a given offset.
 	 *
-	 * @access public
-	 * @since  8.10
+	 * @since 8.10
 	 *
-	 * @param  mixed $key
+	 * @param mixed $offset The offset to retrieve.
 	 *
 	 * @return mixed
 	 */
-	public function offsetGet( $key ) {
+	#[\ReturnTypeWillChange]
+	public function offsetGet( $offset ) {
 
-		return $this->__get( $key );
+		return $this->__get( $offset );
 	}
 
 	/**
 	 * Set the item at a given offset.
 	 *
-	 * @access public
-	 * @since  8.10
+	 * @since 8.10
 	 *
-	 * @param  mixed $key
-	 * @param  mixed $value
+	 * @param mixed $offset The offset to assign the value to.
+	 * @param mixed $value  The value to set.
 	 *
 	 * @return void
 	 */
-	public function offsetSet( $key, $value ) {
+	#[\ReturnTypeWillChange]
+	public function offsetSet( $offset, $value ) {
 
-		$this->__set( $key, $value );
+		$this->__set( $offset, $value );
 	}
 
 	/**
 	 * Unset the item at a given offset.
 	 *
-	 * @access public
-	 * @since  8.10
+	 * @since 8.10
 	 *
-	 * @param  string $key
-	 *
-	 * @return void
+	 * @param string $offset The offset to unset.
 	 */
-	public function offsetUnset( $key ) {
+	#[\ReturnTypeWillChange]
+	public function offsetUnset( $offset ) {
 
-		$this->__unset( $key );
+		$this->__unset( $offset );
 	}
 }

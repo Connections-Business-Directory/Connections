@@ -575,6 +575,54 @@ final class _array {
 	}
 
 	/**
+	 * Get one or a specified number of random values from an array.
+	 *
+	 * @param array      $array
+	 * @param int|null   $number
+	 * @param bool|false $preserveKeys
+	 *
+	 * @return mixed
+	 *
+	 * @throws \InvalidArgumentException
+	 */
+	public static function random( $array, $number = null, $preserveKeys = false ) {
+
+		$requested = is_null( $number ) ? 1 : $number;
+
+		$count = count( $array );
+
+		if ( $requested > $count ) {
+			throw new \InvalidArgumentException(
+				"You requested {$requested} items, but there are only {$count} items available."
+			);
+		}
+
+		if ( is_null( $number ) ) {
+			return $array[ array_rand( $array ) ];
+		}
+
+		if ( 0 === (int) $number ) {
+			return array();
+		}
+
+		$keys = array_rand( $array, $number );
+
+		$results = array();
+
+		if ( $preserveKeys ) {
+			foreach ( (array) $keys as $key ) {
+				$results[ $key ] = $array[ $key ];
+			}
+		} else {
+			foreach ( (array) $keys as $key ) {
+				$results[] = $array[ $key ];
+			}
+		}
+
+		return $results;
+	}
+
+	/**
 	 * Set an array item to a given value using "dot" notation.
 	 *
 	 * If no key is given to the method, the entire array will be replaced.

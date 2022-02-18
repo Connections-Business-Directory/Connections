@@ -3218,7 +3218,7 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getSortColumn() {
-		return $this->sortColumn;
+		return (string) $this->sortColumn;
 	}
 
 	/**

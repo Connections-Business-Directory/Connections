@@ -41,7 +41,7 @@ final class Rank_Math {
 	/**
 	 * @since 9.13
 	 */
-	public function __constructor() {  /* Do nothing here */ }
+	public function __construct() {  /* Do nothing here */ }
 
 	/**
 	 * @since 9.13

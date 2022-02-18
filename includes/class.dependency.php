@@ -346,7 +346,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Attribute\Label'        => 'includes/Form/Field/Attribute/Label.php',
 			'Connections_Directory\Form\Field\Attribute\Name'         => 'includes/Form/Field/Attribute/Name.php',
 			'Connections_Directory\Form\Field\Attribute\Prefix'       => 'includes/Form/Field/Attribute/Prefix.php',
-			'Connections_Directory\Form\Field\Attribute\Readonly'     => 'includes/Form/Field/Attribute/Readonly.php',
+			'Connections_Directory\Form\Field\Attribute\Read_Only'    => 'includes/Form/Field/Attribute/Read_Only.php',
 			'Connections_Directory\Form\Field\Attribute\Required'     => 'includes/Form/Field/Attribute/Required.php',
 			'Connections_Directory\Form\Field\Attribute\Style'        => 'includes/Form/Field/Attribute/Style.php',
 			'Connections_Directory\Form\Field\Attribute\Value'        => 'includes/Form/Field/Attribute/Value.php',

@@ -9,7 +9,7 @@ use Connections_Directory\Utility\_array;
  *
  * @package Connections_Directory\Form\Field\Attribute
  */
-trait Readonly {
+trait Read_Only {
 
 	/**
 	 * Whether the field is Readonly.

@@ -97,6 +97,8 @@ class CN_Walker_Term_List extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		$atts['child_of']  = absint( $atts['child_of'] );
+		$atts['depth']     = absint( $atts['depth'] );
 		$atts['parent_id'] = wp_parse_id_list( $atts['parent_id'] );
 
 		$walker = new self();

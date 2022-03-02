@@ -1398,13 +1398,13 @@ class cnRetrieve {
 		if ( ctype_digit( (string) $slid ) ) {
 
 			$field = 'id';
-			$value = $slid;
 
 		} else {
 
 			$field = 'slug';
-			$value = $slid;
 		}
+
+		$value = $slid;
 
 		$result = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE ' . $field . '=%s', $value ) );
 

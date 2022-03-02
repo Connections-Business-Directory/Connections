@@ -1384,12 +1384,11 @@ class cnRetrieve {
 	/**
 	 * Retrieve a single entry by either `id` or `slug`.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
-	 * @param  mixed $slid int|string  The entry `id` or `slug`.
+	 * @param int|string $slid The entry `id` or `slug`.
 	 *
-	 * @return mixed bool|object The entry data.
+	 * @return bool|object The entry data.
 	 */
 	public function entry( $slid ) {
 

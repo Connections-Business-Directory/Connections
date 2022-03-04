@@ -14,6 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Taxonomy\Term;
+use Connections_Directory\Utility\_escape;
+
 /**
  * Class CN_Walker_Term_List
  */
@@ -223,7 +226,7 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array $args  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_children_list_class', array( 'children', 'cn-cat-children' ), $depth, $args );
-		$class = cnHTML::escapeClassnames( $class );
+		$class = Connections_Directory\Utility\_escape::classNames( $class );
 
 		$output .= $indent . '<ul class="' . $class . '">' . PHP_EOL;
 	}
@@ -349,7 +352,7 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array $args  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_list_item_class', $class, $term, $depth, $args );
-		$class = cnHTML::escapeClassnames( $class );
+		$class = Connections_Directory\Utility\_escape::classNames( $class );
 
 		$output .= "$indent<li" . ' class="' . $class . '"' . ">$html"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
 	}

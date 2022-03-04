@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
+
 /**
  * Class CN_Walker_Term_Select_List_Enhanced
  */
@@ -235,12 +238,14 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			// Create the field label, if supplied.
 			$replace[] = ! empty( $atts['label'] ) ? cnHTML::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';
 
+			$css = _html::stringifyCSSAttributes( $atts['style'] );
+
 			$select .= sprintf(
 				'<select %1$s %2$s name="%3$s"%4$s%5$sdata-placeholder="%6$s"%7$s%8$s>' . PHP_EOL,
-				empty( $atts['class'] ) ? '' : cnHTML::attribute( 'class', $atts['class'] ),
-				empty( $atts['id'] ) ? '' : cnHTML::attribute( 'id', $atts['id'] ),
+				empty( $atts['class'] ) ? '' : ' class="' . _escape::classNames( $atts['class'] ) . '"',
+				empty( $atts['id'] ) ? '' : ' id="' . _escape::id( $atts['id'] ) . '"',
 				'multiselect' == $atts['type'] ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
-				empty( $atts['style'] ) ? '' : cnHTML::attribute( 'style', $atts['style'] ),
+				empty( $atts['style'] ) ? '' : ' style="' . _escape::css( $css ) . '"',
 				'multiselect' == $atts['type'] ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
 				esc_attr( $atts['default'] ),
 				'multiselect' == $atts['type'] ? ' MULTIPLE' : '',

@@ -1109,12 +1109,12 @@ class cnRetrieve {
 	}
 
 	/**
-	 * Retrieve a single entry by either `id` or `slug`.
+	 * Retrieve a single entry by either `id`, `email`, or `slug`.
 	 *
 	 * @since 8.42
 	 *
-	 * @param string         $field
-	 * @param integer|string $value
+	 * @param string     $field The field to get the entry by.
+	 * @param int|string $value The value of the field to match.
 	 *
 	 * @return bool|object
 	 */
@@ -1123,7 +1123,7 @@ class cnRetrieve {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		$validFields = array( 'id', 'slug' );
+		$validFields = array( 'id', 'email', 'slug' );
 
 		if ( ! in_array( $field, $validFields ) ) {
 
@@ -1135,14 +1135,31 @@ class cnRetrieve {
 			case 'id':
 				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $value );
-
 				break;
 
 			case 'slug':
 				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s', $value );
-
 				break;
+
+			case 'email':
+				$email = self::emailAddresses(
+					array(
+						'fields'  => 'ids',
+						'address' => $value,
+						'limit'   => 1,
+					)
+				);
+
+				if ( empty( $email ) ) {
+
+					return false;
+
+				} else {
+
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+					$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $email[0]['entry_id'] );
+				}
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared

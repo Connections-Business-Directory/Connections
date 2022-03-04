@@ -2306,7 +2306,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {

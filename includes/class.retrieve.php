@@ -33,15 +33,6 @@ class cnRetrieve {
 	public $resultCountNoLimit;
 
 	/**
-	 * Runtime cache of query results.
-	 *
-	 * @access  private
-	 * @since  0.8
-	 * @var array
-	 */
-	private $results = array();
-
-	/**
 	 *
 	 * The $atts['meta_query'] can have two different structures when passed to
 	 * @see cnMeta_Query::parse_query_vars(), they are:

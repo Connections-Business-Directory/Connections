@@ -23,7 +23,6 @@ use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\Convert\_length;
-use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 class cnRetrieve {
 	/**

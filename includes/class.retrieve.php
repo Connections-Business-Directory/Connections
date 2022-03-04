@@ -3280,49 +3280,4 @@ class cnRetrieve {
 
 		return $connections->term->getTermChildrenBy( $field, $value, 'category' );
 	}
-
-	/**
-	 * Cache a query results so results can be used again without an db hit,
-	 * NOTE: This cache is good for each page load; not persistent.
-	 *
-	 * @access private
-	 * @since  0.8
-	 * @param  string $sql     The query statement.
-	 * @param  array  $results The results of the query statement.
-	 * @return void
-	 */
-	public function cache( $sql, $results ) {
-
-		// Create a hash so the correct results can be returned.
-		$hash = md5( json_encode( $sql ) );
-
-		$this->results[ $hash ] = $results;
-	}
-
-	/**
-	 * Return the results from a previously run query.
-	 *
-	 * @access private
-	 * @since  0.8
-	 * @param  string $sql The query statement,
-	 * @return mixed       array | bool The results if the query is in the cache. False if it is not.
-	 */
-	public function results( $sql ) {
-
-		// Create a hash so the correct results can be returned.
-		$hash = md5( json_encode( $sql ) );
-
-		// First check to see if the results have been queried already.
-		// If not query the results, store and then return then.
-		if ( array_key_exists( $hash, $this->results ) ) {
-
-			return $this->results[ $hash ];
-
-		} else {
-
-			return false;
-		}
-
-	}
-
 }

@@ -68,7 +68,7 @@ class cnRetrieve {
 	 *
 	 * @since unknown
 	 *
-	 * @param array
+	 * @param array $atts
 	 *
 	 * @return array
 	 */

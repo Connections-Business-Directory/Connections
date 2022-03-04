@@ -9,10 +9,7 @@
  * @since       8.1.6
  */
 
-use Connections_Directory\Taxonomy\Term;
-use Connections_Directory\Utility\_escape;
-
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

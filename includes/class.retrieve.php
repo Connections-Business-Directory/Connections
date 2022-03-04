@@ -40,7 +40,6 @@ class cnRetrieve {
 	public $resultCountNoLimit;
 
 	/**
-	 *
 	 * The $atts['meta_query'] can have two different structures when passed to
 	 * @see cnMeta_Query::parse_query_vars(), they are:
 	 *

@@ -763,7 +763,7 @@ class cnEntry_HTML extends cnEntry {
 
 				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
 
-				$replace[] = 0 == strlen( $honorificSuffix ) ? '' : '<span class="honorific-suffix">, ' . $honorificSuffix . '</span>';
+				$replace[] = 0 == strlen( $honorificSuffix ) ? '' : '<span class="honorific-suffix"><span class="cn-separator">, </span>' . $honorificSuffix . '</span>';
 
 				$replace[] = 0 == strlen( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
 

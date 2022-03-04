@@ -2,10 +2,10 @@
 Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: business directory, directory plugin, member directory, listings, staff directory, chamber of commerce, church directory, company directory, contact directory, listings directory, local business directory, address book
-Requires at least: 5.3
+Requires at least: 5.4
 Tested up to: 5.9
 Requires PHP: 5.6.20
-Stable tag: 10.4.15
+Stable tag: 10.4.16
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,27 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.16 03/04/2022 =
+* NEW: Add the `address` and `position` parameters to `cnRetrieve::emailAddresses()`.
+* NEW: Add support for `email` to `cnRetrieve::getEntryBy()`.
+* TWEAK: Add span around the name honorable suffix separator, so it can be selected via CSS.
+* TWEAK: Extract 'if' statement with common parts.
+* SECURITY: Sanitize a couple values passed to the term tree walker.
+* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
+* OTHER: Correct grammar, misspellings, punctuation, and spacing `cnRetrieve`.
+* OTHER: Remove unnecessary newline.
+* DEV: phpDoc updates.
+* DEV: Remove use of deprecated method.
+* DEV: Remove deprecated legacy method, `cnRetrieve::parseTaxonomyQueryLegacy()`.
+* DEV: Remove deprecated legacy method, `cnRetrieve::orderBy()`.
+* DEV: Remove unused import.
+* DEV: Remove unused class variable.
+* DEV: Remove unused methods in `cnRetrieve`.
+* DEV: Remove use of deprecated methods in `cnRetrieve`.
+* DEV: Remove phpStorm @noinspection tag.
+* DEV: Add phpcs ignore statements to `cnRetrieve`.
+* DEV: Remove use of deprecated method in a couple of the term list walkers.
 
 = 10.4.15 02/18/2022 =
 * NEW: Introduce `_array::random()`.
@@ -864,36 +885,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add `_deprecated_function()` calls to cnHTML methods.
 * DEV: Add `_deprecated_argument()` calls to cnHTML methods.
 
-= 10.3.2 07/23/2021 =
-* TWEAK: Use of the `_deprecated::_func()` rapper function for `_deprecated_function()` to ensure warnings are not triggered during AJAX or REST requests even if `WP_DEBUG` is enabled. Message will only trigger when environment type is set to development.
-* BUG: Do not set offset when querying Entry URLs while building the sitemap url index when the page number is 0 (zero).
-
-= 10.3.1 07/19/2021 =
-* NEW: Introduce `Taxonomy\Partial\getTermParents()`.
-* TWEAK: No need to import the core Connections Directory object on the term taxonomy admin pages since it is not utilized.
-* TWEAK: Deprecate `cnTemplatePart::getCategoryParents()` and refactor to utilize `Taxonomy\Partial\getTermParents()`.
-* TWEAK: Remove instances of `cnTemplatePart::getCategoryParents()` and refactor to utilize `Taxonomy\Partial\getTermParents()`.
-* TWEAK: Ensure Content Block callback is callable before registering the action callback.
-* TWEAK: Ensure taxonomy term permalink returns a string before escaping and rendering the permalink HTML.
-* TWEAK: Ensure term is an array and not empty before attempting to traverse the term results.
-* TWEAK: Minor refactor of `Content_Block::isPermitted()` to ensure callback is callable and if return value is not a bool, return `false`.
-* TWEAK: Set the default value in `Content_Block::heading()` to an empty string as the default to prevent a possible `null` as the return value.
-* TWEAK: Set the default value of `label` in `Content_Block\Entry\Taxonomy::content()` to an empty string as the default to prevent a possible `null` as the return value.
-* BUG: The `category__in` and `category__not_in` parameters should be parse as arrays.
-* BUG: Correct form ID name on the term taxonomy admin page to be consistent with WP core.
-* BUG: Ensure the `force_home` and `home_id` parameters are passed in the Taxonomy Term widget to prevent PHP notices about undefined indexes.
-* DEV: phpDoc corrections.
-* DEV: Remove unused import.
-* DEV: Updates to `.composer.json`.
-* DEV: Updates to `.gitignore`.
-
 == Upgrade Notice ==
-
-= 10.3.1 =
-It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
-
-= 10.3.2 =
-It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4 =
 It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
@@ -939,3 +931,6 @@ It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP 
 
 = 10.4.15 =
 It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.16 =
+It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

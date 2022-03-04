@@ -661,6 +661,14 @@ class cnHTML {
 		return self::echoOrReturn( $atts['return'], $html );
 	}
 
+	/**
+	 * @deprecated 10.4
+	 *
+	 * @param array  $atts
+	 * @param string $value
+	 *
+	 * @return string
+	 */
 	public static function textarea( $atts = array(), $value = '' ) {
 
 		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Form\Field\Textarea::create()' );

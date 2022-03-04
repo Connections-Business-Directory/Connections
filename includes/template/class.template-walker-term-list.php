@@ -9,13 +9,13 @@
  * @since       8.1.6
  */
 
-use Connections_Directory\Taxonomy\Term;
-use Connections_Directory\Utility\_escape;
-
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Taxonomy\Term;
+use Connections_Directory\Utility\_escape;
 
 /**
  * Class CN_Walker_Term_List
@@ -97,6 +97,8 @@ class CN_Walker_Term_List extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		$atts['child_of']  = absint( $atts['child_of'] );
+		$atts['depth']     = absint( $atts['depth'] );
 		$atts['parent_id'] = wp_parse_id_list( $atts['parent_id'] );
 
 		$walker = new self();
@@ -224,7 +226,7 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array $args  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_children_list_class', array( 'children', 'cn-cat-children' ), $depth, $args );
-		$class = cnHTML::escapeClassnames( $class );
+		$class = Connections_Directory\Utility\_escape::classNames( $class );
 
 		$output .= $indent . '<ul class="' . $class . '">' . PHP_EOL;
 	}
@@ -350,7 +352,7 @@ class CN_Walker_Term_List extends Walker {
 		 * @param array $args  The method attributes.
 		 */
 		$class = apply_filters( 'cn_term_list_item_class', $class, $term, $depth, $args );
-		$class = cnHTML::escapeClassnames( $class );
+		$class = Connections_Directory\Utility\_escape::classNames( $class );
 
 		$output .= "$indent<li" . ' class="' . $class . '"' . ">$html"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
 	}

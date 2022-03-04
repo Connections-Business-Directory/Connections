@@ -9,7 +9,7 @@
  * @since       unknown
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -23,9 +23,15 @@ use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\Convert\_length;
-use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
+/**
+ * Class cnRetrieve
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ */
 class cnRetrieve {
+
 	/**
 	 * The result count from the query with no limit.
 	 *
@@ -34,16 +40,6 @@ class cnRetrieve {
 	public $resultCountNoLimit;
 
 	/**
-	 * Runtime cache of query results.
-	 *
-	 * @access  private
-	 * @since  0.8
-	 * @var array
-	 */
-	private $results = array();
-
-	/**
-	 *
 	 * The $atts['meta_query'] can have two different structures when passed to
 	 * @see cnMeta_Query::parse_query_vars(), they are:
 	 *
@@ -67,12 +63,12 @@ class cnRetrieve {
 	 *         [array(...),]
 	 * )
 	 *
-	 * The later, 'meta_query', can have multiple arrays.
+	 * The latter, 'meta_query', can have multiple arrays.
 	 *
-	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param array
+	 *
+	 * @param array $atts
+	 *
 	 * @return array
 	 */
 	public function entries( $atts = array() ) {
@@ -125,7 +121,7 @@ class cnRetrieve {
 		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
 		$defaults['limit']                 = null;
 		$defaults['offset']                = 0;
-		$defaults['meta_query']            = array();
+		$defaults['meta_query']            = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		$defaults['allow_public_override'] = false;
 		$defaults['private_override']      = false;
 		$defaults['search_terms']          = null;
@@ -251,6 +247,7 @@ class cnRetrieve {
 			// Trim the white space from the ends.
 			$atts['slug'] = trim( $atts['slug'] );
 
+			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_TABLE . '.slug = %s', $atts['slug'] );
 		}
 		/*
@@ -270,7 +267,7 @@ class cnRetrieve {
 			if ( (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
 
 				// Compatibility code to make sure any occurrences of the deprecated entry type connections_group
-				// is changed to entry type family
+				// is changed to entry type family.
 				$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
 
 				$where[] = cnQuery::where( array( 'field' => 'entry_type', 'value' => $atts['list_type'] ) );
@@ -356,12 +353,12 @@ class cnRetrieve {
 			// Add the SELECT statement that adds the `radius` column.
 			$select[] = $wpdb->prepare( 'acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 AS distance', $atts['latitude'], $atts['latitude'], $atts['longitude'] );
 
-			// Create a subquery that will limit the rows that have the cosine law applied to within the bounding box.
-			$geoSubselect = $wpdb->prepare( '(SELECT entry_id FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE latitude>%f AND latitude<%f AND longitude>%f AND longitude<%f) AS geo_bound', $minLat, $maxLat, $minLng, $maxLng );
-			// The subquery needs to be added to the beginning of the array so the inner joins on the other tables are joined to the CN_ENTRY_TABLE
+			// Create a sub-query that will limit the rows that have the cosine law applied to within the bounding box.
+			$geoSubselect = $wpdb->prepare( '(SELECT entry_id FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE latitude>%f AND latitude<%f AND longitude>%f AND longitude<%f) AS geo_bound', $minLat, $maxLat, $minLng, $maxLng ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			// The sub-query needs to be added to the beginning of the array so the inner joins on the other tables are joined to the CN_ENTRY_TABLE.
 			array_unshift( $from, $geoSubselect );
 
-			// Add the JOIN for the address table. NOTE: This JOIN is also set in the ORDER BY section. The 'address' index is to make sure it doea not get added to the query twice.
+			// Add the JOIN for the address table. NOTE: This JOIN is also set in the ORDER BY section. The 'address' index is to make sure it does not get added to the query twice.
 			if ( ! isset( $join['address'] ) ) {
 				$join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
 			}
@@ -370,13 +367,13 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 < %f', $atts['latitude'], $atts['latitude'], $atts['longitude'], $atts['radius'] );
 
 			// This is required otherwise addresses the user may not have permissions to view will be included in the query
-			// which could be confusing since entries could appear to be outside of the search radius when in fact the entry
+			// which could be confusing since entries could appear to be outside the search radius when in fact the entry
 			// is within the search radius, it is just the address used to determine that is not viewable to the user.
-			//$where[] = 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.visibility IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+			// $where[] = 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.visibility IN (\'' . implode( "', '", (array) $visibility ) . '\')';
 			$where = self::setQueryVisibility( $where, array( 'table' => CN_ENTRY_ADDRESS_TABLE ) );
 
 			// Temporarily set the sort order to 'radius' for testing.
-			//$atts['order_by'] = array('radius');
+			// $atts['order_by'] = array('radius');
 		}
 		/*
 		 * // END --> Geo-limit the query.
@@ -414,14 +411,14 @@ class cnRetrieve {
 			'SPECIFIED'         => 'SPECIFIED',
 			'RANDOM'            => 'RANDOM',
 			'ASC'               => 'ASC',
-			'SORT_ASC'          => 'ASC',       // Alias for ASC
+			'SORT_ASC'          => 'ASC',       // Alias for ASC.
 			'DESC'              => 'DESC',
-			'SORT_DESC'         => 'DESC',      // Alias for DESC
+			'SORT_DESC'         => 'DESC',      // Alias for DESC.
 			'NUMERIC'           => '+0',
-			'SORT_NUMERIC'      => '+0',        // Alias for NUMERIC
-			'SORT_NUMERIC_ASC'  => '+0',        // Alias for NUMERIC
+			'SORT_NUMERIC'      => '+0',        // Alias for NUMERIC.
+			'SORT_NUMERIC_ASC'  => '+0',        // Alias for NUMERIC.
 			'NUMERIC_DESC'      => '+0 DESC',
-			'SORT_NUMERIC_DESC' => '+0 DESC',   // Alias for NUMERIC_DESC
+			'SORT_NUMERIC_DESC' => '+0 DESC',   // Alias for NUMERIC_DESC.
 		);
 
 		$orderByAtts = array();
@@ -438,16 +435,15 @@ class cnRetrieve {
 		// Add the registered activate date types as valid order_by field options.
 		$orderFields = array_merge( $orderFields, $dateTypes );
 
-		// Convert to an array
+		// Convert to an array.
 		cnFunction::parseStringList( $atts['order_by'], ',' );
 
 		// For each field the sort order can be defined.
-		/** @noinspection PhpWrongForeachArgumentTypeInspection */
 		foreach ( $atts['order_by'] as $orderByField ) {
 			$orderByAtts[] = explode( '|', $orderByField );
 		}
 
-		// Build the ORDER BY query segment
+		// Build the ORDER BY query segment.
 		foreach ( $orderByAtts as $field ) {
 			// Trim any spaces the user may have supplied and set it to be lowercase.
 			$field[0] = strtolower( trim( $field[0] ) );
@@ -459,7 +455,7 @@ class cnRetrieve {
 					$field[0] = 'ts';
 				}
 
-				// If one of the order fields is an address region add the INNER JOIN to the CN_ENTRY_ADDRESS_TABLE
+				// If one of the order fields is an address region add the INNER JOIN to the CN_ENTRY_ADDRESS_TABLE.
 				if ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ) {
 
 					if ( ! isset( $join['address'] ) ) {
@@ -489,7 +485,7 @@ class cnRetrieve {
 					}
 				}
 
-				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered.
+				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp, so it is properly ordered.
 				// Otherwise, it is sorted as a string which can give some very odd results compared to what is expected.
 				//if ( $field[0] == 'anniversary' || $field[0] == 'birthday' ) {
 				//
@@ -502,6 +498,7 @@ class cnRetrieve {
 						$join['date'] = 'INNER JOIN ' . CN_ENTRY_DATE_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_DATE_TABLE . '.entry_id )';
 					}
 
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 					$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_DATE_TABLE . '.type = %s', $field[0] );
 
 					$field[0] = 'date';
@@ -512,7 +509,7 @@ class cnRetrieve {
 					// Trim any spaces the user might have added and change the string to uppercase..
 					$field[1] = strtoupper( trim( $field[1] ) );
 
-					// If a user included a sort flag that is invalid/mis-spelled it is skipped since it can not be used.
+					// If a user included a sort flag that is invalid/misspelled it is skipped since it can not be used.
 					if ( array_key_exists( $field[1], $orderFlags ) ) {
 
 						/*
@@ -651,6 +648,7 @@ class cnRetrieve {
 
 		// if ( ! $results = $this->results( $sql ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$results = $wpdb->get_results( $sql );
 
 			// $this->cache( $sql, $results );
@@ -667,7 +665,7 @@ class cnRetrieve {
 			// The number of rows returned by the last query.
 			$instance->resultCount = $wpdb->num_rows;
 
-			// The number of rows returned by the last query without the limit clause set
+			// The number of rows returned by the last query without the limit clause set.
 			$foundRows                    = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
 			$instance->resultCountNoLimit = $foundRows[0]->{'FOUND_ROWS()'};
 			$this->resultCountNoLimit     = $foundRows[0]->{'FOUND_ROWS()'};
@@ -826,230 +824,6 @@ class cnRetrieve {
 	}
 
 	/**
-	 * @internal
-	 * @since 10.3
-	 *
-	 * @param array $atts
-	 * @param array $join
-	 * @param array $where
-	 */
-	private function parseTaxonomyQueryLegacy( $atts, &$join, &$where ) {
-
-		global $wpdb;
-
-		///*
-		// * If in a post get the category names assigned to the post.
-		// */
-		//if ( $atts['wp_current_category'] && ! is_page() ) {
-		//
-		//	// Get the current post categories.
-		//	$wpCategories = get_the_category();
-		//
-		//	// Build an array of the post categories.
-		//	foreach ( $wpCategories as $wpCategory ) {
-		//
-		//		$categoryNames[] = $wpdb->prepare( '%s', $wpCategory->cat_name );
-		//	}
-		//}
-
-		/*
-		 * Build and array of the supplied category names and their children.
-		 */
-		if ( ! empty( $atts['category_name__in'] ) ) {
-
-			_::parseStringList( $atts['category_name__in'], ',' );
-
-			foreach ( $atts['category_name__in'] as $categoryName ) {
-
-				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
-				$categoryNames[] = $wpdb->prepare( '%s', htmlspecialchars( $categoryName ) );
-
-				// Retrieve the children categories
-				$results = $this->categoryChildren( 'name', $categoryName );
-
-				foreach ( (array) $results as $term ) {
-
-					// Only add the name if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categoryNames ) ) {
-						$categoryNames[] = $wpdb->prepare( '%s', $term->name );
-					}
-				}
-			}
-		}
-
-		/*
-		 * Build and array of the supplied category slugs and their children.
-		 */
-		if ( ! empty( $atts['category_slug__in'] ) ) {
-
-			$categorySlugs = array();
-
-			_::parseStringList( $atts['category_slug__in'], ',' );
-
-			foreach ( $atts['category_slug__in'] as $categorySlug ) {
-
-				// Add the parent category to the array and remove any whitespace from the beginning/end of the name in case the user added it when using the shortcode.
-				$categorySlugs[] = sanitize_title( $categorySlug );
-
-				// Retrieve the children categories.
-				$results = $this->categoryChildren( 'slug', $categorySlug );
-
-				foreach ( (array) $results as $term ) {
-
-					// Only add the slug if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categorySlugs ) ) {
-						$categorySlugs[] = sanitize_title( $term->slug );
-					}
-				}
-			}
-		}
-
-		/*
-		 * Build an array of all the categories and their children based on the supplied category IDs.
-		 */
-		if ( ! empty( $atts['category'] ) ) {
-
-			$categoryIDs = array();
-
-			$atts['category'] = wp_parse_id_list( $atts['category'] );
-
-			foreach ( $atts['category'] as $categoryID ) {
-
-				// Add the parent category ID to the array.
-				$categoryIDs[] = absint( $categoryID );
-
-				// Retrieve the children categories
-				$termChildren = cnTerm::children( $categoryID, 'category' );
-
-				if ( ! $termChildren instanceof WP_Error && ! empty( $termChildren ) ) {
-
-					$categoryIDs = array_merge( $categoryIDs, $termChildren );
-				}
-			}
-		}
-
-		/*
-		 * Exclude the specified categories by ID.
-		 */
-		if ( ! empty( $atts['category__not_in'] ) ) {
-
-			if ( ! isset( $categoryIDs ) ) {
-				$categoryIDs = array();
-			}
-
-			$categoryExcludeIDs = array();
-
-			$atts['category__not_in'] = wp_parse_id_list( $atts['category__not_in'] );
-
-			$categoryIDs = array_diff( $categoryIDs, $atts['category__not_in'] );
-
-			foreach ( $atts['category__not_in'] as $categoryID ) {
-
-				// Add the parent category ID to the array.
-				$categoryExcludeIDs[] = absint( $categoryID );
-
-				// Retrieve the children categories
-				$termChildren = cnTerm::children( $categoryID, 'category' );
-
-				if ( ! $termChildren instanceof WP_Error && ! empty( $termChildren ) ) {
-
-					$categoryExcludeIDs = array_merge( $categoryExcludeIDs, $termChildren );
-				}
-			}
-
-			$atts['category__not_in'] = array_unique( $categoryExcludeIDs );
-
-			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
-					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-					WHERE 1=1 AND tt.term_id IN (' . implode( ', ', $atts['category__not_in'] ) . ')';
-
-			// Store the entryIDs that are to be excluded.
-			$results = $wpdb->get_col( $sql );
-			// print_r($results);
-
-			if ( ! empty( $results ) ) {
-
-				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ', ', $results ) . ')';
-			}
-		}
-
-		// Convert the supplied category IDs $atts['category__and'] to an array.
-		if ( ! empty( $atts['category__and'] ) ) {
-
-			$atts['category__and'] = wp_parse_id_list( $atts['category__and'] );
-
-			// Remove empty values from the array.
-			$atts['category__and'] = array_filter( $atts['category__and'] );
-
-			// Ensure there is something to query after filtering the array.
-			if ( ! empty( $atts['category__and'] ) ) {
-
-				// Exclude any category IDs that may have been set.
-				$atts['category__and'] = array_diff( $atts['category__and'], (array) $atts['category__not_in'] );
-
-				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
-				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
-						INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-						WHERE 1=1 AND tt.term_id IN (' . implode( ', ', $atts['category__and'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category__and'] ) . ' ORDER BY tr.entry_id';
-
-				// Store the entryIDs that exist on all of the supplied category IDs
-				$results = $wpdb->get_col( $sql );
-				// print_r($results);
-
-				if ( ! empty( $results ) ) {
-					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ', ', $results ) . ')';
-				} else {
-					$where[] = 'AND 1=2';
-				}
-
-			}
-
-			/*
-			 * This is the query to use to return entry IDs that are in the same categories. The COUNT value
-			 * should equal the number of category IDs in the IN() statement.
-
-			   SELECT DISTINCT tr.entry_id FROM `wp_connections_term_relationships` AS tr
-			   INNER JOIN `wp_connections_term_taxonomy` AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-			   WHERE 1=1 AND tt.term_id IN ('51','73','76') GROUP BY tr.entry_id HAVING COUNT(*) = 3 ORDER BY tr.entry_id
-			 */
-		}
-
-		if ( ! empty( $categoryIDs ) || ! empty( $categoryExcludeIDs ) || ! empty( $categoryNames ) || ! empty( $categorySlugs ) ) {
-			// Set the query string to INNER JOIN the term relationship and taxonomy tables.
-			$join[] = 'INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_TERM_RELATIONSHIP_TABLE . '.entry_id )';
-			$join[] = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' ON ( ' . CN_TERM_RELATIONSHIP_TABLE . '.term_taxonomy_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_taxonomy_id )';
-			$join[] = 'INNER JOIN ' . CN_TERMS_TABLE . ' ON ( ' . CN_TERMS_TABLE . '.term_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_id )';
-
-			// Set the query string to return entries within the category taxonomy.
-			$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.taxonomy = \'category\'';
-
-			if ( ! empty( $categoryIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ', ', $categoryIDs ) . ')';
-
-				unset( $categoryIDs );
-			}
-
-			if ( ! empty( $categoryExcludeIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ', ', $categoryExcludeIDs ) . ')';
-
-				unset( $categoryExcludeIDs );
-			}
-
-			if ( ! empty( $categoryNames ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ', ', (array) $categoryNames ) . ')';
-
-				unset( $categoryNames );
-			}
-
-			if ( ! empty( $categorySlugs ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.slug IN (\'' . implode( "', '", (array) $categorySlugs ) . '\')';
-
-				unset( $categorySlugs );
-			}
-		}
-	}
-
-	/**
 	 * NOTE: This is the Connections equivalent of parse_tax_query() found in ../wp-includes/class-wp-query.php
 	 * @see WP_Query::parse_tax_query()
 	 *
@@ -1147,7 +921,7 @@ class cnRetrieve {
 		}
 
 		// Category stuff.
-// @todo Add isSingular() test to Request.
+		// @todo Add isSingular() test to Request.
 		if ( ! empty( $q['cat'] ) /*&& ! $this->is_singular*/ ) {
 			$cat_in     = array();
 			$cat_not_in = array();
@@ -1335,12 +1109,12 @@ class cnRetrieve {
 	}
 
 	/**
-	 * Retrieve a single entry by either `id` or `slug`.
+	 * Retrieve a single entry by either `id`, `email`, or `slug`.
 	 *
 	 * @since 8.42
 	 *
-	 * @param string         $field
-	 * @param integer|string $value
+	 * @param string     $field The field to get the entry by.
+	 * @param int|string $value The value of the field to match.
 	 *
 	 * @return bool|object
 	 */
@@ -1349,7 +1123,7 @@ class cnRetrieve {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		$validFields = array( 'id', 'slug' );
+		$validFields = array( 'id', 'email', 'slug' );
 
 		if ( ! in_array( $field, $validFields ) ) {
 
@@ -1359,16 +1133,36 @@ class cnRetrieve {
 		switch ( $field ) {
 
 			case 'id':
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $value );
-
 				break;
 
 			case 'slug':
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s', $value );
-
 				break;
+
+			case 'email':
+				$email = self::emailAddresses(
+					array(
+						'fields'  => 'ids',
+						'address' => $value,
+						'limit'   => 1,
+					)
+				);
+
+				if ( empty( $email ) ) {
+
+					return false;
+
+				} else {
+
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+					$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $email[0]['entry_id'] );
+				}
 		}
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$result = $wpdb->get_row( $sql );
 
 		if ( is_null( $result ) ) {
@@ -1384,12 +1178,11 @@ class cnRetrieve {
 	/**
 	 * Retrieve a single entry by either `id` or `slug`.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
-	 * @param  mixed $slid int|string  The entry `id` or `slug`.
+	 * @param int|string $slid The entry `id` or `slug`.
 	 *
-	 * @return mixed bool|object The entry data.
+	 * @return bool|object The entry data.
 	 */
 	public function entry( $slid ) {
 
@@ -1399,14 +1192,15 @@ class cnRetrieve {
 		if ( ctype_digit( (string) $slid ) ) {
 
 			$field = 'id';
-			$value = $slid;
 
 		} else {
 
 			$field = 'slug';
-			$value = $slid;
 		}
 
+		$value = $slid;
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$result = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE ' . $field . '=%s', $value ) );
 
 		if ( is_null( $result ) ) {
@@ -1453,6 +1247,7 @@ class cnRetrieve {
 		// Create the "Last Name, First Name".
 		$select = '`id`, CONCAT( `last_name`, \', \', `first_name` ) as name';
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `last_name`' );
 
 		foreach ( $results as $row ) {
@@ -1501,7 +1296,8 @@ class cnRetrieve {
 					END, 1, 1 ) AS `char`';
 
 		$results = $wpdb->get_col(
-				'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`'
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`'
 		);
 
 		return array_filter( $results, 'is_string' );
@@ -1513,7 +1309,7 @@ class cnRetrieve {
 	 * @param array $where
 	 * @param array $atts
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.4
 	 *
 	 * @return array
@@ -1606,9 +1402,8 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on status.
 	 *
-	 * @access private
-	 * @since  0.7.4
-	 * @static
+	 * @internal
+	 * @since 0.7.4
 	 *
 	 * @param array $where
 	 * @param array $atts
@@ -1662,8 +1457,7 @@ class cnRetrieve {
 	 * Query the CN_ENTRY_DATE_TABLE for upcoming date events. Will return an array if entry ID/s
 	 * or an array of objects ordered from sooner to later over spanning the course of n-days.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @param array $atts {
 	 *     Optional.
@@ -1727,7 +1521,7 @@ class cnRetrieve {
 		// Get today's date, formatted for use in the query.
 		$date = gmdate( 'Y-m-d', (int) $atts['from_timestamp'] );
 
-		// Whether or not to include the event occurring today or not.
+		// Whether to include the event occurring today or not.
 		$includeToday = $atts['today'] ? '<=' : '<';
 
 		$sql = $wpdb->prepare(
@@ -1750,6 +1544,7 @@ class cnRetrieve {
 		);
 		// print_r($sql);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$upcoming = $wpdb->get_results( $sql );
 		// var_dump($upcoming);
 
@@ -1764,7 +1559,7 @@ class cnRetrieve {
 			}
 		}
 
-		// We need to query the main table for anniversaries or birthdays so we can capture any that may have been
+		// We need to query the main table for anniversaries or birthdays, so we can capture any that may have been
 		// added before the implementation of the CN_ENTRY_DATE_TABLE table.
 		if ( 'anniversary' === $atts['type'] || 'birthday' === $atts['type'] ) {
 
@@ -1828,7 +1623,7 @@ class cnRetrieve {
 			$ts  = array();
 
 			/*
-			 * The SQL returns an array sorted by the birthday and/or anniversary date. However the year end wrap needs to be accounted for.
+			 * The SQL returns an array sorted by the birthday and/or anniversary date. However, the year-end wrap needs to be accounted for.
 			 * Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
 			 * Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
 			 * After a new list is built, it is resorted based on the date.
@@ -1862,7 +1657,7 @@ class cnRetrieve {
 							'id'               => $ids,
 							'order_by'         => 'id|SPECIFIED',
 							'parse_request'    => false,
-							'suppress_filters' => true,
+							'suppress_filters' => true, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFiltersTrue
 						)
 					);
 
@@ -1876,8 +1671,7 @@ class cnRetrieve {
 	/**
 	 * Retrieve the entry categories.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @param int $id
 	 *
@@ -1893,9 +1687,7 @@ class cnRetrieve {
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_the_terms() in WordPress core ../wp-includes/category-template.php
 	 *
-	 * @access public
-	 * @since  8.2
-	 * @static
+	 * @since 8.2
 	 *
 	 * @param int    $id
 	 * @param string $taxonomy
@@ -1906,9 +1698,9 @@ class cnRetrieve {
 	public static function entryTerms( $id, $taxonomy, $atts = array() ) {
 
 		/** @todo Check that entry exists */
-		//if ( ! $id = get_entry( $id ) ) {
-		//	return false;
-		//}
+		// if ( ! $id = get_entry( $id ) ) {
+		// 	return false;
+		// }
 
 		$terms = cnTerm::getRelationshipsCache( $id, $taxonomy );
 
@@ -1930,7 +1722,7 @@ class cnRetrieve {
 
 		} else {
 
-			// This differs from the core WP function because $terms only needs run thru cnTerm::get() on a cache hit
+			// This differs from the core WP function because $terms only needs to run through cnTerm::get() on a cache hit
 			// otherwise it is unnecessarily run twice. once in cnTerm::getRelationships() on cache miss, once here.
 			// Moving this logic to the else statement make sure it is only fun once on the cache hit.
 			$terms = array_map( array( 'cnTerm', 'get' ), $terms );
@@ -1964,7 +1756,7 @@ class cnRetrieve {
 	 *                                   Default: all
 	 *                                   Accepts: all, ids, locality, regions, postal-code, country
 	 *     @type int          $id        The entry ID in which to retrieve the addresses for.
-	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *     @type bool         $preferred Whether to return only the preferred address.
 	 *                                   Default: false
 	 *     @type array|string $type      The address types to return.
 	 *                                   Default: array() which will return all registered address types.
@@ -2082,27 +1874,32 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! empty( $city ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `city` IN (' . cnFormatting::prepareINPlaceholders( $city ) . ')', $city );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `city` IN (' . cnQuery::prepareINPlaceholders( $city ) . ')', $city );
 		}
 
 		if ( ! empty( $state ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `state` IN (' . cnFormatting::prepareINPlaceholders( $state ) . ')', $state );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `state` IN (' . cnQuery::prepareINPlaceholders( $state ) . ')', $state );
 		}
 
 		if ( ! empty( $zipcode ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `zipcode` IN (' . cnFormatting::prepareINPlaceholders( $zipcode ) . ')', $zipcode );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `zipcode` IN (' . cnQuery::prepareINPlaceholders( $zipcode ) . ')', $zipcode );
 		}
 
 		if ( ! empty( $country ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `country` IN (' . cnFormatting::prepareINPlaceholders( $country ) . ')', $country );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `country` IN (' . cnQuery::prepareINPlaceholders( $country ) . ')', $country );
 		}
 
 		if ( ! empty( $coordinates ) ) {
@@ -2130,6 +1927,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2142,7 +1940,7 @@ class cnRetrieve {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int          $id        The entry ID in which to retrieve the phone numbers for.
-	 *     @type bool         $preferred Whether or not to return only the preferred phone numbers.
+	 *     @type bool         $preferred Whether to return only the preferred phone numbers.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
@@ -2210,7 +2008,8 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2227,6 +2026,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2239,13 +2039,16 @@ class cnRetrieve {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int          $id        The entry ID in which to retrieve the email addresses for.
-	 *     @type bool         $preferred Whether or not to return only the preferred email address.
+	 *     @type string       $address   The email address to return.
+	 *     @type int          $position  The position the of the attached address. Example `0` for the first address.
+	 *     @type bool         $preferred Whether to return only the preferred email address.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
 	 *                                   Accepts: personal, work and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 *
 	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
@@ -2260,6 +2063,8 @@ class cnRetrieve {
 		$defaults = array(
 			'fields'    => 'all',
 			'id'        => null,
+			'address'   => '',
+			'position'  => null,
 			'preferred' => false,
 			'type'      => array(),
 			'limit'     => null,
@@ -2297,17 +2102,28 @@ class cnRetrieve {
 
 		if ( is_numeric( $id ) && ! empty( $id ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
+			$where[] = $wpdb->prepare( 'AND `entry_id`=%d', $id );
+		}
+
+		if ( is_email( $atts['address'] ) ) {
+
+			$where[] = $wpdb->prepare( 'AND address=%s', sanitize_email( $atts['address'] ) );
+		}
+
+		if ( is_numeric( $atts['position'] ) ) {
+
+			$where[] = $wpdb->prepare( 'AND `order`=%d', $atts['position'] );
 		}
 
 		if ( $preferred ) {
 
-			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
+			$where[] = $wpdb->prepare( 'AND `preferred`=%d', (bool) $preferred );
 		}
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2324,9 +2140,8 @@ class cnRetrieve {
 			$limit
 		);
 
-		$results = $wpdb->get_results( $sql, ARRAY_A );
-
-		return $results;
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		return $wpdb->get_results( $sql, ARRAY_A );
 	}
 
 	/**
@@ -2336,7 +2151,7 @@ class cnRetrieve {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int          $id        The entry ID in which to retrieve the messenger IDs for.
-	 *     @type bool         $preferred Whether or not to return only the preferred messenger IDs.
+	 *     @type bool         $preferred Whether to return only the preferred messenger IDs.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
@@ -2404,7 +2219,8 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2421,6 +2237,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2433,7 +2250,7 @@ class cnRetrieve {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int          $id        The entry ID in which to retrieve the social media networks for.
-	 *     @type bool         $preferred Whether or not to return only the preferred social media networks.
+	 *     @type bool         $preferred Whether to return only the preferred social media networks.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
@@ -2501,7 +2318,8 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2518,6 +2336,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2530,7 +2349,7 @@ class cnRetrieve {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int          $id        The entry ID in which to retrieve the links for.
-	 *     @type bool         $preferred Whether or not to return only the preferred links.
+	 *     @type bool         $preferred Whether to return only the preferred links.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
@@ -2612,7 +2431,8 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2629,6 +2449,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2642,7 +2463,7 @@ class cnRetrieve {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int          $id        The entry ID in which to retrieve the dates for.
-	 *     @type bool         $preferred Whether or not to return only the preferred dates.
+	 *     @type bool         $preferred Whether to return only the preferred dates.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
@@ -2710,7 +2531,8 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2727,6 +2549,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2743,6 +2566,7 @@ class cnRetrieve {
 	 *  http://onlamp.com/onlamp/2003/06/26/fulltext.html
 	 *
 	 * @since 0.7.2.0
+	 *
 	 * @param array $atts [optional]
 	 *
 	 * @return array
@@ -2758,7 +2582,7 @@ class cnRetrieve {
 
 		$fields = apply_filters( 'cn_search_fields', $fields );
 
-		// If no search search fields are set, return an empty array.
+		// If no search fields are set, return an empty array.
 		if ( empty( $fields ) ) {
 			return array();
 		}
@@ -2910,13 +2734,13 @@ class cnRetrieve {
 		 *
 		 * 	FULLTEXT Restrictions as noted here: http://onlamp.com/onlamp/2003/06/26/fulltext.html
 		 *
-		 * 		Some of the default behaviors of these restrictions can be changed in your my.cnf or using the SET command
+		 * 		Some default behaviors of these restrictions can be changed in your my.cnf or using the SET command
 		 *
 		 * 		FULLTEXT indices are NOT supported in InnoDB tables.
 		 * 		MySQL requires that you have at least three rows of data in your result set before it will return any results.
 		 * 		By default, if a search term appears in more than 50% of the rows then MySQL will not return any results.
 		 * 		By default, your search query must be at least four characters long and may not exceed 254 characters.
-		 * 		MySQL has a default stopwords file that has a list of common words (i.e., the, that, has) which are not returned in your search. In other words, searching for the will return zero rows.
+		 * 		MySQL has a default stop words file that has a list of common words (i.e., the, that, has) which are not returned in your search. In other words, searching for the will return zero rows.
 		 * 		According to MySQL's manual, the argument to AGAINST() must be a constant string. In other words, you cannot search for values returned within the query.
 		 */
 		if ( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) ) {
@@ -2925,8 +2749,8 @@ class cnRetrieve {
 			$shortwords = array();
 
 			/*
-			 * Remove any shortwords from the FULLTEXT query since the db will drop them anyway.
-			 * Add the shortwords to a separate array to be used to do a LIKE query.
+			 * Remove any short words from the FULLTEXT query since the db will drop them anyway.
+			 * Add the short words to a separate array to be used to do a LIKE query.
 			 */
 			foreach ( $atts['terms'] as $key => $term ) {
 
@@ -2988,13 +2812,13 @@ class cnRetrieve {
 					foreach ( $shortwords as $word ) {
 
 						/**
-						 * Allow plugins to alter the shortword LIKE query.
+						 * Allow plugins to alter the short word LIKE query.
 						 *
-						 * By default the shortword LIKE query will only return results with entries matching words that
-						 * begin with the shortword. This is done to match the FULLTEXT search query which only returns
+						 * By default, the short word LIKE query will only return results with entries matching words that
+						 * begin with the short word. This is done to match the FULLTEXT search query which only returns
 						 * results with terms that being with the search term.
 						 *
-						 * To alter the LIKE query to return results for shortword where entries contain the shortword,
+						 * To alter the LIKE query to return results for short word where entries contain the short word,
 						 * rather than begins with, use this example filter:
 						 *
 						 * <code>
@@ -3007,12 +2831,13 @@ class cnRetrieve {
 						 *
 						 * @since 8.5.27
 						 *
-						 * @param string $word The shortword where the $word is escaped for a LIKE query with a
+						 * @param string $word The short word where the $word is escaped for a LIKE query with a
 						 *                     trailing `%` so the LIKE query will return results that begin with $word.
-						 * @param string $word The shortword to perform the LIKE query with.
+						 * @param string $word The short word to perform the LIKE query with.
 						 */
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
+						//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $word ) );
 					}
 
@@ -3027,6 +2852,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$scored = $wpdb->get_results( $sql, ARRAY_A );
 			}
 
@@ -3075,6 +2901,7 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
+						//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $word ) );
 					}
 
@@ -3089,6 +2916,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$ids = $wpdb->get_results( $sql, ARRAY_A );
 
 				/*
@@ -3144,6 +2972,7 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
+						//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $word ) );
 					}
 
@@ -3158,6 +2987,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$ids = $wpdb->get_results( $sql, ARRAY_A );
 
 				/*
@@ -3202,6 +3032,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . $join . ' WHERE ' . implode( ' ', $where );
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$ids = $wpdb->get_results( $sql, ARRAY_A );
 
 				/*
@@ -3216,7 +3047,7 @@ class cnRetrieve {
 
 			/*
 			 * The query results are stored in the $scored array ordered by relevance.
-			 * Only the entry ID/s are needed to be returned. Setup the $results array
+			 * Only the entry ID/s are needed to be returned. Set up the $results array
 			 * with only the entry ID/s in the same order as returned by the relevance score.
 			 */
 			foreach ( $scored as $entry ) {
@@ -3254,6 +3085,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
+					//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
@@ -3262,6 +3094,7 @@ class cnRetrieve {
 									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
 				// print_r($results);die;
 			}
@@ -3280,6 +3113,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
+					//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
@@ -3288,6 +3122,7 @@ class cnRetrieve {
 									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
 				// print_r($results);
 			}
@@ -3306,6 +3141,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
+					//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
@@ -3314,6 +3150,7 @@ class cnRetrieve {
 									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
 				// print_r($results);
 			}
@@ -3329,8 +3166,8 @@ class cnRetrieve {
 	 *
 	 * Check if the terms are suitable for searching.
 	 *
-	 * Uses an array of stopwords (terms) that are excluded from the separate
-	 * term matching when searching for posts. The list of English stopwords is
+	 * Uses an array of stop words (terms) that are excluded from the separate
+	 * term matching when searching for posts. The list of English stop words is
 	 * the approximate search engines list, and is translatable.
 	 *
 	 * @see WP_Query::parse_search_terms()
@@ -3339,7 +3176,7 @@ class cnRetrieve {
 	 *
 	 * @param array $terms Terms to check.
 	 *
-	 * @return array Terms that are not stopwords.
+	 * @return array Terms that are not stop words.
 	 */
 	protected function parse_search_terms( $terms ) {
 		$strtolower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
@@ -3348,7 +3185,7 @@ class cnRetrieve {
 		$stopwords = $this->get_search_stopwords();
 
 		foreach ( $terms as $term ) {
-			// keep before/after spaces when term is for exact match
+			// Keep before/after spaces when term is for exact match.
 			if ( preg_match( '/^".+"$/', $term ) ) {
 				$term = trim( $term, "\"'" );
 			} else {
@@ -3374,28 +3211,29 @@ class cnRetrieve {
 	 * Ripped from WP core. Unfortunately it can not be used
 	 * directly because it is a protected method in the WP_Query class.
 	 *
-	 * Retrieve stopwords used when parsing search terms.
+	 * Retrieve stop words used when parsing search terms.
 	 *
 	 * @see WP_Query::get_search_stopwords()
 	 *
 	 * @since 8.1
 	 *
-	 * @return array Stopwords.
+	 * @return array Stop words.
 	 */
 	protected function get_search_stopwords() {
 		if ( isset( $this->stopwords ) ) {
 			return $this->stopwords;
 		}
 
-		/* translators: This is a comma-separated list of very common words that should be excluded from a search,
-		 * like a, an, and the. These are usually called "stopwords". You should not simply translate these individual
-		 * words into your language. Instead, look for and provide commonly accepted stopwords in your language.
+		/*
+		 * translators: This is a comma-separated list of very common words that should be excluded from a search,
+		 * like a, an, and the. These are usually called "stop words". You should not simply translate these individual
+		 * words into your language. Instead, look for and provide commonly accepted stop words in your language.
 		 */
 		$words = explode(
 			',',
 			_x(
 				'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
-				'Comma-separated list of search stopwords in your language',
+				'Comma-separated list of search stop words in your language',
 				'connections'
 			)
 		);
@@ -3409,282 +3247,22 @@ class cnRetrieve {
 		}
 
 		/**
-		 * Filter stopwords used when parsing search terms.
+		 * Filter stop words used when parsing search terms.
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array $stopwords Stopwords.
+		 * @param array $stopwords Stop words.
 		 */
 		$this->stopwords = apply_filters( 'wp_search_stopwords', $stopwords );
 		return $this->stopwords;
 	}
 
 	/**
-	 * Sort the entries by the user set attributes.
-	 *
-	 * $object -- syntax is field|SORT_ASC(SORT_DESC)|SORT_REGULAR(SORT_NUMERIC)(SORT_STRING)
-	 *
-	 * example  -- 'state|SORT_ASC|SORT_STRING, last_name|SORT_DESC|SORT_REGULAR
-	 *
-	 *
-	 * Available order_by fields:
-	 *  id
-	 *  date_added
-	 *  date_modified
-	 *  first_name
-	 *  last_name
-	 *  organization
-	 *  department
-	 *  city
-	 *  state
-	 *  zipcode
-	 *  country
-	 *  birthday
-	 *  anniversary
-	 *
-	 * Order Flags:
-	 *  SORT_ACS
-	 *  SORT_DESC
-	 *  SPECIFIED**
-	 *  RANDOM**
-	 *
-	 * Sort Types:
-	 *  SORT_REGULAR
-	 *  SORT_NUMERIC
-	 *  SORT_STRING
-	 *
-	 * **NOTE: The SPECIFIED and RANDOM Order Flags can only be used
-	 * with the id field. The SPECIFIED flag must be used in conjunction
-	 * with $suppliedIDs which can be either a comma delimited sting or
-	 * an indexed array of entry IDs. If this is set, other sort fields/flags
-	 * are ignored.
-	 *
-	 * @access private
-	 * @since  unknown
-	 * @deprecated since unknown
-	 *
-	 * @param array             $entries A reference to an array of object $entries
-	 * @param string            $orderBy
-	 * @param array|string|NULL $suppliedIDs [optional]
-	 *
-	 * @return array of objects
-	 */
-	private function orderBy( &$entries, $orderBy, $suppliedIDs = null ) {
-
-		_deprecated_function( __METHOD__, '9.15' );
-
-		if ( empty( $entries ) || empty( $orderBy ) ) {
-			return $entries;
-		}
-
-		$orderFields = array(
-			'id',
-			'date_added',
-			'date_modified',
-			'first_name',
-			'last_name',
-			'title',
-			'organization',
-			'department',
-			'city',
-			'state',
-			'zipcode',
-			'country',
-			'birthday',
-			'anniversary',
-		);
-
-		$sortFlags = array(
-			'SPECIFIED'    => 'SPECIFIED',
-			'RANDOM'       => 'RANDOM',
-			'SORT_ASC'     => SORT_ASC,
-			'SORT_DESC'    => SORT_DESC,
-			'SORT_REGULAR' => SORT_REGULAR,
-			'SORT_NUMERIC' => SORT_NUMERIC,
-			'SORT_STRING'  => SORT_STRING,
-		);
-
-		$specifiedIDOrder = false;
-
-		// Build an array of each field to sort by and attributes.
-		$sortFields = explode( ',', $orderBy );
-
-		// For each field the sort order can be defined as well as the sort type.
-		foreach ( $sortFields as $sortField ) {
-			$sortAtts[] = explode( '|', $sortField );
-		}
-
-		/*
-		 * Dynamically build the variables that will be used for the array_multisort.
-		 *
-		 * The field type should be the first item in the array if the user
-		 * constructed the shortcode attribute correctly.
-		 */
-		foreach ( $sortAtts as $field ) {
-			// Trim any spaces the user might have added to the shortcode attribute.
-			$field[0] = strtolower( trim( $field[0] ) );
-
-			// If a user included a sort field that is invalid/mis-spelled it is skipped since it can not be used.
-			if ( ! in_array( $field[0], $orderFields ) ) {
-				continue;
-			}
-
-			// The dynamic variable are being created and populated.
-			foreach ( $entries as $key => $row ) {
-				$entry = new cnEntry( $row );
-
-				switch ( $field[0] ) {
-					case 'id':
-						${$field[0]}[ $key ] = $entry->getId();
-						break;
-
-					case 'date_added':
-						${$field[0]}[ $key ] = $entry->getDateAdded( 'U' );
-						break;
-
-					case 'date_modified':
-						${$field[0]}[ $key ] = $entry->getUnixTimeStamp();
-						break;
-
-					case 'first_name':
-						${$field[0]}[ $key ] = $entry->getFirstName();
-						break;
-
-					case 'last_name':
-						${$field[0]}[ $key ] = $entry->getLastName();
-						break;
-
-					case 'title':
-						${$field[0]}[ $key ] = $entry->getTitle();
-						break;
-
-					case 'organization':
-						${$field[0]}[ $key ] = $entry->getOrganization();
-						break;
-
-					case 'department':
-						${$field[0]}[ $key ] = $entry->getDepartment();
-						break;
-
-					case ( 'city' === $field[0] || 'state' === $field[0] || 'zipcode' === $field[0] || 'country' === $field[0] ):
-						if ( $entry->getAddresses() ) {
-							$addresses = $entry->getAddresses();
-
-							foreach ( $addresses as $address ) {
-								// ${$field[0]}[$key] = $address[$field[0]];
-								${$field[0]}[ $key ] = $address->$field[0];
-
-								// Only set the data from the first address.
-								break;
-							}
-
-						} else {
-							${$field[0]}[ $key ] = null;
-						}
-						break;
-
-					case 'birthday':
-						${$field[0]}[ $key ] = strtotime( $entry->getBirthday() );
-						break;
-
-					case 'anniversary':
-						${$field[0]}[ $key ] = strtotime( $entry->getAnniversary() );
-						break;
-				}
-
-			}
-			// The sorting order to be determined by a lowercase copy of the original array.
-			${$field[0]} = array_map( 'strtolower', ${$field[0]} );
-
-			// The arrays to be sorted must be passed by reference or it won't work.
-			$sortParams[] = &${$field[0]};
-
-			// Add the flag and sort type to the sort parameters if they were supplied in the shortcode attribute.
-			foreach ( $field as $key => $flag ) {
-				// Trim any spaces the user might have added and change the string to uppercase..
-				$flag = strtoupper( trim( $flag ) );
-
-				// If a user included a sort tag that is invalid/mis-spelled it is skipped since it can not be used.
-				if ( ! array_key_exists( $flag, $sortFlags ) ) {
-					continue;
-				}
-
-				/*
-				 * If the order is specified set the variable to true and continue
-				 * because SPECIFIED should not be added to the $sortParams array
-				 * as that would be an invalid argument for the array multisort.
-				 */
-				if ( 'SPECIFIED' === $flag || 'RANDOM' === $flag ) {
-					$idOrder = $flag;
-					continue;
-				}
-
-				// Must be pass as reference or the multisort will fail.
-				$sortParams[] = &$sortFlags[ $flag ];
-				unset( $flag );
-			}
-		}
-
-		if ( isset( $id ) && isset( $idOrder ) ) {
-			switch ( $idOrder ) {
-				case 'SPECIFIED':
-					$sortedEntries = array();
-
-					/*
-					 * Convert the supplied IDs value to an array if it is not.
-					 */
-					if ( ! is_array( $suppliedIDs ) && ! empty( $suppliedIDs ) ) {
-						// Trim the space characters if present.
-						$suppliedIDs = str_replace( ' ', '', $suppliedIDs );
-						// Convert to array.
-						$suppliedIDs = explode( ',', $suppliedIDs );
-					}
-
-					foreach ( $suppliedIDs as $entryID ) {
-						$sortedEntries[] = $entries[ array_search( $entryID, $id ) ];
-					}
-
-					$entries = $sortedEntries;
-					return $entries;
-
-				case 'RANDOM':
-					shuffle( $entries );
-					return $entries;
-			}
-		}
-
-		/*print_r($sortParams);
-		print_r($first_name);
-		print_r($last_name);
-		print_r($state);
-		print_r($zipcode);
-		print_r($organization);
-		print_r($department);
-		print_r($birthday);
-		print_r($anniversary);*/
-
-		// Must be pass as reference or the multisort will fail.
-		$sortParams[] = &$entries;
-
-		// $sortParams = array(&$state, SORT_ASC, SORT_REGULAR, &$zipcode, SORT_DESC, SORT_STRING, &$entries);
-		call_user_func_array( 'array_multisort', $sortParams );
-
-		return $entries;
-	}
-
-	/**
 	 * Total record count based on current user permissions.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @global $wpdb
-	 * @global $connections
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   is_user_logged_in()
-	 * @uses   current_user_can()
-	 * @uses   $wpdb->get_var()
 	 *
 	 * @param array $atts
 	 *
@@ -3708,6 +3286,7 @@ class cnRetrieve {
 		$where = self::setQueryVisibility( $where, $atts );
 		$where = self::setQueryStatus( $where, $atts );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_var( 'SELECT COUNT(`id`) FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) );
 
 		return ! empty( $results ) ? $results : 0;
@@ -3718,10 +3297,11 @@ class cnRetrieve {
 	 *
 	 * This is more or less a hack to remove the entries from the list where the date added was not recorded which would be entries added before 0.7.1.1.
 	 *
-	 * @access private
-	 * @version 1.0
+	 * @internal
 	 * @since 0.7.1.6
+	 *
 	 * @param array $results
+	 *
 	 * @return array
 	 */
 	public function removeUnknownDateAdded( $results ) {
@@ -3737,7 +3317,7 @@ class cnRetrieve {
 	/**
 	 * Returns all the category terms.
 	 *
-	 * @return object
+	 * @return array
 	 */
 	public function categories() {
 
@@ -3748,6 +3328,7 @@ class cnRetrieve {
 	 * Returns category by ID.
 	 *
 	 * @param integer $id
+	 *
 	 * @return Taxonomy_Term|WP_Error
 	 */
 	public function category( $id ) {
@@ -3770,49 +3351,4 @@ class cnRetrieve {
 
 		return $connections->term->getTermChildrenBy( $field, $value, 'category' );
 	}
-
-	/**
-	 * Cache a query results so results can be used again without an db hit,
-	 * NOTE: This cache is good for each page load; not persistent.
-	 *
-	 * @access private
-	 * @since  0.8
-	 * @param  string $sql     The query statement.
-	 * @param  array  $results The results of the query statement.
-	 * @return void
-	 */
-	public function cache( $sql, $results ) {
-
-		// Create a hash so the correct results can be returned.
-		$hash = md5( json_encode( $sql ) );
-
-		$this->results[ $hash ] = $results;
-	}
-
-	/**
-	 * Return the results from a previously run query.
-	 *
-	 * @access private
-	 * @since  0.8
-	 * @param  string $sql The query statement,
-	 * @return mixed       array | bool The results if the query is in the cache. False if it is not.
-	 */
-	public function results( $sql ) {
-
-		// Create a hash so the correct results can be returned.
-		$hash = md5( json_encode( $sql ) );
-
-		// First check to see if the results have been queried already.
-		// If not query the results, store and then return then.
-		if ( array_key_exists( $hash, $this->results ) ) {
-
-			return $this->results[ $hash ];
-
-		} else {
-
-			return false;
-		}
-
-	}
-
 }

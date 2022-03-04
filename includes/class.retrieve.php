@@ -2022,6 +2022,8 @@ class cnRetrieve {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int          $id        The entry ID in which to retrieve the email addresses for.
+	 *     @type string       $address   The email address to return.
+	 *     @type int          $position  The position the of the attached address. Example `0` for the first address.
 	 *     @type bool         $preferred Whether to return only the preferred email address.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
@@ -2029,6 +2031,7 @@ class cnRetrieve {
 	 *                                   Accepts: personal, work and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 *
 	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
@@ -2043,6 +2046,8 @@ class cnRetrieve {
 		$defaults = array(
 			'fields'    => 'all',
 			'id'        => null,
+			'address'   => '',
+			'position'  => null,
 			'preferred' => false,
 			'type'      => array(),
 			'limit'     => null,
@@ -2080,12 +2085,22 @@ class cnRetrieve {
 
 		if ( is_numeric( $id ) && ! empty( $id ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
+			$where[] = $wpdb->prepare( 'AND `entry_id`=%d', $id );
+		}
+
+		if ( is_email( $atts['address'] ) ) {
+
+			$where[] = $wpdb->prepare( 'AND address=%s', sanitize_email( $atts['address'] ) );
+		}
+
+		if ( is_numeric( $atts['position'] ) ) {
+
+			$where[] = $wpdb->prepare( 'AND `order`=%d', $atts['position'] );
 		}
 
 		if ( $preferred ) {
 
-			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
+			$where[] = $wpdb->prepare( 'AND `preferred`=%d', (bool) $preferred );
 		}
 
 		if ( ! empty( $type ) ) {
@@ -2109,9 +2124,7 @@ class cnRetrieve {
 		);
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$results = $wpdb->get_results( $sql, ARRAY_A );
-
-		return $results;
+		return $wpdb->get_results( $sql, ARRAY_A );
 	}
 
 	/**

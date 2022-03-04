@@ -1279,7 +1279,8 @@ class cnRetrieve {
 					END, 1, 1 ) AS `char`';
 
 		$results = $wpdb->get_col(
-				'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`'
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `char`'
 		);
 
 		return array_filter( $results, 'is_string' );

@@ -24,7 +24,14 @@ use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\Convert\_length;
 
+/**
+ * Class cnRetrieve
+ *
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ */
 class cnRetrieve {
+
 	/**
 	 * The result count from the query with no limit.
 	 *
@@ -59,10 +66,10 @@ class cnRetrieve {
 	 *
 	 * The later, 'meta_query', can have multiple arrays.
 	 *
-	 * @access public
 	 * @since unknown
-	 * @version 1.0
+	 *
 	 * @param array
+	 *
 	 * @return array
 	 */
 	public function entries( $atts = array() ) {
@@ -1278,7 +1285,7 @@ class cnRetrieve {
 	 * @param array $where
 	 * @param array $atts
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.4
 	 *
 	 * @return array
@@ -1371,9 +1378,8 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on status.
 	 *
-	 * @access private
-	 * @since  0.7.4
-	 * @static
+	 * @internal
+	 * @since 0.7.4
 	 *
 	 * @param array $where
 	 * @param array $atts
@@ -1427,8 +1433,7 @@ class cnRetrieve {
 	 * Query the CN_ENTRY_DATE_TABLE for upcoming date events. Will return an array if entry ID/s
 	 * or an array of objects ordered from sooner to later over spanning the course of n-days.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @param array $atts {
 	 *     Optional.
@@ -1641,8 +1646,7 @@ class cnRetrieve {
 	/**
 	 * Retrieve the entry categories.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @param int $id
 	 *
@@ -1658,9 +1662,7 @@ class cnRetrieve {
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_the_terms() in WordPress core ../wp-includes/category-template.php
 	 *
-	 * @access public
-	 * @since  8.2
-	 * @static
+	 * @since 8.2
 	 *
 	 * @param int    $id
 	 * @param string $taxonomy
@@ -2414,7 +2416,7 @@ class cnRetrieve {
 	 *                                   Accepts: Any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
-	 * @param bool  $saving Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
@@ -2508,6 +2510,7 @@ class cnRetrieve {
 	 *  http://onlamp.com/onlamp/2003/06/26/fulltext.html
 	 *
 	 * @since 0.7.2.0
+	 *
 	 * @param array $atts [optional]
 	 *
 	 * @return array
@@ -3187,16 +3190,9 @@ class cnRetrieve {
 	/**
 	 * Total record count based on current user permissions.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @global $wpdb
-	 * @global $connections
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   is_user_logged_in()
-	 * @uses   current_user_can()
-	 * @uses   $wpdb->get_var()
 	 *
 	 * @param array $atts
 	 *
@@ -3230,10 +3226,11 @@ class cnRetrieve {
 	 *
 	 * This is more or less a hack to remove the entries from the list where the date added was not recorded which would be entries added before 0.7.1.1.
 	 *
-	 * @access private
-	 * @version 1.0
+	 * @internal
 	 * @since 0.7.1.6
+	 *
 	 * @param array $results
+	 *
 	 * @return array
 	 */
 	public function removeUnknownDateAdded( $results ) {
@@ -3249,7 +3246,7 @@ class cnRetrieve {
 	/**
 	 * Returns all the category terms.
 	 *
-	 * @return object
+	 * @return array
 	 */
 	public function categories() {
 
@@ -3260,6 +3257,7 @@ class cnRetrieve {
 	 * Returns category by ID.
 	 *
 	 * @param integer $id
+	 *
 	 * @return Taxonomy_Term|WP_Error
 	 */
 	public function category( $id ) {

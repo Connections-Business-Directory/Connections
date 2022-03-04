@@ -12,7 +12,7 @@
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
  * Version:           10.4.15
- * Requires at least: 5.3
+ * Requires at least: 5.4
  * Requires PHP:      5.6.20
  * Author:            Steven A. Zahm
  * Author URI:        https://connections-pro.com/
@@ -51,7 +51,7 @@ $check = new cnRequirements_Check(
 				'max' => '8.0', // 7.4
 			),
 			'wp'  => array(
-				'min' => '5.3', // 4.7.12
+				'min' => '5.4', // 4.7.12
 				'max' => '5.9',
 			),
 		),

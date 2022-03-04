@@ -122,7 +122,7 @@ class cnRetrieve {
 		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
 		$defaults['limit']                 = null;
 		$defaults['offset']                = 0;
-		$defaults['meta_query']            = array();
+		$defaults['meta_query']            = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		$defaults['allow_public_override'] = false;
 		$defaults['private_override']      = false;
 		$defaults['search_terms']          = null;
@@ -248,6 +248,7 @@ class cnRetrieve {
 			// Trim the white space from the ends.
 			$atts['slug'] = trim( $atts['slug'] );
 
+			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_TABLE . '.slug = %s', $atts['slug'] );
 		}
 		/*
@@ -498,6 +499,7 @@ class cnRetrieve {
 						$join['date'] = 'INNER JOIN ' . CN_ENTRY_DATE_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_DATE_TABLE . '.entry_id )';
 					}
 
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 					$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_DATE_TABLE . '.type = %s', $field[0] );
 
 					$field[0] = 'date';
@@ -647,6 +649,7 @@ class cnRetrieve {
 
 		// if ( ! $results = $this->results( $sql ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$results = $wpdb->get_results( $sql );
 
 			// $this->cache( $sql, $results );
@@ -1131,16 +1134,19 @@ class cnRetrieve {
 		switch ( $field ) {
 
 			case 'id':
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $value );
 
 				break;
 
 			case 'slug':
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s', $value );
 
 				break;
 		}
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$result = $wpdb->get_row( $sql );
 
 		if ( is_null( $result ) ) {
@@ -1178,6 +1184,7 @@ class cnRetrieve {
 
 		$value = $slid;
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$result = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE ' . $field . '=%s', $value ) );
 
 		if ( is_null( $result ) ) {
@@ -1224,6 +1231,7 @@ class cnRetrieve {
 		// Create the "Last Name, First Name".
 		$select = '`id`, CONCAT( `last_name`, \', \', `first_name` ) as name';
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) . ' ORDER BY `last_name`' );
 
 		foreach ( $results as $row ) {
@@ -1519,6 +1527,7 @@ class cnRetrieve {
 		);
 		// print_r($sql);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$upcoming = $wpdb->get_results( $sql );
 		// var_dump($upcoming);
 
@@ -1631,7 +1640,7 @@ class cnRetrieve {
 							'id'               => $ids,
 							'order_by'         => 'id|SPECIFIED',
 							'parse_request'    => false,
-							'suppress_filters' => true,
+							'suppress_filters' => true, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFiltersTrue
 						)
 					);
 
@@ -1848,26 +1857,31 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! empty( $city ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `city` IN (' . cnQuery::prepareINPlaceholders( $city ) . ')', $city );
 		}
 
 		if ( ! empty( $state ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `state` IN (' . cnQuery::prepareINPlaceholders( $state ) . ')', $state );
 		}
 
 		if ( ! empty( $zipcode ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `zipcode` IN (' . cnQuery::prepareINPlaceholders( $zipcode ) . ')', $zipcode );
 		}
 
 		if ( ! empty( $country ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `country` IN (' . cnQuery::prepareINPlaceholders( $country ) . ')', $country );
 		}
 
@@ -1896,6 +1910,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -1976,6 +1991,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
@@ -1993,6 +2009,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2073,6 +2090,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
@@ -2090,6 +2108,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2170,6 +2189,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
@@ -2187,6 +2207,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2267,6 +2288,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
@@ -2284,6 +2306,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2378,6 +2401,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
@@ -2395,6 +2419,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2476,6 +2501,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
@@ -2493,6 +2519,7 @@ class cnRetrieve {
 			$limit
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
@@ -2780,6 +2807,7 @@ class cnRetrieve {
 						 */
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
+						//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $word ) );
 					}
 
@@ -2794,6 +2822,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$scored = $wpdb->get_results( $sql, ARRAY_A );
 			}
 
@@ -2842,6 +2871,7 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
+						//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $word ) );
 					}
 
@@ -2856,6 +2886,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$ids = $wpdb->get_results( $sql, ARRAY_A );
 
 				/*
@@ -2911,6 +2942,7 @@ class cnRetrieve {
 
 						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
 
+						//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $word ) );
 					}
 
@@ -2925,6 +2957,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$ids = $wpdb->get_results( $sql, ARRAY_A );
 
 				/*
@@ -2969,6 +3002,7 @@ class cnRetrieve {
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . $join . ' WHERE ' . implode( ' ', $where );
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$ids = $wpdb->get_results( $sql, ARRAY_A );
 
 				/*
@@ -3021,6 +3055,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
+					//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
@@ -3029,6 +3064,7 @@ class cnRetrieve {
 									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
 				// print_r($results);die;
 			}
@@ -3047,6 +3083,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
+					//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
@@ -3055,6 +3092,7 @@ class cnRetrieve {
 									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
 				// print_r($results);
 			}
@@ -3073,6 +3111,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
+					//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared
 					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ', $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
@@ -3081,6 +3120,7 @@ class cnRetrieve {
 									WHERE (' . implode( ') OR (', $like ) . ')';
 				// print_r($sql);
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
 				// print_r($results);
 			}
@@ -3216,6 +3256,7 @@ class cnRetrieve {
 		$where = self::setQueryVisibility( $where, $atts );
 		$where = self::setQueryStatus( $where, $atts );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_var( 'SELECT COUNT(`id`) FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) );
 
 		return ! empty( $results ) ? $results : 0;

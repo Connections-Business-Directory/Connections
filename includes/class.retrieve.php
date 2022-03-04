@@ -1849,27 +1849,27 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! empty( $city ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `city` IN (' . cnFormatting::prepareINPlaceholders( $city ) . ')', $city );
+			$where[] = $wpdb->prepare( 'AND `city` IN (' . cnQuery::prepareINPlaceholders( $city ) . ')', $city );
 		}
 
 		if ( ! empty( $state ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `state` IN (' . cnFormatting::prepareINPlaceholders( $state ) . ')', $state );
+			$where[] = $wpdb->prepare( 'AND `state` IN (' . cnQuery::prepareINPlaceholders( $state ) . ')', $state );
 		}
 
 		if ( ! empty( $zipcode ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `zipcode` IN (' . cnFormatting::prepareINPlaceholders( $zipcode ) . ')', $zipcode );
+			$where[] = $wpdb->prepare( 'AND `zipcode` IN (' . cnQuery::prepareINPlaceholders( $zipcode ) . ')', $zipcode );
 		}
 
 		if ( ! empty( $country ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `country` IN (' . cnFormatting::prepareINPlaceholders( $country ) . ')', $country );
+			$where[] = $wpdb->prepare( 'AND `country` IN (' . cnQuery::prepareINPlaceholders( $country ) . ')', $country );
 		}
 
 		if ( ! empty( $coordinates ) ) {
@@ -1977,7 +1977,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2171,7 +2171,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2268,7 +2268,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2379,7 +2379,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {
@@ -2477,7 +2477,7 @@ class cnRetrieve {
 
 		if ( ! empty( $type ) ) {
 
-			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnQuery::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! $saving ) {

@@ -1861,12 +1861,9 @@ class cnTemplatePart {
 	/**
 	 * Creates the initial character filter control.
 	 *
-	 * Accepted option for the $atts property are:
-	 *    return (bool) Whether or not to return or echo the result.
+	 * @since 0.7.4
 	 *
-	 * @since  0.7.4
-	 *
-	 * @param array $atts [description]
+	 * @param array $atts
 	 *
 	 * @return string
 	 */

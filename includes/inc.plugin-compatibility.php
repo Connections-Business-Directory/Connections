@@ -350,7 +350,7 @@ function cn_register_google_maps_api() {
 		return;
 	}
 
-	$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
+	$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry';
 	$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
 
 	if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {

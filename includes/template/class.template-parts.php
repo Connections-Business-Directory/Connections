@@ -28,13 +28,8 @@ class cnTemplatePart {
 	/**
 	 * Register the default template actions.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.6.5
-	 * @static
-	 *
-	 * @uses add_action()
-	 *
-	 * @return void
 	 */
 	public static function hooks() {
 

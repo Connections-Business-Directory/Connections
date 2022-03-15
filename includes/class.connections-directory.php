@@ -225,10 +225,10 @@ final class Connections_Directory {
 			// Register editor blocks.
 			\Connections_Directory\Blocks::register();
 
-			// Init the Content Blocks API
+			// Init the Content Blocks API.
 			\Connections_Directory\Content_Blocks::instance();
 
-			// Activation/Deactivation hooks
+			// Activation/Deactivation hooks.
 			register_activation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'activate' ) );
 			register_deactivation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
 

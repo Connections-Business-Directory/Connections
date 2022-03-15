@@ -147,13 +147,43 @@ final class Connections_Directory {
 	public $url;
 
 	/**
-	 * The following vars are being set in the cnEntry and cnRetrieve classes.
-	 * @todo Code should be refactor to remove their usage.
+	 * Used in the cnEntry and cnRetrieve classes.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var string
 	 */
 	public $lastQuery;
+
+	/**
+	 * Used in the cnEntry and cnRetrieve classes.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var string
+	 */
 	public $lastQueryError;
+
+	/**
+	 * Used in the cnEntry and cnRetrieve classes.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var int
+	 */
 	public $lastInsertID;
+
+	/**
+	 * Used in the cnRetrieve class.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var int
+	 */
 	public $resultCount;
+
+	/**
+	 * Used in the cnRetrieve class.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var int
+	 */
 	public $resultCountNoLimit;
 
 	/**

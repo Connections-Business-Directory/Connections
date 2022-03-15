@@ -570,15 +570,15 @@ function connectionsShowViewPage( $action = null ) {
 							$bulkActions = array();
 
 							if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
-								$bulkActions['unapprove'] = esc_html__( 'Unapprove', 'connections' );
-								$bulkActions['approve']   = esc_html__( 'Approve', 'connections' );
-								$bulkActions['public']    = esc_html__( 'Set Public', 'connections' );
-								$bulkActions['private']   = esc_html__( 'Set Private', 'connections' );
-								$bulkActions['unlisted']  = esc_html__( 'Set Unlisted', 'connections' );
+								$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
+								$bulkActions['approve']   = __( 'Approve', 'connections' );
+								$bulkActions['public']    = __( 'Set Public', 'connections' );
+								$bulkActions['private']   = __( 'Set Private', 'connections' );
+								$bulkActions['unlisted']  = __( 'Set Unlisted', 'connections' );
 							}
 
 							if ( current_user_can( 'connections_delete_entry' ) ) {
-								$bulkActions['delete'] = esc_html__( 'Delete', 'connections' );
+								$bulkActions['delete'] = __( 'Delete', 'connections' );
 							}
 
 							$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );

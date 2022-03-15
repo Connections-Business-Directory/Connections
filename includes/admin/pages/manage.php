@@ -563,7 +563,7 @@ function connectionsShowViewPage( $action = null ) {
 						<?php
 
 						if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_delete_entry' ) ) {
-							echo '<div class="alignleft actions">';
+							echo '<div class="alignleft actions bulkactions">';
 							echo '<select name="action">';
 							echo '<option value="" SELECTED>' , esc_html__( 'Bulk Actions', 'connections' ) , '</option>';
 

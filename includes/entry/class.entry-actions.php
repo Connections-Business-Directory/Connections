@@ -904,18 +904,15 @@ class cnEntry_Action {
 	/**
 	 * Set the status of one or more entries.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @todo Needs capability check.
 	 *
-	 * @global $wpdb
+	 * @internal
+	 * @since 0.7.8
 	 *
-	 * @uses   wp_parse_id_list()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::query()
-	 * @uses   do_action()
-	 *
-	 * @param string    $status The status to set. Valid options are: approved | pending
-	 * @param array|int $id     The entry IDs to set the status.
+	 * @param string           $status The status to set.
+	 *                                 Valid: approved|pending
+	 * @param int|int[]|string $id     The entry IDs to set the status.
+	 *                                 Supply as a singe ID, an array of IDs, or a string of comma delimited IDs.
 	 *
 	 * @return bool
 	 */
@@ -966,18 +963,15 @@ class cnEntry_Action {
 	/**
 	 * Set the visibility of one or more entries.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @todo Needs capability check.
 	 *
-	 * @global $wpdb
+	 * @internal
+	 * @since 0.7.8
 	 *
-	 * @uses   wp_parse_id_list()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::query()
-	 * @uses   do_action()
-	 *
-	 * @param string    $visibility The visibility to set. Valid options are: public | private | unlisted
-	 * @param array|int $id         The entry IDs to set the visibility.
+	 * @param string           $visibility The visibility to set.
+	 *                                     Valid: public|private|unlisted
+	 * @param int|int[]|string $id         The entry IDs to set the visibility.
+	 *                                     Supply as a singe ID, an array of IDs, or a string of comma delimited IDs.
 	 *
 	 * @return bool
 	 */
@@ -1028,10 +1022,13 @@ class cnEntry_Action {
 	/**
 	 * Delete one or more entries.
 	 *
+	 * @todo Needs capability check.
+	 *
+	 * @internal
 	 * @since 0.7.8
 	 *
 	 * @param int|int[]|string $ids The entry IDs to delete.
-	 *                              Can be supplied as a singe ID, an array of IDs, or a string of comma delimited IDs.
+	 *                              Supplied as a singe ID, an array of IDs, or a string of comma delimited IDs.
 	 *
 	 * @return bool
 	 */

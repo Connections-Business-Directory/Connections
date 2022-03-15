@@ -1736,7 +1736,7 @@ class cnAdminActions {
 	/**
 	 * Process user filters.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.8
 	 */
 	public static function userFilter() {
@@ -1779,8 +1779,8 @@ class cnAdminActions {
 	/**
 	 * Save user filters.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function saveUserFilters() {
 

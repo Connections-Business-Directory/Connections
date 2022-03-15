@@ -1179,10 +1179,8 @@ class cnAdminActions {
 	/**
 	 * Process controller for action taken by the user.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function entryManagement() {
 
@@ -1191,48 +1189,46 @@ class cnAdminActions {
 
 		check_admin_referer( $form->getNonce( 'cn_manage_actions' ), '_cn_wpnonce' );
 
-		/*
-		 * Run user requested actions.
-		 */
-
 		// Process user selected filters.
 		self::saveUserFilters();
 
 		// Grab the bulk action requested by user.
 		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? sanitize_key( $_POST['action'] ) : 'none';
+		$ids    = Request\Int_Array::input()->value();
 
 		switch ( $action ) {
 
 			case 'delete':
 				// Bulk delete entries.
-				self::deleteEntryBulk();
+				self::deleteEntryBulk( $ids );
 				break;
 
 			case 'approve':
 				// Bulk approve entries.
-				self::setEntryStatusBulk( 'approved' );
+				self::setEntryStatusBulk( $ids, 'approved' );
 				break;
 
 			case 'unapprove':
 				// Bulk unapprove entries.
-				self::setEntryStatusBulk( 'pending' );
+				self::setEntryStatusBulk( $ids, 'pending' );
 				break;
 
 			case 'public':
 				// Set entries to public visibility in bulk.
-				self::setEntryVisibilityBulk( 'public' );
+				self::setEntryVisibilityBulk( $ids, 'public' );
 				break;
 
 			case 'private':
 				// Set entries to private visibility in bulk.
-				self::setEntryVisibilityBulk( 'private' );
+				self::setEntryVisibilityBulk( $ids, 'private' );
 				break;
 
 			case 'unlisted':
 				// Set entries to unlisted visibility in bulk.
-				self::setEntryVisibilityBulk( 'unlisted' );
+				self::setEntryVisibilityBulk( $ids, 'unlisted' );
 				break;
 
+			case 'none':
 			default:
 				/* None, blank intentionally. */
 				break;
@@ -1605,36 +1601,37 @@ class cnAdminActions {
 	/**
 	 * Set the approval status of entries in bulk.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @internal
+	 * @since 0.7.8
 	 *
+	 * @param int[]  $ids    Indexed array of Entry IDs.
 	 * @param string $status The entry status that should be set.
 	 */
-	public static function setEntryStatusBulk( $status ) {
+	public static function setEntryStatusBulk( $ids, $status ) {
 
-		/*
-		 * Check whether the current user can edit entries.
-		 */
+		$permitted = array(
+			'pending',
+			'approved',
+		);
+
+		if ( ! in_array( $status, $permitted ) ) {
+
+			return;
+		}
+
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			$permitted = array( 'pending', 'approved' );
-
-			if ( ! in_array( $status, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-				return;
-			}
-
-			cnEntry_Action::status( $status, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			cnEntry_Action::status( $status, $ids );
 
 			switch ( $status ) {
 
 				case 'pending':
 					cnMessage::set( 'success', 'form_entry_pending_bulk' );
-					break;
+					return;
 
 				case 'approved':
 					cnMessage::set( 'success', 'form_entry_approve_bulk' );
-					break;
+					return;
 			}
 
 		} else {
@@ -1646,26 +1643,28 @@ class cnAdminActions {
 	/**
 	 * Set the visibility status of entries in bulk.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @internal
+	 * @since 0.7.8
 	 *
+	 * @param int[]  $ids Indexed array of Entry IDs.
 	 * @param string $visibility The entry visibility that should be set.
 	 */
-	public static function setEntryVisibilityBulk( $visibility ) {
+	public static function setEntryVisibilityBulk( $ids, $visibility ) {
 
-		/*
-		 * Check whether the current user can edit entries.
-		 */
+		$permitted = array(
+			'public',
+			'private',
+			'unlisted',
+		);
+
+		if ( ! in_array( $visibility, $permitted ) ) {
+
+			return;
+		}
+
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			$permitted = array( 'public', 'private', 'unlisted' );
-
-			if ( ! in_array( $visibility, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-				return;
-			}
-
-			cnEntry_Action::visibility( $visibility, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			cnEntry_Action::visibility( $visibility, $ids );
 
 			cnMessage::set( 'success', 'form_entry_visibility_bulk' );
 
@@ -1717,27 +1716,14 @@ class cnAdminActions {
 	 *
 	 * @internal
 	 * @since 0.7.8
+	 *
+	 * @param int[] $ids Indexed array of Entry IDs.
 	 */
-	public static function deleteEntryBulk() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
+	public static function deleteEntryBulk( $ids ) {
 
 		if ( current_user_can( 'connections_delete_entry' ) ) {
 
-			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) {
-
-				return;
-			}
-
-			if ( is_array( $_POST['id'] ) ) {
-
-				$id = array_map( 'absint', $_POST['id'] );
-
-			} else {
-
-				$id = absint( $_POST['id'] );
-			}
-
-			cnEntry_Action::delete( $id );
+			cnEntry_Action::delete( $ids );
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 
@@ -1745,7 +1731,6 @@ class cnAdminActions {
 
 			cnMessage::set( 'error', 'capability_delete' );
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 	/**

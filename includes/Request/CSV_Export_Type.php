@@ -32,7 +32,7 @@ class CSV_Export_Type extends Input {
 	protected $key = 'type';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

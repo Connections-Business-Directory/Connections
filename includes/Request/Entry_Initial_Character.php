@@ -35,7 +35,7 @@ class Entry_Initial_Character extends Input {
 	protected $key = 'cn-char';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

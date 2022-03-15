@@ -43,7 +43,7 @@ final class Term extends Input {
 	protected $key = 'term';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

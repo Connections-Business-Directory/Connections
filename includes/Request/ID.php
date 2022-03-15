@@ -33,7 +33,7 @@ class ID extends Input {
 
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

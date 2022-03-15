@@ -41,7 +41,7 @@ class CSV_Export_Step extends Input {
 	protected $inputType = INPUT_POST;
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

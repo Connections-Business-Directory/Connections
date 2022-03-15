@@ -65,7 +65,7 @@ abstract class Input {
 	protected $inputType = INPUT_GET;
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @link https://developer.wordpress.org/rest-api/extending-the-rest-api/schema/
 	 *
@@ -271,7 +271,7 @@ abstract class Input {
 	}
 
 	/**
-	 * Sanitize the request variable against the scheme.
+	 * Sanitize the request variable against the schema.
 	 *
 	 * @since 10.4.4
 	 *

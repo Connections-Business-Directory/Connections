@@ -32,7 +32,7 @@ class Admin_Action extends Input {
 	protected $key = 'cn-action';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

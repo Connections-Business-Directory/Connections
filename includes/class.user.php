@@ -95,7 +95,7 @@ class cnUser {
 	}
 
 	/**
-	 * Returns the cached visibility filter setting as string or FALSE depending if the current user has sufficient
+	 * Returns the cached visibility filter setting as string or FALSE depending on if the current user has sufficient
 	 * permission.
 	 *
 	 * @return mixed string|bool

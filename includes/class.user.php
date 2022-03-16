@@ -627,7 +627,7 @@ class cnUser {
 				}
 			}
 
-			// If we get here, return FALSE
+			// If we get here, return FALSE.
 			return false;
 		}
 	}

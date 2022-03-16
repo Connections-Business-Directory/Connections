@@ -376,14 +376,14 @@ class cnAdminFunction {
 				 */
 				add_screen_options_panel(
 					'cn-manage-page-limit',
-					'Show on screen',
+					_x( 'Show on screen', 'The number of entries to display on the Manage admin page.', 'connections' ),
 					array( __CLASS__, 'managePageLimit' ),
 					$instance->pageHook->manage
 				);
 
 				add_screen_options_panel(
 					'cn-manage-image',
-					'Choose Thumbnail to display:',
+					_x( 'Choose Thumbnail to display:', 'The entry image to display on the Manage admin page.', 'connections' ),
 					array( __CLASS__, 'manageImageThumbnail' ),
 					$instance->pageHook->manage
 				);

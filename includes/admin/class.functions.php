@@ -477,18 +477,20 @@ class cnAdminFunction {
 	}
 
 	/**
-	 * Callback for the `set-screen-option` filter.
+	 * Callback for the `set_screen_option_connections` filter.
 	 *
 	 * Save the user entered value for display n-number of entries and image thumbnail on the Manage admin page.
+	 *
+	 * NOTE: The nonce is validated in set_screen_options()
 	 *
 	 * @internal
 	 * @since 8.13
 	 *
-	 * @param bool   $false
-	 * @param string $option
-	 * @param int    $value
+	 * @param bool   $false  Return `false` to short-circuit set_screen_options().
+	 * @param string $option Screen option name.
+	 * @param int    $value  Screen option value.
 	 *
-	 * @return array|false
+	 * @return false
 	 */
 	public static function setManageScreenOptions( $false, $option, $value ) {
 

@@ -1677,17 +1677,14 @@ class cnAdminActions {
 	/**
 	 * Delete an entry.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 *
-	 * @param int $id Entry ID.
+	 * @internal
+	 * @since 0.7.8
 	 */
-	public static function deleteEntry( $id = 0 ) {
+	public static function deleteEntry() {
 
-		// If no entry ID was supplied, check $_GET.
-		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : $id;
+		$id = Request\ID::input()->value();
 
-		check_admin_referer( 'entry_delete_' . $id );
+		check_admin_referer( "entry_delete_{$id}" );
 
 		/*
 		 * Check whether the current user delete an entry.

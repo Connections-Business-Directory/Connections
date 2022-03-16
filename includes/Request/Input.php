@@ -222,7 +222,7 @@ abstract class Input {
 	 *
 	 * @return array The request variable schema.
 	 */
-	final protected function getSchema() {
+	protected function getSchema() {
 
 		return array_merge(
 			array(

@@ -1,6 +1,6 @@
 <?php
 /**
- * Current user object using the User API..
+ * Current user object using the User API.
  *
  * @package     Connections
  * @subpackage  User

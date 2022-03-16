@@ -1193,7 +1193,7 @@ class cnAdminActions {
 		self::saveUserFilters();
 
 		// Grab the bulk action requested by user.
-		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? sanitize_key( $_POST['action'] ) : 'none';
+		$action = Request\Manage_Bulk_Action::input()->value();
 		$ids    = Request\Int_Array::input()->value();
 
 		switch ( $action ) {
@@ -1228,7 +1228,6 @@ class cnAdminActions {
 				self::setEntryVisibilityBulk( $ids, 'unlisted' );
 				break;
 
-			case 'none':
 			default:
 				/* None, blank intentionally. */
 				break;

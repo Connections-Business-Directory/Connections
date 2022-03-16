@@ -6,7 +6,7 @@
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections\Request\ID
+ * @subpackage Connections\Request\Int Array
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2022, Steven A. Zahm

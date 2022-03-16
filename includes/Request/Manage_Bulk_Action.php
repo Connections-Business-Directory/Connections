@@ -1,15 +1,15 @@
 <?php
 /**
- * Get, validate, and validate the admin page request variable.
+ * Get, validate, and validate the Manage admin page bulk action request variable.
  *
  * @since 10.4.8
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections\Request\Admin Page
+ * @subpackage Connections\Request\Manage Bulk Action
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
- * @copyright  Copyright (c) 2021, Steven A. Zahm
+ * @copyright  Copyright (c) 2022, Steven A. Zahm
  * @link       https://connections-pro.com/
  */
 
@@ -18,7 +18,7 @@ namespace Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 
 /**
- * Class Admin_Page
+ * Class Manage_Bulk_Action
  *
  * @package Connections_Directory\Request
  */

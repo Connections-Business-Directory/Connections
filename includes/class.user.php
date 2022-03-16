@@ -115,7 +115,6 @@ class cnUser {
 					} else {
 						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : false;
 					}
-					break;
 
 				case 'private':
 					if ( ! current_user_can( 'connections_view_private' ) ) {
@@ -123,7 +122,6 @@ class cnUser {
 					} else {
 						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : false;
 					}
-					break;
 
 				case 'unlisted':
 					if ( ! current_user_can( 'connections_view_unlisted' ) ) {
@@ -131,11 +129,9 @@ class cnUser {
 					} else {
 						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : false;
 					}
-					break;
 
 				default:
 					return false;
-					break;
 			}
 		} else {
 			return false;

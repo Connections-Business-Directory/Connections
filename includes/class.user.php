@@ -391,7 +391,6 @@ class cnUser {
 			$user_meta = array();
 		}
 
-		// $user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
 		cnArray::set( $user_meta, 'ui.category_div_height', absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) ) );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );

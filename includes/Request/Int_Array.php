@@ -41,15 +41,6 @@ class Int_Array extends Input {
 	protected $inputFilterOptions = FILTER_REQUIRE_ARRAY;
 
 	/**
-	 * The request method type.
-	 *
-	 * @since 10.4.17
-	 *
-	 * @var int
-	 */
-	protected $inputType = INPUT_POST;
-
-	/**
 	 * The request variable key.
 	 *
 	 * @since 10.4.17

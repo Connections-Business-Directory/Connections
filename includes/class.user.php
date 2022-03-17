@@ -53,9 +53,14 @@ class cnUser {
 	}
 
 	/**
+	 * @deprecated 10.4.17
+	 * @see cnUser::getScreenOption()
+	 *
 	 * @return string
 	 */
 	public function getFilterEntryType() {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::getScreenOption()' );
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
@@ -67,11 +72,16 @@ class cnUser {
 	}
 
 	/**
+	 * @deprecated 10.4.17
+	 * @see cnUser::setScreenOption()
+	 *
 	 * @param $entryType
 	 *
 	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
 	 */
 	public function setFilterEntryType( $entryType ) {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::setScreenOption()' );
 
 		$permittedEntryTypes = array( 'all', 'individual', 'organization', 'family' );
 		$entryType           = esc_attr( $entryType );
@@ -98,9 +108,14 @@ class cnUser {
 	 * Returns the cached visibility filter setting as string or FALSE depending on if the current user has sufficient
 	 * permission.
 	 *
-	 * @return mixed string|bool
+	 * @deprecated 10.4.17
+	 * @see cnUser::getScreenOption()
+	 *
+	 * @return string|false
 	 */
 	public function getFilterVisibility() {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::getScreenOption()' );
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
@@ -139,11 +154,16 @@ class cnUser {
 	}
 
 	/**
+	 * @deprecated 10.4.17
+	 * @see cnUser::setScreenOption()
+	 *
 	 * @param $visibility
 	 *
 	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
 	 */
 	public function setFilterVisibility( $visibility ) {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::setScreenOption()' );
 
 		$permittedVisibility = array( 'all', 'public', 'private', 'unlisted' );
 		$visibility          = esc_attr( $visibility );
@@ -170,9 +190,14 @@ class cnUser {
 	 * Returns the current set filter to be used to display the entries.
 	 * The default is to return only the approved entries if not set.
 	 *
+	 * @deprecated 10.4.17
+	 * @see cnUser::getScreenOption()
+	 *
 	 * @return string
 	 */
 	public function getFilterStatus() {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::getScreenOption()' );
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
@@ -184,11 +209,16 @@ class cnUser {
 	}
 
 	/**
+	 * @deprecated 10.4.17
+	 * @see cnUser::setScreenOption()
+	 *
 	 * @param $status
 	 *
 	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
 	 */
 	public function setFilterStatus( $status ) {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::setScreenOption()' );
 
 		$permittedVisibility = array( 'all', 'approved', 'pending' );
 		$status              = esc_attr( $status );
@@ -212,9 +242,14 @@ class cnUser {
 	}
 
 	/**
+	 * @deprecated 10.4.17
+	 * @see cnUser::getScreenOption()
+	 *
 	 * @return string
 	 */
 	public function getFilterCategory() {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::getScreenOption()' );
 
 		$user_meta = get_user_meta( $this->ID, 'connections', true );
 
@@ -226,11 +261,16 @@ class cnUser {
 	}
 
 	/**
+	 * @deprecated 10.4.17
+	 * @see cnUser::setScreenOption()
+	 *
 	 * @param int $id
 	 */
 	public function setFilterCategory( $id ) {
 
-		// If value is -1 from drop down, set to NULL
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::setScreenOption()' );
+
+		// If value is -1 from drop down, set to NULL.
 		if ( 0 === $id ) {
 			$id = 0;
 		}

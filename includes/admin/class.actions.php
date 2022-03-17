@@ -1775,6 +1775,8 @@ class cnAdminActions {
 	/**
 	 * Save user filters.
 	 *
+	 * NOTE: The nonce is verified in calling method.
+	 *
 	 * @internal
 	 * @since 0.7.8
 	 */

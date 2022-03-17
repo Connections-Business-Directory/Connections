@@ -235,6 +235,8 @@ class cnDependency {
 			'Connections_Directory\Request\List_Table_Taxonomy'      => 'includes/Request/List_Table_Taxonomy.php',
 			'Connections_Directory\Request\Log_ID'                   => 'includes/Request/Log_ID.php',
 			'Connections_Directory\Request\Log_Type'                 => 'includes/Request/Log_Type.php',
+			'Connections_Directory\Request\Manage_Bulk_Action'       => 'includes/Request/Manage_Bulk_Action.php',
+			'Connections_Directory\Request\Manage_Filter'            => 'includes/Request/Manage_Filter.php',
 			'Connections_Directory\Request\Nonce'                    => 'includes/Request/Nonce.php',
 			'Connections_Directory\Request\Search'                   => 'includes/Request/Search.php',
 			'Connections_Directory\Request\Server'                   => 'includes/Request/Server.php',

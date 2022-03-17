@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Request;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_sanitize;
 use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
@@ -1782,64 +1783,35 @@ class cnAdminActions {
 	 */
 	public static function saveUserFilters() {
 
-		/** @var connectionsLoad $connections */
-		global $connections;
+		$filter = Request\Manage_Filter::input()->value();
+		$option = Connections_Directory()->user->getScreenOptions( 'manage' );
 
-		// Set the moderation filter for the current user if set in the query string.
-		if ( isset( $_GET['status'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'category', $filter ) ) {
 
-			$connections->currentUser->setFilterStatus( sanitize_key( $_GET['status'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'filter.category', $filter['category'] );
 		}
 
-		if ( isset( $_POST['entry_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'pg', $filter ) ) {
 
-			$connections->currentUser->setFilterEntryType( sanitize_key( $_POST['entry_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'pagination.current', $filter['pg'] );
 		}
 
-		if ( isset( $_POST['visibility_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'status', $filter ) ) {
 
-			$connections->currentUser->setFilterVisibility( sanitize_key( $_POST['visibility_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'filter.status', $filter['status'] );
 		}
 
-		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'type', $filter ) ) {
 
-			$connections->currentUser->setFilterCategory( absint( $_POST['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterCategory( absint( $_GET['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'filter.type', $filter['type'] );
 		}
 
-		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'visibility', $filter ) ) {
 
-			$page = new stdClass();
-
-			$page->name    = 'manage';
-			$page->current = absint( $_POST['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterPage( $page );
+			_array::set( $option, 'filter.visibility', $filter['visibility'] );
 		}
 
-		if ( isset( $_GET['pg'] ) && ! empty( $_GET['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-
-			$page = new stdClass();
-
-			$page->name    = 'manage';
-			$page->current = absint( $_GET['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterPage( $page );
-		}
-
-		if ( isset( $_POST['settings']['page']['limit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-
-			$page = new stdClass();
-
-			$page->name  = 'manage';
-			$page->limit = absint( $_POST['settings']['page']['limit'] ); // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterPage( $page );
-		}
-
+		Connections_Directory()->user->setScreenOptions( 'manage', $option );
 	}
 
 	/**

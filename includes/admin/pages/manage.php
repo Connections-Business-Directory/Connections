@@ -403,7 +403,7 @@ function connectionsShowViewPage( $action = null ) {
 
 							Field\Select::create()
 										->setId( 'cn-entry_type' )
-										->setName( 'entry_type' )
+										->setName( 'type' )
 										->createOptionsFromArray(
 											array(
 												array(
@@ -463,7 +463,7 @@ function connectionsShowViewPage( $action = null ) {
 
 							Field\Select::create()
 										->setId( 'cn-visibility_type' )
-										->setName( 'visibility_type' )
+										->setName( 'visibility' )
 										->createOptionsFromArray( $visibilitySelect )
 										->setValue( $filters['visibility'] )
 										->render();

@@ -401,9 +401,16 @@ class cnUser {
 	}
 
 	/**
-	 * @param $pageName
+	 * Reset the current page.
+	 *
+	 * @deprecated 10.4.17
+	 * @see cnUser::setScreenOption()
+	 *
+	 * @param string $pageName The screen ID/slug.
 	 */
 	public function resetFilterPage( $pageName ) {
+
+		_deprecated_function( __METHOD__, '10.4.17', 'cnUser::setScreenOption()' );
 
 		$page = $this->getFilterPage( $pageName );
 

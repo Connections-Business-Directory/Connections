@@ -416,9 +416,9 @@ class cnUser {
 	 * @access public
 	 * @since  8.13
 	 *
-	 * @param string $screen
-	 * @param string $option
-	 * @param mixed  $default
+	 * @param string $screen  The screen ID/slug.
+	 * @param string $option  Screen option value. Must be serializable if non-scalar.
+	 * @param mixed  $default The default value to return if option is not set.
 	 *
 	 * @return mixed
 	 */
@@ -433,9 +433,9 @@ class cnUser {
 	 * @access public
 	 * @since  8.13
 	 *
-	 * @param string $screen
-	 * @param string $key
-	 * @param mixed  $value
+	 * @param string $screen The screen ID/slug.
+	 * @param string $key    The option ID/slug.
+	 * @param mixed  $value  Screen option value. Must be serializable if non-scalar.
 	 *
 	 * @return bool|int
 	 */
@@ -454,8 +454,8 @@ class cnUser {
 	 * @access public
 	 * @since  8.13
 	 *
-	 * @param string $screen
-	 * @param array  $defaults
+	 * @param string $screen   The screen ID/slug.
+	 * @param array  $defaults The default value to return if option is not set.
 	 *
 	 * @return array
 	 */
@@ -470,8 +470,8 @@ class cnUser {
 	 * @access public
 	 * @since  8.13
 	 *
-	 * @param string $screen
-	 * @param array  $options
+	 * @param string $screen  The screen ID/slug.
+	 * @param array  $options Screen option values. Must be serializable if non-scalar.
 	 *
 	 * @return bool|int
 	 */
@@ -500,7 +500,7 @@ class cnUser {
 		$meta = get_user_meta( $this->getID(), 'connections', true );
 
 		/*
-		 * Since get_user_meta() can return array|string|false but we expect only an array,
+		 * Since get_user_meta() can return array|string|false, but we expect only an array,
 		 * check $meta and set it to an array if it is not.
 		 */
 		if ( ! is_array( $meta ) ) {
@@ -517,7 +517,7 @@ class cnUser {
 	 * @access public
 	 * @since  8.13
 	 *
-	 * @param array $meta
+	 * @param array $meta Metadata value. Must be serializable if non-scalar.
 	 *
 	 * @return bool|int
 	 */

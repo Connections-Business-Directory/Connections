@@ -486,7 +486,7 @@ class cnAdminFunction {
 	 * @internal
 	 * @since 8.13
 	 *
-	 * @param bool   $false  Return `false` to short-circuit set_screen_options().
+	 * @param false  $false  Return `false` to short-circuit set_screen_options().
 	 * @param string $option Screen option name.
 	 * @param int    $value  Screen option value.
 	 *

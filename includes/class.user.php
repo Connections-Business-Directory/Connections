@@ -18,6 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class cnUser
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnUser {
 

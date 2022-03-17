@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Form\Field;
 use Connections_Directory\Request;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 
 function connectionsShowViewPage( $action = null ) {
@@ -270,16 +271,7 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		default:
-			$form   = new cnFormObjects();
-			$page   = (object) $instance->currentUser->getScreenOption(
-				'manage',
-				'pagination',
-				array(
-					'current' => 1,
-					'limit'   => 50,
-				)
-			);
-			$offset = ( $page->current - 1 ) * $page->limit;
+			$form = new cnFormObjects();
 
 			echo '<h1>Connections : ' , esc_html__( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , esc_html__( 'Add New', 'connections' ) , '</a></h1>';
 
@@ -288,14 +280,37 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_manage' ) ) {
 
-				$retrieveAttr['list_type'] = $instance->currentUser->getFilterEntryType();
-				$retrieveAttr['category']  = $instance->currentUser->getFilterCategory();
+				$filters = array(
+					'category'   => $instance->user->getScreenOption( 'manage', 'filter.category', '' ),
+					'status'     => $instance->user->getScreenOption( 'manage', 'filter.status', 'approved' ),
+					'type'       => $instance->user->getScreenOption( 'manage', 'filter.type', '' ),
+					'visibility' => $instance->user->getScreenOption( 'manage', 'filter.visibility', '' ),
+				);
 
-				$retrieveAttr['visibility'] = $instance->currentUser->getFilterVisibility();
-				$retrieveAttr['status']     = $instance->currentUser->getFilterStatus();
+				if ( ! in_array( $filters['visibility'], $instance->user->canView() ) ) {
 
-				$retrieveAttr['limit']  = $page->limit;
-				$retrieveAttr['offset'] = $offset;
+					_array::set( $filters, 'visibility', '' );
+				}
+
+				$page = $instance->user->getScreenOption(
+					'manage',
+					'pagination',
+					array(
+						'current' => 1,
+						'limit'   => 50,
+					)
+				);
+
+				_array::set( $page, 'offset', --$page['current'] * $page['limit'] );
+
+				$retrieveAttr['list_type'] = $filters['type'];
+				$retrieveAttr['category']  = $filters['category'];
+
+				$retrieveAttr['visibility'] = $filters['visibility'];
+				$retrieveAttr['status']     = $filters['status'];
+
+				$retrieveAttr['limit']  = $page['limit'];
+				$retrieveAttr['offset'] = $page['offset'];
 
 				$retrieveAttr['char'] = Request\Entry_Initial_Character::input()->value();
 
@@ -320,7 +335,7 @@ function connectionsShowViewPage( $action = null ) {
 
 						$subsubsub[] = sprintf(
 							'<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
-							$instance->currentUser->getFilterStatus() == $key ? ' class="current" ' : ' ',
+							$filters['status'] == $key ? ' class="current" ' : ' ',
 							esc_url(
 								$form->tokenURL(
 									add_query_arg(
@@ -382,7 +397,7 @@ function connectionsShowViewPage( $action = null ) {
 									'hierarchical'    => true,
 									'show_count'      => false,
 									'orderby'         => 'name',
-									'selected'        => $instance->currentUser->getFilterCategory(),
+									'selected'        => $filters['category'],
 								)
 							);
 
@@ -409,7 +424,7 @@ function connectionsShowViewPage( $action = null ) {
 												),
 											)
 										)
-										->setValue( $instance->currentUser->getFilterEntryType() )
+										->setValue( $filters['type'] )
 										->render();
 
 							/*
@@ -450,7 +465,7 @@ function connectionsShowViewPage( $action = null ) {
 										->setId( 'cn-visibility_type' )
 										->setName( 'visibility_type' )
 										->createOptionsFromArray( $visibilitySelect )
-										->setValue( $instance->currentUser->getFilterVisibility() )
+										->setValue( $filters['visibility'] )
 										->render();
 
 							submit_button( esc_html__( 'Filter', 'connections' ), '', 'filter', false, array( 'id' => 'entry-filters' ) );
@@ -600,8 +615,8 @@ function connectionsShowViewPage( $action = null ) {
 							echo '<span class="displaying-num">' , esc_html__( 'Filter by character:', 'connections' ) , '</span>';
 							cnTemplatePart::index(
 								array(
-									'status'     => $instance->currentUser->getFilterStatus(),
-									'visibility' => $instance->currentUser->getFilterVisibility(),
+									'status'     => $filters['status'],
+									'visibility' => $filters['visibility'],
 									'tag'        => 'span',
 								)
 							);

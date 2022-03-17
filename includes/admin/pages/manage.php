@@ -371,7 +371,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				<?php } ?>
 
-				<form method="post">
+				<form method="get">
 
 					<p class="search-box">
 						<label class="screen-reader-text" for="entry-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>

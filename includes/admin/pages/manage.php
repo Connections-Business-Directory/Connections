@@ -588,7 +588,7 @@ function connectionsShowViewPage( $action = null ) {
 							}
 
 							echo '</select>';
-							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , esc_attr__( 'Apply', 'connections' ) , '" />';
+							submit_button( esc_attr__( 'Apply', 'connections' ), 'action', '', false, array( 'id' => 'doaction' ) );
 							echo '</div>';
 						}
 						?>

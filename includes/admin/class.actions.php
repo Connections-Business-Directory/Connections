@@ -1237,12 +1237,12 @@ class cnAdminActions {
 		 * Set up the redirect.
 		 */
 
-		if ( Request\Search::from( INPUT_POST )->value() ) {
+		if ( Request\Search::input()->value() ) {
 
 			$queryVar['s'] = urlencode( Request\Search::input()->value() );
 		}
 
-		if ( 0 < mb_strlen( Request\Entry_Initial_Character::from( INPUT_POST )->value() ) ) {
+		if ( 0 < mb_strlen( Request\Entry_Initial_Character::input()->value() ) ) {
 
 			$queryVar['cn-char'] = urlencode( Request\Entry_Initial_Character::input()->value() );
 		}
@@ -1746,12 +1746,12 @@ class cnAdminActions {
 		/*
 		 * Set up the redirect.
 		 */
-		if ( 0 < mb_strlen( Request\Search::from( INPUT_POST )->value() ) ) {
+		if ( 0 < mb_strlen( Request\Search::input()->value() ) ) {
 
 			$queryVar['s'] = urlencode( Request\Search::input()->value() );
 		}
 
-		if ( 0 < mb_strlen( Request\Entry_Initial_Character::from( INPUT_POST )->value() ) ) {
+		if ( 0 < mb_strlen( Request\Entry_Initial_Character::input()->value() ) ) {
 
 			$queryVar['cn-char'] = urlencode( Request\Entry_Initial_Character::input()->value() );
 		}

@@ -453,10 +453,8 @@ function connectionsShowViewPage( $action = null ) {
 										->setValue( $instance->currentUser->getFilterVisibility() )
 										->render();
 
+							submit_button( esc_html__( 'Filter', 'connections' ), '', 'filter', false, array( 'id' => 'entry-filters' ) );
 							?>
-
-							<input class="button-secondary action" type="submit" name="filter" value="Filter"/>
-
 						</div>
 
 						<div class="tablenav-pages">

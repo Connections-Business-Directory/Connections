@@ -13,6 +13,7 @@
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/tests/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>assets/dist/*</exclude-pattern>
 
 	<!-- How to scan -->
 	<!-- Show sniff and progress -->
@@ -22,7 +23,7 @@
 	<!-- Strip the file paths down to the relevant bit -->
 	<arg name="basepath" value="."/>
 	<!-- Enables parallel processing when available for faster results. -->
-	<arg name="parallel" value="8"/>
+	<arg name="parallel" value="4"/>
 	<!-- Limit to PHP files -->
 	<arg name="extensions" value="php"/>
 

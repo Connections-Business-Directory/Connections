@@ -575,32 +575,62 @@ function connectionsShowViewPage( $action = null ) {
 
 						<?php
 
-						if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_delete_entry' ) ) {
+						if ( current_user_can( 'connections_edit_entry' )
+							 || current_user_can( 'connections_edit_entry_moderated' )
+							 || current_user_can( 'connections_delete_entry' )
+						) {
 							echo '<div class="alignleft actions bulkactions">';
-							echo '<select name="action">';
-							echo '<option value="-1">' , esc_html__( 'Bulk Actions', 'connections' ) , '</option>';
 
 							$bulkActions = array();
 
+							$bulkActions[] = array(
+								'label' => __( 'Bulk Actions', 'connections' ),
+								'value' => '-1',
+							);
+
 							if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
-								$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
-								$bulkActions['approve']   = __( 'Approve', 'connections' );
-								$bulkActions['public']    = __( 'Set Public', 'connections' );
-								$bulkActions['private']   = __( 'Set Private', 'connections' );
-								$bulkActions['unlisted']  = __( 'Set Unlisted', 'connections' );
+
+								$bulkActions[] = array(
+									'label' => __( 'Approve', 'connections' ),
+									'value' => 'approve',
+								);
+
+								$bulkActions[] = array(
+									'label' => __( 'Unapprove', 'connections' ),
+									'value' => 'unapprove',
+								);
+
+								$bulkActions[] = array(
+									'label' => __( 'Set Public', 'connections' ),
+									'value' => 'public',
+								);
+
+								$bulkActions[] = array(
+									'label' => __( 'Set Private', 'connections' ),
+									'value' => 'private',
+								);
+
+								$bulkActions[] = array(
+									'label' => __( 'Set Unlisted', 'connections' ),
+									'value' => 'unlisted',
+								);
 							}
 
 							if ( current_user_can( 'connections_delete_entry' ) ) {
-								$bulkActions['delete'] = __( 'Delete', 'connections' );
+
+								$bulkActions[] = array(
+									'label' => __( 'Delete', 'connections' ),
+									'value' => 'delete',
+								);
 							}
 
-							$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
+							Field\Select::create()
+										->setId( 'bulk-action-selector' )
+										->setName( 'action' )
+										->createOptionsFromArray( $bulkActions )
+										->setValue( '-1' )
+										->render();
 
-							foreach ( $bulkActions as $action => $string ) {
-								echo '<option value="', esc_attr( $action ), '">', esc_html( $string ) , '</option>';
-							}
-
-							echo '</select>';
 							submit_button( esc_attr__( 'Apply', 'connections' ), 'action', '', false, array( 'id' => 'doaction' ) );
 							echo '</div>';
 						}

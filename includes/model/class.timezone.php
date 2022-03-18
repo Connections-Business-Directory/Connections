@@ -272,7 +272,7 @@ class cnTimezone {
 	 */
 	public function get_current_time() {
 
-		$timestamp = current_time( 'timestamp', true ) /*+ $this->get_raw_offset() + $this->get_dst_offset()*/;
+		$timestamp = current_time( 'timestamp', true ); /*+ $this->get_raw_offset() + $this->get_dst_offset();*/
 
 		$datetime = new DateTime( "@$timestamp" );
 		$datetime->setTimezone( new DateTimeZone( $this->get_id() ) );

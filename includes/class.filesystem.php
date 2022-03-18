@@ -243,13 +243,17 @@ class cnFileSystem {
 
 			if ( is_callable( $file, 'isDot' ) ) {
 
-				// isDot() Requires PHP >= 5.3
-				if ( $file->isDot() ) { continue; }
+				// isDot() Requires PHP >= 5.3.
+				if ( $file->isDot() ) {
+					continue;
+				}
 
 			} else {
 
 				// Required for PHP 5.2 support.
-				if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
+				if ( basename( $file ) == '..' || basename( $file ) == '.' ) {
+					continue;
+				}
 			}
 
 			if ( $file->isDir() ) {

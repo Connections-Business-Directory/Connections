@@ -144,7 +144,9 @@ final class cnEntry_Image {
 
 					foreach ( $filesFiltered as $file ) {
 
-						if ( $file->isDot() ) { continue; }
+						if ( $file->isDot() ) {
+							continue;
+						}
 
 						/** @noinspection PhpUsageOfSilenceOperatorInspection */
 						@unlink( $file->getPathname() );

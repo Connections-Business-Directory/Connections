@@ -32,7 +32,7 @@ class System_Information_Token extends Input {
 	protected $key = 'cn-system-info';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

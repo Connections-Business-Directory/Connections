@@ -1043,7 +1043,10 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $addressTypes ) === null ) { reset( $addressTypes ); }
+				if ( key( $addressTypes ) === null ) {
+					reset( $addressTypes );
+				}
+
 				$type = key( $addressTypes );
 				next( $addressTypes );
 
@@ -1469,7 +1472,10 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $phoneTypes ) === null ) { reset( $phoneTypes ); }
+				if ( key( $phoneTypes ) === null ) {
+					reset( $phoneTypes );
+				}
+
 				$type = key( $phoneTypes );
 				next( $phoneTypes );
 
@@ -1683,7 +1689,10 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $emailTypes ) === null ) { reset( $emailTypes ); }
+				if ( key( $emailTypes ) === null ) {
+					reset( $emailTypes );
+				}
+
 				$type = key( $emailTypes );
 				next( $emailTypes );
 
@@ -1898,7 +1907,10 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $imTypes ) === null ) { reset( $imTypes ); }
+				if ( key( $imTypes ) === null ) {
+					reset( $imTypes );
+				}
+
 				$type = key( $imTypes );
 				next( $imTypes );
 
@@ -2112,7 +2124,10 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $socialTypes ) === null ) { reset( $socialTypes ); }
+				if ( key( $socialTypes ) === null ) {
+					reset( $socialTypes );
+				}
+
 				$type = key( $socialTypes );
 				next( $socialTypes );
 
@@ -2324,7 +2339,10 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $linkTypes ) === null ) { reset( $linkTypes ); }
+				if ( key( $linkTypes ) === null ) {
+					reset( $linkTypes );
+				}
+
 				$type = key( $linkTypes );
 				next( $linkTypes );
 
@@ -2624,7 +2642,10 @@ class cnEntryMetabox {
 
 			while ( 0 < $createCount ) {
 
-				if ( key( $dateTypes ) === null ) { reset( $dateTypes ); }
+				if ( key( $dateTypes ) === null ) {
+					reset( $dateTypes );
+				}
+
 				$type = key( $dateTypes );
 				next( $dateTypes );
 

@@ -32,7 +32,7 @@ class Server_PHP_Self extends Server {
 	protected $key = 'PHP_SELF';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

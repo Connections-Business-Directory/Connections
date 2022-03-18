@@ -1,61 +1,81 @@
 <?php
 /**
- * Get, validate, and validate an ID request variable.
+ * Get, validate, and sanitize an array of ID request variables.
  *
- * @since 10.4.8
+ * @since 10.4.17
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections\Request\ID
+ * @subpackage Connections\Request\Int Array
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
- * @copyright  Copyright (c) 2021, Steven A. Zahm
+ * @copyright  Copyright (c) 2022, Steven A. Zahm
  * @link       https://connections-pro.com/
  */
 
 namespace Connections_Directory\Request;
 
 /**
- * Class ID
+ * Class Int_Array
  *
  * @package Connections_Directory\Request
  */
-class ID extends Input {
+class Int_Array extends Input {
+
+	/**
+	 * The request filter.
+	 *
+	 * @since 10.4.17
+	 *
+	 * @var int
+	 */
+	protected $inputFilter = FILTER_VALIDATE_INT;
+
+	/**
+	 * The request filter/flag options.
+	 *
+	 * @since 10.4.17
+	 *
+	 * @var int
+	 */
+	protected $inputFilterOptions = FILTER_REQUIRE_ARRAY;
 
 	/**
 	 * The request variable key.
 	 *
-	 * @since 10.4.8
+	 * @since 10.4.17
 	 *
 	 * @var string
 	 */
 	protected $key = 'id';
 
-
 	/**
 	 * The input schema.
 	 *
-	 * @since 10.4.8
+	 * @since 10.4.17
 	 *
 	 * @var array
 	 */
 	protected $schema = array(
-		'default' => 0,
-		'type'    => 'integer',
+		'default' => array(),
+		'type'    => 'array',
+		'items'   => array(
+			'type' => 'integer',
+		),
 	);
 
 	/**
 	 * Sanitize the ID.
 	 *
-	 * @since 10.4.8
+	 * @since 10.4.17
 	 *
-	 * @param string $unsafe The value to sanitize.
+	 * @param int[] $unsafe The value to sanitize.
 	 *
-	 * @return int
+	 * @return int[]
 	 */
 	protected function sanitize( $unsafe ) {
 
-		return absint( $unsafe );
+		return array_map( 'absint', $unsafe );
 	}
 
 	/**
@@ -63,7 +83,7 @@ class ID extends Input {
 	 *
 	 * This is sufficiently validated against the schema, return `true`.
 	 *
-	 * @since 10.4.8
+	 * @since 10.4.17
 	 *
 	 * @param string $unsafe The raw request value to validate.
 	 *

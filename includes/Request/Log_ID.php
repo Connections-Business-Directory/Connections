@@ -32,7 +32,7 @@ class Log_ID extends Input {
 	protected $key = 'log_id';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

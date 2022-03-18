@@ -41,7 +41,7 @@ abstract class Server extends Input {
 	protected $inputFilterOptions = FILTER_NULL_ON_FAILURE;
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

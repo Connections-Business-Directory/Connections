@@ -32,7 +32,7 @@ class Admin_Page extends Input {
 	protected $key = 'page';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

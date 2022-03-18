@@ -50,7 +50,7 @@ final class Nonce extends Input {
 	protected $key;
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

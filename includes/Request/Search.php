@@ -32,7 +32,7 @@ class Search extends Input {
 	protected $key = 's';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

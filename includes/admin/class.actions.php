@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Request;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_sanitize;
 use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
@@ -1179,10 +1180,8 @@ class cnAdminActions {
 	/**
 	 * Process controller for action taken by the user.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function entryManagement() {
 
@@ -1191,46 +1190,43 @@ class cnAdminActions {
 
 		check_admin_referer( $form->getNonce( 'cn_manage_actions' ), '_cn_wpnonce' );
 
-		/*
-		 * Run user requested actions.
-		 */
-
 		// Process user selected filters.
 		self::saveUserFilters();
 
 		// Grab the bulk action requested by user.
-		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? sanitize_key( $_POST['action'] ) : 'none';
+		$action = Request\Manage_Bulk_Action::input()->value();
+		$ids    = Request\Int_Array::input()->value();
 
 		switch ( $action ) {
 
 			case 'delete':
 				// Bulk delete entries.
-				self::deleteEntryBulk();
+				self::deleteEntryBulk( $ids );
 				break;
 
 			case 'approve':
 				// Bulk approve entries.
-				self::setEntryStatusBulk( 'approved' );
+				self::setEntryStatusBulk( $ids, 'approved' );
 				break;
 
 			case 'unapprove':
 				// Bulk unapprove entries.
-				self::setEntryStatusBulk( 'pending' );
+				self::setEntryStatusBulk( $ids, 'pending' );
 				break;
 
 			case 'public':
 				// Set entries to public visibility in bulk.
-				self::setEntryVisibilityBulk( 'public' );
+				self::setEntryVisibilityBulk( $ids, 'public' );
 				break;
 
 			case 'private':
 				// Set entries to private visibility in bulk.
-				self::setEntryVisibilityBulk( 'private' );
+				self::setEntryVisibilityBulk( $ids, 'private' );
 				break;
 
 			case 'unlisted':
 				// Set entries to unlisted visibility in bulk.
-				self::setEntryVisibilityBulk( 'unlisted' );
+				self::setEntryVisibilityBulk( $ids, 'unlisted' );
 				break;
 
 			default:
@@ -1242,12 +1238,12 @@ class cnAdminActions {
 		 * Set up the redirect.
 		 */
 
-		if ( Request\Search::from( INPUT_POST )->value() ) {
+		if ( Request\Search::input()->value() ) {
 
 			$queryVar['s'] = urlencode( Request\Search::input()->value() );
 		}
 
-		if ( 0 < mb_strlen( Request\Entry_Initial_Character::from( INPUT_POST )->value() ) ) {
+		if ( 0 < mb_strlen( Request\Entry_Initial_Character::input()->value() ) ) {
 
 			$queryVar['cn-char'] = urlencode( Request\Entry_Initial_Character::input()->value() );
 		}
@@ -1605,36 +1601,37 @@ class cnAdminActions {
 	/**
 	 * Set the approval status of entries in bulk.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @internal
+	 * @since 0.7.8
 	 *
+	 * @param int[]  $ids    Indexed array of Entry IDs.
 	 * @param string $status The entry status that should be set.
 	 */
-	public static function setEntryStatusBulk( $status ) {
+	public static function setEntryStatusBulk( $ids, $status ) {
 
-		/*
-		 * Check whether the current user can edit entries.
-		 */
+		$permitted = array(
+			'pending',
+			'approved',
+		);
+
+		if ( ! in_array( $status, $permitted ) ) {
+
+			return;
+		}
+
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			$permitted = array( 'pending', 'approved' );
-
-			if ( ! in_array( $status, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-				return;
-			}
-
-			cnEntry_Action::status( $status, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			cnEntry_Action::status( $status, $ids );
 
 			switch ( $status ) {
 
 				case 'pending':
 					cnMessage::set( 'success', 'form_entry_pending_bulk' );
-					break;
+					return;
 
 				case 'approved':
 					cnMessage::set( 'success', 'form_entry_approve_bulk' );
-					break;
+					return;
 			}
 
 		} else {
@@ -1646,26 +1643,28 @@ class cnAdminActions {
 	/**
 	 * Set the visibility status of entries in bulk.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @internal
+	 * @since 0.7.8
 	 *
+	 * @param int[]  $ids Indexed array of Entry IDs.
 	 * @param string $visibility The entry visibility that should be set.
 	 */
-	public static function setEntryVisibilityBulk( $visibility ) {
+	public static function setEntryVisibilityBulk( $ids, $visibility ) {
 
-		/*
-		 * Check whether the current user can edit entries.
-		 */
+		$permitted = array(
+			'public',
+			'private',
+			'unlisted',
+		);
+
+		if ( ! in_array( $visibility, $permitted ) ) {
+
+			return;
+		}
+
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			$permitted = array( 'public', 'private', 'unlisted' );
-
-			if ( ! in_array( $visibility, $permitted ) || ! isset( $_POST['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-				return;
-			}
-
-			cnEntry_Action::visibility( $visibility, absint( $_POST['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			cnEntry_Action::visibility( $visibility, $ids );
 
 			cnMessage::set( 'success', 'form_entry_visibility_bulk' );
 
@@ -1678,17 +1677,14 @@ class cnAdminActions {
 	/**
 	 * Delete an entry.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 *
-	 * @param int $id Entry ID.
+	 * @internal
+	 * @since 0.7.8
 	 */
-	public static function deleteEntry( $id = 0 ) {
+	public static function deleteEntry() {
 
-		// If no entry ID was supplied, check $_GET.
-		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : $id;
+		$id = Request\ID::input()->value();
 
-		check_admin_referer( 'entry_delete_' . $id );
+		check_admin_referer( "entry_delete_{$id}" );
 
 		/*
 		 * Check whether the current user delete an entry.
@@ -1717,27 +1713,14 @@ class cnAdminActions {
 	 *
 	 * @internal
 	 * @since 0.7.8
+	 *
+	 * @param int[] $ids Indexed array of Entry IDs.
 	 */
-	public static function deleteEntryBulk() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
+	public static function deleteEntryBulk( $ids ) {
 
 		if ( current_user_can( 'connections_delete_entry' ) ) {
 
-			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) {
-
-				return;
-			}
-
-			if ( is_array( $_POST['id'] ) ) {
-
-				$id = array_map( 'absint', $_POST['id'] );
-
-			} else {
-
-				$id = absint( $_POST['id'] );
-			}
-
-			cnEntry_Action::delete( $id );
+			cnEntry_Action::delete( $ids );
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 
@@ -1745,13 +1728,12 @@ class cnAdminActions {
 
 			cnMessage::set( 'error', 'capability_delete' );
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 	/**
 	 * Process user filters.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.8
 	 */
 	public static function userFilter() {
@@ -1765,12 +1747,12 @@ class cnAdminActions {
 		/*
 		 * Set up the redirect.
 		 */
-		if ( 0 < mb_strlen( Request\Search::from( INPUT_POST )->value() ) ) {
+		if ( 0 < mb_strlen( Request\Search::input()->value() ) ) {
 
 			$queryVar['s'] = urlencode( Request\Search::input()->value() );
 		}
 
-		if ( 0 < mb_strlen( Request\Entry_Initial_Character::from( INPUT_POST )->value() ) ) {
+		if ( 0 < mb_strlen( Request\Entry_Initial_Character::input()->value() ) ) {
 
 			$queryVar['cn-char'] = urlencode( Request\Entry_Initial_Character::input()->value() );
 		}
@@ -1794,69 +1776,42 @@ class cnAdminActions {
 	/**
 	 * Save user filters.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * NOTE: The nonce is verified in calling method.
+	 *
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function saveUserFilters() {
 
-		/** @var connectionsLoad $connections */
-		global $connections;
+		$filter = Request\Manage_Filter::input()->value();
+		$option = Connections_Directory()->user->getScreenOptions( 'manage' );
 
-		// Set the moderation filter for the current user if set in the query string.
-		if ( isset( $_GET['status'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'category', $filter ) ) {
 
-			$connections->currentUser->setFilterStatus( sanitize_key( $_GET['status'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'filter.category', $filter['category'] );
 		}
 
-		if ( isset( $_POST['entry_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'pg', $filter ) ) {
 
-			$connections->currentUser->setFilterEntryType( sanitize_key( $_POST['entry_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'pagination.current', $filter['pg'] );
 		}
 
-		if ( isset( $_POST['visibility_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'status', $filter ) ) {
 
-			$connections->currentUser->setFilterVisibility( sanitize_key( $_POST['visibility_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'filter.status', $filter['status'] );
 		}
 
-		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'type', $filter ) ) {
 
-			$connections->currentUser->setFilterCategory( absint( $_POST['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) { // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterCategory( absint( $_GET['category'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			_array::set( $option, 'filter.type', $filter['type'] );
 		}
 
-		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( array_key_exists( 'visibility', $filter ) ) {
 
-			$page = new stdClass();
-
-			$page->name    = 'manage';
-			$page->current = absint( $_POST['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterPage( $page );
+			_array::set( $option, 'filter.visibility', $filter['visibility'] );
 		}
 
-		if ( isset( $_GET['pg'] ) && ! empty( $_GET['pg'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-
-			$page = new stdClass();
-
-			$page->name    = 'manage';
-			$page->current = absint( $_GET['pg'] ); // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterPage( $page );
-		}
-
-		if ( isset( $_POST['settings']['page']['limit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-
-			$page = new stdClass();
-
-			$page->name  = 'manage';
-			$page->limit = absint( $_POST['settings']['page']['limit'] ); // phpcs:ignore WordPress.Security.NonceVerification
-
-			$connections->currentUser->setFilterPage( $page );
-		}
-
+		Connections_Directory()->user->setScreenOptions( 'manage', $option );
 	}
 
 	/**

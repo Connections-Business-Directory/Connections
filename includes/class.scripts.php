@@ -155,7 +155,7 @@ class cnScript {
 		/*
 		 * NOTE: See inc.plugin-compatibility regarding registration of the Google Maps JavaScript API.
 		 */
-		wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), null, false );
+		// wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), null, false );
 		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, true );
 
 		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery', 'cn-google-maps-api' ), '1.3.3', true );
@@ -168,43 +168,25 @@ class cnScript {
 
 		wp_register_script(
 			'leaflet',
-			$url . "vendor/leaflet/leaflet$min.js",
+			"{$url}assets/vendor/leaflet/leaflet.js",
 			array(),
-			'1.6.0',
+			'1.7.1',
 			true
 		);
 
 		wp_register_script(
 			'leaflet-control-geocoder',
-			$url . "vendor/leaflet/geocoder/Control.Geocoder$min.js",
+			"{$url}assets/vendor/leaflet/geocoder/Control.Geocoder.js",
 			array( 'leaflet' ),
-			'1.11',
+			'2.4.0',
 			true
 		);
-
-		wp_register_script(
-			'leaflet-layer-deferred',
-			$url . "vendor/leaflet/layer-deferred/Layer.Deferred$min.js",
-			array( 'leaflet' ),
-			'3.0.3',
-			true
-		);
-
-		//wp_register_script(
-		//	'leaflet-layer-with-headers',
-		//	$url . "vendor/leaflet/layer-headers/index.js",
-		//	array( 'leaflet' ),
-		//	time(),
-		//	TRUE
-		//);
 
 		/*
 		 * Create an array of script handles of Leaflet related map dependencies.
 		 * NOTE: `leaflet` is not added to the array because it is already required by `leaflet-control-geocoder`.
 		 */
 		$mapDependencies = array(
-			//'leaflet-layer-deferred',
-			//'leaflet-layer-with-headers',
 			'leaflet-control-geocoder',
 		);
 
@@ -213,15 +195,15 @@ class cnScript {
 
 			wp_register_script(
 				'leaflet-basemap-googlemaps',
-				$url . "vendor/leaflet/basemap-providers/Leaflet.GoogleMutant$min.js",
+				"{$url}assets/vendor/leaflet/basemap-providers/Leaflet.GoogleMutant.js",
 				array( 'leaflet', 'cn-google-maps-api' ),
-				'0.8.0',
+				'0.13.5',
 				true
 			);
 
 			wp_register_script(
 				'leaflet-control-geocoder-google-native',
-				$url . "assets/js/leaflet/geocoderGoogleNative/Geocoder.Google.Native$min.js",
+				"{$url}assets/js/leaflet/geocoderGoogleNative/Geocoder.Google.Native{$min}.js",
 				array( 'leaflet-control-geocoder', 'cn-google-maps-api' ),
 				'1.0',
 				true
@@ -233,7 +215,6 @@ class cnScript {
 			 *       when registering the Google Maps API related dependencies.
 			 */
 			$mapDependencies = array(
-				// 'leaflet-layer-deferred',
 				'leaflet-basemap-googlemaps',
 				'leaflet-control-geocoder-google-native',
 			);
@@ -418,8 +399,19 @@ class cnScript {
 
 		$path = Connections_Directory()->pluginPath();
 
-		wp_register_style( 'leaflet', $url . "vendor/leaflet/leaflet$min.css", array(), '1.3.4' );
-		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.11' );
+		wp_register_style(
+			'leaflet',
+			"{$url}assets/vendor/leaflet/leaflet.css",
+			array(),
+			'1.7.1'
+		);
+
+		wp_register_style(
+			'leaflet-control-geocoder',
+			"{$url}assets/vendor/leaflet/geocoder/Control.Geocoder.css",
+			array( 'leaflet' ),
+			'2.4.0'
+		);
 
 		wp_register_style(
 			'cn-admin',

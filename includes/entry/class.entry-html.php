@@ -1509,7 +1509,7 @@ class cnEntry_HTML extends cnEntry {
 		// The filters need to be reset so additional calls to get phone numbers with different params return expected results.
 		$this->phoneNumbers->resetFilters();
 
-		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
 
 			$html = cnString::replaceWhatWith( $html, ' ' );
 			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;

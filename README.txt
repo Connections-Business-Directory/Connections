@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.4
 Tested up to: 5.9
 Requires PHP: 5.6.20
-Stable tag: 10.4.16
+Stable tag: 10.4.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,43 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.17 03/18/2022 =
+* NEW: Introduce `\Request\Int_Array`.
+* NEW: Introduce `\Request\Manage_Bulk_Actions`.
+* NEW: Introduce `\Request\Manage_Filter`.
+* TWEAK: Update Google Maps API URI.
+* TWEAK: Update bulk entry management actions to utilize `\Request\Int_Array` for improved validation and sanitization while removing code duplication and complexity.
+* TWEAK: Refactor `cnAdminActions::deleteEntry()` to utilize `\Request\ID` for improved data validation, sanitation, and removing code duplication. Note this contains a breaking change to the method signature.
+* TWEAK: Refactor `cnAdminActions::entryManagement()` to utilize `\Request\Manage_Bulk_Action` for improved data validation and sanitization.
+* TWEAK: Refactor the Manage admin page to utilize `cnUser::getScreenOption()` instead of deprecated `cnUser` methods.
+* TWEAK: Refactor `cnAdminActions::saveUserFilters()` to utilize `\Request\Manage_Filter` and remove use of deprecated `cnUser` methods for improved validation, sanitization, and reduce code duplication.
+* TWEAK: Remove unnecessary escaping.
+* TWEAK: Match bulk actions class to WP core.
+* TWEAK: Remove `final` from `\Request\Input::getSchema()` so it can be overridden.
+* TWEAK: Deprecate many of the methods in `cnUser` in favor of a single utility method to reduce code duplication.
+* TWEAK: Set default value for the Manage admin page bulk actions to `-1` to match WordPress core.
+* TWEAK: Use `submit_button()` to output the Manage admin page bulk actions apply button to match WordPress core.
+* TWEAK: Use `submit_button()` to output the Manage admin page filter button to match WordPress core.
+* TWEAK: Change manage admin page form method from post to get to match WordPress core.
+* TWEAK: Change the keyword search and initial character filters to the form get method.
+* TWEAK: Utilize `\Field\Select` to build the dropdown for the Manage admin page bulk actions.
+* I18N: Correct the screen option strings not ready for translation.
+* BUG: Correct bug in logic that determines whether the phone number HTML is shown or not.
+* OTHER: Correct misspellings.
+* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
+* OTHER: Remove unnecessary break statements.
+* OTHER: Space found before semicolon.
+* OTHER: Newline required after opening brace.
+* DEV: phpDoc updates.
+* DEV: Remove use of deprecated method.
+* DEV: Add Leaflet vendor libraries as dependencies.
+* DEV: Update `webpack.config.js` to copy Leaflet libraries to the assets' vendor folder.
+* DEV: Update the Leaflet vendor libraries.
+* DEV: Remove commented out code.
+* DEV: Deprecate `cnUser::resetFilterPage()`.
+* DEV: Tweaks to `phpcs.xml`.
+* DEV: Add code sample to exclude the "View All" page from indexing.
 
 = 10.4.16 03/04/2022 =
 * NEW: Add the `address` and `position` parameters to `cnRetrieve::emailAddresses()`.
@@ -853,42 +890,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc corrections.
 * DEV: phpDoc updates.
 
-= 10.4 09/03/2021 =
-* NEW: Introduce the `_::isEmpty()` and `_::notEmpty()` helper methods.
-* NEW: Introduce the `_string::applyPrefix()` helper method.
-* NEW: Introduce the Fields API.
-* NEW: Introduce the helper `_escape` class.
-* NEW: Introduce `cnScript::maybeEnqueueStyle()`.
-* TWEAK: Remove unreachable `break` statements in switches.
-* TWEAK: Ensure deprecated messages are shown only when the environment type is set to `development`.
-* TWEAK: Allow `overflow-x` and `overflow-y` as valid inline style attributes.
-* TWEAK: Check for instance of Label before calling a method.
-* TWEAK: Update deprecated method call with the updated replacement.
-* TWEAK: Remove use of deprecated form field methods used on the Manage admin page.
-* TWEAK: Conditionally enqueue the Leaflet library.
-* TWEAK: Replace one-off code of fields in the Metabox API with fields created using the Fields API.
-* TWEAK: Replace one-off code of fields in the Settings API with fields created using the Fields API.
-* TWEAK: Change the init priority of the Metabox API to `11`.
-* BUG: Correct translated country name.
-* BUG: Return empty string as default case in switch for HTML fields.
-* BUG: No need to assign the CPT field in the Settings API to the variable as it will be rendered in the recursive call.
-* OTHER: Readme.txt correction.
-* OTHER: Correct misspelling.
-* OTHER: Removed unused global variable.
-* OTHER: Remove extra semi-colon.
-* INTEGRATION: Update The Rank Math integration to change the robots meta to noindex the paginated directory results.
-* COMPATIBILITY: Remove the single shortcode filter if the PageLayer plugin is active.
-* DEV: phpDoc corrections.
-* DEV: Public function should be static.
-* DEV: Correct code formatting.
-* DEV: phpDoc updates to cnHTML; deprecating all methods.
-* DEV: Add `_deprecated_function()` calls to cnHTML methods.
-* DEV: Add `_deprecated_argument()` calls to cnHTML methods.
-
 == Upgrade Notice ==
-
-= 10.4 =
-It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.1 =
 It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
@@ -933,4 +935,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.16 =
+It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.17 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

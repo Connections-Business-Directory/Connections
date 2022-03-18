@@ -32,7 +32,7 @@ class Server_Request_URI extends Server {
 	protected $key = 'REQUEST_URI';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

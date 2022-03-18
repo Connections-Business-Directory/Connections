@@ -43,7 +43,7 @@ class List_Table_Taxonomy extends Input {
 	protected $key = 'list-table-taxonomy';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

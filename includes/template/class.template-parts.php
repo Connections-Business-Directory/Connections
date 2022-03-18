@@ -14,9 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
-use Connections_Directory\Request;
+use Connections_Directory\Utility\_html;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -28,13 +29,8 @@ class cnTemplatePart {
 	/**
 	 * Register the default template actions.
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.6.5
-	 * @static
-	 *
-	 * @uses add_action()
-	 *
-	 * @return void
 	 */
 	public static function hooks() {
 
@@ -1866,12 +1862,9 @@ class cnTemplatePart {
 	/**
 	 * Creates the initial character filter control.
 	 *
-	 * Accepted option for the $atts property are:
-	 *    return (bool) Whether or not to return or echo the result.
+	 * @since 0.7.4
 	 *
-	 * @since  0.7.4
-	 *
-	 * @param array $atts [description]
+	 * @param array $atts
 	 *
 	 * @return string
 	 */
@@ -1897,8 +1890,6 @@ class cnTemplatePart {
 
 			$current = '';
 		}
-
-		$styles = cnHTML::attribute( 'style', $atts['style'] );
 
 		foreach ( $characters as $key => $char ) {
 			$char = strtoupper( $char );
@@ -1931,7 +1922,11 @@ class cnTemplatePart {
 
 		}
 
-		$out = '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? $styles : '' ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . PHP_EOL;
+		$css   = _escape::css( _html::stringifyCSSAttributes( $atts['style'] ) );
+		$style = 0 < strlen( $css ) ? ' style="' . $css . '"' : '';
+		$tag   = _escape::tagName( $atts['tag'] );
+
+		$out = "<{$tag} class=\"cn-alphaindex\"{$style}>" . implode( ' ', $links ) . "</{$tag}>" . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

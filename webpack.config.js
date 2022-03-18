@@ -185,11 +185,28 @@ const config = {
 						ignore: ['**/plugins/**/*'],
 					},
 				},
-				// {
-				// 	context: './node_modules/leaflet/dist/',
-				// 	from:    'leaflet.*',
-				// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
-				// },
+				{
+					context: './node_modules/leaflet/dist/',
+					from: '(leaflet.*|images/**)',
+					to: path.resolve( __dirname, './assets/vendor/leaflet/' ),
+				},
+				{
+					context:
+						'./node_modules/leaflet.gridlayer.googlemutant/dist/',
+					from: '**',
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/leaflet/basemap-providers/'
+					),
+				},
+				{
+					context: './node_modules/leaflet-control-geocoder/dist/',
+					from: 'Control.Geocoder.*',
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/leaflet/geocoder/'
+					),
+				},
 			],
 		}),
 

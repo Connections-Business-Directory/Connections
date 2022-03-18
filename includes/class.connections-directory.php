@@ -11,7 +11,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.16';
+	const VERSION = '10.4.17';
 
 	/**
 	 * Stores the instance of this class.
@@ -147,13 +147,43 @@ final class Connections_Directory {
 	public $url;
 
 	/**
-	 * The following vars are being set in the cnEntry and cnRetrieve classes.
-	 * @todo Code should be refactor to remove their usage.
+	 * Used in the cnEntry and cnRetrieve classes.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var string
 	 */
 	public $lastQuery;
+
+	/**
+	 * Used in the cnEntry and cnRetrieve classes.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var string
+	 */
 	public $lastQueryError;
+
+	/**
+	 * Used in the cnEntry and cnRetrieve classes.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var int
+	 */
 	public $lastInsertID;
+
+	/**
+	 * Used in the cnRetrieve class.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var int
+	 */
 	public $resultCount;
+
+	/**
+	 * Used in the cnRetrieve class.
+	 *
+	 * @todo Code should be refactored to remove usage.
+	 * @var int
+	 */
 	public $resultCountNoLimit;
 
 	/**
@@ -225,10 +255,10 @@ final class Connections_Directory {
 			// Register editor blocks.
 			\Connections_Directory\Blocks::register();
 
-			// Init the Content Blocks API
+			// Init the Content Blocks API.
 			\Connections_Directory\Content_Blocks::instance();
 
-			// Activation/Deactivation hooks
+			// Activation/Deactivation hooks.
 			register_activation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'activate' ) );
 			register_deactivation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
 

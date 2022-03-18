@@ -372,18 +372,18 @@ class cnAdminFunction {
 
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.
-				 * NOTE: This relies on the the Screen Options class by Janis Elsts
+				 * NOTE: This relies on the Screen Options class by Janis Elsts.
 				 */
 				add_screen_options_panel(
 					'cn-manage-page-limit',
-					'Show on screen',
+					_x( 'Show on screen', 'The number of entries to display on the Manage admin page.', 'connections' ),
 					array( __CLASS__, 'managePageLimit' ),
 					$instance->pageHook->manage
 				);
 
 				add_screen_options_panel(
 					'cn-manage-image',
-					'Choose Thumbnail to display:',
+					_x( 'Choose Thumbnail to display:', 'The entry image to display on the Manage admin page.', 'connections' ),
 					array( __CLASS__, 'manageImageThumbnail' ),
 					$instance->pageHook->manage
 				);
@@ -477,18 +477,20 @@ class cnAdminFunction {
 	}
 
 	/**
-	 * Callback for the `set-screen-option` filter.
+	 * Callback for the `set_screen_option_connections` filter.
 	 *
 	 * Save the user entered value for display n-number of entries and image thumbnail on the Manage admin page.
+	 *
+	 * NOTE: The nonce is validated in set_screen_options()
 	 *
 	 * @internal
 	 * @since 8.13
 	 *
-	 * @param bool   $false
-	 * @param string $option
-	 * @param int    $value
+	 * @param false  $false  Return `false` to short-circuit set_screen_options().
+	 * @param string $option Screen option name.
+	 * @param int    $value  Screen option value.
 	 *
-	 * @return array|false
+	 * @return false
 	 */
 	public static function setManageScreenOptions( $false, $option, $value ) {
 

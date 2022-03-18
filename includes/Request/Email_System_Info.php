@@ -43,7 +43,7 @@ final class Email_System_Info extends Input {
 	protected $key = 'system-info-email';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

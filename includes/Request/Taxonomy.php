@@ -41,7 +41,7 @@ class Taxonomy extends Input {
 	protected $key = 'taxonomy';
 
 	/**
-	 * The input scheme.
+	 * The input schema.
 	 *
 	 * @since 10.4.8
 	 *

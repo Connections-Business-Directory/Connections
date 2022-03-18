@@ -1,26 +1,28 @@
 <?php
 /**
- * Get, validate, and validate the admin action request variable.
+ * Get, validate, and validate the Manage admin page bulk action request variable.
  *
  * @since 10.4.8
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections\Request\Admin Action
+ * @subpackage Connections\Request\Manage Bulk Action
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
- * @copyright  Copyright (c) 2021, Steven A. Zahm
+ * @copyright  Copyright (c) 2022, Steven A. Zahm
  * @link       https://connections-pro.com/
  */
 
 namespace Connections_Directory\Request;
 
+use Connections_Directory\Utility\_array;
+
 /**
- * Class Admin_Action
+ * Class Manage_Bulk_Action
  *
  * @package Connections_Directory\Request
  */
-class Admin_Action extends Input {
+class Manage_Bulk_Action extends Input {
 
 	/**
 	 * The request variable key.
@@ -29,7 +31,7 @@ class Admin_Action extends Input {
 	 *
 	 * @var string
 	 */
-	protected $key = 'cn-action';
+	protected $key = 'action';
 
 	/**
 	 * The input schema.
@@ -43,10 +45,37 @@ class Admin_Action extends Input {
 		'minLength' => 3,
 		'maxLength' => 256,
 		'type'      => 'string',
+		'enum'      => array(
+			'approve',
+			'unapprove',
+			'delete',
+			'public',
+			'private',
+			'unlisted',
+		),
 	);
 
 	/**
-	 * Sanitize the admin action key.
+	 * Get the request variable schema.
+	 *
+	 * @since 10.4.17
+	 *
+	 * @return array The request variable schema.
+	 */
+	protected function getSchema() {
+
+		$schema = parent::getSchema();
+
+		$enum = apply_filters(
+			'Connections_Directory/Request/Manage_Bulk_Actions/Enum',
+			_array::get( $schema, 'enum' )
+		);
+
+		return _array::set( $schema, 'enum', $enum );
+	}
+
+	/**
+	 * Sanitize the admin page key.
 	 *
 	 * @since 10.4.8
 	 *
@@ -60,7 +89,7 @@ class Admin_Action extends Input {
 	}
 
 	/**
-	 * Validate the admin action key.
+	 * Validate the admin page key.
 	 *
 	 * This is sufficiently validated against the schema, return `true`.
 	 *

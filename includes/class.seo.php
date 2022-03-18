@@ -141,6 +141,19 @@ class cnSEO {
 			// remove_action( 'wp_head', 'rel_canonical'); // Remove the canonical link
 			// remove_action( 'wp_head', 'feed_links', 2 ); // Remove the feed links.
 			// remove_action( 'wp_head', 'feed_links_extra', 3 ); // Remove page/post specific comments feed.
+
+			// Prevent the "View All" page from being indexed.
+			// add_action(
+			// 	'wp_head',
+			// 	static function() {
+			//
+			// 		$url = home_url( \Connections_Directory\Request\Server_Request_URI::input()->value() );
+			//
+			// 		if ( false !== strpos( $url, '/view/all/' ) ) {
+			// 			echo '<meta name="robots" content="noindex, nofollow">';
+			// 		}
+			// 	}
+			// );
 		}
 	}
 

@@ -215,10 +215,15 @@ const config = {
 	],
 	optimization: {
 		minimizer: [
-			new TerserPlugin({
+			new TerserPlugin( {
 				// sourceMap: true,
+				terserOptions: {
+					compress: {
+						drop_console: inProduction,
+					},
+				},
 				test: /\.js(\?.*)?$/i,
-			}),
+			} ),
 		],
 		removeEmptyChunks: true,
 		// splitChunks: {

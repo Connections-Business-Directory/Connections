@@ -4,7 +4,7 @@
 		"@wordpress/i18n-text-domain": [
 			"error",
 			{
-				"allowedTextDomain": ["connections"]
+				"allowedTextDomain": [ "connections" ]
 			}
 		]
 	},

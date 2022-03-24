@@ -222,7 +222,7 @@ class cnScript {
 
 		wp_register_script(
 			'jquery-mapblock',
-			$url . "assets/js/jquery/jquery.mapblock$min.js",
+			"{$url}assets/dist/content-block/map/script.js",
 			// Merge in the map dependencies.
 			array_merge(
 				array(

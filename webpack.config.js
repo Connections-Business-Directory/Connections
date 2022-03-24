@@ -276,6 +276,8 @@ module.exports = [
 				'block/team/style': './includes/blocks/team/style.scss',
 				'content-block/recently-viewed/script':
 					'./assets/src/content-blocks/recently-viewed',
+				'content-block/map/script':
+					'./assets/js/jquery/jquery.mapblock.js',
 			},
 
 			// Tell webpack where to output.

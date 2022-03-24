@@ -372,7 +372,16 @@ class cnScript {
 		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 
-		wp_register_script( 'jquery-validate', $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ), '1.19.1', true );
+		wp_register_script(
+			'jquery-validate',
+			"{$url}assets/vendor/validation/jquery.validate.js",
+			array(
+				'jquery',
+				'jquery-form',
+			),
+			'1.19.3',
+			true
+		);
 
 		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', true );
 		wp_register_script( 'js-cookie', $url . 'assets/vendor/js-cookie/js.cookie.js', array(), '2.2.1', true );

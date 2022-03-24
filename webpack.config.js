@@ -178,6 +178,14 @@ const config = {
 					},
 				},
 				{
+					context: './node_modules/jquery-validation/dist/',
+					from: '**',
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/validation/'
+					),
+				},
+				{
 					context: './node_modules/js-cookie/src/',
 					from: '**',
 					to: path.resolve(__dirname, './assets/vendor/js-cookie/'),

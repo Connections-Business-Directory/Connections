@@ -235,7 +235,7 @@ final class cnCountry {
 		}
 
 		return file_exists(
-			$file = CN_PATH . 'vendor/rinvex/resources/geodata/' . strtolower( $code ) . '.json'
+			$file = CN_PATH . 'includes/Libraries/rinvex/resources/geodata/' . strtolower( $code ) . '.json'
 		) ? json_decode( file_get_contents( $file ) ) : null;
 	}
 
@@ -254,7 +254,7 @@ final class cnCountry {
 		}
 
 		return file_exists(
-			$file = CN_PATH . 'vendor/rinvex/resources/flags/' . strtolower( $code ) . '.svg'
+			$file = CN_PATH . 'includes/Libraries/rinvex/resources/flags/' . strtolower( $code ) . '.svg'
 		) ? file_get_contents( $file ) : null;
 	}
 
@@ -273,7 +273,7 @@ final class cnCountry {
 		}
 
 		return file_exists(
-			$file = CN_PATH . 'vendor/rinvex/resources/divisions/' . strtolower( $code ) . '.json'
+			$file = CN_PATH . 'includes/Libraries/rinvex/resources/divisions/' . strtolower( $code ) . '.json'
 		) ? json_decode( file_get_contents( $file ), true ) : null;
 	}
 

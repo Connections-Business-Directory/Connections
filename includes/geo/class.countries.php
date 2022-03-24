@@ -27,7 +27,7 @@ class cnCountries {
 		if ( ! isset( self::$countries[ $list ] ) ) {
 
 			self::$countries[ $list ] = json_decode(
-				self::getFile( CN_PATH . 'vendor/rinvex/resources/data/' . $list . '.json' ),
+				self::getFile( CN_PATH . 'includes/Libraries/rinvex/resources/data/' . $list . '.json' ),
 				true
 			);
 		}
@@ -69,7 +69,7 @@ class cnCountries {
 
 		if ( ! isset( self::$countries[ $code ] ) ) {
 
-			$path = CN_PATH . 'vendor/rinvex/resources/data/' . $code . '.json';
+			$path = CN_PATH . 'includes/Libraries/rinvex/resources/data/' . $code . '.json';
 			$file = self::getFile( $path );
 
 			if ( ! is_wp_error( $file ) ) {

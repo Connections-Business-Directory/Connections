@@ -120,16 +120,16 @@ class cnDependency {
 	 */
 	public static function autoload( $class ) {
 
-		$hashTable = self::classRegistry();
+		$matrix = self::classRegistry();
 
-		if ( ! isset( $hashTable[ $class ] ) ) {
+		if ( ! isset( $matrix[ $class ] ) ) {
 
 			return;
 		}
 
-		$file = CN_PATH . $hashTable[ $class ];
+		$file = CN_PATH . $matrix[ $class ];
 
-		// if the file exists, require it.
+		// If the file exists, require it.
 		if ( file_exists( $file ) ) {
 
 			require $file;
@@ -582,6 +582,7 @@ class cnDependency {
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
 
 			// Third Party Libraries.
+			'Browser' => 'includes/Libraries/Browser.php',
 			// 'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
 			// 'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
 			// 'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',

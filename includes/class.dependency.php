@@ -105,7 +105,7 @@ class cnDependency {
 
 		// Include the Encoding class.
 		if ( ! class_exists( '\ForceUTF8\Encoding' ) ) {
-			include_once CN_PATH . 'vendor/ForceUTF8/Encoding.php';
+			include_once CN_PATH . 'includes/Libraries/ForceUTF8/Encoding.php';
 		}
 	}
 

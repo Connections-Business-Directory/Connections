@@ -100,7 +100,7 @@ class cnDependency {
 
 		// Include the autoloader for the Pear IMC classes.
 		if ( ! class_exists( 'File_IMC' ) ) {
-			include_once CN_PATH . 'vendor/pear/IMC.php';
+			include_once CN_PATH . 'includes/Libraries/pear/IMC.php';
 		}
 
 		// Include the Encoding class.

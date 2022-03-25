@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Rinvex\Country;
 
+use Locale;
 use Exception;
+use DateTimeZone;
+use ResourceBundle;
 
 class Country
 {
@@ -91,7 +94,7 @@ class Country
         }
 
         if (array_key_exists($key, $array)) {
-            return $array[$key];
+            return $array[$key] ?? $default;
         }
 
         foreach (explode('.', $key) as $segment) {
@@ -137,7 +140,7 @@ class Country
         $languageCode = $languageCode ? mb_strtolower($languageCode) : null;
 
         return $this->get("name.native.{$languageCode}.common")
-            ?: (current($this->get('name.native', []))['common'] ?: $this->get('native_name'));
+            ?? (current($this->get('name.native', []))['common'] ?? $this->get('native_name'));
     }
 
     /**
@@ -152,7 +155,7 @@ class Country
         $languageCode = $languageCode ? mb_strtolower($languageCode) : null;
 
         return $this->get("name.native.{$languageCode}.official")
-            ?: (current($this->get('name.native', []))['official'] ?: $this->get('native_official_name'));
+            ?? (current($this->get('name.native', []))['official'] ?? $this->get('native_official_name'));
     }
 
     /**
@@ -278,7 +281,7 @@ class Country
      */
     public function getLanguage($languageCode = null): ?string
     {
-        $languageCode = $languageCode ? mb_strtoupper($languageCode) : null;
+        $languageCode = $languageCode ? mb_strtolower($languageCode) : null;
 
         return $this->get("languages.{$languageCode}") ?: (current($this->get('languages', [])) ?: null);
     }
@@ -869,5 +872,40 @@ class Country
     {
         return ! empty($this->getDivisions()) && isset($this->getDivisions()[$division])
             ? $this->getDivisions()[$division] : null;
+    }
+
+    /**
+     * Get the timezones.
+     *
+     * @return array|null
+     */
+    public function getTimezones()
+    {
+        if (! ($code = $this->getIsoAlpha2())) {
+            return;
+        }
+
+        return DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $code);
+    }
+
+    /**
+     * Get the locales.
+     *
+     * @return array|null
+     */
+    public function getLocales()
+    {
+        if (! ($code = $this->getIsoAlpha2())) {
+            return;
+        }
+
+        $locales = [];
+        foreach (ResourceBundle::getLocales('') as $localeCode) {
+            if ($code === Locale::getRegion($localeCode)) {
+                $locales[] = $localeCode;
+            }
+        }
+
+        return $locales;
     }
 }

@@ -368,7 +368,7 @@ class cnAdminFunction {
 				 * Include the Screen Options class by Janis Elsts
 				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
 				 */
-				include_once CN_PATH . 'vendor/screen-options/screen-options.php';
+				include_once CN_PATH . 'includes/Libraries/screen-options/screen-options.php';
 
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.

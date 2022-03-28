@@ -98,8 +98,8 @@ class cnCSV_Batch_Import {
 
 		if ( ! class_exists( 'parseCSV' ) ) {
 
-			require_once CN_PATH . 'vendor/parse-csv/parsecsv.lib.php';
-			require_once CN_PATH . 'vendor/parse-csv/cn-parsecsv.lib.v1.1.php';
+			require_once CN_PATH . 'includes/Libraries/parseCSV/parsecsv.lib.php';
+			require_once CN_PATH . 'includes/Libraries/parseCSV/cn-parsecsv.lib.v1.1.php';
 		}
 
 		$this->file = $file;

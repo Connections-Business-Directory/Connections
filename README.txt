@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.4
 Tested up to: 5.9
 Requires PHP: 5.6.20
-Stable tag: 10.4.17
+Stable tag: 10.4.18
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.18 03/28/2022 =
+* NEW: Introduce `Utility\_deprecated::_file()`.
+* TWEAK: Move the `Browser` library from the composer vendor folder to the Libraries folder.
+* TWEAK: Move the `wsScreenOptions` library from the composer vendor folder to the Libraries folder.
+* TWEAK: Move the `rinvex\countries` library from the composer vendor folder to the Libraries folder.
+* TWEAK: Update the `rinvex\Country` library.
+* TWEAK: Move the `pear\File_IMC` library from the composer vendor folder to the Libraries folder.
+* TWEAK: Move the `ForceUTF8\Encoding` library from the composer vendor folder to the Libraries folder.
+* TWEAK: Remove the `EDD_SL_Plugin_Updater` library.
+* TWEAK: Move the `parseCSV` library from the composer vendor folder to the Libraries folder.
+* TWEAK: Add placeholder files in the composer vendor folder that load the `parseCSV` library from Libraries folder.
+* TWEAK: Move various legacy javascript libraries from the composer vendor folder to the scripts vendor folder.
+* DEV: When minifying javascript using webpack drop console should be utilized to remove console statements from production files.
+* DEV: Set `allowedTextDomain` in `.eslintrc`.
+* DEV: Address most items flagged by eslint in `jquery.mapblock.js`.
+* DEV: Use webpack to package the assets for the jQuery Map Block script.
+* DEV: Update `.eslintrc` configuration.
+* DEV: Use webpack to package the assets for the jQuery Validation library.
 
 = 10.4.17 03/18/2022 =
 * NEW: Introduce `\Request\Int_Array`.
@@ -938,4 +957,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.17 =
+It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.18 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

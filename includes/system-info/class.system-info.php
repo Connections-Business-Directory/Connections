@@ -33,10 +33,6 @@ class cnSystem_Info {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		if ( ! class_exists( 'Browser' ) ) {
-			require_once CN_PATH . 'vendor/browser/Browser.php';
-		}
-
 		$browser = new Browser();
 
 		// Grab an instance of the Connections object.

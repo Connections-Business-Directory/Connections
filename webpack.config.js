@@ -178,6 +178,14 @@ const config = {
 					},
 				},
 				{
+					context: './node_modules/jquery-validation/dist/',
+					from: '**',
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/validation/'
+					),
+				},
+				{
 					context: './node_modules/js-cookie/src/',
 					from: '**',
 					to: path.resolve(__dirname, './assets/vendor/js-cookie/'),
@@ -215,10 +223,15 @@ const config = {
 	],
 	optimization: {
 		minimizer: [
-			new TerserPlugin({
+			new TerserPlugin( {
 				// sourceMap: true,
+				terserOptions: {
+					compress: {
+						drop_console: inProduction,
+					},
+				},
 				test: /\.js(\?.*)?$/i,
-			}),
+			} ),
 		],
 		removeEmptyChunks: true,
 		// splitChunks: {
@@ -271,6 +284,8 @@ module.exports = [
 				'block/team/style': './includes/blocks/team/style.scss',
 				'content-block/recently-viewed/script':
 					'./assets/src/content-blocks/recently-viewed',
+				'content-block/map/script':
+					'./assets/js/jquery/jquery.mapblock.js',
 			},
 
 			// Tell webpack where to output.

@@ -158,8 +158,8 @@ class cnScript {
 		// wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), null, false );
 		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, true );
 
-		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery', 'cn-google-maps-api' ), '1.3.3', true );
-		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery', 'cn-google-maps-api', 'jquery-gomap' ), '2.1.2', true );
+		wp_register_script( 'jquery-gomap', $url . "assets/vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery', 'cn-google-maps-api' ), '1.3.3', true );
+		wp_register_script( 'jquery-markerclusterer', $url . "assets/vendor/markerclusterer/markerclusterer$min.js", array( 'jquery', 'cn-google-maps-api', 'jquery-gomap' ), '2.1.2', true );
 
 		// The Quform unregisters this script, so let's ensure its registered, so it can be enqueued.
 		if ( ! wp_script_is( 'jquery-form', 'registered' ) ) {
@@ -222,7 +222,7 @@ class cnScript {
 
 		wp_register_script(
 			'jquery-mapblock',
-			$url . "assets/js/jquery/jquery.mapblock$min.js",
+			"{$url}assets/dist/content-block/map/script.js",
 			// Merge in the map dependencies.
 			array_merge(
 				array(
@@ -366,13 +366,22 @@ class cnScript {
 			wp_register_script( 'cn-ui', $url . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, true );
 		}
 
-		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', true );
+		wp_register_script( 'jquery-qtip', $url . "assets/vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', true );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
 		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 
-		wp_register_script( 'jquery-validate', $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ), '1.19.1', true );
+		wp_register_script(
+			'jquery-validate',
+			"{$url}assets/vendor/validation/jquery.validate.js",
+			array(
+				'jquery',
+				'jquery-form',
+			),
+			'1.19.3',
+			true
+		);
 
 		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', true );
 		wp_register_script( 'js-cookie', $url . 'assets/vendor/js-cookie/js.cookie.js', array(), '2.2.1', true );
@@ -450,7 +459,7 @@ class cnScript {
 			wp_register_style( 'cn-public-custom', $customCSS, $required, CN_CURRENT_VERSION );
 		}
 
-		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
+		wp_register_style( 'cn-qtip', $url . "assets/vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
 		wp_register_style( 'cn-chosen', $url . "assets/vendor/chosen/chosen$min.css", array(), '1.8.7' );
 		wp_register_style( 'cn-brandicons', $url . 'assets/vendor/icomoon-brands/style.css', array(), CN_CURRENT_VERSION );
 		wp_register_style( 'cn-font-awesome', $url . "assets/vendor/fontawesome/css/all$min.css", array(), '5.8.1' );

@@ -81,6 +81,40 @@ function _doAction( $tag, $args, $version, $replacement = '', $message = '' ) {
 }
 
 /**
+ * Wrapper for deprecated file, so we can apply some extra logic.
+ *
+ * @since 10.4.18
+ *
+ * @param string $file        The file that was included.
+ * @param string $version     The version of WordPress that deprecated the file.
+ * @param string $replacement Optional. The file that should have been included based on ABSPATH.
+ *                            Default empty.
+ * @param string $message     Optional. A message regarding the change. Default empty.
+ */
+function _file( $file, $version, $replacement, $message = '' ) {
+
+	if ( 'development' !== wp_get_environment_type() ) {
+
+		return;
+	}
+
+	$request = Request::get();
+
+	if ( $request->isAjax() || $request->isRest() ) {
+
+		$log_string  = "{$file} is deprecated since version {$version}.";
+		$log_string .= $replacement ? " Replace with {$replacement}." : ' No alternative available.';
+
+		do_action( 'deprecated_file_included', $file, $replacement, $version, $message );
+		error_log( $log_string );
+
+	} else {
+
+		_deprecated_file( esc_html( $file ), esc_html( $version ), esc_html( $replacement ), esc_html( $message ) );
+	}
+}
+
+/**
  * Wrapper for deprecated functions so we can apply some extra logic.
  *
  * @since 10.3

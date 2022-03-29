@@ -470,10 +470,11 @@ class cnOptions {
 	/**
 	 * Returns the family relation name based on the supplied key.
 	 *
-	 * @access private
-	 * @since  unknown
-	 * @param  $value string
-	 * @return string
+	 * @since unknown
+	 *
+	 * @param string $value The relation name slug.
+	 *
+	 * @return string The relation name.
 	 */
 	public function getFamilyRelation( $value ) {
 		$relations = $this->getDefaultFamilyRelationValues();

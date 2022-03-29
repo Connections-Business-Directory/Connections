@@ -243,7 +243,7 @@ class Functions {
 	 *
 	 * @since 9.8
 	 *
-	 * @param cnEntry $entry
+	 * @param cnEntry $entry Instance of the Entry object.
 	 *
 	 * @return bool|cnAddress
 	 */

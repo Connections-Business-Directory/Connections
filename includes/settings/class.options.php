@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_array;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
@@ -479,7 +480,7 @@ class cnOptions {
 	public function getFamilyRelation( $value ) {
 		$relations = $this->getDefaultFamilyRelationValues();
 
-		return $relations[ $value ];
+		return _array::get( $relations, $value, '' );
 	}
 
 	/**

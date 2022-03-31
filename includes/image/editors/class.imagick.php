@@ -180,11 +180,11 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Adjust the image brightness.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @param  integer $level -255 = min brightness, 0 = no change, +255 = max brightness
+	 * @since 8.1
 	 *
-	 * @return object         Imagick | WP_Error
+	 * @param integer $level -255 = min brightness, 0 = no change, +255 = max brightness
+	 *
+	 * @return Imagick|WP_Error
 	 */
 	public function brightness( $level ) {
 

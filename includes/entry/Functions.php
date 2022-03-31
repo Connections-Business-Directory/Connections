@@ -190,7 +190,7 @@ class Functions {
 			'Connections_Directory/Entry/Near/Query_Parameters',
 			$queryParameters
 		);
-		// var_dump( $queryParameters );
+
 		if ( empty( $queryParameters['latitude'] ) && empty( $queryParameters['longitude'] ) ) {
 
 			return $nearBy;

@@ -562,28 +562,22 @@ class cnSanitize {
 	}
 
 	/**
-	 * Sanitizes a hex color without a hash. Use hexColor() when possible.
+	 * Sanitizes a hex color without a hash.
 	 *
 	 * Returns either '' or a 3 or 6 digit hex color (without a #).
 	 *
-	 * This function is borrowed from the class_wp_customize_manager.php
-	 * file in WordPress core.
+	 * @since 8.1
+	 * @deprecated 10.4.19
+	 * @see sanitize_hex_color_no_hash()
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @uses   sanitize_hex_color()
-	 * @param  string $color
+	 * @param string $color
 	 *
-	 * @return mixed  string | string
+	 * @return string|null
 	 */
 	public static function hexColorNoHash( $color ) {
 
-		$color = ltrim( $color, '#' );
+		_deprecated_function( __METHOD__, '10.4.19', 'sanitize_hex_color_no_hash()' );
 
-		if ( '' === $color ) {
-			return '';
-		}
-
-		return self::hexColor( '#' . $color ) ? $color : '';
+		return sanitize_hex_color_no_hash( $color );
 	}
 }

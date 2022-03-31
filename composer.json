@@ -9,7 +9,8 @@
     "license": "GPL-2.0+",
     "require": {
         "php": "^7.4",
-        "ext-imagick": "*"
+        "ext-imagick": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
         "automattic/vipwpcs": "*",

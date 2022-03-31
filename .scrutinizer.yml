@@ -19,7 +19,7 @@ filter:
     dependency_paths:
         - "vendor/"
         - "languages/"
-        - "includes/libraries/"
+        - "includes/Libraries/"
         - "assets/"
         - "cache/"
         - "tests/"

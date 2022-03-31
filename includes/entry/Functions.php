@@ -245,7 +245,7 @@ class Functions {
 	 *
 	 * @param cnEntry $entry Instance of the Entry object.
 	 *
-	 * @return bool|cnAddress
+	 * @return false|cnAddress
 	 */
 	public static function getAddress( $entry ) {
 

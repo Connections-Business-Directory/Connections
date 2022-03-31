@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_sanitize;
 
 /**
@@ -188,7 +189,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 */
 	public function brightness( $level ) {
 
-		$level = (float) cnUtility::remapRange( $level, -255, 255, 0, 200 );
+		$level = (float) _::remapRange( $level, -255, 255, 0, 200 );
 
 		if ( ( $level >= 0 ) && ( $level <= 200 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 
@@ -222,7 +223,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 			try {
 
 				$sharpen  = $level <= 0 ? true : false;
-				$midpoint = cnUtility::remapRange( $level, -100, 100, -20, 20 );
+				$midpoint = _::remapRange( $level, -100, 100, -20, 20 );
 				$quanta   = $this->image->getQuantumRange();
 
 				return $this->image->sigmoidalContrastImage( $sharpen, abs( $midpoint ), .5 * $quanta['quantumRangeLong'] );

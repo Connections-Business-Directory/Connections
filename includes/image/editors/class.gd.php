@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_sanitize;
 
 /**
@@ -340,7 +341,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		// Technically, the new range should be -100, -100 because that is what the IMG_FILTER_CONTRAST support,
 		// but limiting it to -100, 80 more closely match the output from imagick.
-		$level = cnUtility::remapRange( $level, -100, 100, -100, 80 );
+		$level = _::remapRange( $level, -100, 100, -100, 80 );
 
 		// Ensure we round up rather than down. This is to prevent over/under $level values.
 		$level = $level >= 0 ? (int) ceil( $level ) : (int) floor( $level );
@@ -477,7 +478,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 */
 	public function smooth( $level = 0 ) {
 
-		$level = (float) cnUtility::remapRange( $level, -100, 100, -8, 8 );
+		$level = (float) _::remapRange( $level, -100, 100, -8, 8 );
 
 		if ( ( $level >= -8 ) && ( $level <= 8 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 

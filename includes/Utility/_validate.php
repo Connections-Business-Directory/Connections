@@ -66,6 +66,22 @@ final class _validate {
 	}
 
 	/**
+	 * Whether the supplied value is a hashed (#) hex color.
+	 *
+	 * @since 10.4.19
+	 *
+	 * @param string $color The hashed (#) hex color to validate.
+	 *
+	 * @return bool
+	 */
+	public static function isHexColor( $color ) {
+
+		$sanitized = _sanitize::hexColor( $color );
+
+		return ! empty( $sanitized );
+	}
+
+	/**
 	 * Determine if supplied value is an integer.
 	 *
 	 * Reliable consistent method vs `is_int()`.

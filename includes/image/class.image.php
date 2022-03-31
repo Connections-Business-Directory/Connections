@@ -618,7 +618,7 @@ class cnImage {
 		if ( ! is_null( $colorize ) ) {
 
 			// If $colorize is a HEX color, ensure it is hashed.
-			$colorize = cnFormatting::maybeHashHEXColor( $colorize );
+			$colorize = maybe_hash_hex_color( $colorize );
 
 			// Check to see if $colorize is a valid HEX color.
 			if ( ! _sanitize::hexColor( $colorize ) ) {

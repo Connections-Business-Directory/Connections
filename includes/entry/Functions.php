@@ -6,7 +6,6 @@ use cnEntry;
 use cnLink;
 use cnOutput;
 use cnSanitize;
-use cnUtility;
 use Connections_Directory\Utility\_string;
 
 /**

@@ -11,6 +11,7 @@
  * @since       0.8
  */
 
+use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
 
@@ -545,27 +546,19 @@ class cnSanitize {
 	 * This function is borrowed from the class_wp_customize_manager.php
 	 * file in WordPress core.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @param  string $color
+	 * @since 0.8
+	 * @deprecated 10.4.9
+	 * @see \Connections_Directory\Utility\_sanitize::hexColor()
+	 *
+	 * @param string $color
 	 *
 	 * @return string
 	 */
 	public static function hexColor( $color ) {
 
-		// Returns empty string if input was an empty string.
-		if ( '' === $color ) {
+		_deprecated_function( __METHOD__, '10.4.19', '\Connections_Directory\Utility\_sanitize::hexColor()' );
 
-			return '';
-		}
-
-		// Returns 3 or 6 hex digits, or the empty string.
-		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
-
-			return $color;
-		}
-
-		return '';
+		return _sanitize::hexColor( $color );
 	}
 
 	/**

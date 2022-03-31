@@ -169,6 +169,7 @@ final class _format {
 	 *
 	 * @since  8.1
 	 * @deprecated 9.11
+	 * @see maybe_hash_hex_color()
 	 *
 	 * @param string $color
 	 *
@@ -176,9 +177,9 @@ final class _format {
 	 */
 	public static function maybeHashHEXColor( $color ) {
 
-		_deprecated_function( __METHOD__, '9.11', '_color::maybeHashHEXColor' );
+		_deprecated_function( __METHOD__, '9.11', 'maybe_hash_hex_color()' );
 
-		return _color::maybeHashHEXColor( $color );
+		return maybe_hash_hex_color( $color );
 	}
 
 	/**

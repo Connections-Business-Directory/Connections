@@ -2,7 +2,7 @@
 
 namespace Connections_Directory\Utility;
 
-use cnSanitize;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Class _color
@@ -172,6 +172,8 @@ final class _color {
 	 * file in WordPress core.
 	 *
 	 * @since 8.1
+	 * @deprecated 10.4.19
+	 * @see maybe_hash_hex_color()
 	 *
 	 * @param string $color
 	 *
@@ -179,12 +181,9 @@ final class _color {
 	 */
 	public static function maybeHashHEXColor( $color ) {
 
-		if ( $unhashed = cnSanitize::hexColorNoHash( $color ) ) {
+		_deprecated_function( __METHOD__, '10.4.19', 'maybe_hash_hex_color()' );
 
-			return '#' . $unhashed;
-		}
-
-		return $color;
+		return maybe_hash_hex_color( $color );
 	}
 
 	/**

@@ -57,36 +57,6 @@ class cnHTML {
 	}
 
 	/**
-	 * Sanitize HTML class name or array of class names.
-	 *
-	 * @since      9.11
-	 * @deprecated 10.4
-	 *
-	 * @param array|string $classNames
-	 * @param string       $delimiter
-	 *
-	 * @return string
-	 */
-	public static function escapeClassnames( $classNames, $delimiter = ' ' ) {
-
-		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_escape::classNames()' );
-
-		if ( ! is_array( $classNames ) ) {
-
-			$classNames = explode( $delimiter, $classNames );
-		}
-
-		$classNames = array_map( 'sanitize_html_class', $classNames );
-		$escaped    = array_map( 'esc_attr', $classNames );
-
-		// Remove any empty array values.
-		$escaped = array_filter( $escaped );
-		$escaped = array_unique( $escaped );
-
-		return implode( ' ', $escaped );
-	}
-
-	/**
 	 * Helper method that can be used within loops to
 	 * dynamically call the correct field type to render.
 	 *

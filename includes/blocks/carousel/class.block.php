@@ -5,6 +5,7 @@ use cnArray;
 use cnScript;
 use cnTemplate as Template;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_sanitize;
 use Connections_Directory\Utility\_url;
 
 /**
@@ -306,7 +307,7 @@ class Carousel {
 			 */
 			if ( array_key_exists( 'arrowDotsColor', $block ) ) {
 
-				$carousel['arrowDotsColor'] = \cnSanitize::hexColor( $block['arrowDotsColor'] );
+				$carousel['arrowDotsColor'] = _sanitize::hexColor( $block['arrowDotsColor'] );
 			}
 
 			/*
@@ -314,7 +315,7 @@ class Carousel {
 			 */
 			if ( array_key_exists( 'backgroundColor', $block ) ) {
 
-				$carousel['backgroundColor'] = \cnSanitize::hexColor( $block['backgroundColor'] );
+				$carousel['backgroundColor'] = _sanitize::hexColor( $block['backgroundColor'] );
 			}
 
 			/*
@@ -322,7 +323,7 @@ class Carousel {
 			 */
 			if ( array_key_exists( 'color', $block ) ) {
 
-				$carousel['color'] = \cnSanitize::hexColor( $block['color'] );
+				$carousel['color'] = _sanitize::hexColor( $block['color'] );
 			}
 
 			/*
@@ -378,7 +379,7 @@ class Carousel {
 			 */
 			if ( array_key_exists( 'borderColor', $block ) ) {
 
-				$carousel['borderColor'] = \cnSanitize::hexColor( $block['borderColor'] );
+				$carousel['borderColor'] = _sanitize::hexColor( $block['borderColor'] );
 			}
 
 			/*
@@ -402,7 +403,7 @@ class Carousel {
 			 */
 			if ( array_key_exists( 'imageBorderColor', $block ) ) {
 
-				$carousel['imageBorderColor'] = \cnSanitize::hexColor( $block['imageBorderColor'] );
+				$carousel['imageBorderColor'] = _sanitize::hexColor( $block['imageBorderColor'] );
 			}
 
 			/*

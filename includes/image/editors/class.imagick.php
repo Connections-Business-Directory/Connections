@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_sanitize;
+
 /**
  * Class CN_Image_Editor_Imagick
  */
@@ -108,7 +110,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 */
 	public function colorize( $hexColor ) {
 
-		$hexColor = cnSanitize::hexColor( $hexColor );
+		$hexColor = _sanitize::hexColor( $hexColor );
 
 		if ( empty( $hexColor ) ) {
 

@@ -24,6 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_sanitize;
+
 if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 
 	/**
@@ -113,7 +115,7 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 			//$borderRadius      = absint( $attributes['borderRadius'] );
 			//$borderWidth       = absint( $attributes['borderWidth'] );
 			//$direction         = 'left' === $attributes['position'] ? 'row' : 'row-reverse';
-			$imageBorderColor  = cnSanitize::hexColor( $attributes['imageBorderColor'] );
+			$imageBorderColor  = _sanitize::hexColor( $attributes['imageBorderColor'] );
 			$imageBorderRadius = 'square' === $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
 			$imageBorderWidth  = absint( $attributes['imageBorderWidth'] );
 			//$position          = 'left' === $attributes['position'] ? 'right' : 'left';

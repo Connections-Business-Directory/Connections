@@ -121,7 +121,7 @@ class cnSanitize {
 				break;
 
 			case 'color':
-				$string = self::hexColor( $string );
+				$string = _sanitize::hexColor( $string );
 				break;
 
 			// Default should be unnecessary, but provided as a fallback anyway.

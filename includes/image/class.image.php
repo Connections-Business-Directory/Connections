@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Utility\_color;
+use Connections_Directory\Utility\_sanitize;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -620,7 +621,7 @@ class cnImage {
 			$colorize = cnFormatting::maybeHashHEXColor( $colorize );
 
 			// Check to see if $colorize is a valid HEX color.
-			if ( ! cnSanitize::hexColor( $colorize ) ) {
+			if ( ! _sanitize::hexColor( $colorize ) ) {
 
 				// Since $colorize is not a valid HEX color, check to see if it is a named color.
 				$colorize = cnColor::name2hex( $colorize );
@@ -761,7 +762,7 @@ class cnImage {
 		$canvas_color = _color::maybeHashHEXColor( $canvas_color );
 
 		// Check to see if $canvas_color is a valid HEX color.
-		if ( ! cnSanitize::hexColor( $canvas_color ) ) {
+		if ( ! _sanitize::hexColor( $canvas_color ) ) {
 
 			// Check to see if it is `transparent`, if not, check if it is a named color.
 			if ( strtolower( $canvas_color ) === 'transparent' ) {

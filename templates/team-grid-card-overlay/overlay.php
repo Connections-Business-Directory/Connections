@@ -24,6 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_sanitize;
+
 if ( ! class_exists( 'CN_Block_Team_Grid_Card_Overlay_Template' ) ) {
 
 	/**
@@ -84,10 +86,10 @@ if ( ! class_exists( 'CN_Block_Team_Grid_Card_Overlay_Template' ) ) {
 
 			$columns           = absint( $attributes['columns'] );
 			$gutterWidth       = absint( $attributes['gutterWidth'] );
-			$borderColor       = \cnSanitize::hexColor( $attributes['borderColor'] );
+			$borderColor       = _sanitize::hexColor( $attributes['borderColor'] );
 			$borderRadius      = absint( $attributes['borderRadius'] );
 			$borderWidth       = absint( $attributes['borderWidth'] );
-			$imageBorderColor  = \cnSanitize::hexColor( $attributes['imageBorderColor'] );
+			$imageBorderColor  = _sanitize::hexColor( $attributes['imageBorderColor'] );
 			$imageBorderRadius = 'square' === $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
 			$imageBorderWidth  = absint( $attributes['imageBorderWidth'] );
 			// $boxShadow        = $attributes['displayDropShadow'] ? '0px 5px 10px 5px rgba(186,186,186,0.5)' : 'none !important';

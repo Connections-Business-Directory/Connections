@@ -593,22 +593,4 @@ class cnSanitize {
 
 		return self::hexColor( '#' . $color ) ? $color : '';
 	}
-
-	/**
-	 * Sanitize HTML class name or array of class names.
-	 *
-	 * @access public
-	 * @since  8.5.18
-	 * @static
-	 *
-	 * @param array|string $name
-	 *
-	 * @return array|string
-	 */
-	public static function htmlClass( $name ) {
-
-		_deprecated_function( __METHOD__, '9.11', 'cnHTML::escapeClassnames()' );
-
-		return cnHTML::escapeClassnames( $name );
-	}
 }

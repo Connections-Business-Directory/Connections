@@ -759,7 +759,7 @@ class cnImage {
 		}
 
 		// If $canvas_color is a HEX color, ensure it is hashed.
-		$canvas_color = _color::maybeHashHEXColor( $canvas_color );
+		$canvas_color = maybe_hash_hex_color( $canvas_color );
 
 		// Check to see if $canvas_color is a valid HEX color.
 		if ( ! _sanitize::hexColor( $canvas_color ) ) {

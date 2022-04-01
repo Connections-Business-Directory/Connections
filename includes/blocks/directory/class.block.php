@@ -3,6 +3,7 @@
 namespace Connections_Directory\Blocks;
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_array;
 
 /**
  * Class Directory
@@ -293,7 +294,7 @@ class Directory {
 			'show_alphaindex'   => $attributes['characterIndex'],
 			'repeat_alphaindex' => $attributes['repeatCharacterIndex'],
 			'show_alphahead'    => $attributes['sectionHead'],
-			'template'          => $attributes['template'],
+			'template'          => _array::get( $attributes, 'template', Connections_Directory()->options->getActiveTemplate( 'all' ) ),
 			'list_type'         => $attributes['listType'],
 			$category           => $attributes['categories'],
 			'exclude_category'  => $attributes['excludeCategories'],

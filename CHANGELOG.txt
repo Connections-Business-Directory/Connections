@@ -1,5 +1,31 @@
 == Changelog ==
 
+= 10.4.19 04/01/2022 =
+* NEW: Introduce `_sanitize::hexColor()`.
+* NEW: Introduce `_validate::isHexColor()`.
+* NEW: Introduce `Entry::getLink()`.
+* TWEAK: Move `exit` before `use` statements.
+* TWEAK: Use `_array::get()` to prevent array index undefined PHP notice when retrieving family relation name.
+* TWEAK: Remove unused deprecated method `cnHTML::escapeClassnames()`.
+* TWEAK: Remove unused deprecated method `cnSanitize::htmlClass()`.
+* TWEAK: Deprecate `cnSanitize::hexColor()`.
+* TWEAK: Deprecate `cnSanitize::hexColorNoHash()`.
+* TWEAK: Deprecate `_color::maybeHashHEXColor()` and `_format::maybeHashHEXColor()`.
+* TWEAK: Remove unused import.
+* TWEAK: Remove use of deprecated method `cnSanitize::hexColor()` throughout.
+* TWEAK: Remove use of deprecated method `cnFormatting::maybeHashHEXColor()` throughout.
+* TWEAK: Remove use of deprecated method `_color::maybeHashHEXColor()` throughout.
+* TWEAK: Remove use of deprecated method `cnUtility::remapRange()` throughout.
+* BUG: Default taxonomy labels should inherit from taxonomy name.
+* BUG: Prevent possible undefined index notice in the Directory Block.
+* OTHER: Remove commented out code.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpDoc updates.
+* DEV: Update `.scrutinizer.yml` config.
+* DEV: Update `composer.json` config.
+* DEV: Update `phpcs.xml` config.
+* DEV: Update `package-lock.json`.
+
 = 10.4.18 03/28/2022 =
 * NEW: Introduce `Utility\_deprecated::_file()`.
 * TWEAK: Move the `Browser` library from the composer vendor folder to the Libraries folder.

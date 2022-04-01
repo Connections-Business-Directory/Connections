@@ -4,84 +4,95 @@
 # However I wish to use an external php code sniffer config, so I need to use the tools param... I think.
 
 build:
-    nodes:
-        analysis:
-            project_setup:
-                override: true
-            tests:
-                override:
-                    - php-scrutinizer-run --enable-security-analysis
-#                    - php-scrutinizer-run
-            dependencies:
-                before:
-                    - composer require --dev johnpbloch/wordpress
+  environment:
+    php:
+      version: 7.4
+      pecl_extensions:
+        - imagick
+  nodes:
+    analysis:
+      environment:
+        php:
+          version: 7.4
+          compile_options: '--enable-gd --with-openssl --with-curl --with-pdo-mysql --with-mysqli --with-freetype --enable-mbstring --enable-mbregex --enable-exif --enable-bcmath --with-mhash --with-xmlrpc --with-xsl --enable-opcache --enable-intl --with-pear --with-gettext --enable-fpm --with-zlib-dir --with-zlib --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl'
+          pecl_extensions:
+            - imagick
+      project_setup:
+        override: true
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+#         - php-scrutinizer-run
+      dependencies:
+        before:
+          - composer require --dev johnpbloch/wordpress --ignore-platform-req=ext-imagick
 filter:
-    dependency_paths:
-        - "vendor/"
-        - "languages/"
-        - "includes/libraries/"
-        - "assets/"
-        - "cache/"
-        - "tests/"
-        - "bin/"
-        - "wordpress/"
+  dependency_paths:
+    - "vendor/"
+    - "languages/"
+    - "includes/Libraries/"
+    - "assets/"
+    - "cache/"
+    - "tests/"
+    - "bin/"
+    - "wordpress/"
 before_commands:
-    - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
+  - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
 tools:
-    external_code_coverage:
-        timeout: 900
-    php_mess_detector:
-        config:
-            code_size_rules:
-                cyclomatic_complexity:  false
-                npath_complexity:     false
-                excessive_method_length:  false
-                excessive_class_length:  false
-                excessive_parameter_list:  false
-                excessive_public_count:  false
-                too_many_fields:      false
-                too_many_methods:     false
-                excessive_class_complexity:  false
-        filter:
-#            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
-    php_analyzer:
-        filter:
-#            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
-        config:
-            parameter_reference_check: true
-            checkstyle: { enabled: true, no_trailing_whitespace: true, naming: { enabled: false, local_variable: '', abstract_class_name: '', utility_class_name: '', constant_name: '', property_name: '', method_name: '', parameter_name: '', interface_name: '', type_name: '', exception_name: '', isser_method_name: '' } }
-            unreachable_code: true
-            check_access_control: true
-            typo_checks: true
-            check_variables: true
-            suspicious_code: { enabled: true, overriding_parameter: true, overriding_closure_use: true, parameter_closure_use_conflict: true, parameter_multiple_times: true, non_existent_class_in_instanceof_check: true, non_existent_class_in_catch_clause: true, assignment_of_null_return: true, non_commented_switch_fallthrough: true, non_commented_empty_catch_block: true, overriding_private_members: true, use_statement_alias_conflict: true, precedence_in_condition_assignment: true }
-            dead_assignments: true
-            verify_php_doc_comments: { enabled: true, parameters: true, return: true, suggest_more_specific_types: true, ask_for_return_if_not_inferrable: true, ask_for_param_type_annotation: true }
-            loops_must_use_braces: false
-            check_usage_context: { enabled: false, method_call_on_non_object: { enabled: false, ignore_null_pointer: false }, foreach: { value_as_reference: false, traversable: false }, missing_argument: false, argument_type_checks: disabled }
-            simplify_boolean_return: true
-            phpunit_checks: false
-            reflection_checks: false
-            precedence_checks: { enabled: false, assignment_in_condition: false, comparison_of_bit_result: false }
-            basic_semantic_checks: true
-            doc_comment_fixes: true
-            reflection_fixes: true
-            use_statement_fixes: { enabled: false, remove_unused: false, preserve_multiple: false, order_alphabetically: false }
-    php_code_sniffer:
-        filter:
-#            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
-        config:
-#            tab_width: '4'
-            standard: "WordPress-Extra"
-#            sniffs: { psr1: { files: { side_effects_sniff: false } }, generic: { code_analysis: { for_loop_with_test_function_call_sniff: false, empty_statement_sniff: false, unnecessary_final_modifier_sniff: false, useless_overriding_method_sniff: false, jumbled_incrementer_sniff: false }, php: { deprecated_functions_sniff: false, character_before_php_opening_tag_sniff: false } }, squiz: { scope: { static_this_usage_sniff: false, method_scope_sniff: false, member_var_scope_sniff: false }, classes: { self_member_reference_sniff: false }, php: { non_executable_code_sniff: false } }, wordpress: { arrays: { array_declaration_sniff: true }, classes: { valid_class_name_sniff: true }, files: { file_name_sniff: true }, formatting: { multiple_statement_alignment_sniff: true }, functions: { function_call_signature_sniff: true, function_declaration_argument_spacing_sniff: true }, naming_conventions: { valid_function_name_sniff: true }, objects: { object_instantiation_sniff: true }, php: { discouraged_functions_sniff: true }, strings: { double_quote_usage_sniff: true }, white_space: { control_structure_spacing_sniff: true, operator_spacing_sniff: true, php_indent_sniff: true }, xss: { escape_output_sniff: true } } }
-    sensiolabs_security_checker:
-        filter:
-#            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
-    php_code_coverage: true
-    php_pdepend: true
-    php_loc:
-        enabled: true
-        excluded_dirs: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
-    php_cpd:
-        enabled: true
-#        excluded_dirs: [vendor, languages, includes/libraries, assets, cache, tests, bin]
+  external_code_coverage:
+    timeout: 900
+  php_mess_detector:
+    config:
+      code_size_rules:
+        cyclomatic_complexity: false
+        npath_complexity: false
+        excessive_method_length: false
+        excessive_class_length: false
+        excessive_parameter_list: false
+        excessive_public_count: false
+        too_many_fields: false
+        too_many_methods: false
+        excessive_class_complexity: false
+    filter:
+#     excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
+  php_analyzer:
+    filter:
+#     excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
+    config:
+      parameter_reference_check: true
+      checkstyle: { enabled: true, no_trailing_whitespace: true, naming: { enabled: false, local_variable: '', abstract_class_name: '', utility_class_name: '', constant_name: '', property_name: '', method_name: '', parameter_name: '', interface_name: '', type_name: '', exception_name: '', isser_method_name: '' } }
+      unreachable_code: true
+      check_access_control: true
+      typo_checks: true
+      check_variables: true
+      suspicious_code: { enabled: true, overriding_parameter: true, overriding_closure_use: true, parameter_closure_use_conflict: true, parameter_multiple_times: true, non_existent_class_in_instanceof_check: true, non_existent_class_in_catch_clause: true, assignment_of_null_return: true, non_commented_switch_fallthrough: true, non_commented_empty_catch_block: true, overriding_private_members: true, use_statement_alias_conflict: true, precedence_in_condition_assignment: true }
+      dead_assignments: true
+      verify_php_doc_comments: { enabled: true, parameters: true, return: true, suggest_more_specific_types: true, ask_for_return_if_not_inferrable: true, ask_for_param_type_annotation: true }
+      loops_must_use_braces: false
+      check_usage_context: { enabled: false, method_call_on_non_object: { enabled: false, ignore_null_pointer: false }, foreach: { value_as_reference: false, traversable: false }, missing_argument: false, argument_type_checks: disabled }
+      simplify_boolean_return: true
+      phpunit_checks: false
+      reflection_checks: false
+      precedence_checks: { enabled: false, assignment_in_condition: false, comparison_of_bit_result: false }
+      basic_semantic_checks: true
+      doc_comment_fixes: true
+      reflection_fixes: true
+      use_statement_fixes: { enabled: false, remove_unused: false, preserve_multiple: false, order_alphabetically: false }
+  php_code_sniffer:
+    filter:
+#     excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
+    config:
+#    tab_width: '4'
+      standard: "WordPress-Extra"
+#       sniffs: { psr1: { files: { side_effects_sniff: false } }, generic: { code_analysis: { for_loop_with_test_function_call_sniff: false, empty_statement_sniff: false, unnecessary_final_modifier_sniff: false, useless_overriding_method_sniff: false, jumbled_incrementer_sniff: false }, php: { deprecated_functions_sniff: false, character_before_php_opening_tag_sniff: false } }, squiz: { scope: { static_this_usage_sniff: false, method_scope_sniff: false, member_var_scope_sniff: false }, classes: { self_member_reference_sniff: false }, php: { non_executable_code_sniff: false } }, wordpress: { arrays: { array_declaration_sniff: true }, classes: { valid_class_name_sniff: true }, files: { file_name_sniff: true }, formatting: { multiple_statement_alignment_sniff: true }, functions: { function_call_signature_sniff: true, function_declaration_argument_spacing_sniff: true }, naming_conventions: { valid_function_name_sniff: true }, objects: { object_instantiation_sniff: true }, php: { discouraged_functions_sniff: true }, strings: { double_quote_usage_sniff: true }, white_space: { control_structure_spacing_sniff: true, operator_spacing_sniff: true, php_indent_sniff: true }, xss: { escape_output_sniff: true } } }
+  sensiolabs_security_checker:
+    filter:
+#     excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
+  php_code_coverage: false
+  php_pdepend: true
+  php_loc:
+    enabled: true
+    excluded_dirs: [ vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
+  php_cpd:
+    enabled: true
+#     excluded_dirs: [vendor, languages, includes/libraries, assets, cache, tests, bin]

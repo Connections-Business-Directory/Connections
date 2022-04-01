@@ -1,9 +1,12 @@
 <?php
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_sanitize;
 
 /**
  * Class CN_Image_Editor_Imagick
@@ -11,10 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 	/**
-	 * Changes the opacity of the image
+	 * Changes the opacity of the image.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
 	 * @param int $level 0–100
 	 *
@@ -56,7 +58,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 				// if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
 				// $this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
 
-				// Add the alpha channel
+				// Add the alpha channel.
 				/** @todo Text how this affects an image which already has an alpha channel. */
 				$this->image->setImageAlphaChannel( Imagick::ALPHACHANNEL_ACTIVATE );
 
@@ -98,17 +100,17 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	}
 
 	/**
-	 * Tints the image a different color
+	 * Tints the image a different color.
 	 *
-	 * @access public
 	 * @since  8.1
 	 *
 	 * @param string $hexColor hex color e.g. #ff00ff
+	 *
 	 * @return boolean|WP_Error
 	 */
 	public function colorize( $hexColor ) {
 
-		$hexColor = cnSanitize::hexColor( $hexColor );
+		$hexColor = _sanitize::hexColor( $hexColor );
 
 		if ( empty( $hexColor ) ) {
 
@@ -138,10 +140,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Convert the image to grayscale.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return object Imagick | WP_Error
+	 * @return Imagick|WP_Error
 	 */
 	public function grayscale() {
 
@@ -158,10 +159,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Negates the image.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return object Imagick | WP_Error
+	 * @return Imagick|WP_Error
 	 */
 	public function negate() {
 
@@ -178,15 +178,15 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Adjust the image brightness.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @param  integer $level -255 = min brightness, 0 = no change, +255 = max brightness
+	 * @since 8.1
 	 *
-	 * @return object         Imagick | WP_Error
+	 * @param integer $level -255 = min brightness, 0 = no change, +255 = max brightness
+	 *
+	 * @return Imagick|WP_Error
 	 */
 	public function brightness( $level ) {
 
-		$level = (float) cnUtility::remapRange( $level, -255, 255, 0, 200 );
+		$level = (float) _::remapRange( $level, -255, 255, 0, 200 );
 
 		if ( ( $level >= 0 ) && ( $level <= 200 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 
@@ -207,11 +207,11 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Adjust the image contrast.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @param  integer $level -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
+	 * @since 8.1
 	 *
-	 * @return object         Imagick | WP_Error
+	 * @param integer $level -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
+	 *
+	 * @return Imagick|WP_Error
 	 */
 	public function contrast( $level ) {
 
@@ -220,7 +220,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 			try {
 
 				$sharpen  = $level <= 0 ? true : false;
-				$midpoint = cnUtility::remapRange( $level, -100, 100, -20, 20 );
+				$midpoint = _::remapRange( $level, -100, 100, -20, 20 );
 				$quanta   = $this->image->getQuantumRange();
 
 				return $this->image->sigmoidalContrastImage( $sharpen, abs( $midpoint ), .5 * $quanta['quantumRangeLong'] );
@@ -238,10 +238,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Apply the edge detection filter.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return object             Imagick | WP_Error
+	 * @return Imagick|WP_Error
 	 */
 	public function detect_edges() {
 
@@ -267,10 +266,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Apply the emboss filter.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return object             Imagick | WP_Error
+	 * @return Imagick|WP_Error
 	 */
 	public function emboss() {
 
@@ -296,10 +294,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Apply a gaussian blur.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return object             Imagick | WP_Error
+	 * @return Imagick|WP_Error
 	 */
 	public function gaussian_blur() {
 
@@ -316,10 +313,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Apply a blur.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return object             Imagick | WP_Error
+	 * @return Imagick|WP_Error
 	 */
 	public function blur() {
 
@@ -336,10 +332,9 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	/**
 	 * Sharpens an image.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return object             Imagick | WP_Error
+	 * @return Imagick|WP_Error
 	 */
 	public function sharpen() {
 

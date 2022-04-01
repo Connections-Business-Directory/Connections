@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.4
 Tested up to: 5.9
 Requires PHP: 5.6.20
-Stable tag: 10.4.18
+Stable tag: 10.4.19
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,32 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.19 04/01/2022 =
+* NEW: Introduce `_sanitize::hexColor()`.
+* NEW: Introduce `_validate::isHexColor()`.
+* NEW: Introduce `Entry::getLink()`.
+* TWEAK: Move `exit` before `use` statements.
+* TWEAK: Use `_array::get()` to prevent array index undefined PHP notice when retrieving family relation name.
+* TWEAK: Remove unused deprecated method `cnHTML::escapeClassnames()`.
+* TWEAK: Remove unused deprecated method `cnSanitize::htmlClass()`.
+* TWEAK: Deprecate `cnSanitize::hexColor()`.
+* TWEAK: Deprecate `cnSanitize::hexColorNoHash()`.
+* TWEAK: Deprecate `_color::maybeHashHEXColor()` and `_format::maybeHashHEXColor()`.
+* TWEAK: Remove unused import.
+* TWEAK: Remove use of deprecated method `cnSanitize::hexColor()` throughout.
+* TWEAK: Remove use of deprecated method `cnFormatting::maybeHashHEXColor()` throughout.
+* TWEAK: Remove use of deprecated method `_color::maybeHashHEXColor()` throughout.
+* TWEAK: Remove use of deprecated method `cnUtility::remapRange()` throughout.
+* BUG: Default taxonomy labels should inherit from taxonomy name.
+* BUG: Prevent possible undefined index notice in the Directory Block.
+* OTHER: Remove commented out code.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpDoc updates.
+* DEV: Update `.scrutinizer.yml` config.
+* DEV: Update `composer.json` config.
+* DEV: Update `phpcs.xml` config.
+* DEV: Update `package-lock.json`.
 
 = 10.4.18 03/28/2022 =
 * NEW: Introduce `Utility\_deprecated::_file()`.
@@ -884,41 +910,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: .gitignore PHPCS-report.txt.
 * DEV: Add "Requires at least" and "Requires PHP" to the plugin header.
 
-= 10.4.3 09/27/2021 =
-* SECURITY: Entry data on the Manage admin page should be escaped to prevent high level WordPress Users to perform Cross-Site Scripting attacks.
-
-= 10.4.2 09/23/2021 =
-* COMPATIBILITY: Add compatibility shim for the All-in-One Video Gallery plugin.
-* TWEAK: Ensure value is object before accessing its properties.
-
-= 10.4.1 09/14/2021 =
-* NEW: Introduce `_::isInteger()` and `_::isPositiveInteger()`.
-* NEW: Introduce the `suppress_filters` parameter in `cnRetrieve::entries()`.
-* NEW: Introduce `cnTemplateFactory::maybeActivate()`.
-* TWEAK: Correct initiate new objects.
-* TWEAK: Use `self` shortcode keyword instead of classname when checking instance of object.
-* TWEAK: Utilize the `suppress_filters` property in `cnRetrieve::upcoming()`.
-* TWEAK: Utilize `suppress_filters` in the admin dashboard widgets.
-* TWEAK: Check to make sure object property is set before use.
-* TWEAK: Remove unnecessary `isset()` check.
-* TWEAK: Action to register templates should be run before templates are activated.
-* TWEAK: Add check for instance of self when initiating the template factory.
-* TWEAK: Update action hooks to call `cnTemplateFactory::maybeActivate()`.
-* TWEAK: Add call to `cnTemplateFactory::maybeActivate()` in `cnTemplateFactory()`. Needed to support the new Widget Editor because it seems the `rest_init` hook does not fire or is not fired in time to render the widget previews. Templates are required to be activated because templates are used to render the widgets.
-* OTHER: Correct typos.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-
 == Upgrade Notice ==
-
-= 10.4.1 =
-It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
-
-= 10.4.2 =
-It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
-
-= 10.4.3 =
-It is recommended to back up before updating. Requires WordPress >= 5.1 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.5 =
 It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
@@ -960,4 +952,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.18 =
+It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.19 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

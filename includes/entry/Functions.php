@@ -3,9 +3,9 @@ namespace Connections_Directory\Entry;
 
 use cnAddress;
 use cnEntry;
+use cnLink;
 use cnOutput;
 use cnSanitize;
-use cnUtility;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -190,7 +190,7 @@ class Functions {
 			'Connections_Directory/Entry/Near/Query_Parameters',
 			$queryParameters
 		);
-		// var_dump( $queryParameters );
+
 		if ( empty( $queryParameters['latitude'] ) && empty( $queryParameters['longitude'] ) ) {
 
 			return $nearBy;
@@ -243,9 +243,9 @@ class Functions {
 	 *
 	 * @since 9.8
 	 *
-	 * @param cnEntry $entry
+	 * @param cnEntry $entry Instance of the Entry object.
 	 *
-	 * @return bool|cnAddress
+	 * @return false|cnAddress
 	 */
 	public static function getAddress( $entry ) {
 
@@ -264,6 +264,37 @@ class Functions {
 		if ( $address instanceof cnAddress ) {
 
 			return $address;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get preferred Entry link if set, if not, then get first link attached to Entry.
+	 *
+	 * @since 10.4.19
+	 *
+	 * @param cnEntry $entry Instance of the Entry object.
+	 *
+	 * @return false|cnLink
+	 */
+	public static function getLink( $entry ) {
+
+		// Try to get the preferred link.
+		$link = $entry->links->getPreferred();
+
+		// If no preferred is set, grab the first link.
+		if ( ! $link instanceof cnLink ) {
+
+			$link = $entry->links->getCollection()->first();
+		}
+
+		// The filters need to be reset so additional calls to get links with different params return expected results.
+		$entry->links->resetFilters();
+
+		if ( $link instanceof cnLink ) {
+
+			return $link;
 		}
 
 		return false;

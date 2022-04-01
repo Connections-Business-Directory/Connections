@@ -81,6 +81,38 @@ final class _sanitize {
 	}
 
 	/**
+	 * Sanitizes a hex color.
+	 *
+	 * Returns either '', a 3 or 6 digit hashed (#) hex color.
+	 *
+	 * Use this over the core WP `sanitize_hex_color()` because
+	 * this will return a string instead of void if it fails,
+	 * and it provides a fallback option.
+	 *
+	 * @see sanitize_hex_color()
+	 *
+	 * @since 10.4.19
+	 *
+	 * @param string $color    The hashed (#) hex color to sanitize.
+	 * @param string $fallback Optional. The value to return if the sanitization fails.
+	 *                         Default: An empty string.
+	 *
+	 * @return string
+	 */
+	public static function hexColor( $color, $fallback = '' ) {
+
+		$sanitized = $fallback;
+
+		// Returns 3 or 6 hex digits, or the empty string.
+		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+
+			$sanitized = $color;
+		}
+
+		return $sanitized;
+	}
+
+	/**
 	 * Sanitizes search term.
 	 *
 	 * @since 10.4.4

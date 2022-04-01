@@ -1161,10 +1161,17 @@ final class Taxonomy {
 			);
 		}
 
-		$defaults['menu_name']      = $defaults['name'];
-		$defaults['name_admin_bar'] = isset( $defaults['singular_name'] ) ? $defaults['singular_name'] : $defaults['name'];
-		$defaults['all_items']      = $defaults['menu_name'];
-		$defaults['archives']       = $defaults['all_items'];
+		/**
+		 * This section is similar to:
+		 *
+		 * @see _get_custom_object_labels()
+		 */
+		$defaults['name']           = _array::get( $labels, 'name', ( isset( $this->label ) ? $this->label : $this->name ) );
+		$defaults['singular_name']  = _array::get( $labels, 'singular_name', $defaults['name'] );
+		$defaults['name_admin_bar'] = _array::get( $labels, 'name_admin_bar', $defaults['name'] );
+		$defaults['menu_name']      = _array::get( $labels, 'menu_name', $defaults['name'] );
+		$defaults['all_items']      = _array::get( $labels, 'all_items', $defaults['menu_name'] );
+		$defaults['archives']       = _array::get( $labels, 'archives', $defaults['all_items'] );
 
 		$defaults['name_field_description']   = __( 'The name is how it appears on your site.', 'connections' );
 		$defaults['slug_field_description']   = __( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'connections' );

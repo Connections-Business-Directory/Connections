@@ -11,12 +11,13 @@
  * @since       unknown
  */
 
-use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
-
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Utility\_array;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
  * Get and Set the plugin options
@@ -470,15 +471,16 @@ class cnOptions {
 	/**
 	 * Returns the family relation name based on the supplied key.
 	 *
-	 * @access private
-	 * @since  unknown
-	 * @param  $value string
-	 * @return string
+	 * @since unknown
+	 *
+	 * @param string $value The relation name slug.
+	 *
+	 * @return string The relation name.
 	 */
 	public function getFamilyRelation( $value ) {
 		$relations = $this->getDefaultFamilyRelationValues();
 
-		return $relations[ $value ];
+		return _array::get( $relations, $value, '' );
 	}
 
 	/**

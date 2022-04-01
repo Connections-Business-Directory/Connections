@@ -11,6 +11,7 @@
  * @since       0.8
  */
 
+use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
 
@@ -120,7 +121,7 @@ class cnSanitize {
 				break;
 
 			case 'color':
-				$string = self::hexColor( $string );
+				$string = _sanitize::hexColor( $string );
 				break;
 
 			// Default should be unnecessary, but provided as a fallback anyway.
@@ -545,70 +546,38 @@ class cnSanitize {
 	 * This function is borrowed from the class_wp_customize_manager.php
 	 * file in WordPress core.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @param  string $color
+	 * @since 0.8
+	 * @deprecated 10.4.9
+	 * @see \Connections_Directory\Utility\_sanitize::hexColor()
+	 *
+	 * @param string $color
 	 *
 	 * @return string
 	 */
 	public static function hexColor( $color ) {
 
-		// Returns empty string if input was an empty string.
-		if ( '' === $color ) {
+		_deprecated_function( __METHOD__, '10.4.19', '\Connections_Directory\Utility\_sanitize::hexColor()' );
 
-			return '';
-		}
-
-		// Returns 3 or 6 hex digits, or the empty string.
-		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
-
-			return $color;
-		}
-
-		return '';
+		return _sanitize::hexColor( $color );
 	}
 
 	/**
-	 * Sanitizes a hex color without a hash. Use hexColor() when possible.
+	 * Sanitizes a hex color without a hash.
 	 *
 	 * Returns either '' or a 3 or 6 digit hex color (without a #).
 	 *
-	 * This function is borrowed from the class_wp_customize_manager.php
-	 * file in WordPress core.
+	 * @since 8.1
+	 * @deprecated 10.4.19
+	 * @see sanitize_hex_color_no_hash()
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @uses   sanitize_hex_color()
-	 * @param  string $color
+	 * @param string $color
 	 *
-	 * @return mixed  string | string
+	 * @return string|null
 	 */
 	public static function hexColorNoHash( $color ) {
 
-		$color = ltrim( $color, '#' );
+		_deprecated_function( __METHOD__, '10.4.19', 'sanitize_hex_color_no_hash()' );
 
-		if ( '' === $color ) {
-			return '';
-		}
-
-		return self::hexColor( '#' . $color ) ? $color : '';
-	}
-
-	/**
-	 * Sanitize HTML class name or array of class names.
-	 *
-	 * @access public
-	 * @since  8.5.18
-	 * @static
-	 *
-	 * @param array|string $name
-	 *
-	 * @return array|string
-	 */
-	public static function htmlClass( $name ) {
-
-		_deprecated_function( __METHOD__, '9.11', 'cnHTML::escapeClassnames()' );
-
-		return cnHTML::escapeClassnames( $name );
+		return sanitize_hex_color_no_hash( $color );
 	}
 }

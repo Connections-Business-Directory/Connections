@@ -1,9 +1,12 @@
 <?php
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_sanitize;
 
 /**
  * Class CN_Image_Editor_GD
@@ -18,13 +21,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 * If one of the two is set to null, the resize will
 	 * maintain aspect ratio according to the provided dimension.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
 	 * @param  int|null $max_w Image width.
 	 * @param  int|null $max_h Image height.
 	 * @param  boolean  $crop
-	 * @return boolean|WP_Error
+	 *
+	 * @return true|WP_Error
 	 */
 	public function resize_padded( $canvas_w, $canvas_h, $canvas_color, $width, $height, $orig_w, $orig_h, $origin_x, $origin_y ) {
 
@@ -99,13 +102,13 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Rotates current image counter-clockwise by $angle.
 	 * Ported from image-edit.php
-	 * Added presevation of alpha channels
+	 * Added preservation of alpha channels
 	 *
-	 * @access public
 	 * @since 8.1
 	 *
 	 * @param float $angle
-	 * @return boolean|WP_Error
+	 *
+	 * @return true|WP_Error
 	 */
 	public function rotate( $angle ) {
 		if ( function_exists( 'imagerotate' ) ) {
@@ -128,8 +131,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Changes the opacity of the image
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
 	 * @param int $level 0–100
 	 *
@@ -212,15 +214,15 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Tints the image a different color
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
 	 * @param string $hexColor color e.g. #ff00ff
-	 * @return boolean|WP_Error
+	 *
+	 * @return true|WP_Error
 	 */
 	public function colorize( $hexColor ) {
 
-		$hexColor = cnSanitize::hexColor( $hexColor );
+		$hexColor = _sanitize::hexColor( $hexColor );
 
 		if ( empty( $hexColor ) ) {
 
@@ -258,10 +260,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Convert the image to grayscale.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return mixed          bool | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function grayscale() {
 
@@ -280,10 +281,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Negates the image.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return mixed          bool | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function negate() {
 
@@ -302,11 +302,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Adjust the image brightness.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @param  integer $level -255 = min brightness, 0 = no change, +255 = max brightness
+	 * @since 8.1
 	 *
-	 * @return mixed          bool | object WP_Error
+	 * @param integer $level -255 = min brightness, 0 = no change, +255 = max brightness
+	 *
+	 * @return true|WP_Error
 	 */
 	public function brightness( $level = 0 ) {
 
@@ -328,17 +328,17 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Adjust the image contrast.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @param  integer $level -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
+	 * @since 8.1
 	 *
-	 * @return mixed          bool | object WP_Error
+	 * @param integer $level -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!).
+	 *
+	 * @return true|WP_Error
 	 */
 	public function contrast( $level = 0 ) {
 
 		// Technically, the new range should be -100, -100 because that is what the IMG_FILTER_CONTRAST support,
 		// but limiting it to -100, 80 more closely match the output from imagick.
-		$level = cnUtility::remapRange( $level, -100, 100, -100, 80 );
+		$level = _::remapRange( $level, -100, 100, -100, 80 );
 
 		// Ensure we round up rather than down. This is to prevent over/under $level values.
 		$level = $level >= 0 ? (int) ceil( $level ) : (int) floor( $level );
@@ -359,12 +359,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	}
 
 	/**
-	 * Applies the edge dection filter.
+	 * Applies the edge detection filter.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return mixed             bool | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function detect_edges() {
 
@@ -380,12 +379,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	}
 
 	/**
-	 * Applies the edge dection filter.
+	 * Applies the edge detection filter.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return mixed             bool | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function emboss() {
 
@@ -403,10 +401,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Applies the gaussian blur.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return mixed             bool | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function gaussian_blur() {
 
@@ -424,10 +421,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Applies a blur.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return mixed             bool | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function blur() {
 
@@ -445,10 +441,9 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Applies a mean removal filter which applies a crappy "sketchy" effect, supposedly.
 	 *
-	 * @access public
-	 * @since  8.1
+	 * @since 8.1
 	 *
-	 * @return mixed             bool | object WP_Error
+	 * @return true|WP_Error
 	 */
 	public function sketchy() {
 
@@ -466,16 +461,17 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Applies a smooth filter.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @url    http://www.tuxradar.com/practicalphp/11/2/15
-	 * @param  integer $level    -100 = max smooth, 100 = min smooth
+	 * @link http://www.tuxradar.com/practicalphp/11/2/15
 	 *
-	 * @return mixed             bool | object WP_Error
+	 * @since 8.1
+	 *
+	 * @param integer $level -100 = max smooth, 100 = min smooth
+	 *
+	 * @return true|WP_Error
 	 */
 	public function smooth( $level = 0 ) {
 
-		$level = (float) cnUtility::remapRange( $level, -100, 100, -8, 8 );
+		$level = (float) _::remapRange( $level, -100, 100, -8, 8 );
 
 		if ( ( $level >= -8 ) && ( $level <= 8 ) && ( filter_var( $level, FILTER_VALIDATE_FLOAT ) !== false ) ) {
 
@@ -495,11 +491,11 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	/**
 	 * Sharpens an image.
 	 *
-	 * @access public
-	 * @since  8.1
 	 * @credit Ben Gillbanks and Mark Maunder authors of TimThumb
 	 *
-	 * @return mixed             bool | object WP_Error
+	 * @since 8.1
+	 *
+	 * @return true|WP_Error
 	 */
 	public function sharpen() {
 
@@ -523,5 +519,4 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 
 		return new WP_Error( 'image_sharpen_error', __( 'Image sharpen failed.', 'connections' ), $this->file );
 	}
-
 }

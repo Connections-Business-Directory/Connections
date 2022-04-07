@@ -120,7 +120,7 @@ class cnDependency {
 	 */
 	public static function autoload( $class ) {
 
-		$matrix = self::classRegistry();
+		$matrix = self::classMap();
 
 		if ( ! isset( $matrix[ $class ] ) ) {
 
@@ -191,7 +191,7 @@ class cnDependency {
 	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.LongIndexSpaceBeforeDoubleArrow
 	 */
-	private static function classRegistry() {
+	private static function classMap() {
 
 		return array(
 

@@ -120,14 +120,14 @@ class cnDependency {
 	 */
 	public static function autoload( $class ) {
 
-		$matrix = self::classMap();
+		$map = self::classMap();
 
-		if ( ! isset( $matrix[ $class ] ) ) {
+		if ( ! isset( $map[ $class ] ) ) {
 
 			return;
 		}
 
-		$file = CN_PATH . $matrix[ $class ];
+		$file = CN_PATH . $map[ $class ];
 
 		// If the file exists, require it.
 		if ( file_exists( $file ) ) {

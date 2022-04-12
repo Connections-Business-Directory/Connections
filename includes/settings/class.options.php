@@ -103,7 +103,8 @@ class cnOptions {
 		$this->version   = ( isset( $this->options['version'] ) && ! empty( $this->options['version'] ) ) ? $this->options['version'] : CN_CURRENT_VERSION;
 		$this->dbVersion = ( isset( $this->options['db_version'] ) && ! empty( $this->options['db_version'] ) ) ? $this->options['db_version'] : CN_DB_VERSION;
 
-		$this->defaultTemplatesSet = $this->options['settings']['template']['defaults_set'];
+		// $this->defaultTemplatesSet = $this->options['settings']['template']['defaults_set'];
+		$this->defaultTemplatesSet = _array::get( $this->options, 'settings.template.defaults_set', null );
 		$this->activeTemplates     = (array) $this->options['settings']['template']['active'];
 
 		$this->defaultRolesSet = isset( $this->options['settings']['roles']['defaults_set'] ) && ! empty( $this->options['settings']['roles']['defaults_set'] ) ? $this->options['settings']['roles']['defaults_set'] : false;

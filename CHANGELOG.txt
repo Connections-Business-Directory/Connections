@@ -1,5 +1,15 @@
 == Changelog ==
 
+= 10.4.20 04/12/2022 =
+* TWEAK: On mobile, set the default option to disabled/hidden, so it is not selectable by the user when using the mobile OS native select control.
+* TWEAK: Rename private method.
+* TWEAK: Rename classmap variable.
+* BUG: Prevent an index not found PHP notice that could occur under certain circumstances.
+* SECURITY: Bump moment from 2.29.1 to 2.29.2.
+* OTHER: Updated tested up to in the plugin header.
+* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpDoc updates.
+
 = 10.4.19 04/01/2022 =
 * NEW: Introduce `_sanitize::hexColor()`.
 * NEW: Introduce `_validate::isHexColor()`.

@@ -120,14 +120,14 @@ class cnDependency {
 	 */
 	public static function autoload( $class ) {
 
-		$matrix = self::classRegistry();
+		$map = self::classMap();
 
-		if ( ! isset( $matrix[ $class ] ) ) {
+		if ( ! isset( $map[ $class ] ) ) {
 
 			return;
 		}
 
-		$file = CN_PATH . $matrix[ $class ];
+		$file = CN_PATH . $map[ $class ];
 
 		// If the file exists, require it.
 		if ( file_exists( $file ) ) {
@@ -191,7 +191,7 @@ class cnDependency {
 	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 	 * @phpcs:disable WordPress.Arrays.MultipleStatementAlignment.LongIndexSpaceBeforeDoubleArrow
 	 */
-	private static function classRegistry() {
+	private static function classMap() {
 
 		return array(
 

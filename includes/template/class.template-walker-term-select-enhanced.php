@@ -276,7 +276,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				 * When doing a select all, set the placeholder option as the default selected option.
 				 */
 				$selected  = ! $atts['enhanced'] && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
-				$selected .= false === $atts['enhanced'] ? " disabled='disabled' hidden='hidden'" : '';
+				$selected .= false === wp_is_mobile() ? " disabled='disabled' hidden='hidden'" : '';
 
 				$select .= "\t" . '<option value="" ' . $selected . '>' . ( $atts['enhanced'] ? '' : $atts['default'] ) . '</option>';
 			}

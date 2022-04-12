@@ -9,6 +9,7 @@ final class Connections_Directory {
 
 	/**
 	 * The plugin version.
+	 *
 	 * @since 8.16
 	 */
 	const VERSION = '10.4.19';
@@ -16,80 +17,78 @@ final class Connections_Directory {
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
-	 * @since  0.7.9
+	 * @since 0.7.9
 	 *
 	 * @var connectionsLoad
 	 */
 	private static $instance;
 
 	/**
-	 * @var string The absolute path this file.
+	 * The absolute path this file.
 	 *
-	 * @access private
 	 * @since  8.16
+	 *
+	 * @var string
 	 */
 	private static $file = '';
 
 	/**
-	 * @var string The URL to the plugin's folder.
+	 * The URL to the plugin's folder.
 	 *
-	 * @access private
 	 * @since  8.16
+	 *
+	 * @var string
 	 */
 	private static $pluginURL = '';
 
 	/**
-	 * @var string The absolute path to this plugin's folder.
+	 * The absolute path to this plugin's folder.
 	 *
-	 * @access private
-	 * @since  8.16
+	 * @since 8.16
+	 *
+	 * @var string
 	 */
 	private static $path = '';
 
 	/**
-	 * @var string The basename of the plugin.
+	 * The basename of the plugin.
 	 *
-	 * @access private
-	 * @since  8.16
+	 * @since 8.16
+	 *
+	 * @var string
 	 */
 	private static $basename = '';
 
 	/**
-	 * @access private
-	 * @since  8.5.26
+	 * @since 8.5.26
 	 *
 	 * @var cnAPI
 	 */
 	private $api;
 
 	/**
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var cnUser
 	 */
 	public $currentUser, $user;
 
 	/**
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var cnOptions
 	 */
 	public $options;
 
 	/**
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var cnRetrieve
 	 */
 	public $retrieve;
 
 	/**
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var cnTerms
 	 */
@@ -98,8 +97,7 @@ final class Connections_Directory {
 	/**
 	 * Stores the page hook values returned from the add_menu_page & add_submenu_page functions
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var object
 	 */
@@ -108,8 +106,7 @@ final class Connections_Directory {
 	/**
 	 * The Connections Settings API Wrapper class.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var cnSettingsAPI
 	 */
@@ -118,8 +115,7 @@ final class Connections_Directory {
 	/**
 	 * Do the database upgrade.
 	 *
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var bool
 	 */
@@ -128,19 +124,17 @@ final class Connections_Directory {
 	/**
 	 * Stores the template parts object and any templates activated by the cnTemplateFactory object.
 	 *
-	 * NOTE: Technically not necessary to load the template parts into this object but it's required
+	 * NOTE: Technically not necessary to load the template parts into this object, but it's required
 	 * for backward compatibility for templates expecting to find those methods as part of this object.
 	 *
-	 * @access public
-	 * @since  0.7.6
+	 * @since 0.7.6
 	 *
 	 * @var cnTemplatePart
 	 */
 	public $template;
 
 	/**
-	 * @access public
-	 * @since  unknown
+	 * @since unknown
 	 *
 	 * @var cnURL
 	 */
@@ -458,7 +452,6 @@ final class Connections_Directory {
 
 		switch ( true ) {
 
-			/** @noinspection PhpMissingBreakStatementInspection */
 			case ( version_compare( $version, '0.7.3', '<' ) ):
 				/*
 				 * Retrieve the settings stored prior to 0.7.3 and migrate them
@@ -553,7 +546,6 @@ final class Connections_Directory {
 					unset( $options );
 				}
 
-			/** @noinspection PhpMissingBreakStatementInspection */
 			case ( version_compare( $version, '0.7.4', '<' ) ):
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
@@ -564,7 +556,6 @@ final class Connections_Directory {
 				update_option( 'connections_search', $options );
 				unset( $options );
 
-			/** @noinspection PhpMissingBreakStatementInspection */
 			case ( version_compare( $version, '0.8', '<' ) ):
 				/*
 				 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
@@ -581,7 +572,6 @@ final class Connections_Directory {
 				update_option( 'connections_display_results', $options );
 				unset( $options );
 
-			/** @noinspection PhpMissingBreakStatementInspection */
 			case ( version_compare( $version, '8.5.19', '<' ) ):
 				$options = get_option( 'connections_permalink' );
 
@@ -645,12 +635,11 @@ final class Connections_Directory {
 	 * Set a runtime action/error message.
 	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
 	 *
-	 * @access public
 	 * @since unknown
 	 * @deprecated 0.7.5
 	 *
-	 * @param $type    string
-	 * @param $message string
+	 * @param string $type    The $type must be either "error_runtime" or "success_runtime".
+	 * @param string $message The message to be stored.
 	 *
 	 * @return void
 	 */
@@ -665,11 +654,10 @@ final class Connections_Directory {
 	 * Store an error code.
 	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
 	 *
-	 * @access public
 	 * @since unknown
 	 * @deprecated 0.7.5
 	 *
-	 * @param  $code string
+	 * @param string $code The message code as registered in cnMessage::addCoreMessages().
 	 *
 	 * @return void
 	 */
@@ -684,11 +672,10 @@ final class Connections_Directory {
 	 * Store a success code.
 	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
 	 *
-	 * @access public
 	 * @since unknown
 	 * @deprecated 0.7.5
 	 *
-	 * @param  $code string
+	 * @param string $code The message code as registered in cnMessage::addCoreMessages().
 	 *
 	 * @return void
 	 */

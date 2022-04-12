@@ -226,7 +226,7 @@ final class Connections_Directory {
 			 */
 			cnMetaboxAPI::init();
 
-			// Init the Image API
+			// Init the Image API.
 			cnImage::init();
 
 			// Init email logging of email sent through cnEmail.
@@ -430,7 +430,7 @@ final class Connections_Directory {
 		// Register the callback to display the email log detail view.
 		add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );
 
-		// Register the callback to support downloading of vCards
+		// Register the callback to support downloading of vCards.
 		add_action( 'template_redirect', array( 'cnEntry_vCard', 'download' ) );
 
 		// Geocode the address using Google Geocoding API.
@@ -617,7 +617,7 @@ final class Connections_Directory {
 		// Increment the version number.
 		$this->options->setVersion( CN_CURRENT_VERSION );
 
-		// Save the options
+		// Save the options.
 		$this->options->saveOptions();
 
 		/*

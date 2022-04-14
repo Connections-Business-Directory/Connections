@@ -667,13 +667,11 @@ class cnTemplatePart {
 		array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( true ) );
 
 		$class = apply_filters( 'cn_list_row_class', $class );
-
 		$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
+
 		cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
 
-		array_walk( $class, 'sanitize_html_class' );
-
-		return array_unique( array_filter( $class ) );
+		return $class;
 	}
 
 	/**

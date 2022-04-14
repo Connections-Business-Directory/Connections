@@ -292,9 +292,9 @@ function connectionsShowViewPage( $action = null ) {
 					_array::set( $filters, 'visibility', '' );
 				}
 
-				$page = $instance->user->getScreenOption(
-					'manage',
-					'pagination',
+				$page = $instance->user->getScreenOption( 'manage', 'pagination' );
+				$page = wp_parse_args(
+					$page,
 					array(
 						'current' => 1,
 						'limit'   => 50,
@@ -484,16 +484,16 @@ function connectionsShowViewPage( $action = null ) {
 							 * Grab the pagination data again in case a filter reset the values
 							 * or the user input an invalid number which the retrieve query would have reset.
 							 */
-							$page = (object) $instance->currentUser->getScreenOption(
-								'manage',
-								'pagination',
+							$page = $instance->currentUser->getScreenOption( 'manage', 'pagination' );
+							$page = wp_parse_args(
+								$page,
 								array(
 									'current' => 1,
 									'limit'   => 50,
 								)
 							);
 
-							$pageCount = ceil( $instance->resultCountNoLimit / $page->limit );
+							$pageCount = ceil( $instance->resultCountNoLimit / $page['limit'] );
 
 							if ( $pageCount > 1 ) {
 

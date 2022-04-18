@@ -9,7 +9,7 @@ Stable tag: 10.4.20
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
+An easy-to-use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
 
 == Description ==
 
@@ -24,7 +24,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * Supports the WordPress Block (Gutenberg) Editor with the following blocks.
     * [Carousel Block](https://connections-pro.com/documentation/block/carousel/) :: Display your directory as a carousel.
     * [Directory Block](https://connections-pro.com/documentation/block/directory/) :: Use this block to embed your directory in a page.
-    * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
+    * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full-featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
     * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
@@ -37,10 +37,10 @@ Connections Business Directory is one of the [best business directory plugins av
     * Entry Meta:: Display details such as when the Entry was added nad last modified and by whom.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
-* You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
+* You control which entries are viewable to the public and which entries are private, viewable for logged-in users only. You can even have entries set as unlisted so only admins can view them.
 * **[Repeatable fields](https://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
 * Hierarchical (nested) **category support**. Businesses and members in your business directory can be added to any number of categories.
-* Include a biographical text for an individual member or business description for each entry in your business directory using an easy to use rich text editor.
+* Include a biographical text for an individual member or business description for each entry in your business directory using an easy-to-use rich text editor.
 * You can easily add a business logo or photo of the staff member for each entry in your business directory or staff directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
 * **[CSV Export](https://connections-pro.com/documentation/tools/#Export)** of addresses, phone numbers, email addresses and dates.
@@ -60,7 +60,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 **Utility**
 
 * [Toolbar](https://wordpress.org/plugins/connections-toolbar/) :: Provides quick links to the admin pages from the admin bar.
-* [Login](https://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple to use login shortcode and widget.
+* [Login](https://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple-to-use login shortcode and widget.
 * [Anniversary and Birthday Emails](https://wordpress.org/plugins/connections-business-directory-anniversary-and-birthday-emails) :: Add the ability to automatically send a customizable email to entries on their anniversary or birthday.
 
 **Custom Fields**
@@ -182,7 +182,7 @@ Connections Business Directory has been embraced around the world and has been t
 7. The [Templates admin page](https://connections-pro.com/documentation/templates/). Here you choose which template that the business directory should use when displaying the directory.
 8. The [Settings admin page](https://connections-pro.com/documentation/settings/) where you can configure the business directory options.
 9. The [Role and Capabilities admin page](https://connections-pro.com/documentation/roles/). Here you can assign which roles have which capabilities in viewing and managing the directory.
-10. The [Tools :: Export admin page](https://connections-pro.com/documentation/tools/#Export) contains many different CSV export tools to allow you to easily export the data from your business directory.
+10. The [Tools :: Export admin page](https://connections-pro.com/documentation/tools/#Export) contains many CSV export tools to allow you to easily export the data from your business directory.
 11. The [Tools :: Import admin page](https://connections-pro.com/documentation/tools/#Categories-2) allows you to quickly bulk import nested categories into your business directory.
 12. In the event that you need support the [Tools :: System Information admin page](https://connections-pro.com/documentation/tools/#System_Information) contains all the information needs about your directory installation which can be easily and quickly shared.
 13. Need to move the configuration of your business directory from one site to another? The [Tools : Settings Import/Export admin page](https://connections-pro.com/documentation/tools/#Settings_ImportExport) allows you to do it with zero fuss. This will even migrate the Template Customizer settings applied to template and any of the settings for the [premium extensions](https://connections-pro.com/extensions/).
@@ -222,7 +222,7 @@ Using FTP
 4. Activate the plugin on the Plugins admin page.
 
 = How do I display the business directory on my site? =
-We have a [QuickStart](https://connections-pro.com/documentation/install/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
+We have a [QuickStart](https://connections-pro.com/documentation/install/) available that'll walk you through the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
 
 = Will it work with my theme? =
 Connections Business Directory has been designed to work with any theme.
@@ -439,7 +439,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Remove unused style assets.
 * TWEAK: Rename `blocks.js` to `index.js` for consistency. Adjust import path for consistency.
 * TWEAK: Remove the public entry point for blocks in favor of individual block entry points so block assets can be loaded as necessary instead of globally.
-* TWEAK: Add the script and style handles to the Nearby and Related Content Blocks so the can be loaded as required instead of globally.
+* TWEAK: Add the script and style handles to the Nearby and Related Content Blocks, so they can be loaded as required instead of globally.
 * TWEAK: Register Blocks with `blocks.json` if the WordPress version is 5.8 or greater.
 * TWEAK: Use imports in Block scripts instead of referencing globals to enable code completion.
 * TWEAK: Do not import Block style. Use webpack entry to process separately.

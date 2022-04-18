@@ -547,17 +547,16 @@ class cnShortcode {
 	}
 
 	/**
+	 * Callback for the `[connections]` shortcode.
+	 *
 	 * Display results based on query var `cn-view`.
 	 *
-	 * @access public
-	 * @since  0.7.3
-	 * @static
+	 * @internal
+	 * @since 0.7.3
 	 *
-	 * @uses   cnQuery::getVar()
-	 *
-	 * @param array  $atts
-	 * @param string $content [optional]
-	 * @param string $tag
+	 * @param array|string $atts    Shortcode attributes array or empty string.
+	 * @param string|null  $content The content of a shortcode when it wraps some content.
+	 * @param string       $tag     Shortcode name.
 	 *
 	 * @return string
 	 */

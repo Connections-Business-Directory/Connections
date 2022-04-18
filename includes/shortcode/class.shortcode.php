@@ -617,12 +617,8 @@ class cnShortcode {
 					return '<p>' . esc_html__( 'Future home of front end submissions.', 'connections' ) . '</p>';
 				}
 
-				break;
-
 			case 'landing':
 				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
-
-				break;
 
 			case 'search':
 				if ( has_action( 'cn_submit_search_form' ) ) {
@@ -638,8 +634,6 @@ class cnShortcode {
 					return '<p>' . esc_html__( 'Future home of the search page.', 'connections' ) . '</p>';
 				}
 
-				break;
-
 			case 'results':
 				if ( has_action( 'cn_submit_search_results' ) ) {
 
@@ -654,13 +648,9 @@ class cnShortcode {
 					return '<p>' . esc_html__( 'Future home of the search results landing page.', 'connections' ) . '</p>';
 				}
 
-				break;
-
 			// Show the standard result list.
 			case 'card':
 				return cnShortcode_Connections::shortcode( $atts, $content );
-
-				break;
 
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
@@ -675,8 +665,6 @@ class cnShortcode {
 				cnArray::set( $atts, 'template', 'names' );
 
 				return cnShortcode_Connections::shortcode( $atts, $content );
-
-				break;
 
 			// Show the entry detail using a template based on the entry type.
 			case 'detail':
@@ -733,8 +721,6 @@ class cnShortcode {
 						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
 
 						return cnShortcode_Connections::shortcode( $atts, $content );
-
-						break;
 				}
 
 				break;

@@ -116,7 +116,7 @@ class cnShortcode {
 
 		// Set the registered shortcodes to only the shortcode being searched for because this effects the results
 		// returned by get_shortcode_regex() as it sets up the pattern to search for all registered shortcodes.
-		// Limiting it to only the shortcode being searched for greatly improves this methods accuracy.
+		// Limiting it to only the shortcode being searched for greatly improves this method's accuracy.
 		$shortcode_tags = array( $tag => $shortcode_tags[ $tag ] );
 
 		$pattern = get_shortcode_regex();

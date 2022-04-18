@@ -7,8 +7,9 @@ const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
+const RtlCssPlugin = require( 'rtlcss-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
-const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
+// const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const inProduction = 'production' === process.env.NODE_ENV;
 
 /**
@@ -222,7 +223,8 @@ const config = {
 		} ),
 
 		// Create RTL CSS.
-		new WebpackRTLPlugin(),
+		// new WebpackRTLPlugin(),
+		new RtlCssPlugin( '[name].rtl.css' ),
 	],
 	optimization: {
 		minimizer: [

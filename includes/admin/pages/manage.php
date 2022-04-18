@@ -510,14 +510,14 @@ function connectionsShowViewPage( $action = null ) {
 								);
 
 								$pageValue['first_page']    = 1;
-								$pageValue['previous_page'] = ( $page->current - 1 >= 1 ) ? $page->current - 1 : 1;
-								$pageValue['next_page']     = ( $page->current + 1 <= $pageCount ) ? $page->current + 1 : $pageCount;
+								$pageValue['previous_page'] = ( $page['current'] - 1 >= 1 ) ? $page['current'] - 1 : 1;
+								$pageValue['next_page']     = ( $page['current'] + 1 <= $pageCount ) ? $page['current'] + 1 : $pageCount;
 								$pageValue['last_page']     = $pageCount;
 
-								$pageDisabled['first_page']    = ( $page->current > 1 ) ? '' : ' disabled';
-								$pageDisabled['previous_page'] = ( $page->current - 1 >= 1 ) ? '' : ' disabled';
-								$pageDisabled['next_page']     = ( $page->current + 1 <= $pageCount ) ? '' : ' disabled';
-								$pageDisabled['last_page']     = ( $page->current < $pageCount ) ? '' : ' disabled';
+								$pageDisabled['first_page']    = ( $page['current'] > 1 ) ? '' : ' disabled';
+								$pageDisabled['previous_page'] = ( $page['current'] - 1 >= 1 ) ? '' : ' disabled';
+								$pageDisabled['next_page']     = ( $page['current'] + 1 <= $pageCount ) ? '' : ' disabled';
+								$pageDisabled['last_page']     = ( $page['current'] < $pageCount ) ? '' : ' disabled';
 
 								/*
 								 * Generate the page link token URL.
@@ -555,7 +555,7 @@ function connectionsShowViewPage( $action = null ) {
 								echo '<a href="' . esc_url( $pageFilterURL['first_page'] ) . '" title="' . esc_attr__( 'Go to the first page.', 'connections' ) . '" class="first-page button' , esc_attr( $pageDisabled['first_page'] ) , '">&laquo;</a> ';
 								echo '<a href="' . esc_url( $pageFilterURL['previous_page'] ) . '" title="' . esc_attr__( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , esc_attr( $pageDisabled['previous_page'] ) , '">&lsaquo;</a> ';
 
-								echo '<span class="paging-input"><input type="text" size="2" value="' . esc_attr( $page->current ) . '" name="pg" title="' . esc_attr__( 'Current page', 'connections' ) . '" class="current-page"> ' . esc_html__( 'of', 'connections' ) . ' <span class="total-pages">' . absint( $pageCount ) . '</span></span> ';
+								echo '<span class="paging-input"><input type="text" size="2" value="' . esc_attr( $page['current'] ) . '" name="pg" title="' . esc_attr__( 'Current page', 'connections' ) . '" class="current-page"> ' . esc_html__( 'of', 'connections' ) . ' <span class="total-pages">' . absint( $pageCount ) . '</span></span> ';
 
 								echo '<a href="' . esc_url( $pageFilterURL['next_page'] ) . '" title="' . esc_attr__( 'Go to the next page.', 'connections' ) . '" class="next-page button' , esc_attr( $pageDisabled['next_page'] ) , '">&rsaquo;</a> ';
 								echo '<a href="' . esc_url( $pageFilterURL['last_page'] ) . '" title="' . esc_attr__( 'Go to the last page.', 'connections' ) . '" class="last-page button' , esc_attr( $pageDisabled['last_page'] ), '">&raquo;</a>';

@@ -1,11 +1,9 @@
 <?php
 
-// Exit if accessed directly.
 use Connections_Directory\Utility\_array;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Common static methods that can be used across all core shortcodes.

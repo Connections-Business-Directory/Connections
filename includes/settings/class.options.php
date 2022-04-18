@@ -1707,8 +1707,9 @@ class cnOptions {
 	/**
 	 * Get Base Country
 	 *
-	 * @since
-	 * @return string $country The two letter country code for the base country.
+	 * @since unknown
+	 *
+	 * @return string $country The two-letter country code for the base country.
 	 */
 	public static function getBaseCountry() {
 
@@ -1721,7 +1722,8 @@ class cnOptions {
 	/**
 	 * Get Base State
 	 *
-	 * @since
+	 * @since unknown
+	 *
 	 * @return string $state The base region code.
 	 */
 	public static function getBaseRegion() {

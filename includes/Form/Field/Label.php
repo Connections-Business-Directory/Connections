@@ -61,7 +61,7 @@ class Label {
 	/**
 	 * Create an instance of the Label.
 	 *
-	 * @sine 10.4
+	 * @since 10.4
 	 *
 	 * @return static
 	 */

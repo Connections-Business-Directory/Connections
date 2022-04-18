@@ -5,11 +5,11 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.4
 Tested up to: 5.9.3
 Requires PHP: 5.6.20
-Stable tag: 10.4.20
+Stable tag: 10.4.21
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
+An easy-to-use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
 
 == Description ==
 
@@ -24,7 +24,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * Supports the WordPress Block (Gutenberg) Editor with the following blocks.
     * [Carousel Block](https://connections-pro.com/documentation/block/carousel/) :: Display your directory as a carousel.
     * [Directory Block](https://connections-pro.com/documentation/block/directory/) :: Use this block to embed your directory in a page.
-    * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
+    * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full-featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
     * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
@@ -37,10 +37,10 @@ Connections Business Directory is one of the [best business directory plugins av
     * Entry Meta:: Display details such as when the Entry was added nad last modified and by whom.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
-* You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
+* You control which entries are viewable to the public and which entries are private, viewable for logged-in users only. You can even have entries set as unlisted so only admins can view them.
 * **[Repeatable fields](https://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
 * Hierarchical (nested) **category support**. Businesses and members in your business directory can be added to any number of categories.
-* Include a biographical text for an individual member or business description for each entry in your business directory using an easy to use rich text editor.
+* Include a biographical text for an individual member or business description for each entry in your business directory using an easy-to-use rich text editor.
 * You can easily add a business logo or photo of the staff member for each entry in your business directory or staff directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
 * **[CSV Export](https://connections-pro.com/documentation/tools/#Export)** of addresses, phone numbers, email addresses and dates.
@@ -60,7 +60,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 **Utility**
 
 * [Toolbar](https://wordpress.org/plugins/connections-toolbar/) :: Provides quick links to the admin pages from the admin bar.
-* [Login](https://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple to use login shortcode and widget.
+* [Login](https://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple-to-use login shortcode and widget.
 * [Anniversary and Birthday Emails](https://wordpress.org/plugins/connections-business-directory-anniversary-and-birthday-emails) :: Add the ability to automatically send a customizable email to entries on their anniversary or birthday.
 
 **Custom Fields**
@@ -182,7 +182,7 @@ Connections Business Directory has been embraced around the world and has been t
 7. The [Templates admin page](https://connections-pro.com/documentation/templates/). Here you choose which template that the business directory should use when displaying the directory.
 8. The [Settings admin page](https://connections-pro.com/documentation/settings/) where you can configure the business directory options.
 9. The [Role and Capabilities admin page](https://connections-pro.com/documentation/roles/). Here you can assign which roles have which capabilities in viewing and managing the directory.
-10. The [Tools :: Export admin page](https://connections-pro.com/documentation/tools/#Export) contains many different CSV export tools to allow you to easily export the data from your business directory.
+10. The [Tools :: Export admin page](https://connections-pro.com/documentation/tools/#Export) contains many CSV export tools to allow you to easily export the data from your business directory.
 11. The [Tools :: Import admin page](https://connections-pro.com/documentation/tools/#Categories-2) allows you to quickly bulk import nested categories into your business directory.
 12. In the event that you need support the [Tools :: System Information admin page](https://connections-pro.com/documentation/tools/#System_Information) contains all the information needs about your directory installation which can be easily and quickly shared.
 13. Need to move the configuration of your business directory from one site to another? The [Tools : Settings Import/Export admin page](https://connections-pro.com/documentation/tools/#Settings_ImportExport) allows you to do it with zero fuss. This will even migrate the Template Customizer settings applied to template and any of the settings for the [premium extensions](https://connections-pro.com/extensions/).
@@ -222,7 +222,7 @@ Using FTP
 4. Activate the plugin on the Plugins admin page.
 
 = How do I display the business directory on my site? =
-We have a [QuickStart](https://connections-pro.com/documentation/install/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
+We have a [QuickStart](https://connections-pro.com/documentation/install/) available that'll walk you through the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
 
 = Will it work with my theme? =
 Connections Business Directory has been designed to work with any theme.
@@ -247,6 +247,19 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.21 04/18/2022 =
+* BUG: Ensure default values for pagination on Manage admin page.
+* BUG: Correct logic for enhanced dropdowns on mobile.
+* BUG: Correct double-escaping of class names.
+* TWEAK: Remove unnecessary break statements in switch.
+* TWEAK: Prevent direct access to file.
+* TWEAK: Utilize `class` keyword for class name resolution to register hook callbacks.
+* OTHER: Correct misspellings.
+* OTHER: Remove unused commented out code.
+* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpDoc corrections.
+* DEV: Correct inline doc position.
 
 = 10.4.20 04/12/2022 =
 * TWEAK: On mobile, set the default option to disabled/hidden, so it is not selectable by the user when using the mobile OS native select control.
@@ -439,7 +452,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Remove unused style assets.
 * TWEAK: Rename `blocks.js` to `index.js` for consistency. Adjust import path for consistency.
 * TWEAK: Remove the public entry point for blocks in favor of individual block entry points so block assets can be loaded as necessary instead of globally.
-* TWEAK: Add the script and style handles to the Nearby and Related Content Blocks so the can be loaded as required instead of globally.
+* TWEAK: Add the script and style handles to the Nearby and Related Content Blocks, so they can be loaded as required instead of globally.
 * TWEAK: Register Blocks with `blocks.json` if the WordPress version is 5.8 or greater.
 * TWEAK: Use imports in Block scripts instead of referencing globals to enable code completion.
 * TWEAK: Do not import Block style. Use webpack entry to process separately.
@@ -630,162 +643,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update vendor files.
 * DEV: Update dist files.
 
-= 10.4.6 11/16/2021 =
-* NEW: Introduce `_escape::css()`.
-* NEW: Introduce `_escape::json()`.
-* NEW: Introduce `_escape::maybeEcho()`.
-* NEW: Introduce `_validate::isFloat()`.
-* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML `id` attribute.
-* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped encoded JSON.
-* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML attribute value.
-* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped CSS rules.
-* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML tag name.
-* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML class names.
-* TWEAK: Utilize `_escape::maybeEcho()` to echo the escaped HTML.
-* TWEAK: Remove unnecessary echo.
-* TWEAK: Optimize case statement.
-* TWEAK: Instead of prefixing a suspicious warning in CSV export data, prefix with a single straight quote. Allow negative floats without prefixing.
-* TWEAK: Add parameter to `cnLog_Email::viewLogItem()` to echo value.
-* TWEAK: Change attribute from `return` to `echo`.
-* TWEAK: Improve `_sanitize::filepath()`.
-* BUG: Use correct method to display vCard download link in template.
-* BUG: Add missing text domain.
-* BUG: Email log cc and bcc fields need to be echoed.
-* BUG: Value should be returned, not echoed.
-* SECURITY: All output should be run through an escaping function.
-* SECURITY: Escape CSS rules.
-* SECURITY: Sanitize the bulk delete entry IDs.
-* SECURITY: Escape date block template.
-* SECURITY: Escape admin date block template.
-* SECURITY: Escape email block template.
-* SECURITY: Escape admin email block template.
-* SECURITY: Sanitize request variable.
-* SECURITY: Escape the style attribute in Form Fields API.
-* SECURITY: Escape the ID attribute in the Profile template.
-* SECURITY: Escape the Entry Meta Content Block.
-* SECURITY: Escape the Entry Management Content Block.
-* SECURITY: Escape the admin Dashboard Upcoming Widget.
-* SECURITY: Escape admin messenger block template.
-* SECURITY: Escape messenger block template.
-* SECURITY: Escape admin link block template.
-* SECURITY: Escape the admin Dashboard Recently Modified Widget.
-* SECURITY: Escape the admin Anniversary Light template.
-* SECURITY: Escape link block template.
-* SECURITY: Escape the admin Anniversary Dark template.
-* SECURITY: Escape the Default Card template.
-* SECURITY: Escape the Birthday Light template.
-* SECURITY: Escape the admin Dashboard Recently Added Widget.
-* SECURITY: Escape the Members template.
-* SECURITY: Escape the Default Card template.
-* SECURITY: Escape URL.
-* SECURITY: Escape the Default Card template.
-* SECURITY: Escape the Birthday Dark template.
-* SECURITY: Escape address block template.
-* SECURITY: Escape address block template.
-* SECURITY: Escape admin address block template.
-* SECURITY: Escape phone block template.
-* SECURITY: Escape admin phone block template.
-* SECURITY: Escape the Related Content Block.
-* SECURITY: Escape the Recently Viewed Content Block.
-* SECURITY: Escape class names in license notification.
-* SECURITY: Escape the Entry Meta Content Block.
-* SECURITY: Escape admin social network block template.
-* SECURITY: Escape the Carousel Block template.
-* SECURITY: Escape the Entry Management Content Block.
-* SECURITY: Escape the Nearby Content Block.
-* SECURITY: The base export class header and row data should be run thru the escape method incase the base methods are not overridden.
-* SECURITY: Admin messages need to support HTML when escaped.
-* SECURITY: Refactor `cnCategory::getDescriptionBlock()` to remove duplicate code and add escaping.
-* SECURITY: Escape HTML attribute values.
-* SECURITY: Use `wp_safe_redirect()`.
-* OTHER: Remove unnecessary line returns.
-* OTHER: Remove extra spaces.
-* OTHER: Remove unnecessary usage of `esc_html__()`.
-* OTHER: Reflow code.
-* OTHER: Correct misspellings.
-* OTHER: Remove unnecessary tab.
-* OTHER: Lines indented incorrectly.
-* OTHER: Remove unnecessary double forward slash from inline comment.
-* OTHER: Remove extra space.
-* DEV: phpDoc corrections.
-* DEV: Ignore instance of WordPress.Security.EscapeOutput.OutputNotEscaped.
-* DEV: The CASE body must start on the line following the statement.
-* DEV: Use Yoda Condition checks, you must.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: String does not require double quotes; use single quotes instead.
-* DEV: Tabs must be used to indent lines; spaces are not allowed.
-* DEV: Array double arrow not aligned correctly.
-* DEV: Remove unnecessary parenthesis.
-* DEV: Concat operator must be surrounded by a single space.
-* DEV: Ignore instance of WordPress.Security.NonceVerification.Missing
-* DEV: Remove inline comments.
-* DEV: Remove @todo.
-* DEV: phpcs rule tweaks.
-* DEV: Ignore instance of WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-* DEV: Ignore instance of WordPress.WP.GlobalVariablesOverride.Prohibited.
-* DEV: Space found before comma in argument list.
-* DEV: Simplify ternary.
-* DEV: There must be no blank lines before the file comment.
-* DEV: When a multi-item array uses associative keys, each value should start on a new line.
-* DEV: Add phpDoc to template.
-* DEV: Ignore instance of PEAR.NamingConventions.ValidClassName.Invalid.
-* DEV: Ignore instance of PEAR.NamingConventions.ValidClassName.StartWithCapital.
-* DEV: Rename variable.
-* DEV: Do type check after encoding value as JSON to ensure its a string.
-* DEV: Simplify switch statement.
-* DEV: Array closer not aligned correctly.
-* DEV: Add phpDoc.
-* DEV: Qualifier is unnecessary and can be removed.
-* DEV: Equals sign not aligned with surrounding assignments.
-* DEV: Remove unused import.
-* DEV: Refactor of `\Form\Field::stringifyCSSAttributes()`.
-* DEV: Move common HTML functions from `\Form\Field` namespace to the `\HTML` namespace.
-* DEV: Move HTML helper functions from namespaced global functions to public static functions in namespaced class.
-* DEV: Remove unnecessary parameter from method to be consistent with signatures of other methods in utility class.
-* DEV: Convert quotes.
-* DEV: Expected exactly one space after opening parenthesis.
-* DEV: Opening PHP tag must be on a line by itself.
-* DEV: Inline PHP statement must end with a semicolon.
-* DEV: Opening brace should be on the same line as the declaration.
-* DEV: Remove extra spaces in function parameters.
-* DEV: Comma not allowed after last value in single-line array declaration.
-* DEV: Parameter comment must end with a full stop.
-* DEV: Remove unused commented out code.
-* DEV: Remove unnecessary string concat.
-* DEV: Deprecate `cnTemplate::includeFunctions()` and `cnTemplate::printCSS()`.
-* DEV: Remove @noinspection tag.
-* DEV: Code format inline comment.
-* DEV: phpDoc alignment.
-* DEV: Deprecated argument.
-* DEV: Parenthesis should always be used when instantiating a new object.
-* DEV: Equals sign not aligned correctly.
-* DEV: phpcs.xml configuration tweak.
-* DEV: Expected 1 space after closing brace.
-* DEV: Language constructs must be followed by a single space.
-* DEV: Expected 1 space after "=".
-* DEV: Move imports.
-* DEV: Missing space before array closer.
-* DEV: Expected 1 space after "&&".
-* DEV: Expected exactly one space before opening parenthesis.
-* DEV: Closing PHP tag must be on a line by itself.
-* DEV: Correct code flow.
-* DEV: Usage of ELSE IF is discouraged; use ELSEIF instead.
-* DEV: Add/remove extra spaces.
-* DEV: Newline required after opening brace.
-* DEV: Expected 1 space(s) after closing parenthesis.
-* DEV: There must be no space between the "array" keyword and the opening parenthesis.
-* DEV: Use spaces instead of tabs for midline alignment in phpDoc.
-* DEV: Remove duplicate switch branches.
-* DEV: Reflow multiline function call to single line.
-* DEV: The DEFAULT body must start on the line following the statement.
-* DEV: Deprecate arguments in `cnHTML::attribute()`.
-* DEV: Remove HTML inspection flags.
-* DEV: Add phpcs WP security report.
-
 == Upgrade Notice ==
-
-= 10.4.6 =
-It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.7 =
 It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
@@ -827,4 +685,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.20 =
+It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.21 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

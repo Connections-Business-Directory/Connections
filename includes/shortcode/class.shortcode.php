@@ -1,11 +1,9 @@
 <?php
 
-// Exit if accessed directly
 use Connections_Directory\Utility\_array;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Common static methods that can be used across all core shortcodes.
@@ -116,7 +114,7 @@ class cnShortcode {
 
 		// Set the registered shortcodes to only the shortcode being searched for because this effects the results
 		// returned by get_shortcode_regex() as it sets up the pattern to search for all registered shortcodes.
-		// Limiting it to only the shortcode being searched for greatly improves this methods accuracy.
+		// Limiting it to only the shortcode being searched for greatly improves this method's accuracy.
 		$shortcode_tags = array( $tag => $shortcode_tags[ $tag ] );
 
 		$pattern = get_shortcode_regex();
@@ -320,34 +318,34 @@ class cnShortcode {
 				// error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
 
 				$chr_map = array(
-					// Windows codepage 1252
-					"\xC2\x82"     => "'", // U+0082⇒U+201A single low-9 quotation mark
-					"\xC2\x84"     => '"', // U+0084⇒U+201E double low-9 quotation mark
-					"\xC2\x8B"     => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
-					"\xC2\x91"     => "'", // U+0091⇒U+2018 left single quotation mark
-					"\xC2\x92"     => "'", // U+0092⇒U+2019 right single quotation mark
-					"\xC2\x93"     => '"', // U+0093⇒U+201C left double quotation mark
-					"\xC2\x94"     => '"', // U+0094⇒U+201D right double quotation mark
-					"\xC2\x9B"     => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
+					// Windows codepage 1252.
+					"\xC2\x82"     => "'", // U+0082⇒U+201A single low-9 quotation mark.
+					"\xC2\x84"     => '"', // U+0084⇒U+201E double low-9 quotation mark.
+					"\xC2\x8B"     => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark.
+					"\xC2\x91"     => "'", // U+0091⇒U+2018 left single quotation mark.
+					"\xC2\x92"     => "'", // U+0092⇒U+2019 right single quotation mark.
+					"\xC2\x93"     => '"', // U+0093⇒U+201C left double quotation mark.
+					"\xC2\x94"     => '"', // U+0094⇒U+201D right double quotation mark.
+					"\xC2\x9B"     => "'", // U+009B⇒U+203A single right-pointing angle quotation mark.
 
 					// Regular Unicode     // U+0022 quotation mark (")
-					// U+0027 apostrophe     (')
-					"\xC2\xAB"     => '"', // U+00AB left-pointing double angle quotation mark
-					"\xC2\xBB"     => '"', // U+00BB right-pointing double angle quotation mark
-					"\xE2\x80\x98" => "'", // U+2018 left single quotation mark
-					"\xE2\x80\x99" => "'", // U+2019 right single quotation mark
-					"\xE2\x80\x9A" => "'", // U+201A single low-9 quotation mark
-					"\xE2\x80\x9B" => "'", // U+201B single high-reversed-9 quotation mark
-					"\xE2\x80\x9C" => '"', // U+201C left double quotation mark
-					"\xE2\x80\x9D" => '"', // U+201D right double quotation mark
-					"\xE2\x80\x9E" => '"', // U+201E double low-9 quotation mark
-					"\xE2\x80\x9F" => '"', // U+201F double high-reversed-9 quotation mark
-					"\xE2\x80\xB9" => "'", // U+2039 single left-pointing angle quotation mark
-					"\xE2\x80\xBA" => "'", // U+203A single right-pointing angle quotation mark
+					// U+0027 apostrophe     (').
+					"\xC2\xAB"     => '"', // U+00AB left-pointing double angle quotation mark.
+					"\xC2\xBB"     => '"', // U+00BB right-pointing double angle quotation mark.
+					"\xE2\x80\x98" => "'", // U+2018 left single quotation mark.
+					"\xE2\x80\x99" => "'", // U+2019 right single quotation mark.
+					"\xE2\x80\x9A" => "'", // U+201A single low-9 quotation mark.
+					"\xE2\x80\x9B" => "'", // U+201B single high-reversed-9 quotation mark.
+					"\xE2\x80\x9C" => '"', // U+201C left double quotation mark.
+					"\xE2\x80\x9D" => '"', // U+201D right double quotation mark.
+					"\xE2\x80\x9E" => '"', // U+201E double low-9 quotation mark.
+					"\xE2\x80\x9F" => '"', // U+201F double high-reversed-9 quotation mark.
+					"\xE2\x80\xB9" => "'", // U+2039 single left-pointing angle quotation mark.
+					"\xE2\x80\xBA" => "'", // U+203A single right-pointing angle quotation mark.
 				);
 
-				$chr = array_keys( $chr_map );   // but: for efficiency you should
-				$rpl = array_values( $chr_map ); // pre-calculate these two arrays
+				$chr = array_keys( $chr_map );   // but: for efficiency you should.
+				$rpl = array_values( $chr_map ); // pre-calculate these two arrays.
 
 				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, 'UTF-8' ) );
 
@@ -547,17 +545,16 @@ class cnShortcode {
 	}
 
 	/**
+	 * Callback for the `[connections]` shortcode.
+	 *
 	 * Display results based on query var `cn-view`.
 	 *
-	 * @access public
-	 * @since  0.7.3
-	 * @static
+	 * @internal
+	 * @since 0.7.3
 	 *
-	 * @uses   cnQuery::getVar()
-	 *
-	 * @param array  $atts
-	 * @param string $content [optional]
-	 * @param string $tag
+	 * @param array|string $atts    Shortcode attributes array or empty string.
+	 * @param string|null  $content The content of a shortcode when it wraps some content.
+	 * @param string       $tag     Shortcode name.
 	 *
 	 * @return string
 	 */
@@ -618,12 +615,8 @@ class cnShortcode {
 					return '<p>' . esc_html__( 'Future home of front end submissions.', 'connections' ) . '</p>';
 				}
 
-				break;
-
 			case 'landing':
 				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
-
-				break;
 
 			case 'search':
 				if ( has_action( 'cn_submit_search_form' ) ) {
@@ -639,8 +632,6 @@ class cnShortcode {
 					return '<p>' . esc_html__( 'Future home of the search page.', 'connections' ) . '</p>';
 				}
 
-				break;
-
 			case 'results':
 				if ( has_action( 'cn_submit_search_results' ) ) {
 
@@ -655,13 +646,9 @@ class cnShortcode {
 					return '<p>' . esc_html__( 'Future home of the search results landing page.', 'connections' ) . '</p>';
 				}
 
-				break;
-
 			// Show the standard result list.
 			case 'card':
 				return cnShortcode_Connections::shortcode( $atts, $content );
-
-				break;
 
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
@@ -676,8 +663,6 @@ class cnShortcode {
 				cnArray::set( $atts, 'template', 'names' );
 
 				return cnShortcode_Connections::shortcode( $atts, $content );
-
-				break;
 
 			// Show the entry detail using a template based on the entry type.
 			case 'detail':
@@ -734,8 +719,6 @@ class cnShortcode {
 						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
 
 						return cnShortcode_Connections::shortcode( $atts, $content );
-
-						break;
 				}
 
 				break;

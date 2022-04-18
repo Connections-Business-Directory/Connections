@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 10.4.21 04/18/2022 =
+* BUG: Ensure default values for pagination on Manage admin page.
+* BUG: Correct logic for enhanced dropdowns on mobile.
+* BUG: Correct double-escaping of class names.
+* TWEAK: Remove unnecessary break statements in switch.
+* TWEAK: Prevent direct access to file.
+* TWEAK: Utilize `class` keyword for class name resolution to register hook callbacks.
+* OTHER: Correct misspellings.
+* OTHER: Remove unused commented out code.
+* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpDoc corrections.
+* DEV: Correct inline doc position.
+
 = 10.4.20 04/12/2022 =
 * TWEAK: On mobile, set the default option to disabled/hidden, so it is not selectable by the user when using the mobile OS native select control.
 * TWEAK: Rename private method.

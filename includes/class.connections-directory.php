@@ -1,6 +1,13 @@
 <?php
 
+use Connections_Directory\Blocks;
+use Connections_Directory\Content_Blocks;
+use Connections_Directory\Integration;
+use Connections_Directory\Request;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Connections
@@ -12,7 +19,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.20';
+	const VERSION = '10.4.21';
 
 	/**
 	 * Stores the instance of this class.
@@ -247,10 +254,10 @@ final class Connections_Directory {
 			self::$instance->api         = new cnAPI();
 
 			// Register editor blocks.
-			\Connections_Directory\Blocks::register();
+			Blocks::register();
 
 			// Init the Content Blocks API.
-			\Connections_Directory\Content_Blocks::instance();
+			Content_Blocks::instance();
 
 			// Activation/Deactivation hooks.
 			register_activation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'activate' ) );
@@ -320,25 +327,25 @@ final class Connections_Directory {
 		add_action( 'plugins_loaded', array( 'cnDependency', 'customizer' ) );
 
 		// Add the core Content Blocks.
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Categories', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Custom_Fields', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Google_Static_Map', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Last_Viewed', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Management', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Map_Block', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Meta', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Nearby', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Recently_Viewed', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Category', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Postal_Code', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Region', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Locality', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\County', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\District', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Department', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Organization', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Title', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Last_Name', 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Categories::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Custom_Fields::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Google_Static_Map::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Last_Viewed::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Management::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Map_Block::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Meta::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Nearby::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Recently_Viewed::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Category::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Postal_Code::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Region::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Locality::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\County::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\District::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Department::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Organization::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Title::class, 'add' ) );
+		add_action( 'plugins_loaded', array( Content_Blocks\Entry\Related\Last_Name::class, 'add' ) );
 
 		/*
 		 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
@@ -376,8 +383,8 @@ final class Connections_Directory {
 
 		// Register all valid query variables.
 		cnRewrite::hooks();
-		add_action( 'init', array( '\Connections_Directory\Request\Entry_Initial_Character', 'registerQueryVar' ) );
-		add_action( 'init', array( '\Connections_Directory\Request\Entry_Search_Term', 'registerQueryVar' ) );
+		add_action( 'init', array( Request\Entry_Initial_Character::class, 'registerQueryVar' ) );
+		add_action( 'init', array( Request\Entry_Search_Term::class, 'registerQueryVar' ) );
 
 		/*
 		 * Action added in the init hook to allow other plugins time to register there log types.
@@ -431,17 +438,17 @@ final class Connections_Directory {
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
 
 		// Parse the request query variables.
-		add_action( 'parse_request', array( 'Connections_Directory\Request', 'parse' ) );
+		add_action( 'parse_request', array( Request::class, 'parse' ) );
 
 		// Init the taxonomies. The `setup_theme` action is the action run closest after initializing of the $wp_rewrite global variable.
 		add_action( 'setup_theme', 'Connections_Directory\Taxonomy\init' );
 
 		// Integrations
 		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Yoast_SEO', 'init' ), 15 );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\SEO\Rank_Math', 'init' ), 15 );
+		add_action( 'plugins_loaded', array( Integration\SEO\Yoast_SEO::class, 'init' ), 15 );
+		add_action( 'plugins_loaded', array( Integration\SEO\Rank_Math::class, 'init' ), 15 );
 		// Priority 11 because Gravity Forms addon init on priority 10 on the plugins_loaded action.
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Integration\Gravity_Forms', 'init' ), 11 );
+		add_action( 'plugins_loaded', array( Integration\Gravity_Forms::class, 'init' ), 11 );
 	}
 
 	/**

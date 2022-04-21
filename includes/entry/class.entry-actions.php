@@ -9,13 +9,11 @@
  * @since       0.7.8
  */
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnEntry_Action

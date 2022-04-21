@@ -517,7 +517,7 @@ class cnEntry {
 		}
 
 		/*
-		 * Init this last so the cnEntry object if fully built since cnEntry_Image requires some of the properties.
+		 * Init this last so the cnEntry object if fully built since cnEntry_Image requires some properties.
 		 * This will perhaps change as cnEntry_Image is still a work in progress and should not be used by third parties.
 		 */
 		$this->image = new cnEntry_Image( $this );
@@ -1444,7 +1444,7 @@ class cnEntry {
 			 *
 			 * The data is now saved in a multidimensional array. What this nifty little count does is compare the array
 			 * count and against a recursive array count and if they are equal, it should be of the older data format
-			 * so loop thru it and put it in the new data format.
+			 * so loop through it and put it in the new data format.
 			 */
 			if ( count( $this->familyMembers ) == count( $this->familyMembers, COUNT_RECURSIVE ) ) {
 
@@ -2558,7 +2558,7 @@ class cnEntry {
 							'category',
 							array(
 								'child_of' => $atts['child_of'],
-								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more then one level deep are not returned.
+								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more than one level deep are not returned.
 								// 'object_ids' => $id,
 								// 'include'    => $term_ids,
 							)
@@ -3666,7 +3666,7 @@ class cnEntry {
 		// by cnFileSystem::xrmdir() which would be very bad, indeed.
 		if ( ! empty( $slug ) ) {
 
-			// Build path to the subfolder in which all the entry's images are saved.
+			// Build path to the sub folder in which all the entry's images are saved.
 			$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR;
 
 			// Delete the entry image and its variations.
@@ -3681,7 +3681,7 @@ class cnEntry {
 			// Delete logo the legacy logo, pre 8.1.
 			cnEntry_Action::deleteLegacyLogo( $this );
 
-			// Delete the entry subfolder from CN_IMAGE_DIR_NAME.
+			// Delete the entry sub folder from CN_IMAGE_DIR_NAME.
 			cnFileSystem::xrmdir( $path );
 		}
 

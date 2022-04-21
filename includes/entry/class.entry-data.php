@@ -476,7 +476,7 @@ class cnEntry {
 				}
 
 				if ( isset( $this->options['connection_group'] ) ) {
-					$this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4
+					$this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4.
 				}
 				if ( isset( $this->options['group']['family'] ) ) {
 					$this->familyMembers = $this->options['group']['family'];

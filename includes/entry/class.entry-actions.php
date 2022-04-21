@@ -242,14 +242,14 @@ class cnEntry_Action {
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
-		// Build source path to the subfolder in which all the entry's images are saved.
+		// Build source path to the sub folder in which all the entry's images are saved.
 		$sourcePath      = CN_IMAGE_PATH . $source . DIRECTORY_SEPARATOR;
 		$sourceImagePath = $sourcePath . $filename;
 
 		// Source file info.
 		$sourceImageInfo = pathinfo( $sourceImagePath );
 
-		// Build destination path to the subfolder in which all the entry's images are saved.
+		// Build destination path to the sub folder in which all the entry's images are saved.
 		$destinationPath = CN_IMAGE_PATH . $destination . DIRECTORY_SEPARATOR;
 
 		// Create the new folder.
@@ -307,7 +307,7 @@ class cnEntry_Action {
 	 */
 	public static function deleteImages( $filename, $source ) {
 
-		// Ensure neither $filename or $source are empty. If one is bail.
+		// Ensure neither $filename nor $source are empty. If one is bail.
 		if ( empty( $filename ) || empty( $source ) ) {
 			return;
 		}
@@ -315,7 +315,7 @@ class cnEntry_Action {
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
-		// Build path to the subfolder in which all the entry's images are saved.
+		// Build path to the sub folder in which all the entry's images are saved.
 		$path = CN_IMAGE_PATH . $source . DIRECTORY_SEPARATOR;
 
 		// If the $path does not exist, bail.
@@ -579,7 +579,7 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-				// If the entry is being copied, the source slug needs copied because it is required
+				// If the entry is being copied, the source slug needs to be copied because it is required
 				// in order to copy the source entry images to the new entry.
 				if ( ! empty( $id ) ) {
 
@@ -885,7 +885,7 @@ class cnEntry_Action {
 
 			do_action( 'cn_process_meta-entry', $action, $entryID );
 
-			// Refresh the cnEntry object with any updated taxonomy or meta data
+			// Refresh the cnEntry object with any updated taxonomy or metadata
 			// that may have been added/updated via actions.
 			$entry->set( $entryID );
 

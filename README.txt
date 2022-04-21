@@ -248,6 +248,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.22 04/21/2022 =
+* BUG: Update the Manage admin page to use the correct current page variable.
+* OTHER: Update `dist` files.
+* DEV: Bump async from 2.6.3 to 2.6.4.
+* DEV: Update `css-loader`.
+* DEV: Apply ESLint to `webpack.config.js`.
+* DEV: Utilize `rtlcss-webpack-plugin` instead of `webpack-rtl-plugin` to generate RTL CSS files.
+* DEV: phpDoc corrections.
+
 = 10.4.21 04/18/2022 =
 * BUG: Ensure default values for pagination on Manage admin page.
 * BUG: Correct logic for enhanced dropdowns on mobile.
@@ -688,4 +697,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.21 =
+It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.22 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

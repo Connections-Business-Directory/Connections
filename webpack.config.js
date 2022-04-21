@@ -1,21 +1,22 @@
 /**
  * External dependencies
  */
-const path = require('path');
-const webpack = require('webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
-const TerserPlugin = require('terser-webpack-plugin');
-const WebpackRTLPlugin = require('webpack-rtl-plugin');
+const path = require( 'path' );
+const webpack = require( 'webpack' );
+const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
+const RtlCssPlugin = require( 'rtlcss-webpack-plugin' );
+const TerserPlugin = require( 'terser-webpack-plugin' );
+// const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const inProduction = 'production' === process.env.NODE_ENV;
 
 /**
  * WordPress dependencies
  */
 // const defaultConfig = require( '@wordpress/scripts/config/webpack.config.js' );
-const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
+const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 
 const config = {
 	// ...defaultConfig,
@@ -36,7 +37,7 @@ const config = {
 		rules: [
 			{
 				test: /\.(css)$/,
-				use: ['style-loader', 'css-loader'],
+				use: [ 'style-loader', 'css-loader' ],
 			},
 
 			{
@@ -52,7 +53,7 @@ const config = {
 					loader: 'babel-loader',
 					options: {
 						// plugins: ['lodash'],
-						presets: ['@wordpress/default'],
+						presets: [ '@wordpress/default' ],
 					},
 				},
 				// loaders: [
@@ -101,7 +102,7 @@ const config = {
 
 	// Plugins. Gotta have em'.
 	plugins: [
-		new DependencyExtractionWebpackPlugin({
+		new DependencyExtractionWebpackPlugin( {
 			combineAssets: true,
 			combinedOutputFile: 'require/dependencies.php',
 			injectPolyfill: false,
@@ -118,28 +119,28 @@ const config = {
 			// 		return 'js-cookie'; // The library handle registered with wp_register_script()
 			// 	}
 			// },
-		}),
+		} ),
 
 		// Removes the "dist" folder before building.
-		new CleanWebpackPlugin({
+		new CleanWebpackPlugin( {
 			verbose: true,
-		}),
+		} ),
 
-		new MiniCssExtractPlugin({
+		new MiniCssExtractPlugin( {
 			filename: `[name].css`,
-		}),
+		} ),
 
 		new RemoveEmptyScriptsPlugin(),
 
 		// Copy vendor files to ensure 3rd party plugins relying on a script handle to exist continue to be enqueued.
-		new CopyWebpackPlugin({
+		new CopyWebpackPlugin( {
 			patterns: [
 				{
 					context: './node_modules/chosen-js/',
 					from: '*',
-					to: path.resolve(__dirname, './assets/vendor/chosen/'),
+					to: path.resolve( __dirname, './assets/vendor/chosen/' ),
 					globOptions: {
-						ignore: ['**/chosen.proto*.js'],
+						ignore: [ '**/chosen.proto*.js' ],
 					},
 				},
 				{
@@ -172,9 +173,12 @@ const config = {
 				{
 					context: './node_modules/picturefill/dist/',
 					from: '**',
-					to: path.resolve(__dirname, './assets/vendor/picturefill/'),
+					to: path.resolve(
+						__dirname,
+						'./assets/vendor/picturefill/'
+					),
 					globOptions: {
-						ignore: ['**/plugins/**/*'],
+						ignore: [ '**/plugins/**/*' ],
 					},
 				},
 				{
@@ -188,9 +192,9 @@ const config = {
 				{
 					context: './node_modules/js-cookie/src/',
 					from: '**',
-					to: path.resolve(__dirname, './assets/vendor/js-cookie/'),
+					to: path.resolve( __dirname, './assets/vendor/js-cookie/' ),
 					globOptions: {
-						ignore: ['**/plugins/**/*'],
+						ignore: [ '**/plugins/**/*' ],
 					},
 				},
 				{
@@ -216,10 +220,11 @@ const config = {
 					),
 				},
 			],
-		}),
+		} ),
 
 		// Create RTL CSS.
-		new WebpackRTLPlugin(),
+		// new WebpackRTLPlugin(),
+		new RtlCssPlugin( '[name].rtl.css' ),
 	],
 	optimization: {
 		minimizer: [
@@ -290,7 +295,7 @@ module.exports = [
 
 			// Tell webpack where to output.
 			output: {
-				path: path.resolve(__dirname, './assets/dist/'),
+				path: path.resolve( __dirname, './assets/dist/' ),
 				filename: '[name].js',
 			},
 		},
@@ -299,7 +304,9 @@ module.exports = [
 ];
 
 // inProd?
-if (inProduction) {
+if ( inProduction ) {
 	// Minify CSS.
-	config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true }));
+	config.plugins.push(
+		new webpack.LoaderOptionsPlugin( { minimize: true } )
+	);
 }

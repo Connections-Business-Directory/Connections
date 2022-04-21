@@ -2990,19 +2990,11 @@ class cnEntry {
 	 *     mime   => (string) The image mime type.
 	 *     type   => (int) The IMAGETYPE_XXX constants indicating the type of the image.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @uses   apply_filters()
-	 * @uses   wp_parse_args()
-	 * @uses   self::getOriginalImageURL()
-	 * @uses   self::getOriginalImagePath()
-	 * @uses   cnImage::get()
-	 * @uses   WP_Error
-	 * @uses   is_wp_error()
+	 * @since 8.1
 	 *
-	 * @param  array $atts
+	 * @param array $atts
 	 *
-	 * @return mixed array|WP_Error
+	 * @return array|WP_Error
 	 */
 	public function getImageMeta( $atts = array() ) {
 

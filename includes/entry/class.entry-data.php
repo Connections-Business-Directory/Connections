@@ -155,6 +155,7 @@ class cnEntry {
 
 	/**
 	 * The date data stored serialized array.
+	 *
 	 * @since 0.7.3.0
 	 * @var cnEntry_Dates
 	 */
@@ -238,6 +239,7 @@ class cnEntry {
 
 	/**
 	 * An array of categories associated to an entry.
+	 *
 	 * @since unknown
 	 * @var array
 	 */
@@ -300,7 +302,7 @@ class cnEntry {
 	// private $updateObjectCache = FALSE;
 
 	/**
-	 * Stored the directory home page ID and whether or no to force permalinks to the directory home.
+	 * Stored the directory home page ID and whether to force permalinks to the directory home.
 	 *
 	 * @access public
 	 * @since  8.1.6
@@ -310,12 +312,12 @@ class cnEntry {
 	public $directoryHome = array();
 
 	/**
-	 * Setup the entry object.
+	 * Set up the entry object.
 	 *
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param mixed object|null $entry
+	 * @param object|null $entry
 	 */
 	public function __construct( $entry = null ) {
 
@@ -615,7 +617,7 @@ class cnEntry {
 	}
 
 	/**
-	 * The human readable difference between the date the entry was last edited and the current date.
+	 * The human-readable difference between the date the entry was last edited and the current date.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -700,7 +702,7 @@ class cnEntry {
 	 *     Optional.
 	 *
 	 *     @type int  $page_id    The page ID of the directory home page.
-	 *     @type bool $force_home Whether or not to force the permalinks to resolve to the directory home page.
+	 *     @type bool $force_home Whether to force the permalinks to resolve to the directory home page.
 	 * }
 	 *
 	 * @return void
@@ -1428,7 +1430,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns family member member entry ID and relation.
+	 * Returns family member entry ID and relation.
 	 */
 	public function getFamilyMembers() {
 
@@ -1491,7 +1493,7 @@ class cnEntry {
 	 * @since  0.7.3
 	 *
 	 * @param array  $atts {
-	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *     @type bool         $preferred Whether to return only the preferred address.
 	 *                                   Default: false
 	 *     @type array|string $type      The address types to return.
 	 *                                   Default: array() which will return all registered address types.
@@ -1603,7 +1605,7 @@ class cnEntry {
 	 * @since  0.7.3
 	 *
 	 * @param array  $atts {
-	 *     @type bool         $preferred Whether or not to return only the preferred phone number.
+	 *     @type bool         $preferred Whether to return only the preferred phone number.
 	 *                                   Default: false
 	 *     @type array|string $type      The phone number types to return.
 	 * }
@@ -1662,7 +1664,7 @@ class cnEntry {
 	 * @param array $data {
 	 *
 	 *     @type int    $id         The phone number ID if it was retrieved from the db.
-	 *     @type bool   $preferred  Whether or not the phone number is the preferred.
+	 *     @type bool   $preferred  Whether the phone number is the preferred.
 	 *     @type string $type       The phone number type.
 	 *     @type string $number     The phone number.
 	 *     @type string $visibility The phone number visibility.
@@ -1756,7 +1758,7 @@ class cnEntry {
 	 * Filters:
 	 *  cn_messenger_atts => (array) Set the method attributes.
 	 *  cn_messenger_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
-	 *  cn_messenger_id => (object) Individual email address as it is processed thru the loop.
+	 *  cn_messenger_id => (object) Individual email address as it is processed through the loop.
 	 *  cn_messenger_ids => (array) All phone numbers before it is returned.
 	 *
 	 * @access  public
@@ -1765,7 +1767,7 @@ class cnEntry {
 	 *
 	 * @param array  $atts    Accepted values as noted above.
 	 * @param bool   $cached  Returns the cached email addresses data rather than querying the db.
-	 * @param bool   $saving  Whether or no the data is being saved to the db.
+	 * @param bool   $saving  Whether the data is being saved to the db.
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
@@ -1848,7 +1850,7 @@ class cnEntry {
 	 * Filters:
 	 *  cn_social_network_atts => (array) Set the method attributes.
 	 *  cn_social_network_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
-	 *  cn_social_network => (object) Individual email address as it is processed thru the loop.
+	 *  cn_social_network => (object) Individual email address as it is processed through the loop.
 	 *  cn_social_networks => (array) All phone numbers before it is returned.
 	 *
 	 * @access public
@@ -1856,7 +1858,7 @@ class cnEntry {
 	 *
 	 * @param array  $atts         Accepted values as noted above.
 	 * @param bool   $cached       Returns the cached social medial URLs data rather than querying the db.
-	 * @param bool   $saving       Whether or no the data is being saved to the db.
+	 * @param bool   $saving       Whether the data is being saved to the db.
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
@@ -1919,7 +1921,7 @@ class cnEntry {
 	 * Filters:
 	 *  cn_link_atts => (array) Set the method attributes.
 	 *  cn_link_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
-	 *  cn_link => (object) Individual email address as it is processed thru the loop.
+	 *  cn_link => (object) Individual email address as it is processed through the loop.
 	 *  cn_links => (array) All phone numbers before it is returned.
 	 *
 	 * @access  public
@@ -1940,7 +1942,7 @@ class cnEntry {
 	 * }
 	 *
 	 * @param bool  $cached Returns the cached link data rather than querying the db.
-	 * @param bool  $saving Whether or no the data is being saved to the db.
+	 * @param bool  $saving Whether the data is being saved to the db.
 	 *
 	 * @return array
 	 */
@@ -1993,7 +1995,7 @@ class cnEntry {
 	 * $atts['preferred'] (bool) Retrieve the preferred website.
 	 *
 	 * @access public
-	 * @since  unknonwn
+	 * @since  unknown
 	 *
 	 * @deprecated 0.7.2.0 Use cnEntry::getLinks()
 	 * @see cnEntry::getLinks()
@@ -2047,7 +2049,7 @@ class cnEntry {
 	 *     @type string $target     The link target attribute.
 	 *                              Default: same
 	 *                              Accepts: new|same
-	 *     @type bool   $follow     Whether or not the link should be followed.
+	 *     @type bool   $follow     Whether the link should be followed.
 	 *                              Default: nofollow
 	 *                              Accepts: dofollow | nofollow
 	 *     @type string $visibility The visibility status of the link.
@@ -2079,7 +2081,7 @@ class cnEntry {
 	 *
 	 * @param array  $atts    Accepted values as noted above.
 	 * @param bool   $cached  Returns the cached date data rather than querying the db.
-	 * @param bool   $saving  Whether or no the data is being saved to the db.
+	 * @param bool   $saving  Whether the data is being saved to the db.
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
@@ -2583,7 +2585,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns the entry meta data.
+	 * Returns the entry metadata.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2599,9 +2601,9 @@ class cnEntry {
 	 *                         This parameter has no effect if $key is not specified.
 	 * }
 	 *
-	 * @return mixed array|bool|string Array of the entry meta data.
-	 *                                 String if $single is set to TRUE.
-	 *                                 FALSE on failure.
+	 * @return array|bool|string Array of the entry metadata.
+	 *                           String if $single is set to TRUE.
+	 *                           FALSE on failure.
 	 */
 	public function getMeta( $atts = array() ) {
 
@@ -2642,7 +2644,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Whether or not the logo is set to be displayed or not.
+	 * Whether the logo is set to be displayed or not.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2654,7 +2656,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Set whether or not the logo should be displayed.
+	 * Set whether the logo should be displayed.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2666,7 +2668,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Whether or not the logo is linked or not.
+	 * Whether the logo is linked or not.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2678,7 +2680,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Set whether or not the logo is linked.
+	 * Set whether the logo is linked.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2862,7 +2864,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Saves the photo image meta data (the result of cnImage::get()).
+	 * Saves the photo image metadata (the result of cnImage::get()).
 	 *
 	 * @access public
 	 * @since  8.1
@@ -2964,7 +2966,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Return an array of image meta data.
+	 * Return an array of image metadata.
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string) Valid options: logo | photo | custom. Default: photo
@@ -3271,7 +3273,7 @@ class cnEntry {
 	 *
 	 * @param int $id The entry ID to query from the database.
 	 *
-	 * @return bool Whether of not the instance of cnEntry has been setup with the values of the new entry ID.
+	 * @return bool Whether of not the instance of cnEntry has been set up with the values of the new entry ID.
 	 */
 	public function set( $id ) {
 

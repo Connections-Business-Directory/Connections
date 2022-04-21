@@ -379,7 +379,7 @@ class cnEntry_Action {
 	 * @internal
 	 * @since 8.1
 	 *
-	 * @param  cnEntry $entry An instance the cnEntry object.
+	 * @param cnEntry $entry An instance the cnEntry object.
 	 */
 	public static function deleteLegacyImages( $entry ) {
 		global $blog_id;
@@ -1066,9 +1066,7 @@ class cnEntry_Action {
 	/**
 	 * Update the term taxonomy counts of the supplied entry IDs for the supplied taxonomies.
 	 *
-	 * @access private
-	 * @since  8.2.5
-	 * @static
+	 * @since 8.2.5
 	 *
 	 * @param mixed $ids      array|string An array or comma separated list of entry IDs.
 	 * @param mixed $taxonomy array|string An array of taxonomies or taxonomy to update the term taxonomy count.
@@ -1094,8 +1092,7 @@ class cnEntry_Action {
 	/**
 	 * Geocode the supplied address.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 0.8
 	 *
 	 * @param  cnAddress $address An associative array containing the address to geocode.
 	 *
@@ -1170,7 +1167,6 @@ class cnEntry_Action {
 	/**
 	 * Add, update or delete the meta of the specified entry ID.
 	 *
-	 * @access public
 	 * @since 0.8
 	 *
 	 * @param string $action The action to be performed.

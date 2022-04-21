@@ -16,9 +16,13 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Entry class
+ * Class cnEntry
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnEntry {
+
 	/**
 	 * @var integer
 	 */

@@ -39,7 +39,6 @@ class Entry extends cnShortcode {
 	 */
 	public function __construct( $atts, $content, $tag ) {
 
-		/** @var Template $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
 		if ( false === $template ) {

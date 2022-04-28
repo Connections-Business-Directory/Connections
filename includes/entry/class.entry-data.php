@@ -2996,9 +2996,9 @@ class cnEntry {
 	 *
 	 * @since 8.1
 	 *
-	 * @param array $atts
+	 * @param array{type: string, size: string, width: int, height: int, crop_mode: int, quality: int} $atts
 	 *
-	 * @return array|WP_Error
+	 * @return array{name: string, path:string, url: string, width: int, height: int, size: string, mime: string, type: int, source: string}|WP_Error
 	 */
 	public function getImageMeta( $atts = array() ) {
 
@@ -3071,7 +3071,6 @@ class cnEntry {
 
 						} else {
 
-							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
 
 								$meta['width']  = $image[0];
@@ -3135,7 +3134,6 @@ class cnEntry {
 
 						} else {
 
-							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
 
 								$meta['width']  = $image[0];

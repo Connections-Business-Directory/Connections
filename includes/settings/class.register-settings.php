@@ -9,6 +9,8 @@
  * @since       0.7.3.0
  */
 
+use Connections_Directory\Utility\_string;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -4359,54 +4361,37 @@ class cnRegisterSettings {
 		/*
 		 * Make sure there is a value saved for each permalink base.
 		 */
-		if ( ! isset( $settings['character_base'] ) || empty( $settings['character_base'] ) ) {
-			$settings['character_base'] = 'char';
-		}
+		$defaults = array(
+			'character_base'    => 'char',
+			'category_base'     => 'cat',
+			'name_base'         => 'name',
+			'department_base'   => 'department',
+			'organization_base' => 'organization',
+			'locality_base'     => 'locality',
+			'district_base'     => 'district',
+			'county_base'       => 'county',
+			'postal_code_base'  => 'postal_code',
+			'region_base'       => 'region',
+			'country_base'      => 'country',
+		);
 
-		if ( ! isset( $settings['category_base'] ) || empty( $settings['category_base'] ) ) {
-			$settings['category_base'] = 'cat';
-		}
+		$sanitized = array();
 
-		if ( ! isset( $settings['country_base'] ) || empty( $settings['country_base'] ) ) {
-			$settings['country_base'] = 'country';
-		}
+		foreach ( $defaults as $key => $slug ) {
 
-		if ( ! isset( $settings['region_base'] ) || empty( $settings['region_base'] ) ) {
-			$settings['region_base'] = 'region';
-		}
+			if ( ! array_key_exists( $key, $settings ) || empty( $settings[ $key ] ) ) {
 
-		if ( ! isset( $settings['locality_base'] ) || empty( $settings['locality_base'] ) ) {
-			$settings['locality_base'] = 'locality';
-		}
+				$sanitized[ $key ] = $slug;
 
-		if ( ! isset( $settings['postal_code_base'] ) || empty( $settings['postal_code_base'] ) ) {
-			$settings['postal_code_base'] = 'postal_code';
-		}
+			} else {
 
-		if ( ! isset( $settings['district_base'] ) || empty( $settings['district_base'] ) ) {
-			$settings['district_base'] = 'district';
+				$sanitized[ $key ] = _string::toKebabCase( $settings[ $key ] );
+			}
 		}
-
-		if ( ! isset( $settings['county_base'] ) || empty( $settings['county_base'] ) ) {
-			$settings['county_base'] = 'county';
-		}
-		if ( ! isset( $settings['name_base'] ) || empty( $settings['name_base'] ) ) {
-			$settings['name_base'] = 'name';
-		}
-
-		if ( ! isset( $settings['organization_base'] ) || empty( $settings['organization_base'] ) ) {
-			$settings['organization_base'] = 'organization';
-		}
-
-		if ( ! isset( $settings['department_base'] ) || empty( $settings['department_base'] ) ) {
-			$settings['department_base'] = 'department';
-		}
-
-		$settings = array_map( array( Connections_Directory\Utility\_string::class, 'toKebabCase' ), $settings );
 
 		self::flushRewriteRules();
 
-		return $settings;
+		return $sanitized;
 	}
 
 	/**

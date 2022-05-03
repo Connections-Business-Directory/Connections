@@ -79,7 +79,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 	/*
 	 * If a list type was specified in the shortcode, load the template based on that type.
-	 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
+	 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified.
 	 */
 	if ( ! empty( $atts['template'] ) ) {
 		$template = cnTemplateFactory::getTemplate( $templateType['template'] );
@@ -121,7 +121,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 	$atts = apply_filters( 'cn_list_atts-' . $template->getSlug(), $atts );
 
 	/*
-	 * Convert some of the $atts values in the array to boolean.
+	 * Convert some $atts values in the array to boolean.
 	 */
 	cnFormatting::toBoolean( $atts['include_today'] );
 	cnFormatting::toBoolean( $atts['private_override'] );

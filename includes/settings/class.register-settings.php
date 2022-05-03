@@ -9,6 +9,7 @@
  * @since       0.7.3.0
  */
 
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
 
 // Exit if accessed directly.
@@ -4020,17 +4021,17 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeAddressFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'address-types.active', array() );
+		$active = _array::get( $settings, 'address-types.active', array() );
 
 		// If no address types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'address-types.type' );
+			$types    = _array::get( $settings, 'address-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'address-types.active', $active );
+		_array::set( $settings, 'address-types.active', $active );
 
 		return $settings;
 	}
@@ -4047,17 +4048,17 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizePhoneFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'phone-types.active', array() );
+		$active = _array::get( $settings, 'phone-types.active', array() );
 
 		// If no phone types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'phone-types.type' );
+			$types    = _array::get( $settings, 'phone-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'phone-types.active', $active );
+		_array::set( $settings, 'phone-types.active', $active );
 
 		return $settings;
 	}
@@ -4074,17 +4075,17 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeEmailFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'email-types.active', array() );
+		$active = _array::get( $settings, 'email-types.active', array() );
 
 		// If no email types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'email-types.type' );
+			$types    = _array::get( $settings, 'email-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'email-types.active', $active );
+		_array::set( $settings, 'email-types.active', $active );
 
 		return $settings;
 	}
@@ -4101,17 +4102,17 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeMessengerFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'messenger-types.active', array() );
+		$active = _array::get( $settings, 'messenger-types.active', array() );
 
 		// If no email types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'messenger-types.type' );
+			$types    = _array::get( $settings, 'messenger-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'messenger-types.active', $active );
+		_array::set( $settings, 'messenger-types.active', $active );
 
 		return $settings;
 	}
@@ -4128,17 +4129,17 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeLinkFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'link-types.active', array() );
+		$active = _array::get( $settings, 'link-types.active', array() );
 
 		// If no link types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'link-types.type' );
+			$types    = _array::get( $settings, 'link-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'link-types.active', $active );
+		_array::set( $settings, 'link-types.active', $active );
 
 		return $settings;
 	}
@@ -4155,17 +4156,17 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeDateFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'date-types.active', array() );
+		$active = _array::get( $settings, 'date-types.active', array() );
 
 		// If no date types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'date-types.type' );
+			$types    = _array::get( $settings, 'date-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'date-types.active', $active );
+		_array::set( $settings, 'date-types.active', $active );
 
 		return $settings;
 	}
@@ -4182,17 +4183,17 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeSocialNetworkFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'social-network-types.active', array() );
+		$active = _array::get( $settings, 'social-network-types.active', array() );
 
 		// If no date types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'social-network-types.icon' );
+			$types    = _array::get( $settings, 'social-network-types.icon' );
 			$keys     = array_keys( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'social-network-types.active', $active );
+		_array::set( $settings, 'social-network-types.active', $active );
 
 		return $settings;
 	}

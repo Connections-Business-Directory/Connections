@@ -915,7 +915,7 @@ class cnRegisterSettings {
 			'section'   => 'connections_visibility',
 			'title'     => __( 'Enable allow_public_override', 'connections' ),
 			'desc'      => __(
-				'By default all entries whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>allow_public_override</em> shortcode option allows you to override requiring the site visitor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.',
+				'By default, all entries whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>allow_public_override</em> shortcode option allows you to override requiring the site visitor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.',
 				'connections'
 			),
 			'help'      => '',
@@ -1487,7 +1487,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $addressTypes ),
 				// Any types registered via the `cn_address_options` filter should be set as active (enabled).
 				// The `cn_address_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_address_options', $addressTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -1761,7 +1761,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $phoneTypes ),
 				// Any types registered via the `cn_phone_options` filter should be set as active (enabled).
 				// The `cn_phone_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_phone_options', $phoneTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -1905,7 +1905,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $emailTypes ),
 				// Any types registered via the `cn_email_options` filter should be set as active (enabled).
 				// The `cn_email_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_email_options', $emailTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -2049,7 +2049,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $imTypes ),
 				// Any types registered via the `cn_instant_messenger_options` filter should be set as active (enabled).
 				// The `cn_instant_messenger_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_instant_messenger_options', $imTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -2193,7 +2193,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $linkTypes ),
 				// Any types registered via the `cn_link_options` filter should be set as active (enabled).
 				// The `cn_link_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_link_options', $linkTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -2453,7 +2453,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $dateTypes ),
 				// Any types registered via the `cn_date_options` filter should be set as active (enabled).
 				// The `cn_date_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_date_options', $dateTypes ) ),
 			),
 			// Only need to add this once, otherwise it would be run for each field.
@@ -2738,7 +2738,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $socialMediaTypes ),
 				// Any types registered via the `cn_social_network_options` filter should be set as active (enabled).
 				// The `cn_social_network_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_social_network_options', $socialMediaTypes ) ),
 			),
 			// Only need to add this once, otherwise it would be run for each field.
@@ -4025,7 +4025,7 @@ class cnRegisterSettings {
 
 	/**
 	 * Callback for the "Login Required" settings field.
-	 * This ensure all roles are set to have the connections_view_public
+	 * This ensures all roles are set to have the connections_view_public
 	 * capability to ensures all roles can at least view the public entries.
 	 *
 	 * @access private

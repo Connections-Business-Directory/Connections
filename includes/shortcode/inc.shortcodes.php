@@ -249,7 +249,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 					'' === $alternate ? $alternate = '-alternate' : $alternate = '';
 
-					$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
+					$out .= "<div class=\"cn-upcoming-row{$alternate} vcard\">\n";
 						ob_start();
 						do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
 						$out .= ob_get_contents();

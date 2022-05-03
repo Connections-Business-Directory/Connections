@@ -3900,57 +3900,6 @@ class cnRegisterSettings {
 			'schema'    => array( 'type' => 'string' ),
 		);
 
-		//$fields[] = array(
-		//	'plugin_id' => 'connections',
-		//	'id'        => 'google_maps_api',
-		//	'position'  => 10,
-		//	'page_hook' => $settings,
-		//	'tab'       => 'advanced',
-		//	'section'   => 'connections_compatibility',
-		//	'title'     => __( 'Google Maps API v3', 'connections' ),
-		//	'desc'      => __(
-		//		'If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts. NOTE: This only applies to templates that utilize Google Maps.',
-		//		'connections'
-		//	),
-		//	'help'      => '',
-		//	'type'      => 'checkbox',
-		//	'default'   => 1
-		//);
-
-		//$fields[] = array(
-		//	'plugin_id' => 'connections',
-		//	'id'        => 'javascript_footer',
-		//	'position'  => 20,
-		//	'page_hook' => $settings,
-		//	'tab'       => 'advanced',
-		//	'section'   => 'connections_compatibility',
-		//	'title'     => __( 'JavaScript', 'connections' ),
-		//	'desc'      => __(
-		//		'By default Connections loads it\'s JavaScripts in the page footer uncheck this box to load them in the page header.',
-		//		'connections'
-		//	),
-		//	'help'      => '',
-		//	'type'      => 'checkbox',
-		//	'default'   => 1
-		//);
-
-		//$fields[] = array(
-		//	'plugin_id' => 'connections',
-		//	'id'        => 'css',
-		//	'position'  => 30,
-		//	'page_hook' => $settings,
-		//	'tab'       => 'advanced',
-		//	'section'   => 'compatibility',
-		//	'title'     => 'CSS',
-		//	'desc'      => __(
-		//		'Enqueue the core styles. Disable this option if you do not want the core styles to be loaded.',
-		//		'connections'
-		//	),
-		//	'help'      => '',
-		//	'type'      => 'checkbox',
-		//	'default'   => 1
-		//);
-
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'jquery',

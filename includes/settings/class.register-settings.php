@@ -4542,30 +4542,30 @@ class cnRegisterSettings {
 		/*
 		 * Build the array to store the user preferences.
 		 */
-		$search['family_name']        = in_array( 'family_name', $fields ) ? true : false;
-		$search['first_name']         = in_array( 'first_name', $fields ) ? true : false;
-		$search['middle_name']        = in_array( 'middle_name', $fields ) ? true : false;
-		$search['last_name']          = in_array( 'last_name', $fields ) ? true : false;
-		$search['title']              = in_array( 'title', $fields ) ? true : false;
-		$search['organization']       = in_array( 'organization', $fields ) ? true : false;
-		$search['department']         = in_array( 'department', $fields ) ? true : false;
-		$search['contact_first_name'] = in_array( 'contact_first_name', $fields ) ? true : false;
-		$search['contact_last_name']  = in_array( 'contact_last_name', $fields ) ? true : false;
-		$search['bio']                = in_array( 'bio', $fields ) ? true : false;
-		$search['notes']              = in_array( 'notes', $fields ) ? true : false;
+		$search['family_name']        = in_array( 'family_name', $fields );
+		$search['first_name']         = in_array( 'first_name', $fields );
+		$search['middle_name']        = in_array( 'middle_name', $fields );
+		$search['last_name']          = in_array( 'last_name', $fields );
+		$search['title']              = in_array( 'title', $fields );
+		$search['organization']       = in_array( 'organization', $fields );
+		$search['department']         = in_array( 'department', $fields );
+		$search['contact_first_name'] = in_array( 'contact_first_name', $fields );
+		$search['contact_last_name']  = in_array( 'contact_last_name', $fields );
+		$search['bio']                = in_array( 'bio', $fields );
+		$search['notes']              = in_array( 'notes', $fields );
 
-		$search['address_line_1']   = in_array( 'address_line_1', $fields ) ? true : false;
-		$search['address_line_2']   = in_array( 'address_line_2', $fields ) ? true : false;
-		$search['address_line_3']   = in_array( 'address_line_3', $fields ) ? true : false;
-		$search['address_line_4']   = in_array( 'address_line_4', $fields ) ? true : false;
-		$search['address_district'] = in_array( 'address_district', $fields ) ? true : false;
-		$search['address_county']   = in_array( 'address_county', $fields ) ? true : false;
-		$search['address_city']     = in_array( 'address_city', $fields ) ? true : false;
-		$search['address_state']    = in_array( 'address_state', $fields ) ? true : false;
-		$search['address_zipcode']  = in_array( 'address_zipcode', $fields ) ? true : false;
-		$search['address_country']  = in_array( 'address_country', $fields ) ? true : false;
+		$search['address_line_1']   = in_array( 'address_line_1', $fields );
+		$search['address_line_2']   = in_array( 'address_line_2', $fields );
+		$search['address_line_3']   = in_array( 'address_line_3', $fields );
+		$search['address_line_4']   = in_array( 'address_line_4', $fields );
+		$search['address_district'] = in_array( 'address_district', $fields );
+		$search['address_county']   = in_array( 'address_county', $fields );
+		$search['address_city']     = in_array( 'address_city', $fields );
+		$search['address_state']    = in_array( 'address_state', $fields );
+		$search['address_zipcode']  = in_array( 'address_zipcode', $fields );
+		$search['address_country']  = in_array( 'address_country', $fields );
 
-		$search['phone_number'] = in_array( 'phone_number', $fields ) ? true : false;
+		$search['phone_number'] = in_array( 'phone_number', $fields );
 
 		// var_dump($search);
 

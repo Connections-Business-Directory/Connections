@@ -22,9 +22,10 @@ class cnRegisterSettings {
 	/**
 	 * Register the tabs for the Connections : Settings admin page.
 	 *
-	 * @author Steven A. Zahm
 	 * @since 0.7.3.0
-	 * @param $tabs array
+	 *
+	 * @param array $tabs
+	 *
 	 * @return array
 	 */
 	public static function registerSettingsTabs( $tabs ) {
@@ -3980,9 +3981,9 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 0.7.3
 	 *
-	 * @param $loginRequired
+	 * @param string[] $loginRequired
 	 *
-	 * @return int
+	 * @return string[]
 	 */
 	public static function setAllowPublic( $loginRequired ) {
 		global $wp_roles;

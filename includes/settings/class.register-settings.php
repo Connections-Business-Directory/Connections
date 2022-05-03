@@ -11,6 +11,7 @@
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_string;
+use Connections_Directory\Utility\_validate;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -4018,6 +4019,8 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeAddressFieldsetSettings( $settings ) {
 
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
 		$active = _array::get( $settings, 'address-types.active', array() );
 
 		// If no address types have been selected, force select the top type.
@@ -4044,6 +4047,8 @@ class cnRegisterSettings {
 	 * @return array
 	 */
 	public static function sanitizePhoneFieldsetSettings( $settings ) {
+
+		$settings = self::prepareCommonRepeatableSettings( $settings );
 
 		$active = _array::get( $settings, 'phone-types.active', array() );
 
@@ -4072,6 +4077,8 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeEmailFieldsetSettings( $settings ) {
 
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
 		$active = _array::get( $settings, 'email-types.active', array() );
 
 		// If no email types have been selected, force select the top type.
@@ -4098,6 +4105,8 @@ class cnRegisterSettings {
 	 * @return array
 	 */
 	public static function sanitizeMessengerFieldsetSettings( $settings ) {
+
+		$settings = self::prepareCommonRepeatableSettings( $settings );
 
 		$active = _array::get( $settings, 'messenger-types.active', array() );
 
@@ -4126,6 +4135,8 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeLinkFieldsetSettings( $settings ) {
 
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
 		$active = _array::get( $settings, 'link-types.active', array() );
 
 		// If no link types have been selected, force select the top type.
@@ -4152,6 +4163,8 @@ class cnRegisterSettings {
 	 * @return array
 	 */
 	public static function sanitizeDateFieldsetSettings( $settings ) {
+
+		$settings = self::prepareCommonRepeatableSettings( $settings );
 
 		$active = _array::get( $settings, 'date-types.active', array() );
 
@@ -4180,6 +4193,8 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeSocialNetworkFieldsetSettings( $settings ) {
 
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
 		$active = _array::get( $settings, 'social-network-types.active', array() );
 
 		// If no date types have been selected, force select the top type.
@@ -4191,6 +4206,29 @@ class cnRegisterSettings {
 		}
 
 		_array::set( $settings, 'social-network-types.active', $active );
+
+		return $settings;
+	}
+
+	/**
+	 * Repeatable fields have duplicate settings that are shared. This helper method is to remove code duplication.
+	 *
+	 * @since 10.4.23
+	 *
+	 * @param array $settings The array of setting to validate and sanitize.
+	 *
+	 * @return array
+	 */
+	private static function prepareCommonRepeatableSettings( $settings ) {
+
+		$count      = _array::get( $settings, 'count', 0 );
+		$repeatable = _array::get( $settings, 'repeatable', 0 );
+
+		$count      = _validate::isPositiveInteger( $count ) ? absint( $count ) : 0;
+		$repeatable = 0 < $count ? $repeatable : 1;
+
+		_array::set( $settings, 'count', (string) $count );
+		_array::set( $settings, 'repeatable', (string) $repeatable );
 
 		return $settings;
 	}

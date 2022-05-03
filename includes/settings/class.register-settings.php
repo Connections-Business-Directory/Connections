@@ -9,7 +9,7 @@
  * @since       0.7.3.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -4323,7 +4323,7 @@ class cnRegisterSettings {
 
 		$settings = cnSanitize::args( $settings, $defaults );
 
-		// Ensure positive int values
+		// Ensure positive int values.
 		$settings['quality'] = absint( $settings['quality'] );
 		$settings['height']  = absint( $settings['height'] );
 		$settings['width']   = absint( $settings['width'] );
@@ -4333,7 +4333,7 @@ class cnRegisterSettings {
 		$settings['height']  = empty( $settings['height'] ) ? 150 : $settings['height'];
 		$settings['width']   = empty( $settings['width'] ) ? 225 : $settings['width'];
 
-		// The valid ratio options
+		// The valid ratio options.
 		$ratio = array( 'crop', 'fill', 'fit', 'none' );
 
 		// Make sure the value is one of the permitted options and if it is not, set it to the 'crop' value.

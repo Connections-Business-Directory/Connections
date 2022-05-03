@@ -956,10 +956,7 @@ class cnRegisterSettings {
 			'tab'       => 'display',
 			'section'   => 'connections_display_general',
 			'title'     => __( 'Date Format', 'connections' ),
-			'desc'      => __(
-				'<a href="https://wordpress.org/support/article/formatting-date-and-time/" target="_blank">Documentation on date and time formatting</a>.',
-				'connections'
-			),
+			'desc'      => '<a href="https://wordpress.org/support/article/formatting-date-and-time/" target="_blank">' . __( 'Documentation on date and time formatting.', 'connections' ) . '</a>',
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',

@@ -4459,7 +4459,7 @@ class cnRegisterSettings {
 			$settings['department_base'] = 'department';
 		}
 
-		$settings = array_map( array( 'cnFormatting', 'sanitizeStringStrong' ), $settings );
+		$settings = array_map( array( Connections_Directory\Utility\_string::class, 'toKebabCase' ), $settings );
 
 		self::flushRewriteRules();
 

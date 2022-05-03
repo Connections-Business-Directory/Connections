@@ -4015,7 +4015,7 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 8.7
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
@@ -4042,7 +4042,7 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 8.8
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
@@ -4069,7 +4069,7 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 8.9
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
@@ -4096,7 +4096,7 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 8.16
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
@@ -4123,7 +4123,7 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 8.17
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
@@ -4150,7 +4150,7 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 8.22
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
@@ -4177,7 +4177,7 @@ class cnRegisterSettings {
 	 * @internal
 	 * @since 8.45
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */

@@ -3977,8 +3977,8 @@ class cnRegisterSettings {
 	 * This ensures all roles are set to have the connections_view_public
 	 * capability to ensures all roles can at least view the public entries.
 	 *
-	 * @access private
-	 * @since  0.7.3
+	 * @internal
+	 * @since 0.7.3
 	 *
 	 * @param $loginRequired
 	 *
@@ -4007,9 +4007,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the address fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.7
-	 * @static
+	 * @internal
+	 * @since 8.7
 	 *
 	 * @param array $settings
 	 *
@@ -4035,9 +4034,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the phone fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.8
-	 * @static
+	 * @internal
+	 * @since 8.8
 	 *
 	 * @param array $settings
 	 *
@@ -4063,9 +4061,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the email fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.9
-	 * @static
+	 * @internal
+	 * @since 8.9
 	 *
 	 * @param array $settings
 	 *
@@ -4091,9 +4088,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the messenger fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.16
-	 * @static
+	 * @internal
+	 * @since 8.16
 	 *
 	 * @param array $settings
 	 *
@@ -4119,9 +4115,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the link fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.17
-	 * @static
+	 * @internal
+	 * @since 8.17
 	 *
 	 * @param array $settings
 	 *
@@ -4147,9 +4142,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the date fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.22
-	 * @static
+	 * @internal
+	 * @since 8.22
 	 *
 	 * @param array $settings
 	 *
@@ -4175,8 +4169,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the social network fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.45
+	 * @internal
+	 * @since 8.45
 	 *
 	 * @param array $settings
 	 *
@@ -4206,9 +4200,8 @@ class cnRegisterSettings {
 	 *
 	 * @see cnSettingsAPI::field()
 	 *
-	 * @access private
-	 * @since  8.7
-	 * @static
+	 * @internal
+	 * @since 8.7
 	 *
 	 * @param string $html
 	 * @param array  $atts
@@ -4274,8 +4267,8 @@ class cnRegisterSettings {
 	 *
 	 * @see cnSettingsAPI::field()
 	 *
-	 * @access private
-	 * @since  8.45
+	 * @internal
+	 * @since 8.45
 	 *
 	 * @param string $html
 	 * @param array  $atts
@@ -4312,8 +4305,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the image settings.
 	 *
-	 * @access private
-	 * @since  0.7.7
+	 * @internal
+	 * @since 0.7.7
 	 *
 	 * @param array $settings
 	 *
@@ -4417,8 +4410,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback action to sanitize the user selected supported CTPs.
 	 *
-	 * @access private
-	 * @since  8.5.14
+	 * @internal
+	 * @since 8.5.14
 	 *
 	 * @param array $settings
 	 *
@@ -4434,8 +4427,8 @@ class cnRegisterSettings {
 	/**
 	 * This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit().
 	 *
-	 * @access private
-	 * @since  8.5.14
+	 * @internal
+	 * @since 8.5.14
 	 */
 	private static function flushRewriteRules() {
 
@@ -4449,9 +4442,11 @@ class cnRegisterSettings {
 	 * @TODO this will fail on tables that do not support FULLTEXT. Should somehow check before processing
 	 * and set FULLTEXT support to FALSE
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.3
+	 *
 	 * @param array $settings
+	 *
 	 * @return array
 	 */
 	public static function setSearchFields( $settings ) {

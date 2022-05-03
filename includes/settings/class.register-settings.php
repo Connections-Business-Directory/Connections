@@ -4403,13 +4403,12 @@ class cnRegisterSettings {
 	/**
 	 * Sanitize the slug to help prevent some unfriendly slugs that users might enter
 	 *
-	 * @access private
-	 * @version 1.0
+	 * @internal
 	 * @since 0.7.3
-	 * @uses update_option()
-	 * @uses sanitize_title_with_dashes()
-	 * @param array $settings
-	 * @return array
+	 *
+	 * @param string[] $settings An array of permalink slugs.
+	 *
+	 * @return string[]
 	 */
 	public static function sanitizeURLBase( $settings ) {
 

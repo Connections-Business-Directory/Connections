@@ -722,7 +722,7 @@ class cnTemplateFactory {
 		// If the template was not located, return FALSE.
 		// This will in turn display the template not found error message
 		// later in the execution of the shortcode.
-		if ( false === $template ) {
+		if ( ! $template instanceof cnTemplate ) {
 			return false;
 		}
 

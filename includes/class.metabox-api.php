@@ -209,9 +209,9 @@ class cnMetaboxAPI {
 	 */
 	public static function add( array $metabox ) {
 
-		/*
-		 * Interestingly if either 'submitdiv' or 'linksubmitdiv' is used as
-		 * the 'id' in the add_meta_box function it will show up as a metabox
+		/**
+		 * Interestingly if either 'submitdiv' or 'linksubmitdiv' are used as
+		 * the 'id' in the {@see add_meta_box()} function it will show up as a metabox
 		 * that can not be hidden when the Screen Options tab is output via the
 		 * meta_box_prefs function.
 		 */

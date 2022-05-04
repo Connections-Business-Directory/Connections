@@ -1448,7 +1448,7 @@ class cnMetabox_Render {
 /*
  * Add the jQuery UI Datepicker to the date input fields.
  */
-;jQuery(document).ready( function($){
+jQuery(document).ready( function($){
 
 	if ($.fn.datepicker) {
 
@@ -1488,7 +1488,7 @@ class cnMetabox_Render {
 /*
  * Add the Color Picker to the input fields.
  */
-;jQuery(document).ready( function($){
+jQuery(document).ready( function($){
 
 	$('.cn-colorpicker').wpColorPicker();
 });
@@ -1512,7 +1512,7 @@ class cnMetabox_Render {
 /*
  * Add the jQuery UI Slider input fields.
  */
-;jQuery(document).ready( function($){
+jQuery(document).ready( function($){
 
 <?php
 foreach ( self::$slider as $id => $option ) {

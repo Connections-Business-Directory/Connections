@@ -668,7 +668,7 @@ class cnMetabox_Render {
 		$defaults = array(
 			'id'      => '',
 			'order'   => array(),
-			'exclude' => array(),
+			'exclude' => array(), //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 			'include' => array(),
 			'hide'    => array(),
 		);

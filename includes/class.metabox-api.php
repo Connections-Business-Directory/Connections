@@ -1,15 +1,13 @@
 <?php
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 use Connections_Directory\Form\Field;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
 use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class registering the metaboxes for add/edit an entry.

@@ -283,9 +283,9 @@ class cnDependency {
 			'cnFragment'               => 'includes/class.cache.php',
 
 			// Metabox API.
-			'cnMetaboxAPI'             => 'includes/class.metabox-api.php',
-			'cnMetabox_Render'         => 'includes/class.metabox-api.php',
-			'cnMetabox_Process'        => 'includes/class.metabox-api.php',
+			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',
+			'cnMetabox_Render'         => 'includes/Metabox/class.metabox-api.php',
+			'cnMetabox_Process'        => 'includes/Metabox/class.metabox-api.php',
 
 			// Register the core metaboxes and fields for the add/edit entry admin pages.
 			'cnEntryMetabox'           => 'includes/class.metabox-entry.php',

@@ -1238,6 +1238,7 @@ class cnMetabox_Render {
 						 * @url http://wordpress.stackexchange.com/a/82722/59053
 						 */
 
+						//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion
 						wp_enqueue_script(
 							'iris',
 							admin_url( 'js/iris.min.js' ),
@@ -1246,6 +1247,7 @@ class cnMetabox_Render {
 							1
 						);
 
+						//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion
 						wp_enqueue_script(
 							'wp-color-picker',
 							admin_url( 'js/color-picker.min.js' ),

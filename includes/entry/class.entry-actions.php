@@ -858,7 +858,7 @@ class cnEntry_Action {
 				break;
 		}
 
-		if ( isset( $entryID ) && false !== $entryID ) {
+		if ( isset( $entryID ) && 0 !== $entryID ) {
 
 			$taxonomies = Registry::get()->getTaxonomies();
 

@@ -1650,6 +1650,7 @@ final class Taxonomy {
 		}
 
 		$entryID = $entry->getId();
+		$terms   = array_filter( $terms );
 
 		if ( empty( $terms ) ) {
 

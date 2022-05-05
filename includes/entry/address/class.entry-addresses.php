@@ -316,7 +316,17 @@ final class cnEntry_Addresses implements cnToArray {
 		 * precision of 15 and a scale of 12, the lat/lng will not get rounded until the 12th decimal place.
 		 */
 
-		$cnDb = new cnEntry_DB( $this->id );
+		$cnDb      = new cnEntry_DB( $this->id );
+		$addresses = $this->resetFilters()->escapeForSaving()->getCollectionAsObjects();
+
+		/*
+		 * Both the latitude longitude properties must be strings otherwise they will not be updated.
+		 */
+		foreach ( $addresses as &$address ) {
+
+			$address->latitude  = (string) $address->latitude;
+			$address->longitude = (string) $address->longitude;
+		}
 
 		$cnDb->upsert(
 			CN_ENTRY_ADDRESS_TABLE,
@@ -338,7 +348,7 @@ final class cnEntry_Addresses implements cnToArray {
 				'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->resetFilters()->escapeForSaving()->getCollectionAsObjects(),
+			$addresses,
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)

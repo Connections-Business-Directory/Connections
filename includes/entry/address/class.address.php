@@ -245,7 +245,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		$this->latitude  = $this->coordinates->getLatitude();
 		$this->longitude = $this->coordinates->getLongitude();
 
-		// Previous versions set the type to the Select string from the drop down (bug), so set the name to 'Other'.
+		// Previous versions set the type to the Select string from the dropdown (bug), so set the name to 'Other'.
 		$this->name = ! isset( $types[ $this->type ] ) || 'Select' === $types[ $this->type ] ? 'Other' : $types[ $this->type ];
 
 		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.

@@ -258,7 +258,7 @@ class cnDependency {
 			'Connections_Directory\Taxonomy\Term\Admin\Actions' => 'includes/Taxonomy/Term/Admin/Actions.php',
 
 			// Term Objects.
-			'cnTerm'                   => 'includes/class.terms.php',
+			'cnTerm'                   => 'includes/class.term.php',
 			'cnTerms'                  => 'includes/class.terms.php',
 
 			// Category Objects.

@@ -280,7 +280,7 @@ class cnDependency {
 
 			// Caching.
 			'cnCache'                  => 'includes/class.cache.php',
-			'cnFragment'               => 'includes/class.cache.php',
+			'cnFragment'               => 'includes/class.fragment.php',
 
 			// Metabox API.
 			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',

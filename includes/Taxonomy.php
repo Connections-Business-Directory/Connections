@@ -341,8 +341,7 @@ final class Taxonomy {
 	/**
 	 * Sets taxonomy properties.
 	 *
-	 * Based on:
-	 * @see \WP_Taxonomy::set_props()
+	 * Based on {@see \WP_Taxonomy::set_props()}.
 	 *
 	 * @since 10.2
 	 *
@@ -1083,8 +1082,7 @@ final class Taxonomy {
 	/**
 	 * Set up the taxonomy labels.
 	 *
-	 * Similar to:
-	 * @see get_taxonomy_labels()
+	 * Similar to {@see get_taxonomy_labels()}.
 	 *
 	 * @since 10.2
 	 *
@@ -1162,9 +1160,7 @@ final class Taxonomy {
 		}
 
 		/**
-		 * This section is similar to:
-		 *
-		 * @see _get_custom_object_labels()
+		 * This section is similar to {@see _get_custom_object_labels()}.
 		 */
 		$defaults['name']           = _array::get( $labels, 'name', ( isset( $this->label ) ? $this->label : $this->name ) );
 		$defaults['singular_name']  = _array::get( $labels, 'singular_name', $defaults['name'] );

@@ -423,7 +423,7 @@ class cnDependency {
 
 			// The class for working with the file system.
 			'cnFileSystem'             => 'includes/class.filesystem.php',
-			'cnUpload'                 => 'includes/class.filesystem.php',
+			'cnUpload'                 => 'includes/class.upload.php',
 
 			// The class for handling admin notices.
 			'cnMessage'                => 'includes/admin/class.message.php',

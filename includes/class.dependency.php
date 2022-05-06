@@ -371,7 +371,7 @@ class cnDependency {
 
 			// Entry Meta API.
 			'cnMeta'       => 'includes/class.meta.php',
-			'cnMeta_Query' => 'includes/class.meta.php',
+			'cnMeta_Query' => 'includes/class.meta-query.php',
 
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',

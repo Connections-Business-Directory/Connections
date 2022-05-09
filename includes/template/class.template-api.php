@@ -591,11 +591,11 @@ class cnTemplateFactory {
 	 * @param string $type The template type.
 	 * @param string $slug The template slug.
 	 *
-	 * @return cnTemplate|FALSE If the template is found a cnTemplate object is returned, otherwise FALSE.
+	 * @return cnTemplate|false If the template is found a cnTemplate object is returned, otherwise FALSE.
 	 */
 	public static function getTemplate( $slug, $type = '' ) {
 
-		/** @var $template cnTemplate */
+		/** @var cnTemplate|false $template */
 
 		self::maybeActivate();
 
@@ -662,7 +662,7 @@ class cnTemplateFactory {
 	 *
 	 * @param  array $atts The shortcode atts array.
 	 *
-	 * @return cnTemplate|FALSE An instance the of cnTemplate object or `FALSE` if the template was not found/loaded.
+	 * @return cnTemplate|false An instance the of cnTemplate object or `false` if the template was not found/loaded.
 	 */
 	public static function loadTemplate( $atts ) {
 
@@ -722,11 +722,10 @@ class cnTemplateFactory {
 		// If the template was not located, return FALSE.
 		// This will in turn display the template not found error message
 		// later in the execution of the shortcode.
-		if ( false === $template ) {
+		if ( ! $template instanceof cnTemplate ) {
 			return false;
 		}
 
-		/** @var cnTemplate $template */
 		do_action( 'cn_register_legacy_template_parts' );
 		do_action( 'cn_action_include_once-' . $template->getSlug() );
 		do_action( 'cn_action_js-' . $template->getSlug() );

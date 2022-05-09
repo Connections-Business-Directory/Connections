@@ -8,7 +8,7 @@ use cnTemplateFactory;
 use cnTemplatePart;
 use Connections_Directory\Utility\_format;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -39,7 +39,6 @@ class Entry extends cnShortcode {
 	 */
 	public function __construct( $atts, $content, $tag ) {
 
-		/** @var Template $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
 		if ( false === $template ) {
@@ -86,7 +85,7 @@ class Entry extends cnShortcode {
 		// file which was not enqueued in the page header.
 		do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
 
-		// The return to top anchor
+		// The return to top anchor.
 		do_action( 'cn_list_return_to_target', $atts );
 
 		$this->html .= ob_get_clean();

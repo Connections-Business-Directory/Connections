@@ -5,26 +5,32 @@
  * @package     Connections
  * @subpackage  Manage the settings.
  * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @license     https://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.7.3.0
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_string;
+use Connections_Directory\Utility\_validate;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnRegisterSettings
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnRegisterSettings {
 
 	/**
 	 * Register the tabs for the Connections : Settings admin page.
 	 *
-	 * @author Steven A. Zahm
 	 * @since 0.7.3.0
-	 * @param $tabs array
+	 *
+	 * @param array $tabs
+	 *
 	 * @return array
 	 */
 	public static function registerSettingsTabs( $tabs ) {
@@ -915,7 +921,7 @@ class cnRegisterSettings {
 			'section'   => 'connections_visibility',
 			'title'     => __( 'Enable allow_public_override', 'connections' ),
 			'desc'      => __(
-				'By default all entries whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>allow_public_override</em> shortcode option allows you to override requiring the site visitor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.',
+				'By default, all entries whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>allow_public_override</em> shortcode option allows you to override requiring the site visitor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.',
 				'connections'
 			),
 			'help'      => '',
@@ -951,10 +957,7 @@ class cnRegisterSettings {
 			'tab'       => 'display',
 			'section'   => 'connections_display_general',
 			'title'     => __( 'Date Format', 'connections' ),
-			'desc'      => __(
-				'<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank">Documentation on date and time formatting</a>.',
-				'connections'
-			),
+			'desc'      => '<a href="https://wordpress.org/support/article/formatting-date-and-time/" target="_blank">' . __( 'Documentation on date and time formatting.', 'connections' ) . '</a>',
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
@@ -1487,7 +1490,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $addressTypes ),
 				// Any types registered via the `cn_address_options` filter should be set as active (enabled).
 				// The `cn_address_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_address_options', $addressTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -1761,7 +1764,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $phoneTypes ),
 				// Any types registered via the `cn_phone_options` filter should be set as active (enabled).
 				// The `cn_phone_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_phone_options', $phoneTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -1905,7 +1908,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $emailTypes ),
 				// Any types registered via the `cn_email_options` filter should be set as active (enabled).
 				// The `cn_email_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_email_options', $emailTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -2049,7 +2052,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $imTypes ),
 				// Any types registered via the `cn_instant_messenger_options` filter should be set as active (enabled).
 				// The `cn_instant_messenger_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_instant_messenger_options', $imTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -2193,7 +2196,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $linkTypes ),
 				// Any types registered via the `cn_link_options` filter should be set as active (enabled).
 				// The `cn_link_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_link_options', $linkTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
@@ -2453,7 +2456,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $dateTypes ),
 				// Any types registered via the `cn_date_options` filter should be set as active (enabled).
 				// The `cn_date_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_date_options', $dateTypes ) ),
 			),
 			// Only need to add this once, otherwise it would be run for each field.
@@ -2738,7 +2741,7 @@ class cnRegisterSettings {
 				'order'  => array_keys( $socialMediaTypes ),
 				// Any types registered via the `cn_social_network_options` filter should be set as active (enabled).
 				// The `cn_social_network_options` filter is applied in case a user has removed types using the filter.
-				// This ensure they default to inactive (disabled).
+				// This ensures they default to inactive (disabled).
 				'active' => array_keys( apply_filters( 'cn_social_network_options', $socialMediaTypes ) ),
 			),
 			// Only need to add this once, otherwise it would be run for each field.
@@ -3900,57 +3903,6 @@ class cnRegisterSettings {
 			'schema'    => array( 'type' => 'string' ),
 		);
 
-		//$fields[] = array(
-		//	'plugin_id' => 'connections',
-		//	'id'        => 'google_maps_api',
-		//	'position'  => 10,
-		//	'page_hook' => $settings,
-		//	'tab'       => 'advanced',
-		//	'section'   => 'connections_compatibility',
-		//	'title'     => __( 'Google Maps API v3', 'connections' ),
-		//	'desc'      => __(
-		//		'If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts. NOTE: This only applies to templates that utilize Google Maps.',
-		//		'connections'
-		//	),
-		//	'help'      => '',
-		//	'type'      => 'checkbox',
-		//	'default'   => 1
-		//);
-
-		//$fields[] = array(
-		//	'plugin_id' => 'connections',
-		//	'id'        => 'javascript_footer',
-		//	'position'  => 20,
-		//	'page_hook' => $settings,
-		//	'tab'       => 'advanced',
-		//	'section'   => 'connections_compatibility',
-		//	'title'     => __( 'JavaScript', 'connections' ),
-		//	'desc'      => __(
-		//		'By default Connections loads it\'s JavaScripts in the page footer uncheck this box to load them in the page header.',
-		//		'connections'
-		//	),
-		//	'help'      => '',
-		//	'type'      => 'checkbox',
-		//	'default'   => 1
-		//);
-
-		//$fields[] = array(
-		//	'plugin_id' => 'connections',
-		//	'id'        => 'css',
-		//	'position'  => 30,
-		//	'page_hook' => $settings,
-		//	'tab'       => 'advanced',
-		//	'section'   => 'compatibility',
-		//	'title'     => 'CSS',
-		//	'desc'      => __(
-		//		'Enqueue the core styles. Disable this option if you do not want the core styles to be loaded.',
-		//		'connections'
-		//	),
-		//	'help'      => '',
-		//	'type'      => 'checkbox',
-		//	'default'   => 1
-		//);
-
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'jquery',
@@ -4025,15 +3977,15 @@ class cnRegisterSettings {
 
 	/**
 	 * Callback for the "Login Required" settings field.
-	 * This ensure all roles are set to have the connections_view_public
+	 * This ensures all roles are set to have the connections_view_public
 	 * capability to ensures all roles can at least view the public entries.
 	 *
-	 * @access private
-	 * @since  0.7.3
+	 * @internal
+	 * @since 0.7.3
 	 *
-	 * @param $loginRequired
+	 * @param string[] $loginRequired
 	 *
-	 * @return int
+	 * @return string[]
 	 */
 	public static function setAllowPublic( $loginRequired ) {
 		global $wp_roles;
@@ -4058,27 +4010,28 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the address fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.7
-	 * @static
+	 * @internal
+	 * @since 8.7
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
 	public static function sanitizeAddressFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'address-types.active', array() );
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
+		$active = _array::get( $settings, 'address-types.active', array() );
 
 		// If no address types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'address-types.type' );
+			$types    = _array::get( $settings, 'address-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'address-types.active', $active );
+		_array::set( $settings, 'address-types.active', $active );
 
 		return $settings;
 	}
@@ -4086,27 +4039,28 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the phone fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.8
-	 * @static
+	 * @internal
+	 * @since 8.8
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
 	public static function sanitizePhoneFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'phone-types.active', array() );
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
+		$active = _array::get( $settings, 'phone-types.active', array() );
 
 		// If no phone types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'phone-types.type' );
+			$types    = _array::get( $settings, 'phone-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'phone-types.active', $active );
+		_array::set( $settings, 'phone-types.active', $active );
 
 		return $settings;
 	}
@@ -4114,27 +4068,28 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the email fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.9
-	 * @static
+	 * @internal
+	 * @since 8.9
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
 	public static function sanitizeEmailFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'email-types.active', array() );
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
+		$active = _array::get( $settings, 'email-types.active', array() );
 
 		// If no email types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'email-types.type' );
+			$types    = _array::get( $settings, 'email-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'email-types.active', $active );
+		_array::set( $settings, 'email-types.active', $active );
 
 		return $settings;
 	}
@@ -4142,27 +4097,28 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the messenger fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.16
-	 * @static
+	 * @internal
+	 * @since 8.16
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
 	public static function sanitizeMessengerFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'messenger-types.active', array() );
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
+		$active = _array::get( $settings, 'messenger-types.active', array() );
 
 		// If no email types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'messenger-types.type' );
+			$types    = _array::get( $settings, 'messenger-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'messenger-types.active', $active );
+		_array::set( $settings, 'messenger-types.active', $active );
 
 		return $settings;
 	}
@@ -4170,27 +4126,28 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the link fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.17
-	 * @static
+	 * @internal
+	 * @since 8.17
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
 	public static function sanitizeLinkFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'link-types.active', array() );
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
+		$active = _array::get( $settings, 'link-types.active', array() );
 
 		// If no link types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'link-types.type' );
+			$types    = _array::get( $settings, 'link-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'link-types.active', $active );
+		_array::set( $settings, 'link-types.active', $active );
 
 		return $settings;
 	}
@@ -4198,27 +4155,28 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the date fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.22
-	 * @static
+	 * @internal
+	 * @since 8.22
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
 	public static function sanitizeDateFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'date-types.active', array() );
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
+		$active = _array::get( $settings, 'date-types.active', array() );
 
 		// If no date types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'date-types.type' );
+			$types    = _array::get( $settings, 'date-types.type' );
 			$keys     = array_flip( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'date-types.active', $active );
+		_array::set( $settings, 'date-types.active', $active );
 
 		return $settings;
 	}
@@ -4226,26 +4184,51 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the social network fieldset settings.
 	 *
-	 * @access private
-	 * @since  8.45
+	 * @internal
+	 * @since 8.45
 	 *
-	 * @param array $settings
+	 * @param array $settings The array of setting to validate and sanitize.
 	 *
 	 * @return array
 	 */
 	public static function sanitizeSocialNetworkFieldsetSettings( $settings ) {
 
-		$active = cnArray::get( $settings, 'social-network-types.active', array() );
+		$settings = self::prepareCommonRepeatableSettings( $settings );
+
+		$active = _array::get( $settings, 'social-network-types.active', array() );
 
 		// If no date types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'social-network-types.icon' );
+			$types    = _array::get( $settings, 'social-network-types.icon' );
 			$keys     = array_keys( $types );
 			$active[] = array_shift( $keys );
 		}
 
-		cnArray::set( $settings, 'social-network-types.active', $active );
+		_array::set( $settings, 'social-network-types.active', $active );
+
+		return $settings;
+	}
+
+	/**
+	 * Repeatable fields have duplicate settings that are shared. This helper method is to remove code duplication.
+	 *
+	 * @since 10.4.23
+	 *
+	 * @param array $settings The array of setting to validate and sanitize.
+	 *
+	 * @return array
+	 */
+	private static function prepareCommonRepeatableSettings( $settings ) {
+
+		$count      = _array::get( $settings, 'count', 0 );
+		$repeatable = _array::get( $settings, 'repeatable', 0 );
+
+		$count      = _validate::isPositiveInteger( $count ) ? absint( $count ) : 0;
+		$repeatable = 0 < $count ? $repeatable : 1;
+
+		_array::set( $settings, 'count', (string) $count );
+		_array::set( $settings, 'repeatable', (string) $repeatable );
 
 		return $settings;
 	}
@@ -4257,9 +4240,8 @@ class cnRegisterSettings {
 	 *
 	 * @see cnSettingsAPI::field()
 	 *
-	 * @access private
-	 * @since  8.7
-	 * @static
+	 * @internal
+	 * @since 8.7
 	 *
 	 * @param string $html
 	 * @param array  $atts
@@ -4325,8 +4307,8 @@ class cnRegisterSettings {
 	 *
 	 * @see cnSettingsAPI::field()
 	 *
-	 * @access private
-	 * @since  8.45
+	 * @internal
+	 * @since 8.45
 	 *
 	 * @param string $html
 	 * @param array  $atts
@@ -4363,8 +4345,8 @@ class cnRegisterSettings {
 	/**
 	 * Callback function to sanitize the image settings.
 	 *
-	 * @access private
-	 * @since  0.7.7
+	 * @internal
+	 * @since 0.7.7
 	 *
 	 * @param array $settings
 	 *
@@ -4381,7 +4363,7 @@ class cnRegisterSettings {
 
 		$settings = cnSanitize::args( $settings, $defaults );
 
-		// Ensure positive int values
+		// Ensure positive int values.
 		$settings['quality'] = absint( $settings['quality'] );
 		$settings['height']  = absint( $settings['height'] );
 		$settings['width']   = absint( $settings['width'] );
@@ -4391,7 +4373,7 @@ class cnRegisterSettings {
 		$settings['height']  = empty( $settings['height'] ) ? 150 : $settings['height'];
 		$settings['width']   = empty( $settings['width'] ) ? 225 : $settings['width'];
 
-		// The valid ratio options
+		// The valid ratio options.
 		$ratio = array( 'crop', 'fill', 'fit', 'none' );
 
 		// Make sure the value is one of the permitted options and if it is not, set it to the 'crop' value.
@@ -4403,74 +4385,56 @@ class cnRegisterSettings {
 	/**
 	 * Sanitize the slug to help prevent some unfriendly slugs that users might enter
 	 *
-	 * @access private
-	 * @version 1.0
+	 * @internal
 	 * @since 0.7.3
-	 * @uses update_option()
-	 * @uses sanitize_title_with_dashes()
-	 * @param array $settings
-	 * @return array
+	 *
+	 * @param string[] $settings An array of permalink slugs.
+	 *
+	 * @return string[]
 	 */
 	public static function sanitizeURLBase( $settings ) {
 
 		/*
 		 * Make sure there is a value saved for each permalink base.
 		 */
-		if ( ! isset( $settings['character_base'] ) || empty( $settings['character_base'] ) ) {
-			$settings['character_base'] = 'char';
-		}
+		$defaults = array(
+			'character_base'    => 'char',
+			'category_base'     => 'cat',
+			'name_base'         => 'name',
+			'department_base'   => 'department',
+			'organization_base' => 'organization',
+			'locality_base'     => 'locality',
+			'district_base'     => 'district',
+			'county_base'       => 'county',
+			'postal_code_base'  => 'postal_code',
+			'region_base'       => 'region',
+			'country_base'      => 'country',
+		);
 
-		if ( ! isset( $settings['category_base'] ) || empty( $settings['category_base'] ) ) {
-			$settings['category_base'] = 'cat';
-		}
+		$sanitized = array();
 
-		if ( ! isset( $settings['country_base'] ) || empty( $settings['country_base'] ) ) {
-			$settings['country_base'] = 'country';
-		}
+		foreach ( $defaults as $key => $slug ) {
 
-		if ( ! isset( $settings['region_base'] ) || empty( $settings['region_base'] ) ) {
-			$settings['region_base'] = 'region';
-		}
+			if ( ! array_key_exists( $key, $settings ) || empty( $settings[ $key ] ) ) {
 
-		if ( ! isset( $settings['locality_base'] ) || empty( $settings['locality_base'] ) ) {
-			$settings['locality_base'] = 'locality';
-		}
+				$sanitized[ $key ] = $slug;
 
-		if ( ! isset( $settings['postal_code_base'] ) || empty( $settings['postal_code_base'] ) ) {
-			$settings['postal_code_base'] = 'postal_code';
-		}
+			} else {
 
-		if ( ! isset( $settings['district_base'] ) || empty( $settings['district_base'] ) ) {
-			$settings['district_base'] = 'district';
+				$sanitized[ $key ] = _string::toKebabCase( $settings[ $key ] );
+			}
 		}
-
-		if ( ! isset( $settings['county_base'] ) || empty( $settings['county_base'] ) ) {
-			$settings['county_base'] = 'county';
-		}
-		if ( ! isset( $settings['name_base'] ) || empty( $settings['name_base'] ) ) {
-			$settings['name_base'] = 'name';
-		}
-
-		if ( ! isset( $settings['organization_base'] ) || empty( $settings['organization_base'] ) ) {
-			$settings['organization_base'] = 'organization';
-		}
-
-		if ( ! isset( $settings['department_base'] ) || empty( $settings['department_base'] ) ) {
-			$settings['department_base'] = 'department';
-		}
-
-		$settings = array_map( array( 'cnFormatting', 'sanitizeStringStrong' ), $settings );
 
 		self::flushRewriteRules();
 
-		return $settings;
+		return $sanitized;
 	}
 
 	/**
 	 * Callback action to sanitize the user selected supported CTPs.
 	 *
-	 * @access private
-	 * @since  8.5.14
+	 * @internal
+	 * @since 8.5.14
 	 *
 	 * @param array $settings
 	 *
@@ -4486,8 +4450,8 @@ class cnRegisterSettings {
 	/**
 	 * This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit().
 	 *
-	 * @access private
-	 * @since  8.5.14
+	 * @internal
+	 * @since 8.5.14
 	 */
 	private static function flushRewriteRules() {
 
@@ -4501,9 +4465,11 @@ class cnRegisterSettings {
 	 * @TODO this will fail on tables that do not support FULLTEXT. Should somehow check before processing
 	 * and set FULLTEXT support to FALSE
 	 *
-	 * @access private
+	 * @internal
 	 * @since 0.7.3
+	 *
 	 * @param array $settings
+	 *
 	 * @return array
 	 */
 	public static function setSearchFields( $settings ) {
@@ -4543,30 +4509,30 @@ class cnRegisterSettings {
 		/*
 		 * Build the array to store the user preferences.
 		 */
-		$search['family_name']        = in_array( 'family_name', $fields ) ? true : false;
-		$search['first_name']         = in_array( 'first_name', $fields ) ? true : false;
-		$search['middle_name']        = in_array( 'middle_name', $fields ) ? true : false;
-		$search['last_name']          = in_array( 'last_name', $fields ) ? true : false;
-		$search['title']              = in_array( 'title', $fields ) ? true : false;
-		$search['organization']       = in_array( 'organization', $fields ) ? true : false;
-		$search['department']         = in_array( 'department', $fields ) ? true : false;
-		$search['contact_first_name'] = in_array( 'contact_first_name', $fields ) ? true : false;
-		$search['contact_last_name']  = in_array( 'contact_last_name', $fields ) ? true : false;
-		$search['bio']                = in_array( 'bio', $fields ) ? true : false;
-		$search['notes']              = in_array( 'notes', $fields ) ? true : false;
+		$search['family_name']        = in_array( 'family_name', $fields );
+		$search['first_name']         = in_array( 'first_name', $fields );
+		$search['middle_name']        = in_array( 'middle_name', $fields );
+		$search['last_name']          = in_array( 'last_name', $fields );
+		$search['title']              = in_array( 'title', $fields );
+		$search['organization']       = in_array( 'organization', $fields );
+		$search['department']         = in_array( 'department', $fields );
+		$search['contact_first_name'] = in_array( 'contact_first_name', $fields );
+		$search['contact_last_name']  = in_array( 'contact_last_name', $fields );
+		$search['bio']                = in_array( 'bio', $fields );
+		$search['notes']              = in_array( 'notes', $fields );
 
-		$search['address_line_1']   = in_array( 'address_line_1', $fields ) ? true : false;
-		$search['address_line_2']   = in_array( 'address_line_2', $fields ) ? true : false;
-		$search['address_line_3']   = in_array( 'address_line_3', $fields ) ? true : false;
-		$search['address_line_4']   = in_array( 'address_line_4', $fields ) ? true : false;
-		$search['address_district'] = in_array( 'address_district', $fields ) ? true : false;
-		$search['address_county']   = in_array( 'address_county', $fields ) ? true : false;
-		$search['address_city']     = in_array( 'address_city', $fields ) ? true : false;
-		$search['address_state']    = in_array( 'address_state', $fields ) ? true : false;
-		$search['address_zipcode']  = in_array( 'address_zipcode', $fields ) ? true : false;
-		$search['address_country']  = in_array( 'address_country', $fields ) ? true : false;
+		$search['address_line_1']   = in_array( 'address_line_1', $fields );
+		$search['address_line_2']   = in_array( 'address_line_2', $fields );
+		$search['address_line_3']   = in_array( 'address_line_3', $fields );
+		$search['address_line_4']   = in_array( 'address_line_4', $fields );
+		$search['address_district'] = in_array( 'address_district', $fields );
+		$search['address_county']   = in_array( 'address_county', $fields );
+		$search['address_city']     = in_array( 'address_city', $fields );
+		$search['address_state']    = in_array( 'address_state', $fields );
+		$search['address_zipcode']  = in_array( 'address_zipcode', $fields );
+		$search['address_country']  = in_array( 'address_country', $fields );
 
-		$search['phone_number'] = in_array( 'phone_number', $fields ) ? true : false;
+		$search['phone_number'] = in_array( 'phone_number', $fields );
 
 		// var_dump($search);
 

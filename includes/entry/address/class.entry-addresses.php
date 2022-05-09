@@ -306,17 +306,27 @@ final class cnEntry_Addresses implements cnToArray {
 		 *
 		 * WordPress sanitizes the float number, making it safe to write to the database,
 		 * the default precision for a float of 14 is used which basically “caps” the decimal place to 6 digits.
-		 * It is actually a bit more complicated than that and I would have to delve deeper myself
-		 * to better understand myself. But the jist is floating point numbers are approximate representations
-		 * of real numbers and they are not exact.
+		 * It is actually a bit more complicated than that, and I would have to delve deeper myself
+		 * to better understand myself. But the gist is floating point numbers are approximate representations
+		 * of real numbers, and they are not exact.
 		 *
 		 * There’s actually no way to change that precision when telling WordPress to sanitize a float.
 		 * So the only solution is to tell WordPress it is a string and let the database deal with the conversion.
-		 * Since the table that stores the the lat/lng are setup as decimal (a real number :) ) with a
+		 * Since the table that stores the lat/lng are set up as decimal (a real number :) ) with a
 		 * precision of 15 and a scale of 12, the lat/lng will not get rounded until the 12th decimal place.
 		 */
 
-		$cnDb = new cnEntry_DB( $this->id );
+		$cnDb      = new cnEntry_DB( $this->id );
+		$addresses = $this->resetFilters()->escapeForSaving()->getCollectionAsObjects();
+
+		/*
+		 * Both the latitude longitude properties must be strings otherwise they will not be updated.
+		 */
+		foreach ( $addresses as &$address ) {
+
+			$address->latitude  = (string) $address->latitude;
+			$address->longitude = (string) $address->longitude;
+		}
 
 		$cnDb->upsert(
 			CN_ENTRY_ADDRESS_TABLE,
@@ -338,7 +348,7 @@ final class cnEntry_Addresses implements cnToArray {
 				'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->resetFilters()->escapeForSaving()->getCollectionAsObjects(),
+			$addresses,
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)
@@ -895,7 +905,7 @@ final class cnEntry_Addresses implements cnToArray {
 			}
 
 			/**
-			 * Allow plugins to filter raw data before object is setup.
+			 * Allow plugins to filter raw data before object is set up.
 			 *
 			 * @since 8.5.19
 			 *

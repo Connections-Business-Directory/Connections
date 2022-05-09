@@ -9,22 +9,27 @@
  * @since       0.7.8
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class cnEntry_Action
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
 class cnEntry_Action {
 
 	/**
 	 * Add an entry.
 	 *
-	 * @access public
 	 * @since 0.7.8
+	 *
 	 * @param array $data The data to be used when adding an entry.
+	 *
 	 * @return bool
 	 */
 	public static function add( $data ) {
@@ -35,10 +40,11 @@ class cnEntry_Action {
 	/**
 	 * Update an existing entry.
 	 *
-	 * @access public
 	 * @since 0.7.8
+	 *
 	 * @param int   $id   The entry ID.
 	 * @param array $data The data to be used when updating an entry.
+	 *
 	 * @return bool
 	 */
 	public static function update( $id, $data ) {
@@ -49,10 +55,11 @@ class cnEntry_Action {
 	/**
 	 * Copy an existing entry.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param int   $id              The entry ID inwhich to duplicate.
-	 * @param array $data [optional] The data to be used when duplicating an entry. Will be used add/replace existing data.
+	 *
+	 * @param int   $id   The entry ID which to duplicate.
+	 * @param array $data The data to be used when duplicating an entry. Will be used add/replace existing data.
+	 *
 	 * @return bool
 	 */
 	public static function copy( $id, $data = array() ) {
@@ -67,7 +74,7 @@ class cnEntry_Action {
 	 *
 	 * @since 8.1
 	 *
-	 * @param  string $entrySlug The entry slug.
+	 * @param string $entrySlug The entry slug.
 	 *
 	 * @return array|false An associative array containing the details about the uploaded image or false on failure.
 	 */
@@ -218,33 +225,29 @@ class cnEntry_Action {
 	/**
 	 * Copies image from one entry to a new entry.
 	 *
-	 * NOTE: The entry slug should be run thru rawurldecode() before being passed to this method.
+	 * NOTE: The entry slug should be run through rawurldecode() before being passed to this method.
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @uses   cnFileSystem::mkdir()
-	 * @param  string $filename    The filename to copy.
-	 * @param  string $source      The source sub directory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
-	 * @param  string $destination The destination sub directory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 * @since 8.1
 	 *
-	 * @return mixed               bool | object TRUE on success, an instance of WP_Error on failure.
+	 * @param string $filename    The filename to copy.
+	 * @param string $source      The source subdirectory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 * @param string $destination The destination subdirectory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 *
+	 * @return true|WP_Error TRUE on success, an instance of WP_Error on failure.
 	 */
 	private static function copyImages( $filename, $source, $destination ) {
 
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
-		// Build source path to the subfolder in which all the entry's images are saved.
+		// Build source path to the sub folder in which all the entry's images are saved.
 		$sourcePath      = CN_IMAGE_PATH . $source . DIRECTORY_SEPARATOR;
 		$sourceImagePath = $sourcePath . $filename;
 
 		// Source file info.
 		$sourceImageInfo = pathinfo( $sourceImagePath );
 
-		// Build destination path to the subfolder in which all the entry's images are saved.
+		// Build destination path to the sub folder in which all the entry's images are saved.
 		$destinationPath = CN_IMAGE_PATH . $destination . DIRECTORY_SEPARATOR;
 
 		// Create the new folder.
@@ -291,22 +294,18 @@ class cnEntry_Action {
 	/**
 	 * Deletes the image and its variations from an entry.
 	 *
-	 * NOTE: The entry slug should be run thru rawurldecode() before being passed
+	 * NOTE: The entry slug should be run through rawurldecode() before being passed
 	 *       to this method as $source.
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @static
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @param  string $filename    The base filename to delete.
-	 * @param  string $source      The source sub directory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the images to delete.
+	 * @internal
+	 * @since 8.1
 	 *
-	 * @return void
+	 * @param string $filename The base filename to delete.
+	 * @param string $source   The source subdirectory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the images to delete.
 	 */
 	public static function deleteImages( $filename, $source ) {
 
-		// Ensure neither $filename or $source are empty. If one is bail.
+		// Ensure neither $filename nor $source are empty. If one is bail.
 		if ( empty( $filename ) || empty( $source ) ) {
 			return;
 		}
@@ -314,7 +313,7 @@ class cnEntry_Action {
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
-		// Build path to the subfolder in which all the entry's images are saved.
+		// Build path to the sub folder in which all the entry's images are saved.
 		$path = CN_IMAGE_PATH . $source . DIRECTORY_SEPARATOR;
 
 		// If the $path does not exist, bail.
@@ -371,19 +370,14 @@ class cnEntry_Action {
 	 * NOTE: Delete the image its size variations if is saved in the old CN_IMAGE_PATH folder, pre version 8.1
 	 *
 	 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
-	 * copying an entry so it was possible multiple entries could share the same image.
+	 * copying an entry, so it was possible multiple entries could share the same image.
 	 * Only images created after the date that version .0.7.0.0 was released will be deleted,
-	 * plus a couple weeks for good measure.
+	 * plus a couple of weeks for good measure.
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @uses   self::getImageNameOriginal()
-	 * @uses   self::getImageNameThumbnail()
-	 * @uses   self::getImageNameCard()
-	 * @uses   self::getImageNameProfile()
-	 * @param  object $entry An instance the the cnEntry object.
+	 * @internal
+	 * @since 8.1
 	 *
-	 * @return void
+	 * @param cnEntry $entry An instance the cnEntry object.
 	 */
 	public static function deleteLegacyImages( $entry ) {
 		global $blog_id;
@@ -445,12 +439,10 @@ class cnEntry_Action {
 	/**
 	 * Deletes the logo from the legacy folder, pre 8.1.
 	 *
-	 * @access private
-	 * @since  8.1
-	 * @uses   self::getLogoName()
-	 * @param  object $entry An instance the the cnEntry object.
+	 * @internal
+	 * @since 8.1
 	 *
-	 * @return void
+	 * @param cnEntry $entry An instance the cnEntry object.
 	 */
 	public static function deleteLegacyLogo( $entry ) {
 		global $blog_id;
@@ -475,14 +467,11 @@ class cnEntry_Action {
 	/**
 	 * Add / Edit / Copy an entry.
 	 *
-	 * @access private
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
-	 * @uses   absint()
-	 *
-	 * @param  string $action Valid options are: add | update
-	 * @param  array  $data [optional] The data to be used when adding / editing / duplicating an entry.
-	 * @param  int    $id [optional] If editing/duplicating an entry, the entry ID.
+	 * @param string $action Valid options are: add | update
+	 * @param array  $data   The data to be used when adding / editing / duplicating an entry.
+	 * @param int    $id     If editing/duplicating an entry, the entry ID.
 	 *
 	 * @return bool|int FALSE on failure. Entry ID on success.
 	 */
@@ -588,7 +577,7 @@ class cnEntry_Action {
 		switch ( $action ) {
 
 			case 'add':
-				// If the entry is being copied, the source slug needs copied because it is required
+				// If the entry is being copied, the source slug needs to be copied because it is required
 				// in order to copy the source entry images to the new entry.
 				if ( ! empty( $id ) ) {
 
@@ -869,7 +858,7 @@ class cnEntry_Action {
 				break;
 		}
 
-		if ( isset( $entryID ) && false !== $entryID ) {
+		if ( isset( $entryID ) && 0 !== $entryID ) {
 
 			$taxonomies = Registry::get()->getTaxonomies();
 
@@ -894,7 +883,7 @@ class cnEntry_Action {
 
 			do_action( 'cn_process_meta-entry', $action, $entryID );
 
-			// Refresh the cnEntry object with any updated taxonomy or meta data
+			// Refresh the cnEntry object with any updated taxonomy or metadata
 			// that may have been added/updated via actions.
 			$entry->set( $entryID );
 
@@ -1075,9 +1064,7 @@ class cnEntry_Action {
 	/**
 	 * Update the term taxonomy counts of the supplied entry IDs for the supplied taxonomies.
 	 *
-	 * @access private
-	 * @since  8.2.5
-	 * @static
+	 * @since 8.2.5
 	 *
 	 * @param mixed $ids      array|string An array or comma separated list of entry IDs.
 	 * @param mixed $taxonomy array|string An array of taxonomies or taxonomy to update the term taxonomy count.
@@ -1103,8 +1090,7 @@ class cnEntry_Action {
 	/**
 	 * Geocode the supplied address.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 0.8
 	 *
 	 * @param  cnAddress $address An associative array containing the address to geocode.
 	 *
@@ -1114,10 +1100,20 @@ class cnEntry_Action {
 
 		$query = \Connections_Directory\Model\Format\Address\As_String::format( $address );
 
+		/**
+		 * Allow geocoding of addresses to be short-circuited.
+		 *
+		 * @since 10.4.23
+		 *
+		 * @param bool      $bool    Whether to geocode the address or not.
+		 * @param cnAddress $address The address to be geocoded.
+		 */
+		$maybeGeoCode = apply_filters( 'Connections_Directory/Entry/Action/Geocode', true, $address );
+
 		/*
 		 * If the address is empty, no need to geocode.
 		 */
-		if ( empty( $query ) ) {
+		if ( empty( $query ) || ! $maybeGeoCode ) {
 
 			return $address;
 		}
@@ -1179,13 +1175,13 @@ class cnEntry_Action {
 	/**
 	 * Add, update or delete the meta of the specified entry ID.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @param  string $action The action to be performed.
-	 * @param  int    $id     The entry ID.
-	 * @param  array  $meta   [optional] An array of meta data the action is to be performed on.
 	 *
-	 * @return array          The meta IDs of the meta data the action was performed on.
+	 * @param string $action The action to be performed.
+	 * @param int    $id     The entry ID.
+	 * @param array  $meta   An array of metadata the action is to be performed on.
+	 *
+	 * @return array          The meta IDs of the metadata the action was performed on.
 	 */
 	public static function meta( $action, $id, $meta = array() ) {
 
@@ -1236,12 +1232,7 @@ class cnEntry_Action {
 	/**
 	 * Purge entry related caches when an entry is added/edited.
 	 *
-	 * @access public
-	 * @since  8.1
-	 *
-	 * @uses   cnCache::clear()
-	 *
-	 * @return void
+	 * @since 8.1
 	 */
 	public static function clearCache() {
 

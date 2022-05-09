@@ -258,7 +258,7 @@ class cnDependency {
 			'Connections_Directory\Taxonomy\Term\Admin\Actions' => 'includes/Taxonomy/Term/Admin/Actions.php',
 
 			// Term Objects.
-			'cnTerm'                   => 'includes/class.terms.php',
+			'cnTerm'                   => 'includes/class.term.php',
 			'cnTerms'                  => 'includes/class.terms.php',
 
 			// Category Objects.
@@ -280,12 +280,12 @@ class cnDependency {
 
 			// Caching.
 			'cnCache'                  => 'includes/class.cache.php',
-			'cnFragment'               => 'includes/class.cache.php',
+			'cnFragment'               => 'includes/class.fragment.php',
 
 			// Metabox API.
-			'cnMetaboxAPI'             => 'includes/class.metabox-api.php',
-			'cnMetabox_Render'         => 'includes/class.metabox-api.php',
-			'cnMetabox_Process'        => 'includes/class.metabox-api.php',
+			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',
+			'cnMetabox_Render'         => 'includes/Metabox/class.metabox-render.php',
+			'cnMetabox_Process'        => 'includes/Metabox/class.metabox-process.php',
 
 			// Register the core metaboxes and fields for the add/edit entry admin pages.
 			'cnEntryMetabox'           => 'includes/class.metabox-entry.php',
@@ -361,6 +361,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Hidden'                 => 'includes/Form/Field/Hidden.php',
 			'Connections_Directory\Form\Field\Input'                  => 'includes/Form/Field/Input.php',
 			'Connections_Directory\Form\Field\Label'                  => 'includes/Form/Field/Label.php',
+			'Connections_Directory\Form\Field\Number'                 => 'includes/Form/Field/Number.php',
 			'Connections_Directory\Form\Field\Option'                 => 'includes/Form/Field/Option.php',
 			'Connections_Directory\Form\Field\Radio'                  => 'includes/Form/Field/Radio.php',
 			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',
@@ -370,7 +371,7 @@ class cnDependency {
 
 			// Entry Meta API.
 			'cnMeta'       => 'includes/class.meta.php',
-			'cnMeta_Query' => 'includes/class.meta.php',
+			'cnMeta_Query' => 'includes/class.meta-query.php',
 
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',
@@ -422,7 +423,7 @@ class cnDependency {
 
 			// The class for working with the file system.
 			'cnFileSystem'             => 'includes/class.filesystem.php',
-			'cnUpload'                 => 'includes/class.filesystem.php',
+			'cnUpload'                 => 'includes/class.upload.php',
 
 			// The class for handling admin notices.
 			'cnMessage'                => 'includes/admin/class.message.php',

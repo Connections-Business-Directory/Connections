@@ -10,17 +10,20 @@
  */
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_array;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Entry class
+ * Class cnEntry
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnEntry {
+
 	/**
 	 * @var integer
 	 */
@@ -153,6 +156,7 @@ class cnEntry {
 
 	/**
 	 * The date data stored serialized array.
+	 *
 	 * @since 0.7.3.0
 	 * @var cnEntry_Dates
 	 */
@@ -236,6 +240,7 @@ class cnEntry {
 
 	/**
 	 * An array of categories associated to an entry.
+	 *
 	 * @since unknown
 	 * @var array
 	 */
@@ -298,7 +303,7 @@ class cnEntry {
 	// private $updateObjectCache = FALSE;
 
 	/**
-	 * Stored the directory home page ID and whether or no to force permalinks to the directory home.
+	 * Stored the directory home page ID and whether to force permalinks to the directory home.
 	 *
 	 * @access public
 	 * @since  8.1.6
@@ -308,12 +313,12 @@ class cnEntry {
 	public $directoryHome = array();
 
 	/**
-	 * Setup the entry object.
+	 * Set up the entry object.
 	 *
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param mixed object|null $entry
+	 * @param object|null $entry
 	 */
 	public function __construct( $entry = null ) {
 
@@ -472,7 +477,7 @@ class cnEntry {
 				}
 
 				if ( isset( $this->options['connection_group'] ) ) {
-					$this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4
+					$this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4.
 				}
 				if ( isset( $this->options['group']['family'] ) ) {
 					$this->familyMembers = $this->options['group']['family'];
@@ -513,7 +518,7 @@ class cnEntry {
 		}
 
 		/*
-		 * Init this last so the cnEntry object if fully built since cnEntry_Image requires some of the properties.
+		 * Init this last so the cnEntry object if fully built since cnEntry_Image requires some properties.
 		 * This will perhaps change as cnEntry_Image is still a work in progress and should not be used by third parties.
 		 */
 		$this->image = new cnEntry_Image( $this );
@@ -613,7 +618,7 @@ class cnEntry {
 	}
 
 	/**
-	 * The human readable difference between the date the entry was last edited and the current date.
+	 * The human-readable difference between the date the entry was last edited and the current date.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -698,7 +703,7 @@ class cnEntry {
 	 *     Optional.
 	 *
 	 *     @type int  $page_id    The page ID of the directory home page.
-	 *     @type bool $force_home Whether or not to force the permalinks to resolve to the directory home page.
+	 *     @type bool $force_home Whether to force the permalinks to resolve to the directory home page.
 	 * }
 	 *
 	 * @return void
@@ -1426,7 +1431,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns family member member entry ID and relation.
+	 * Returns family member entry ID and relation.
 	 */
 	public function getFamilyMembers() {
 
@@ -1440,7 +1445,7 @@ class cnEntry {
 			 *
 			 * The data is now saved in a multidimensional array. What this nifty little count does is compare the array
 			 * count and against a recursive array count and if they are equal, it should be of the older data format
-			 * so loop thru it and put it in the new data format.
+			 * so loop through it and put it in the new data format.
 			 */
 			if ( count( $this->familyMembers ) == count( $this->familyMembers, COUNT_RECURSIVE ) ) {
 
@@ -1489,7 +1494,7 @@ class cnEntry {
 	 * @since  0.7.3
 	 *
 	 * @param array  $atts {
-	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *     @type bool         $preferred Whether to return only the preferred address.
 	 *                                   Default: false
 	 *     @type array|string $type      The address types to return.
 	 *                                   Default: array() which will return all registered address types.
@@ -1601,7 +1606,7 @@ class cnEntry {
 	 * @since  0.7.3
 	 *
 	 * @param array  $atts {
-	 *     @type bool         $preferred Whether or not to return only the preferred phone number.
+	 *     @type bool         $preferred Whether to return only the preferred phone number.
 	 *                                   Default: false
 	 *     @type array|string $type      The phone number types to return.
 	 * }
@@ -1660,7 +1665,7 @@ class cnEntry {
 	 * @param array $data {
 	 *
 	 *     @type int    $id         The phone number ID if it was retrieved from the db.
-	 *     @type bool   $preferred  Whether or not the phone number is the preferred.
+	 *     @type bool   $preferred  Whether the phone number is the preferred.
 	 *     @type string $type       The phone number type.
 	 *     @type string $number     The phone number.
 	 *     @type string $visibility The phone number visibility.
@@ -1754,7 +1759,7 @@ class cnEntry {
 	 * Filters:
 	 *  cn_messenger_atts => (array) Set the method attributes.
 	 *  cn_messenger_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
-	 *  cn_messenger_id => (object) Individual email address as it is processed thru the loop.
+	 *  cn_messenger_id => (object) Individual email address as it is processed through the loop.
 	 *  cn_messenger_ids => (array) All phone numbers before it is returned.
 	 *
 	 * @access  public
@@ -1763,7 +1768,7 @@ class cnEntry {
 	 *
 	 * @param array  $atts    Accepted values as noted above.
 	 * @param bool   $cached  Returns the cached email addresses data rather than querying the db.
-	 * @param bool   $saving  Whether or no the data is being saved to the db.
+	 * @param bool   $saving  Whether the data is being saved to the db.
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
@@ -1846,7 +1851,7 @@ class cnEntry {
 	 * Filters:
 	 *  cn_social_network_atts => (array) Set the method attributes.
 	 *  cn_social_network_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
-	 *  cn_social_network => (object) Individual email address as it is processed thru the loop.
+	 *  cn_social_network => (object) Individual email address as it is processed through the loop.
 	 *  cn_social_networks => (array) All phone numbers before it is returned.
 	 *
 	 * @access public
@@ -1854,7 +1859,7 @@ class cnEntry {
 	 *
 	 * @param array  $atts         Accepted values as noted above.
 	 * @param bool   $cached       Returns the cached social medial URLs data rather than querying the db.
-	 * @param bool   $saving       Whether or no the data is being saved to the db.
+	 * @param bool   $saving       Whether the data is being saved to the db.
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
@@ -1917,7 +1922,7 @@ class cnEntry {
 	 * Filters:
 	 *  cn_link_atts => (array) Set the method attributes.
 	 *  cn_link_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
-	 *  cn_link => (object) Individual email address as it is processed thru the loop.
+	 *  cn_link => (object) Individual email address as it is processed through the loop.
 	 *  cn_links => (array) All phone numbers before it is returned.
 	 *
 	 * @access  public
@@ -1938,7 +1943,7 @@ class cnEntry {
 	 * }
 	 *
 	 * @param bool  $cached Returns the cached link data rather than querying the db.
-	 * @param bool  $saving Whether or no the data is being saved to the db.
+	 * @param bool  $saving Whether the data is being saved to the db.
 	 *
 	 * @return array
 	 */
@@ -1991,7 +1996,7 @@ class cnEntry {
 	 * $atts['preferred'] (bool) Retrieve the preferred website.
 	 *
 	 * @access public
-	 * @since  unknonwn
+	 * @since  unknown
 	 *
 	 * @deprecated 0.7.2.0 Use cnEntry::getLinks()
 	 * @see cnEntry::getLinks()
@@ -2045,7 +2050,7 @@ class cnEntry {
 	 *     @type string $target     The link target attribute.
 	 *                              Default: same
 	 *                              Accepts: new|same
-	 *     @type bool   $follow     Whether or not the link should be followed.
+	 *     @type bool   $follow     Whether the link should be followed.
 	 *                              Default: nofollow
 	 *                              Accepts: dofollow | nofollow
 	 *     @type string $visibility The visibility status of the link.
@@ -2077,7 +2082,7 @@ class cnEntry {
 	 *
 	 * @param array  $atts    Accepted values as noted above.
 	 * @param bool   $cached  Returns the cached date data rather than querying the db.
-	 * @param bool   $saving  Whether or no the data is being saved to the db.
+	 * @param bool   $saving  Whether the data is being saved to the db.
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
@@ -2554,7 +2559,7 @@ class cnEntry {
 							'category',
 							array(
 								'child_of' => $atts['child_of'],
-								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more then one level deep are not returned.
+								// Can not use either of the `object_ids` or `include` parameters because the descendant terms more than one level deep are not returned.
 								// 'object_ids' => $id,
 								// 'include'    => $term_ids,
 							)
@@ -2581,7 +2586,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns the entry meta data.
+	 * Returns the entry metadata.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2597,9 +2602,9 @@ class cnEntry {
 	 *                         This parameter has no effect if $key is not specified.
 	 * }
 	 *
-	 * @return mixed array|bool|string Array of the entry meta data.
-	 *                                 String if $single is set to TRUE.
-	 *                                 FALSE on failure.
+	 * @return array|bool|string Array of the entry metadata.
+	 *                           String if $single is set to TRUE.
+	 *                           FALSE on failure.
 	 */
 	public function getMeta( $atts = array() ) {
 
@@ -2640,7 +2645,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Whether or not the logo is set to be displayed or not.
+	 * Whether the logo is set to be displayed or not.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2652,7 +2657,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Set whether or not the logo should be displayed.
+	 * Set whether the logo should be displayed.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2664,7 +2669,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Whether or not the logo is linked or not.
+	 * Whether the logo is linked or not.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2676,7 +2681,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Set whether or not the logo is linked.
+	 * Set whether the logo is linked.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -2860,7 +2865,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Saves the photo image meta data (the result of cnImage::get()).
+	 * Saves the photo image metadata (the result of cnImage::get()).
 	 *
 	 * @access public
 	 * @since  8.1
@@ -2962,7 +2967,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Return an array of image meta data.
+	 * Return an array of image metadata.
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string) Valid options: logo | photo | custom. Default: photo
@@ -2992,9 +2997,9 @@ class cnEntry {
 	 *
 	 * @since 8.1
 	 *
-	 * @param array $atts
+	 * @param array{type: string, size: string, width: int, height: int, crop_mode: int, quality: int} $atts
 	 *
-	 * @return array|WP_Error
+	 * @return array{name: string, path:string, url: string, width: int, height: int, size: string, mime: string, type: int, source: string}|WP_Error
 	 */
 	public function getImageMeta( $atts = array() ) {
 
@@ -3067,7 +3072,6 @@ class cnEntry {
 
 						} else {
 
-							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
 
 								$meta['width']  = $image[0];
@@ -3131,7 +3135,6 @@ class cnEntry {
 
 						} else {
 
-							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
 
 								$meta['width']  = $image[0];
@@ -3262,6 +3265,36 @@ class cnEntry {
 	}
 
 	/**
+	 * Return value from the options array.
+	 *
+	 * @since 10.4.23
+	 *
+	 * @param string $key     The key value to return.
+	 *                        NOTE: This support array dot notation.
+	 * @param mixed  $default The value to return if the option key is not set.
+	 *
+	 * @return mixed
+	 */
+	public function getOption( $key, $default = null ) {
+
+		return _array::get( $this->options, $key, $default );
+	}
+
+	/**
+	 * Set value in the options array.
+	 *
+	 * @since 10.4.23
+	 *
+	 * @param string $key   The key to set.
+	 *                      NOTE: This support array dot notation.
+	 * @param mixed  $value The value to set.
+	 */
+	public function setOption( $key, $value ) {
+
+		_array::set( $this->options, $key, $value );
+	}
+
+	/**
 	 * Sets up the current instance of cnEntry to pull in the values of the supplied ID.
 	 *
 	 * @access public
@@ -3269,7 +3302,7 @@ class cnEntry {
 	 *
 	 * @param int $id The entry ID to query from the database.
 	 *
-	 * @return bool Whether of not the instance of cnEntry has been setup with the values of the new entry ID.
+	 * @return bool Whether of not the instance of cnEntry has been set up with the values of the new entry ID.
 	 */
 	public function set( $id ) {
 
@@ -3662,7 +3695,7 @@ class cnEntry {
 		// by cnFileSystem::xrmdir() which would be very bad, indeed.
 		if ( ! empty( $slug ) ) {
 
-			// Build path to the subfolder in which all the entry's images are saved.
+			// Build path to the sub folder in which all the entry's images are saved.
 			$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR;
 
 			// Delete the entry image and its variations.
@@ -3677,7 +3710,7 @@ class cnEntry {
 			// Delete logo the legacy logo, pre 8.1.
 			cnEntry_Action::deleteLegacyLogo( $this );
 
-			// Delete the entry subfolder from CN_IMAGE_DIR_NAME.
+			// Delete the entry sub folder from CN_IMAGE_DIR_NAME.
 			cnFileSystem::xrmdir( $path );
 		}
 

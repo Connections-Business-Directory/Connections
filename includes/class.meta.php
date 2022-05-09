@@ -2,7 +2,7 @@
 /**
  * Metadata API.
  *
- * Provides methods to manage the meta data of the various Connections object types.
+ * Provides methods to manage the metadata of the various Connections object types.
  *
  * @package     Connections
  * @subpackage  Meta
@@ -11,15 +11,16 @@
  * @since       0.8
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 use Connections_Directory\Utility\_;
 
 /**
  * Class cnMeta
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnMeta {
 
@@ -28,21 +29,13 @@ class cnMeta {
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_metadata() in WordPress core ../wp-includes/meta.php
 	 *
-	 * @access public
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
-	 * @uses   absint()
-	 * @uses   apply_filters()
-	 * @uses   wp_cache_get()
-	 * @uses   cnMeta::updateCache()
-	 * @uses   cnFormatting::maybeJSONdecode()
-	 *
-	 * @param string $type      Type of object metadata is for (e.g., entry, term).
-	 * @param int    $id        ID of the object metadata is for.
-	 * @param string $key       Optional. Metadata key. If not specified, retrieve all metadata for the specified object.
-	 * @param bool   $single    Optional, default is FALSE. If true, return only the first value of the
-	 *                          specified meta_key. This parameter has no effect if $key is not specified.
+	 * @param string $type   Type of object metadata is for (e.g., entry, term).
+	 * @param int    $id     ID of the object metadata is for.
+	 * @param string $key    Optional. Metadata key. If not specified, retrieve all metadata for the specified object.
+	 * @param bool   $single Optional, default is FALSE. If true, return only the first value of the
+	 *                       specified meta_key. This parameter has no effect if $key is not specified.
 	 *
 	 * @return bool|string|array Single metadata value, or array of values.
 	 */
@@ -127,22 +120,14 @@ class cnMeta {
 	 *
 	 * NOTE: This is the Connections equivalent of @see update_meta_cache() in WordPress core ../wp-includes/meta.php
 	 *
-	 * @access private
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
-	 * @global wpdb     $wpdb       WordPress database abstraction object.
-	 *
-	 * @uses   cnMeta::tableName()
-	 * @uses   sanitize_key()
-	 * @uses   wp_cache_get()
-	 * @uses   wpdb::get_results()
-	 * @uses   wp_cache_add()
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string    $type       Type of object metadata is for (e.g., entry, term).
 	 * @param int|array $object_ids array or comma delimited list of object IDs to update.
 	 *
-	 * @return mixed                array|bool Metadata for the specified objects, or FALSE on failure.
+	 * @return array|false Metadata for the specified objects, or FALSE on failure.
 	 */
 	public static function updateCache( $type, $object_ids ) {
 
@@ -213,7 +198,7 @@ class cnMeta {
 					$cache[ $mpid ][ $mkey ] = array();
 				}
 
-				// Add a value to the current pid/key:
+				// Add a value to the current pid/key.
 				$cache[ $mpid ][ $mkey ][] = $mval;
 			}
 		}
@@ -232,33 +217,20 @@ class cnMeta {
 	}
 
 	/**
-	 * Add meta data to the supplied object type id.
+	 * Add metadata to the supplied object type id.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 0.8
 	 *
-	 * @global wpdb  $wpdb    WordPress database abstraction object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @uses   absint()
-	 * @uses   wp_unslash()
-	 * @uses   do_action()
-	 * @uses   cnMeta::tableName()
-	 * @uses   sanitize_key()
-	 * @uses   sanitize_meta()
-	 * @uses   apply_filters()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::get_var()
-	 * @uses   wpdb::inset()
-	 * @uses   wp_cache_delete()
-	 *
-	 * @param string $type   The type of object the meta data is for; ie. entry and term.
+	 * @param string $type   The type of object the metadata is for; ie. entry and term.
 	 * @param int    $id     The object ID.
 	 * @param string $key    Metadata key.
 	 * @param string $value  Metadata value.
 	 * @param bool   $unique [optional] Whether the specified metadata key should be unique for the object.
 	 *                       If TRUE, and the object already has a value for the specified metadata key, no change will be made.
 	 *
-	 * @return mixed          int|bool The metadata ID on successful insert or FALSE on failure.
+	 * @return int|false The metadata ID on successful insert or FALSE on failure.
 	 */
 	public static function add( $type, $id, $key, $value, $unique = false ) {
 
@@ -369,36 +341,19 @@ class cnMeta {
 	 *
 	 * NOTE: This is the Connections equivalent of @see update_metadata() in WordPress core ../wp-includes/meta.php
 	 *
-	 * @access public
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
-	 * @global wpdb  $wpdb       WordPress database abstraction object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @uses   absint()
-	 * @uses   cnMeta::tableName()
-	 * @uses   sanitize_key()
-	 * @uses   wp_unslash()
-	 * @uses   sanitize_meta()
-	 * @uses   apply_filters()
-	 * @uses   cnMeta::get()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::get_col()
-	 * @uses   cnMeta::add()
-	 * @uses   _::maybeJSONencode()
-	 * @uses   do_action()
-	 * @uses   wpdb::update()
-	 * @uses   wp_cache_delete()
-	 *
-	 * @param string $type       Type of object metadata is for (e.g., entry, term)
-	 * @param int    $id         ID of the object metadata is for
-	 * @param string $key        Metadata key
+	 * @param string $type       Type of object metadata is for (e.g., entry, term).
+	 * @param int    $id         ID of the object metadata is for.
+	 * @param string $key        Metadata key.
 	 * @param mixed  $value      Metadata value. Must be able to be JSON encoded if non-scalar.
 	 *                           Use @see _::maybeJSONencode().
 	 * @param mixed  $prev_value Optional. If specified, only update existing metadata entries with
 	 *                           the specified value. Otherwise, update all entries.
 	 *
-	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
+	 * @return int|false Meta ID if the key didn't exist, true on successful update, false on failure.
 	 */
 	public static function update( $type, $id, $key, $value, $prev_value = '' ) {
 
@@ -417,7 +372,7 @@ class cnMeta {
 		$table  = self::tableName( $type );
 		$column = sanitize_key( $type . '_id' );
 
-		// expected_slashed ($meta_key)
+		// expected_slashed ($meta_key).
 		$key          = wp_unslash( $key );
 		$passed_value = $value;
 		$value        = wp_unslash( $value );
@@ -536,22 +491,9 @@ class cnMeta {
 	 *
 	 * NOTE: This is the Connections equivalent of @see delete_metadata() in WordPress core ../wp-includes/meta.php
 	 *
-	 * @access public
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
-	 * @uses   absint()
-	 * @uses   cnMeta::tableName()
-	 * @uses   sanitize_key()
-	 * @uses   wp_unslash()
-	 * @uses   _::maybeJSONencode()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::get_col()
-	 * @uses   do_action()
-	 * @uses   wpdb::query()
-	 * @uses   wp_cache_delete()
-	 *
-	 * @global wpdb  $wpdb       WordPress database abstraction object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $type       Type of object metadata is for (e.g., entry, term).
 	 * @param int    $id         ID of the object metadata is for.
@@ -563,7 +505,7 @@ class cnMeta {
 	 *                           for all objects, ignoring the specified $id. Otherwise, only delete matching
 	 *                           metadata entries for the specified $id.
 	 *
-	 * @return bool              TRUE on successful delete, FALSE on failure.
+	 * @return bool TRUE on successful delete, FALSE on failure.
 	 */
 	public static function delete( $type, $id, $key, $value = '', $delete_all = false ) {
 
@@ -687,22 +629,14 @@ class cnMeta {
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_metadata_by_mid() in WordPress core ../wp-includes/meta.php
 	 *
-	 * @access public
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
-	 * @global wpdb  $wpdb  WordPress database abstraction object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @uses   absint()
-	 * @uses   cnMeta::tableName()
-	 * @uses   wpdb::prepare()
-	 * @uses   wpdb::get_row()
-	 * @uses   cnFormatting::maybeJSONdecode()
+	 * @param string $type Type of object metadata is for (e.g., entry, term).
+	 * @param int    $id   ID for a specific meta row.
 	 *
-	 * @param string $type Type of object metadata is for (e.g., entry, term)
-	 * @param int    $id   ID for a specific meta row
-	 *
-	 * @return mixed object|bool Meta object or FALSE.
+	 * @return object|false Meta object or FALSE.
 	 */
 	public static function getByID( $type, $id ) {
 
@@ -739,26 +673,16 @@ class cnMeta {
 	 *
 	 * NOTE: This is the Connections equivalent of @see update_metadata_by_mid() in WordPress core ../wp-includes/meta.php
 	 *
-	 * @access public
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
-	 * @global wpdb  $wpdb  WordPress database abstraction object.
-	 *
-	 * @uses   cnMeta::tableName()
-	 * @uses   cnMeta::getByID()
-	 * @uses   sanitize_meta()
-	 * @uses   _::maybeJSONencode()
-	 * @uses   do_action()
-	 * @uses   wpdb::update()
-	 * @uses   wp_cache_delete()
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $type  Type of object metadata is for (e.g., entry, term).
 	 * @param int    $id    ID for a specific meta row.
 	 * @param string $value Metadata value.
 	 * @param mixed  $key   string|bool Optional, you can provide a meta key to update it.
 	 *
-	 * @return bool         TRUE on successful update, FALSE on failure.
+	 * @return bool TRUE on successful update, FALSE on failure.
 	 */
 	public static function updateByID( $type, $id, $value, $key = false ) {
 
@@ -797,7 +721,7 @@ class cnMeta {
 				return false;
 			}
 
-			// Sanitize the meta
+			// Sanitize the meta.
 			$_meta_value = $value;
 			$value       = wp_unslash( $value );
 			$value       = sanitize_meta( $key, $value, 'cn_' . $type );
@@ -836,25 +760,16 @@ class cnMeta {
 	}
 
 	/**
-	 * Delete meta data by meta ID.
+	 * Delete metadata by meta ID.
 	 *
 	 * NOTE: This is the Connections equivalent of @see delete_metadata_by_mid() in WordPress core ../wp-includes/meta.php
 	 *
-	 * @access public
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
-	 * @global wpdb  $wpdb WordPress database abstraction object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @uses   absint()
-	 * @uses   sanitize_key()
-	 * @uses   cnMeta::tableName()
-	 * @uses   cnMeta::getByID()
-	 * @uses   wpdb::delete()
-	 * @uses   do_action()
-	 *
-	 * @param string $type Type of object metadata is for (e.g., entry, term)
-	 * @param int    $id   ID for a specific meta row
+	 * @param string $type Type of object metadata is for (e.g., entry, term).
+	 * @param int    $id   ID for a specific meta row.
 	 *
 	 * @return bool True on successful delete, false on failure.
 	 */
@@ -875,7 +790,7 @@ class cnMeta {
 
 		$table = cnMeta::tableName( $type );
 
-		// object and id columns
+		// object and id columns.
 		$column = sanitize_key( $type . '_id' );
 
 		// Fetch the meta and go on if it's found.
@@ -886,7 +801,7 @@ class cnMeta {
 			/** This action is documented in wp-includes/meta.php */
 			do_action( "cn_delete_{$type}_meta", (array) $id, $object_id, $meta->meta_key, $meta->meta_value );
 
-			// Run the query, will return true if deleted, false otherwise
+			// Run the query, will return true if deleted, false otherwise.
 			$result = (bool) $wpdb->delete( $table, array( 'meta_id' => $id ) );
 
 			// Clear the caches.
@@ -904,15 +819,14 @@ class cnMeta {
 	/**
 	 * Retrieve the specified meta keys.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 0.8
 	 *
-	 * @global wpdb   $wpdb  WordPress database abstraction object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param  string $type  The object type.
-	 * @param  int    $limit Limit the number of keys to retrieve.
+	 * @param string $type  The object type.
+	 * @param int    $limit Limit the number of keys to retrieve.
 	 *
-	 * @return array         An array of meta keys.
+	 * @return array An array of meta keys.
 	 */
 	public static function key( $type, $limit = 30 ) {
 
@@ -949,15 +863,14 @@ class cnMeta {
 	}
 
 	/**
-	 * Checks whether or not the `key` is private or not.
+	 * Checks whether the `key` is private or not.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 0.8
 	 *
-	 * @param  string $key  The key to check.
-	 * @param  string $type The object type.
+	 * @param string $key  The key to check.
+	 * @param string $type The object type.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isPrivate( $key, $type = null ) {
 
@@ -1016,13 +929,9 @@ class cnMeta {
 	/**
 	 * Retrieve the name of the metadata table for the specified meta type.
 	 *
-	 * @access public
-	 * @since  8.1.7
-	 * @static
+	 * @since 8.1.7
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
-	 * @uses   is_multisite()
 	 *
 	 * @param string $type Type of object to get metadata table name for (e.g., entry, term).
 	 *
@@ -1048,67 +957,5 @@ class cnMeta {
 		}
 
 		return $name;
-	}
-}
-
-/**
- * Class cnMeta_Query extends the @see WP_Meta_Query overriding the @see WP_Meta_Query::get_sql() method so the custom
- * tables used by Connections for entry and term meta can be used.
- */
-class cnMeta_Query extends WP_Meta_Query {
-
-	/**
-	 * Generates SQL clauses to be added to the query.
-	 *
-	 * @access public
-	 * @since  8.2.5
-	 *
-	 * @param string $type              Type of meta, eg 'entry', 'term'.
-	 * @param string $primary_table     Database table where the object being filtered is stored (eg CN_ENTRY_TABLE).
-	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
-	 * @param mixed  $context           object|null Optional. The main query object.
-	 *
-	 * @return array {
-	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
-	 *
-	 *     @type string $join  SQL fragment to append to the main JOIN clause.
-	 *     @type string $where SQL fragment to append to the main WHERE clause.
-	 * }
-	 */
-	public function get_sql( $type, $primary_table, $primary_id_column, $context = null ) {
-
-		$this->meta_table     = cnMeta::tableName( $type );
-		$this->meta_id_column = sanitize_key( $type . '_id' );
-
-		$this->primary_table     = $primary_table;
-		$this->primary_id_column = $primary_id_column;
-
-		$sql = $this->get_sql_clauses();
-
-		/*
-		 * If any JOINs are LEFT JOINs (as in the case of NOT EXISTS), then all JOINs should
-		 * be LEFT. Otherwise posts with no metadata will be excluded from results.
-		 */
-		if ( false !== strpos( $sql['join'], 'LEFT JOIN' ) ) {
-			$sql['join'] = str_replace( 'INNER JOIN', 'LEFT JOIN', $sql['join'] );
-		}
-
-		/**
-		 * Filter the meta query's generated SQL.
-		 *
-		 * @since 8.2.5
-		 *
-		 * @param array $args {
-		 *     An array of meta query SQL arguments.
-		 *
-		 *     @type array  $clauses           Array containing the query's JOIN and WHERE clauses.
-		 *     @type array  $queries           Array of meta queries.
-		 *     @type string $type              Type of meta.
-		 *     @type string $primary_table     Primary table.
-		 *     @type string $primary_id_column Primary column ID.
-		 *     @type object $context           The main query object.
-		 * }
-		 */
-		return apply_filters_ref_array( 'cn_get_meta_sql', array( $sql, $this->queries, $type, $primary_table, $primary_id_column, $context ) );
 	}
 }

@@ -396,6 +396,7 @@ class cnImage {
 	 * Uses WP's Image Editor Class to crop and resize images.
 	 *
 	 * Derived from bfithumb.
+	 *
 	 * @link https://github.com/bfintal/bfi_thumb
 	 * Incorporated crop only from Github pull request 13
 	 * @link https://github.com/bfintal/bfi_thumb/pull/13
@@ -466,11 +467,11 @@ class cnImage {
 	 *
 	 *     quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
 	 *
-	 * @param  string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
-	 * @param  array  $atts   An associative array containing the options used to process the image.
-	 * @param  string $return
+	 * @param string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
+	 * @param array  $atts   An associative array containing the options used to process the image.
+	 * @param string $return Accepts the following values: base64|data|editor|stream|url
 	 *
-	 * @return mixed  array | object | string | stream
+	 * @return array{name: string, path: string, url: string, width: int, height: int, size: string, mime: string, type: int, string}|string|WP_Error|WP_Image_Editor
 	 *                If $return is `base64` then base64 encoded image data URI will be returned. Suitable for use in CSS or img src attribute.
 	 *                If $return is `data` and array of the image meta is returned.
 	 *                If $return is `editor` an instance if the WP_Image_Editor is returned.

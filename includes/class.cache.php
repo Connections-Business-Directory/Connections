@@ -13,10 +13,14 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Class cnCache
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+ */
 class cnCache {
 
 	const PREFIX = 'cn';
@@ -37,11 +41,10 @@ class cnCache {
 	/**
 	 * Get a cached value.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @static
+	 * @since 8.1
+	 *
 	 * @param string $key      The cache key of the value to return.
-	 * @param string $mode     (optional) From which cache method to retrieve the value from. Default: transient
+	 * @param string $mode     (optional) From which cache method to retrieve the value from. Default: transient.
 	 * @param string $group    (optional) Set the group of the value.
 	 * @param string $callback (optional) Callback function to run to set the value if not cached.
 	 *
@@ -69,7 +72,7 @@ class cnCache {
 
 		$original_key = $key;
 
-		// Patch for limitations in DB
+		// Patch for limitations in DB.
 		if ( 40 < strlen( $group_key . $key ) ) {
 
 			$key = md5( $key );
@@ -134,7 +137,7 @@ class cnCache {
 
 					if ( is_callable( $callback ) ) {
 
-						// Callback function should do it's own set/update for cache
+						// Callback function should do it's own set/update for cache.
 						$callback_value = call_user_func( $callback, $original_key, $group, $mode );
 
 						if ( null !== $callback_value && false !== $callback_value ) {
@@ -165,7 +168,7 @@ class cnCache {
 
 					if ( is_callable( $callback ) ) {
 
-						// Callback function should do it's own set/update for cache
+						// Callback function should do it's own set/update for cache.
 						$callback_value = call_user_func( $callback, $original_key, $group, $mode );
 
 						if ( null !== $callback_value && false !== $callback_value ) {
@@ -197,7 +200,7 @@ class cnCache {
 
 		if ( false === $value && is_callable( $callback ) && ! $called ) {
 
-			// Callback function should do it's own set/update for cache
+			// Callback function should do it's own set/update for cache.
 			$callback_value = call_user_func( $callback, $original_key, $group, $mode );
 
 			if ( null !== $callback_value && false !== $callback_value ) {
@@ -214,16 +217,15 @@ class cnCache {
 	/**
 	 * Set a cached value.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @static
+	 * @since 8.1
+	 *
 	 * @param string $key     The cache key.
 	 * @param mixed  $value   Value to add to the cache.
 	 * @param int    $expires (optional) Time in seconds for the cache to expire, if 0 no expiration.
 	 * @param string $mode    (optional) Decides the caching method to use. Default: transient
 	 * @param string $group   (optional) Set the group of the value.
 	 *
-	 * @return mixed          bool|mixed|NULL|string|void
+	 * @return mixed bool|mixed|NULL|string|void
 	 */
 	public static function set( $key, $value, $expires = 0, $mode = 'transient', $group = self::PREFIX ) {
 
@@ -247,7 +249,7 @@ class cnCache {
 
 		$original_key = $key;
 
-		// Patch for limitations in DB
+		// Patch for limitations in DB.
 		if ( 40 < strlen( $group_key . $key ) ) {
 
 			$key = md5( $key );
@@ -359,12 +361,11 @@ class cnCache {
 	 * ?>
 	 * </code>
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @static
-	 * @param  mixed  $key   string|bool The cache key to clear or bool to clear a cache group.
-	 * @param  string $mode  (optional)  Which cache type to clear.
-	 * @param  string $group (optional)  The cache group to clear.
+	 * @since 8.1
+	 *
+	 * @param mixed  $key   string|bool The cache key to clear or bool to clear a cache group.
+	 * @param string $mode  (optional)  Which cache type to clear.
+	 * @param string $group (optional)  The cache group to clear.
 	 *
 	 * @return bool
 	 */
@@ -394,7 +395,7 @@ class cnCache {
 
 		if ( true !== $key ) {
 
-			// Patch for limitations in DB
+			// Patch for limitations in DB.
 			if ( 40 < strlen( $group_key . $key ) ) {
 
 				$key = md5( $key );
@@ -501,114 +502,4 @@ class cnCache {
 		return true;
 	}
 
-}
-
-/**
- * Fragment caching based on class by Mark Jaquith.
- * @url   http://markjaquith.wordpress.com/2013/04/26/fragment-caching-in-wordpress/
- *
- * <code>
- * $fragment = new cnFragment( 'unique-key', 3600 );
- *
- * if ( ! $fragment->get() ) {
- *
- *     functions_that_do_stuff_live();
- *     these_should_echo();
- *
- *     echo 'All output should be echo'd';
- *
- *     // IMPORTANT: YOU CANNOT FORGET THIS. If you do, the site will break.
- *     $frag->save();
- *
- * }
- * </code>
- *
- * @since 8.1
- * @uses  cnCache
- */
-class cnFragment {
-
-	const PREFIX = 'cn';
-	protected $key;
-	protected $group;
-	protected $ttl = WEEK_IN_SECONDS;
-
-	/**
-	 * Setup the fragment cache values.
-	 *
-	 * @access public
-	 * @since  8.1
-	 *
-	 * @param  string $key   The cache key.
-	 * @param  string $group (optional) The fragment cache group that the fragment belongs to.
-	 */
-	public function __construct( $key, $group = '' ) {
-
-		$this->key   = $key;
-		$this->group = $group;
-	}
-
-	/**
-	 * Echo a cached fragment if found.
-	 *
-	 * @since 8.1
-	 *
-	 * @return bool
-	 */
-	public function get() {
-
-		$fragment = cnCache::get( $this->key, 'transient', $this->group );
-
-		if ( false !== $fragment ) {
-
-			echo $fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			return true;
-
-		} else {
-
-			ob_start();
-			return false;
-		}
-	}
-
-	/**
-	 * Save fragment in the cache.
-	 *
-	 * @access public
-	 * @since  8.1
-	 * @uses   cnCache::set()
-	 *
-	 * @param  int|null $ttl The number of seconds the fragment should live. Defaults to WEEK_IN_SECONDS.
-	 *
-	 * @return void
-	 */
-	public function save( $ttl = null ) {
-
-		$ttl = is_null( $ttl ) ? $this->ttl : $ttl;
-
-		cnCache::set( $this->key, ob_get_flush(), $ttl, 'transient', $this->group );
-	}
-
-	/**
-	 * Clear a fragment cache object or object group.
-	 *
-	 * @since 8.1.6
-	 *
-	 * @param true|string $key   The cache key to clear. When set to TRUE, clear a fragment cache group.
-	 * @param string      $group The cache group to clear.
-	 */
-	public static function clear( $key, $group = '' ) {
-
-		if ( true !== $key ) {
-
-			cnCache::clear( $key, 'transient', self::PREFIX );
-
-		} else {
-
-			$group_key = empty( $group ) ? self::PREFIX : $group;
-
-			cnCache::clear( true, 'transient', $group_key );
-		}
-
-	}
 }

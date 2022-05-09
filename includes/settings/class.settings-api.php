@@ -808,12 +808,26 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'number':
-					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
+					$sizes = array( 'small', 'regular', 'large' );
+					$size  = _array::get( $field, 'size', 'regular' );
 
-					$out .= sprintf( '<input type="number" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-						$out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
-					}
+					$out .= Field\Number::create()
+										->setId( $name )
+										->addClass(
+											in_array( $size, $sizes ) ? "{$size}-text" : 'regular-text'
+										)
+										->setName( $name )
+										->setDefaultValue( _array::get( $field, 'default', '' ) )
+										->setValue( $value )
+										->addAttribute( 'aria-describedby', "{$name}-description" )
+										->getHTML();
+
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$name}-description" )
+											 ->text( $field['desc'] )
+											 ->setTag( 'span' )
+											 ->getHTML();
 
 					break;
 

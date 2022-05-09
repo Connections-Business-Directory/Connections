@@ -1100,10 +1100,20 @@ class cnEntry_Action {
 
 		$query = \Connections_Directory\Model\Format\Address\As_String::format( $address );
 
+		/**
+		 * Allow geocoding of addresses to be short-circuited.
+		 *
+		 * @since 10.4.23
+		 *
+		 * @param bool      $bool    Whether to geocode the address or not.
+		 * @param cnAddress $address The address to be geocoded.
+		 */
+		$maybeGeoCode = apply_filters( 'Connections_Directory/Entry/Action/Geocode', true, $address );
+
 		/*
 		 * If the address is empty, no need to geocode.
 		 */
-		if ( empty( $query ) ) {
+		if ( empty( $query ) || ! $maybeGeoCode ) {
 
 			return $address;
 		}

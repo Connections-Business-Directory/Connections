@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_array;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
@@ -3261,6 +3262,36 @@ class cnEntry {
 		$permittedValues = array( 'approved', 'pending' );
 
 		$this->status = in_array( $status, $permittedValues ) ? sanitize_key( $status ) : 'pending';
+	}
+
+	/**
+	 * Return value from the options array.
+	 *
+	 * @since 10.4.23
+	 *
+	 * @param string $key     The key value to return.
+	 *                        NOTE: This support array dot notation.
+	 * @param mixed  $default The value to return if the option key is not set.
+	 *
+	 * @return mixed
+	 */
+	public function getOption( $key, $default = null ) {
+
+		return _array::get( $this->options, $key, $default );
+	}
+
+	/**
+	 * Set value in the options array.
+	 *
+	 * @since 10.4.23
+	 *
+	 * @param string $key   The key to set.
+	 *                      NOTE: This support array dot notation.
+	 * @param mixed  $value The value to set.
+	 */
+	public function setOption( $key, $value ) {
+
+		_array::set( $this->options, $key, $value );
 	}
 
 	/**

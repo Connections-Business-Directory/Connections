@@ -248,6 +248,34 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.23 05/09/2022 =
+* NEW: Introduce `/Form/Field::Number`.
+* NEW: Introduce the `Connections_Directory/Entry/Action/Geocode` filter.
+* NEW: Introduce the `cnEntry::getOption()` and `cnEntry::setOptions()` methods.
+* TWEAK: Check for instance of `cnTemplate` instead of `false`.
+* TWEAK: Remove use of deprecated methodS.
+* TWEAK: Simplify comparison expression.
+* TWEAK: Simplify validation and sanitization of the permalink slugs setting values.
+* TWEAK: Update URL to documentation on formatting date and time.
+* TWEAK: Update URL from `http` to `https`.
+* TWEAK: Remove anchor tag from translation.
+* TWEAK: Ensure repeatable field count can only be a positive integer and the repeatable option is enforced if the field count is set to `0` (zero).
+* TWEAK: Utilize `/Form/Field::Number` in the Settings API for the `number` field type.
+* BUG: Correct logic that prevented the default term from being applied if no terms were selected to be attached to an entry.
+* BUG: Correct logic that prevented latitude and longitude values from being removed from an address.
+* BUG: Correct successful entry add/update logic.
+* BUG: Properly display the taxonomy admin menu label.
+* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
+* OTHER: Correct misspellings.
+* OTHER: String concat is not required; use a single string instead.
+* OTHER: Remove unnecessary line returns in markup.
+* DEV: phpDoc updates and corrections.
+* DEV: Prevent direct access.
+* DEV: Remove commented out code.
+* DEV: Remove unnecessary semicolon.
+* DEV: Move the core Metabox API file to a sub folder for improved organization.
+* DEV: Ensure one class per file.
+
 = 10.4.22 04/21/2022 =
 * BUG: Update the Manage admin page to use the correct current page variable.
 * OTHER: Update `dist` files.
@@ -621,37 +649,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Parameter comment must end with a full stop.
 * DEV: Parenthesis should always be used when instantiating a new object.
 
-= 10.4.7 12/01/2021 =
-* NEW: Introduce `_::isDevelopmentEnvironment()`.
-* TWEAK: Update mShot API URI.
-* TWEAK: Collapse duplicate case statements.
-* TWEAK: Minor refactor of `cnEntry_HTML::gethCardTelType()` and `cnEntry_HTML::gethCardAdrType()`, renaming of variables to be more clear and update phpDoc.
-* TWEAK: Add the `cn-phone-number-type-{$type}` class to the phone number HTML block to allow each phone type to be selected by CSS.
-* TWEAK: Move `_::isInteger()` to `_validate::isInteger()`.
-* TWEAK: Move `_::isPositiveInteger()` to `_validate::isPositiveInteger()`.
-* TWEAK: Add timestamp to template CSS version if site is set to the development environment.
-* TWEAK: Utilize `_array::get()` to get request data to avoid undefined index notices.
-* BUG: Do not use `unlink()` on an `WP_Error` object.
-* SECURITY: Refactor escaping of `getTermParents()`.
-* SECURITY: Utilize `wp_safe_redirect()` instead of `wp_redirect()`.
-* SECURITY: Sanitize admin term list request variables.
-* OTHER: Correct misspellings.
-* DEV: Update Node modules.
-* DEV: Remove unnecessary Node module imagemin-webpack-plugin.
-* DEV: phpDoc updates.
-* DEV: Tabs must be used to indent lines; spaces are not allowed.
-* DEV: Equals sign not aligned correctly.
-* DEV: Space found before argument list.
-* DEV: Concat operator must be surrounded by a single space.
-* DEV: phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
-* DEV: phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
-* DEV: Parameter comment must end with a full stop.
-* DEV: Correct inline code comment.
-* DEV: Add inline code comment.
-* DEV: There must be exactly one blank line before the tags in a doc comment.
-* DEV: Update vendor files.
-* DEV: Update dist files.
-
 == Upgrade Notice ==
 
 = 10.4.7 =
@@ -700,4 +697,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.22 =
+It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.23 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

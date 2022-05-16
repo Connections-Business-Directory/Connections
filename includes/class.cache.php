@@ -48,7 +48,7 @@ class cnCache {
 	 * @param string $group    (optional) Set the group of the value.
 	 * @param string $callback (optional) Callback function to run to set the value if not cached.
 	 *
-	 * @return bool|mixed|NULL|void
+	 * @return bool|mixed|null|void
 	 */
 	public static function get( $key, $mode = 'transient', $group = self::PREFIX, $callback = null ) {
 
@@ -225,7 +225,7 @@ class cnCache {
 	 * @param string $mode    (optional) Decides the caching method to use. Default: transient
 	 * @param string $group   (optional) Set the group of the value.
 	 *
-	 * @return mixed bool|mixed|NULL|string|void
+	 * @return bool|mixed|null|string|void
 	 */
 	public static function set( $key, $value, $expires = 0, $mode = 'transient', $group = self::PREFIX ) {
 

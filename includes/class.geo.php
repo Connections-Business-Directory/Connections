@@ -372,8 +372,11 @@ class cnGeo {
 
 		if ( 'native_name' === $translation ) {
 
-			// Official language of Israel is Hebrew not Arabic.
-			// https://en.wikipedia.org/wiki/Languages_of_Israel#Official_language
+			/**
+			 * Official language of Israel is Hebrew not Arabic.
+			 *
+			 * @link https://en.wikipedia.org/wiki/Languages_of_Israel#Official_language
+			 */
 			$countries['IL'] = 'ישראל';
 
 			// Correct Italy. It seems the Germ is being returned instead of the Italian.

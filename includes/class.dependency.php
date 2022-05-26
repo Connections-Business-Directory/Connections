@@ -204,6 +204,7 @@ class cnDependency {
 			'cnToArray'    => 'includes/class.to-array.php',
 			'cnArray'      => 'includes/class.array.php',
 			'cnCollection' => 'includes/class.collection.php',
+			'cnHTTP'       => 'includes/class.http.php',
 
 			// Utility.
 			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
@@ -214,6 +215,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_escape'         => 'includes/Utility/_escape.php',
 			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
 			'Connections_Directory\Utility\_html'           => 'includes/Utility/_html.php',
+			'Connections_Directory\Utility\_http'           => 'includes/Utility/_http.php',
 			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
 			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',
 			'Connections_Directory\Utility\_url'            => 'includes/Utility/_url.php',
@@ -508,9 +510,6 @@ class cnDependency {
 
 			// Database Classes.
 			'cnEntry_DB'               => 'includes/entry/class.entry-db.php',
-
-			// HTTP request utility methods.
-			'cnHTTP'                   => 'includes/class.http.php',
 
 			// Countries.
 			'cnCountries'              => 'includes/geo/class.countries.php',

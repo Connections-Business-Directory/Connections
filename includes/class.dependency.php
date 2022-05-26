@@ -200,10 +200,16 @@ class cnDependency {
 			'cnSanitize'                                    => 'includes/Utility/class.sanitize.php',
 			'cnValidate'                                    => 'includes/Utility/class.validate.php',
 
+			// Legacy collections utility.
+			'cnToArray'    => 'includes/class.to-array.php',
+			'cnArray'      => 'includes/class.array.php',
+			'cnCollection' => 'includes/class.collection.php',
+
 			// Utility.
 			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
 			'Connections_Directory\Utility\_array'          => 'includes/Utility/_array.php',
 			'Connections_Directory\Utility\_color'          => 'includes/Utility/_color.php',
+			'Connections_Directory\Utility\_collection'     => 'includes/Utility/_collection.php',
 			'Connections_Directory\Utility\_date'           => 'includes/Utility/_date.php',
 			'Connections_Directory\Utility\_escape'         => 'includes/Utility/_escape.php',
 			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
@@ -468,11 +474,6 @@ class cnDependency {
 
 			// REST API.
 			'cnAPI'                    => 'includes/api/class.api.php',
-
-			// Collections.
-			'cnToArray'                => 'includes/class.to-array.php',
-			'cnArray'                  => 'includes/class.array.php',
-			'cnCollection'             => 'includes/class.collection.php',
 
 			// Address objects.
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',

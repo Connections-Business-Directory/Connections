@@ -10,3 +10,4 @@ class_alias( Connections_Directory\Utility\_format::class, cnFormatting::class )
 class_alias( Connections_Directory\Utility\_string::class, cnString::class );
 class_alias( Connections_Directory\Utility\_url::class, cnURL::class );
 class_alias( cnEntry_HTML::class, cnOutput::class );
+class_alias( Connections_Directory\Utility\_collection::class, cnCollection::class );

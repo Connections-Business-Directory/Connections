@@ -368,7 +368,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	}
 
 	/**
-	 * Returns the fields configuration array.
+	 * Returns the fields' configuration array.
 	 *
 	 * @access public
 	 * @since  8.10
@@ -381,7 +381,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	}
 
 	/**
-	 * Register the user friendly column header names.
+	 * Register the user-friendly column header names.
 	 *
 	 * @access private
 	 * @since  8.5.1

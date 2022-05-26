@@ -363,12 +363,9 @@ class cnGeo {
 				$translation = 'native_name';
 		}
 
-		$countries = cnCountries::getAll(); // var_dump( $countries );
-		// $sortBy    = wp_list_pluck( $countries, 'iso_3166_1_alpha3' );
+		$countries = cnCountries::getAll();
 		$countries = wp_list_pluck( $countries, $translation, 'iso_3166_1_alpha2' );
 		natsort( $countries );
-		// ksort( $countries, SORT_NATURAL );
-		// array_multisort( $sortBy, $countries );
 
 		if ( 'native_name' === $translation ) {
 

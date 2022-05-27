@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 10.4.24 05/28/2022 =
+* TWEAK: Bump tested to WordPress 6.0.
+* TWEAK: Bump minimum WordPress version 5.6.
+* TWEAK: Rename `cnCollection` to `_collection` and move to the `Utility` namespace.
+* TWEAK: Rename `cnHTTP` to `_http` and move to the `Utility` namespace.
+* BUG: Native country names should not overwrite the English translation.
+* OTHER: Correct misspellings.
+* OTHER: Update dist files.
+* DEV: phpDoc corrections.
+* DEV: Rearrange file header.
+* DEV: Remove commented out code.
+* DEV: Update `package.json`.
+
 = 10.4.23 05/09/2022 =
 * NEW: Introduce `/Form/Field::Number`.
 * NEW: Introduce the `Connections_Directory/Entry/Action/Geocode` filter.

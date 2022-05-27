@@ -363,22 +363,25 @@ class cnGeo {
 				$translation = 'native_name';
 		}
 
-		$countries = cnCountries::getAll(); // var_dump( $countries );
-		// $sortBy    = wp_list_pluck( $countries, 'iso_3166_1_alpha3' );
+		$countries = cnCountries::getAll();
 		$countries = wp_list_pluck( $countries, $translation, 'iso_3166_1_alpha2' );
 		natsort( $countries );
-		// ksort( $countries, SORT_NATURAL );
-		// array_multisort( $sortBy, $countries );
+
+		if ( 'native_name' === $translation ) {
+
+			/**
+			 * Official language of Israel is Hebrew not Arabic.
+			 *
+			 * @link https://en.wikipedia.org/wiki/Languages_of_Israel#Official_language
+			 */
+			$countries['IL'] = 'ישראל';
+
+			// Correct Italy. It seems the Germ is being returned instead of the Italian.
+			$countries['IT'] = 'Italia';
+		}
 
 		// Push a few select countries to the top of the list.
 		$countries = array_replace( array( 'US' => '', 'CA' => '', 'GB' => '' ), $countries );
-
-		// Official language of Israel is Hebrew not Arabic.
-		// https://en.wikipedia.org/wiki/Languages_of_Israel#Official_language
-		$countries['IL'] = 'ישראל';
-
-		// Correct Italy. It seems the Germ is being returned instead of the Italian.
-		$countries['IT'] = 'Italia';
 
 		return apply_filters( 'cn_countries', $countries );
 	}

@@ -1,37 +1,10 @@
 <?php
+
 /**
- * @package     Connections
- * @subpackage  HTTP
- * @copyright   Copyright (c) 2017, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       8.6.7
+ * Trigger the autoloader for the `cnHTTP` class using class_exists().
+ *
+ * @link https://www.schmengler-se.de/en/2016/09/php-using-class_alias-to-maintain-bc-while-move-rename-classes/
  */
+class_exists( \Connections_Directory\Utility\_http::class );
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-if ( ! class_exists( 'cnHTTP' ) ) :
-
-	/**
-	 * Class cnHTTP
-	 */
-	class cnHTTP {
-
-		/**
-		 * Returns if the SSL of the store should be verified.
-		 *
-		 * @access public
-		 * @since  8.6.7
-		 * @static
-		 *
-		 * @return bool
-		 */
-		public static function verifySSL() {
-
-			return (bool) apply_filters( 'cn_sl_api_request_verify_ssl', true );
-		}
-	}
-
-endif; // End class_exists check.
+_deprecated_file( basename( __FILE__ ), '10.4.24', 'includes/class.http.php' );

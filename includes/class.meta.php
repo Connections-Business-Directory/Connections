@@ -11,10 +11,10 @@
  * @since       0.8
  */
 
+use Connections_Directory\Utility\_;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
-
-use Connections_Directory\Utility\_;
 
 /**
  * Class cnMeta

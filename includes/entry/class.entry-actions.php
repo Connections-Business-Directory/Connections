@@ -616,7 +616,7 @@ class cnEntry_Action {
 		 *
 		 * @param cnEntry $entry An instance of the cnEntry object.
 		 */
-		$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry, ( isset( $data['entry_category'] ) ? $data['entry_category'] : array() ) );
+		$entry = apply_filters( "cn_pre_process_{$action}-entry", $entry, ( isset( $data['entry_category'] ) ? $data['entry_category'] : array() ) );
 
 		/*
 		 * Process the logo upload --> START <--

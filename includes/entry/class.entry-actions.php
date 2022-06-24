@@ -607,6 +607,15 @@ class cnEntry_Action {
 
 		// Run any registered filters before processing, passing the $entry object.
 		// ? Should the logo, photo and category data be passed too?
+		/**
+		 * Allow the cnEntry object to be modified base on action.
+		 *
+		 * The dynamic portion of the hook name, `$action`, refers to the current entry action.
+		 *
+		 * @since unknown
+		 *
+		 * @param cnEntry $entry An instance of the cnEntry object.
+		 */
 		$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry, ( isset( $data['entry_category'] ) ? $data['entry_category'] : array() ) );
 
 		/*

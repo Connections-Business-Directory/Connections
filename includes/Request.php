@@ -221,7 +221,7 @@ final class Request {
 			return false;
 		}
 
-		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
 
 		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix ) );

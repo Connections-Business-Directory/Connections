@@ -211,6 +211,7 @@ final class Request {
 	/**
 	 * Returns true if the request is REST API request.
 	 *
+	 * @link https://wordpress.stackexchange.com/a/317041/59053
 	 * @since 10.3
 	 *
 	 * @return bool

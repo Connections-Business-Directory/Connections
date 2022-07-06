@@ -66,7 +66,7 @@
         "@wordpress/server-side-render": "^3.1.0",
         "@wordpress/url": "^3.4.0",
         "chosen-js": "^1.8.0",
-        "jquery-validation": "^1.19.0",
+        "jquery-validation": "^1.19.5",
         "js-cookie": "^2.2.0",
         "leaflet": "^1.7.0",
         "leaflet-control-geocoder": "^2.4.0",

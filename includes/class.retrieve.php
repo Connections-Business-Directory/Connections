@@ -1182,7 +1182,7 @@ class cnRetrieve {
 	 *
 	 * @param int|string $slid The entry `id` or `slug`.
 	 *
-	 * @return bool|object The entry data.
+	 * @return false|object The entry data.
 	 */
 	public function entry( $slid ) {
 

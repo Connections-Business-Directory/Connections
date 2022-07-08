@@ -2706,7 +2706,7 @@ class cnRetrieve {
 
 		$original = $atts['terms'];
 
-		$atts['terms'] = cnFunction::parseStringList( $atts['terms'], '\s' );
+		$atts['terms'] = _::parseStringList( $atts['terms'], '\s' );
 
 		array_unshift( $atts['terms'], $original );
 

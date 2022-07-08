@@ -2754,7 +2754,7 @@ class cnRetrieve {
 			 */
 			foreach ( $atts['terms'] as $key => $term ) {
 
-				if ( strlen( $term ) >= 2 && strlen( $term ) <= 3 ) {
+				if ( strlen( $term ) >= 1 && strlen( $term ) <= 3 ) {
 
 					unset( $atts['terms'][ $key ] );
 

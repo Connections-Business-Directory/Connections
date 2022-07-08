@@ -40,7 +40,7 @@ class Search extends Input {
 	 */
 	protected $schema = array(
 		'default'   => '',
-		'minLength' => 3,
+		'minLength' => 1,
 		'maxLength' => 1600,
 		'type'      => 'string',
 	);

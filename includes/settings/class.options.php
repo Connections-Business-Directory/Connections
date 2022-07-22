@@ -114,7 +114,7 @@ class cnOptions {
 
 		/*
 		 * Because MySQL FROM_UNIXTIME returns timestamps adjusted to the local
-		 * timezone it is handy to have the offset so it can be compensated for.
+		 * timezone it is handy to have the offset, so it can be compensated for.
 		 * One example is when using FROM_UNIXTIME, the timestamp returned will
 		 * not be the actual stored timestamp, it will be the timestamp adjusted
 		 * to the timezone set in MySQL.
@@ -149,8 +149,6 @@ class cnOptions {
 	}
 
 	/**
-	 *
-	 *
 	 * @TODO This can likely be removed.
 	 */
 	public function getOptions() {
@@ -231,7 +229,9 @@ class cnOptions {
 	}
 
 	/**
-	 * @return array
+	 * @since unknown
+	 *
+	 * @return array{individual: string, organization: string, family: string}
 	 */
 	public static function getEntryTypes() {
 

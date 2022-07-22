@@ -897,7 +897,7 @@ class cnEntry_Action {
 			$entry->set( $entryID );
 
 			// Run any registered post process actions.
-			do_action( "cn_post_process_$action-entry", $entry );
+			do_action( "cn_post_process_{$action}-entry", $entry );
 
 			return $entryID;
 		}

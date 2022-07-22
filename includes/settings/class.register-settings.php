@@ -2918,7 +2918,7 @@ class cnRegisterSettings {
 			),
 			'default'   => 'crop',
 			'schema'    => array(
-				'type' => 'enum',
+				'type' => 'string',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
 		);
@@ -3007,7 +3007,7 @@ class cnRegisterSettings {
 			),
 			'default'   => 'crop',
 			'schema'    => array(
-				'type' => 'enum',
+				'type' => 'string',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
 		);
@@ -3096,7 +3096,7 @@ class cnRegisterSettings {
 			),
 			'default'   => 'crop',
 			'schema'    => array(
-				'type' => 'enum',
+				'type' => 'string',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
 		);
@@ -3185,7 +3185,7 @@ class cnRegisterSettings {
 			),
 			'default'   => 'fill',
 			'schema'    => array(
-				'type' => 'enum',
+				'type' => 'string',
 				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
 			),
 		);
@@ -3269,7 +3269,7 @@ class cnRegisterSettings {
 			'schema'            => array(
 				'type'  => 'array',
 				'items' => array(
-					'type' => 'enum',
+					'type' => 'string',
 					'enum' => array_keys( $searchOptions['items'] ),
 				),
 			),

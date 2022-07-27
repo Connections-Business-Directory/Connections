@@ -605,8 +605,17 @@ class cnEntry_Action {
 
 		$slug = rawurldecode( $entry->getSlug() );
 
-		// Run any registered filters before processing, passing the $entry object.
-		// ? Should the logo, photo and category data be passed too?
+		/**
+		 * Allow the entry object to be modified before being inserted into the database.
+		 *
+		 * @since 10.4.25
+		 *
+		 * @param cnEntry $entry
+		 * @param string  $action Values are either add|update
+		 * @param array   $data   $_POST data.
+		 */
+		$entry = apply_filters( 'Connections_Directory/Entry/Action/Save', $entry, $action, $data );
+
 		/**
 		 * Allow the cnEntry object to be modified base on action.
 		 *
@@ -895,6 +904,17 @@ class cnEntry_Action {
 			// Refresh the cnEntry object with any updated taxonomy or metadata
 			// that may have been added/updated via actions.
 			$entry->set( $entryID );
+
+			/**
+			 * Trigger an action to be run after a directory entry being inserted into the database.
+			 *
+			 * @since 10.4.25
+			 *
+			 * @param cnEntry $entry
+			 * @param string  $action Values are either add|update
+			 * @param array   $data   $_POST data.
+			 */
+			do_action( 'Connections_Directory/Entry/Action/Saved', $entry, $action, $data );
 
 			// Run any registered post process actions.
 			do_action( "cn_post_process_{$action}-entry", $entry );

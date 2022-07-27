@@ -1524,6 +1524,11 @@ class cnRetrieve {
 		// Whether to include the event occurring today or not.
 		$includeToday = $atts['today'] ? '<=' : '<';
 
+		/*
+		 * @todo Add option to filter out results less than a year old.
+		 */
+		// $where[] = $wpdb->prepare( 'AND 0 < ( YEAR( %s ) - YEAR( date ) )', $date );
+
 		$sql = $wpdb->prepare(
 			'SELECT entry_id AS id, date FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE '
 			. '  ( YEAR( DATE_ADD( %s, INTERVAL %d DAY ) )'

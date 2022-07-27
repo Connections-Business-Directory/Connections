@@ -621,7 +621,10 @@ class cnEntry_Action {
 		 *
 		 * The dynamic portion of the hook name, `$action`, refers to the current entry action.
 		 *
+		 * @todo Should the logo, photo and category data be passed too?
+		 *
 		 * @since unknown
+		 * @deprecated 10.4.25 Use `Connections_Directory/Entry/Action/Save`.
 		 *
 		 * @param cnEntry $entry An instance of the cnEntry object.
 		 */

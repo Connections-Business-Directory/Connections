@@ -1,5 +1,27 @@
 == Changelog ==
 
+= 10.4.25 07/28/2022 =
+* NEW: Introduce `Conditional_Content::isRegion()` to enable a region condition support in the `[cn-content]` shortcode.
+* NEW: Introduce the `Connections_Directory/Entry/Action/Save` filter and `Connections_Directory/Entry/Action/Saved` action.
+* SECURITY: Use correct escaping function when process a URL.
+* TWEAK: Convert string concatenation to string interpolation.
+* TWEAK: Remove use of deprecated method.
+* TWEAK: Allow single character search terms.
+* TWEAK: Utilize `_array::get()` helper utility to prevent PHP undefined index notices when access arrays.
+* TWEAK: Remove use of deprecated `block_categories` filter and add backwards compatibility shim.
+* TWEAK: Correct the settings schema `type` value for `enum` string arrays.
+* TWEAK: Add a couple utility methods.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* DEV: Remove commented out code.
+* DEV: Add brackets to be consistent with coding style.
+* DEV: Update npm package dependencies.
+* DEV: Update filter phpDoc.
+* DEV: Add inline variable documentation.
+* DEV: Update vendor scripts.
+* DEV: Update dist files.
+* DEV: Add a `@todo`.
+
 = 10.4.24 05/28/2022 =
 * TWEAK: Bump tested to WordPress 6.0.
 * TWEAK: Bump minimum WordPress version 5.6.

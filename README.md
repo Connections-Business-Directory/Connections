@@ -4,12 +4,11 @@
 [![Total Downloads](https://img.shields.io/wordpress/plugin/dt/connections.svg)](https://wordpress.org/plugins/connections/)
 [![Plugin Rating](https://img.shields.io/wordpress/plugin/r/connections.svg)](https://wordpress.org/support/plugin/connections/reviews/)
 [![WordPress Compatibility](https://img.shields.io/wordpress/v/connections.svg)](https://wordpress.org/plugins/connections/)
-[![Build Status](https://img.shields.io/travis/Connections-Business-Directory/Connections/develop.svg)](https://travis-ci.org/Connections-Business-Directory/Connections)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/connections-business-directory/connections.svg)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/connections-business-directory/connections.svg)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/)
+[![WP compatibility](https://plugintests.com/plugins/wporg/connections/wp-badge.svg)](https://plugintests.com/plugins/wporg/connections/latest)
+[![PHP compatibility](https://plugintests.com/plugins/wporg/connections/php-badge.svg)](https://plugintests.com/plugins/wporg/connections/latest)
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/Connections-Business-Directory/Connections/blob/master/LICENSE.txt)
 
-An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
+An easy-to-use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
 
 ## Description ##
 
@@ -24,10 +23,10 @@ Quite simply, Connections Business Directory is one of the [best business direct
 * [Continuously updated](https://wordpress.org/plugins/connections/changelog/) bringing you new features for free.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
-* You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
+* You control which entries are viewable to the public and which entries are private, viewable for logged-in users only. You can even have entries set as unlisted so only admins can view them.
 * **[Repeatable fields](http://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
 * Hierarchical (nested) **category support**. Businesses and members in your business directory can be added to any number of categories.
-* Include a biographical text for an individual member or business description for each entry in your business directory using an easy to use rich text editor.
+* Include a biographical text for an individual member or business description for each entry in your business directory using an easy-to-use rich text editor.
 * You can easily add a business logo or photo of the staff member for each entry in your business directory or staff directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
 * **[CSV Export](http://connections-pro.com/documentation/tools/#Export)** of addresses, phone numbers, email addresses and dates.
@@ -45,7 +44,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 **Utility**
 
 * [Toolbar](http://wordpress.org/plugins/connections-toolbar/) :: Provides quick links to the admin pages from the admin bar.
-* [Login](http://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple to use login shortcode and widget.
+* [Login](http://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple-to-use login shortcode and widget.
 
 **Custom Fields**
 
@@ -183,7 +182,7 @@ Connections Business Directory has been embraced around the world and has been t
 
 ### 10. The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/ ###
 ![The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/](http://ps.w.org/connections-business-directory/assets/screenshot-10.png)
-#Export) contains many different CSV export tools to allow you to easily export the data from your business directory.
+#Export) contains many CSV export tools to allow you to easily export the data from your business directory.
 11. The [Tools :: Import admin page](http://connections-pro.com/documentation/tools/#Categories-2) allows you to quickly bulk import nested categories into your business directory.
 12. In the event that you need support the [Tools :: System Information admin page](http://connections-pro.com/documentation/tools/#System_Information) contains all the information needs about your directory installation which can be easily and quickly shared.
 13. Need to move the configuration of your business directory from one site to another? The [Tools : Settings Import/Export admin page](http://connections-pro.com/documentation/tools/#Settings_ImportExport) allows you to do it with zero fuss. This will even migrate the Template Customizer settings applied to template and any of the settings for the [premium extensions](http://connections-pro.com/extensions/).

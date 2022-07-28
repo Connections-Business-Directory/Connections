@@ -1182,7 +1182,7 @@ class cnRetrieve {
 	 *
 	 * @param int|string $slid The entry `id` or `slug`.
 	 *
-	 * @return bool|object The entry data.
+	 * @return false|object The entry data.
 	 */
 	public function entry( $slid ) {
 
@@ -1523,6 +1523,11 @@ class cnRetrieve {
 
 		// Whether to include the event occurring today or not.
 		$includeToday = $atts['today'] ? '<=' : '<';
+
+		/*
+		 * @todo Add option to filter out results less than a year old.
+		 */
+		// $where[] = $wpdb->prepare( 'AND 0 < ( YEAR( %s ) - YEAR( date ) )', $date );
 
 		$sql = $wpdb->prepare(
 			'SELECT entry_id AS id, date FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE '
@@ -2706,7 +2711,7 @@ class cnRetrieve {
 
 		$original = $atts['terms'];
 
-		$atts['terms'] = cnFunction::parseStringList( $atts['terms'], '\s' );
+		$atts['terms'] = _::parseStringList( $atts['terms'], '\s' );
 
 		array_unshift( $atts['terms'], $original );
 
@@ -2754,7 +2759,7 @@ class cnRetrieve {
 			 */
 			foreach ( $atts['terms'] as $key => $term ) {
 
-				if ( strlen( $term ) >= 2 && strlen( $term ) <= 3 ) {
+				if ( strlen( $term ) >= 1 && strlen( $term ) <= 3 ) {
 
 					unset( $atts['terms'][ $key ] );
 

@@ -273,6 +273,10 @@ class Conditional_Content extends cnShortcode {
 				$condition = $this->isHome();
 				break;
 
+			case 'is_region':
+				$condition = $this->isRegion( $this->atts['parameter'] );
+				break;
+
 			case 'is_search':
 				$condition = $this->isSearch();
 				break;
@@ -461,6 +465,31 @@ class Conditional_Content extends cnShortcode {
 		if ( $this->isFrontPage() && ( get_the_ID() === $home || get_queried_object_id() === $home ) ) {
 
 			$condition = true;
+		}
+
+		return $condition;
+	}
+
+	/**
+	 * Whether the user is filtering the directory results by region (state) or not.
+	 *
+	 * @since 10.4.25
+	 *
+	 * @param null|string $parameter The region value that the condition must meet.
+	 *
+	 * @return bool
+	 */
+	private function isRegion( $parameter = null ) {
+
+		$condition  = false;
+		$queryValue = cnQuery::getVar( 'cn-region', false );
+
+		if ( ! is_null( $parameter ) && $queryValue ) {
+
+			if ( $queryValue === $parameter ) {
+
+				$condition = true;
+			}
 		}
 
 		return $condition;

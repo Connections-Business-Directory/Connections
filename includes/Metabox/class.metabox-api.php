@@ -198,8 +198,6 @@ class cnMetaboxAPI {
 	 *
 	 * @since 0.8
 	 * @param array $metabox
-	 *
-	 * return void
 	 */
 	public static function add( array $metabox ) {
 

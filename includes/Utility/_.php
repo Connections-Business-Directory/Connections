@@ -17,6 +17,7 @@ namespace Connections_Directory\Utility;
 
 use cnHTML;
 use Connections_Directory\Request;
+use DateTimeZone;
 use WP_Error;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -520,5 +521,74 @@ final class _ {
 		$buffer = ob_get_clean();
 
 		error_log( trim( $buffer ) ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	}
+
+	/**
+	 * Write to the error log.
+	 *
+	 * @since 10.4.25
+	 *
+	 * @param mixed  $message     The message or variable to write to the error log.
+	 * @param string $destination The file path to write the error log to.
+	 */
+	public static function error_log( $message, $destination = null ) {
+
+		if ( ! is_string( $message ) ) {
+
+			ob_start();
+			var_dump( $message );      //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
+			$message = ob_get_clean();
+		}
+
+		$format   = 'd-M-Y H:i:s e';
+		$datetime = date_create( 'now', new DateTimeZone( 'UTC' ) );
+
+		if ( false === $datetime ) {
+
+			$datetime = gmdate( $format, 0 );
+		}
+
+		$formattedDate = $datetime->setTimezone( wp_timezone() )->format( $format );
+
+		$message = sprintf( '[%s] %s%s', $formattedDate, $message, PHP_EOL );
+
+		if ( is_null( $destination ) ) {
+
+			$destination = ini_get( 'error_log' );
+
+			if ( false === $destination ) {
+
+				$destination = ABSPATH . '~error.log';
+			}
+		}
+
+		error_log( $message, 3, $destination ); //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	}
+
+	/**
+	 * Variable export as HTML highlighted code.
+	 *
+	 * @since 10.4.25
+	 *
+	 * @param mixed $value The variable to export highlighted. This should include the opening PHP tag.
+	 * @param bool  $echo  Whether to output or return the highlighted variable.
+	 *
+	 * @return null|string The variable representation highlighted when the return parameter is used and evaluates to true. Otherwise, this function will return null.
+	 */
+	public static function highlight_var_dump( $value, $echo = false ) {
+
+		$highlighted = highlight_string( var_export( $value, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+
+		if ( false === $highlighted ) {
+
+			$highlighted = null;
+		}
+
+		if ( $echo ) {
+
+			echo $highlighted; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
+		return $highlighted;
 	}
 }

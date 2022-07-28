@@ -247,6 +247,30 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.25 07/28/2022 =
+
+* NEW: Introduce `Conditional_Content::isRegion()` to enable a region condition support in the `[cn-content]` shortcode.
+* NEW: Introduce the `Connections_Directory/Entry/Action/Save` filter and `Connections_Directory/Entry/Action/Saved`
+  action.
+* SECURITY: Use correct escaping function when process a URL.
+* TWEAK: Convert string concatenation to string interpolation.
+* TWEAK: Remove use of deprecated method.
+* TWEAK: Allow single character search terms.
+* TWEAK: Utilize `_array::get()` helper utility to prevent PHP undefined index notices when access arrays.
+* TWEAK: Remove use of deprecated `block_categories` filter and add backwards compatibility shim.
+* TWEAK: Correct the settings schema `type` value for `enum` string arrays.
+* TWEAK: Add a couple utility methods.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* DEV: Remove commented out code.
+* DEV: Add brackets to be consistent with coding style.
+* DEV: Update npm package dependencies.
+* DEV: Update filter phpDoc.
+* DEV: Add inline variable documentation.
+* DEV: Update vendor scripts.
+* DEV: Update dist files.
+* DEV: Add a `@todo`.
+
 = 10.4.24 05/28/2022 =
 
 * TWEAK: Bump tested to WordPress 6.0.
@@ -622,21 +646,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add `config:allow-plugins` to composer.json.
 * DEV: Updates to `.travis.yml`.
 * DEV: There must be no blank lines before the file comment.
-
-= 10.4.9 01/07/2022 =
-
-* NEW: Add support for the `%title%`, `%organization%`, and `%department%` tokens when setting the name format when
-  calling the `getNameBlock()` method.
-* TWEAK: Hook into the `upgrader_process_complete` action to clear addon plugin update checks.
-* BUG: Team block should not parse request queries.
-* SECURITY: Utilize `esc_attr()` instead of `esc_html()` when HTML escaping attribute values.
-* DEV: Use Yoda Condition checks, you must.
-* DEV: Equals sign not aligned with surrounding assignments.
-* DEV: Space found before comma in argument list.
-* DEV: The CASE body must start on the line following the statement.
-* DEV: Remove unnecessary break statement in switch branch.
-* DEV: Remove unnecessary blank lines.
-* DEV: Add additional security sniffs to the phpcs report.
-* DEV: Minor `webpack.config.js` cleanup.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

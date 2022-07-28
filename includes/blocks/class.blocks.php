@@ -5,6 +5,7 @@ namespace Connections_Directory;
 use cnOptions;
 use cnScript;
 use cnTemplateFactory;
+use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_url;
 
 /**
@@ -30,7 +31,14 @@ class Blocks {
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueueEditorAssets' ) );
 
 		// Register Connections blocks category.
-		add_filter( 'block_categories', array( __CLASS__, 'registerCategories' ), 10, 2 );
+		if ( _::isWPVersion( '5.8' ) ) {
+
+			add_filter( 'block_categories_all', array( __CLASS__, 'registerCategories' ), 10, 2 );
+
+		} else {
+
+			add_filter( 'block_categories', array( __CLASS__, 'registerCategoriesDeprecated' ), 10, 2 );
+		}
 
 		// Register the editor blocks.
 		add_action( 'init', 'Connections_Directory\Blocks\Carousel::register' );
@@ -97,13 +105,38 @@ class Blocks {
 	 *
 	 * @internal
 	 * @since 8.31
+	 * @deprecated 10.4.25
 	 *
 	 * @param array    $categories Array of block categories.
 	 * @param \WP_Post $post       Post being loaded.
 	 *
 	 * @return array
 	 */
-	public static function registerCategories( $categories, $post ) {
+	public static function registerCategoriesDeprecated( $categories, $post ) {
+
+		$categories[] = array(
+			'slug'  => 'connections-directory',
+			'title' => 'Connections Business Directory',
+			'icon'  => null,
+		);
+
+		return $categories;
+	}
+
+	/**
+	 * Callback for the `block_categories_all` filter.
+	 *
+	 * Register the Connections category for the blocks.
+	 *
+	 * @internal
+	 * @since 10.4.25
+	 *
+	 * @param array                    $categories           Array of block categories.
+	 * @param \WP_Block_Editor_Context $block_editor_context The current block editor context.
+	 *
+	 * @return array
+	 */
+	public static function registerCategories( $categories, $block_editor_context ) {
 
 		$categories[] = array(
 			'slug'  => 'connections-directory',

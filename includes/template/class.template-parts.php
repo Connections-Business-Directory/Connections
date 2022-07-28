@@ -230,7 +230,7 @@ class cnTemplatePart {
 	 * @param string $type The type of the walker to load and init.
 	 * @param array  $args Optional. Arguments to pass to the class.
 	 *
-	 * @return mixed bool|string Returns or echos the HTML output of the walker class. FALSE on failure.
+	 * @return false|string Returns or echos the HTML output of the walker class. FALSE on failure.
 	 */
 	public static function walker( $type, $args = array() ) {
 

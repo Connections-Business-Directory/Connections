@@ -96,25 +96,23 @@ class cnOptions {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		$options = get_option( 'connections_options' );
+		$this->options = get_option( 'connections_options', array() );
 
-		$this->options = is_array( $options ) ? $options : array();
-
-		$this->version   = ( isset( $this->options['version'] ) && ! empty( $this->options['version'] ) ) ? $this->options['version'] : CN_CURRENT_VERSION;
-		$this->dbVersion = ( isset( $this->options['db_version'] ) && ! empty( $this->options['db_version'] ) ) ? $this->options['db_version'] : CN_DB_VERSION;
+		$this->version   = _array::get( $this->options, 'version', CN_CURRENT_VERSION );
+		$this->dbVersion = _array::get( $this->options, 'db_version', CN_DB_VERSION );
 
 		// $this->defaultTemplatesSet = $this->options['settings']['template']['defaults_set'];
 		$this->defaultTemplatesSet = _array::get( $this->options, 'settings.template.defaults_set', null );
-		$this->activeTemplates     = (array) $this->options['settings']['template']['active'];
+		$this->activeTemplates     = _array::get( $this->options, 'settings.template.active', array() );
 
-		$this->defaultRolesSet = isset( $this->options['settings']['roles']['defaults_set'] ) && ! empty( $this->options['settings']['roles']['defaults_set'] ) ? $this->options['settings']['roles']['defaults_set'] : false;
+		$this->defaultRolesSet = _array::get( $this->options, 'settings.roles.defaults_set', false );
 
 		$this->wpCurrentTime = current_time( 'timestamp' );
 		$this->currentTime   = date( 'U' );
 
 		/*
 		 * Because MySQL FROM_UNIXTIME returns timestamps adjusted to the local
-		 * timezone it is handy to have the offset so it can be compensated for.
+		 * timezone it is handy to have the offset, so it can be compensated for.
 		 * One example is when using FROM_UNIXTIME, the timestamp returned will
 		 * not be the actual stored timestamp, it will be the timestamp adjusted
 		 * to the timezone set in MySQL.
@@ -149,8 +147,6 @@ class cnOptions {
 	}
 
 	/**
-	 *
-	 *
 	 * @TODO This can likely be removed.
 	 */
 	public function getOptions() {
@@ -231,7 +227,9 @@ class cnOptions {
 	}
 
 	/**
-	 * @return array
+	 * @since unknown
+	 *
+	 * @return array{individual: string, organization: string, family: string}
 	 */
 	public static function getEntryTypes() {
 
@@ -274,11 +272,6 @@ class cnOptions {
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
-
-			// foreach ( $options as &$option ) {
-			//
-			// 	$option = __( $option, 'connections' );
-			// }
 		}
 
 		return $options;

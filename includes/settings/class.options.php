@@ -1097,7 +1097,9 @@ class cnOptions {
 			'jabber'    => 'Jabber / Google Talk',
 			'messenger' => 'Live Messenger',
 			'skype'     => 'Skype',
+			'telegram'  => 'Telegram',
 			'icq'       => 'ICQ',
+			'whatsapp'  => 'WhatsApp',
 		);
 
 		// Return all registered types, including the "core" types.

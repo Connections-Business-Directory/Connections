@@ -329,7 +329,7 @@ class cnEntryMetabox {
 	 *
 	 * @since 8.40
 	 *
-	 * @param $hooks
+	 * @param array $hooks
 	 *
 	 * @return mixed
 	 */

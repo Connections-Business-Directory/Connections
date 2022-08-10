@@ -1,7 +1,6 @@
 <?php
 
 use Connections_Directory\Utility\_;
-use Connections_Directory\Utility\_string;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly

@@ -8,6 +8,9 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnUtility
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnUtility {
 

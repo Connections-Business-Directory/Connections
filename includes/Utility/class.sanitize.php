@@ -557,24 +557,4 @@ class cnSanitize {
 
 		return _sanitize::hexColor( $color );
 	}
-
-	/**
-	 * Sanitizes a hex color without a hash.
-	 *
-	 * Returns either '' or a 3 or 6 digit hex color (without a #).
-	 *
-	 * @since 8.1
-	 * @deprecated 10.4.19
-	 * @see sanitize_hex_color_no_hash()
-	 *
-	 * @param string $color
-	 *
-	 * @return string|null
-	 */
-	public static function hexColorNoHash( $color ) {
-
-		_deprecated_function( __METHOD__, '10.4.19', 'sanitize_hex_color_no_hash()' );
-
-		return sanitize_hex_color_no_hash( $color );
-	}
 }

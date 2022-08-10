@@ -345,7 +345,7 @@ class cnHTML {
 				_deprecated_argument(
 					__METHOD__,
 					'10.4',
-					sprintf( 'The `%s` parameter is no longer supported. Use _html::stringifyCSSAttributes() and  _escape::css() instead.', esc_attr( $type ) )
+					sprintf( 'The `%s` parameter is no longer supported. Use _html::stringifyCSSAttributes() and _escape::css() instead.', esc_attr( $type ) )
 				);
 
 				if ( is_array( $value ) && ! empty( $value ) ) {

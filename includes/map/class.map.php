@@ -7,6 +7,8 @@ use cnCoordinates as Coordinates;
 use Connections_Directory\Map\Common\Options;
 use Connections_Directory\Map\Layer\Layer;
 use Connections_Directory\Map\Control\Control;
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 
 /**
  * Generate map using custom HTML elements. Heavily based on the PHP Leaflet library.
@@ -322,15 +324,16 @@ class Map {
 		$html = PHP_EOL;
 
 		$html .= '<map-block';
-		$html .= HTML::attribute( 'id', $this->getID() );
-		$html .= HTML::attribute(
-			'style',
-			array(
-				'display' => 'block',
-				'width'   => $this->getWidth(),
-				'height'  => $this->getHeight(),
+		$html .= ' id="' . _escape::id( $this->getID() ) . '"';
+		$html .= ' style="' . _escape::css(
+			_html::stringifyCSSAttributes(
+				array(
+					'display' => 'block',
+					'width'   => $this->getWidth(),
+					'height'  => $this->getHeight(),
+				)
 			)
-		);
+		) . '"';
 		$html .= $this->dataAttributes();
 		$html .= '>' . PHP_EOL;
 

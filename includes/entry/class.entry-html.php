@@ -2518,7 +2518,7 @@ class cnEntry_HTML extends cnEntry {
 		$defaults = array(
 			'id'            => '',
 			'order'         => $order,
-			'exclude'       => array(),
+			'exclude'       => array(), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 			'include'       => $active, // array_intersect( $active, $order ),
 			'layout'        => 'list',
 			'container_tag' => 'div',
@@ -2549,7 +2549,7 @@ class cnEntry_HTML extends cnEntry {
 		}
 
 		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
-		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' );
+		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 
 		// Remove any blocks from the `include` parameter which are explicitly stated to be excluded by the `excluded` parameter.
 		// Do this only if the `include` parameter is not empty.

@@ -125,10 +125,10 @@ abstract class Field implements Interfaces\Field {
 	 */
 	public function getHTML() {
 
-		$prepend = _escape::html( $this->prepend );
+		$prepend = $this->prepend;
 		$label   = $this->getLabelHTML();
 		$field   = $this->getFieldHTML();
-		$append  = _escape::html( $this->append );
+		$append  = $this->append;
 
 		return $prepend . ( 'after' === $this->labelPosition ? "{$field}{$label}" : "{$label}{$field}" ) . $append;
 	}

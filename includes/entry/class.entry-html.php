@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Content_Blocks;
+use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
@@ -2540,7 +2541,7 @@ class cnEntry_HTML extends cnEntry {
 
 		} else {
 
-			$blocks = cnFunction::parseStringList( $atts['order'], ',' );
+			$blocks = _parse::stringList( $atts['order'], ',' );
 		}
 
 		// Nothing to render, exit.
@@ -2548,8 +2549,8 @@ class cnEntry_HTML extends cnEntry {
 			return '';
 		}
 
-		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
-		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+		$atts['include'] = _parse::stringList( $atts['include'], ',' );
+		$atts['exclude'] = _parse::stringList( $atts['exclude'], ',' ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 
 		// Remove any blocks from the `include` parameter which are explicitly stated to be excluded by the `excluded` parameter.
 		// Do this only if the `include` parameter is not empty.

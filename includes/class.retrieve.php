@@ -21,6 +21,7 @@ use Connections_Directory\Taxonomy\Term as Taxonomy_Term;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
+use Connections_Directory\Utility\_parse;
 use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\Convert\_length;
 
@@ -259,7 +260,7 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['list_type'] ) ) {
 
-			cnFunction::parseStringList( $atts['list_type'], ',' );
+			_parse::stringList( $atts['list_type'], ',' );
 
 			$permittedEntryTypes = array( 'individual', 'organization', 'family', 'connection_group' );
 
@@ -436,7 +437,7 @@ class cnRetrieve {
 		$orderFields = array_merge( $orderFields, $dateTypes );
 
 		// Convert to an array.
-		cnFunction::parseStringList( $atts['order_by'], ',' );
+		_parse::stringList( $atts['order_by'], ',' );
 
 		// For each field the sort order can be defined.
 		foreach ( $atts['order_by'] as $orderByField ) {
@@ -856,8 +857,8 @@ class cnRetrieve {
 		$q['taxonomy']          = _array::get( $atts, 'taxonomy', '' );
 		$q['term']              = _array::get( $atts, 'term', '' );
 
-		_::parseStringList( $q['category_name__in'], ',' );
-		_::parseStringList( $q['category_slug__in'], ',' );
+		_parse::stringList( $q['category_name__in'], ',' );
+		_parse::stringList( $q['category_slug__in'], ',' );
 
 		if ( ! empty( $q['taxonomy'] ) && ! empty( $q['term'] ) ) {
 
@@ -1357,7 +1358,7 @@ class cnRetrieve {
 			} else {
 
 				// Convert the supplied entry statuses $atts['visibility'] to an array.
-				cnFunction::parseStringList( $atts['visibility'] );
+				_parse::stringList( $atts['visibility'] );
 
 				$visibility = $atts['visibility'];
 			}
@@ -1421,7 +1422,7 @@ class cnRetrieve {
 		$atts = cnSanitize::args( $atts, $defaults );
 
 		// Convert the supplied entry statuses $atts['status'] to an array.
-		$status = cnFunction::parseStringList( $atts['status'], ',' );
+		$status = _parse::stringList( $atts['status'], ',' );
 
 		if ( is_user_logged_in() ) {
 
@@ -1825,13 +1826,13 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		cnFunction::parseStringList( $type );
-		cnFunction::parseStringList( $district );
-		cnFunction::parseStringList( $county );
-		cnFunction::parseStringList( $city );
-		cnFunction::parseStringList( $state );
-		cnFunction::parseStringList( $zipcode );
-		cnFunction::parseStringList( $country );
+		_parse::stringList( $type );
+		_parse::stringList( $district );
+		_parse::stringList( $county );
+		_parse::stringList( $city );
+		_parse::stringList( $state );
+		_parse::stringList( $zipcode );
+		_parse::stringList( $country );
 
 		switch ( $atts['fields'] ) {
 
@@ -1985,7 +1986,7 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		cnFunction::parseStringList( $type );
+		_parse::stringList( $type );
 
 		switch ( $atts['fields'] ) {
 
@@ -2089,7 +2090,7 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		cnFunction::parseStringList( $type );
+		_parse::stringList( $type );
 
 		switch ( $atts['fields'] ) {
 
@@ -2196,7 +2197,7 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		cnFunction::parseStringList( $type );
+		_parse::stringList( $type );
 
 		switch ( $atts['fields'] ) {
 
@@ -2295,7 +2296,7 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		cnFunction::parseStringList( $type );
+		_parse::stringList( $type );
 
 		switch ( $atts['fields'] ) {
 
@@ -2398,7 +2399,7 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		cnFunction::parseStringList( $type );
+		_parse::stringList( $type );
 
 		switch ( $atts['fields'] ) {
 
@@ -2508,7 +2509,7 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		cnFunction::parseStringList( $type );
+		_parse::stringList( $type );
 
 		switch ( $atts['fields'] ) {
 
@@ -2711,7 +2712,7 @@ class cnRetrieve {
 
 		$original = $atts['terms'];
 
-		$atts['terms'] = _::parseStringList( $atts['terms'], '\s' );
+		$atts['terms'] = _parse::stringList( $atts['terms'], '\s' );
 
 		array_unshift( $atts['terms'], $original );
 

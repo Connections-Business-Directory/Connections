@@ -18,6 +18,7 @@ use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
+use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -1298,7 +1299,7 @@ class cnTemplatePart {
 			if ( ! is_array( $queryVars['cn-s'] ) ) {
 
 				$originalString    = array( $queryVars['cn-s'] );
-				$queryVars['cn-s'] = cnFunction::parseStringList( $queryVars['cn-s'], '\s' );
+				$queryVars['cn-s'] = _parse::stringList( $queryVars['cn-s'], '\s' );
 				$queryVars['cn-s'] = array_merge( $originalString, $queryVars['cn-s'] );
 				$queryVars['cn-s'] = array_unique( $queryVars['cn-s'] );
 			}

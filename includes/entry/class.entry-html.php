@@ -2606,6 +2606,13 @@ class cnEntry_HTML extends cnEntry {
 					$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 				}
 
+				$titles[ $blockID ] = apply_filters(
+					'Connections_Directory/Content_Block/Heading',
+					$titles[ $blockID ],
+					$key,
+					$this
+				);
+
 				$heading = empty( $titles[ $blockID ] ) ? '' : sprintf( '<%1$s>%2$s</%1$s>', $atts['header_tag'], $titles[ $blockID ] );
 
 				$blockContainerContent .= apply_filters(

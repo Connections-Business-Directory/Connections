@@ -198,7 +198,6 @@ class cnDependency {
 			// Legacy utilities.
 			'cnUtility'                                     => 'includes/Utility/class.utility.php',
 			'cnSanitize'                                    => 'includes/Utility/class.sanitize.php',
-			'cnValidate'                                    => 'includes/Utility/class.validate.php',
 
 			// Legacy collections utility.
 			'cnToArray'    => 'includes/class.to-array.php',

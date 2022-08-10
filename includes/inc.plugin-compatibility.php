@@ -429,6 +429,7 @@ add_filter(
 	'safe_style_css',
 	function( $attributes ) {
 
+		$attributes[] = 'display';
 		$attributes[] = 'overflow-x';
 		$attributes[] = 'overflow-y';
 

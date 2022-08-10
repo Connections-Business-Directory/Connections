@@ -283,16 +283,6 @@ class cnEntry {
 	public $format;
 
 	/**
-	 * An instance of cnValidate.
-	 *
-	 * @access public
-	 * @since  unknown
-	 *
-	 * @var cnValidate
-	 */
-	public $validate;
-
-	/**
 	 * @access private
 	 * @since  unknown
 	 *
@@ -324,9 +314,6 @@ class cnEntry {
 
 		// Load the formatting class for sanitizing the get methods.
 		$this->format = new cnFormatting();
-
-		// Load the validation class.
-		$this->validate = new cnValidate();
 
 		$this->im          = new cnEntry_Messenger_IDs();
 		$this->links       = new cnEntry_Links();

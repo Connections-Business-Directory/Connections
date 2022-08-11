@@ -382,8 +382,8 @@ class cnEntryMetabox {
 		// Remove the disabled entry types based on the user defined settings.
 		$defaults['entry_type'] = array_intersect_key( $defaults['entry_type'], array_flip( $activeTypes ) );
 
-		// The options have to be flipped because of an earlier stupid decision
-		// of making the array keys the option labels. This provides backward compatibility.
+		// The options need to be flipped because of an earlier poor decision
+		// of setting the array keys the option labels. This provides backward compatibility.
 		$defaults['entry_type'] = array_flip( $defaults['entry_type'] );
 
 		$defaults['default']['type']       = $defaultType;

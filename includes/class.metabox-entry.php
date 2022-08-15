@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
@@ -389,11 +390,16 @@ class cnEntryMetabox {
 		$defaults['default']['type']       = $defaultType;
 		$defaults['default']['visibility'] = $defaultStatus;
 
-		// Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
-		$defaults = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
+		// // Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
+		// $defaults = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
 
-		$atts            = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );
-		$atts['default'] = wp_parse_args( $atts['default'], $defaults['default'] );
+		$atts = _parse::parameters(
+			apply_filters( 'Connections_Directory/Metabox/Publish/Parameters', $atts ),
+			apply_filters( 'Connections_Directory/Metabox/Publish/Defaults', $defaults ),
+			true,
+			true,
+			array( 'entry_type' )
+		);
 
 		$action = $atts['action'];
 

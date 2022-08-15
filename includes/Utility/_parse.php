@@ -1,8 +1,8 @@
 <?php
 /**
+ * Helper methods for parsing input/parameters.
  *
- *
- * @since
+ * @since 10.4.26
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
@@ -102,7 +102,7 @@ final class _parse {
 	 *
 	 * @since 8.2.9
 	 *
-	 * @param string|array $list
+	 * @param string|array $list       List of values.
 	 * @param string       $delimiters The characters in which to split the supplied string. Should be preg_split() safe.
 	 *                                 Default: '\s,' This will split strings delimited with comma and spaces to an array.
 	 *

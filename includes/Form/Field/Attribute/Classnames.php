@@ -37,7 +37,7 @@ trait Classnames {
 
 			$className = trim( $className );
 
-			if ( false === array_search( $className, $this->class, true ) ) {
+			if ( false === array_search( $className, $this->class, true ) && 0 < strlen( $className ) ) {
 
 				array_push( $this->class, $className );
 			}

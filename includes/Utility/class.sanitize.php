@@ -39,6 +39,8 @@ class cnSanitize {
 	 * @todo Add a third array param. This will define the sanitation to be used on each value in the untrusted array.
 	 *
 	 * @since 8.1.6
+	 * @deprecated 10.4.26 Use _parse::parameters()
+	 * @see \Connections_Directory\Utility\_parse::parameters()
 	 *
 	 * @param array|object|string $untrusted
 	 * @param array               $defaults

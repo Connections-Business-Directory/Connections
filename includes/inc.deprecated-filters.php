@@ -165,3 +165,29 @@ add_filter(
 	10,
 	3
 );
+
+add_filter(
+	'Connections_Directory/Metabox/Publish/Parameters',
+	static function( $atts ) {
+
+		return apply_filters_deprecated(
+			'cn_admin_metabox_publish_atts',
+			array( $atts ),
+			'10.4.26',
+			'Connections_Directory/Metabox/Publish/Parameters'
+		);
+	}
+);
+
+add_filter(
+	'Connections_Directory/Metabox/Publish/Parameters',
+	static function( $atts ) {
+
+		return apply_filters_deprecated(
+			'cn_metabox_publish_atts',
+			array( $atts ),
+			'10.4.26',
+			'Connections_Directory/Metabox/Publish/Parameters'
+		);
+	}
+);

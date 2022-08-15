@@ -31,29 +31,64 @@ final class _parse {
 	/**
 	 * Recursive {@see wp_parse_args()}.
 	 *
-	 * @param string|array|object $args     Value to merge with $defaults.
-	 * @param array               $defaults Optional. Array that serves as the defaults.
-	 *                                      Default empty array.
+	 * Optionally discard key/value pairs in `$parameters` where the index does not exist in `$defaults`.
+	 *
+	 * @link  http://www.peterrknight.com/fear-and-surprise-improving-a-widespread-wordpress-pattern/
+	 *
+	 * @since 10.4.26
+	 *
+	 * @param string|array|object $parameters Value to merge with $defaults.
+	 * @param array               $defaults   Array that serves as the defaults.
+	 * @param bool                $discard    Discard key/value pairs in `$parameters` where the index does not exist in `$defaults`.
+	 * @param bool                $recursive  Whether to transverse the parameters array.
+	 * @param array               $exclude    Array indexes to exclude when transversing the parameters array.
 	 *
 	 * @return array Merged user defined values with defaults.
 	 */
-	public static function args( $args, $defaults = array() ) {
+	public static function parameters( $parameters, $defaults = array(), $discard = true, $recursive = true, $exclude = array() ) {
 
-		if ( is_object( $args ) ) {
-			$parsed = get_object_vars( $args );
-		} elseif ( is_array( $args ) ) {
-			$parsed =& $args;
+		if ( is_object( $parameters ) ) {
+			$parsed = get_object_vars( $parameters );
+		} elseif ( is_array( $parameters ) ) {
+			$parsed =& $parameters;
 		} else {
-			wp_parse_str( $args, $parsed );
+			wp_parse_str( $parameters, $parsed );
 		}
 
 		if ( is_array( $defaults ) && $defaults ) {
 			$parsed = array_merge( $defaults, $parsed );
 		}
 
+		/*
+		 * Filter to discard key/value pairs when `$discard` is `true`.
+		 */
+		$filter = static function( $parameters, $defaults ) use ( $discard ) {
+
+			// if ( $discard ) {
+			// 	$intersect  = array_intersect_key( $parameters, $defaults ); // Get data for which is in the valid fields.
+			// 	$difference = array_diff_key( $defaults, $parameters );      // Get default data which is not supplied.
+			// 	return array_merge( $intersect, $difference );               // Merge the results. Contains only key/value pairs of all defaults.
+			// }
+
+			if ( $discard ) {
+				foreach ( $parameters as $k => $parameter ) {
+					if ( ! array_key_exists( $k, $defaults ) ) {
+						unset( $parameters[ $k ] );
+					}
+				}
+			}
+
+			return $parameters;
+		};
+
+		$parsed = $filter( $parsed, $defaults );
+
 		foreach ( $parsed as $k => &$v ) {
-			if ( is_array( $v ) && isset( $defaults[ $k ] ) ) {
-				$parsed[ $k ] = self::args( $v, $defaults[ $k ] );
+
+			if ( is_array( $v ) && isset( $defaults[ $k ] ) && $recursive && ! in_array( $k, $exclude ) ) {
+				$parsed[ $k ] = self::parameters( $filter( $v, $defaults[ $k ] ), $defaults[ $k ], $discard, $recursive, $exclude );
+			} elseif ( is_array( $v ) && isset( $defaults[ $k ] ) && $recursive && in_array( $k, $exclude ) ) {
+				$parsed[ $k ] = $filter( $v, $defaults[ $k ] );
 			} else {
 				$parsed[ $k ] = $v;
 			}

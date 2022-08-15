@@ -17,7 +17,7 @@ add_filter(
 	 *
 	 * @return array
 	 */
-	function( $rules, $post ) {
+	static function( $rules, $post ) {
 
 		return apply_filters_deprecated(
 			'cn_cpt_rewrite_rule-landing',
@@ -43,7 +43,7 @@ add_filter(
 	 *
 	 * @return array
 	 */
-	function( $rules, $post ) {
+	static function( $rules, $post ) {
 
 		return apply_filters_deprecated(
 			'cn_cpt_rewrite_rule-view',
@@ -65,7 +65,7 @@ add_filter(
 	 *
 	 * @return array
 	 */
-	function( $actions ) {
+	static function( $actions ) {
 
 		return apply_filters_deprecated(
 			'bulk_actions-connections_page_connections_categories',
@@ -84,7 +84,7 @@ add_filter(
 	 * @param array    $args       An array of get_terms() arguments.
 	 * @param string[] $taxonomies An array of taxonomy names.
 	 */
-	function( $args, $taxonomies ) {
+	static function( $args, $taxonomies ) {
 
 		return apply_filters_deprecated(
 			'cn_get_terms_args',
@@ -106,7 +106,7 @@ add_filter(
 	 * @param array    $args       An array of terms query arguments.
 	 * @param string[] $taxonomies An array of taxonomy names.
 	 */
-	function( $exclusions, $args, $taxonomies ) {
+	static function( $exclusions, $args, $taxonomies ) {
 
 		return apply_filters_deprecated(
 			'cn_term_exclusions',
@@ -128,7 +128,7 @@ add_filter(
 	 * @param array    $args       An array of term query arguments.
 	 * @param string[] $taxonomies An array of taxonomy names.
 	 */
-	function( $selects, $args, $taxonomies ) {
+	static function( $selects, $args, $taxonomies ) {
 
 		return apply_filters_deprecated(
 			'cn_get_terms_fields',

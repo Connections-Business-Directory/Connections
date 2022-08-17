@@ -117,6 +117,7 @@
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterStart"/>
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd"/>
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineBeforeEnd"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound"/>
 		<exclude name="WordPress.NamingConventions.ValidHookName.NotLowercase"/>
 		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores"/>
 		<exclude name="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid"/>

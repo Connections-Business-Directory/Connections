@@ -1,5 +1,7 @@
 <?php
 
+use Connections_Directory\Utility\_parse;
+
 /**
  * Class cnEntry_Social_Networks
  *
@@ -376,7 +378,7 @@ final class cnEntry_Social_Networks extends cnEntry_Object_Collection {
 
 			if ( ! empty( $value ) ) {
 
-				cnFunction::parseStringList( $value );
+				_parse::stringList( $value );
 
 				$this->filtered = $this->filtered->whereIn( $field, $value );
 			}

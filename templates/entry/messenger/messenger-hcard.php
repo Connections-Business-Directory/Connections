@@ -53,6 +53,14 @@ foreach ( $networks as $messenger ) {
 			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" type="application/x-icq" href="https://www.icq.com/people/cmd.php?uin=' . esc_attr( $messenger->uid ) . '&action=message">' . esc_html( $messenger->uid ) . '</a>';
 			break;
 
+		case 'telegram':
+			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="' . esc_url( "https://t.me/{$messenger->uid}" ) . '">' . esc_html( $messenger->uid ) . '</a>';
+			break;
+
+		case 'whatsapp':
+			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="' . esc_url( "https://wa.link/{$messenger->uid}" ) . '">' . esc_html( $messenger->uid ) . '</a>';
+			break;
+
 		case 'jabber':
 		case 'messenger':
 		default:

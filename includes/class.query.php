@@ -9,6 +9,8 @@
  * @since       8.5.14
  */
 
+use Connections_Directory\Utility\_parse;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -128,7 +130,7 @@ class cnQuery {
 		if ( ( is_string( $atts['value'] ) && 0 < strlen( $atts['field'] ) )
 			 || ( is_array( $atts['value'] ) && 0 < count( $atts['value'] ) ) ) {
 
-			$value = cnFunction::parseStringList( $atts['value'], $atts['delimiter'] );
+			$value = _parse::stringList( $atts['value'], $atts['delimiter'] );
 			$count = count( $value );
 
 			if ( 1 < $count ) {

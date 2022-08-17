@@ -22,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class cnSanitize
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnSanitize {
 
@@ -29,17 +32,18 @@ class cnSanitize {
 	 * Merge user defined arguments into defaults array.
 	 *
 	 * This is the Connections equivalent to @see wp_parse_args().
-	 * The difference is that is will discard any key/value pairs in $untrusted where the $key does not exist in $defaults.
+	 * The difference is that it will discard any key/value pairs in $untrusted where the $key does not exist in $defaults.
 	 *
 	 * @link http://www.peterrknight.com/fear-and-surprise-improving-a-widespread-wordpress-pattern/
 	 *
 	 * @todo Add a third array param. This will define the sanitation to be used on each value in the untrusted array.
 	 *
-	 * @access public
-	 * @since  8.1.6
+	 * @since 8.1.6
+	 * @deprecated 10.4.26 Use _parse::parameters()
+	 * @see \Connections_Directory\Utility\_parse::parameters()
 	 *
 	 * @param array|object|string $untrusted
-	 * @param $defaults
+	 * @param array               $defaults
 	 *
 	 * @return array
 	 */
@@ -75,12 +79,12 @@ class cnSanitize {
 	/**
 	 * Sanitizes text inputs
 	 *
-	 * Sanitizes string based on the the string type.
+	 * Sanitizes string based on the string type.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @param  string $type   Type of string to validate.
-	 * @param  string $string String to be sanitized.
+	 *
+	 * @param string $type   Type of string to validate.
+	 * @param string $string String to be sanitized.
 	 *
 	 * @return string Sanitized text.
 	 */
@@ -187,7 +191,7 @@ class cnSanitize {
 	}
 
 	/**
-	 * NOTE: This method is not complete an still under development, it should not be used.
+	 * NOTE: This method is not complete and still under development, it should not be used.
 	 *
 	 * This is basically a Connections equivalent of @see sanitize_post_field().
 	 * The only form fields currently supported by this method are the "name" fields.
@@ -207,15 +211,14 @@ class cnSanitize {
 	 *  - contact last name
 	 *  - family name
 	 *
-	 * @access private
-	 * @since  8.1.7
-	 * @static
+	 * @internal
+	 * @since 8.1.7
 	 *
 	 * @param string $field   The field to sanitize.
 	 * @param string $value   The string to sanitize.
 	 * @param string $context The context in which it should be sanitized.
 	 *
-	 * @return mixed string|WP_Error
+	 * @return string|WP_Error
 	 */
 	public static function field( $field, $value, $context = 'display' ) {
 
@@ -354,11 +357,11 @@ class cnSanitize {
 	 *
 	 * This method is used to sanitize radio groups and selects.
 	 *
-	 * @access public
 	 * @since 0.8
+	 *
 	 * @param mixed $value
 	 * @param array $options An associative array of options.
-	 * @param mixed $default [optional] The value to return if value does not exist in the options array.
+	 * @param mixed $default The value to return if value does not exist in the options array.
 	 *
 	 * @return mixed
 	 */
@@ -392,11 +395,11 @@ class cnSanitize {
 	 *
 	 * @todo Implement $defaults.
 	 *
-	 * @access public
 	 * @since 0.8
+	 *
 	 * @param array $values   An index array of values.
 	 * @param array $options  An associative array of the valid options.
-	 * @param array $defaults [optional] The values to return if no values exists in the options array.
+	 * @param array $defaults The values to return if no values exists in the options array.
 	 *
 	 * @return array
 	 */
@@ -420,9 +423,9 @@ class cnSanitize {
 	 * WordPress core evaluates checkboxes as '1' or '0';
 	 * to be consistent with core return '1' or '0'.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @param  string $value Value data to be sanitized.
+	 *
+	 * @param string $value Value data to be sanitized.
 	 *
 	 * @return string
 	 */
@@ -434,11 +437,9 @@ class cnSanitize {
 	/**
 	 * Sanitizes the rte textarea input.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @uses wp_kses_post()
-	 * @uses force_balance_tags
-	 * @param  string $string
+	 *
+	 * @param string $string
 	 *
 	 * @return string
 	 */
@@ -455,11 +456,9 @@ class cnSanitize {
 	/**
 	 * Sanitizes the quicktag textarea input.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @uses wp_kses_data()
-	 * @uses force_balance_tags
-	 * @param  string $string
+	 *
+	 * @param string $string
 	 *
 	 * @return string
 	 */
@@ -476,7 +475,7 @@ class cnSanitize {
 	/**
 	 * Sanitizes an array of IDs numbers or an ID number.
 	 *
-	 * @since  8.2.6
+	 * @since 8.2.6
 	 *
 	 * @param int|int[] $id
 	 *
@@ -503,9 +502,9 @@ class cnSanitize {
 	/**
 	 * Return integer.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @param  int $value
+	 *
+	 * @param int $value
 	 *
 	 * @return int
 	 */
@@ -519,9 +518,9 @@ class cnSanitize {
 	 *
 	 * Returns the currency value of the $input.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @param  string $input Input data to be sanitized.
+	 * @since 0.8
+	 *
+	 * @param string $input Input data to be sanitized.
 	 *
 	 * @return string Returns the $valid string after sanitization.
 	 */
@@ -559,25 +558,5 @@ class cnSanitize {
 		_deprecated_function( __METHOD__, '10.4.19', '\Connections_Directory\Utility\_sanitize::hexColor()' );
 
 		return _sanitize::hexColor( $color );
-	}
-
-	/**
-	 * Sanitizes a hex color without a hash.
-	 *
-	 * Returns either '' or a 3 or 6 digit hex color (without a #).
-	 *
-	 * @since 8.1
-	 * @deprecated 10.4.19
-	 * @see sanitize_hex_color_no_hash()
-	 *
-	 * @param string $color
-	 *
-	 * @return string|null
-	 */
-	public static function hexColorNoHash( $color ) {
-
-		_deprecated_function( __METHOD__, '10.4.19', 'sanitize_hex_color_no_hash()' );
-
-		return sanitize_hex_color_no_hash( $color );
 	}
 }

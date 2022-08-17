@@ -58,11 +58,16 @@ class Radio_Group extends Group {
 
 		foreach ( $this->inputs as $field ) {
 
+			$class = 0 < count( $field->class ) ? $field->class : $this->class;
+			$id    = 0 < strlen( $field->getId() ) ? $field->getId() : "{$this->getId()}[{$field->getValue()}]";
+			$name  = 0 < strlen( $field->getName() ) ? $field->getName() : $this->getId();
+			$css   = 0 < count( $field->css ) ? $field->css : $this->css;
+
 			$field->setPrefix( $this->getPrefix() );
-			$field->addClass( $this->class );
-			$field->setId( "{$this->getId()}[{$field->getValue()}]" );
-			$field->setName( "{$this->getId()}" );
-			$field->css( $this->css );
+			$field->addClass( $class );
+			$field->setId( $id );
+			$field->setName( $name );
+			$field->css( $css );
 			$field->addData( $this->data );
 			$field->setDisabled( $this->isDisabled() );
 			$field->setReadOnly( $this->isReadOnly() );

@@ -1,5 +1,7 @@
 <?php
 
+use Connections_Directory\Utility\_parse;
+
 /**
  * Class cnEntry_Links
  *
@@ -390,7 +392,7 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 
 			if ( ! empty( $value ) ) {
 
-				cnFunction::parseStringList( $value );
+				_parse::stringList( $value );
 
 				$this->filtered = $this->filtered->whereIn( $field, $value );
 			}

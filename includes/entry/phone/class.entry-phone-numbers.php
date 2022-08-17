@@ -1,5 +1,7 @@
 <?php
 
+use Connections_Directory\Utility\_parse;
+
 /**
  * Class cnEntry_Phone_Numbers
  *
@@ -377,7 +379,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 
 			if ( ! empty( $value ) ) {
 
-				cnFunction::parseStringList( $value );
+				_parse::stringList( $value );
 
 				$this->filtered = $this->filtered->whereIn( $field, $value );
 			}

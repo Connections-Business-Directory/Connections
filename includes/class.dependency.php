@@ -198,7 +198,6 @@ class cnDependency {
 			// Legacy utilities.
 			'cnUtility'                                     => 'includes/Utility/class.utility.php',
 			'cnSanitize'                                    => 'includes/Utility/class.sanitize.php',
-			'cnValidate'                                    => 'includes/Utility/class.validate.php',
 
 			// Legacy collections utility.
 			'cnToArray'    => 'includes/class.to-array.php',
@@ -216,6 +215,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
 			'Connections_Directory\Utility\_html'           => 'includes/Utility/_html.php',
 			'Connections_Directory\Utility\_http'           => 'includes/Utility/_http.php',
+			'Connections_Directory\Utility\_parse'          => 'includes/Utility/_parse.php',
 			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
 			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',
 			'Connections_Directory\Utility\_url'            => 'includes/Utility/_url.php',

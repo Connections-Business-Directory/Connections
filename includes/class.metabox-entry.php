@@ -10,13 +10,14 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
+use Connections_Directory\Form\Field;
+use Connections_Directory\Form\Field\Radio;
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
@@ -331,7 +332,7 @@ class cnEntryMetabox {
 	 *
 	 * @since 8.40
 	 *
-	 * @param $hooks
+	 * @param array $hooks
 	 *
 	 * @return mixed
 	 */
@@ -384,18 +385,23 @@ class cnEntryMetabox {
 		// Remove the disabled entry types based on the user defined settings.
 		$defaults['entry_type'] = array_intersect_key( $defaults['entry_type'], array_flip( $activeTypes ) );
 
-		// The options have to be flipped because of an earlier stupid decision
-		// of making the array keys the option labels. This provides backward compatibility.
+		// The options need to be flipped because of an earlier poor decision
+		// of setting the array keys the option labels. This provides backward compatibility.
 		$defaults['entry_type'] = array_flip( $defaults['entry_type'] );
 
 		$defaults['default']['type']       = $defaultType;
 		$defaults['default']['visibility'] = $defaultStatus;
 
-		// Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
-		$defaults = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
+		// // Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
+		// $defaults = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
 
-		$atts            = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );
-		$atts['default'] = wp_parse_args( $atts['default'], $defaults['default'] );
+		$atts = _parse::parameters(
+			apply_filters( 'Connections_Directory/Metabox/Publish/Parameters', $atts ),
+			apply_filters( 'Connections_Directory/Metabox/Publish/Defaults', $defaults ),
+			true,
+			true,
+			array( 'entry_type' )
+		);
 
 		$action = $atts['action'];
 
@@ -404,18 +410,44 @@ class cnEntryMetabox {
 
 		if ( ! empty( $atts['entry_type'] ) ) {
 
-			// The options have to be flipped because of an earlier stupid decision
-			// of making the array keys the option labels. This provides backward compatibility.
-			cnHTML::radio(
-				array(
-					'display' => 'block',
-					'id'      => 'entry_type',
-					'options' => array_flip( $atts['entry_type'] ),
-					'before'  => '<div id="entry-type">',
-					'after'   => '</div>',
-				),
-				$type
-			);
+			// cnHTML::radio(
+			// 	array(
+			// 		'display' => 'block',
+			// 		'id'      => 'entry_type',
+			// 		'options' => array_flip( $atts['entry_type'] ),
+			// 		'before'  => '<div id="entry-type">',
+			// 		'after'   => '</div>',
+			// 	),
+			// 	$type
+			// );
+
+			$fieldEntryType = Field\Radio_Group::create()
+											   ->setContainer( 'div' )
+											   ->setId( 'entry_type' )
+											   ->addClass( 'cn-radio-option' )
+											   ->setName( 'entry_type' )
+											   ->setValue( $type )
+											   ->prepend( '<div id="entry-type">' )
+											   ->append( '</div>' );
+
+			/*
+			 * The input options need to be flipped because of an earlier poor decision
+			 * of setting the array keys the option labels. This provides backward compatibility.
+			 */
+			foreach ( array_flip( $atts['entry_type'] ) as $entryTypeSlug => $entryTypeLabel ) {
+
+				$fieldEntryType->addInput(
+					Radio::create(
+						array(
+							'id'    => "cn-entry_type[{$entryTypeSlug}]",
+							'label' => $entryTypeLabel,
+							'value' => $entryTypeSlug,
+						)
+					)
+				);
+			}
+
+			$fieldEntryType->render();
 
 		} else {
 

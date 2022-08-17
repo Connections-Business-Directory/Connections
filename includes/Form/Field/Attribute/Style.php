@@ -33,7 +33,7 @@ trait Style {
 	 */
 	public function css( $attribute, $value = '' ) {
 
-		if ( is_array( $attribute ) ) {
+		if ( is_array( $attribute ) && 0 < count( $attribute ) ) {
 
 			foreach ( $attribute as $property => $value ) {
 

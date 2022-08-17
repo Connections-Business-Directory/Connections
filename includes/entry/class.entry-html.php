@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Content_Blocks;
+use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly
@@ -2518,7 +2519,7 @@ class cnEntry_HTML extends cnEntry {
 		$defaults = array(
 			'id'            => '',
 			'order'         => $order,
-			'exclude'       => array(),
+			'exclude'       => array(), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 			'include'       => $active, // array_intersect( $active, $order ),
 			'layout'        => 'list',
 			'container_tag' => 'div',
@@ -2540,7 +2541,7 @@ class cnEntry_HTML extends cnEntry {
 
 		} else {
 
-			$blocks = cnFunction::parseStringList( $atts['order'], ',' );
+			$blocks = _parse::stringList( $atts['order'], ',' );
 		}
 
 		// Nothing to render, exit.
@@ -2548,8 +2549,8 @@ class cnEntry_HTML extends cnEntry {
 			return '';
 		}
 
-		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
-		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' );
+		$atts['include'] = _parse::stringList( $atts['include'], ',' );
+		$atts['exclude'] = _parse::stringList( $atts['exclude'], ',' ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 
 		// Remove any blocks from the `include` parameter which are explicitly stated to be excluded by the `excluded` parameter.
 		// Do this only if the `include` parameter is not empty.
@@ -2605,6 +2606,13 @@ class cnEntry_HTML extends cnEntry {
 
 					$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 				}
+
+				$titles[ $blockID ] = apply_filters(
+					'Connections_Directory/Content_Block/Heading',
+					$titles[ $blockID ],
+					$key,
+					$this
+				);
 
 				$heading = empty( $titles[ $blockID ] ) ? '' : sprintf( '<%1$s>%2$s</%1$s>', $atts['header_tag'], $titles[ $blockID ] );
 

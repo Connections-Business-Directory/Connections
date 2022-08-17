@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.6
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 10.4.25
+Stable tag: 10.4.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,42 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.25 08/16/2022 =
+* NEW: Add TikTok to the brand icons set.
+* NEW: Add Telegram, TikTok, and WhatsApp to the default social networks types.
+* NEW: Add Telegram and WhatsApp to the default messenger networks types.
+* NEW: Introduce the `Connections_Directory/Content_Block/Heading` filter.
+* NEW: Introduce `_parse::stringList()` and remove use of deprecated `cnFunction::parseStringList()` function.
+* TWEAK: Remove use of deprecated `bind()` method call.
+* TWEAK: Remove use of deprecated `.removeAttr( 'checked' )` call.
+* TWEAK: Remove use of deprecated `mouseenter()` and `mouseleave()` methods.
+* TWEAK: Make both Telegram and WhatsApp messenger IDs clickable links.
+* TWEAK: Do not escape the pre/append field html to allow for partial HTML.
+* TWEAK: Add 'display' as a safe CSS style.
+* TWEAK: Remove use of deprecated `cnHTML::attribute()` in `Connections_Directory\Map`.
+* TWEAK: Remove legacy `cnValidate` dependency.
+* TWEAK: Remove deprecated methods from `cnUtility`.
+* TWEAK: Remove unused import.
+* TWEAK: Remove unused deprecated `cnSanitize::hexColorNoHash()` method.
+* TWEAK: Tweak `_parse::parameters()` to to allow recursion with excluded index keys.
+* TWEAK: Change all deprecated filter callback closures static.
+* TWEAK: Update `cnEntryMetabox::publish()` to utilize `_parse::parameters()`.
+* TWEAK: Adjust input parameter inheritance in `Radio_Group::prepareInputs()` to allow inputs to have their class, id, name, and styles set independently.
+* TWEAK: Remove deprecated instance of `cnHTML::radio()` used in the entry "Publish" metabox.
+* BUG: Do not add empty strings the field class names.
+* BUG: Do not add empty array key/value pairs to field CSS.
+* OTHER: Delete extra space character.
+* OTHER: Update inline comments.
+* DEV: phpDoc updates.
+* DEV: phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+* DEV: Exclude the `WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound` rule in WPCS.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+* DEV: @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+* DEV: Deprecate `cnSanitize::args()`. Use `_parse::parameters()`.
+* DEV: Add deprecated filters for backwards compatibility.
+* DEV: Update dist files.
 
 = 10.4.25 07/28/2022 =
 * NEW: Introduce `Conditional_Content::isRegion()` to enable a region condition support in the `[cn-content]` shortcode.
@@ -554,71 +590,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove deprecated commented out code.
 * DEV: Bump minimum WordPress version to 5.3.
 
-= 10.4.10 01/14/2022 =
-* TWEAK: Multiple placeholders should be ordered.
-* TWEAK: Ensure parameter is cast to boolean.
-* TWEAK: Ensure the Team Block table headings are translation ready.
-* TWEAK: Allow the Additional Options field to override the `parse_request` parameter.
-* TWEAK: Ensure map tile images are set at opacity of `1` to prevent themes from hiding them.
-* TWEAK: Remove the `div` from around the `do_meta_boxes()` function call on the admin Manage page so WordPress will properly apply CSS classes for different screen-sizes/orientations.
-* BUG: Add missing text domains.
-* BUG: The translation $text arg must be a single string literal.
-* BUG: Correct excluding categories in the Team Block.
-* BUG: Hook `rank_math/head` is an action, not a filter.
-* OTHER: Correct misspellings.
-* DEV: Output phpcs security report to a separate file.
-* DEV: Missing space before array closer.
-* DEV: Spaces must be used for mid-line alignment; tabs are not allowed.
-* DEV: Code cleanup, adding/removing spaces to ensure code formatting compliance.
-* DEV: The CASE body must start on the line following the statement.
-* DEV: There must be no space before the colon in a CASE statement.
-* DEV: CASE statements must be defined using a colon.
-* DEV: String does not require double quotes; use single quotes instead.
-* DEV: Parenthesis should always be used when instantiating a new object.
-* DEV: phpDoc formatting corrections.
-* DEV: Array double arrow not aligned correctly.
-* DEV: Correct switch case statement formatting.
-* DEV: Array double arrow not aligned correctly.
-* DEV: Scope keyword must be followed by a single space.
-* DEV: Add a couple more phpcs reports.
-* DEV: Equals sign not aligned correctly.
-* DEV: Array keys must be surrounded by spaces unless they contain a string or an integer.
-* DEV: Empty array declaration must have no space between the parentheses.
-* DEV: Expected 1 space after array opener.
-* DEV: Each item in a multi-line array must be on a new line.
-* DEV: Expected 1 space before closing PHP tag.
-* DEV: Expected 0 spaces between parenthesis of function declaration.
-* DEV: There must be no blank line following an inline comment.
-* DEV: Empty block comment not allowed.
-* DEV: The static declaration must come after the visibility declaration.
-* DEV: Multi-line function call not indented correctly.
-* DEV: Logical operator "and" is prohibited; use "&&" instead.
-* DEV: Expected 1 space before opening brace.
-* DEV: There must be a single blank line after a tag group.
-* DEV: Expected 1 space before opening brace.
-* DEV: Space found before semicolon.
-* DEV: Expected 0 spaces between argument and comma.
-* DEV: Additional blank lines found at end of doc comment.
-* DEV: phpDoc updates.
-* DEV: PHP tags must be on a line by themselves.
-* DEV: Expected space before asterisk.
-* DEV: Short array syntax is not allowed.
-* DEV: Empty lines are not allowed in multi-line function calls.
-* DEV: Inline PHP statement must end with a semicolon.
-* DEV: Short form type keywords must be used.
-* DEV: Usage of ELSE IF is discouraged; use ELSEIF instead.
-* DEV: Concat operator must be surrounded by a single space.
-* DEV: Array closer not aligned correctly.
-* DEV: A gettext call containing placeholders was found, but was not accompanied by a "translators:" comment on the line above to clarify the meaning of the placeholders.
-* DEV: The use of function `sizeof()` is forbidden; use `count()` instead.
-* DEV: Add `config:allow-plugins` to composer.json.
-* DEV: Updates to `.travis.yml`.
-* DEV: There must be no blank lines before the file comment.
-
 == Upgrade Notice ==
-
-= 10.4.10 =
-It is recommended to back up before updating. Requires WordPress >= 5.2 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 10.4.11 =
 It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -663,4 +635,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.25 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.26 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

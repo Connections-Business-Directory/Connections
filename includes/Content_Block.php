@@ -335,7 +335,12 @@ class Content_Block {
 			$heading = ucwords( str_replace( array( '-', '_' ), ' ', $this->getID() ) );
 		}
 
-		return $heading;
+		return apply_filters(
+			'Connections_Directory/Content_Block/Heading',
+			$heading,
+			$this->getID(),
+			$this->getObject()
+		);
 	}
 
 	/**

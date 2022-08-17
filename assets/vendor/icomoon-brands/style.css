@@ -1,17 +1,18 @@
 @font-face {
   font-family: 'Connections-Brandicons';
   src:
-    url('fonts/Connections-Brandicons.ttf?cfadlc') format('truetype'),
-    url('fonts/Connections-Brandicons.woff?cfadlc') format('woff'),
-    url('fonts/Connections-Brandicons.svg?cfadlc#Connections-Brandicons') format('svg');
+    url('fonts/Connections-Brandicons.ttf?cf68zj') format('truetype'),
+    url('fonts/Connections-Brandicons.woff?cf68zj') format('woff'),
+    url('fonts/Connections-Brandicons.svg?cf68zj#Connections-Brandicons') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 i[class^='cn-brandicon'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'Connections-Brandicons' !important;
-  speak: none;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -23,6 +24,9 @@ i[class^='cn-brandicon'] {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.cn-brandicon-tiktok:before {
+  content: "\eb1a";
+}
 .cn-brandicon-technorati:before {
   content: "\eb19";
   color: #1ec11d;

@@ -4,12 +4,11 @@
 [![Total Downloads](https://img.shields.io/wordpress/plugin/dt/connections.svg)](https://wordpress.org/plugins/connections/)
 [![Plugin Rating](https://img.shields.io/wordpress/plugin/r/connections.svg)](https://wordpress.org/support/plugin/connections/reviews/)
 [![WordPress Compatibility](https://img.shields.io/wordpress/v/connections.svg)](https://wordpress.org/plugins/connections/)
-[![Build Status](https://img.shields.io/travis/Connections-Business-Directory/Connections/develop.svg)](https://travis-ci.org/Connections-Business-Directory/Connections)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/connections-business-directory/connections.svg)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/connections-business-directory/connections.svg)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/)
+[![WP compatibility](https://plugintests.com/plugins/wporg/connections/wp-badge.svg)](https://plugintests.com/plugins/wporg/connections/latest)
+[![PHP compatibility](https://plugintests.com/plugins/wporg/connections/php-badge.svg)](https://plugintests.com/plugins/wporg/connections/latest)
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/Connections-Business-Directory/Connections/blob/master/LICENSE.txt)
 
-An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
+An easy-to-use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
 
 ## Description ##
 
@@ -24,10 +23,10 @@ Quite simply, Connections Business Directory is one of the [best business direct
 * [Continuously updated](https://wordpress.org/plugins/connections/changelog/) bringing you new features for free.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
-* You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
+* You control which entries are viewable to the public and which entries are private, viewable for logged-in users only. You can even have entries set as unlisted so only admins can view them.
 * **[Repeatable fields](http://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
 * Hierarchical (nested) **category support**. Businesses and members in your business directory can be added to any number of categories.
-* Include a biographical text for an individual member or business description for each entry in your business directory using an easy to use rich text editor.
+* Include a biographical text for an individual member or business description for each entry in your business directory using an easy-to-use rich text editor.
 * You can easily add a business logo or photo of the staff member for each entry in your business directory or staff directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
 * **[CSV Export](http://connections-pro.com/documentation/tools/#Export)** of addresses, phone numbers, email addresses and dates.
@@ -45,7 +44,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 **Utility**
 
 * [Toolbar](http://wordpress.org/plugins/connections-toolbar/) :: Provides quick links to the admin pages from the admin bar.
-* [Login](http://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple to use login shortcode and widget.
+* [Login](http://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple-to-use login shortcode and widget.
 
 **Custom Fields**
 
@@ -183,7 +182,7 @@ Connections Business Directory has been embraced around the world and has been t
 
 ### 10. The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/ ###
 ![The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/](http://ps.w.org/connections-business-directory/assets/screenshot-10.png)
-#Export) contains many different CSV export tools to allow you to easily export the data from your business directory.
+#Export) contains many CSV export tools to allow you to easily export the data from your business directory.
 11. The [Tools :: Import admin page](http://connections-pro.com/documentation/tools/#Categories-2) allows you to quickly bulk import nested categories into your business directory.
 12. In the event that you need support the [Tools :: System Information admin page](http://connections-pro.com/documentation/tools/#System_Information) contains all the information needs about your directory installation which can be easily and quickly shared.
 13. Need to move the configuration of your business directory from one site to another? The [Tools : Settings Import/Export admin page](http://connections-pro.com/documentation/tools/#Settings_ImportExport) allows you to do it with zero fuss. This will even migrate the Template Customizer settings applied to template and any of the settings for the [premium extensions](http://connections-pro.com/extensions/).
@@ -246,6 +245,44 @@ Yes this is possible but there is a special setup required to do so. It is recom
 ## Changelog ##
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 10.4.25 08/16/2022 =
+
+* NEW: Add TikTok to the brand icons set.
+* NEW: Add Telegram, TikTok, and WhatsApp to the default social networks types.
+* NEW: Add Telegram and WhatsApp to the default messenger networks types.
+* NEW: Introduce the `Connections_Directory/Content_Block/Heading` filter.
+* NEW: Introduce `_parse::stringList()` and remove use of deprecated `cnFunction::parseStringList()` function.
+* TWEAK: Remove use of deprecated `bind()` method call.
+* TWEAK: Remove use of deprecated `.removeAttr( 'checked' )` call.
+* TWEAK: Remove use of deprecated `mouseenter()` and `mouseleave()` methods.
+* TWEAK: Make both Telegram and WhatsApp messenger IDs clickable links.
+* TWEAK: Do not escape the pre/append field html to allow for partial HTML.
+* TWEAK: Add 'display' as a safe CSS style.
+* TWEAK: Remove use of deprecated `cnHTML::attribute()` in `Connections_Directory\Map`.
+* TWEAK: Remove legacy `cnValidate` dependency.
+* TWEAK: Remove deprecated methods from `cnUtility`.
+* TWEAK: Remove unused import.
+* TWEAK: Remove unused deprecated `cnSanitize::hexColorNoHash()` method.
+* TWEAK: Tweak `_parse::parameters()` to to allow recursion with excluded index keys.
+* TWEAK: Change all deprecated filter callback closures static.
+* TWEAK: Update `cnEntryMetabox::publish()` to utilize `_parse::parameters()`.
+* TWEAK: Adjust input parameter inheritance in `Radio_Group::prepareInputs()` to allow inputs to have their class, id,
+  name, and styles set independently.
+* TWEAK: Remove deprecated instance of `cnHTML::radio()` used in the entry "Publish" metabox.
+* BUG: Do not add empty strings the field class names.
+* BUG: Do not add empty array key/value pairs to field CSS.
+* OTHER: Delete extra space character.
+* OTHER: Update inline comments.
+* DEV: phpDoc updates.
+* DEV: phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+* DEV: Exclude the `WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound` rule in WPCS.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+* DEV: @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+* DEV: Deprecate `cnSanitize::args()`. Use `_parse::parameters()`.
+* DEV: Add deprecated filters for backwards compatibility.
+* DEV: Update dist files.
 
 = 10.4.25 07/28/2022 =
 
@@ -582,69 +619,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove use of deprecated `file_loader` and `url-loader`.
 * DEV: Remove deprecated commented out code.
 * DEV: Bump minimum WordPress version to 5.3.
-
-= 10.4.10 01/14/2022 =
-
-* TWEAK: Multiple placeholders should be ordered.
-* TWEAK: Ensure parameter is cast to boolean.
-* TWEAK: Ensure the Team Block table headings are translation ready.
-* TWEAK: Allow the Additional Options field to override the `parse_request` parameter.
-* TWEAK: Ensure map tile images are set at opacity of `1` to prevent themes from hiding them.
-* TWEAK: Remove the `div` from around the `do_meta_boxes()` function call on the admin Manage page so WordPress will
-  properly apply CSS classes for different screen-sizes/orientations.
-* BUG: Add missing text domains.
-* BUG: The translation $text arg must be a single string literal.
-* BUG: Correct excluding categories in the Team Block.
-* BUG: Hook `rank_math/head` is an action, not a filter.
-* OTHER: Correct misspellings.
-* DEV: Output phpcs security report to a separate file.
-* DEV: Missing space before array closer.
-* DEV: Spaces must be used for mid-line alignment; tabs are not allowed.
-* DEV: Code cleanup, adding/removing spaces to ensure code formatting compliance.
-* DEV: The CASE body must start on the line following the statement.
-* DEV: There must be no space before the colon in a CASE statement.
-* DEV: CASE statements must be defined using a colon.
-* DEV: String does not require double quotes; use single quotes instead.
-* DEV: Parenthesis should always be used when instantiating a new object.
-* DEV: phpDoc formatting corrections.
-* DEV: Array double arrow not aligned correctly.
-* DEV: Correct switch case statement formatting.
-* DEV: Array double arrow not aligned correctly.
-* DEV: Scope keyword must be followed by a single space.
-* DEV: Add a couple more phpcs reports.
-* DEV: Equals sign not aligned correctly.
-* DEV: Array keys must be surrounded by spaces unless they contain a string or an integer.
-* DEV: Empty array declaration must have no space between the parentheses.
-* DEV: Expected 1 space after array opener.
-* DEV: Each item in a multi-line array must be on a new line.
-* DEV: Expected 1 space before closing PHP tag.
-* DEV: Expected 0 spaces between parenthesis of function declaration.
-* DEV: There must be no blank line following an inline comment.
-* DEV: Empty block comment not allowed.
-* DEV: The static declaration must come after the visibility declaration.
-* DEV: Multi-line function call not indented correctly.
-* DEV: Logical operator "and" is prohibited; use "&&" instead.
-* DEV: Expected 1 space before opening brace.
-* DEV: There must be a single blank line after a tag group.
-* DEV: Expected 1 space before opening brace.
-* DEV: Space found before semicolon.
-* DEV: Expected 0 spaces between argument and comma.
-* DEV: Additional blank lines found at end of doc comment.
-* DEV: phpDoc updates.
-* DEV: PHP tags must be on a line by themselves.
-* DEV: Expected space before asterisk.
-* DEV: Short array syntax is not allowed.
-* DEV: Empty lines are not allowed in multi-line function calls.
-* DEV: Inline PHP statement must end with a semicolon.
-* DEV: Short form type keywords must be used.
-* DEV: Usage of ELSE IF is discouraged; use ELSEIF instead.
-* DEV: Concat operator must be surrounded by a single space.
-* DEV: Array closer not aligned correctly.
-* DEV: A gettext call containing placeholders was found, but was not accompanied by a "translators:" comment on the line
-  above to clarify the meaning of the placeholders.
-* DEV: The use of function `sizeof()` is forbidden; use `count()` instead.
-* DEV: Add `config:allow-plugins` to composer.json.
-* DEV: Updates to `.travis.yml`.
-* DEV: There must be no blank lines before the file comment.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

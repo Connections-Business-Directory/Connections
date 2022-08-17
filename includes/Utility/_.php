@@ -160,20 +160,9 @@ final class _ {
 	 */
 	public static function parseStringList( &$list, $delimiters = '\s,' ) {
 
-		// Convert to an array if the supplied list is not.
-		if ( ! is_array( $list ) ) {
+		_deprecated_function( __METHOD__, '10.4.26', '_parse::stringList()' );
 
-			$list = preg_split( '/[' . $delimiters . ']+/', $list );
-		}
-
-		// Remove NULL, FALSE and empty strings (""), but leave values of 0 (zero).
-		$list = array_filter( $list, 'strlen' );
-
-		// Cleanup any excess whitespace.
-		$list = array_map( 'trim', $list );
-
-		// Return only unique values.
-		return array_unique( $list );
+		return _parse::stringList( $list, $delimiters );
 	}
 
 	/**

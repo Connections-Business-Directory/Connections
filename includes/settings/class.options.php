@@ -945,10 +945,13 @@ class cnOptions {
 			'soundcloud'    => 'SoundCloud',
 			'stitcher'      => 'Stitcher',
 			'technorati'    => 'Technorati',
+			'telegram'      => 'Telegram',
+			'tiktok'        => 'TikTok',
 			'tripadvisor'   => 'TripAdvisor',
 			'tumblr'        => 'Tumblr',
 			'twitter'       => 'Twitter',
 			'vimeo'         => 'vimeo',
+			'whatsapp'      => 'WhatsApp',
 			'vk'            => 'VK',
 			'yelp'          => 'Yelp',
 			'youtube'       => 'YouTube',
@@ -1094,7 +1097,9 @@ class cnOptions {
 			'jabber'    => 'Jabber / Google Talk',
 			'messenger' => 'Live Messenger',
 			'skype'     => 'Skype',
+			'telegram'  => 'Telegram',
 			'icq'       => 'ICQ',
+			'whatsapp'  => 'WhatsApp',
 		);
 
 		// Return all registered types, including the "core" types.

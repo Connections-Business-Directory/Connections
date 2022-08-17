@@ -12,6 +12,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+use Connections_Directory\Form\Field;
+use Connections_Directory\Form\Field\Radio;
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;
@@ -408,18 +410,44 @@ class cnEntryMetabox {
 
 		if ( ! empty( $atts['entry_type'] ) ) {
 
-			// The options have to be flipped because of an earlier stupid decision
-			// of making the array keys the option labels. This provides backward compatibility.
-			cnHTML::radio(
-				array(
-					'display' => 'block',
-					'id'      => 'entry_type',
-					'options' => array_flip( $atts['entry_type'] ),
-					'before'  => '<div id="entry-type">',
-					'after'   => '</div>',
-				),
-				$type
-			);
+			// cnHTML::radio(
+			// 	array(
+			// 		'display' => 'block',
+			// 		'id'      => 'entry_type',
+			// 		'options' => array_flip( $atts['entry_type'] ),
+			// 		'before'  => '<div id="entry-type">',
+			// 		'after'   => '</div>',
+			// 	),
+			// 	$type
+			// );
+
+			$fieldEntryType = Field\Radio_Group::create()
+											   ->setContainer( 'div' )
+											   ->setId( 'entry_type' )
+											   ->addClass( 'cn-radio-option' )
+											   ->setName( 'entry_type' )
+											   ->setValue( $type )
+											   ->prepend( '<div id="entry-type">' )
+											   ->append( '</div>' );
+
+			/*
+			 * The input options need to be flipped because of an earlier poor decision
+			 * of setting the array keys the option labels. This provides backward compatibility.
+			 */
+			foreach ( array_flip( $atts['entry_type'] ) as $entryTypeSlug => $entryTypeLabel ) {
+
+				$fieldEntryType->addInput(
+					Radio::create(
+						array(
+							'id'    => "cn-entry_type[{$entryTypeSlug}]",
+							'label' => $entryTypeLabel,
+							'value' => $entryTypeSlug,
+						)
+					)
+				);
+			}
+
+			$fieldEntryType->render();
 
 		} else {
 

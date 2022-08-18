@@ -248,7 +248,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
-= 10.4.25 08/16/2022 =
+= 10.4.26 08/16/2022 =
 * NEW: Add TikTok to the brand icons set.
 * NEW: Add Telegram, TikTok, and WhatsApp to the default social networks types.
 * NEW: Add Telegram and WhatsApp to the default messenger networks types.

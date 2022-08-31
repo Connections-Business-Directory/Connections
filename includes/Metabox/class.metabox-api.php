@@ -154,7 +154,7 @@ class cnMetaboxAPI {
 	 *
 	 * @since 10.2
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function defaultPageHooks() {
 

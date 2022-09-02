@@ -12,6 +12,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+use Connections_Directory\Metabox;
 use Connections_Directory\Metabox\Entry\Publish;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;
@@ -86,7 +87,7 @@ class cnEntryMetabox {
 	 */
 	private static function register() {
 
-		$pages = cnMetaboxAPI::defaultPageHooks();
+		$pages = Metabox::getPageHooks();
 
 		/*
 		 * Now we're going to have to keep track of which TinyMCE plugins

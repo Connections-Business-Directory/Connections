@@ -147,28 +147,6 @@ class cnMetaboxAPI {
 	}
 
 	/**
-	 * The default page hooks that a metabox should render on. The `public` page hook is the site's frontend.
-	 *
-	 * These are admin page hooks returned by @see add_submenu_page() when registering the admin pages.
-	 * @see cnAdminMenu::menu()
-	 *
-	 * @since 10.2
-	 * @deprecated 10.4.27
-	 *
-	 * @return string[]
-	 */
-	public static function defaultPageHooks() {
-
-		\Connections_Directory\Utility\_deprecated\_func(
-			__METHOD__,
-			'10.4.27',
-			'\Connections_Directory\Metabox::getPageHooks()'
-		);
-
-		return \Connections_Directory\Metabox::getPageHooks();
-	}
-
-	/**
 	 * Public method to add metaboxes.
 	 *
 	 * Accepted option for the $atts property are:

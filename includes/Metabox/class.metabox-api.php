@@ -153,31 +153,19 @@ class cnMetaboxAPI {
 	 * @see cnAdminMenu::menu()
 	 *
 	 * @since 10.2
+	 * @deprecated 10.4.27
 	 *
 	 * @return string[]
 	 */
 	public static function defaultPageHooks() {
 
-		if ( is_admin() ) {
+		\Connections_Directory\Utility\_deprecated\_func(
+			__METHOD__,
+			'10.4.27',
+			'\Connections_Directory\Metabox::getPageHooks()'
+		);
 
-			$pageHooks = apply_filters(
-				'cn_admin_default_metabox_page_hooks',
-				array(
-					'connections_page_connections_add',
-					'connections_page_connections_manage',
-				)
-			);
-
-			// Define the core pages and use them by default if no page where defined.
-			// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
-			$pages = defined( 'DOING_AJAX' ) && DOING_AJAX ? array() : $pageHooks;
-
-		} else {
-
-			$pages = array( 'public' );
-		}
-
-		return $pages;
+		return \Connections_Directory\Metabox::getPageHooks();
 	}
 
 	/**

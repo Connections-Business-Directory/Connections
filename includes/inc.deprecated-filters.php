@@ -191,3 +191,16 @@ add_filter(
 		);
 	}
 );
+
+add_filter(
+	'Connections_Directory/Metabox/Page_Hooks',
+	static function( $pageHooks ) {
+
+		return apply_filters_deprecated(
+			'cn_admin_default_metabox_page_hooks',
+			array( $pageHooks ),
+			'10.4.27',
+			'Connections_Directory/Metabox/Publish/Parameters'
+		);
+	}
+);

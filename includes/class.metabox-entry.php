@@ -74,7 +74,7 @@ class cnEntryMetabox {
 		}
 
 		// Hide the "Custom Metadata Fields" metabox by default for users.
-		add_filter( 'cn_admin_default_metabox_page_hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
+		add_filter( 'Connections_Directory/Metabox/Page_Hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
 	}
 
 	/**
@@ -316,7 +316,7 @@ class cnEntryMetabox {
 	}
 
 	/**
-	 * Callback for the `cn_admin_default_metabox_page_hooks` filter.
+	 * Callback for the `Connections_Directory/Metabox/Page_Hooks` filter.
 	 *
 	 * Adds the `load-{$page_hook}` action for each of the Connections admin page
 	 * which will hide the "Custom Metadata Fields" metabox.

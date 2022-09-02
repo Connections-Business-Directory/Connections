@@ -200,7 +200,7 @@ add_filter(
 			'cn_admin_default_metabox_page_hooks',
 			array( $pageHooks ),
 			'10.4.27',
-			'Connections_Directory/Metabox/Publish/Parameters'
+			'Connections_Directory/Metabox/Page_Hooks'
 		);
 	}
 );

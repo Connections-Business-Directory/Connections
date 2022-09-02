@@ -332,9 +332,9 @@ class cnEntryMetabox {
 	 *
 	 * @since 8.40
 	 *
-	 * @param array $hooks
+	 * @param string[] $hooks
 	 *
-	 * @return mixed
+	 * @return string[]
 	 */
 	public static function addLoadActionToHideCustomFields( $hooks ) {
 

@@ -28,35 +28,6 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 class cnHTML {
 
 	/**
-	 * Escapes HTML attribute value or array of attribute values.
-	 *
-	 * @since      9.11
-	 * @deprecated 10.4
-	 *
-	 * @param array|string $values
-	 * @param string       $delimiter
-	 *
-	 * @return string
-	 */
-	public static function escapeAttributes( $values, $delimiter = ' ' ) {
-
-		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_escape\attribute()' );
-
-		if ( ! is_array( $values ) ) {
-
-			$values = explode( $delimiter, $values );
-		}
-
-		$escaped = array_map( 'esc_attr', $values );
-
-		// Remove any empty array values.
-		$escaped = array_filter( $escaped );
-		$escaped = array_unique( $escaped );
-
-		return implode( ' ', $escaped );
-	}
-
-	/**
 	 * Helper method that can be used within loops to
 	 * dynamically call the correct field type to render.
 	 *

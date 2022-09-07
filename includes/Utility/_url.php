@@ -56,7 +56,7 @@ final class _url {
 	 * Take a URL and see if it's prefixed with a protocol, if it's not then it will add the default prefix to the
 	 * start of the string.
 	 *
-	 * @since  0.8
+	 * @since 0.8
 	 *
 	 * @param string $url
 	 * @param string $protocol
@@ -73,7 +73,7 @@ final class _url {
 	}
 
 	/**
-	 * Removes a forward slash from the beginning of he string if it exists.
+	 * Removes a forward slash from the beginning of the string if it exists.
 	 *
 	 * @since  8.1.6
 	 *

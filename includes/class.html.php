@@ -220,46 +220,6 @@ class cnHTML {
 	}
 
 	/**
-	 * Prefixes the supplied string with the defined prefix.
-	 *
-	 * @since      0.8
-	 * @deprecated 10.4
-	 *
-	 * @param array|string $value The value to add the defined prefix to.
-	 * @param array        $atts  The attributes array.
-	 *
-	 * @return array|string
-	 */
-	public static function prefix( $value, $atts = array() ) {
-
-		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_string::applyPrefix()' );
-
-		if ( empty( $value ) ) {
-			return '';
-		}
-
-		$defaults = array(
-			'prefix' => 'cn-',
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		if ( is_array( $value ) ) {
-
-			foreach ( $value as $key => $class ) {
-
-				$value[ $key ] = $atts['prefix'] . $class;
-			}
-
-			return $value;
-
-		} else {
-
-			return $atts['prefix'] . $value;
-		}
-	}
-
-	/**
 	 * Renders an HTML tag attribute.
 	 *
 	 * @since      0.8

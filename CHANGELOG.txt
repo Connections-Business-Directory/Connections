@@ -1,6 +1,23 @@
 == Changelog ==
 
-= 10.4.25 08/16/2022 =
+= 10.4.27 09/08/2022 =
+* TWEAK: First pass at refactoring the Metabox API. Convert the "Publish" metabox as a pathfinder.
+* TWEAK: Remove unused deprecated methods `cnFormObjects::registerEditMetaboxes()` and `cnFormObjects::metaboxName()`;
+* TWEAK: Remove use of deprecated `cnMetaboxAPI::defaultPageHooks()` method.
+* TWEAK: Remove unused deprecated `cnMetaboxAPI::defaultPageHooks()` method.
+* TWEAK: Remove used of deprecated `cn_admin_default_metabox_page_hooks` filter.
+* TWEAK: Utilize `Metabox::getPageHooks()` in `cnMetaboxAPI::add()` to remove code duplication.
+* TWEAK: Remove deprecated `_::escAttributeDeep()` method.
+* TWEAK: Remove deprecated `cnHTML::escapeAttributes()` method.
+* TWEAK: Remove deprecated `cnHTML::prefix()` method.
+* TWEAK: Remove use of instances of deprecated `cnHTML::attribute()` method.
+* TWEAK: Remove use of deprecated `cnHTML::prefix()` method.
+* OTHER: Correct change log version number in readme.
+* BUG: Correct replacement filter name for deprecated filter.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+
+= 10.4.26 08/16/2022 =
 * NEW: Add TikTok to the brand icons set.
 * NEW: Add Telegram, TikTok, and WhatsApp to the default social networks types.
 * NEW: Add Telegram and WhatsApp to the default messenger networks types.

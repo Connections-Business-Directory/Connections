@@ -12,12 +12,10 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-use Connections_Directory\Form\Field;
-use Connections_Directory\Form\Field\Radio;
-use Connections_Directory\Request;
+use Connections_Directory\Metabox;
+use Connections_Directory\Metabox\Entry\Publish;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;
-use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 /**
@@ -62,6 +60,8 @@ class cnEntryMetabox {
 		// Build the array that defines the core metaboxes.
 		self::register();
 
+		Publish::register();
+
 		// Register the core metaboxes the Metabox API.
 		foreach ( self::$metaboxes as $atts ) {
 
@@ -74,7 +74,7 @@ class cnEntryMetabox {
 		}
 
 		// Hide the "Custom Metadata Fields" metabox by default for users.
-		add_filter( 'cn_admin_default_metabox_page_hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
+		add_filter( 'Connections_Directory/Metabox/Page_Hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
 	}
 
 	/**
@@ -87,7 +87,7 @@ class cnEntryMetabox {
 	 */
 	private static function register() {
 
-		$pages = cnMetaboxAPI::defaultPageHooks();
+		$pages = Metabox::getPageHooks();
 
 		/*
 		 * Now we're going to have to keep track of which TinyMCE plugins
@@ -123,15 +123,6 @@ class cnEntryMetabox {
 				),
 			);
 		}
-
-		self::$metaboxes[] = array(
-			'id'       => 'submitdiv',
-			'title'    => __( 'Publish', 'connections' ),
-			'pages'    => $pages,
-			'context'  => 'side',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'publish' ),
-		);
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
@@ -325,16 +316,16 @@ class cnEntryMetabox {
 	}
 
 	/**
-	 * Callback for the `cn_admin_default_metabox_page_hooks` filter.
+	 * Callback for the `Connections_Directory/Metabox/Page_Hooks` filter.
 	 *
 	 * Adds the `load-{$page_hook}` action for each of the Connections admin page
 	 * which will hide the "Custom Metadata Fields" metabox.
 	 *
 	 * @since 8.40
 	 *
-	 * @param array $hooks
+	 * @param string[] $hooks
 	 *
-	 * @return mixed
+	 * @return string[]
 	 */
 	public static function addLoadActionToHideCustomFields( $hooks ) {
 
@@ -347,167 +338,6 @@ class cnEntryMetabox {
 		}
 
 		return $hooks;
-	}
-
-	/**
-	 * Callback to render the "Publish" metabox.
-	 *
-	 * @access private
-	 * @since  0.8
-	 *
-	 * @param cnEntry $entry   An instance of the cnEntry object.
-	 * @param array   $metabox The metabox attributes array set in self::register().
-	 * @param array   $atts
-	 *
-	 * @return void
-	 * @global string  $plugin_page
-	 */
-	public static function publish( $entry, $metabox, $atts = array() ) {
-		global $plugin_page;
-
-		$defaults = array(
-			'action'     => Request\Admin_Action::input()->value(),
-			'entry_type' => cnOptions::getEntryTypes(),
-			'default'    => array(
-				'type'       => 'individual',
-				'visibility' => 'public',
-			),
-		);
-
-		$type          = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'entry-type' );
-		$defaultType   = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'default-entry-type' );
-		$defaultStatus = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'default-publish-status' );
-		$activeTypes   = cnArray::get( $type, 'active', array( $defaultType ) );
-
-		// Reorder the based on the user defined settings.
-		$defaults['entry_type'] = array_replace( array_flip( $type['order'] ), $defaults['entry_type'] );
-
-		// Remove the disabled entry types based on the user defined settings.
-		$defaults['entry_type'] = array_intersect_key( $defaults['entry_type'], array_flip( $activeTypes ) );
-
-		// The options need to be flipped because of an earlier poor decision
-		// of setting the array keys the option labels. This provides backward compatibility.
-		$defaults['entry_type'] = array_flip( $defaults['entry_type'] );
-
-		$defaults['default']['type']       = $defaultType;
-		$defaults['default']['visibility'] = $defaultStatus;
-
-		// // Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
-		// $defaults = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
-
-		$atts = _parse::parameters(
-			apply_filters( 'Connections_Directory/Metabox/Publish/Parameters', $atts ),
-			apply_filters( 'Connections_Directory/Metabox/Publish/Defaults', $defaults ),
-			true,
-			true,
-			array( 'entry_type' )
-		);
-
-		$action = $atts['action'];
-
-		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
-		$type       = $entry->getId() ? $entry->getEntryType() : $atts['default']['type'];
-
-		if ( ! empty( $atts['entry_type'] ) ) {
-
-			// cnHTML::radio(
-			// 	array(
-			// 		'display' => 'block',
-			// 		'id'      => 'entry_type',
-			// 		'options' => array_flip( $atts['entry_type'] ),
-			// 		'before'  => '<div id="entry-type">',
-			// 		'after'   => '</div>',
-			// 	),
-			// 	$type
-			// );
-
-			$fieldEntryType = Field\Radio_Group::create()
-											   ->setContainer( 'div' )
-											   ->setId( 'entry_type' )
-											   ->addClass( 'cn-radio-option' )
-											   ->setName( 'entry_type' )
-											   ->setValue( $type )
-											   ->prepend( '<div id="entry-type">' )
-											   ->append( '</div>' );
-
-			/*
-			 * The input options need to be flipped because of an earlier poor decision
-			 * of setting the array keys the option labels. This provides backward compatibility.
-			 */
-			foreach ( array_flip( $atts['entry_type'] ) as $entryTypeSlug => $entryTypeLabel ) {
-
-				$fieldEntryType->addInput(
-					Radio::create(
-						array(
-							'id'    => "cn-entry_type[{$entryTypeSlug}]",
-							'label' => $entryTypeLabel,
-							'value' => $entryTypeSlug,
-						)
-					)
-				);
-			}
-
-			$fieldEntryType->render();
-
-		} else {
-
-			cnHTML::input(
-				array(
-					'type' => 'hidden',
-					'id'   => 'entry_type',
-				),
-				$type
-			);
-		}
-
-		cnHTML::radio(
-			array(
-				'display' => 'block',
-				'id'      => 'visibility',
-				'options' => array(
-					'public'   => __( 'Public', 'connections' ),
-					'private'  => __( 'Private', 'connections' ),
-					'unlisted' => __( 'Unlisted', 'connections' ),
-				),
-				'before'  => '<div id="visibility">',
-				'after'   => '</div>',
-			),
-			$visibility
-		);
-
-		// Create URL to current admin page.
-		$adminURL = admin_url( 'admin.php', ( is_ssl() ? 'https' : 'http' ) );
-		$adminURL = add_query_arg( array( 'page' => $plugin_page ), $adminURL );
-
-		echo '<div id="minor-publishing"></div>';
-
-		echo '<div id="major-publishing-actions">';
-
-			switch ( true ) {
-
-				case ( 'edit_entry' == $action || 'edit' == $action ):
-					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a></div>';
-					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , esc_attr__( 'Update', 'connections' ) , '" /></div>';
-
-					break;
-
-				case ( 'copy_entry' == $action || 'copy' == $action ):
-					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , esc_html__( 'Cancel', 'connections' ) , '</a>';
-					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_attr__( 'Add Entry', 'connections' ) , '" /></div>';
-
-					break;
-
-				default:
-					echo '<input type="hidden" name="cn-action" value="add_entry"/>';
-					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , esc_attr__( 'Add Entry', 'connections' ) , '" /></div>';
-
-					break;
-			}
-
-			echo '<div class="clear"></div>';
-		echo '</div>';
 	}
 
 	/**

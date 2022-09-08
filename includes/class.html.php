@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_html;
 use Connections_Directory\Utility\_string;
 use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -26,35 +28,6 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnHTML {
-
-	/**
-	 * Escapes HTML attribute value or array of attribute values.
-	 *
-	 * @since      9.11
-	 * @deprecated 10.4
-	 *
-	 * @param array|string $values
-	 * @param string       $delimiter
-	 *
-	 * @return string
-	 */
-	public static function escapeAttributes( $values, $delimiter = ' ' ) {
-
-		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_escape\attribute()' );
-
-		if ( ! is_array( $values ) ) {
-
-			$values = explode( $delimiter, $values );
-		}
-
-		$escaped = array_map( 'esc_attr', $values );
-
-		// Remove any empty array values.
-		$escaped = array_filter( $escaped );
-		$escaped = array_unique( $escaped );
-
-		return implode( ' ', $escaped );
-	}
 
 	/**
 	 * Helper method that can be used within loops to
@@ -246,46 +219,6 @@ class cnHTML {
 		$atts['type'] = 'radio';
 
 		return self::group( $atts, $value );
-	}
-
-	/**
-	 * Prefixes the supplied string with the defined prefix.
-	 *
-	 * @since      0.8
-	 * @deprecated 10.4
-	 *
-	 * @param array|string $value The value to add the defined prefix to.
-	 * @param array        $atts  The attributes array.
-	 *
-	 * @return array|string
-	 */
-	public static function prefix( $value, $atts = array() ) {
-
-		_deprecated_function( __METHOD__, '10.4', '\Connections_Directory\Utility\_string::applyPrefix()' );
-
-		if ( empty( $value ) ) {
-			return '';
-		}
-
-		$defaults = array(
-			'prefix' => 'cn-',
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		if ( is_array( $value ) ) {
-
-			foreach ( $value as $key => $class ) {
-
-				$value[ $key ] = $atts['prefix'] . $class;
-			}
-
-			return $value;
-
-		} else {
-
-			return $atts['prefix'] . $value;
-		}
 	}
 
 	/**
@@ -497,13 +430,22 @@ class cnHTML {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		$class = _escape::classNames( $atts['class'] );
+		$class = 0 < strlen( $class ) ? " class=\"{$class}\"" : '';
+
+		$id = _escape::id( $atts['id'] );
+		$id = 0 < strlen( $id ) ? " id=\"{$id}\"" : '';
+
+		$css   = _escape::css( _html::stringifyCSSAttributes( $atts['style'] ) );
+		$style = 0 < strlen( $css ) ? " style=\"{$css}\"" : '';
+
 		$out = sprintf(
 			'<label %1$s %2$s %3$s %4$s>%5$s</label>',
 			self::attribute( 'for', $atts['for'] ),
-			self::attribute( 'class', $atts['class'] ),
-			self::attribute( 'id', $atts['id'] ),
-			self::attribute( 'style', $atts['style'] ),
-			esc_attr( $atts['label'] )
+			$class,
+			$id,
+			$style,
+			_escape::html( $atts['label'] )
 		);
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
@@ -595,8 +537,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = self::prefix( $atts['class'], $atts );
-			$atts['id']    = self::prefix( $atts['id'], $atts );
+			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
+			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -604,16 +546,25 @@ class cnHTML {
 		// and then tack the "required" value to the end of the array.
 		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array( 'required' ) ) : $atts['class'];
 
+		$class = _escape::classNames( $atts['class'] );
+		$class = 0 < strlen( $class ) ? " class=\"{$class}\"" : '';
+
+		$id = _escape::id( $atts['id'] );
+		$id = 0 < strlen( $id ) ? " id=\"{$id}\"" : '';
+
+		$css   = _escape::css( _html::stringifyCSSAttributes( $atts['style'] ) );
+		$style = 0 < strlen( $css ) ? " style=\"{$css}\"" : '';
+
 		// Create the field label, if supplied.
 		$replace[] = ! empty( $atts['label'] ) && 'hidden' !== $atts['type'] ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';
 
 		$replace[] = sprintf(
 			'<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s %11$s/>',
 			self::attribute( 'type', $atts['type'] ),
-			self::attribute( 'class', $atts['class'] ),
-			self::attribute( 'id', $atts['id'] ),
+			$class,
+			$id,
 			self::attribute( 'name', $name ),
-			self::attribute( 'style', $atts['style'] ),
+			$style,
 			self::attribute( 'data', $atts['data'] ),
 			self::attribute( 'value', $value ),
 			self::attribute( 'autocomplete', $atts['autocomplete'] ),
@@ -684,8 +635,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = self::prefix( $atts['class'], $atts );
-			$atts['id']    = self::prefix( $atts['id'], $atts );
+			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
+			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -803,8 +754,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = self::prefix( $atts['class'] );
-			$atts['id']    = self::prefix( $atts['id'] );
+			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
+			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -915,8 +866,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = self::prefix( $atts['class'] );
-			$atts['id']    = self::prefix( $atts['id'] );
+			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
+			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -927,16 +878,25 @@ class cnHTML {
 			$atts['class'] = array_merge( (array) $atts['class'], array( 'required' ) );
 		}
 
+		$class = _escape::classNames( $atts['class'] );
+		$class = 0 < strlen( $class ) ? " class=\"{$class}\"" : '';
+
+		$id = _escape::id( $atts['id'] );
+		$id = 0 < strlen( $id ) ? " id=\"{$id}\"" : '';
+
+		$css   = _escape::css( _html::stringifyCSSAttributes( $atts['style'] ) );
+		$style = 0 < strlen( $css ) ? " style=\"{$css}\"" : '';
+
 		// Create the field label, if supplied.
 		$replace['label'] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => true ) ) : '';
 
 		// Open the select.
 		$replace['field'] = sprintf(
 			'<select %1$s %2$s %3$s %4$s %5$s %6$s %7$s>',
-			self::attribute( 'class', $atts['class'] ),
-			self::attribute( 'id', $atts['id'] ),
+			$class,
+			$id,
 			self::attribute( 'name', $name ),
-			self::attribute( 'style', $atts['style'] ),
+			$style,
 			self::attribute( 'data', $atts['data'] ),
 			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( $atts['default'] ) . '"' : '',
 			$atts['readonly'] ? 'disabled="disabled"' : ''

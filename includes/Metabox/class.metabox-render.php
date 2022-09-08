@@ -513,9 +513,14 @@ class cnMetabox_Render {
 			 */
 			$style = apply_filters( "cn_metabox_{$field['type']}_style", array(), $field['id'] );
 
-			$class = cnHTML::attribute( 'class', $class );
-			$id    = cnHTML::attribute( 'id', $id );
-			$style = cnHTML::attribute( 'style', $style );
+			$class = _escape::classNames( $class );
+			$class = 0 < strlen( $class ) ? " class=\"{$class}\"" : '';
+
+			$id = _escape::id( $id );
+			$id = 0 < strlen( $id ) ? " id=\"{$id}\"" : '';
+
+			$css   = _escape::css( _html::stringifyCSSAttributes( $style ) );
+			$style = 0 < strlen( $css ) ? " style=\"{$css}\"" : '';
 
 			/**
 			 * Chance to manipulate the field value before rendering the field.

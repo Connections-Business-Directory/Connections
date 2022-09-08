@@ -246,7 +246,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
-= 10.4.25 08/16/2022 =
+= 10.4.27 09/08/2022 =
+
+* TWEAK: First pass at refactoring the Metabox API. Convert the "Publish" metabox as a pathfinder.
+* TWEAK: Remove unused deprecated methods `cnFormObjects::registerEditMetaboxes()` and `cnFormObjects::metaboxName()`;
+* TWEAK: Remove use of deprecated `cnMetaboxAPI::defaultPageHooks()` method.
+* TWEAK: Remove unused deprecated `cnMetaboxAPI::defaultPageHooks()` method.
+* TWEAK: Remove used of deprecated `cn_admin_default_metabox_page_hooks` filter.
+* TWEAK: Utilize `Metabox::getPageHooks()` in `cnMetaboxAPI::add()` to remove code duplication.
+* TWEAK: Remove deprecated `_::escAttributeDeep()` method.
+* TWEAK: Remove deprecated `cnHTML::escapeAttributes()` method.
+* TWEAK: Remove deprecated `cnHTML::prefix()` method.
+* TWEAK: Remove use of instances of deprecated `cnHTML::attribute()` method.
+* TWEAK: Remove use of deprecated `cnHTML::prefix()` method.
+* OTHER: Correct change log version number in readme.
+* BUG: Correct replacement filter name for deprecated filter.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+
+= 10.4.26 08/16/2022 =
 
 * NEW: Add TikTok to the brand icons set.
 * NEW: Add Telegram, TikTok, and WhatsApp to the default social networks types.
@@ -560,64 +578,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Switch from Prettier to WP_Prettier.
 * DEV: Remove the `eslintConfig` key from `package.json` since the config exists in `.eslintrc`.
 * DEV: Update dist files.
-
-= 10.4.11 01/28/2022 =
-
-* NEW: Introduce `Content_Block::isActive()`.
-* NEW: Introduce `_::isWPVersion()`.
-* NEW: Introduce `cnScript::getAssetMetadata()`.
-* NEW: Introduce `Carousel::registerScripts()` and `Carousel::registerStyles()` and enqueue block assets when required.
-* NEW: Introduce `Team::registerStyles()` and enqueue block assets when required.
-* TWEAK: Enqueue Content Block scripts only when displayed and not globally.
-* TWEAK: Change `cnScript::maybeEnqueueStyle()` from `private` to `public`.
-* TWEAK: Check of the current queried object id is the directory homepage id in `cnScript::maybeEnqueueStyle()`.
-* TWEAK: Remove registration of old/out of date admin/frontend RTL styles.
-* TWEAK: Rename script handle for the Management Content Block for consistency.
-* TWEAK: Change the action hook in which the Management Content Block script is registered.
-* TWEAK: Update the Last Viewed and Recently Viewed Content Blocks to register their own assets on enqueue them only
-  when required.
-* TWEAK: Remove the global enqueueing of block assets.
-* TWEAK: Enqueue Content Block styles only when it is active and on the directory homepage and not globally.
-* TWEAK: Move the Recently Viewed Content Block assets to a sub folder to improve organization. Use imports in scripts
-  instead of referencing globals to enable code completion.
-* TWEAK: Move the Related Content Block assets to a sub folder to improve organization.
-* TWEAK: Move the shared Content Block assets to a sub folder to improve organization.
-* TWEAK: Move the brandicon assets to a sub folder to improve organization.
-* TWEAK: Move the fonticonpicker assets to a sub folder to improve organization.
-* TWEAK: Rename source styles for consistency.
-* TWEAK: Remove unused style assets.
-* TWEAK: Rename `blocks.js` to `index.js` for consistency. Adjust import path for consistency.
-* TWEAK: Remove the public entry point for blocks in favor of individual block entry points so block assets can be
-  loaded as necessary instead of globally.
-* TWEAK: Add the script and style handles to the Nearby and Related Content Blocks so the can be loaded as required
-  instead of globally.
-* TWEAK: Register Blocks with `blocks.json` if the WordPress version is 5.8 or greater.
-* TWEAK: Use imports in Block scripts instead of referencing globals to enable code completion.
-* TWEAK: Do not import Block style. Use webpack entry to process separately.
-* TWEAK: Enqueue the RTL styles built by webpack.
-* TWEAK: Remove registration and enqueuing of global Block script.
-* TWEAK: Update the registration and enqueuing of the Block Editor assets.
-* TWEAK: Update the URL and file path of the iconpicker library when registering its assets.
-* BUG: The Recently Viewed API Endpoint should not parse requests or apply query filters.
-* BUG: Do not set default for the template attribute as it causes the setting to be lost during saving.
-* OTHER: Correct misspellingS.
-* DEV: Remove unused import.
-* DEV: phpDoc updates.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: Remove commented out code.
-* DEV: Adjust phpcs parallel value.
-* DEV: Qualifier can be replaced with an imports.
-* DEV: Correct code alignment.
-* DEV: Rename variable.
-* DEV: Add style entry point for Block components.
-* DEV: Update `package.json`.
-* DEV: Update `webpack.config.js`.
-* DEV: Update `dist` files.
-* DEV: Update node packages.
-* DEV: Delete `.jshintrc`.
-* DEV: Add `.eslintrc`.
-* DEV: Remove use of deprecated `file_loader` and `url-loader`.
-* DEV: Remove deprecated commented out code.
-* DEV: Bump minimum WordPress version to 5.3.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

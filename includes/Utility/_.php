@@ -314,23 +314,6 @@ final class _ {
 	}
 
 	/**
-	 * Escapes HTML attribute value or array of attribute values.
-	 *
-	 * @since 8.5.18
-	 *
-	 * @param array|string $attr
-	 * @param string       $glue
-	 *
-	 * @return array|string
-	 */
-	public static function escAttributeDeep( $attr, $glue = ' ' ) {
-
-		_deprecated_function( __METHOD__, '9.11', 'cnHTML::escapeAttributes()' );
-
-		return cnHTML::escapeAttributes( $attr, $glue );
-	}
-
-	/**
 	 * Get user IP.
 	 *
 	 * @link   http://stackoverflow.com/a/6718472

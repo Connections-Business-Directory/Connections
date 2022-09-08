@@ -1324,7 +1324,7 @@ final class Taxonomy {
 			array(
 				'id'       => "{$this->name}div",
 				'title'    => $this->labels->name,
-				'pages'    => cnMetaboxAPI::defaultPageHooks(),
+				'pages'    => Metabox::getPageHooks(),
 				'context'  => 'side',
 				'priority' => 'core',
 				'callback' => $this->meta_box_cb,

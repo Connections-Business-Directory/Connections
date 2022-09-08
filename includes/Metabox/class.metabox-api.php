@@ -147,40 +147,6 @@ class cnMetaboxAPI {
 	}
 
 	/**
-	 * The default page hooks that a metabox should render on. The `public` page hook is the site's frontend.
-	 *
-	 * These are admin page hooks returned by @see add_submenu_page() when registering the admin pages.
-	 * @see cnAdminMenu::menu()
-	 *
-	 * @since 10.2
-	 *
-	 * @return array
-	 */
-	public static function defaultPageHooks() {
-
-		if ( is_admin() ) {
-
-			$pageHooks = apply_filters(
-				'cn_admin_default_metabox_page_hooks',
-				array(
-					'connections_page_connections_add',
-					'connections_page_connections_manage',
-				)
-			);
-
-			// Define the core pages and use them by default if no page where defined.
-			// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
-			$pages = defined( 'DOING_AJAX' ) && DOING_AJAX ? array() : $pageHooks;
-
-		} else {
-
-			$pages = array( 'public' );
-		}
-
-		return $pages;
-	}
-
-	/**
 	 * Public method to add metaboxes.
 	 *
 	 * Accepted option for the $atts property are:
@@ -208,24 +174,9 @@ class cnMetaboxAPI {
 		 * meta_box_prefs function.
 		 */
 
-		// @todo Can this be replaced with `cnMetaboxAPI::defaultPageHooks()`?
-		if ( is_admin() ) {
-
-			$pageHooks = apply_filters( 'cn_admin_default_metabox_page_hooks', array( 'connections_page_connections_add', 'connections_page_connections_manage' ) );
-
-			// Define the core pages and use them by default if no page hooks were defined.
-			// Check DOING_AJAX because the page hooks are not defined when doing an AJAX request which causes undefined property errors.
-			$pages = defined( 'DOING_AJAX' ) && DOING_AJAX ? array() : $pageHooks;
-
-			$metabox['pages'] = empty( $metabox['pages'] ) ? $pages : $metabox['pages'];
-
-		} else {
-
-			$metabox['pages'] = 'public';
-			$metabox['args']  = $metabox;
-		}
-
+		$metabox['args']     = $metabox;
 		$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
+		$metabox['pages']    = \Connections_Directory\Metabox::getPageHooks();
 		$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
 
 		// Use the core metabox API to render the metabox unless the metabox was registered with a custom callback to be used to render the metabox.

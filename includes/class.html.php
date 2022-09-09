@@ -267,7 +267,7 @@ class cnHTML {
 
 				if ( ! empty( $value ) ) {
 
-					return ' id="' . esc_attr( (string) cnString::replaceWhatWith( $value, ' ', '-' ) ) . '" ';
+					return ' id="' . esc_attr( (string) _string::replaceWhatWith( $value, ' ', '-' ) ) . '" ';
 
 				} else {
 
@@ -448,7 +448,7 @@ class cnHTML {
 			_escape::html( $atts['label'] )
 		);
 
-		$out = cnString::replaceWhatWith( $out, ' ' );
+		$out = _string::replaceWhatWith( $out, ' ' );
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -575,7 +575,7 @@ class cnHTML {
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
-		$out = cnString::replaceWhatWith( $out, ' ' );
+		$out = _string::replaceWhatWith( $out, ' ' );
 
 		$html = $atts['before'] . $out . $atts['after'];
 
@@ -664,7 +664,7 @@ class cnHTML {
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
-		$out = cnString::replaceWhatWith( $out, ' ' );
+		$out = _string::replaceWhatWith( $out, ' ' );
 
 		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -800,7 +800,7 @@ class cnHTML {
 
 		$out .= "</$tag>";
 
-		$out = cnString::replaceWhatWith( $out, ' ' );
+		$out = _string::replaceWhatWith( $out, ' ' );
 
 		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -929,7 +929,7 @@ class cnHTML {
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
-		$out = cnString::replaceWhatWith( $out, ' ' );
+		$out = _string::replaceWhatWith( $out, ' ' );
 
 		if ( $atts['readonly'] ) {
 

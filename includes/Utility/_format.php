@@ -228,7 +228,7 @@ final class _format {
 	 */
 	public static function prepareINPlaceholders( $items, $type = '%s' ) {
 
-		_deprecated_function( __METHOD__, '9.11', '_string::toCamelCase()' );
+		_deprecated_function( __METHOD__, '9.11', 'cnQuery::prepareINPlaceholders()' );
 
 		return cnQuery::prepareINPlaceholders( $items, $type );
 	}

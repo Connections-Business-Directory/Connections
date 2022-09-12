@@ -113,6 +113,55 @@ final class _sanitize {
 	}
 
 	/**
+	 * KSES Strips Evil Scripts; ensures that only the allowed HTML element names, attribute names,
+	 * attribute values, and HTML entities will occur in the given text string.
+	 *
+	 * @link http://ottopress.com/2010/wp-quickie-kses/
+	 *
+	 * @since 10.4.28
+	 *
+	 * @param string $html The HTML to sanitize.
+	 *
+	 * @return string
+	 */
+	public static function html( $html ) {
+
+		static $callback = null;
+
+		if ( is_null( $callback ) ) {
+
+			// Private callback for the "wp_kses_allowed_html" filter used to
+			// return allowed HTML for "Connections_Directory/Sanitize/HTML" context.
+			$callback = function( $tags, $context ) {
+				global $allowedposttags;
+
+				if ( 'Connections_Directory/Sanitize/HTML' === $context ) {
+
+					/**
+					 * Default allowable HTML post tags.
+					 *
+					 * Use override default tags.
+					 *
+					 * @since 10.4
+					 *
+					 * @param array $allowedposttags
+					 */
+					return apply_filters( 'Connections_Directory/Utility/Sanitize/HTML', $allowedposttags );
+				}
+
+				return $tags;
+			};
+		}
+
+		if ( false === has_filter( 'wp_kses_allowed_html', $callback ) ) {
+
+			add_filter( 'wp_kses_allowed_html', $callback, 10, 2 );
+		}
+
+		return trim( wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Sanitize/HTML' ) );
+	}
+
+	/**
 	 * Sanitizes search term.
 	 *
 	 * @since 10.4.4
@@ -129,5 +178,21 @@ final class _sanitize {
 		}
 
 		return sanitize_text_field( $term );
+	}
+
+	/**
+	 * Sanitize string removing all HTML tags including script/style tags and their content.
+	 *
+	 * @link http://ottopress.com/2010/wp-quickie-kses/
+	 *
+	 * @since 10.4.28
+	 *
+	 * @param string $string The string to sanitize.
+	 *
+	 * @return string
+	 */
+	public static function string( $string ) {
+
+		return trim( wp_kses( _string::stripScripts( $string ), 'strip' ) );
 	}
 }

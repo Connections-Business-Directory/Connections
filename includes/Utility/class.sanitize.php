@@ -13,7 +13,6 @@
 
 use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
-use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

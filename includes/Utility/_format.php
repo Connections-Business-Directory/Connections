@@ -180,26 +180,6 @@ final class _format {
 	}
 
 	/**
-	 * Prepare the placeholders to be used in a IN query clause using @see wpdb::prepare().
-	 *
-	 * @since 8.1.5
-	 * @deprecated 9.11
-	 *
-	 * @param array  $items The array of items to be used in the IN query clause.
-	 * @param string $type  The type of placeholder to be used.
-	 *                      Default: %s
-	 *                      Accepted: %d, %f, %s
-	 *
-	 * @return string
-	 */
-	public static function prepareINPlaceholders( $items, $type = '%s' ) {
-
-		_deprecated_function( __METHOD__, '9.11', 'cnQuery::prepareINPlaceholders()' );
-
-		return cnQuery::prepareINPlaceholders( $items, $type );
-	}
-
-	/**
 	 * Convert a PHP format string to a jQueryUI Datepicker/DateTimepicker compatible datetime format string.
 	 *
 	 * @access public

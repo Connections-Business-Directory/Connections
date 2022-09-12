@@ -479,6 +479,25 @@ final class _string {
 	}
 
 	/**
+	 * Remove both the script and style tags from the supplied string.
+	 *
+	 * @param string $string The string to remove the script tags.
+	 *
+	 * @return string
+	 */
+	public static function stripScripts( $string ) {
+
+		$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+
+		if ( ! is_string( $string ) ) {
+
+			$string = '';
+		}
+
+		return $string;
+	}
+
+	/**
 	 * Properly strip all HTML tags including script and style.
 	 *
 	 * This differs from strip_tags() because it removes the contents of
@@ -508,6 +527,20 @@ final class _string {
 		}
 
 		return trim( $string );
+	}
+
+	/**
+	 * Texturize string, apply wpautop and make links clickable.
+	 *
+	 * @since 10.4.28
+	 *
+	 * @param string $string The string to texturize.
+	 *
+	 * @return string
+	 */
+	public static function texturize( $string ) {
+
+		return wptexturize( wpautop( make_clickable( $string ) ) );
 	}
 
 	/**

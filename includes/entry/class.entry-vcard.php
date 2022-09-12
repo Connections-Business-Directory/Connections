@@ -9,6 +9,8 @@
  * @since       unknown
  */
 
+use Connections_Directory\Utility\_string;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -72,7 +74,9 @@ class cnEntry_vCard extends cnEntry_HTML {
 		// Set the notes.
 		if ( 0 < strlen( $notes = $this->getNotes() ) ) {
 
-			$this->vCard->set( 'NOTE', $this->format->sanitizeString( $notes ) )
+			$notes = wp_kses( _string::stripScripts( $notes ), 'strip' );
+
+			$this->vCard->set( 'NOTE', $notes )
 						->addParam( 'CHARSET', 'UTF-8' );
 		}
 

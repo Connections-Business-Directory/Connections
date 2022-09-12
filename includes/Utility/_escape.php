@@ -133,7 +133,7 @@ final class _escape {
 			add_filter( 'wp_kses_allowed_html', $callback, 10, 2 );
 		}
 
-		$escaped = wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Escape/HTML' );
+		$escaped = trim( wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Escape/HTML' ) );
 
 		self::maybeEcho( $escaped, $echo );
 

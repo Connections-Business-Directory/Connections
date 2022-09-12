@@ -58,23 +58,6 @@ final class _format {
 	}
 
 	/**
-	 * Strips all numeric characters from the supplied string and returns the string.
-	 *
-	 * @since unknown
-	 * @deprecated 9.11
-	 *
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	public static function stripNonNumeric( $string ) {
-
-		_deprecated_function( __METHOD__, '9.11', '_string::stripNonNumeric()' );
-
-		return _string::stripNonNumeric( $string );
-	}
-
-	/**
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
 	 *

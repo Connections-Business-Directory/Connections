@@ -234,26 +234,6 @@ final class _format {
 	}
 
 	/**
-	 * Convert supplied string to camelCase.
-	 *
-	 * @since 8.5.19
-	 * @deprecated 9.11
-	 *
-	 * @link http://stackoverflow.com/a/2792045/5351316
-	 *
-	 * @param string $string
-	 * @param bool   $capitaliseInitial
-	 *
-	 * @return string
-	 */
-	public static function toCamelCase( $string, $capitaliseInitial = false ) {
-
-		_deprecated_function( __METHOD__, '9.11', '_string::toCamelCase()' );
-
-		return _string::toCamelCase( $string, $capitaliseInitial );
-	}
-
-	/**
 	 * Convert a PHP format string to a jQueryUI Datepicker/DateTimepicker compatible datetime format string.
 	 *
 	 * @access public

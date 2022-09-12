@@ -119,18 +119,16 @@ final class _string {
 	}
 
 	/**
-	 * Whether or not a string begins with string segment.
+	 * Whether a string begins with string segment.
 	 *
 	 * @author  http://stackoverflow.com/users/63557/mrhus
 	 * @license http://creativecommons.org/licenses/by-sa/3.0/
 	 * @link    http://stackoverflow.com/a/834355
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @static
+	 * @since 8.1
 	 *
-	 * @param  string $needle
-	 * @param  string $haystack
+	 * @param string $needle
+	 * @param string $haystack
 	 *
 	 * @return bool
 	 */
@@ -140,18 +138,16 @@ final class _string {
 	}
 
 	/**
-	 * Whether or not a string ends with string segment.
+	 * Whether a string ends with string segment.
 	 *
 	 * @author  http://stackoverflow.com/users/63557/mrhus
 	 * @license http://creativecommons.org/licenses/by-sa/3.0/
 	 * @link    http://stackoverflow.com/a/834355
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @static
+	 * @since 8.1
 	 *
-	 * @param  string $needle
-	 * @param  string $haystack
+	 * @param string $needle
+	 * @param string $haystack
 	 *
 	 * @return bool
 	 */
@@ -202,12 +198,10 @@ final class _string {
 	/**
 	 * Remove prefix from string if it exists.
 	 *
-	 * @access public
-	 * @since  8.1
-	 * @static
+	 * @since 8.1
 	 *
-	 * @param  string $needle
-	 * @param  string $haystack
+	 * @param string $needle
+	 * @param string $haystack
 	 *
 	 * @return string
 	 */
@@ -227,15 +221,13 @@ final class _string {
 	 * @link https://stackoverflow.com/a/1252710/5351316
 	 * @link https://stackoverflow.com/a/22274299/5351316
 	 *
-	 * @access public
-	 * @since  8.24
-	 * @static
+	 * @since 8.24
 	 *
 	 * @param string $search
 	 * @param string $replace
 	 * @param string $subject
 	 *
-	 * @return mixed
+	 * @return string|string[]
 	 */
 	public static function replaceFirst( $search, $replace, $subject ) {
 
@@ -253,15 +245,13 @@ final class _string {
 	 * @link https://stackoverflow.com/a/22269776/5351316
 	 * @link https://stackoverflow.com/a/22274299/5351316
 	 *
-	 * @access public
-	 * @since  8.24
-	 * @static
+	 * @since 8.24
 	 *
 	 * @param string $search
 	 * @param string $replace
 	 * @param string $subject
 	 *
-	 * @return mixed
+	 * @return array|string
 	 */
 	public static function replaceLast( $search, $replace, $subject ) {
 
@@ -280,10 +270,7 @@ final class _string {
 	 *
 	 * @link http://pageconfig.com/post/remove-undesired-characters-with-trim_all-php
 	 *
-	 * @access public
-	 * @since  8.1.6
-	 *
-	 * @uses   wp_slash()
+	 * @since 8.1.6
 	 *
 	 * @param string      $string
 	 * @param string|null $what
@@ -319,8 +306,7 @@ final class _string {
 	 * Normalize a string. Replace all occurrence of one or more spaces with a single space, remove control characters
 	 * and trim whitespace from both ends.
 	 *
-	 * @access public
-	 * @since  8.1.6
+	 * @since 8.1.6
 	 *
 	 * @param string $string The string to normalize.
 	 *
@@ -351,9 +337,7 @@ final class _string {
 	 * Credit:
 	 * @link http://wordpress.stackexchange.com/a/141136
 	 *
-	 * @access public
-	 * @since  8.1.5
-	 * @static
+	 * @since 8.1.5
 	 *
 	 * @param string $string String to create the excerpt from.
 	 * @param array  $atts {
@@ -404,8 +388,8 @@ final class _string {
 		// Save a copy of the raw text for the filter.
 		$raw = $string;
 
-		// Whether or not to append the more string.
-		// This is only true if the word count is is more than the word length limit.
+		// Whether to append the more string.
+		// This is only true if the word count is more than the word length limit.
 		// This is not set if length is set to `p`.
 		$appendMore = false;
 
@@ -425,7 +409,7 @@ final class _string {
 			$excerpt = '';
 			$count   = 0;
 
-			// Divide the string into tokens; HTML tags, or words, followed by any whitespace
+			// Divide the string into tokens; HTML tags, or words, followed by any whitespace.
 			preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
 
 			foreach ( $tokens[0] as $token ) {
@@ -483,6 +467,8 @@ final class _string {
 
 	/**
 	 * Remove both the script and style tags from the supplied string.
+	 *
+	 * @since 10.4.28
 	 *
 	 * @param string $string The string to remove the script tags.
 	 *
@@ -558,12 +544,9 @@ final class _string {
 	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
 	 *   cn_entry_excerpt        => change returned excerpt
 	 *
-	 * Credit:
-	 * @link http://book.cakephp.org/3.0/en/core-libraries/text.html#truncating-text
+	 * Credit {@link http://book.cakephp.org/3.0/en/core-libraries/text.html#truncating-text}
 	 *
-	 * @access public
-	 * @since  8.5.3
-	 * @static
+	 * @since 8.5.3
 	 *
 	 * @param string $string String to truncate.
 	 * @param array  $atts {
@@ -788,10 +771,11 @@ final class _string {
 	/**
 	 * Generate a more truly "random" alpha-numeric string.
 	 *
-	 * NOTE:  If @see openssl_random_pseudo_bytes() does not exist, this will silently fallback to
-	 *        @see cnString::quickRandom().
+	 * NOTE:  If @see openssl_random_pseudo_bytes() does not exist, this will silently fall back to
+	 *        {@see cnString::quickRandom()}.
 	 *
 	 * Function borrowed from Laravel 4.2
+	 *
 	 * @link https://github.com/laravel/framework/blob/4.2/src/Illuminate/Support/Str.php
 	 *
 	 * @since 8.3

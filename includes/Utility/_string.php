@@ -489,13 +489,11 @@ final class _string {
 	 *
 	 * This differs from @see wp_strip_all_tags() in that is adds the `$allowed_tags` param to be passed to `strip_tags()`.
 	 *
-	 * @access public
-	 * @since  8.5.22
-	 * @static
+	 * @since 8.5.22
 	 *
-	 * @param string $string        String containing HTML tags
-	 * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
-	 * @param string $allowed_tags  Optional. String of tags which will not be stripped.
+	 * @param string $string        String containing HTML tags.
+	 * @param bool   $remove_breaks Whether to remove left over line breaks and white space chars.
+	 * @param string $allowed_tags  String of tags which will not be stripped.
 	 *
 	 * @return string The processed string.
 	 */

@@ -542,8 +542,7 @@ class cnSanitize {
 	 *
 	 * Returns either '' or a 3 or 6 digit hex color (with #).
 	 *
-	 * This function is borrowed from the class_wp_customize_manager.php
-	 * file in WordPress core.
+	 * This function is borrowed from the class_wp_customize_manager.php file in WordPress core.
 	 *
 	 * @since 0.8
 	 * @deprecated 10.4.9

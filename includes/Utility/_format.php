@@ -41,10 +41,12 @@ final class _format {
 	 * Limits the output to alphanumeric characters, underscore (_) and dash (-).
 	 * Whitespace becomes a dash.
 	 *
+	 * NOTE: Used in several custom addons; can not remove.
+	 *
 	 * @since unknown
 	 * @deprecated 9.11
 	 *
-	 * @param string $string
+	 * @param string $string The string to convert to kebab case.
 	 *
 	 * @return string
 	 */

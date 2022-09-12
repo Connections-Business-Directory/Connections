@@ -7,6 +7,9 @@
 
 namespace Connections_Directory\Utility;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class _sanitize
  *

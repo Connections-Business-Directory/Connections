@@ -4,6 +4,9 @@ namespace Connections_Directory\Utility;
 
 use WP_Error;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class _string
  *

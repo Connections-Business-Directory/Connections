@@ -9,6 +9,9 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
  * Class _format
  *
  * @package Connections_Directory\Utility
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  */
 final class _format {
 

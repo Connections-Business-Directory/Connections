@@ -465,14 +465,14 @@ final class _string {
 		if ( ( ! preg_match( '/[\s\?\.\!]$/', $excerpt ) ) &&
 			 ( false !== $lastCloseTag && ( false !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
 
-			// Inside last HTML tag
+			// Inside last HTML tag.
 			if ( $appendMore ) {
 				$excerpt = substr_replace( $excerpt, $atts['more'], $lastCloseTag, 0 );
 			}
 
 		} else {
 
-			// After the content
+			// After the content.
 			if ( $appendMore ) {
 				$excerpt .= $atts['more'];
 			}

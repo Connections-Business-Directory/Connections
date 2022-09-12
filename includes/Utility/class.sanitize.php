@@ -117,10 +117,6 @@ class cnSanitize {
 				$string = self::integer( $string );
 				break;
 
-			case 'currency':
-				$string = self::currency( $string );
-				break;
-
 			case 'color':
 				$string = _sanitize::hexColor( $string );
 				break;
@@ -454,30 +450,6 @@ class cnSanitize {
 	public static function integer( $value ) {
 
 		return intval( $value );
-	}
-
-	/**
-	 * Sanitizes currency input.
-	 *
-	 * Returns the currency value of the $input.
-	 *
-	 * @since 0.8
-	 *
-	 * @param string $input Input data to be sanitized.
-	 *
-	 * @return string Returns the $valid string after sanitization.
-	 */
-	public static function currency( $input ) {
-
-		if ( is_numeric( $input ) ) {
-
-			return $input ? number_format( $input, 2 ) : '';
-
-		} else {
-
-			return '';
-		}
-
 	}
 
 	/**

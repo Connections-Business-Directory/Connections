@@ -196,14 +196,9 @@ class cnDependency {
 		return array(
 
 			// Legacy utilities.
-			'cnUtility'                                     => 'includes/Utility/class.utility.php',
-			'cnSanitize'                                    => 'includes/Utility/class.sanitize.php',
-
-			// Legacy collections utility.
-			'cnToArray'    => 'includes/class.to-array.php',
-			'cnArray'      => 'includes/class.array.php',
-			'cnCollection' => 'includes/class.collection.php',
-			'cnHTTP'       => 'includes/class.http.php',
+			'cnUtility'  => 'includes/Utility/class.utility.php',
+			'cnSanitize' => 'includes/Utility/class.sanitize.php',
+			'cnToArray'  => 'includes/Utility/class.to-array.php',
 
 			// Utility.
 			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
@@ -284,9 +279,6 @@ class cnDependency {
 
 			// HTML form elements.
 			'cnFormObjects'            => 'includes/class.form.php',
-
-			// Date methods.
-			'cnDate'                   => 'includes/class.date.php',
 
 			// Metabox API.
 			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',
@@ -581,6 +573,15 @@ class cnDependency {
 			'Connections_Directory\Integration\SEO\Rank_Math\Provider' => 'includes/Integration/SEO/Rank_Math/Provider.php',
 			'Connections_Directory\Integration\WordPress\mShot'        => 'includes/Integration/WordPress/mShot.php',
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
+
+			// Deprecated files for deprecated classes. Required to trigger the autoloader.
+			'cnArray'      => 'includes/Deprecated/class.array.php',
+			'cnCache'      => 'includes/Deprecated/class.cache.php',
+			'cnCollection' => 'includes/Deprecated/class.collection.php',
+			'cnDate'       => 'includes/Deprecated/class.date.php',
+			'cnFragment'   => 'includes/Deprecated/class.fragment.php',
+			'cnHTTP'       => 'includes/Deprecated/class.http.php',
+			'SiteShot'     => 'includes/Deprecated/SiteShot.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

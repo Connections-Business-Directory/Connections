@@ -9,6 +9,7 @@ class_alias( Connections_Directory\Utility\_collection::class, cnCollection::cla
 class_alias( Connections_Directory\Utility\_color::class, cnColor::class );
 class_alias( Connections_Directory\Utility\_date::class, cnDate::class );
 class_alias( Connections_Directory\Utility\_format::class, cnFormatting::class );
+class_alias( Connections_Directory\Utility\_fragment::class, cnFragment::class );
 class_alias( Connections_Directory\Utility\_http::class, cnHTTP::class );
 class_alias( Connections_Directory\Utility\_string::class, cnString::class );
 class_alias( Connections_Directory\Utility\_url::class, cnURL::class );

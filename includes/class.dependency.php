@@ -214,6 +214,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_date'           => 'includes/Utility/_date.php',
 			'Connections_Directory\Utility\_escape'         => 'includes/Utility/_escape.php',
 			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
+			'Connections_Directory\Utility\_fragment'       => 'includes/Utility/_fragment.php',
 			'Connections_Directory\Utility\_html'           => 'includes/Utility/_html.php',
 			'Connections_Directory\Utility\_http'           => 'includes/Utility/_http.php',
 			'Connections_Directory\Utility\_parse'          => 'includes/Utility/_parse.php',
@@ -286,9 +287,6 @@ class cnDependency {
 
 			// Date methods.
 			'cnDate'                   => 'includes/class.date.php',
-
-			// Caching.
-			'cnFragment'               => 'includes/class.fragment.php',
 
 			// Metabox API.
 			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',

@@ -1,4 +1,15 @@
 <?php
+/**
+ * Store and retrieve HTML fragments.
+ *
+ * @package     Connections
+ * @subpackage  Fragment
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       8.1
+ */
+
+namespace Connections_Directory\Utility;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -26,10 +37,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 8.1
  *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
  * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
- * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
-class cnFragment {
+class _fragment {
 
 	const PREFIX = 'cn';
 	protected $key;
@@ -59,7 +70,7 @@ class cnFragment {
 	 */
 	public function get() {
 
-		$fragment = cnCache::get( $this->key, 'transient', $this->group );
+		$fragment = _cache::get( $this->key, 'transient', $this->group );
 
 		if ( false !== $fragment ) {
 
@@ -84,7 +95,7 @@ class cnFragment {
 
 		$ttl = is_null( $ttl ) ? $this->ttl : $ttl;
 
-		cnCache::set( $this->key, ob_get_flush(), $ttl, 'transient', $this->group );
+		_cache::set( $this->key, ob_get_flush(), $ttl, 'transient', $this->group );
 	}
 
 	/**
@@ -99,13 +110,13 @@ class cnFragment {
 
 		if ( true !== $key ) {
 
-			cnCache::clear( $key, 'transient', self::PREFIX );
+			_cache::clear( $key, 'transient', self::PREFIX );
 
 		} else {
 
 			$group_key = empty( $group ) ? self::PREFIX : $group;
 
-			cnCache::clear( true, 'transient', $group_key );
+			_cache::clear( true, 'transient', $group_key );
 		}
 
 	}

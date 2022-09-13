@@ -208,6 +208,7 @@ class cnDependency {
 			// Utility.
 			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
 			'Connections_Directory\Utility\_array'          => 'includes/Utility/_array.php',
+			'Connections_Directory\Utility\_cache'          => 'includes/Utility/_cache.php',
 			'Connections_Directory\Utility\_color'          => 'includes/Utility/_color.php',
 			'Connections_Directory\Utility\_collection'     => 'includes/Utility/_collection.php',
 			'Connections_Directory\Utility\_date'           => 'includes/Utility/_date.php',
@@ -287,7 +288,6 @@ class cnDependency {
 			'cnDate'                   => 'includes/class.date.php',
 
 			// Caching.
-			'cnCache'                  => 'includes/class.cache.php',
 			'cnFragment'               => 'includes/class.fragment.php',
 
 			// Metabox API.

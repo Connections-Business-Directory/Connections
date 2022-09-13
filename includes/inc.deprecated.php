@@ -4,6 +4,7 @@ class_alias( Connections_Directory\SiteShot::class, cnSiteShot::class );
 class_alias( Connections_Directory\Taxonomy\Term::class, cnTerm_Object::class );
 class_alias( Connections_Directory\Utility\_::class, cnFunction::class );
 class_alias( Connections_Directory\Utility\_array::class, cnArray::class );
+class_alias( Connections_Directory\Utility\_cache::class, cnCache::class );
 class_alias( Connections_Directory\Utility\_collection::class, cnCollection::class );
 class_alias( Connections_Directory\Utility\_color::class, cnColor::class );
 class_alias( Connections_Directory\Utility\_date::class, cnDate::class );

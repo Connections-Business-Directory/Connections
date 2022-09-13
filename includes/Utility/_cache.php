@@ -12,6 +12,8 @@
  * @since       8.1
  */
 
+namespace Connections_Directory\Utility;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -21,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
-class cnCache {
+class _cache {
 
 	const PREFIX = 'cn';
 

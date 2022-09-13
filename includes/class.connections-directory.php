@@ -215,7 +215,7 @@ final class Connections_Directory {
 			self::$path      = plugin_dir_path( $file );
 			self::$basename  = plugin_basename( $file );
 
-			require_once self::$path . 'includes/class.constants.php';
+			require_once self::$path . 'includes/inc.constants.php';
 
 			require_once CN_PATH . 'includes/class.dependency.php';
 			cnDependency::register();

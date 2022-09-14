@@ -340,7 +340,7 @@ class cnSystem_Info {
 		$column = array();
 
 		$structure = $wpdb->get_results( 'DESCRIBE ' . $tableName, ARRAY_A );
-		$headers   = self::getTableHeaders( array_shift( $structure ) );
+		$headers   = self::getTableHeaders( reset( $structure ) );
 		$widths    = self::getColumnWidths( $structure );
 
 		foreach ( $headers as $header ) {

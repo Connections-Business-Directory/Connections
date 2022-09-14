@@ -392,8 +392,6 @@ class cnMetabox_Render {
 	 */
 	private function fields( $fields ) {
 
-		// do_action( 'cn_metabox_table_before', $entry, $meta, $this->metabox );
-
 		foreach ( $fields as $field ) {
 
 			$defaults = array(
@@ -876,8 +874,6 @@ class cnMetabox_Render {
 
 			echo '</td>' , '</tr>';
 		}
-
-		// do_action( 'cn_metabox_table_after', $entry, $meta, $this->metabox );
 	}
 
 	/**

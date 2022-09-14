@@ -135,16 +135,6 @@ class cnMetabox_Render {
 
 		} else {
 
-			// self::$metaboxes[ $metabox['id'] ] = array(
-			// 	'id'        => $metabox['id'],
-			// 	'title'     => $metabox['title'],
-			// 	'callback'  => $metabox['callback'],
-			// 	'page_hook' => $pageHook,
-			// 	'context'   => $metabox['context'],
-			// 	'priority'  => $metabox['priority'],
-			// 	'args'      => $metabox
-			// 	);
-
 			$metabox['field'] = isset( $metabox['field'] ) && ! empty( $metabox['field'] ) ? $metabox['field'] : array( 'public' );
 
 			cnMetaboxAPI::add( $metabox );

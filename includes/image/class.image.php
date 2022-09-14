@@ -12,7 +12,7 @@
 use Connections_Directory\Utility\_color;
 use Connections_Directory\Utility\_sanitize;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -364,7 +364,7 @@ class cnImage {
 			/** @var WP_Image_Editor|WP_Error $image */
 			$image = self::get( cnQuery::getVar( 'src' ), $atts, 'editor' );
 
-			// If there been an error
+			// If there been an error.
 			if ( is_wp_error( $image ) ) {
 
 				$errors = implode( '</li><li>', $image->get_error_messages() );
@@ -896,7 +896,7 @@ class cnImage {
 					$canvas_w = $width;
 					$canvas_h = $height;
 
-					// generate new w/h if not provided
+					// Generate new w/h if not provided.
 					if ( $width && ! $height ) {
 
 						$height   = floor( $orig_h * ( $width / $orig_w ) );
@@ -930,7 +930,7 @@ class cnImage {
 					break;
 
 				case 3:
-					// generate new w/h if not provided
+					// Generate new w/h if not provided.
 					if ( $width && ! $height ) {
 
 						$height = floor( $orig_h * ( $width / $orig_w ) );
@@ -971,13 +971,13 @@ class cnImage {
 		// Do not resize, only a crop in the image.
 		} elseif ( true === $crop_only ) {
 
-			// get x position to start cropping
+			// Get x position to start cropping.
 			$src_x = ( isset( $crop_x ) ) ? $crop_x : 0;
 
-			// get y position to start cropping
+			// Get y position to start cropping.
 			$src_y = ( isset( $crop_y ) ) ? $crop_y : 0;
 
-			// width of the crop
+			// Width of the crop.
 			if ( isset( $crop_width ) ) {
 
 				$src_w = $crop_width;
@@ -991,7 +991,7 @@ class cnImage {
 				$src_w = $orig_w;
 			}
 
-			// height of the crop
+			// Height of the crop.
 			if ( isset( $crop_height ) ) {
 
 				$src_h = $crop_height;
@@ -1005,7 +1005,7 @@ class cnImage {
 				$src_h = $orig_h;
 			}
 
-			// set the width resize with the crop
+			// Set the width resize with the crop.
 			if ( isset( $crop_width ) && isset( $width ) ) {
 
 				$dst_w = $width;
@@ -1015,7 +1015,7 @@ class cnImage {
 				$dst_w = null;
 			}
 
-			// set the height resize with the crop
+			// Set the height resize with the crop.
 			if ( isset( $crop_height ) && isset( $height ) ) {
 
 				$dst_h = $height;
@@ -1025,7 +1025,7 @@ class cnImage {
 				$dst_h = null;
 			}
 
-			// allow percentages
+			// Allow percentages.
 			if ( isset( $dst_w ) ) {
 
 				if ( stripos( $dst_w, '%' ) !== false ) {
@@ -1046,7 +1046,7 @@ class cnImage {
 			$dst_w = $dims[4];
 			$dst_h = $dims[5];
 
-			// Make the pos x and pos y work with percentages
+			// Make the pos x and pos y work with percentages.
 			if ( stripos( $src_x, '%' ) !== false ) {
 				$src_x = (int) ( (float) str_replace( '%', '', $width ) / 100 * $orig_w );
 			}
@@ -1055,7 +1055,7 @@ class cnImage {
 				$src_y = (int) ( (float) str_replace( '%', '', $height ) / 100 * $orig_h );
 			}
 
-			// allow center to position crop start
+			// Allow center to position crop start.
 			if ( 'center' === $src_x ) {
 				$src_x = ( $orig_w - $src_w ) / 2;
 			}
@@ -1577,7 +1577,7 @@ class cnImage {
 	public static function resize_dimensions( $payload, $orig_w, $orig_h, $dest_w, $dest_h, $crop = false ) {
 
 		if ( $crop ) {
-			// crop the largest possible portion of the original image that we can size to $dest_w x $dest_h
+			// Crop the largest possible portion of the original image that we can size to $dest_w x $dest_h.
 			$aspect_ratio = $orig_w / $orig_h;
 			$new_w        = $dest_w;
 			$new_h        = $dest_h;
@@ -1601,7 +1601,7 @@ class cnImage {
 
 			list( $x, $y ) = $crop;
 
-			// Ideal offsets
+			// Ideal offsets.
 			$ideal_s_x = $x * $orig_w - ( $crop_w / 2 );
 			$ideal_s_y = $y * $orig_h - ( $crop_h / 2 );
 
@@ -1693,8 +1693,8 @@ class cnImage {
 
 		} else {
 
-			// find the path of the image. Perform 2 checks:
-			// #1 check if the image is in the uploads folder
+			// Find the path of the image. Perform 2 checks:
+			// #1 Check if the image is in the uploads folder.
 			if ( strpos( $source, $upload_info['base_url'] ) !== false ) {
 
 				$rel_path = str_replace( $upload_info['base_url'], '', $source );
@@ -1709,7 +1709,7 @@ class cnImage {
 
 		}
 
-		// Fail if we can't find the image in our WP local directory
+		// Fail if we can't find the image in our WP local directory.
 		if ( empty( $img_path ) || ! @is_file( $img_path ) ) {
 
 			if ( empty( $img_path ) ) {
@@ -2010,19 +2010,19 @@ class cnImage {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 
-		// Save as a temporary file
+		// Save as a temporary file.
 		$tmp = download_url( $url );
 
-		// Check for download errors
+		// Check for download errors.
 		if ( is_wp_error( $tmp ) ) {
 
 			return $tmp;
 		}
 
-		// Image name (just random-number)
+		// Image name (just random-number).
 		$name = rand( 0, 100000 ) . '.jpg';
 
-		// Take care of image files without extension:
+		// Take care of image files without extension.
 		$path = pathinfo( $tmp );
 		if ( ! isset( $path['extension'] ) ) :
 			$tmpnew = $tmp . '.tmp';
@@ -2034,7 +2034,7 @@ class cnImage {
 			endif;
 		endif;
 
-		// Upload the image into the WordPress Media Library:
+		// Upload the image into the WordPress Media Library.
 		$file_array = array(
 			'name'     => $name,
 			'tmp_name' => $tmp,
@@ -2043,7 +2043,7 @@ class cnImage {
 		$id = media_handle_sideload( $file_array, 0 );
 		// $attachment_url = wp_get_attachment_url( $id );
 
-		// Check for handle sideload errors:
+		// Check for handle sideload errors.
 		if ( is_wp_error( $id ) ) {
 			@unlink( $file_array['tmp_name'] );
 

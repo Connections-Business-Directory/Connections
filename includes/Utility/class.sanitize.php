@@ -332,17 +332,14 @@ class cnSanitize {
 	 *
 	 * This method is used to sanitize checkbox groups.
 	 *
-	 * @todo Implement $defaults.
-	 *
 	 * @since 0.8
 	 *
 	 * @param array $values   An index array of values.
 	 * @param array $options  An associative array of the valid options.
-	 * @param array $defaults The values to return if no values exists in the options array.
 	 *
 	 * @return array
 	 */
-	public static function options( $values, $options, $defaults = array() ) {
+	public static function options( $values, $options ) {
 
 		if ( empty( $values ) ) {
 			return array();

@@ -29,18 +29,6 @@ defined( 'ABSPATH' ) || exit;
 class cnMetabox_Render {
 
 	/**
-	 * The metaboxes that were registered to render.
-	 *
-	 * NOTE: This array will only be used to render
-	 * the metaboxes on the frontend.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	private static $metaboxes = array();
-
-	/**
 	 * The array containing the registered metabox attributes.
 	 *
 	 * @since 0.8
@@ -50,15 +38,6 @@ class cnMetabox_Render {
 	private $metabox = array();
 
 	/**
-	 * The array containing the current metabox sections.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	// private $sections = array();
-
-	/**
 	 * The object being worked with.
 	 *
 	 * @since 0.8
@@ -66,15 +45,6 @@ class cnMetabox_Render {
 	 * @var object
 	 */
 	public $object;
-
-	/**
-	 * The metadata for a cnEntry object.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	private $meta = array();
 
 	/**
 	 * The array of all registered quicktag textareas.

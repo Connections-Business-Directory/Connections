@@ -377,12 +377,15 @@ class cnSanitize {
 	 * Sanitizes the rte textarea input.
 	 *
 	 * @since 0.8
+	 * @deprecated 10.4.28
 	 *
 	 * @param string $string
 	 *
 	 * @return string
 	 */
 	public static function html( $string ) {
+
+		_deprecated_function( __METHOD__, '10.4.28', '\Connections_Directory\Utility\_sanitize::html()' );
 
 		if ( false === current_user_can( 'unfiltered_html' ) ) {
 
@@ -396,12 +399,15 @@ class cnSanitize {
 	 * Sanitizes the quicktag textarea input.
 	 *
 	 * @since 0.8
+	 * @deprecated 10.4.28
 	 *
 	 * @param string $string
 	 *
 	 * @return string
 	 */
 	public static function quicktag( $string ) {
+
+		_deprecated_function( __METHOD__, '10.4.28', '\Connections_Directory\Utility\_sanitize::html()' );
 
 		if ( false === current_user_can( 'unfiltered_html' ) ) {
 

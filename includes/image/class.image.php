@@ -9,7 +9,6 @@
  * @since       8.1
  */
 
-use Connections_Directory\Utility\_color;
 use Connections_Directory\Utility\_sanitize;
 
 // Exit if accessed directly.

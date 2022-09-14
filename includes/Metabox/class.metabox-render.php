@@ -866,54 +866,6 @@ class cnMetabox_Render {
 
 					break;
 
-				case 'repeatable':
-					echo '<table id="' . esc_attr( $field['id'] ) . '-repeatable" class="meta_box_repeatable" cellspacing="0">';
-						echo '<tbody>';
-
-							$i = 0;
-
-							// create an empty array.
-							if ( '' == $meta || array() == $meta ) {
-
-								$keys = wp_list_pluck( $field['repeatable'], 'id' );
-								$meta = array( array_fill_keys( $keys, null ) );
-							}
-
-							$meta = array_values( $meta );
-
-							foreach ( $meta as $row ) {
-
-								echo '<tr>
-										<td><span class="sort hndle"></span></td><td>';
-
-								// foreach ( $field['repeatable'] as $repeatable ) {
-
-								// 	if ( ! array_key_exists( $repeatable['id'], $meta[ $field['id'] ] ) ) $meta[ $field['id'] ][ $repeatable['id'] ] = NULL;
-
-								// 	echo '<label>' . $repeatable['label']  . '</label><p>';
-								// 	self::fields( $repeatable, $meta[ $i ][ $repeatable['id'] ], array( $field['id'], $i ) );
-								// 	echo '</p>';
-								// }
-
-								self::fields( $field['repeatable'] );
-
-								echo '</td><td><a class="meta_box_repeatable_remove" href="#"></a></td></tr>';
-
-								$i++;
-
-							} // end each row
-
-						echo '</tbody>';
-						echo '
-							<tfoot>
-								<tr>
-									<th colspan="4"><a class="meta_box_repeatable_add" href="#"></a></th>
-								</tr>
-							</tfoot>';
-					echo '</table>';
-
-					break;
-
 				default:
 					do_action( 'cn_meta_field-' . $field['type'], $field, $value, $this->object );
 					break;

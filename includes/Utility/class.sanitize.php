@@ -39,8 +39,8 @@ class cnSanitize {
 	 * @deprecated 10.4.26 Use _parse::parameters()
 	 * @see \Connections_Directory\Utility\_parse::parameters()
 	 *
-	 * @param array|object|string $untrusted
-	 * @param array               $defaults
+	 * @param array|object|string $untrusted Value to merge with `$defaults`.
+	 * @param array               $defaults  Array that serves as the defaults.
 	 *
 	 * @return array
 	 */
@@ -298,9 +298,9 @@ class cnSanitize {
 	 *
 	 * @since 0.8
 	 *
-	 * @param mixed $value
-	 * @param array $options An associative array of options.
-	 * @param mixed $default The value to return if value does not exist in the options array.
+	 * @param int|string $value   The value to check for in `$options`.
+	 * @param array      $options An associative array of options.
+	 * @param mixed      $default The value to return if value does not exist in the options array.
 	 *
 	 * @return mixed
 	 */
@@ -376,7 +376,7 @@ class cnSanitize {
 	 * @since 0.8
 	 * @deprecated 10.4.28
 	 *
-	 * @param string $string
+	 * @param string $string The string to sanitize.
 	 *
 	 * @return string
 	 */
@@ -398,7 +398,7 @@ class cnSanitize {
 	 * @since 0.8
 	 * @deprecated 10.4.28
 	 *
-	 * @param string $string
+	 * @param string $string The string to sanitize.
 	 *
 	 * @return string
 	 */
@@ -419,7 +419,7 @@ class cnSanitize {
 	 *
 	 * @since 8.2.6
 	 *
-	 * @param int|int[] $id
+	 * @param int|int[] $id An integer or array of integers to sanitize.
 	 *
 	 * @return int|int[]
 	 */
@@ -446,7 +446,7 @@ class cnSanitize {
 	 *
 	 * @since 0.8
 	 *
-	 * @param int $value
+	 * @param int $value An integer to sanitize.
 	 *
 	 * @return int
 	 */
@@ -466,7 +466,7 @@ class cnSanitize {
 	 * @deprecated 10.4.9
 	 * @see \Connections_Directory\Utility\_sanitize::hexColor()
 	 *
-	 * @param string $color
+	 * @param string $color The hashed (#) hex color to sanitize.
 	 *
 	 * @return string
 	 */

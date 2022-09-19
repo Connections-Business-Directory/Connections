@@ -47,15 +47,6 @@ class cnMetabox_Render {
 	public $object;
 
 	/**
-	 * The array of all registered quicktag textareas.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	private static $quickTagIDs = array();
-
-	/**
 	 * The array of all registered slider settings.
 	 *
 	 * @since 0.8
@@ -783,22 +774,11 @@ class cnMetabox_Render {
 									 ->text( $field['desc'] )
 									 ->render();
 
-					echo '<div class="wp-editor-container">';
-
-					printf(
-						'<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s"%2$s>%3$s</textarea>',
-						esc_attr( $field['id'] ),
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : '',
-						wp_kses_data( $value )
-					);
-
-					echo '</div>';
-
-					self::$quickTagIDs[] = esc_attr( $field['id'] );
-
-					wp_enqueue_script( 'jquery' );
-					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
-					add_action( 'wp_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
+					Field\Quicktag::create()
+								  ->setId( $field['id'] )
+								  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+								  ->setValue( $value )
+								  ->render();
 
 					break;
 
@@ -814,13 +794,14 @@ class cnMetabox_Render {
 						'textarea_name' => sprintf( '%1$s', $field['id'] ),
 					);
 
-					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+					$settings = wp_parse_args( _array::get( $field, 'options', array() ), $defaults );
 
-					wp_editor(
-						cnSanitize::html( $value ),
-						'cn-' . $field['id'],
-						$atts
-					);
+					Field\Rich_Text::create()
+								   ->setId( $field['id'] )
+								   ->setPrefix( 'cn' )
+								   ->rteSettings( $settings )
+								   ->setValue( $value )
+								   ->render();
 
 					break;
 
@@ -834,23 +815,6 @@ class cnMetabox_Render {
 
 			echo '</td>' , '</tr>';
 		}
-	}
-
-	/**
-	 * Outputs the JS necessary to support the quicktag textareas.
-	 *
-	 * @internal
-	 * @since 0.8
-	 */
-	public static function quickTagJS() {
-		echo '<script type="text/javascript">/* <![CDATA[ */';
-
-		foreach ( self::$quickTagIDs as $id ) {
-
-			echo 'quicktags("' . esc_js( $id ) . '");';
-		}
-
-		echo '/* ]]> */</script>';
 	}
 
 	/**

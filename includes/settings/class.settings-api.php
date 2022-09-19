@@ -57,12 +57,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 		private static $coreSections = array( 'default', 'remote_publishing', 'post_via_email', 'avatars', 'embeds', 'uploads', 'optional' );
 
 		/**
-		 * The array of all registerd quicktag textareas.
-		 * @var array
-		 */
-		private static $quickTagIDs = array();
-
-		/**
 		 * The array of all registered sortable IDs.
 		 * @var array
 		 */
@@ -969,42 +963,40 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'quicktag':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-						$out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
-					}
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$name}-description" )
+											 ->text( $field['desc'] )
+											 ->setTag( 'p' )
+											 ->getHTML();
 
-					$out .= '<div class="wp-editor-container">';
-					$out .= sprintf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>', $name, $value );
-					$out .= '</div>';
-
-					self::$quickTagIDs[] = $name;
-
-					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
+					$out . Field\Quicktag::create()
+										 ->setId( $name )
+										 ->setValue( $value )
+										 ->getHTML();
 
 					break;
 
 				case 'rte':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf(
-							'<div class="description"> %1$s</div>',
-							esc_html( $field['desc'] )
-						);
-
-					}
-
 					// Set the rte defaults.
 					$defaults = array(
 						'textarea_name' => sprintf( '%1$s', $name ),
 					);
 
-					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+					$settings = wp_parse_args( _array::get( $field, 'options', array() ), $defaults );
 
-					wp_editor(
-						wp_kses_post( $value ),
-						'cn-' . $field['id'],
-						$atts
-					);
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->text( $field['desc'] )
+											 ->setTag( 'div' )
+											 ->getHTML();
+
+					$out .= Field\Rich_Text::create()
+								   ->setId( $field['id'] )
+								   ->setPrefix( 'cn' )
+								   ->rteSettings( $settings )
+								   ->setValue( $value )
+								   ->getHTML();
 
 					break;
 
@@ -1836,24 +1828,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 			}
 
 			echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		}
-
-		/**
-		 * Outputs the JS necessary to support the quicktag textareas.
-		 *
-		 * @author Steven A. Zahm
-		 * @access private
-		 * @since  0.7.3.0
-		 */
-		public static function quickTagJS() {
-			echo '<script type="text/javascript">/* <![CDATA[ */';
-
-			foreach ( self::$quickTagIDs as $id ) {
-
-				echo 'quicktags("' . esc_js( $id ) . '");';
-			}
-
-			echo '/* ]]> */</script>';
 		}
 
 		/**

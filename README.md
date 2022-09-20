@@ -246,6 +246,47 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.28 09/20/2022 =
+
+* NEW: Introduce `_sanitize::html()` and `_sanitize::string()`.
+* NEW: Introduce `_string::stripScripts()` and `_string::texturize()`.
+* NEW: Introduce the `Rich_Text` and `Quicktag` fields to the Fields API.
+* TWEAK: Replace instances of deprecated `cnString` with `_string`.
+* TWEAK: Refactor `_string::stripTags()` to utilize `_string::stripScripts()`.
+* TWEAK: Add `trim()` to `_escape::html()`.
+* TWEAK: Refactor `cnCategory::getDescription()` to remove use of deprecated method `cnSanitize::sanitizeString()`.
+* TWEAK: Move and rename the cnCache class file to the Utility folder.
+* TWEAK: Rename `cnCache` to `Connections_Directory\Utility\_cache`.
+* TWEAK: Move and rename the cnFragment class file to the Utility folder.
+* TWEAK: Rename `cnFragment` to `Connections_Directory\Utility\_fragment`.
+* TWEAK: Move deprecated files to Deprecated sub folder and move utility interface to the Utility sub folder.
+* TWEAK: Plugin constants do not need to be declared in a class.
+* TWEAK: Rename plugin constants file.
+* TWEAK: Remove broken and unused repeatable metabox code.
+* TWEAK: Remove unused comment out code.
+* TWEAK: Remove unused class properties in `cnMetabox_Render`.
+* TWEAK: Implement the `Rich_Text` and `Quicktag` fields in both the Settings API and Metabox API to reduce code
+  duplication.
+* BUG: Correct replacement message in deprecated method.
+* BUG: Correct table display in system info so the `id` column is no longer dropped.
+* BUG: Use the `pages` attribute when registering metaboxes. Fixes blank Dashboard admin page.
+* DEV: phpDoc updates.
+* DEV: Remove deprecated `_format::toCamelCase()` method.
+* DEV: Remove deprecated `_format::stripNonNumeric()` method.
+* DEV: Remove use of deprecated `cnFormatting::sanitizeString()` from `cnEntry_vCard`.
+* DEV: Remove use of deprecated `cnFormatting` in `cnEntry`.
+* DEV: Remove deprecated method `_format::sanitizeString()`.
+* DEV: Remove deprecated method `cnSanitize::sanitizeString()`.
+* DEV: Remove unused import.
+* DEV: Prevent direct access.
+* DEV: Remove unused `cnSanitize::currency()` method.
+* DEV: Remove unused deprecated method `_format::prepareINPlaceholders()`.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpDoc corrections and updates.
+* DEV: Remove unused deprecated `inc.processes.php` file.
+* DEV: Deprecate `cnSanitize::html()` and `cnSanitize::quicktag()`.
+* DEV: Remove unused method parameter.
+
 = 10.4.27 09/08/2022 =
 
 * TWEAK: First pass at refactoring the Metabox API. Convert the "Publish" metabox as a pathfinder.
@@ -557,26 +598,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc updates.
 * DEV: Update Composer required PHP version.
 * DEV: Add `johnpbloch/wordpress-core-installer` to `allow-plugins` in `composer.json`.
-* DEV: Update dist files.
-
-= 10.4.12 02/02/2022 =
-
-* TWEAK: Apply eslinit and wp-prettier to the Directory Block `index.js` file.
-* TWEAK: Rename `onChange` event variables, so they do not conflict with previously declared variables of the same name.
-* TWEAK: Update the Directory block to break out the edit and save callbacks to improve maintenance.
-* BUG: Change `isEditorPreview` default block value from `true` to `false`.
-* BUG: On mobile, set the default option to disabled/hidden, so it is not selectable by the user when using the mobile
-  OS native select control.
-* BUG: Add missing return on error when processing a logo image.
-* DEV: Format `webpack.config.js` using prettier.
-* DEV: Adjust .eslintrc config to add path to babel config.
-* DEV: Update npm packages.
-* DEV: Correct `.editorconfig` syntax error.
-* DEV: Add Prettier config.
-* DEV: Add stylelint and config.
-* DEV: phpDoc corrections.
-* DEV: Switch from Prettier to WP_Prettier.
-* DEV: Remove the `eslintConfig` key from `package.json` since the config exists in `.eslintrc`.
 * DEV: Update dist files.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

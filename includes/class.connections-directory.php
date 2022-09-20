@@ -19,7 +19,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.27';
+	const VERSION = '10.4.28';
 
 	/**
 	 * Stores the instance of this class.
@@ -215,8 +215,7 @@ final class Connections_Directory {
 			self::$path      = plugin_dir_path( $file );
 			self::$basename  = plugin_basename( $file );
 
-			require_once self::$path . 'includes/class.constants.php';
-			cnConstants::define();
+			require_once self::$path . 'includes/inc.constants.php';
 
 			require_once CN_PATH . 'includes/class.dependency.php';
 			cnDependency::register();

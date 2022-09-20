@@ -13,12 +13,9 @@
 
 use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
-use function Connections_Directory\Utility\_deprecated\_argument as _deprecated_argument;
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnSanitize
@@ -42,8 +39,8 @@ class cnSanitize {
 	 * @deprecated 10.4.26 Use _parse::parameters()
 	 * @see \Connections_Directory\Utility\_parse::parameters()
 	 *
-	 * @param array|object|string $untrusted
-	 * @param array               $defaults
+	 * @param array|object|string $untrusted Value to merge with `$defaults`.
+	 * @param array               $defaults  Array that serves as the defaults.
 	 *
 	 * @return array
 	 */
@@ -120,10 +117,6 @@ class cnSanitize {
 				$string = self::integer( $string );
 				break;
 
-			case 'currency':
-				$string = self::currency( $string );
-				break;
-
 			case 'color':
 				$string = _sanitize::hexColor( $string );
 				break;
@@ -134,60 +127,6 @@ class cnSanitize {
 		}
 
 		return $string;
-	}
-
-	/**
-	 * Sanitize the input string. HTML tags can be permitted.
-	 * The permitted tags can be supplied in an array.
-	 *
-	 * @since unknown
-	 * @deprecated 9.11
-	 *
-	 * @param string $string
-	 * @param bool   $allowHTML
-	 * @param array  $permittedTags
-	 *
-	 * @return string
-	 */
-	public static function sanitizeString( $string, $allowHTML = false, $permittedTags = array() ) {
-
-		_deprecated_function( __METHOD__, '9.11' );
-		_deprecated_argument( __METHOD__, '10.4.6', 'The permitted_tags argument is deprecated.' ); // Never implemented.
-
-		// Strip all tags except the permitted.
-		if ( ! $allowHTML ) {
-
-			// Ensure all tags are closed. Uses WordPress method balanceTags().
-			$balancedText = balanceTags( $string, true );
-
-			$strippedText = strip_tags( $balancedText );
-
-			// Strip all script and style tags.
-			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $strippedText );
-
-			// Escape text using the WordPress method and then strip slashes.
-			$escapedText = stripslashes( esc_attr( $strippedText ) );
-
-			// Remove line breaks and trim white space.
-			$escapedText = preg_replace( '/[\r\n\t ]+/', ' ', $escapedText );
-
-			return trim( $escapedText );
-
-		} else {
-
-			// Strip all script and style tags.
-			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
-			$strippedText = preg_replace( '/&lt;(script|style).*?&gt;.*?&lt;\/\\1&gt;/si', '', stripslashes( $strippedText ) );
-
-			/*
-			 * Use WordPress method make_clickable() to make links clickable and
-			 * use kses for filtering.
-			 *
-			 * http://ottopress.com/2010/wp-quickie-kses/
-			 */
-			return wptexturize( wpautop( make_clickable( wp_kses_post( $strippedText ) ) ) );
-		}
-
 	}
 
 	/**
@@ -359,9 +298,9 @@ class cnSanitize {
 	 *
 	 * @since 0.8
 	 *
-	 * @param mixed $value
-	 * @param array $options An associative array of options.
-	 * @param mixed $default The value to return if value does not exist in the options array.
+	 * @param int|string $value   The value to check for in `$options`.
+	 * @param array      $options An associative array of options.
+	 * @param mixed      $default The value to return if value does not exist in the options array.
 	 *
 	 * @return mixed
 	 */
@@ -393,17 +332,14 @@ class cnSanitize {
 	 *
 	 * This method is used to sanitize checkbox groups.
 	 *
-	 * @todo Implement $defaults.
-	 *
 	 * @since 0.8
 	 *
 	 * @param array $values   An index array of values.
 	 * @param array $options  An associative array of the valid options.
-	 * @param array $defaults The values to return if no values exists in the options array.
 	 *
 	 * @return array
 	 */
-	public static function options( $values, $options, $defaults = array() ) {
+	public static function options( $values, $options ) {
 
 		if ( empty( $values ) ) {
 			return array();
@@ -438,12 +374,15 @@ class cnSanitize {
 	 * Sanitizes the rte textarea input.
 	 *
 	 * @since 0.8
+	 * @deprecated 10.4.28
 	 *
-	 * @param string $string
+	 * @param string $string The string to sanitize.
 	 *
 	 * @return string
 	 */
 	public static function html( $string ) {
+
+		_deprecated_function( __METHOD__, '10.4.28', '\Connections_Directory\Utility\_sanitize::html()' );
 
 		if ( false === current_user_can( 'unfiltered_html' ) ) {
 
@@ -457,12 +396,15 @@ class cnSanitize {
 	 * Sanitizes the quicktag textarea input.
 	 *
 	 * @since 0.8
+	 * @deprecated 10.4.28
 	 *
-	 * @param string $string
+	 * @param string $string The string to sanitize.
 	 *
 	 * @return string
 	 */
 	public static function quicktag( $string ) {
+
+		_deprecated_function( __METHOD__, '10.4.28', '\Connections_Directory\Utility\_sanitize::html()' );
 
 		if ( false === current_user_can( 'unfiltered_html' ) ) {
 
@@ -477,7 +419,7 @@ class cnSanitize {
 	 *
 	 * @since 8.2.6
 	 *
-	 * @param int|int[] $id
+	 * @param int|int[] $id An integer or array of integers to sanitize.
 	 *
 	 * @return int|int[]
 	 */
@@ -504,7 +446,7 @@ class cnSanitize {
 	 *
 	 * @since 0.8
 	 *
-	 * @param int $value
+	 * @param int $value An integer to sanitize.
 	 *
 	 * @return int
 	 */
@@ -514,42 +456,17 @@ class cnSanitize {
 	}
 
 	/**
-	 * Sanitizes currency input.
-	 *
-	 * Returns the currency value of the $input.
-	 *
-	 * @since 0.8
-	 *
-	 * @param string $input Input data to be sanitized.
-	 *
-	 * @return string Returns the $valid string after sanitization.
-	 */
-	public static function currency( $input ) {
-
-		if ( is_numeric( $input ) ) {
-
-			return $input ? number_format( $input, 2 ) : '';
-
-		} else {
-
-			return '';
-		}
-
-	}
-
-	/**
 	 * Sanitizes a hex color.
 	 *
 	 * Returns either '' or a 3 or 6 digit hex color (with #).
 	 *
-	 * This function is borrowed from the class_wp_customize_manager.php
-	 * file in WordPress core.
+	 * This function is borrowed from the class_wp_customize_manager.php file in WordPress core.
 	 *
 	 * @since 0.8
 	 * @deprecated 10.4.9
 	 * @see \Connections_Directory\Utility\_sanitize::hexColor()
 	 *
-	 * @param string $color
+	 * @param string $color The hashed (#) hex color to sanitize.
 	 *
 	 * @return string
 	 */

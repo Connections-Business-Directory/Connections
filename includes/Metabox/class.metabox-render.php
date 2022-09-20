@@ -29,18 +29,6 @@ defined( 'ABSPATH' ) || exit;
 class cnMetabox_Render {
 
 	/**
-	 * The metaboxes that were registered to render.
-	 *
-	 * NOTE: This array will only be used to render
-	 * the metaboxes on the frontend.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	private static $metaboxes = array();
-
-	/**
 	 * The array containing the registered metabox attributes.
 	 *
 	 * @since 0.8
@@ -50,15 +38,6 @@ class cnMetabox_Render {
 	private $metabox = array();
 
 	/**
-	 * The array containing the current metabox sections.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	// private $sections = array();
-
-	/**
 	 * The object being worked with.
 	 *
 	 * @since 0.8
@@ -66,24 +45,6 @@ class cnMetabox_Render {
 	 * @var object
 	 */
 	public $object;
-
-	/**
-	 * The metadata for a cnEntry object.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	private $meta = array();
-
-	/**
-	 * The array of all registered quicktag textareas.
-	 *
-	 * @since 0.8
-	 *
-	 * @var array
-	 */
-	private static $quickTagIDs = array();
 
 	/**
 	 * The array of all registered slider settings.
@@ -134,16 +95,6 @@ class cnMetabox_Render {
 			);
 
 		} else {
-
-			// self::$metaboxes[ $metabox['id'] ] = array(
-			// 	'id'        => $metabox['id'],
-			// 	'title'     => $metabox['title'],
-			// 	'callback'  => $metabox['callback'],
-			// 	'page_hook' => $pageHook,
-			// 	'context'   => $metabox['context'],
-			// 	'priority'  => $metabox['priority'],
-			// 	'args'      => $metabox
-			// 	);
 
 			$metabox['field'] = isset( $metabox['field'] ) && ! empty( $metabox['field'] ) ? $metabox['field'] : array( 'public' );
 
@@ -391,8 +342,6 @@ class cnMetabox_Render {
 	 * @param array $fields An indexed array of fields to render.
 	 */
 	private function fields( $fields ) {
-
-		// do_action( 'cn_metabox_table_before', $entry, $meta, $this->metabox );
 
 		foreach ( $fields as $field ) {
 
@@ -825,22 +774,11 @@ class cnMetabox_Render {
 									 ->text( $field['desc'] )
 									 ->render();
 
-					echo '<div class="wp-editor-container">';
-
-					printf(
-						'<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s"%2$s>%3$s</textarea>',
-						esc_attr( $field['id'] ),
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : '',
-						wp_kses_data( $value )
-					);
-
-					echo '</div>';
-
-					self::$quickTagIDs[] = esc_attr( $field['id'] );
-
-					wp_enqueue_script( 'jquery' );
-					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
-					add_action( 'wp_print_footer_scripts', array( __CLASS__, 'quickTagJS' ) );
+					Field\Quicktag::create()
+								  ->setId( $field['id'] )
+								  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+								  ->setValue( $value )
+								  ->render();
 
 					break;
 
@@ -856,61 +794,14 @@ class cnMetabox_Render {
 						'textarea_name' => sprintf( '%1$s', $field['id'] ),
 					);
 
-					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+					$settings = wp_parse_args( _array::get( $field, 'options', array() ), $defaults );
 
-					wp_editor(
-						cnSanitize::html( $value ),
-						'cn-' . $field['id'],
-						$atts
-					);
-
-					break;
-
-				case 'repeatable':
-					echo '<table id="' . esc_attr( $field['id'] ) . '-repeatable" class="meta_box_repeatable" cellspacing="0">';
-						echo '<tbody>';
-
-							$i = 0;
-
-							// create an empty array.
-							if ( '' == $meta || array() == $meta ) {
-
-								$keys = wp_list_pluck( $field['repeatable'], 'id' );
-								$meta = array( array_fill_keys( $keys, null ) );
-							}
-
-							$meta = array_values( $meta );
-
-							foreach ( $meta as $row ) {
-
-								echo '<tr>
-										<td><span class="sort hndle"></span></td><td>';
-
-								// foreach ( $field['repeatable'] as $repeatable ) {
-
-								// 	if ( ! array_key_exists( $repeatable['id'], $meta[ $field['id'] ] ) ) $meta[ $field['id'] ][ $repeatable['id'] ] = NULL;
-
-								// 	echo '<label>' . $repeatable['label']  . '</label><p>';
-								// 	self::fields( $repeatable, $meta[ $i ][ $repeatable['id'] ], array( $field['id'], $i ) );
-								// 	echo '</p>';
-								// }
-
-								self::fields( $field['repeatable'] );
-
-								echo '</td><td><a class="meta_box_repeatable_remove" href="#"></a></td></tr>';
-
-								$i++;
-
-							} // end each row
-
-						echo '</tbody>';
-						echo '
-							<tfoot>
-								<tr>
-									<th colspan="4"><a class="meta_box_repeatable_add" href="#"></a></th>
-								</tr>
-							</tfoot>';
-					echo '</table>';
+					Field\Rich_Text::create()
+								   ->setId( $field['id'] )
+								   ->setPrefix( 'cn' )
+								   ->rteSettings( $settings )
+								   ->setValue( $value )
+								   ->render();
 
 					break;
 
@@ -924,25 +815,6 @@ class cnMetabox_Render {
 
 			echo '</td>' , '</tr>';
 		}
-
-		// do_action( 'cn_metabox_table_after', $entry, $meta, $this->metabox );
-	}
-
-	/**
-	 * Outputs the JS necessary to support the quicktag textareas.
-	 *
-	 * @internal
-	 * @since 0.8
-	 */
-	public static function quickTagJS() {
-		echo '<script type="text/javascript">/* <![CDATA[ */';
-
-		foreach ( self::$quickTagIDs as $id ) {
-
-			echo 'quicktags("' . esc_js( $id ) . '");';
-		}
-
-		echo '/* ]]> */</script>';
 	}
 
 	/**

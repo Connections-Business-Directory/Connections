@@ -1,5 +1,8 @@
 <?php
 
+use Connections_Directory\Metabox;
+use Connections_Directory\Utility\_array;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -176,7 +179,7 @@ class cnMetaboxAPI {
 
 		$metabox['args']     = $metabox;
 		$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
-		$metabox['pages']    = \Connections_Directory\Metabox::getPageHooks();
+		$metabox['pages']    = _array::get( $metabox, 'pages', Metabox::getPageHooks() );
 		$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
 
 		// Use the core metabox API to render the metabox unless the metabox was registered with a custom callback to be used to render the metabox.

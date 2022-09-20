@@ -2,6 +2,9 @@
 
 namespace Connections_Directory\Utility;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class _escape
  *
@@ -90,6 +93,8 @@ final class _escape {
 	 * KSES Strips Evil Scripts; ensures that only the allowed HTML element names, attribute names, attribute values,
 	 * and HTML entities will occur in the given text string.
 	 *
+	 * @link http://ottopress.com/2010/wp-quickie-kses/
+	 *
 	 * @since 10.4
 	 *
 	 * @param string $html The HTML to escape.
@@ -103,7 +108,8 @@ final class _escape {
 
 		if ( is_null( $callback ) ) {
 
-			// Private callback for the "wp_kses_allowed_html" filter used to return allowed HTML for "Connections_Directory/Escape/HTML" context.
+			// Private callback for the "wp_kses_allowed_html" filter used to
+			// return allowed HTML for "Connections_Directory/Escape/HTML" context.
 			$callback = function( $tags, $context ) {
 				global $allowedposttags;
 
@@ -130,7 +136,7 @@ final class _escape {
 			add_filter( 'wp_kses_allowed_html', $callback, 10, 2 );
 		}
 
-		$escaped = wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Escape/HTML' );
+		$escaped = trim( wp_kses( force_balance_tags( (string) $html ), 'Connections_Directory/Escape/HTML' ) );
 
 		self::maybeEcho( $escaped, $echo );
 

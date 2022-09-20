@@ -196,23 +196,20 @@ class cnDependency {
 		return array(
 
 			// Legacy utilities.
-			'cnUtility'                                     => 'includes/Utility/class.utility.php',
-			'cnSanitize'                                    => 'includes/Utility/class.sanitize.php',
-
-			// Legacy collections utility.
-			'cnToArray'    => 'includes/class.to-array.php',
-			'cnArray'      => 'includes/class.array.php',
-			'cnCollection' => 'includes/class.collection.php',
-			'cnHTTP'       => 'includes/class.http.php',
+			'cnUtility'  => 'includes/Utility/class.utility.php',
+			'cnSanitize' => 'includes/Utility/class.sanitize.php',
+			'cnToArray'  => 'includes/Utility/class.to-array.php',
 
 			// Utility.
 			'Connections_Directory\Utility\_'               => 'includes/Utility/_.php',
 			'Connections_Directory\Utility\_array'          => 'includes/Utility/_array.php',
+			'Connections_Directory\Utility\_cache'          => 'includes/Utility/_cache.php',
 			'Connections_Directory\Utility\_color'          => 'includes/Utility/_color.php',
 			'Connections_Directory\Utility\_collection'     => 'includes/Utility/_collection.php',
 			'Connections_Directory\Utility\_date'           => 'includes/Utility/_date.php',
 			'Connections_Directory\Utility\_escape'         => 'includes/Utility/_escape.php',
 			'Connections_Directory\Utility\_format'         => 'includes/Utility/_format.php',
+			'Connections_Directory\Utility\_fragment'       => 'includes/Utility/_fragment.php',
 			'Connections_Directory\Utility\_html'           => 'includes/Utility/_html.php',
 			'Connections_Directory\Utility\_http'           => 'includes/Utility/_http.php',
 			'Connections_Directory\Utility\_parse'          => 'includes/Utility/_parse.php',
@@ -282,13 +279,6 @@ class cnDependency {
 
 			// HTML form elements.
 			'cnFormObjects'            => 'includes/class.form.php',
-
-			// Date methods.
-			'cnDate'                   => 'includes/class.date.php',
-
-			// Caching.
-			'cnCache'                  => 'includes/class.cache.php',
-			'cnFragment'               => 'includes/class.fragment.php',
 
 			// Metabox API.
 			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',
@@ -373,8 +363,10 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Label'                  => 'includes/Form/Field/Label.php',
 			'Connections_Directory\Form\Field\Number'                 => 'includes/Form/Field/Number.php',
 			'Connections_Directory\Form\Field\Option'                 => 'includes/Form/Field/Option.php',
+			'Connections_Directory\Form\Field\Quicktag'               => 'includes/Form/Field/Quicktag.php',
 			'Connections_Directory\Form\Field\Radio'                  => 'includes/Form/Field/Radio.php',
 			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',
+			'Connections_Directory\Form\Field\Rich_Text'              => 'includes/Form/Field/Rich_Text.php',
 			'Connections_Directory\Form\Field\Select'                 => 'includes/Form/Field/Select.php',
 			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
@@ -583,6 +575,15 @@ class cnDependency {
 			'Connections_Directory\Integration\SEO\Rank_Math\Provider' => 'includes/Integration/SEO/Rank_Math/Provider.php',
 			'Connections_Directory\Integration\WordPress\mShot'        => 'includes/Integration/WordPress/mShot.php',
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
+
+			// Deprecated files for deprecated classes. Required to trigger the autoloader.
+			'cnArray'      => 'includes/Deprecated/class.array.php',
+			'cnCache'      => 'includes/Deprecated/class.cache.php',
+			'cnCollection' => 'includes/Deprecated/class.collection.php',
+			'cnDate'       => 'includes/Deprecated/class.date.php',
+			'cnFragment'   => 'includes/Deprecated/class.fragment.php',
+			'cnHTTP'       => 'includes/Deprecated/class.http.php',
+			'SiteShot'     => 'includes/Deprecated/SiteShot.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

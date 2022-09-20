@@ -277,12 +277,6 @@ class cnEntry {
 	private $status;
 
 	/**
-	 * @since unknown
-	 * @var cnFormatting
-	 */
-	public $format;
-
-	/**
 	 * @access private
 	 * @since  unknown
 	 *
@@ -311,9 +305,6 @@ class cnEntry {
 	 * @param object|null $entry
 	 */
 	public function __construct( $entry = null ) {
-
-		// Load the formatting class for sanitizing the get methods.
-		$this->format = new cnFormatting();
 
 		$this->im          = new cnEntry_Messenger_IDs();
 		$this->links       = new cnEntry_Links();

@@ -2,38 +2,20 @@
 
 namespace Connections_Directory\Utility;
 
-use cnQuery;
-use cnSanitize;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class _format
  *
  * @package Connections_Directory\Utility
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  */
 final class _format {
-
-	/**
-	 * Sanitize the input string. HTML tags can be permitted.
-	 * The permitted tags can be supplied in an array.
-	 *
-	 * @TODO: Finish the code needed to support the $permittedTags array.
-	 *
-	 * @since unknown
-	 * @deprecated 9.11
-	 *
-	 * @param string $string
-	 * @param bool   $allowHTML
-	 * @param array  $permittedTags
-	 *
-	 * @return string
-	 */
-	public static function sanitizeString( $string, $allowHTML = false, $permittedTags = array() ) {
-
-		_deprecated_function( __METHOD__, '9.11', 'cnSanitize::sanitizeString()' );
-
-		return cnSanitize::sanitizeString( $string, $allowHTML, $permittedTags );
-	}
 
 	/**
 	 * Uses WordPress function to sanitize the input string.
@@ -41,10 +23,12 @@ final class _format {
 	 * Limits the output to alphanumeric characters, underscore (_) and dash (-).
 	 * Whitespace becomes a dash.
 	 *
+	 * NOTE: Used in several custom addons; can not remove.
+	 *
 	 * @since unknown
 	 * @deprecated 9.11
 	 *
-	 * @param string $string
+	 * @param string $string The string to convert to kebab case.
 	 *
 	 * @return string
 	 */
@@ -53,23 +37,6 @@ final class _format {
 		_deprecated_function( __METHOD__, '9.11', '_string::toKebabCase()' );
 
 		return _string::toKebabCase( $string );
-	}
-
-	/**
-	 * Strips all numeric characters from the supplied string and returns the string.
-	 *
-	 * @since unknown
-	 * @deprecated 9.11
-	 *
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	public static function stripNonNumeric( $string ) {
-
-		_deprecated_function( __METHOD__, '9.11', '_string::stripNonNumeric()' );
-
-		return _string::stripNonNumeric( $string );
 	}
 
 	/**
@@ -209,46 +176,6 @@ final class _format {
 		_deprecated_function( __METHOD__, '8.2.9', '_string::excerpt()' );
 
 		return _string::excerpt( $string, $atts );
-	}
-
-	/**
-	 * Prepare the placeholders to be used in a IN query clause using @see wpdb::prepare().
-	 *
-	 * @since 8.1.5
-	 * @deprecated 9.11
-	 *
-	 * @param array  $items The array of items to be used in the IN query clause.
-	 * @param string $type  The type of placeholder to be used.
-	 *                      Default: %s
-	 *                      Accepted: %d, %f, %s
-	 *
-	 * @return string
-	 */
-	public static function prepareINPlaceholders( $items, $type = '%s' ) {
-
-		_deprecated_function( __METHOD__, '9.11', '_string::toCamelCase()' );
-
-		return cnQuery::prepareINPlaceholders( $items, $type );
-	}
-
-	/**
-	 * Convert supplied string to camelCase.
-	 *
-	 * @since 8.5.19
-	 * @deprecated 9.11
-	 *
-	 * @link http://stackoverflow.com/a/2792045/5351316
-	 *
-	 * @param string $string
-	 * @param bool   $capitaliseInitial
-	 *
-	 * @return string
-	 */
-	public static function toCamelCase( $string, $capitaliseInitial = false ) {
-
-		_deprecated_function( __METHOD__, '9.11', '_string::toCamelCase()' );
-
-		return _string::toCamelCase( $string, $capitaliseInitial );
 	}
 
 	/**

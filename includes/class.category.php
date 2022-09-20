@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_string;
 
 /**
  * Class cnCategory
@@ -111,7 +112,11 @@ class cnCategory {
 	 * Returns $description.
 	 */
 	public function getDescription() {
-		return cnSanitize::sanitizeString( $this->description, true );
+
+		$description = _string::stripScripts( $this->description );
+		$description = _string::texturize( $description );
+
+		return _escape::html( $description );
 	}
 
 	/**

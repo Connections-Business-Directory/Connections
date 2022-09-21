@@ -66,7 +66,7 @@ class Department extends Related {
 					$this->set(
 						'heading',
 						/* translators: Department name; a department is one of the sections in an organization. */
-						sprintf( __( 'Related by State - %s', 'connections' ), $queryParameters['department'] )
+						sprintf( __( 'Related by Department - %s', 'connections' ), $queryParameters['department'] )
 					);
 				}
 

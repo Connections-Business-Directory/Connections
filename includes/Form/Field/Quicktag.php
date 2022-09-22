@@ -45,6 +45,8 @@ class Quicktag {
 
 	/**
 	 * Field constructor.
+	 *
+	 * @since 10.4.28
 	 */
 	public function __construct() {
 
@@ -56,7 +58,7 @@ class Quicktag {
 	/**
 	 * Create an instance of the Field.
 	 *
-	 * @sine 10.4
+	 * @sine 10.4.28
 	 *
 	 * @return static
 	 */
@@ -92,7 +94,7 @@ class Quicktag {
 	/**
 	 * Get the field HTML.
 	 *
-	 * @since 10.4
+	 * @since 10.4.28
 	 *
 	 * @return string
 	 */

@@ -356,6 +356,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field'                        => 'includes/Form/Field.php',
 			'Connections_Directory\Form\Field\Checkbox'               => 'includes/Form/Field/Checkbox.php',
 			'Connections_Directory\Form\Field\Checkbox_Group'         => 'includes/Form/Field/Checkbox_Group.php',
+			'Connections_Directory\Form\Field\Date_Picker'            => 'includes/Form/Field/Date_Picker.php',
 			'Connections_Directory\Form\Field\Description'            => 'includes/Form/Field/Description.php',
 			'Connections_Directory\Form\Field\Group'                  => 'includes/Form/Field/Group.php',
 			'Connections_Directory\Form\Field\Hidden'                 => 'includes/Form/Field/Hidden.php',

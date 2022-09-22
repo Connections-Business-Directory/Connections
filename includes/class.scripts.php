@@ -520,7 +520,6 @@ class cnScript {
 		if ( in_array( $pageHook, $editPages ) ) {
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
-			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-chosen' );
 
 			do_action( 'cn_admin_enqueue_edit_scripts', $pageHook );
@@ -724,7 +723,6 @@ class cnScript {
 		if ( in_array( $pageHook, $editPages ) ) {
 
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
-			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-chosen' );
 
 			do_action( 'cn_admin_enqueue_edit_styles', $pageHook );

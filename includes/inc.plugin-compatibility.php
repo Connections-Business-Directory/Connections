@@ -541,3 +541,17 @@ if ( ! function_exists( 'is_gd_image' ) ) :
 		return false;
 	}
 endif;
+
+/**
+ * The Connections Form addon version <= 2.7.5 registers an instance the jQuery UI CSS with a different handle.
+ * Dequeue the CSS with that handle, so it is not enqueued on the page twice.
+ *
+ * @since 10.4.29
+ */
+add_action(
+	'wp_footer',
+	static function() {
+		wp_dequeue_style( 'cn-public-jquery-ui' );
+	},
+	9
+);

@@ -518,7 +518,6 @@ class cnScript {
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
 		if ( in_array( $pageHook, $editPages ) ) {
-			/** @noinspection PhpUnusedLocalVariableInspection */
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
 			wp_enqueue_script( 'jquery-ui-datepicker' );

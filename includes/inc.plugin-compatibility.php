@@ -447,7 +447,7 @@ add_filter(
  */
 add_action(
 	'plugins_loaded',
-	function() {
+	static function() {
 
 		if ( class_exists( 'PageLayer' ) ) {
 
@@ -472,7 +472,7 @@ add_action(
  */
 add_action(
 	'wp_loaded',
-	function() {
+	static function() {
 
 		if ( ! class_exists( 'AIOVG_Init', false ) ) {
 

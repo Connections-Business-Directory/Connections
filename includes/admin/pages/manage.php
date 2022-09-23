@@ -23,7 +23,6 @@ function connectionsShowViewPage( $action = null ) {
 
 	// Grab an instance of the Connections object.
 	$instance  = Connections_Directory();
-	$queryVars = array();
 
 	echo '<div class="wrap">';
 

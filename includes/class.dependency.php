@@ -212,6 +212,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_fragment'       => 'includes/Utility/_fragment.php',
 			'Connections_Directory\Utility\_html'           => 'includes/Utility/_html.php',
 			'Connections_Directory\Utility\_http'           => 'includes/Utility/_http.php',
+			'Connections_Directory\Utility\_nonce'          => 'includes/Utility/_nonce.php',
 			'Connections_Directory\Utility\_parse'          => 'includes/Utility/_parse.php',
 			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
 			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',

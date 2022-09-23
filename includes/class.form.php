@@ -120,7 +120,8 @@ class cnFormObjects {
 	/**
 	 * Retrieves or displays the nonce field for forms using wp_nonce_field.
 	 *
-	 * @since unknown
+	 * @since 0.7.1.7
+	 * @deprecated 10.4.29
 	 *
 	 * @param string $action  Action name.
 	 * @param bool   $item    Item name. Use when protecting multiple items on the same page.
@@ -131,6 +132,8 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function tokenField( $action, $item = false, $name = '_cn_wpnonce', $referer = true, $echo = true ) {
+
+		_deprecated_function( __METHOD__, '10.4.29', '\Connections_Directory\Utility\_nonce::field()' );
 
 		if ( false === $item ) {
 
@@ -151,7 +154,8 @@ class cnFormObjects {
 	/**
 	 * Retrieves URL with nonce added to the query string.
 	 *
-	 * @since unknown
+	 * @since 0.7.1.7
+	 * @deprecated 10.4.29
 	 *
 	 * @param string $actionURL URL to add the nonce to.
 	 * @param string $item      Nonce action name.
@@ -160,13 +164,16 @@ class cnFormObjects {
 	 */
 	public function tokenURL( $actionURL, $item ) {
 
+		_deprecated_function( __METHOD__, '10.4.29', '\Connections_Directory\Utility\_nonce::url()' );
+
 		return wp_nonce_url( $actionURL, $item );
 	}
 
 	/**
 	 * Generate the complete nonce string, from the nonce base, the action and an item.
 	 *
-	 * @since unknown
+	 * @since 0.7.1.7
+	 * @deprecated 10.4.29
 	 *
 	 * @param string $action Action name.
 	 * @param bool   $item   Item name. Use when protecting multiple items on the same page.
@@ -174,6 +181,8 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function getNonce( $action, $item = false ) {
+
+		_deprecated_function( __METHOD__, '10.4.29', '\Connections_Directory\Utility\_nonce::action()' );
 
 		if ( false === $item ) {
 

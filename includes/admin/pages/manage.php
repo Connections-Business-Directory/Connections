@@ -22,7 +22,7 @@ use Connections_Directory\Utility\_escape;
 function connectionsShowViewPage( $action = null ) {
 
 	// Grab an instance of the Connections object.
-	$instance  = Connections_Directory();
+	$instance = Connections_Directory();
 
 	echo '<div class="wrap">';
 

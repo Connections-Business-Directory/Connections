@@ -1301,9 +1301,6 @@ class cnEntry_Action {
 				return;
 			}
 
-			// preg_match( '/href="(.*?)"/', cnURL::permalink( array( 'slug' => $entry->slug, 'return' => TRUE ) ), $matches );
-			// $permalink = $matches[1];
-
 			if ( ( current_user_can( 'connections_manage' ) && current_user_can( 'connections_view_menu' ) ) && ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) ) {
 
 				$admin_bar->add_node(

@@ -19,6 +19,7 @@ use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_nonce;
+use Connections_Directory\Utility\_validate;
 
 function connectionsShowViewPage( $action = null ) {
 
@@ -202,8 +203,10 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-				$id = Request\ID::input()->value();
-				check_admin_referer( 'entry_edit_' . $id );
+				$id          = Request\ID::input()->value();
+				$nonceAction = _nonce::action( 'entry_edit', $id );
+
+				_validate::adminReferer( $nonceAction );
 
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );

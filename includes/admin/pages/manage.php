@@ -201,7 +201,7 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-				$id = absint( $_GET['id'] );
+				$id = Request\ID::input()->value();
 				check_admin_referer( 'entry_edit_' . $id );
 
 				$form  = new cnFormObjects();

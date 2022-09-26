@@ -201,9 +201,8 @@ class cnFormObjects {
 	 *
 	 * This is deprecated method, left in place for backward compatibility only.
 	 *
-	 * @access private
-	 * @deprecated
 	 * @since 0.8
+	 * @deprecated 9.15
 	 *
 	 * @param string $name    The input option id/name value.
 	 * @param array  $options An associative array. Key is the option value and the value is the option name.
@@ -236,9 +235,8 @@ class cnFormObjects {
 	 *
 	 * This is deprecated method, left in place for backward compatibility only.
 	 *
-	 * @access private
-	 * @deprecated
 	 * @since 0.8
+	 * @deprecated 9.15
 	 *
 	 * @param string $name    The input option id/name value.
 	 * @param string $id      UNUSED.

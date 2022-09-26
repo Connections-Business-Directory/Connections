@@ -225,7 +225,7 @@ $table->prepare_items();
 					do_action( "cn_{$taxonomy->getSlug()}_add_form", $taxonomy->getSlug() );
 					?>
 
-					<?php $form->close(); ?>
+					<?php echo '</form>'; ?>
 				</div><!-- /form-wrap -->
 			</div><!-- /col-wrap -->
 		</div><!-- /col-left -->
@@ -244,7 +244,7 @@ $table->prepare_items();
 				<input type="hidden" name="cn-action" value="bulk-term-action" />
 				<?php
 				$table->display();
-				$form->close();
+				echo '</form>';
 				?>
 
 				<script type="text/javascript">

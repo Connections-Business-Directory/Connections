@@ -72,7 +72,7 @@ function connectionsShowDashboardPage() {
 		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 
-		$form->close();
+		echo '</form>';
 		?>
 
 		<div class="clear"></div>

@@ -89,7 +89,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				echo '</div> <!-- #poststuff -->';
 
-				$form->close();
+				echo '</form>';
 
 				unset( $entry );
 
@@ -182,7 +182,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				echo '</div> <!-- #poststuff -->';
 
-				$form->close();
+				echo '</form>';
 
 				unset( $entry );
 
@@ -258,7 +258,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				echo '</div> <!-- #poststuff -->';
 
-				$form->close();
+				echo '</form>';
 
 				unset( $entry );
 

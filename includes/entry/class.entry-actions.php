@@ -11,6 +11,7 @@
 
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_nonce;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -1303,12 +1304,15 @@ class cnEntry_Action {
 
 			if ( ( current_user_can( 'connections_manage' ) && current_user_can( 'connections_view_menu' ) ) && ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) ) {
 
+				$id  = $entry[0]->id;
+				$url = _nonce::url( "admin.php?page=connections_manage&cn-action=edit_entry&id={$id}", 'entry_edit', $id );
+
 				$admin_bar->add_node(
 					array(
 						'parent' => false,
 						'id'     => 'cn-edit-entry',
 						'title'  => __( 'Edit Entry', 'connections' ),
-						'href'   => admin_url( wp_nonce_url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry[0]->id, 'entry_edit_' . $entry[0]->id ) ),
+						'href'   => admin_url( $url ),
 						'meta'   => array(
 							// 'class' => 'edit',
 							'title' => __( 'Edit Entry', 'connections' ),

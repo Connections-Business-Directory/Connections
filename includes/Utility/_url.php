@@ -383,9 +383,9 @@ final class _url {
 
 				if ( false !== $result ) {
 
-					$actionURL  = 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $result->id;
-					$actionName = 'entry_edit_' . $result->id;
-					$permalink  = admin_url( wp_nonce_url( $actionURL, $actionName ) );
+					$id        = $result->id;
+					$url       = _nonce::url( "admin.php?page=connections_manage&cn-action=edit_entry&id={$id}", 'entry_edit', $id );
+					$permalink = admin_url( $url );
 				}
 
 				break;

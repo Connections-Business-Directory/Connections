@@ -112,8 +112,10 @@ class cnFormObjects {
 	 * HTML close tag.
 	 *
 	 * @since unknown
+	 * @deprecated 10.4.29
 	 */
 	public function close() {
+		_deprecated_function( __METHOD__, '10.4.29', 'echo("</form>")' );
 		echo '</form>';
 	}
 

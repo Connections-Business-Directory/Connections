@@ -509,11 +509,7 @@ class cnMetabox_Render {
 				case 'checkbox-group':
 					remapFieldOptions( $field );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Checkbox_Group::create()
 										->setId( $field['id'] )
@@ -532,11 +528,7 @@ class cnMetabox_Render {
 				case 'radio':
 					remapFieldOptions( $field );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Radio_Group::create()
 									 ->setId( $field['id'] )
@@ -556,11 +548,7 @@ class cnMetabox_Render {
 				case 'radio-inline':
 					remapFieldOptions( $field );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Radio_Group::create()
 									 ->setId( $field['id'] )
@@ -595,11 +583,7 @@ class cnMetabox_Render {
 						// ->addDefaultOption( Field\Option::create()->setText( 'Choose an Option' ) )
 						->render();
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					break;
 
@@ -618,11 +602,7 @@ class cnMetabox_Render {
 							  ->append( '</div>' )
 							  ->render();
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					break;
 
@@ -630,11 +610,7 @@ class cnMetabox_Render {
 					$sizes = array( 'small', 'large' );
 					$size  = _array::get( $field, 'size', 'small' );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Textarea::create()
 								  ->setId( $field['id'] )
@@ -659,20 +635,12 @@ class cnMetabox_Render {
 									 ->setValue( $value )
 									 ->render();
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					break;
 
 				case 'colorpicker':
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Color_Picker::create()
 									  ->setId( $field['id'] )
@@ -701,11 +669,7 @@ class cnMetabox_Render {
 						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					$field['options']['value'] = absint( $value );
 
@@ -718,11 +682,7 @@ class cnMetabox_Render {
 					break;
 
 				case 'quicktag':
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Quicktag::create()
 								  ->setId( $field['id'] )
@@ -733,11 +693,7 @@ class cnMetabox_Render {
 					break;
 
 				case 'rte':
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					// Set the rte defaults.
 					$defaults = array(
@@ -765,6 +721,33 @@ class cnMetabox_Render {
 
 			echo '</td>' , '</tr>';
 		}
+	}
+
+	/**
+	 * Render the field description text.
+	 *
+	 * @since 10.4.30
+	 *
+	 * @param string $id          The field id.
+	 * @param string $description The text to render.
+	 * @param bool   $echo        Whether to echo the field description.
+	 *
+	 * @return string
+	 */
+	public static function description( $id, $description, $echo = true ) {
+
+		$html = Field\Description::create()
+								 ->addClass( 'description' )
+								 ->setId( "{$id}-description" )
+								 ->text( $description )
+								 ->getHTML();
+
+		if ( true === $echo ) {
+
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
+		return $html;
 	}
 
 	/**

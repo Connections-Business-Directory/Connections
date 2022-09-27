@@ -1798,23 +1798,18 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 					break;
 
 				case 'colorpicker':
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+					$out .= Field\Description::create()
+											 ->addClass( 'description' )
+											 ->setId( "{$field['id']}-description" )
+											 ->text( $field['desc'] )
+											 ->getHTML();
 
-						$out .= sprintf(
-							'<p class="description"> %1$s</p>' . PHP_EOL,
-							esc_html( $field['desc'] )
-						);
-					}
-
-					printf(
-						'<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
-						esc_attr( $name ),
-						esc_attr( $value ),
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
-					);
-
-					wp_enqueue_script( 'wp-color-picker' );
-					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'colorpickerJS' ) );
+					$out .= Field\Color_Picker::create()
+											  ->setId( $name )
+											  ->setName( $name )
+											  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+											  ->setValue( $value )
+											  ->getHTML();
 
 					break;
 
@@ -1849,30 +1844,6 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				echo '});' . PHP_EOL;
 			echo '/* ]]> */</script>';
-		}
-
-		/**
-		 * Outputs the JS necessary to support the color picker.
-		 *
-		 * @access private
-		 * @since  9.0
-		 */
-		public static function colorpickerJS() {
-
-			?>
-
-			<script type="text/javascript">/* <![CDATA[ */
-				jQuery(document).ready( function($){
-
-					/*
-					 * Add the Color Picker to the input fields.
-					 */
-					$('.cn-colorpicker').wpColorPicker();
-				});
-				/* ]]> */</script>
-
-			<?php
-
 		}
 
 		/**

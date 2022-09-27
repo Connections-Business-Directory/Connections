@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 
 /**
@@ -258,8 +259,7 @@ class cnAdminMenu {
 
 			case 'connections_manage':
 				include_once CN_PATH . 'includes/admin/pages/manage.php';
-				// phpcs:ignore WordPress.Security.NonceVerification
-				$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? sanitize_key( $_GET['cn-action'] ) : '';
+				$action = Request\Admin_Action::input()->value();
 				connectionsShowViewPage( $action );
 				break;
 

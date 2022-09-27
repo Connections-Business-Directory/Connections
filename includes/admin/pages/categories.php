@@ -233,7 +233,7 @@ function connectionsShowCategoriesPage() {
 						<input type="submit" name="update" id="update" class="button button-primary" value="<?php _e( 'Update Category', 'connections' ); ?>"/>
 					</p>
 
-					<?php $form->close(); ?>
+					<?php echo '</form>'; ?>
 
 				</div>
 			</div>
@@ -277,7 +277,7 @@ function connectionsShowCategoriesPage() {
 							<?php
 							$table->display();
 
-							$form->close();
+							echo '</form>';
 
 							?>
 
@@ -521,7 +521,7 @@ function connectionsShowCategoriesPage() {
 								do_action( "cn_{$taxonomy}_add_form", $taxonomy );
 								?>
 
-								<?php $form->close(); ?>
+								<?php echo '</form>'; ?>
 							</div>
 						</div>
 					</div>

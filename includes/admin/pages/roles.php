@@ -147,7 +147,7 @@ function connectionsShowRolesPage() {
 				</div>
 			</div>
 
-			<?php $form->close(); ?>
+			<?php echo '</form>'; ?>
 
 
 		</div>

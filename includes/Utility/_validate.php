@@ -19,6 +19,41 @@ defined( 'ABSPATH' ) || exit;
 final class _validate {
 
 	/**
+	 * Helper function for {@see check_admin_referer()} that will use {@see _nonce::NAME} query argument as the default.
+	 *
+	 * @since 10.4.29
+	 *
+	 * @param string      $action        Nonce action name.
+	 * @param null|string $queryArgument Key to check for nonce in `$_REQUEST`.
+	 *
+	 * @return false|int|null
+	 */
+	public static function adminReferer( $action, $queryArgument = null ) {
+
+		$queryArgument = is_scalar( $queryArgument ) ? $queryArgument : _nonce::NAME;
+
+		return check_admin_referer( $action, $queryArgument );
+	}
+
+	/**
+	 * Helper function for {@see check_ajax_referer()} that will use {@see _nonce::NAME} query argument as the default.
+	 *
+	 * @since 10.4.29
+	 *
+	 * @param string      $action        Nonce action name.
+	 * @param null|string $queryArgument Key to check for nonce in `$_REQUEST`.
+	 * @param bool        $die Whether to die early when the nonce cannot be verified.
+	 *
+	 * @return false|int|null
+	 */
+	public static function ajaxReferer( $action, $queryArgument = null, $die = true ) {
+
+		$queryArgument = is_scalar( $queryArgument ) ? $queryArgument : _nonce::NAME;
+
+		return check_ajax_referer( $action, $queryArgument, $die );
+	}
+
+	/**
 	 * Is file a CSV file.
 	 *
 	 * @since 10.4.4

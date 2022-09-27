@@ -1,5 +1,27 @@
 == Changelog ==
 
+= 10.4.29 09/27/2022 =
+* NEW: Introduce the `Date_Picker` field to the Fields API.
+* NEW: Introduce `Utility\_nonce`.
+* NEW: Introduce `_validate::adminReferer()` and `_validate::ajaxReferer()`.
+* TWEAK: Add compatibility action for Form versions <= 2.7.5.
+* TWEAK: Make anonymous action callbacks static.
+* TWEAK: Remove unused deprecated `cnFormObjects::token()` method.
+* TWEAK: Remove unused function variable.
+* TWEAK: Remove unused commented out code.
+* TWEAK: Remove unnecessary space.
+* TWEAK: Utilize `Request\Admin_Action` for improved validation/sanitization in `cnAdminMenu::showPage()`.
+* TWEAK: Utilize `Request\ID` for improved validation/sanitization in `connectionsShowViewPage()`.
+* TWEAK: Remove instances of deprecated `cnFormObjects::close()` method throughout.
+* TWEAK: Utilize `_nonce::url()` to generate the edit entry nonce URLs throughout.
+* TWEAK: Utilize `_validate::adminReferer()` to validate the edit entry nonce referer.
+* TWEAK: Apply `remapFieldOptions()` to the `checkbox-group` settings field type.
+* BUG: Correct related by department typo in content block heading.
+* DEV: phpDoc corrections.
+* DEV: Remove inline code comment.
+* DEV: Deprecate `cnFormObjects::tokenField()`, `cnFormObjects::tokenURL()`, and `cnFormObjects::getNonce()`.
+* DEV: Deprecate `cnFormObjects::close()`.
+
 = 10.4.28 09/20/2022 =
 * NEW: Introduce `_sanitize::html()` and `_sanitize::string()`.
 * NEW: Introduce `_string::stripScripts()` and `_string::texturize()`.

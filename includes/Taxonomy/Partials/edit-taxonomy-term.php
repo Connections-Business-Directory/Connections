@@ -200,7 +200,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 
 	</div>
 
-	<?php $form->close(); ?>
+	<?php echo '</form>'; ?>
 
 	<script type="text/javascript">
 		/* <![CDATA[ */

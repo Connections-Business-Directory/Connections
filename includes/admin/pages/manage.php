@@ -18,12 +18,13 @@ use Connections_Directory\Form\Field;
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_nonce;
+use Connections_Directory\Utility\_validate;
 
 function connectionsShowViewPage( $action = null ) {
 
 	// Grab an instance of the Connections object.
-	$instance  = Connections_Directory();
-	$queryVars = array();
+	$instance = Connections_Directory();
 
 	echo '<div class="wrap">';
 
@@ -90,7 +91,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				echo '</div> <!-- #poststuff -->';
 
-				$form->close();
+				echo '</form>';
 
 				unset( $entry );
 
@@ -183,7 +184,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				echo '</div> <!-- #poststuff -->';
 
-				$form->close();
+				echo '</form>';
 
 				unset( $entry );
 
@@ -202,8 +203,10 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-				$id = absint( $_GET['id'] );
-				check_admin_referer( 'entry_edit_' . $id );
+				$id          = Request\ID::input()->value();
+				$nonceAction = _nonce::action( 'entry_edit', $id );
+
+				_validate::adminReferer( $nonceAction );
 
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
@@ -259,7 +262,7 @@ function connectionsShowViewPage( $action = null ) {
 
 				echo '</div> <!-- #poststuff -->';
 
-				$form->close();
+				echo '</form>';
 
 				unset( $entry );
 
@@ -688,7 +691,7 @@ function connectionsShowViewPage( $action = null ) {
 					/*
 					 * Generate the edit, copy and delete URLs with nonce tokens.
 					 */
-					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
+					$editTokenURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
 					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
 					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
 					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
@@ -918,7 +921,7 @@ function connectionsShowViewPage( $action = null ) {
 
 								if ( current_user_can( 'connections_edit_entry' ) ) {
 
-									$editRelationTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() );
+									$editRelationTokenURL = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit', $relation->getId() );
 
 									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> <a href="' . esc_url( $editRelationTokenURL ) . '" title="' . esc_attr__( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
 

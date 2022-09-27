@@ -16,6 +16,7 @@ use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
 use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -651,18 +652,13 @@ class cnMetabox_Render {
 					break;
 
 				case 'datepicker':
-					printf(
-						'<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
-						esc_attr( $field['id'] ),
-						! empty( $value ) ? esc_attr( date( 'm/d/Y', strtotime( $value ) ) ) : '',
-						// Static string, not user input, no need to escape.
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					);
-
-					wp_enqueue_script( 'jquery-ui-datepicker' );
-					wp_enqueue_style( 'cn-admin-jquery-datepicker' );
-					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'datepickerJS' ) );
-					add_action( 'wp_footer', array( __CLASS__, 'datepickerJS' ) );
+					Field\Date_Picker::create()
+									 ->setId( $field['id'] )
+									 ->addClass( 'cn-datepicker' )
+									 ->setName( $field['id'] )
+									 ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+									 ->setValue( $value )
+									 ->render();
 
 					Field\Description::create()
 									 ->addClass( 'description' )
@@ -818,48 +814,15 @@ class cnMetabox_Render {
 	}
 
 	/**
-	 * Outputs the JS necessary to support the datepicker.
-	 *
-	 * NOTE: Incredibly I came to the same solution as used in WordPress core @see wp_localize_jquery_ui_datepicker()
-	 *
-	 * @todo Should use @see cnFormatting::dateFormatPHPTojQueryUI() instead to convert the PHP datetime format to a
-	 *       compatible jQueryUI Datepicker compatibly format.
+	 * Deprecated callback used by the Form addon in version <= 2.7.5.
 	 *
 	 * @internal
+	 * @deprecated
 	 * @since 0.8
 	 */
 	public static function datepickerJS() {
 
-?>
-
-<script type="text/javascript">/* <![CDATA[ */
-/*
- * Add the jQuery UI Datepicker to the date input fields.
- */
-jQuery(document).ready( function($){
-
-	if ($.fn.datepicker) {
-
-		$('.postbox, .cn-metabox').on( 'focus', '.cn-datepicker', function(e) {
-
-			$(this).datepicker({
-				changeMonth: true,
-				changeYear: true,
-				showOtherMonths: true,
-				selectOtherMonths: true,
-				yearRange: 'c-100:c+10',
-				dateFormat: 'yy-mm-dd',
-				// beforeShow: function(i) { if ( $( i ).attr('readonly') ) { return false; } }
-			}).keydown(false);
-
-			e.preventDefault();
-		});
-	}
-});
-/* ]]> */</script>
-
-<?php
-
+		_deprecated_function( __METHOD__, '10.4.29', '\Connections_Directory\Form\Field\Date_Picker::datepickerJS()' );
 	}
 
 	/**

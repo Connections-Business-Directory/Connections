@@ -9,6 +9,8 @@
  * @since       0.7.9
  */
 
+use Connections_Directory\Utility\_nonce;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -125,11 +127,7 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
 			if ( is_admin() ) {
 
-				if ( ! isset( $form ) ) {
-					$form = new cnFormObjects();
-				}
-
-				$editTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
+				$editTokenURL = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 

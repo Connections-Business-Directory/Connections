@@ -783,13 +783,14 @@ if ( ! class_exists( 'cnSettingsAPI' ) ) {
 
 				case 'checkbox-group':
 				case 'multicheckbox':
+					remapFieldOptions( $field );
+
 					$out .= Field\Description::create()
 											 ->addClass( 'description' )
 											 ->setId( "{$field['id']}-description" )
 											 ->text( $field['desc'] )
 											 ->getHTML();
 
-					remapFieldOptions( $field );
 					$out .= Field\Checkbox_Group::create()
 												->setId( $name )
 												->addClass( 'checkbox' )

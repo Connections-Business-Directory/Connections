@@ -30,7 +30,7 @@ class cnSettingsAPI {
 	private static $instance;
 
 	/**
-	 * Array stores all tabs registered thru this API.
+	 * Array stores all tabs registered through this API.
 	 * @var array
 	 */
 	private static $tabs = array();
@@ -62,7 +62,7 @@ class cnSettingsAPI {
 
 	/**
 	 * Store the default values of registered settings.
-	 * Will be use to store the default values if they do not exist in the db.
+	 * Will be used to store the default values if they do not exist in the db.
 	 *
 	 * @var array
 	 */
@@ -262,7 +262,7 @@ class cnSettingsAPI {
 	 *         'help' => 'string',             // The field help text. [optional]
 	 *         'options' => array||string,     // The fields options. [optional]
 	 *         'default' => array||string,     // The fields default values. [optional]
-	 *         'sanitize_callback' => 'string' // A callback function that sanitizes the settings's value. [optional]
+	 *         'sanitize_callback' => 'string' // A callback function that sanitizes the setting's value. [optional]
 	 *     }
 	 *
 	 * SUPPORTED FIELD TYPES:
@@ -276,8 +276,8 @@ class cnSettingsAPI {
 	 *  textarea
 	 *  quicktag
 	 *  rte
-	 *  page [shows a drop down with the WordPress pages.]
-	 *  category [shows a drop down of Connections categories]
+	 *  page [shows a dropdown with the WordPress pages.]
+	 *  category [shows a dropdown of Connections categories]
 	 *
 	 * RECOMMENDED: The following sanitize_callback to use based on field type.
 	 *     Reference: http://codex.wordpress.org/Data_Validation
@@ -737,7 +737,7 @@ class cnSettingsAPI {
 	/**
 	 * The callback used to render the settings field types.
 	 *
-	 * Credit to Tareq. Some of the code to render the form fields were pickup from his Settings API
+	 * Credit to Tareq. Some code to render the form fields were pickup from his Settings API
 	 *     http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/
 	 *     https://github.com/tareq1988/wordpress-settings-api-class
 	 *

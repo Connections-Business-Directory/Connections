@@ -2,7 +2,7 @@
 /**
  * Create and render a color picker field.
  *
- * @since
+ * @since 10.4.30
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory

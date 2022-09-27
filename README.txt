@@ -248,6 +248,28 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.29 09/27/2022 =
+* NEW: Introduce the `Date_Picker` field to the Fields API.
+* NEW: Introduce `Utility\_nonce`.
+* NEW: Introduce `_validate::adminReferer()` and `_validate::ajaxReferer()`.
+* TWEAK: Add compatibility action for Form versions <= 2.7.5.
+* TWEAK: Make anonymous action callbacks static.
+* TWEAK: Remove unused deprecated `cnFormObjects::token()` method.
+* TWEAK: Remove unused function variable.
+* TWEAK: Remove unused commented out code.
+* TWEAK: Remove unnecessary space.
+* TWEAK: Utilize `Request\Admin_Action` for improved validation/sanitization in `cnAdminMenu::showPage()`.
+* TWEAK: Utilize `Request\ID` for improved validation/sanitization in `connectionsShowViewPage()`.
+* TWEAK: Remove instances of deprecated `cnFormObjects::close()` method throughout.
+* TWEAK: Utilize `_nonce::url()` to generate the edit entry nonce URLs throughout.
+* TWEAK: Utilize `_validate::adminReferer()` to validate the edit entry nonce referer.
+* TWEAK: Apply `remapFieldOptions()` to the `checkbox-group` settings field type.
+* BUG: Correct related by department typo in content block heading.
+* DEV: phpDoc corrections.
+* DEV: Remove inline code comment.
+* DEV: Deprecate `cnFormObjects::tokenField()`, `cnFormObjects::tokenURL()`, and `cnFormObjects::getNonce()`.
+* DEV: Deprecate `cnFormObjects::close()`.
+
 = 10.4.28 09/20/2022 =
 * NEW: Introduce `_sanitize::html()` and `_sanitize::string()`.
 * NEW: Introduce `_string::stripScripts()` and `_string::texturize()`.
@@ -555,32 +577,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Correct code indent.
 * DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
 
-= 10.4.14 02/10/2022 =
-* BUG: Set the default publish action to the sanitized request variable and allow filter to override it.
-
-= 10.4.13 02/07/2022 =
-* TWEAK: Update the Upcoming Block `index.js` file to utilize the `block.json` for registering the block metadata and split out the edit and save callbacks to separate files for easier maintainability.
-* TWEAK: When registering the Carousel and Team Blocks pass the `style` parameter as strings instead of arrays.
-* BUG: Correct default for no results when registering the Upcoming Block.
-* OTHER: Update URL to PHP data interval formatting.
-* OTHER: Rename onChange event variables, so they do not conflict with previously declared variables of the same name.
-* OTHER: Add "translators" comment.
-* DEV: Apply eslinit and wp-prettier to the Upcoming Block `index.js` file.
-* DEV: Apply Prettier to `.eslintrc`.
-* DEV: Add `allowedTextDomain` to rules for `@wordpress/i18n-text-domain` in `.eslintrc`.
-* DEV: Add `@wordpress/npm-package-json-lint-config`.
-* DEV: phpDoc updates.
-* DEV: Update Composer required PHP version.
-* DEV: Add `johnpbloch/wordpress-core-installer` to `allow-plugins` in `composer.json`.
-* DEV: Update dist files.
-
 == Upgrade Notice ==
-
-= 10.4.13 =
-It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
-
-= 10.4.14 =
-It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.15 =
 It is recommended to back up before updating. Requires WordPress >= 5.3 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -622,4 +619,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.28 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.29 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

@@ -654,7 +654,6 @@ class cnMetabox_Render {
 				case 'datepicker':
 					Field\Date_Picker::create()
 									 ->setId( $field['id'] )
-									 ->addClass( 'cn-datepicker' )
 									 ->setName( $field['id'] )
 									 ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 									 ->setValue( $value )

@@ -45,6 +45,8 @@ class Date_Picker {
 	 */
 	public function __construct() {
 
+		$this->addClass( 'cn-datepicker' );
+
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 		add_action( 'admin_print_footer_scripts', array( __CLASS__, 'datepickerJS' ) );

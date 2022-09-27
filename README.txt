@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.6
 Tested up to: 6.0.2
 Requires PHP: 5.6.20
-Stable tag: 10.4.28
+Stable tag: 10.4.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

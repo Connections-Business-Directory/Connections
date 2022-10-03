@@ -9,6 +9,7 @@
  * @since       unknown
  */
 
+use Connections_Directory\Form\Field;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
@@ -206,30 +207,37 @@ class cnFormObjects {
 	 * @since 0.8
 	 * @deprecated 9.15
 	 *
-	 * @param string $name    The input option id/name value.
-	 * @param array  $options An associative array. Key is the option value and the value is the option name.
-	 * @param string $value   [optional] The selected option.
-	 * @param string $class   The class applied to the select.
-	 * @param string $id      UNUSED.
+	 * @param string $name     The input option id/name value.
+	 * @param array  $options  An associative array. Key is the option value and the value is the option name.
+	 * @param string $selected [optional] The selected option.
+	 * @param string $class    The class applied to the select.
+	 * @param string $id       UNUSED.
 	 *
 	 * @return string
 	 */
-	public function buildSelect( $name, $options, $value = '', $class = '', $id = '' ) {
+	public function buildSelect( $name, $options, $selected = '', $class = '', $id = '' ) {
 
 		_deprecated_function( __METHOD__, '9.15', '\Connections_Directory\Form\Field\Select::create()' );
 
-		return cnHTML::field(
-			array(
-				'type'     => 'select',
-				'class'    => $class,
-				'id'       => $name,
-				'options'  => $options,
-				'required' => false,
-				'label'    => '',
-				'return'   => true,
-			),
-			$value
+		$fieldInputs = array_map(
+			function( $key, $value ) {
+				return array(
+					'label' => $value,
+					'value' => $key,
+				);
+			},
+			array_keys( $options ),
+			array_values( $options )
 		);
+
+		return Field\Select::create()
+						   ->setPrefix( 'cn' )
+						   ->setId( $name )
+						   ->addClass( $class )
+						   ->setName( $name )
+						   ->createOptionsFromArray( $fieldInputs )
+						   ->setValue( $selected )
+						   ->getHTML();
 	}
 
 	/**
@@ -240,28 +248,33 @@ class cnFormObjects {
 	 * @since 0.8
 	 * @deprecated 9.15
 	 *
-	 * @param string $name    The input option id/name value.
-	 * @param string $id      UNUSED.
-	 * @param array  $options An associative array. Key is the option name and the value is the option value.
-	 * @param string $value   The selected option.
+	 * @param string $name     The input option id/name value.
+	 * @param string $id       UNUSED.
+	 * @param array  $options  An associative array. Key is the option name and the value is the option value.
+	 * @param string $selected The selected option.
 	 *
 	 * @return string
 	 */
-	public function buildRadio( $name, $id, $options, $value = '' ) {
+	public function buildRadio( $name, $id, $options, $selected = '' ) {
 
 		_deprecated_function( __METHOD__, '9.15', '\Connections_Directory\Form\Field\Radio_Group::create()' );
 
-		return cnHTML::field(
-			array(
-				'type'     => 'radio',
-				'display'  => 'block',
-				'class'    => '',
-				'id'       => $name,
-				'options'  => array_flip( $options ), // The options array is flipped to preserve backward compatibility.
-				'required' => false,
-				'return'   => true,
-			),
-			$value
-		);
+		$inputs = array();
+
+		foreach ( $options as $label => $value ) {
+
+			$inputs[] = array(
+				'label' => $label,
+				'value' => $value,
+			);
+		}
+
+		return Field\Radio_Group::create()
+								->setPrefix( 'cn' )
+								->setId( $name )
+								->createInputsFromArray( $inputs )
+								->setValue( $selected )
+								->setContainer( 'div' )
+								->getHTML();
 	}
 }

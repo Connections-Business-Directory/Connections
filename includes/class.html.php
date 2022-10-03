@@ -537,8 +537,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -635,8 +635,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -754,8 +754,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -866,8 +866,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.

@@ -34,10 +34,13 @@ class cnFormObjects {
 	 * The form open tag.
 	 *
 	 * @since unknown
+	 * @deprecated 10.4.30
 	 *
 	 * @param array $attr Form attributes array.
 	 */
 	public function open( $attr ) {
+
+		_deprecated_function( __METHOD__, '10.4.30' );
 
 		if ( isset( $attr['class'] ) ) {
 			$attr['class'] = 'class="' . esc_attr( $attr['class'] ) . '" ';

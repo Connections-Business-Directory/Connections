@@ -2,6 +2,8 @@
 
 namespace Connections_Directory\Form\Field;
 
+use Connections_Directory\Utility\_string;
+
 /**
  * Class Checkbox_Group
  *
@@ -23,10 +25,14 @@ class Checkbox_Group extends Group {
 	 * @since 10.4
 	 *
 	 * @param Checkbox $input
+	 *
+	 * @return static
 	 */
 	public function addInput( $input ) {
 
 		$this->inputs[] = $input;
+
+		return $this;
 	}
 
 	/**

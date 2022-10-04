@@ -278,9 +278,6 @@ class cnDependency {
 			'Connections_Directory\Query\Taxonomy' => 'includes/Query/Taxonomy.php',
 			'Connections_Directory\Query\Term'     => 'includes/Query/Term.php',
 
-			// HTML form elements.
-			'cnFormObjects'            => 'includes/class.form.php',
-
 			// Metabox API.
 			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',
 			'cnMetabox_Render'         => 'includes/Metabox/class.metabox-render.php',
@@ -580,13 +577,14 @@ class cnDependency {
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
 
 			// Deprecated files for deprecated classes. Required to trigger the autoloader.
-			'cnArray'      => 'includes/Deprecated/class.array.php',
-			'cnCache'      => 'includes/Deprecated/class.cache.php',
-			'cnCollection' => 'includes/Deprecated/class.collection.php',
-			'cnDate'       => 'includes/Deprecated/class.date.php',
-			'cnFragment'   => 'includes/Deprecated/class.fragment.php',
-			'cnHTTP'       => 'includes/Deprecated/class.http.php',
-			'SiteShot'     => 'includes/Deprecated/SiteShot.php',
+			'cnArray'       => 'includes/Deprecated/class.array.php',
+			'cnCache'       => 'includes/Deprecated/class.cache.php',
+			'cnCollection'  => 'includes/Deprecated/class.collection.php',
+			'cnFormObjects' => 'includes/Deprecated/class.form.php',
+			'cnDate'        => 'includes/Deprecated/class.date.php',
+			'cnFragment'    => 'includes/Deprecated/class.fragment.php',
+			'cnHTTP'        => 'includes/Deprecated/class.http.php',
+			'SiteShot'      => 'includes/Deprecated/SiteShot.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

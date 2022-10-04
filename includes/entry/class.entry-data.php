@@ -284,8 +284,6 @@ class cnEntry {
 	 */
 	private $sortColumn;
 
-	// private $updateObjectCache = FALSE;
-
 	/**
 	 * Stored the directory home page ID and whether to force permalinks to the directory home.
 	 *
@@ -3441,8 +3439,6 @@ class cnEntry {
 				'%d',
 			)
 		);
-
-		// print_r($wpdb->last_query);
 
 		/*
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.

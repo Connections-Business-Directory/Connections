@@ -62,6 +62,8 @@ class Checkbox_Group extends Group {
 	 */
 	protected function prepareInputs() {
 
+		$prefix = 0 < strlen( $this->getPrefix() ) ? $this->getPrefix() . '-' : '';
+
 		foreach ( $this->inputs as $field ) {
 
 			$field->setPrefix( $this->getPrefix() );
@@ -77,7 +79,7 @@ class Checkbox_Group extends Group {
 
 			if ( $field->label instanceof Label ) {
 
-				$field->label->setFor( $field->getId() );
+				$field->label->setFor( _string::applyPrefix( $prefix, $field->getId() ) );
 			}
 		}
 	}

@@ -33,32 +33,6 @@ class cnFormObjects {
 	private $nonceBase = 'connections';
 
 	/**
-	 * Visibility options.
-	 *
-	 * @var string[]
-	 */
-	private $visibilityOptions = array(
-		'Public'   => 'public',
-		'Private'  => 'private',
-		'Unlisted' => 'unlisted',
-	);
-
-	/**
-	 * cnFormObjects constructor.
-	 */
-	public function __construct() {
-
-		/*
-		 * Create the visibility option array based on the current user capability.
-		 */
-		foreach ( $this->visibilityOptions as $key => $option ) {
-			if ( ! Connections_Directory()->currentUser->canViewVisibility( $option ) ) {
-				unset( $this->visibilityOptions[ $key ] );
-			}
-		}
-	}
-
-	/**
 	 * The form open tag.
 	 *
 	 * @since unknown

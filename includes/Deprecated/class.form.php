@@ -74,14 +74,8 @@ class cnFormObjects {
 			$attr['method'] = 'method="' . esc_attr( $attr['method'] ) . '" ';
 		}
 
-		$out = '<form ';
-
-		foreach ( $attr as $key => $value ) {
-			$out .= $value;
-		}
-
 		// HTML is escaped above.
-		echo $out , '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<form ' . implode( '', $attr ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

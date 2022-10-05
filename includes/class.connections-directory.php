@@ -19,7 +19,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.29';
+	const VERSION = '10.4.30';
 
 	/**
 	 * Stores the instance of this class.
@@ -621,75 +621,6 @@ final class Connections_Directory {
 		 * Should save the user from having to "save" the permalink settings.
 		 */
 		update_option( 'connections_flush_rewrite', '1' );
-	}
-
-	/**
-	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-	 * This purposefully is blank.
-	 *
-	 * @access public
-	 * @since unknown
-	 * @deprecated 0.7.5
-	 * @return void
-	 */
-	public function displayMessages() {
-
-		_deprecated_function( __METHOD__, '9.15' );
-	}
-
-	/**
-	 * Set a runtime action/error message.
-	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-	 *
-	 * @since unknown
-	 * @deprecated 0.7.5
-	 *
-	 * @param string $type    The $type must be either "error_runtime" or "success_runtime".
-	 * @param string $message The message to be stored.
-	 *
-	 * @return void
-	 */
-	public function setRuntimeMessage( $type, $message ) {
-
-		_deprecated_function( __METHOD__, '9.15', 'cnMessage::runtime()' );
-
-		cnMessage::runtime( $type, $message );
-	}
-
-	/**
-	 * Store an error code.
-	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-	 *
-	 * @since unknown
-	 * @deprecated 0.7.5
-	 *
-	 * @param string $code The message code as registered in cnMessage::addCoreMessages().
-	 *
-	 * @return void
-	 */
-	public function setErrorMessage( $code ) {
-
-		_deprecated_function( __METHOD__, '9.15', 'cnMessage::set()' );
-
-		cnMessage::set( 'error', $code );
-	}
-
-	/**
-	 * Store a success code.
-	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-	 *
-	 * @since unknown
-	 * @deprecated 0.7.5
-	 *
-	 * @param string $code The message code as registered in cnMessage::addCoreMessages().
-	 *
-	 * @return void
-	 */
-	public function setSuccessMessage( $code ) {
-
-		_deprecated_function( __METHOD__, '9.15', 'cnMessage::set()' );
-
-		cnMessage::set( 'success', $code );
 	}
 
 	/**

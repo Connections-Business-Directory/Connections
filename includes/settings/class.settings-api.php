@@ -741,9 +741,8 @@ class cnSettingsAPI {
 	 *     http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/
 	 *     https://github.com/tareq1988/wordpress-settings-api-class
 	 *
-	 * @author Steven A. Zahm
-	 * @since  0.7.3.0
-	 * @access private
+	 * @internal
+	 * @since 0.7.3.0
 	 *
 	 * @param array $field
 	 */

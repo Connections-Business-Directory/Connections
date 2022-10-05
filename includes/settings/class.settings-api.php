@@ -983,12 +983,12 @@ class cnSettingsAPI {
 										 ->getHTML();
 
 				$out .= Field\Rich_Text::create()
-							   ->setId( $field['id'] )
-							   ->setName( $name )
-							   ->setPrefix( 'cn' )
-							   ->rteSettings( _array::get( $field, 'options', array() ) )
-							   ->setValue( $value )
-							   ->getHTML();
+									   ->setId( $field['id'] )
+									   ->setName( $name )
+									   ->setPrefix( 'cn' )
+									   ->rteSettings( _array::get( $field, 'options', array() ) )
+									   ->setValue( $value )
+									   ->getHTML();
 
 				break;
 

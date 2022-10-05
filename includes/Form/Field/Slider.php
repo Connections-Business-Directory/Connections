@@ -21,7 +21,6 @@ use Connections_Directory\Form\Field\Attribute\Name;
 use Connections_Directory\Form\Field\Attribute\Prefix;
 use Connections_Directory\Form\Field\Attribute\Read_Only;
 use Connections_Directory\Form\Field\Attribute\Value;
-use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_parse;
 use Connections_Directory\Utility\_string;
 
@@ -52,14 +51,6 @@ class Slider {
 		'step'  => 1,
 		'value' => 0,
 	);
-
-	/**
-	//  * The option parameters for the slider.
-	//  *
-	//  * @since 10.4.30
-	//  * @var array{min: int, max: int, step: int, value: int}
-	//  */
-	// private $options = array();
 
 	/**
 	 * The array of all registered slider settings.

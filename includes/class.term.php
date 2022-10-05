@@ -995,7 +995,7 @@ class cnTerm {
 			$where_fields[]      = $taxonomy;
 			$else_where_fields[] = $taxonomy;
 
-			if ( $result = $wpdb->get_row( $wpdb->prepare( 'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s $orderby $limit", $where_fields ), ARRAY_A ) ){
+			if ( $result = $wpdb->get_row( $wpdb->prepare( 'SELECT tt.term_id, tt.term_taxonomy_id FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s $orderby $limit", $where_fields ), ARRAY_A ) ) {
 
 				return $result;
 			}

@@ -652,32 +652,14 @@ class cnMetabox_Render {
 					break;
 
 				case 'slider':
-					// Set the slider defaults.
-					$defaults = array(
-						'min'   => 0,
-						'max'   => 100,
-						'step'  => 1,
-						'value' => 0,
-					);
-
-					$field['options'] = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-					printf(
-						'<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
-						esc_attr( $field['id'] ),
-						absint( $value ),
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
-					);
+					Field\Slider::create()
+						->setId( $field['id'] )
+						->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+						->setOptions( _array::get( $field, 'options', array() ) )
+						->setValue( $value )
+						->render();
 
 					self::description( $field['id'], $field['desc'] );
-
-					$field['options']['value'] = absint( $value );
-
-					self::$slider[ $field['id'] ] = $field['options'];
-
-					wp_enqueue_script( 'jquery-ui-slider' );
-					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'sliderJS' ) );
-					add_action( 'wp_footer', array( __CLASS__, 'sliderJS' ) );
 
 					break;
 
@@ -761,50 +743,4 @@ class cnMetabox_Render {
 
 		_deprecated_function( __METHOD__, '10.4.29', '\Connections_Directory\Form\Field\Date_Picker::datepickerJS()' );
 	}
-
-	/**
-	 * Outputs the JS necessary to support the sliders.
-	 *
-	 * @internal
-	 * @since 0.8
-	 */
-	public static function sliderJS() {
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.IncorrectExact,Generic.WhiteSpace.ScopeIndent.Incorrect,PEAR.Functions.FunctionCallSignature.Indent
-?>
-
-<script type="text/javascript">/* <![CDATA[ */
-/*
- * Add the jQuery UI Slider input fields.
- */
-jQuery(document).ready( function($){
-
-<?php
-foreach ( self::$slider as $id => $option ) {
-
-	printf(
-	'$( "#cn-slider-%1$s" ).slider({
-		value: %2$d,
-		min: %3$d,
-		max: %4$d,
-		step: %5$d,
-		slide: function( event, ui ) {
-			$( "#%1$s" ).val( ui.value );
-		}
-	});',
-		esc_attr( $id ),
-		wp_json_encode( $option['value'] ),
-		wp_json_encode( $option['min'] ),
-		wp_json_encode( $option['max'] ),
-		wp_json_encode( $option['step'] )
-	);
-
-}
-?>
-});
-/* ]]> */</script>
-
-<?php
-// phpcs:enable Generic.WhiteSpace.ScopeIndent.IncorrectExact,Generic.WhiteSpace.ScopeIndent.Incorrect,PEAR.Functions.FunctionCallSignature.Indent
-	}
-
 }

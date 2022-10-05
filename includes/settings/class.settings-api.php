@@ -976,13 +976,6 @@ class cnSettingsAPI {
 				break;
 
 			case 'rte':
-				// Set the rte defaults.
-				$defaults = array(
-					'textarea_name' => sprintf( '%1$s', $name ),
-				);
-
-				$settings = wp_parse_args( _array::get( $field, 'options', array() ), $defaults );
-
 				$out .= Field\Description::create()
 										 ->addClass( 'description' )
 										 ->text( $field['desc'] )
@@ -991,8 +984,9 @@ class cnSettingsAPI {
 
 				$out .= Field\Rich_Text::create()
 							   ->setId( $field['id'] )
+							   ->setName( $name )
 							   ->setPrefix( 'cn' )
-							   ->rteSettings( $settings )
+							   ->rteSettings( _array::get( $field, 'options', array() ) )
 							   ->setValue( $value )
 							   ->getHTML();
 

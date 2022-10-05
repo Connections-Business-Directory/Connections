@@ -677,17 +677,11 @@ class cnMetabox_Render {
 				case 'rte':
 					self::description( $field['id'], $field['desc'] );
 
-					// Set the rte defaults.
-					$defaults = array(
-						'textarea_name' => sprintf( '%1$s', $field['id'] ),
-					);
-
-					$settings = wp_parse_args( _array::get( $field, 'options', array() ), $defaults );
-
 					Field\Rich_Text::create()
 								   ->setId( $field['id'] )
+								   ->setName( $field['id'] )
 								   ->setPrefix( 'cn' )
-								   ->rteSettings( $settings )
+								   ->rteSettings( _array::get( $field, 'options', array() ) )
 								   ->setValue( $value )
 								   ->render();
 

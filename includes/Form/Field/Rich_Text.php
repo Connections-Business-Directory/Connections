@@ -16,8 +16,10 @@
 namespace Connections_Directory\Form\Field;
 
 use Connections_Directory\Form\Field\Attribute\Id;
+use Connections_Directory\Form\Field\Attribute\Name;
 use Connections_Directory\Form\Field\Attribute\Prefix;
 use Connections_Directory\Form\Field\Attribute\Value;
+use Connections_Directory\Utility\_parse;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -28,6 +30,7 @@ use Connections_Directory\Utility\_string;
 class Rich_Text {
 
 	use Id;
+	use Name;
 	use Prefix;
 	use Value;
 
@@ -66,7 +69,7 @@ class Rich_Text {
 	 */
 	public function rteSettings( $settings ) {
 
-		$this->settings = $settings;
+		$this->settings = _parse::parameters( $settings, $this->settings, false );
 
 		return $this;
 	}
@@ -84,6 +87,8 @@ class Rich_Text {
 
 		/** @var string $id */
 		$id = _string::applyPrefix( $prefix, $this->getId() );
+
+		$this->rteSettings( array( 'textarea_name' => $this->getName() ) );
 
 		ob_start();
 

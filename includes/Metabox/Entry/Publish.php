@@ -123,8 +123,9 @@ final class Publish extends Metabox {
 
 			$fieldEntryType = Field\Radio_Group::create()
 											   ->setContainer( 'div' )
+											   ->setPrefix( 'cn' )
 											   ->setId( 'entry_type' )
-											   ->addClass( 'cn-radio-option' )
+											   ->addClass( 'radio-option' )
 											   ->setName( 'entry_type' )
 											   ->setValue( $type )
 											   ->prepend( '<div id="entry-type">' )
@@ -139,7 +140,7 @@ final class Publish extends Metabox {
 				$fieldEntryType->addInput(
 					Field\Radio::create(
 						array(
-							'id'    => "cn-entry_type[{$entryTypeSlug}]",
+							'id'    => "entry_type[{$entryTypeSlug}]",
 							'label' => $entryTypeLabel,
 							'value' => $entryTypeSlug,
 						)
@@ -159,8 +160,9 @@ final class Publish extends Metabox {
 
 		$fieldVisibility = Field\Radio_Group::create()
 											->setContainer( 'div' )
+											->setPrefix( 'cn' )
 											->setId( 'visibility' )
-											->addClass( 'cn-radio-option' )
+											->addClass( 'radio-option' )
 											->setName( 'visibility' )
 											->setValue( $visibility )
 											->prepend( '<div id="visibility">' )
@@ -169,7 +171,7 @@ final class Publish extends Metabox {
 		$fieldVisibility->addInput(
 			Field\Radio::create(
 				array(
-					'id'    => 'cn-visibility[public]',
+					'id'    => 'visibility[public]',
 					'label' => __( 'Public', 'connections' ),
 					'value' => 'public',
 				)
@@ -179,7 +181,7 @@ final class Publish extends Metabox {
 		$fieldVisibility->addInput(
 			Field\Radio::create(
 				array(
-					'id'    => 'cn-visibility[private]',
+					'id'    => 'visibility[private]',
 					'label' => __( 'Private', 'connections' ),
 					'value' => 'private',
 				)
@@ -189,7 +191,7 @@ final class Publish extends Metabox {
 		$fieldVisibility->addInput(
 			Field\Radio::create(
 				array(
-					'id'    => 'cn-visibility[unlisted]',
+					'id'    => 'visibility[unlisted]',
 					'label' => __( 'Unlisted', 'connections' ),
 					'value' => 'unlisted',
 				)

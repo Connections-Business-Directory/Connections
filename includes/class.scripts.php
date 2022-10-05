@@ -18,14 +18,16 @@ use Connections_Directory\Utility\_url;
 
 /**
  * Class cnScript
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnScript {
 
 	/**
 	 * Used to store the values of core jQuery.
 	 *
-	 * @access private
-	 * @since  0.7.7
+	 * @since 0.7.7
 	 * @var array
 	 */
 	private static $corejQuery = array();
@@ -33,23 +35,14 @@ class cnScript {
 	/**
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
-	 * @access public
-	 * @since  0.7.6.4
+	 * @since 0.7.6.4
 	 */
 	public function __construct() { /* Do nothing here */ }
 
 	/**
 	 * Init the class.
 	 *
-	 * @access public
-	 * @since  0.7.6.4
-	 * @static
-	 *
-	 * @uses   add_filter()
-	 * @uses   is_admin()
-	 * @uses   add_action()
-	 *
-	 * @return void
+	 * @since 0.7.6.4
 	 */
 	public static function hooks() {
 
@@ -394,7 +387,6 @@ class cnScript {
 	 *
 	 * @internal
 	 * @since 0.7.3.2
-	 * @static
 	 */
 	public static function registerCSS() {
 
@@ -471,25 +463,18 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `admin_enqueue_scripts` action.
+	 *
 	 * Enqueues the Connections JavaScript libraries on required admin pages.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
-	 * @static
+	 * @internal
+	 * @since 0.7.3.2
 	 *
 	 * @global $concatenate_scripts
 	 * @global $compress_scripts
 	 * @global $compress_css
 	 *
-	 * @uses   Connections_Directory()
-	 * @uses   wp_enqueue_script()
-	 * @uses   do_action()
-	 * @uses   add_action()
-	 * @uses   apply_filters()
-	 *
-	 * @param  string $pageHook The current admin page hook.
-	 *
-	 * @return void
+	 * @param string $pageHook The current admin page hook.
 	 */
 	public static function enqueueAdminScripts( $pageHook ) {
 
@@ -558,9 +543,10 @@ class cnScript {
 	}
 
 	/**
-	 * @access private
-	 * @since  unknown
-	 * @static
+	 * Callback for the `admin_footer-{$page-hook}` callback.
+	 *
+	 * @internal
+	 * @since unknown
 	 */
 	public static function adminFooterScript() {
 		?>
@@ -569,9 +555,8 @@ class cnScript {
 	}
 
 	/**
-	 * @access private
-	 * @since  unknown
-	 * @static
+	 * @internal
+	 * @since unknown
 	 */
 	public static function enqueue() {
 		global $wp_query;
@@ -595,15 +580,12 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `wp_enqueue_scripts` action.
+	 *
 	 * Enqueues the Connections JavaScript libraries on the frontend.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
-	 * @static
-	 *
-	 * @uses   wp_enqueue_script()
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.3.2
 	 */
 	public static function enqueueScripts() {
 		/*
@@ -617,16 +599,12 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `wp_print_scripts` action.
+	 *
 	 * Attempt to re-register the bundled version of jQuery
 	 *
-	 * @access private
-	 * @since  0.7.6
-	 * @static
-	 *
-	 * @uses   wp_deregister_script()
-	 * @uses   wp_register_script()
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.6
 	 */
 	public static function jQueryFixr() {
 
@@ -651,16 +629,14 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `wp_default_scripts` action.
+	 *
 	 * Store the values of core jQuery.
 	 *
-	 * @access private
-	 * @since  0.7.7
+	 * @internal
+	 * @since 0.7.7
 	 *
-	 * @uses   WP_Scripts
-	 *
-	 * @param  object $scripts WP_Scripts
-	 *
-	 * @return void
+	 * @param WP_Scripts $scripts
 	 */
 	public static function storeCorejQuery( $scripts ) {
 
@@ -670,20 +646,14 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `admin_enqueue_scripts` action.
+	 *
 	 * Enqueues the Connections CSS on the required admin pages.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
-	 * @static
+	 * @internal
+	 * @since 0.7.3.2
 	 *
-	 * @uses   Connections_Directory()
-	 * @uses   wp_enqueue_style()
-	 * @uses   do_action()
-	 * @uses   apply_filters()
-	 *
-	 * @param  string $pageHook The current admin page hook.
-	 *
-	 * @return void
+	 * @param string $pageHook The current admin page hook.
 	 */
 	public static function enqueueAdminStyles( $pageHook ) {
 
@@ -768,16 +738,12 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `wp_enqueue_scripts` action.
+	 *
 	 * Enqueues the Connections CSS on the frontend.
 	 *
-	 * @access private
-	 * @since  0.7.3.2
-	 * @static
-	 *
-	 * @uses   wp_enqueue_style()
-	 * @uses   wp_style_is()
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.3.2
 	 */
 	public static function enqueueStyles() {
 
@@ -809,6 +775,7 @@ class cnScript {
 	 *
 	 * Output the CSS for the user defined colors for the social network icons.
 	 *
+	 * @internal
 	 * @since 8.44
 	 *
 	 * @link https://www.cssigniter.com/late-enqueue-inline-css-wordpress/
@@ -905,15 +872,16 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `cn_locate_file_names` filter.
+	 *
 	 * This is the callback function that will add the minified CSS and JS
 	 * file names to the file name array.
 	 *
 	 * The minified file names will only be added if SCRIPT_DEBUG is defined
 	 * and set to true.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
+	 * @internal
+	 * @since 0.8
 	 *
 	 * @see    cnLocate::fileNames()
 	 *
@@ -957,16 +925,17 @@ class cnScript {
 	}
 
 	/**
+	 * Callback for the `cn_locate_file_paths` filter.
+	 *
 	 * This a callback for the filter `cn_locate_file_paths` which adds
 	 * the core plugin CSS file path to the file paths which are searched
 	 * when locating a CSS file.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
+	 * @internal
+	 * @since 0.8
 	 *
-	 * @see    registerCSS()
-	 * @see    cnLocate::filePaths()
+	 * @see registerCSS()
+	 * @see cnLocate::filePaths()
 	 *
 	 * @param array $paths An index array containing the file paths to be searched.
 	 *
@@ -984,11 +953,10 @@ class cnScript {
 	 * the core plugin JS file path to the file paths which are searched
 	 * when locating a JS file.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
+	 * @internal
+	 * @since 0.8
 	 *
-	 * @see    registerCSS()
+	 * @see registerCSS()
 	 *
 	 * @param array $paths An index array containing the file paths to be searched.
 	 *

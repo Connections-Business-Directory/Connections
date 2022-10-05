@@ -278,9 +278,6 @@ class cnDependency {
 			'Connections_Directory\Query\Taxonomy' => 'includes/Query/Taxonomy.php',
 			'Connections_Directory\Query\Term'     => 'includes/Query/Term.php',
 
-			// HTML form elements.
-			'cnFormObjects'            => 'includes/class.form.php',
-
 			// Metabox API.
 			'cnMetaboxAPI'             => 'includes/Metabox/class.metabox-api.php',
 			'cnMetabox_Render'         => 'includes/Metabox/class.metabox-render.php',
@@ -357,6 +354,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field'                        => 'includes/Form/Field.php',
 			'Connections_Directory\Form\Field\Checkbox'               => 'includes/Form/Field/Checkbox.php',
 			'Connections_Directory\Form\Field\Checkbox_Group'         => 'includes/Form/Field/Checkbox_Group.php',
+			'Connections_Directory\Form\Field\Color_Picker'           => 'includes/Form/Field/Color_Picker.php',
 			'Connections_Directory\Form\Field\Date_Picker'            => 'includes/Form/Field/Date_Picker.php',
 			'Connections_Directory\Form\Field\Description'            => 'includes/Form/Field/Description.php',
 			'Connections_Directory\Form\Field\Group'                  => 'includes/Form/Field/Group.php',
@@ -370,6 +368,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',
 			'Connections_Directory\Form\Field\Rich_Text'              => 'includes/Form/Field/Rich_Text.php',
 			'Connections_Directory\Form\Field\Select'                 => 'includes/Form/Field/Select.php',
+			'Connections_Directory\Form\Field\Slider'                 => 'includes/Form/Field/Slider.php',
 			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
 
@@ -579,13 +578,14 @@ class cnDependency {
 			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
 
 			// Deprecated files for deprecated classes. Required to trigger the autoloader.
-			'cnArray'      => 'includes/Deprecated/class.array.php',
-			'cnCache'      => 'includes/Deprecated/class.cache.php',
-			'cnCollection' => 'includes/Deprecated/class.collection.php',
-			'cnDate'       => 'includes/Deprecated/class.date.php',
-			'cnFragment'   => 'includes/Deprecated/class.fragment.php',
-			'cnHTTP'       => 'includes/Deprecated/class.http.php',
-			'SiteShot'     => 'includes/Deprecated/SiteShot.php',
+			'cnArray'       => 'includes/Deprecated/class.array.php',
+			'cnCache'       => 'includes/Deprecated/class.cache.php',
+			'cnCollection'  => 'includes/Deprecated/class.collection.php',
+			'cnFormObjects' => 'includes/Deprecated/class.form.php',
+			'cnDate'        => 'includes/Deprecated/class.date.php',
+			'cnFragment'    => 'includes/Deprecated/class.fragment.php',
+			'cnHTTP'        => 'includes/Deprecated/class.http.php',
+			'SiteShot'      => 'includes/Deprecated/SiteShot.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

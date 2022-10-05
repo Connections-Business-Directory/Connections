@@ -50,7 +50,7 @@ class cnHTML {
 					__METHOD__,
 					'10.4',
 					sprintf(
-						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Text::create()`.',
+						'The `%s` parameter is no longer supported. Use `\Connections_Directory\Form\Field\Text::create()`.',
 						esc_attr( $atts['type'] )
 					)
 				);
@@ -62,7 +62,7 @@ class cnHTML {
 					__METHOD__,
 					'10.4',
 					sprintf(
-						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
+						'The `%s` parameter is no longer supported. Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
 						esc_attr( $atts['type'] )
 					)
 				);
@@ -75,7 +75,7 @@ class cnHTML {
 					__METHOD__,
 					'10.4',
 					sprintf(
-						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Checkbox_Group::create()`.',
+						'The `%s` parameter is no longer supported. Use `\Connections_Directory\Form\Field\Checkbox_Group::create()`.',
 						esc_attr( $atts['type'] )
 					)
 				);
@@ -87,7 +87,7 @@ class cnHTML {
 					__METHOD__,
 					'10.4',
 					sprintf(
-						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Radio_Group::create()`.',
+						'The `%s` parameter is no longer supported. Use `\Connections_Directory\Form\Field\Radio_Group::create()`.',
 						esc_attr( $atts['type'] )
 					)
 				);
@@ -99,7 +99,7 @@ class cnHTML {
 					__METHOD__,
 					'10.4',
 					sprintf(
-						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Select::create()`.',
+						'The `%s` parameter is no longer supported. Use `\Connections_Directory\Form\Field\Select::create()`.',
 						esc_attr( $atts['type'] )
 					)
 				);
@@ -114,7 +114,7 @@ class cnHTML {
 					__METHOD__,
 					'10.4',
 					sprintf(
-						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Textarea::create()`.',
+						'The `%s` parameter is no longer supported. Use `\Connections_Directory\Form\Field\Textarea::create()`.',
 						esc_attr( $atts['type'] )
 					)
 				);
@@ -126,7 +126,7 @@ class cnHTML {
 					__METHOD__,
 					'10.4',
 					sprintf(
-						'The `%s` parameter is no loner supported. Use `\Connections_Directory\Form\Field\Hidden::create()`.',
+						'The `%s` parameter is no longer supported. Use `\Connections_Directory\Form\Field\Hidden::create()`.',
 						esc_attr( $atts['type'] )
 					)
 				);
@@ -502,7 +502,7 @@ class cnHTML {
 				__METHOD__,
 				'10.4',
 				sprintf(
-					'The `%s` parameter is no loner supported. %s',
+					'The `%s` parameter is no longer supported. %s',
 					esc_attr( $atts['type'] ),
 					esc_html( $messages[ $atts['type'] ] )
 				)
@@ -514,7 +514,7 @@ class cnHTML {
 				__METHOD__,
 				'10.4',
 				sprintf(
-					'The `%s` parameter is no loner supported.',
+					'The `%s` parameter is no longer supported.',
 					esc_attr( $atts['type'] )
 				)
 			);
@@ -537,8 +537,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -635,8 +635,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -710,7 +710,7 @@ class cnHTML {
 				__METHOD__,
 				'10.4',
 				sprintf(
-					'The `%s` parameter is no loner supported. %s',
+					'The `%s` parameter is no longer supported. %s',
 					esc_attr( $atts['type'] ),
 					'\Connections_Directory\Form\Field\Checkbox_Group::create()'
 				)
@@ -722,7 +722,7 @@ class cnHTML {
 				__METHOD__,
 				'10.4',
 				sprintf(
-					'The `%s` parameter is no loner supported. %s',
+					'The `%s` parameter is no longer supported. %s',
 					esc_attr( $atts['type'] ),
 					'\Connections_Directory\Form\Field\Radio_Group::create()'
 				)
@@ -734,7 +734,7 @@ class cnHTML {
 				__METHOD__,
 				'10.4',
 				sprintf(
-					'The `%s` parameter is no loner supported.',
+					'The `%s` parameter is no longer supported.',
 					esc_attr( $atts['type'] )
 				)
 			);
@@ -754,8 +754,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.
@@ -866,8 +866,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = _string::applyPrefix( 'cn-', $atts['class'] );
-			$atts['id']    = _string::applyPrefix( 'cn-', $atts['id'] );
+			$atts['class'] = _string::applyPrefix( $atts['prefix'], $atts['class'] );
+			$atts['id']    = _string::applyPrefix( $atts['prefix'], $atts['id'] );
 		}
 
 		// Add "required" to any classes that may have been supplied.

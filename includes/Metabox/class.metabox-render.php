@@ -509,11 +509,7 @@ class cnMetabox_Render {
 				case 'checkbox-group':
 					remapFieldOptions( $field );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Checkbox_Group::create()
 										->setId( $field['id'] )
@@ -532,11 +528,7 @@ class cnMetabox_Render {
 				case 'radio':
 					remapFieldOptions( $field );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Radio_Group::create()
 									 ->setId( $field['id'] )
@@ -556,11 +548,7 @@ class cnMetabox_Render {
 				case 'radio-inline':
 					remapFieldOptions( $field );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Radio_Group::create()
 									 ->setId( $field['id'] )
@@ -595,11 +583,7 @@ class cnMetabox_Render {
 						// ->addDefaultOption( Field\Option::create()->setText( 'Choose an Option' ) )
 						->render();
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					break;
 
@@ -618,11 +602,7 @@ class cnMetabox_Render {
 							  ->append( '</div>' )
 							  ->render();
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					break;
 
@@ -630,11 +610,7 @@ class cnMetabox_Render {
 					$sizes = array( 'small', 'large' );
 					$size  = _array::get( $field, 'size', 'small' );
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Textarea::create()
 								  ->setId( $field['id'] )
@@ -654,121 +630,41 @@ class cnMetabox_Render {
 				case 'datepicker':
 					Field\Date_Picker::create()
 									 ->setId( $field['id'] )
-									 ->addClass( 'cn-datepicker' )
 									 ->setName( $field['id'] )
 									 ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 									 ->setValue( $value )
 									 ->render();
 
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					break;
 
 				case 'colorpicker':
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
-					printf(
-						'<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
-						esc_attr( $field['id'] ),
-						esc_attr( $value ),
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
-					);
-
-					wp_enqueue_style( 'wp-color-picker' );
-
-					if ( is_admin() ) {
-
-						wp_enqueue_script( 'wp-color-picker' );
-						add_action( 'admin_print_footer_scripts', array( __CLASS__, 'colorpickerJS' ) );
-
-					} else {
-
-						/*
-						 * WordPress seems to only register the color picker scripts for use in the admin.
-						 * So, for the frontend, we must manually register and then enqueue.
-						 * @url http://wordpress.stackexchange.com/a/82722/59053
-						 */
-
-						//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion
-						wp_enqueue_script(
-							'iris',
-							admin_url( 'js/iris.min.js' ),
-							array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ),
-							false,
-							1
-						);
-
-						//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion
-						wp_enqueue_script(
-							'wp-color-picker',
-							admin_url( 'js/color-picker.min.js' ),
-							array( 'iris' ),
-							false,
-							1
-						);
-
-						$colorpicker_l10n = array(
-							'clear'         => __( 'Clear', 'connections' ),
-							'defaultString' => __( 'Default', 'connections' ),
-							'pick'          => __( 'Select Color', 'connections' ),
-							'current'       => __( 'Current Color', 'connections' ),
-						);
-
-						wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );
-
-						add_action( 'wp_footer', array( __CLASS__, 'colorpickerJS' ) );
-					}
+					Field\Color_Picker::create()
+									  ->setId( $field['id'] )
+									  ->setName( $field['id'] )
+									  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+									  ->setValue( $value )
+									  ->render();
 
 					break;
 
 				case 'slider':
-					// Set the slider defaults.
-					$defaults = array(
-						'min'   => 0,
-						'max'   => 100,
-						'step'  => 1,
-						'value' => 0,
-					);
+					Field\Slider::create()
+						->setId( $field['id'] )
+						->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+						->setOptions( _array::get( $field, 'options', array() ) )
+						->setValue( $value )
+						->render();
 
-					$field['options'] = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-					printf(
-						'<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
-						esc_attr( $field['id'] ),
-						absint( $value ),
-						isset( $field['readonly'] ) && true === $field['readonly'] ? ' readonly="readonly"' : ''
-					);
-
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
-
-					$field['options']['value'] = absint( $value );
-
-					self::$slider[ $field['id'] ] = $field['options'];
-
-					wp_enqueue_script( 'jquery-ui-slider' );
-					add_action( 'admin_print_footer_scripts', array( __CLASS__, 'sliderJS' ) );
-					add_action( 'wp_footer', array( __CLASS__, 'sliderJS' ) );
+					self::description( $field['id'], $field['desc'] );
 
 					break;
 
 				case 'quicktag':
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Quicktag::create()
 								  ->setId( $field['id'] )
@@ -779,23 +675,13 @@ class cnMetabox_Render {
 					break;
 
 				case 'rte':
-					Field\Description::create()
-									 ->addClass( 'description' )
-									 ->setId( "{$field['id']}-description" )
-									 ->text( $field['desc'] )
-									 ->render();
-
-					// Set the rte defaults.
-					$defaults = array(
-						'textarea_name' => sprintf( '%1$s', $field['id'] ),
-					);
-
-					$settings = wp_parse_args( _array::get( $field, 'options', array() ), $defaults );
+					self::description( $field['id'], $field['desc'] );
 
 					Field\Rich_Text::create()
 								   ->setId( $field['id'] )
+								   ->setName( $field['id'] )
 								   ->setPrefix( 'cn' )
-								   ->rteSettings( $settings )
+								   ->rteSettings( _array::get( $field, 'options', array() ) )
 								   ->setValue( $value )
 								   ->render();
 
@@ -814,6 +700,33 @@ class cnMetabox_Render {
 	}
 
 	/**
+	 * Render the field description text.
+	 *
+	 * @since 10.4.30
+	 *
+	 * @param string $id          The field id.
+	 * @param string $description The text to render.
+	 * @param bool   $echo        Whether to echo the field description.
+	 *
+	 * @return string
+	 */
+	public static function description( $id, $description, $echo = true ) {
+
+		$html = Field\Description::create()
+								 ->addClass( 'description' )
+								 ->setId( "{$id}-description" )
+								 ->text( $description )
+								 ->getHTML();
+
+		if ( true === $echo ) {
+
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
+		return $html;
+	}
+
+	/**
 	 * Deprecated callback used by the Form addon in version <= 2.7.5.
 	 *
 	 * @internal
@@ -824,74 +737,4 @@ class cnMetabox_Render {
 
 		_deprecated_function( __METHOD__, '10.4.29', '\Connections_Directory\Form\Field\Date_Picker::datepickerJS()' );
 	}
-
-	/**
-	 * Outputs the JS necessary to support the color picker.
-	 *
-	 * @internal
-	 * @since 0.8
-	 */
-	public static function colorpickerJS() {
-
-?>
-
-<script type="text/javascript">/* <![CDATA[ */
-/*
- * Add the Color Picker to the input fields.
- */
-jQuery(document).ready( function($){
-
-	$('.cn-colorpicker').wpColorPicker();
-});
-/* ]]> */</script>
-
-<?php
-
-	}
-
-	/**
-	 * Outputs the JS necessary to support the sliders.
-	 *
-	 * @internal
-	 * @since 0.8
-	 */
-	public static function sliderJS() {
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.IncorrectExact,Generic.WhiteSpace.ScopeIndent.Incorrect,PEAR.Functions.FunctionCallSignature.Indent
-?>
-
-<script type="text/javascript">/* <![CDATA[ */
-/*
- * Add the jQuery UI Slider input fields.
- */
-jQuery(document).ready( function($){
-
-<?php
-foreach ( self::$slider as $id => $option ) {
-
-	printf(
-	'$( "#cn-slider-%1$s" ).slider({
-		value: %2$d,
-		min: %3$d,
-		max: %4$d,
-		step: %5$d,
-		slide: function( event, ui ) {
-			$( "#%1$s" ).val( ui.value );
-		}
-	});',
-		esc_attr( $id ),
-		wp_json_encode( $option['value'] ),
-		wp_json_encode( $option['min'] ),
-		wp_json_encode( $option['max'] ),
-		wp_json_encode( $option['step'] )
-	);
-
-}
-?>
-});
-/* ]]> */</script>
-
-<?php
-// phpcs:enable Generic.WhiteSpace.ScopeIndent.IncorrectExact,Generic.WhiteSpace.ScopeIndent.Incorrect,PEAR.Functions.FunctionCallSignature.Indent
-	}
-
 }

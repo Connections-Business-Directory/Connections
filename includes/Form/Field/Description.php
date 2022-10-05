@@ -47,7 +47,7 @@ class Description {
 	/**
 	 * Create an instance of the Description field.
 	 *
-	 * @sine 10.4
+	 * @since 10.4
 	 *
 	 * @return static
 	 */

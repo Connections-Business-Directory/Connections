@@ -1,5 +1,33 @@
 == Changelog ==
 
+= 10.4.30 10/05/2022 =
+* NEW: Introduce the `Color_Picker` field to the Fields API.
+* NEW: Introduce the `Slider` field to the Fields API.
+* TWEAK: The date picker class should be added when creating the field.
+* TWEAK: Introduce `cnMetabox_Render::description()` to deduplicate the code to render the metabox field description.
+* TWEAK: Utilize `Color_Picker` field in the Settings API to remove code duplication.
+* TWEAK: Remove unnecessary class exists check and adjust file indent.
+* TWEAK: Refactor the deprecated methods `cnFormObjects::buildSelect()` and `cnFormObjects::buildRadio()` to utilize the Fields API field objects.
+* TWEAK: Return object in `Checkbox_Group::addInput()` and `Radio_Group::addInput()` to allow chaining, matching other object methods pattern.
+* TWEAK: Remove unnecessary constructor and class property from `cnFormObjects`.
+* TWEAK: `foreach` loop can be replaced with `implode()`.
+* TWEAK: Utilize `Radio_Group::setPrefix()` to apply the field `class` and `id` prefixes.
+* TWEAK: Refactor `cnMetabox_Render::fields()` to utilize `Field\Slider`.
+* TWEAK: Small refactor of `Field\Rich_Text` to set the `textarea_name` setting parameter automatically.
+* BUG: Correctly apply the prefix to the HTML input classes and id.
+* BUG: The `id` prefix should be applied to the checkbox and radio group input labels.
+* OTHER: Correct misspellings.
+* DEV: phpDoc updates.
+* DEV: phpDoc corrections.
+* DEV: Move `cnFormObjects` to the `Deprecated` folder.
+* DEV: Exit if accessed directly.
+* DEV: Deprecate `cnFormObjects::open()`.
+* DEV: Remove commented out code.
+* DEV: Correct code alignment.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Add missing space.
+* DEV: Remove deprecated methods `Connections_Directory::displayMessages()`, `Connections_Directory::setRuntimeMessage()`, `Connections_Directory::setErrorMessage()`, and `Connections_Directory::setSuccessMessage()`.
+
 = 10.4.29 09/27/2022 =
 * NEW: Introduce the `Date_Picker` field to the Fields API.
 * NEW: Introduce `Utility\_nonce`.

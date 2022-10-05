@@ -2,7 +2,7 @@
 
 namespace Connections_Directory;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

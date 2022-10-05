@@ -2,6 +2,8 @@
 
 namespace Connections_Directory\Form\Field;
 
+use Connections_Directory\Utility\_string;
+
 /**
  * Class Text
  *
@@ -23,10 +25,14 @@ class Radio_Group extends Group {
 	 * @since 10.4
 	 *
 	 * @param Radio $input
+	 *
+	 * @return static
 	 */
 	public function addInput( $input ) {
 
 		$this->inputs[] = $input;
+
+		return $this;
 	}
 
 	/**
@@ -56,6 +62,8 @@ class Radio_Group extends Group {
 	 */
 	protected function prepareInputs() {
 
+		$prefix = 0 < strlen( $this->getPrefix() ) ? $this->getPrefix() . '-' : '';
+
 		foreach ( $this->inputs as $field ) {
 
 			$class = 0 < count( $field->class ) ? $field->class : $this->class;
@@ -76,7 +84,7 @@ class Radio_Group extends Group {
 
 			if ( $field->label instanceof Label ) {
 
-				$field->label->setFor( $field->getId() );
+				$field->label->setFor( _string::applyPrefix( $prefix, $field->getId() ) );
 			}
 		}
 	}

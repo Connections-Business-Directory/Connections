@@ -11,7 +11,7 @@
 
 use Connections_Directory\Utility\_parse;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

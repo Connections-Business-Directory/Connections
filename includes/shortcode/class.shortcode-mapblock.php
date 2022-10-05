@@ -11,7 +11,7 @@ use Connections_Directory\Map\UI\Popup;
 use Connections_Directory\Map\UI\Marker;
 use Connections_Directory\Map\Layer\Group\Layer_Group;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

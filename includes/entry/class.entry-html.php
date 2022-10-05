@@ -13,7 +13,7 @@ use Connections_Directory\Content_Blocks;
 use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

@@ -752,13 +752,13 @@ class cnSettingsAPI {
 
 		if ( in_array( $field['section'], self::$coreSections ) ) {
 
-			$value = get_option( $field['id'] ); // print_r($value);
+			$value = get_option( $field['id'] );
 			$name  = sprintf( '%1$s', $field['id'] );
 
 		} else {
 
 			$values = get_option( $field['section'] );
-			$value  = ( isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : null; // print_r($value);
+			$value  = ( isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : null;
 			$name   = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 		}
 

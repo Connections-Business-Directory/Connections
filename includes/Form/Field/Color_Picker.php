@@ -52,7 +52,7 @@ class Color_Picker {
 	/**
 	 * Create an instance of the Field.
 	 *
-	 * @sine 10.4.30
+	 * @since 10.4.30
 	 *
 	 * @return static
 	 */
@@ -110,7 +110,7 @@ class Color_Picker {
 	}
 
 	/**
-	 * Callback for the `` and `` actions.
+	 * Callback for the `admin_print_footer_scripts` and `wp_footer` actions.
 	 *
 	 * Outputs the JS necessary to support the color picker.
 	 *

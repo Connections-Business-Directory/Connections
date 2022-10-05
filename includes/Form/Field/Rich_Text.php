@@ -48,7 +48,7 @@ class Rich_Text {
 	/**
 	 * Create an instance of the Field.
 	 *
-	 * @sine 10.4
+	 * @since 10.4
 	 *
 	 * @return static
 	 */

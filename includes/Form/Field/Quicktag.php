@@ -58,7 +58,7 @@ class Quicktag {
 	/**
 	 * Create an instance of the Field.
 	 *
-	 * @sine 10.4.28
+	 * @since 10.4.28
 	 *
 	 * @return static
 	 */

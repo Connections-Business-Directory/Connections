@@ -691,7 +691,7 @@ function connectionsShowViewPage( $action = null ) {
 					/*
 					 * Generate the edit, copy and delete URLs with nonce tokens.
 					 */
-					$editTokenURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
+					$editNonceURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
 					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
 					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
 					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
@@ -737,7 +737,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						echo '<a class="row-title" title="Edit ' . esc_attr( $name ) . '" href="' . esc_url( $editTokenURL ) . '">' . esc_html( $name ) . '</a>';
+						echo '<a class="row-title" title="Edit ' . esc_attr( $name ) . '" href="' . esc_url( $editNonceURL ) . '">' . esc_html( $name ) . '</a>';
 
 					} else {
 
@@ -801,7 +801,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editTokenURL ) . '" title="' . esc_attr__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
+						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editNonceURL ) . '" title="' . esc_attr__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 					}
 
 					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar

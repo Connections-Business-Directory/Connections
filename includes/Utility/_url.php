@@ -387,9 +387,9 @@ final class _url {
 
 				if ( false !== $result ) {
 
-					$actionURL  = 'admin.php?cn-action=delete_entry&id=' . $result->id;
-					$actionName = 'entry_delete_' . $result->id;
-					$permalink  = admin_url( wp_nonce_url( $actionURL, $actionName ) );
+					$id        = $result->id;
+					$url       = _nonce::url( "admin.php?cn-action=delete_entry&id={$id}", 'entry_delete', $id );
+					$permalink = admin_url( $url );
 				}
 
 				break;

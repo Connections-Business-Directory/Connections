@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_sanitize;
 use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
@@ -1682,9 +1683,10 @@ class cnAdminActions {
 	 */
 	public static function deleteEntry() {
 
-		$id = Request\ID::input()->value();
+		$id          = Request\ID::input()->value();
+		$nonceAction = _nonce::action( 'entry_delete', $id );
 
-		check_admin_referer( "entry_delete_{$id}" );
+		_validate::adminReferer( $nonceAction );
 
 		/*
 		 * Check whether the current user delete an entry.

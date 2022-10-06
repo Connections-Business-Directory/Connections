@@ -693,7 +693,7 @@ function connectionsShowViewPage( $action = null ) {
 					 */
 					$editNonceURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
 					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
-					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
+					$deleteNonceURL    = _nonce::url( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete', $entry->getId() );
 					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 
@@ -813,7 +813,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( current_user_can( 'connections_delete_entry' ) ) {
 
-						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteTokenURL ) . '" title="' . esc_attr__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
+						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteNonceURL ) . '" title="' . esc_attr__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
 					}
 
 					/**

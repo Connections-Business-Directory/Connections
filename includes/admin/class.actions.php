@@ -1542,6 +1542,8 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_set_status` action.
+	 *
 	 * Set the entry status to pending or approved.
 	 *
 	 * @access private
@@ -1676,6 +1678,8 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_delete_entry` action.
+	 *
 	 * Delete an entry.
 	 *
 	 * @internal

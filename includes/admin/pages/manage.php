@@ -340,7 +340,7 @@ function connectionsShowViewPage( $action = null ) {
 							'<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
 							$filters['status'] == $key ? ' class="current" ' : ' ',
 							esc_url(
-								$form->tokenURL(
+								_nonce::url(
 									add_query_arg(
 										array(
 											'page'      => 'connections_manage',
@@ -526,28 +526,28 @@ function connectionsShowViewPage( $action = null ) {
 								 * Generate the page link token URL.
 								 */
 								$pageFilterURL['first_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['first_page'] ), $currentPageURL ),
 										'filter'
 									)
 								);
 
 								$pageFilterURL['previous_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['previous_page'] ), $currentPageURL ),
 										'filter'
 									)
 								);
 
 								$pageFilterURL['next_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['next_page'] ), $currentPageURL ),
 										'filter'
 									)
 								);
 
 								$pageFilterURL['last_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['last_page'] ), $currentPageURL ),
 										'filter'
 									)
@@ -855,7 +855,7 @@ function connectionsShowViewPage( $action = null ) {
 							/*
 							 * Generate the category link token URL.
 							 */
-							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' ); //phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
+							$categoryFilterURL = _nonce::url( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' ); //phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
 							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . esc_html( $category->name ) . '</a>';
 

@@ -659,10 +659,10 @@ function connectionsShowViewPage( $action = null ) {
 					</div>
 					<div class="clear"></div>
 
-					<table cellspacing="0" class="widefat connections">
+					<table class="widefat connections">
 						<thead>
 						<tr>
-							<td class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></td>
+							<td class="manage-column column-cb check-column" id="cb"><input type="checkbox"/></td>
 							<th class="col" style="width:10%;"></th>
 							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
 							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
@@ -671,7 +671,7 @@ function connectionsShowViewPage( $action = null ) {
 						</thead>
 						<tfoot>
 						<tr>
-							<td class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></td>
+							<td class="manage-column column-cb check-column"><input type="checkbox"/></td>
 							<th class="col" style="width:10%;"></th>
 							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
 							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>

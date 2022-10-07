@@ -692,7 +692,7 @@ function connectionsShowViewPage( $action = null ) {
 					 * Generate the edit, copy and delete URLs with nonce tokens.
 					 */
 					$editNonceURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
-					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
+					$copyNonceURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy', $entry->getId() );
 					$deleteNonceURL    = _nonce::url( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete', $entry->getId() );
 					$approvedNonceURL  = _nonce::url( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status', $entry->getId() );
 					$unapproveNonceURL = _nonce::url( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status', $entry->getId() );
@@ -807,7 +807,7 @@ function connectionsShowViewPage( $action = null ) {
 					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 					// if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 					//
-					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . esc_url( $copyTokenURL ) . '" title="' . esc_html__( 'Copy', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Copy', 'connections' ) . '</a>';
+					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . esc_url( $copyNonceURL ) . '" title="' . esc_html__( 'Copy', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Copy', 'connections' ) . '</a>';
 					// }
 					// phpcs:enable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 

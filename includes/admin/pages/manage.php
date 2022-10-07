@@ -382,7 +382,7 @@ function connectionsShowViewPage( $action = null ) {
 						<?php submit_button( esc_attr__( 'Search Entries', 'connections' ), '', '', false, array( 'id' => 'search-submit' ) ); ?>
 					</p>
 
-					<?php $form->tokenField( 'cn_manage_actions' ); ?>
+					<?php _nonce::field( 'cn_manage_actions' ); ?>
 
 					<input type="hidden" name="cn-action" value="manage_actions"/>
 

@@ -1218,10 +1218,9 @@ class cnAdminActions {
 	 */
 	public static function entryManagement() {
 
-		$form     = new cnFormObjects();
 		$queryVar = array();
 
-		check_admin_referer( $form->getNonce( 'cn_manage_actions' ), '_cn_wpnonce' );
+		_validate::adminReferer( 'cn_manage_actions' );
 
 		// Process user selected filters.
 		self::saveUserFilters();

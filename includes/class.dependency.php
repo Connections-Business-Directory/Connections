@@ -234,6 +234,7 @@ class cnDependency {
 			'Connections_Directory\Request\CSV_Export_Step'          => 'includes/Request/CSV_Export_Step.php',
 			'Connections_Directory\Request\Entry_Initial_Character'  => 'includes/Request/Entry_Initial_Character.php',
 			'Connections_Directory\Request\Entry_Search_Term'        => 'includes/Request/Entry_Search_Term.php',
+			'Connections_Directory\Request\Entry_Status'             => 'includes/Request/Entry_Status.php',
 			'Connections_Directory\Request\Email_System_Info'        => 'includes/Request/Email_System_Info.php',
 			'Connections_Directory\Request\ID'                       => 'includes/Request/ID.php',
 			'Connections_Directory\Request\Input'                    => 'includes/Request/Input.php',

@@ -1509,7 +1509,7 @@ class cnAdminActions {
 
 				if ( false !== $results ) {
 
-					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
+					// Loop through $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {
 
 						if ( cnMeta::isPrivate( $row['meta_key'] ) ) {
@@ -1518,7 +1518,7 @@ class cnAdminActions {
 						}
 					}
 
-					// Loop thru the associated meta and update any that may have been changed.
+					// Loop through the associated meta and update any that may have been changed.
 					// If the meta id doesn't exist in the $_POST data, assume the user deleted it.
 					foreach ( $results as $metaID => $row ) {
 
@@ -2124,7 +2124,7 @@ class cnAdminActions {
 
 			if ( isset( $_POST['roles'] ) ) {
 
-				// Cycle thru each role available because checkboxes do not report a value when not checked.
+				// Cycle through each role available because checkboxes do not report a value when not checked.
 				foreach ( $wp_roles->get_names() as $role => $name ) {
 
 					if ( ! isset( $_POST['roles'][ $role ] ) ) {

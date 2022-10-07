@@ -24,15 +24,17 @@ final class _validate {
 	 * @since 10.4.29
 	 *
 	 * @param string      $action        Nonce action name.
+	 * @param null|string $item          Item name. Use when protecting multiple items on the same page.
 	 * @param null|string $queryArgument Key to check for nonce in `$_REQUEST`.
 	 *
 	 * @return false|int|null
 	 */
-	public static function adminReferer( $action, $queryArgument = null ) {
+	public static function adminReferer( $action, $item = null, $queryArgument = null ) {
 
+		$nonceAction   = is_scalar( $item ) ? _nonce::action( $action, $item ) : _nonce::action( $action );
 		$queryArgument = is_scalar( $queryArgument ) ? $queryArgument : _nonce::NAME;
 
-		return check_admin_referer( $action, $queryArgument );
+		return check_admin_referer( $nonceAction, $queryArgument );
 	}
 
 	/**
@@ -41,16 +43,18 @@ final class _validate {
 	 * @since 10.4.29
 	 *
 	 * @param string      $action        Nonce action name.
+	 * @param null|string $item          Item name. Use when protecting multiple items on the same page.
 	 * @param null|string $queryArgument Key to check for nonce in `$_REQUEST`.
-	 * @param bool        $die Whether to die early when the nonce cannot be verified.
+	 * @param bool        $die           Whether to die early when the nonce cannot be verified.
 	 *
 	 * @return false|int|null
 	 */
-	public static function ajaxReferer( $action, $queryArgument = null, $die = true ) {
+	public static function ajaxReferer( $action, $item = null, $queryArgument = null, $die = true ) {
 
+		$nonceAction   = is_scalar( $item ) ? _nonce::action( $action, $item ) : _nonce::action( $action );
 		$queryArgument = is_scalar( $queryArgument ) ? $queryArgument : _nonce::NAME;
 
-		return check_ajax_referer( $action, $queryArgument, $die );
+		return check_ajax_referer( $nonceAction, $queryArgument, $die );
 	}
 
 	/**

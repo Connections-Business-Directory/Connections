@@ -1586,10 +1586,9 @@ class cnAdminActions {
 	 */
 	public static function setEntryStatus() {
 
-		$id          = Request\ID::input()->value();
-		$nonceAction = _nonce::action( 'entry_status', $id );
+		$id = Request\ID::input()->value();
 
-		_validate::adminReferer( $nonceAction );
+		_validate::adminReferer( 'entry_status', $id );
 
 		/*
 		 * Check whether the current user can edit an entry.
@@ -1713,10 +1712,9 @@ class cnAdminActions {
 	 */
 	public static function deleteEntry() {
 
-		$id          = Request\ID::input()->value();
-		$nonceAction = _nonce::action( 'entry_delete', $id );
+		$id = Request\ID::input()->value();
 
-		_validate::adminReferer( $nonceAction );
+		_validate::adminReferer( 'entry_delete', $id );
 
 		/*
 		 * Check whether the current user delete an entry.
@@ -1774,7 +1772,7 @@ class cnAdminActions {
 
 		$queryVar = array();
 
-		check_admin_referer( 'filter' );
+		_validate::adminReferer( 'filter' );
 
 		self::saveUserFilters();
 

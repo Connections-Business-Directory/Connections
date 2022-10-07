@@ -1581,37 +1581,22 @@ class cnAdminActions {
 	 *
 	 * Set the entry status to pending or approved.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 *
-	 * @param int    $id     Entry ID.
-	 * @param string $status The entry status to be assigned.
+	 * @internal
+	 * @since 0.7.8
 	 */
-	public static function setEntryStatus( $id = 0, $status = '' ) {
+	public static function setEntryStatus() {
 
-		// If no entry ID was supplied, check $_GET.
-		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : absint( $id );
+		$id          = Request\ID::input()->value();
+		$nonceAction = _nonce::action( 'entry_status', $id );
 
-		check_admin_referer( 'entry_status_' . $id );
+		_validate::adminReferer( $nonceAction );
 
 		/*
 		 * Check whether the current user can edit an entry.
 		 */
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			// The permitted statuses.
-			$permitted = array( 'pending', 'approved' );
-
-			// If `status` was not supplied, check $_GET.
-			if ( ( empty( $status ) ) && ( isset( $_GET['status'] ) && ! empty( $_GET['status'] ) ) ) {
-
-				$status = sanitize_key( $_GET['status'] );
-
-			}
-
-			// Ensure the supplied status is a permitted status, else default `status` to `pending`.
-			// If no `status` was supplied, this will default `status` to `pending`.
-			$status = in_array( $status, $permitted ) ? $status : 'pending';
+			$status = Request\Entry_Status::input()->value();
 
 			cnEntry_Action::status( $status, $id );
 

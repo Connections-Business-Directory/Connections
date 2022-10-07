@@ -694,8 +694,8 @@ function connectionsShowViewPage( $action = null ) {
 					$editNonceURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
 					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
 					$deleteNonceURL    = _nonce::url( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete', $entry->getId() );
-					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
-					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$approvedNonceURL  = _nonce::url( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status', $entry->getId() );
+					$unapproveNonceURL = _nonce::url( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status', $entry->getId() );
 
 					switch ( $entry->getStatus() ) {
 						case 'pending':
@@ -791,12 +791,12 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveTokenURL ) . '" title="' . esc_attr__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
+						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveNonceURL ) . '" title="' . esc_attr__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
 					}
 
 					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedTokenURL ) . '" title="' . esc_attr__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
+						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedNonceURL ) . '" title="' . esc_attr__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
 					}
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {

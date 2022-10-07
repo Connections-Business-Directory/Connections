@@ -182,8 +182,11 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_download_system_info` action.
+	 *
 	 * AJAX callback used to download the system info.
 	 *
+	 * @internal
 	 * @since 8.3
 	 */
 	public static function downloadSystemInfo() {
@@ -199,8 +202,11 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_email_system_info` action.
+	 *
 	 * AJAX callback to email the system info.
 	 *
+	 * @internal
 	 * @since 8.3
 	 */
 	public static function emailSystemInfo() {
@@ -254,10 +260,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_generate_url` action.
+	 *
 	 * AJAX callback to create a secret URL for the system info.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function generateSystemInfoURL() {
 
@@ -293,10 +301,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_revoke_url` action.
+	 *
 	 * AJAX callback to revoke the secret URL for the system info.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function revokeSystemInfoURL() {
 
@@ -316,10 +326,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_settings` action.
+	 *
 	 * AJAX callback to download the settings in a JSON encoded text file.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function downloadSettings() {
 
@@ -334,10 +346,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_import_settings` action.
+	 *
 	 * AJAX callback to import settings from a JSON encoded text file.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function importSettings() {
 
@@ -376,10 +390,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_download_batch_export` action.
+	 *
 	 * Admin ajax callback to download the CSV file.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportBatchDownload() {
 
@@ -455,10 +471,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_addresses` action.
+	 *
 	 * Admin ajax callback to batch export the addresses.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportAddresses() {
 
@@ -476,12 +494,12 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Save the user's defined height of the category metabox.
-	 *
 	 * Callback for the `wp_ajax_set_category_div_height` action.
 	 *
-	 * @access private
-	 * @since  8.6.5
+	 * Save the user's defined height of the category metabox.
+	 *
+	 * @internal
+	 * @since 8.6.5
 	 */
 	public static function setUserCategoryDivHeight() {
 
@@ -509,8 +527,8 @@ class cnAdminActions {
 	 *
 	 * @see WP_Plugin_Install_List_Table::prepare_items()
 	 *
-	 * @access private
-	 * @since  8.6.8
+	 * @internal
+	 * @since 8.6.8
 	 *
 	 * @param array $tabs The tabs shown on the Plugin Install screen.
 	 *
@@ -528,8 +546,8 @@ class cnAdminActions {
 	 *
 	 * @see WP_Plugin_Install_List_Table::prepare_items()
 	 *
-	 * @access private
-	 * @since  8.6.8
+	 * @internal
+	 * @since 8.6.8
 	 *
 	 * @param array $args Plugin Install API arguments.
 	 *
@@ -568,8 +586,8 @@ class cnAdminActions {
 	 *
 	 * @see wp-admin/plugin-install.php
 	 *
-	 * @access private
-	 * @since  8.6.8
+	 * @internal
+	 * @since 8.6.8
 	 *
 	 * @param int $page The current page number of the plugins list table.
 	 */
@@ -747,10 +765,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_phone_numbers` action.
+	 *
 	 * Admin ajax callback to batch export the phone numbers.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportPhoneNumbers() {
 
@@ -768,10 +788,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_email` action.
+	 *
 	 * Admin ajax callback to batch export the email addresses.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportEmail() {
 
@@ -789,10 +811,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_dates` action.
+	 *
 	 * Admin ajax callback to batch export the dates.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportDates() {
 
@@ -810,10 +834,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_term` action.
+	 *
 	 * Admin ajax callback to batch export the category data.
 	 *
-	 * @access private
-	 * @since  8.5.5
+	 * @internal
+	 * @since 8.5.5
 	 */
 	public static function csvExportTerm() {
 
@@ -831,10 +857,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_import_csv_term` action.
+	 *
 	 * Admin ajax callback to batch import the term data.
 	 *
-	 * @access private
-	 * @since  8.5.5
+	 * @internal
+	 * @since 8.5.5
 	 */
 	public static function csvImportTerm() {
 
@@ -876,10 +904,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_all` action.
+	 *
 	 * Admin ajax callback to batch export the all entry data.
 	 *
-	 * @access private
-	 * @since  8.5.1
+	 * @internal
+	 * @since 8.5.1
 	 */
 	public static function csvExportAll() {
 
@@ -900,7 +930,7 @@ class cnAdminActions {
 	 * Common CSV batch export code to start the batch export step and provide the JSON response.
 	 *
 	 * @access private
-	 * @since  8.5
+	 * @since 8.5
 	 *
 	 * @param cnCSV_Batch_Export $export
 	 * @param string             $type
@@ -987,7 +1017,7 @@ class cnAdminActions {
 	 * Callback for the `wp_ajax_csv_upload` action.
 	 *
 	 * @internal
-	 * @since  unknown
+	 * @since unknown
 	 */
 	public static function uploadCSV() {
 
@@ -1179,6 +1209,8 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_manage_actions` action.
+	 *
 	 * Process controller for action taken by the user.
 	 *
 	 * @internal
@@ -1263,12 +1295,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_add_entry`, `cn_update_entry`, and `cn_duplicate_entry` action.
+	 *
 	 * Add / Edit / Update / Copy an entry.
 	 *
-	 * @access public
-	 * @since  0.7.8
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function processEntry() {
 
@@ -1366,12 +1398,15 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Add, update or delete the entry meta data.
+	 * Callback for the `cn_process_meta-entry` action.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @param  string $action The action to being performed to an entry.
-	 * @param  int    $id     The entry ID.
+	 * Add, update or delete the entry metadata.
+	 *
+	 * @internal
+	 * @since 0.8
+	 *
+	 * @param string $action The action to being performed to an entry.
+	 * @param int    $id     The entry ID.
 	 *
 	 * @return array|false An array of meta IDs or FALSE on failure.
 	 */
@@ -1604,6 +1639,9 @@ class cnAdminActions {
 	/**
 	 * Set the approval status of entries in bulk.
 	 *
+	 * Nonce verification is done in the calling method.
+	 * Do not call without performing nonce verification.
+	 *
 	 * @internal
 	 * @since 0.7.8
 	 *
@@ -1645,6 +1683,9 @@ class cnAdminActions {
 
 	/**
 	 * Set the visibility status of entries in bulk.
+	 *
+	 * Nonce verification is done in the calling method.
+	 * Do not call without performing nonce verification.
 	 *
 	 * @internal
 	 * @since 0.7.8
@@ -1737,6 +1778,8 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_filter` action.
+	 *
 	 * Process user filters.
 	 *
 	 * @internal
@@ -1905,10 +1948,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_activate_template` action.
+	 *
 	 * Activate a template.
 	 *
-	 * @access public
-	 * @since  0.7.7
+	 * @internal
+	 * @since 0.7.7
 	 */
 	public static function activateTemplate() {
 
@@ -1957,12 +2002,14 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_delete_template` action.
+	 *
 	 * Delete a template.
 	 *
 	 * @TODO Move delete to a generic method in cnFileSystem()
 	 *
-	 * @access public
-	 * @since  0.7.7
+	 * @internal
+	 * @since 0.7.7
 	 */
 	public static function deleteTemplate() {
 
@@ -2054,10 +2101,12 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_update_role_capabilities` action.
+	 *
 	 * Update the role settings.
 	 *
-	 * @access private
-	 * @since  0.7.5
+	 * @internal
+	 * @since 0.7.5
 	 */
 	public static function updateRoleCapabilities() {
 
@@ -2132,10 +2181,10 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Callback for the cn_log_bulk_actions hook which processes the action and then redirects back to the current admin page.
+	 * Callback for the `cn_log_bulk_actions` hook which processes the action and then redirects back to the current admin page.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function logManagement() {
 
@@ -2187,10 +2236,10 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Callback for the cn_delete_log hook which processes the delete action and then redirects back to the current admin page.
+	 * Callback for the `cn_delete_log` hook which processes the delete action and then redirects back to the current admin page.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function deleteLog() {
 

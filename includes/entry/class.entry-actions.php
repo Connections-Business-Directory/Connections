@@ -470,7 +470,7 @@ class cnEntry_Action {
 	 *
 	 * @since 0.7.8
 	 *
-	 * @param string $action Valid options are: add | update
+	 * @param string $action Valid options are: add | update.
 	 * @param array  $data   The data to be used when adding / editing / duplicating an entry.
 	 * @param int    $id     If editing/duplicating an entry, the entry ID.
 	 *

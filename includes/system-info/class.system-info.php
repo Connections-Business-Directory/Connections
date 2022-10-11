@@ -92,6 +92,8 @@ class cnSystem_Info {
 	}
 
 	/**
+	 * Callback for the `template_redirect` action.
+	 *
 	 * The template_redirect action callback used to "remotely" display the system info.
 	 *
 	 * @internal

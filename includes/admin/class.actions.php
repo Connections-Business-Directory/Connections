@@ -18,6 +18,7 @@ use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_sanitize;
+use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\categoryManagement;
@@ -280,7 +281,7 @@ class cnAdminActions {
 		}
 
 		/** @todo need to check the $token is not WP_Error. */
-		$token   = cnString::random( 32 );
+		$token   = sanitize_key( _string::random( 32 ) );
 		$expires = apply_filters( 'cn_system_info_remote_token_expire', DAY_IN_SECONDS * 3 );
 
 		cnCache::set(

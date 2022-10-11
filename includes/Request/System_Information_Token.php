@@ -41,7 +41,7 @@ class System_Information_Token extends Input {
 	protected $schema = array(
 		'default'   => '',
 		'minLength' => 3,
-		'maxLength' => 64,
+		'maxLength' => 32,
 		'type'      => 'string',
 	);
 

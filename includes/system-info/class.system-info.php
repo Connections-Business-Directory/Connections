@@ -124,7 +124,7 @@ class cnSystem_Info {
 			wp_safe_redirect( home_url() ); // phpcs:ignore WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit
 		}
 
-		exit;
+		exit();
 	}
 
 	/**

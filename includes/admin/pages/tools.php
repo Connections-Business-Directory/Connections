@@ -165,11 +165,7 @@ class cnAdmin_Tools {
 	/**
 	 * Register the tabs.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   apply_filters()
+	 * @since 8.3
 	 *
 	 * @return array
 	 */

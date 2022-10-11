@@ -113,8 +113,7 @@ class cnAdmin_Tools {
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @since 8.3
 	 *
 	 * @var cnAdmin_Tools
 	 */
@@ -131,11 +130,7 @@ class cnAdmin_Tools {
 	}
 
 	/**
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   cnAdmin_Tools::init()
+	 * @since 8.3
 	 *
 	 * @return cnAdmin_Tools
 	 */
@@ -152,12 +147,7 @@ class cnAdmin_Tools {
 	/**
 	 * Register the admin tool actions.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   cnAdmin_Tools::getTabs()
-	 * @uses   add_action()
+	 * @since 8.3
 	 */
 	private static function init() {
 
@@ -235,11 +225,7 @@ class cnAdmin_Tools {
 	/**
 	 * Retrieve tools tabs.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses  cnAdmin_Tools::registerTabs()
+	 * @since 8.3
 	 */
 	public static function getTabs() {
 
@@ -259,14 +245,8 @@ class cnAdmin_Tools {
 	/**
 	 * Callback to render export data tools.
 	 *
-	 * @access public
-	 * @since  8.5
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   do_action()
-	 * @uses   _e()
-	 * @uses   wp_create_nonce()
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function export() {
 
@@ -435,14 +415,8 @@ class cnAdmin_Tools {
 	/**
 	 * Callback to render import data tools.
 	 *
-	 * @access public
-	 * @since  8.5.5
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   do_action()
-	 * @uses   _e()
-	 * @uses   wp_create_nonce()
+	 * @internal
+	 * @since 8.5.5
 	 */
 	public static function import() {
 
@@ -506,16 +480,8 @@ class cnAdmin_Tools {
 	/**
 	 * Callback to display the system info.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   do_action()
-	 * @uses   _e()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   cnSystem_Info::display()
-	 * @uses   wp_nonce_field()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function systemInfo() {
 
@@ -569,16 +535,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback to display the email the system info.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   cnFormObjects()
-	 * @uses   _e()
-	 * @uses   __()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   submit_button()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function systemInfoEmail() {
 
@@ -657,14 +615,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback to display the remote URL for the system info.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   home_url()
-	 * @uses   _e()
-	 * @uses   esc_url()
-	 * @uses   wp_create_nonce()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function systemInfoRemote() {
 
@@ -711,17 +663,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback to render import/export settings.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   do_action()
-	 * @uses   _E()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   wp_nonce_field()
-	 * @uses   submit_button()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function settingsImportExport() {
 
@@ -788,19 +731,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback used to render the log view of the log type being viewed.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   wp_list_pluck()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   cnLog::types()
-	 * @uses   cnLog_Email::types()
-	 * @uses   cnHTML::select()
-	 * @uses   submit_button()
-	 * @uses   do_action()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function logs() {
 

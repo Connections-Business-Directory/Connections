@@ -192,7 +192,7 @@ class cnAdminActions {
 	 */
 	public static function downloadSystemInfo() {
 
-		check_ajax_referer( 'download_system_info' );
+		_validate::ajaxReferer( 'download_system_info' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -212,9 +212,7 @@ class cnAdminActions {
 	 */
 	public static function emailSystemInfo() {
 
-		$form = new cnFormObjects();
-
-		check_ajax_referer( $form->getNonce( 'email_system_info' ), 'nonce' );
+		_validate::ajaxReferer( 'email_system_info' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -270,7 +268,7 @@ class cnAdminActions {
 	 */
 	public static function generateSystemInfoURL() {
 
-		if ( ! check_ajax_referer( 'generate_remote_system_info_url', false, false ) ) {
+		if ( ! _validate::ajaxReferer( 'generate_remote_system_info_url', null, null, false ) ) {
 
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
@@ -311,7 +309,7 @@ class cnAdminActions {
 	 */
 	public static function revokeSystemInfoURL() {
 
-		if ( ! check_ajax_referer( 'revoke_remote_system_info_url', false, false ) ) {
+		if ( ! _validate::ajaxReferer( 'revoke_remote_system_info_url', null, null, false ) ) {
 
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
@@ -336,7 +334,7 @@ class cnAdminActions {
 	 */
 	public static function downloadSettings() {
 
-		check_ajax_referer( 'export_settings' );
+		_validate::ajaxReferer( 'export_settings' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -356,7 +354,7 @@ class cnAdminActions {
 	 */
 	public static function importSettings() {
 
-		check_ajax_referer( 'import_settings' );
+		_validate::ajaxReferer( 'import_settings' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -400,7 +398,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportBatchDownload() {
 
-		if ( false === Request\Nonce::input( 'nonce', 'cn-batch-export-download' )->isValid() ) {
+		if ( false === Request\Nonce::input( 'batch-export-download', null, 'nonce' )->isValid() ) {
 
 			wp_die(
 				esc_html__( 'Nonce verification failed.', 'connections' ),
@@ -481,7 +479,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportAddresses() {
 
-		check_ajax_referer( 'export_csv_addresses' );
+		_validate::ajaxReferer( 'export_csv_addresses' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -489,7 +487,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Addresses();
-		$nonce  = wp_create_nonce( 'export_csv_addresses' );
+		$nonce  = _nonce::create( 'export_csv_addresses' );
 
 		self::csvBatchExport( $export, 'address', $step, $nonce );
 	}
@@ -504,7 +502,7 @@ class cnAdminActions {
 	 */
 	public static function setUserCategoryDivHeight() {
 
-		check_ajax_referer( 'set_category_div_height' );
+		_validate::ajaxReferer( 'set_category_div_height' );
 
 		$height = isset( $_POST['height'] ) ? absint( $_POST['height'] ) : 200;
 
@@ -513,7 +511,7 @@ class cnAdminActions {
 			wp_send_json_success(
 				array(
 					'message' => 'Success!',
-					'nonce'   => wp_create_nonce( 'set_category_div_height' ),
+					'_cnonce' => _nonce::create( 'set_category_div_height' ),
 				)
 			);
 
@@ -775,7 +773,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportPhoneNumbers() {
 
-		check_ajax_referer( 'export_csv_phone_numbers' );
+		_validate::ajaxReferer( 'export_csv_phone_numbers' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -783,7 +781,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Phone_Numbers();
-		$nonce  = wp_create_nonce( 'export_csv_phone_numbers' );
+		$nonce  = _nonce::create( 'export_csv_phone_numbers' );
 
 		self::csvBatchExport( $export, 'phone', $step, $nonce );
 	}
@@ -798,7 +796,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportEmail() {
 
-		check_ajax_referer( 'export_csv_email' );
+		_validate::ajaxReferer( 'export_csv_email' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -806,7 +804,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Email();
-		$nonce  = wp_create_nonce( 'export_csv_email' );
+		$nonce  = _nonce::create( 'export_csv_email' );
 
 		self::csvBatchExport( $export, 'email', $step, $nonce );
 	}
@@ -821,7 +819,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportDates() {
 
-		check_ajax_referer( 'export_csv_dates' );
+		_validate::ajaxReferer( 'export_csv_dates' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -829,7 +827,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Dates();
-		$nonce  = wp_create_nonce( 'export_csv_dates' );
+		$nonce  = _nonce::create( 'export_csv_dates' );
 
 		self::csvBatchExport( $export, 'date', $step, $nonce );
 	}
@@ -844,7 +842,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportTerm() {
 
-		check_ajax_referer( 'export_csv_term' );
+		_validate::ajaxReferer( 'export_csv_term' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -852,7 +850,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Term();
-		$nonce  = wp_create_nonce( 'export_csv_term' );
+		$nonce  = _nonce::create( 'export_csv_term' );
 
 		self::csvBatchExport( $export, 'category', $step, $nonce );
 	}
@@ -867,9 +865,9 @@ class cnAdminActions {
 	 */
 	public static function csvImportTerm() {
 
-		check_ajax_referer( 'import_csv_term' );
+		_validate::ajaxReferer( 'import_csv_term' );
 
-		if ( false === Request\Nonce::from( INPUT_POST, '_ajax_nonce', 'import_csv_term' )->isValid() ) {
+		if ( false === Request\Nonce::from( INPUT_POST, 'import_csv_term', null, '_ajax_nonce' )->isValid() ) {
 
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'connections' ) ) );
 		}
@@ -899,7 +897,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$import = new cnCSV_Batch_Import_Term( $path );
-		$nonce  = wp_create_nonce( 'import_csv_term' );
+		$nonce  = _nonce::create( 'import_csv_term' );
 
 		self::csvBatchImport( $import, 'category', $step, $nonce );
 	}
@@ -914,7 +912,7 @@ class cnAdminActions {
 	 */
 	public static function csvExportAll() {
 
-		check_ajax_referer( 'export_csv_all' );
+		_validate::ajaxReferer( 'export_csv_all' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -922,7 +920,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_All();
-		$nonce  = wp_create_nonce( 'export_csv_all' );
+		$nonce  = _nonce::create( 'export_csv_all' );
 
 		self::csvBatchExport( $export, 'all', $step, $nonce );
 	}
@@ -1000,7 +998,7 @@ class cnAdminActions {
 			$args = array(
 				'cn-action' => 'download_batch_export',
 				'type'      => $type,
-				'nonce'     => wp_create_nonce( 'cn-batch-export-download' ),
+				'nonce'     => _nonce::create( 'batch-export-download' ),
 			);
 
 			$url = add_query_arg( $args, self_admin_url() );
@@ -1024,7 +1022,7 @@ class cnAdminActions {
 
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
-		if ( false === Request\Nonce::from( INPUT_POST, 'nonce', 'csv_upload' )->isValid() ) {
+		if ( false === Request\Nonce::from( INPUT_POST, 'csv_upload', null, 'nonce' )->isValid() ) {
 
 			wp_send_json_error(
 				array(
@@ -1094,7 +1092,7 @@ class cnAdminActions {
 						'parent' => esc_html__( 'Parent', 'connections' ),
 					),
 					'headers' => $headers,
-					'nonce'   => wp_create_nonce( 'import_csv_term' ),
+					'nonce'   => _nonce::create( 'import_csv_term' ),
 				)
 			);
 
@@ -1304,7 +1302,6 @@ class cnAdminActions {
 	 */
 	public static function processEntry() {
 
-		$form   = new cnFormObjects();
 		$action = Request\Admin_Action::from( INPUT_POST )->value();
 
 		// Set up the redirect URL.
@@ -1318,7 +1315,7 @@ class cnAdminActions {
 				 */
 				if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 
-					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
+					_validate::adminReferer( 'add_entry' );
 
 					cnEntry_Action::add( $_POST );
 
@@ -1330,14 +1327,16 @@ class cnAdminActions {
 				break;
 
 			case 'copy_entry':
+				$id = Request\ID::input()->value();
+
 				/*
 				 * Check whether the current user can add an entry.
 				 */
-				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) ) {
+				if ( 0 < $id && ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) ) {
 
-					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
+					_validate::adminReferer( 'add_entry' );
 
-					cnEntry_Action::copy( absint( $_GET['id'] ), $_POST );
+					cnEntry_Action::copy( $id, $_POST );
 
 				} else {
 
@@ -1347,17 +1346,19 @@ class cnAdminActions {
 				break;
 
 			case 'update_entry':
+				$id = Request\ID::input()->value();
+
 				// Set up the redirect URL.
 				$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_manage';
 
 				/*
 				 * Check whether the current user can edit an entry.
 				 */
-				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) ) {
+				if ( 0 < $id && ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) ) {
 
-					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
+					_validate::adminReferer( 'update_entry', $id );
 
-					cnEntry_Action::update( absint( $_GET['id'] ), $_POST );
+					cnEntry_Action::update( $id, $_POST );
 
 				} else {
 
@@ -1954,7 +1955,7 @@ class cnAdminActions {
 			$type = sanitize_key( $_GET['type'] );
 			$slug = sanitize_key( $_GET['template'] );
 
-			check_admin_referer( "activate_{$slug}" );
+			_validate::adminReferer( 'activate', $slug );
 
 			$connections->options->setActiveTemplate( $type, $slug );
 
@@ -2007,7 +2008,7 @@ class cnAdminActions {
 			$type = sanitize_key( $_GET['type'] );
 			$slug = sanitize_key( $_GET['template'] );
 
-			check_admin_referer( "delete_{$slug}" );
+			_validate::adminReferer( 'delete', $slug );
 
 			/**
 			 * Delete a directory.
@@ -2096,14 +2097,12 @@ class cnAdminActions {
 		/** @var $wp_roles WP_Roles */
 		global $wp_roles;
 
-		$form = new cnFormObjects();
-
 		/*
 		 * Check whether user can edit roles
 		 */
 		if ( current_user_can( 'connections_change_roles' ) ) {
 
-			check_admin_referer( $form->getNonce( 'update_role_settings' ), '_cn_wpnonce' );
+			_validate::adminReferer( 'update_role_settings' );
 
 			if ( isset( $_POST['roles'] ) ) {
 
@@ -2228,14 +2227,9 @@ class cnAdminActions {
 
 		if ( current_user_can( 'install_plugins' ) ) {
 
-			$id = 0;
+			$id = Request\ID::input()->value();
 
-			if ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) {
-
-				$id = absint( $_GET['id'] );
-			}
-
-			check_admin_referer( 'log_delete_' . $id );
+			_validate::adminReferer( 'log_delete', $id );
 
 			cnLog::delete( $id );
 

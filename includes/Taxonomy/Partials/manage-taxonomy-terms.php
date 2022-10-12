@@ -9,6 +9,7 @@
 
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_nonce;
 
 if ( ! $taxonomy->showUI() ) {
 
@@ -99,7 +100,7 @@ $table->prepare_items();
 						)
 					);
 
-					$form->tokenField( 'add-term' );
+					_nonce::field( 'add-term' );
 					?>
 					<input type="hidden" name="cn-action" value="add-term" />
 					<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy->getSlug() ); ?>" />

@@ -12,6 +12,8 @@
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 
+use Connections_Directory\Utility\_nonce;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -361,9 +363,7 @@ function cnTemplateShortcodeOverride( $template ) {
  */
 function cnTemplateActivateButton( $template, $type = 'all' ) {
 
-	$form = new cnFormObjects();
-
-	$url = $form->tokenURL( 'admin.php?cn-action=activate_template&type=' . $type . '&template=' . $template->getSlug(), 'activate_' . $template->getSlug() );
+	$url = _nonce::url( 'admin.php?cn-action=activate_template&type=' . $type . '&template=' . $template->getSlug(), 'activate', $template->getSlug() );
 
 	?>
 
@@ -382,11 +382,9 @@ function cnTemplateActivateButton( $template, $type = 'all' ) {
  */
 function cnTemplateDeleteButton( $template ) {
 
-	$form = new cnFormObjects();
-
 	if ( $template->isCustom() === true && $template->isLegacy() === true ) {
 
-		$url = $form->tokenURL( 'admin.php?cn-action=delete_template&type=' . $template->getType() . '&template=' . $template->getSlug(), 'delete_' . $template->getSlug() );
+		$url = _nonce::url( 'admin.php?cn-action=delete_template&type=' . $template->getType() . '&template=' . $template->getSlug(), 'delete', $template->getSlug() );
 
 		?>
 

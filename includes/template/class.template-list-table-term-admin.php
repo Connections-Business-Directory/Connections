@@ -9,6 +9,7 @@ use Connections_Directory\Request;
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_nonce;
 use function Connections_Directory\Taxonomy\_getTermHierarchy as _get_term_hierarchy;
 
 /**
@@ -608,9 +609,10 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		if ( $term->term_id != $this->default_term ) {
 
-			$deleteURL = $form->tokenURL(
+			$deleteURL = _nonce::url(
 				"admin.php?cn-action=delete-term&id={$term->term_id}&taxonomy={$this->taxonomy}",
-				'term_delete_' . $term->term_id
+				'term_delete',
+				$term->term_id
 			);
 
 			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . esc_html__( 'Delete', 'connections' ) . '</a>';
@@ -698,11 +700,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	public function column_posts( $term ) {
 
-		$form = new cnFormObjects();
-
 		$count = number_format_i18n( $term->count );
 
-		$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $term->term_id, 'filter' );
+		$categoryFilterURL = _nonce::url( 'admin.php?cn-action=filter&category=' . $term->term_id, 'filter' );
 
 		// For now, limit the count filter to only the `category` taxonomy.
 		if ( $count && 'category' === $this->taxonomy ) {

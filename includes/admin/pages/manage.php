@@ -67,7 +67,7 @@ function connectionsShowViewPage( $action = null ) {
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', false, '_cn_wpnonce', false );
+						_nonce::field( 'add_entry', null, null, false );
 
 						do_action( 'cn_admin_form_add_entry_before', $entry, $form );
 
@@ -110,8 +110,9 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 
-				$id = isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
-				check_admin_referer( 'entry_copy_' . $id );
+				$id = Request\ID::input()->value();
+
+				_validate::adminReferer( 'entry_copy', $id );
 
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
@@ -160,7 +161,7 @@ function connectionsShowViewPage( $action = null ) {
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', false, '_cn_wpnonce', false );
+						_nonce::field( 'add_entry', null, null, false );
 
 						do_action( 'cn_admin_form_copy_entry_before', $entry, $form );
 
@@ -203,10 +204,9 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-				$id          = Request\ID::input()->value();
-				$nonceAction = _nonce::action( 'entry_edit', $id );
+				$id = Request\ID::input()->value();
 
-				_validate::adminReferer( $nonceAction );
+				_validate::adminReferer( 'entry_edit', $id );
 
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
@@ -238,7 +238,7 @@ function connectionsShowViewPage( $action = null ) {
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'update_entry', false, '_cn_wpnonce', false );
+						_nonce::field( 'update_entry', $entry->getId(), null, false );
 
 						do_action( 'cn_admin_form_edit_entry_before', $entry, $form );
 
@@ -274,7 +274,6 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		default:
-			$form = new cnFormObjects();
 
 			echo '<h1>Connections : ' , esc_html__( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , esc_html__( 'Add New', 'connections' ) , '</a></h1>';
 

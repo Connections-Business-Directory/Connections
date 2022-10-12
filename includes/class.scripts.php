@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_url;
 
 /**
@@ -275,8 +276,8 @@ class cnScript {
 					esc_html( size_format( wp_max_upload_size() ) )
 				),
 				'categoryDiv'              => array(
-					'nonce'  => wp_create_nonce( 'set_category_div_height' ),
-					'height' => Connections_Directory()->currentUser->getCategoryDivHeight(),
+					'_cnonce' => _nonce::create( 'set_category_div_height' ),
+					'height'  => Connections_Directory()->currentUser->getCategoryDivHeight(),
 				),
 			);
 

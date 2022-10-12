@@ -15,6 +15,8 @@
 
 namespace Connections_Directory\Request;
 
+use Connections_Directory\Utility\_nonce;
+
 /**
  * Class Nonce
  *
@@ -66,13 +68,14 @@ final class Nonce extends Input {
 	 *
 	 * @since 10.4.8
 	 *
-	 * @param string $key    The nonce key.
-	 * @param string $action Should give context to what is taking place and be the same when nonce was created.
+	 * @param string      $action        Nonce action name.
+	 * @param null|string $item          Item name. Use when protecting multiple items on the same page.
+	 * @param null|string $queryArgument Key to check for nonce in `$_REQUEST`.
 	 */
-	public function __construct( $key, $action ) {
+	public function __construct( $action, $item = null, $queryArgument = null ) {
 
-		$this->action = $action;
-		$this->key    = $key;
+		$this->action = is_scalar( $item ) ? _nonce::action( $action, $item ) : _nonce::action( $action );
+		$this->key    = is_scalar( $queryArgument ) ? $queryArgument : _nonce::NAME;
 
 		parent::__construct();
 	}
@@ -82,7 +85,7 @@ final class Nonce extends Input {
 	 *
 	 * @since 10.4.8
 	 *
-	 * @param mixed{key: string, action: string, method: int} ...$params The input parameters.
+	 * @param mixed{action: string, item: null|string, queryArgument: null|string} ...$params The input parameters.
 	 *
 	 * @return Nonce
 	 */

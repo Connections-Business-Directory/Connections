@@ -2795,7 +2795,7 @@ class cnEntry_HTML extends cnEntry {
 		$replace   = array();
 
 		// These are values will need to be added to the query string in order to download unlisted entries from the admin.
-		if ( 'unlisted' === $this->getVisibility() ) {
+		if ( 'unlisted' === $this->getVisibility() || 'pending' === $this->getStatus() ) {
 			$id    = $this->getId();
 			$token = wp_create_nonce( 'download_vcard_' . $this->getId() );
 		}

@@ -216,6 +216,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_parse'          => 'includes/Utility/_parse.php',
 			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
 			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',
+			'Connections_Directory\Utility\_token'          => 'includes/Utility/_token.php',
 			'Connections_Directory\Utility\_url'            => 'includes/Utility/_url.php',
 			'Connections_Directory\Utility\_validate'       => 'includes/Utility/_validate.php',
 			'Connections_Directory\Utility\Convert\_length' => 'includes/Utility/Convert/_length.php',

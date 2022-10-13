@@ -778,15 +778,17 @@ function connectionsShowViewPage( $action = null ) {
 						)
 					);
 
-					$rowActions['view'] = cnURL::permalink(
-						array(
-							'slug'   => $entry->getSlug(),
-							// translators: The directory entry name.
-							'title'  => sprintf( esc_html__( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
-							'text'   => esc_html__( 'View', 'connections' ),
-							'return' => true,
-						)
-					);
+					if ( 'approved' === $entry->getStatus() ) {
+						$rowActions['view'] = cnURL::permalink(
+							array(
+								'slug'   => $entry->getSlug(),
+								// translators: The directory entry name.
+								'title'  => sprintf( esc_html__( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
+								'text'   => esc_html__( 'View', 'connections' ),
+								'return' => true,
+							)
+						);
+					}
 
 					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) {
 

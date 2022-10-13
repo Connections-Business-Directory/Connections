@@ -534,7 +534,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 
 		if ( 'vcard' === $process ) {
 
-			$slug = cnQuery::getVar( 'cn-entry-slug' ); // var_dump($slug);
+			$slug = cnQuery::getVar( 'cn-entry-slug' );
 
 			/*
 			 * If the token and id values were set, the link was likely from the admin.
@@ -556,11 +556,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry ); // var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry );
 
 			} else {
 
-				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); // var_dump($entry);die;
+				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) );
 
 				// Die if no entry was found.
 				if ( empty( $entry ) ) {
@@ -568,10 +568,10 @@ class cnEntry_vCard extends cnEntry_HTML {
 					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry[0] ); // var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry[0] );
 			}
 
-			$filename = sanitize_file_name( $vCard->getName() ); // var_dump($filename);
+			$filename = sanitize_file_name( $vCard->getName() );
 			$data     = $vCard->data()->fetch();
 
 			header( 'Content-Description: File Transfer' );

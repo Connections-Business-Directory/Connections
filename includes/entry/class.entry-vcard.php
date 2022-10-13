@@ -523,6 +523,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 		return $this->vCard;
 	}
 
+	/**
+	 * Download the Entry vCard file.
+	 *
+	 * @since unknown
+	 */
 	public static function download() {
 
 		// Grab an instance of the Connections object.

@@ -100,7 +100,7 @@ final class Template extends Input {
 	 *
 	 * This is sufficiently validated against the schema, return `true`.
 	 *
-	 * @since 10.4.8
+	 * @since 10.4.31
 	 *
 	 * @param string $unsafe The raw request value to validate.
 	 *

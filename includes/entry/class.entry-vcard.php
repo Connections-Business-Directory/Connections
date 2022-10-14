@@ -9,6 +9,7 @@
  * @since       unknown
  */
 
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_string;
 
 // Exit if accessed directly.
@@ -534,8 +535,8 @@ class cnEntry_vCard extends cnEntry_HTML {
 		$instance = Connections_Directory();
 
 		$process = cnQuery::getVar( 'cn-process' );
-		$token   = cnQuery::getVar( 'cn-token' );
 		$id      = absint( cnQuery::getVar( 'cn-id' ) );
+		$nonce   = Request\Nonce::input( 'download_vcard', $id, 'cn-token' );
 
 		if ( 'vcard' === $process ) {
 
@@ -546,9 +547,9 @@ class cnEntry_vCard extends cnEntry_HTML {
 			 * Check for those values and validate the token. The primary reason for this
 			 * to be able to download vCards of entries that are set to "Unlisted".
 			 */
-			if ( ! empty( $id ) && ! empty( $token ) ) {
+			if ( ! empty( $id ) && ! empty( $nonce ) ) {
 
-				if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id ) ) {
+				if ( ! $nonce->isValid() ) {
 
 					wp_die( 'Invalid vCard Token' );
 				}

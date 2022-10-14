@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Connections_Directory\Hook\Action\Admin\Template as Template_Actions;
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_nonce;
@@ -125,8 +126,7 @@ class cnAdminActions {
 		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
 
 		// Template Actions.
-		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
-		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
+		Template_Actions::register();
 
 		// Actions that deal with the system info.
 		add_action( 'wp_ajax_download_system_info', array( __CLASS__, 'downloadSystemInfo' ) );
@@ -1929,159 +1929,6 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
 		categoryManagement();
-	}
-
-	/**
-	 * Callback for the `cn_activate_template` action.
-	 *
-	 * Activate a template.
-	 *
-	 * @internal
-	 * @since 0.7.7
-	 */
-	public static function activateTemplate() {
-
-		/** @var connectionsLoad $connections */
-		global $connections;
-
-		/*
-		 * Check whether user can manage Templates
-		 */
-		if ( current_user_can( 'connections_manage_template' ) &&
-			 isset( $_GET['template'] ) &&
-			 isset( $_GET['type'] )
-		) {
-
-			$type = sanitize_key( $_GET['type'] );
-			$slug = sanitize_key( $_GET['template'] );
-
-			_validate::adminReferer( 'activate', $slug );
-
-			$connections->options->setActiveTemplate( $type, $slug );
-
-			$connections->options->saveOptions();
-
-			cnMessage::set( 'success', 'template_change_active' );
-
-			delete_transient( 'cn_legacy_templates' );
-
-			wp_safe_redirect(
-				get_admin_url(
-					get_current_blog_id(),
-					add_query_arg(
-						array(
-							'type' => $type,
-						),
-						'admin.php?page=connections_templates'
-					)
-				)
-			);
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_settings' );
-		}
-	}
-
-	/**
-	 * Callback for the `cn_delete_template` action.
-	 *
-	 * Delete a template.
-	 *
-	 * @TODO Move delete to a generic method in cnFileSystem()
-	 *
-	 * @internal
-	 * @since 0.7.7
-	 */
-	public static function deleteTemplate() {
-
-		/*
-		 * Check whether user can manage Templates
-		 */
-		if ( current_user_can( 'connections_manage_template' ) &&
-			 isset( $_GET['template'] ) &&
-			 isset( $_GET['type'] )
-		) {
-
-			$type = sanitize_key( $_GET['type'] );
-			$slug = sanitize_key( $_GET['template'] );
-
-			_validate::adminReferer( 'delete', $slug );
-
-			/**
-			 * Delete a directory.
-			 *
-			 * @param string $directory The path to delete.
-			 *
-			 * @return bool
-			 */
-			function removeDirectory( $directory ) {
-
-				$deleteError      = false;
-				$currentDirectory = opendir( $directory );
-
-				while ( ( $file = readdir( $currentDirectory ) ) !== false ) {
-
-					if ( '.' !== $file && '..' !== $file ) {
-
-						chmod( $directory . $file, 0777 ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
-
-						if ( is_dir( $directory . $file ) ) {
-
-							chdir( '.' );
-							removeDirectory( $directory . $file . '/' );
-							rmdir( $directory . $file ) || $deleteError = true; // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
-
-						} else {
-
-							@unlink( $directory . $file ) || $deleteError = true;
-						}
-
-						if ( $deleteError ) {
-
-							return false;
-						}
-					}
-				}
-
-				closedir( $currentDirectory );
-
-				if ( ! rmdir( $directory ) ) { // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
-
-					return false;
-				}
-
-				return true;
-			}
-
-			if ( removeDirectory( CN_CUSTOM_TEMPLATE_PATH . '/' . $slug . '/' ) ) {
-				cnMessage::set( 'success', 'template_deleted' );
-			} else {
-				cnMessage::set( 'error', 'template_delete_failed' );
-			}
-
-			delete_transient( 'cn_legacy_templates' );
-
-			wp_safe_redirect(
-				get_admin_url(
-					get_current_blog_id(),
-					add_query_arg(
-						array(
-							'type' => $type,
-						),
-						'admin.php?page=connections_templates'
-					)
-				)
-			);
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_settings' );
-		}
 	}
 
 	/**

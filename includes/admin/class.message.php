@@ -164,8 +164,8 @@ class cnMessage extends WP_Error {
 		$instance->add( 'image_entry_failed', __( 'Entry image could not be created and/or saved to the destination folder.', 'connections' ) );
 		$instance->add( 'image_thumbnail_failed', __( 'Thumbnail image could not be created and/or saved to the destination folder.', 'connections' ) );
 
-		$instance->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
-		$instance->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
+		// $instance->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
+		// $instance->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 
 		/* translators: %s: folder path to images */
 		$instance->add( 'image_path_exists_failed', sprintf( __( 'The %1$s folder does not exist. <a class="button-primary" href="%2$s">Read more.</a>', 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/' ) );
@@ -218,9 +218,9 @@ class cnMessage extends WP_Error {
 
 		$instance->add( 'role_settings_updated', __( 'Role capabilities have been updated.', 'connections' ) );
 
-		$instance->add( 'template_change_active', __( 'The default active template has been changed.', 'connections' ) );
-		$instance->add( 'template_installed', __( 'A new template has been installed.', 'connections' ) );
-		$instance->add( 'template_deleted', __( 'The template has been deleted.', 'connections' ) );
+		// $instance->add( 'template_change_active', __( 'The default active template has been changed.', 'connections' ) );
+		// $instance->add( 'template_installed', __( 'A new template has been installed.', 'connections' ) );
+		// $instance->add( 'template_deleted', __( 'The template has been deleted.', 'connections' ) );
 
 		$instance->add( 'log_delete', __( 'The log has been deleted.', 'connections' ) );
 		$instance->add( 'log_bulk_delete', __( 'The logs have been deleted.', 'connections' ) );

@@ -1046,7 +1046,7 @@ class cnAdminActions {
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => __( 'No file file selected. Please select a file to import.', 'connections' ),
+					'message' => __( 'No file selected. Please select a file to import.', 'connections' ),
 					'request' => $_REQUEST,
 				)
 			);

@@ -256,6 +256,7 @@ class cnDependency {
 			'Connections_Directory\Request\Server_Software'          => 'includes/Request/Server_Software.php',
 			'Connections_Directory\Request\System_Information_Token' => 'includes/Request/System_Information_Token.php',
 			'Connections_Directory\Request\Taxonomy'                 => 'includes/Request/Taxonomy.php',
+			'Connections_Directory\Request\Template'                 => 'includes/Request/Template.php',
 			'Connections_Directory\Request\Term'                     => 'includes/Request/Term.php',
 
 			// Taxonomy API.

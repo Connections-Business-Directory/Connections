@@ -556,6 +556,8 @@ final class _ {
 			$highlighted = null;
 		}
 
+		$highlighted = "<div>{$highlighted}</div>";
+
 		if ( $echo ) {
 
 			echo $highlighted; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

@@ -549,7 +549,7 @@ final class _ {
 	 */
 	public static function highlight_var_dump( $value, $echo = false ) {
 
-		$highlighted = highlight_string( var_export( $value, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+		$highlighted = highlight_string( var_export( $value, true ), true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
 
 		if ( false === $highlighted ) {
 

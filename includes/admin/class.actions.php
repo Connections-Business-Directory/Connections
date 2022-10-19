@@ -14,7 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Connections_Directory\Hook\Action\Admin\Template as Template_Actions;
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_nonce;
@@ -121,9 +120,6 @@ class cnAdminActions {
 
 		// Term Meta Actions.
 		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
-
-		// Template Actions.
-		Template_Actions::register();
 
 		// Actions that deal with the system info.
 		add_action( 'wp_ajax_download_system_info', array( __CLASS__, 'downloadSystemInfo' ) );

@@ -399,6 +399,7 @@ final class Connections_Directory {
 		// Adds the admin actions and filters.
 		add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
 
 		/*
 		 * Add the filter to update the user settings when the "Apply" button is clicked.

@@ -52,6 +52,8 @@ final class Template {
 	}
 
 	/**
+	 * Callback for the `admin_init` action.
+	 *
 	 * Register the action hooks.
 	 *
 	 * @since 10.4.31

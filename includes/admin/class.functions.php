@@ -37,7 +37,9 @@ class cnAdminFunction {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class, if it has already been initialized, return the initialized instance.
+	 * Callback for the `admin_init` action.
+	 *
+	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @see cnAdminFunction()
 	 *

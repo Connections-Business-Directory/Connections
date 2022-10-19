@@ -136,7 +136,6 @@ class cnMessage extends WP_Error {
 		$instance->add( 'capability_edit', __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
 		$instance->add( 'capability_categories', __( 'You are not authorized to edit the categories. Please contact the admin if you received this message in error.', 'connections' ) );
 		$instance->add( 'capability_settings', __( 'You are not authorized to edit the settings. Please contact the admin if you received this message in error.', 'connections' ) );
-		$instance->add( 'capability_roles', __( 'You are not authorized to edit role capabilities. Please contact the admin if you received this message in error.', 'connections' ) );
 		$instance->add( 'capability_manage_logs', __( 'You are not authorized to manage logs. Please contact the admin if you received this message in error.', 'connections' ) );
 
 		$instance->add( 'category_duplicate_name', __( 'The category you are trying to create already exists.', 'connections' ) );
@@ -163,9 +162,6 @@ class cnMessage extends WP_Error {
 		$instance->add( 'image_profile_failed', __( 'Profile image could not be created and/or saved to the destination folder.', 'connections' ) );
 		$instance->add( 'image_entry_failed', __( 'Entry image could not be created and/or saved to the destination folder.', 'connections' ) );
 		$instance->add( 'image_thumbnail_failed', __( 'Thumbnail image could not be created and/or saved to the destination folder.', 'connections' ) );
-
-		// $instance->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
-		// $instance->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 
 		/* translators: %s: folder path to images */
 		$instance->add( 'image_path_exists_failed', sprintf( __( 'The %1$s folder does not exist. <a class="button-primary" href="%2$s">Read more.</a>', 'connections' ), CN_IMAGE_DIR_NAME, 'https://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/' ) );
@@ -215,12 +211,6 @@ class cnMessage extends WP_Error {
 		$instance->add( 'image_profile', __( 'Profile image created and saved.', 'connections' ) );
 		$instance->add( 'image_entry', __( 'Entry image created and saved.', 'connections' ) );
 		$instance->add( 'image_thumbnail', __( 'Thumbnail image created and saved.', 'connections' ) );
-
-		$instance->add( 'role_settings_updated', __( 'Role capabilities have been updated.', 'connections' ) );
-
-		// $instance->add( 'template_change_active', __( 'The default active template has been changed.', 'connections' ) );
-		// $instance->add( 'template_installed', __( 'A new template has been installed.', 'connections' ) );
-		// $instance->add( 'template_deleted', __( 'The template has been deleted.', 'connections' ) );
 
 		$instance->add( 'log_delete', __( 'The log has been deleted.', 'connections' ) );
 		$instance->add( 'log_bulk_delete', __( 'The logs have been deleted.', 'connections' ) );

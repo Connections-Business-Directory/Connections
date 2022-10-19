@@ -107,9 +107,6 @@ class cnAdminActions {
 		add_action( 'cn_manage_actions', array( __CLASS__, 'entryManagement' ) );
 		add_action( 'cn_filter', array( __CLASS__, 'userFilter' ) );
 
-		// Role Actions.
-		add_action( 'cn_update_role_capabilities', array( __CLASS__, 'updateRoleCapabilities' ) );
-
 		// Category Actions - Deprecated since 10.2, no longer used.
 		// add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
 		// add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
@@ -1929,84 +1926,6 @@ class cnAdminActions {
 		require_once CN_PATH . 'includes/Taxonomy/Term/Admin/Deprecated_Category_Actions.php';
 
 		categoryManagement();
-	}
-
-	/**
-	 * Callback for the `cn_update_role_capabilities` action.
-	 *
-	 * Update the role settings.
-	 *
-	 * @internal
-	 * @since 0.7.5
-	 */
-	public static function updateRoleCapabilities() {
-
-		/** @var $wp_roles WP_Roles */
-		global $wp_roles;
-
-		/*
-		 * Check whether user can edit roles
-		 */
-		if ( current_user_can( 'connections_change_roles' ) ) {
-
-			_validate::adminReferer( 'update_role_settings' );
-
-			if ( isset( $_POST['roles'] ) ) {
-
-				// Cycle through each role available because checkboxes do not report a value when not checked.
-				foreach ( $wp_roles->get_names() as $role => $name ) {
-
-					if ( ! isset( $_POST['roles'][ $role ] ) ) {
-
-						continue;
-					}
-
-					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-						// The administrator should always have all capabilities.
-						if ( 'administrator' === $role ) {
-
-							continue;
-						}
-
-						if ( 'true' === $grant ) {
-
-							cnRole::add( $role, sanitize_key( $capability ) );
-
-						} else {
-
-							cnRole::remove( $role, sanitize_key( $capability ) );
-						}
-					}
-				}
-			}
-
-			if ( isset( $_POST['reset'] ) ) {
-
-				cnRole::reset( array_map( 'sanitize_key', $_POST['reset'] ) );
-			}
-
-			if ( isset( $_POST['reset_all'] ) ) {
-
-				cnRole::reset();
-			}
-
-			cnMessage::set( 'success', 'role_settings_updated' );
-
-			wp_safe_redirect(
-				get_admin_url(
-					get_current_blog_id(),
-					'admin.php?page=connections_roles'
-				)
-			);
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_roles' );
-		}
-
 	}
 
 	/**

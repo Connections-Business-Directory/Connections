@@ -2,6 +2,7 @@
 
 use Connections_Directory\Blocks;
 use Connections_Directory\Content_Blocks;
+use Connections_Directory\Hook\Action;
 use Connections_Directory\Integration;
 use Connections_Directory\Request;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -397,6 +398,7 @@ final class Connections_Directory {
 
 		// Adds the admin actions and filters.
 		add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
+		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 
 		/*
 		 * Add the filter to update the user settings when the "Apply" button is clicked.

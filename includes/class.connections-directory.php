@@ -5,7 +5,6 @@ use Connections_Directory\Content_Blocks;
 use Connections_Directory\Hook\Action;
 use Connections_Directory\Integration;
 use Connections_Directory\Request;
-use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;

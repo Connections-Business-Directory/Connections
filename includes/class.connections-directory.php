@@ -405,6 +405,8 @@ final class Connections_Directory {
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
 
+		add_action( 'load-plugins.php', array( Action\Admin\Plugin_Row::class, 'register' ) );
+
 		/*
 		 * Add the filter to update the user settings when the "Apply" button is clicked.
 		 * NOTE: This relies on the Screen Options class by Janis Elsts.

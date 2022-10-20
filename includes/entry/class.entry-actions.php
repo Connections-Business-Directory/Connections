@@ -393,12 +393,12 @@ class cnEntry_Action {
 		}
 
 		// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
-		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+		$compatibilityDate = mktime( 0, 0, 0, 6, 1, 2010 );
 
 		if ( $entry->getImageNameOriginal() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameOriginal() ) &&
-				$compatiblityDate < @filemtime( $path . $entry->getImageNameOriginal() )
+				$compatibilityDate < @filemtime( $path . $entry->getImageNameOriginal() )
 				) {
 
 				@unlink( $path . $entry->getImageNameOriginal() );
@@ -408,7 +408,7 @@ class cnEntry_Action {
 		if ( $entry->getImageNameThumbnail() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameThumbnail() ) &&
-				$compatiblityDate < @filemtime( $path . $entry->getImageNameThumbnail() )
+				$compatibilityDate < @filemtime( $path . $entry->getImageNameThumbnail() )
 				) {
 
 				@unlink( $path . $entry->getImageNameThumbnail() );
@@ -418,7 +418,7 @@ class cnEntry_Action {
 		if ( $entry->getImageNameCard() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameCard() ) &&
-				$compatiblityDate < @filemtime( $path . $entry->getImageNameCard() )
+				$compatibilityDate < @filemtime( $path . $entry->getImageNameCard() )
 				) {
 
 				@unlink( $path . $entry->getImageNameCard() );
@@ -428,7 +428,7 @@ class cnEntry_Action {
 		if ( $entry->getImageNameProfile() != null ) {
 
 			if ( is_file( $path . $entry->getImageNameProfile() ) &&
-				$compatiblityDate < @filemtime( $path . $entry->getImageNameProfile() )
+				$compatibilityDate < @filemtime( $path . $entry->getImageNameProfile() )
 				) {
 
 				@unlink( $path . $entry->getImageNameProfile() );
@@ -470,7 +470,7 @@ class cnEntry_Action {
 	 *
 	 * @since 0.7.8
 	 *
-	 * @param string $action Valid options are: add | update
+	 * @param string $action Valid options are: add | update.
 	 * @param array  $data   The data to be used when adding / editing / duplicating an entry.
 	 * @param int    $id     If editing/duplicating an entry, the entry ID.
 	 *

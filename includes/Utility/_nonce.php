@@ -55,6 +55,23 @@ final class _nonce {
 	}
 
 	/**
+	 * Create a nonce using the namespace action and item names.
+	 *
+	 * @since 10.4.31
+	 *
+	 * @param string      $action Action name.
+	 * @param null|string $item   Item name. Use when protecting multiple items on the same page.
+	 *
+	 * @return false|string
+	 */
+	public static function create( $action, $item = null ) {
+
+		$action = self::action( $action, $item );
+
+		return wp_create_nonce( $action );
+	}
+
+	/**
 	 * Retrieves or displays the nonce field for forms using {@see wp_nonce_field()}.
 	 *
 	 * @since 10.4.29

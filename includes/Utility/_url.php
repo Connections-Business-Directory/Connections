@@ -370,14 +370,6 @@ final class _url {
 				break;
 
 			case 'edit':
-				//if ( $wp_rewrite->using_permalinks() ) {
-				//
-				//	// The entry slug is saved in the db urlencoded so we'll expect when the permalink for entry name is
-				//	// requested that the entry slug is being used so urlencode() will not be use as not to double encode it.
-				//	$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/edit' );
-				//} else {
-				//	$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail', 'cn-process' => 'edit' ) , $permalink );
-				//}
 
 				$result = Connections_Directory()->retrieve->entry( $atts['slug'] );
 
@@ -395,9 +387,9 @@ final class _url {
 
 				if ( false !== $result ) {
 
-					$actionURL  = 'admin.php?cn-action=delete_entry&id=' . $result->id;
-					$actionName = 'entry_delete_' . $result->id;
-					$permalink  = admin_url( wp_nonce_url( $actionURL, $actionName ) );
+					$id        = $result->id;
+					$url       = _nonce::url( "admin.php?cn-action=delete_entry&id={$id}", 'entry_delete', $id );
+					$permalink = admin_url( $url );
 				}
 
 				break;

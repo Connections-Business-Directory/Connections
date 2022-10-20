@@ -77,12 +77,11 @@ class cnRole extends WP_Roles {
 	/**
 	 * Add a capability to a role.
 	 *
-	 * @access public
 	 * @since 0.7.5
+	 *
 	 * @param string $role The role name.
 	 * @param string $cap The capability.
-	 * @param bool   $grant Whether or no to grant the capability to the roloe or not.
-	 * @return void
+	 * @param bool   $grant Whether to grant the capability to the role or not.
 	 */
 	public static function add( $role, $cap, $grant = true ) {
 
@@ -97,11 +96,10 @@ class cnRole extends WP_Roles {
 	/**
 	 * Remove a capability from a role.
 	 *
-	 * @access public
 	 * @since 0.7.5
+	 *
 	 * @param string $role The role name.
 	 * @param string $cap  The capability.
-	 * @return void
 	 */
 	public static function remove( $role, $cap ) {
 

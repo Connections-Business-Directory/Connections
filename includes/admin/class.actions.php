@@ -16,7 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_sanitize;
+use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\categoryManagement;
@@ -64,7 +66,6 @@ class cnAdminActions {
 			self::$instance = new self();
 
 			self::register();
-			self::doActions();
 		}
 	}
 
@@ -104,9 +105,6 @@ class cnAdminActions {
 		add_action( 'cn_manage_actions', array( __CLASS__, 'entryManagement' ) );
 		add_action( 'cn_filter', array( __CLASS__, 'userFilter' ) );
 
-		// Role Actions.
-		add_action( 'cn_update_role_capabilities', array( __CLASS__, 'updateRoleCapabilities' ) );
-
 		// Category Actions - Deprecated since 10.2, no longer used.
 		// add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
 		// add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
@@ -121,10 +119,6 @@ class cnAdminActions {
 
 		// Term Meta Actions.
 		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
-
-		// Template Actions.
-		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
-		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
 
 		// Actions that deal with the system info.
 		add_action( 'wp_ajax_download_system_info', array( __CLASS__, 'downloadSystemInfo' ) );
@@ -154,40 +148,19 @@ class cnAdminActions {
 
 		// Register action to set category height.
 		add_action( 'wp_ajax_set_category_div_height', array( __CLASS__, 'setUserCategoryDivHeight' ) );
-
-		// Add the Connections Tab to the Add Plugins admin page.
-		add_filter( 'install_plugins_tabs', array( __CLASS__, 'installTab' ) );
-
-		// Set up the plugins_api() arguments.
-		add_filter( 'install_plugins_table_api_args_connections', array( __CLASS__, 'installArgs' ) );
 	}
 
 	/**
-	 * Run admin actions.
+	 * Callback for the `wp_ajax_download_system_info` action.
 	 *
-	 * @since 0.7.5
-	 */
-	private static function doActions() {
-
-		if ( isset( $_POST['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-			do_action( 'cn_' . sanitize_key( $_POST['cn-action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		}
-
-		if ( isset( $_GET['cn-action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-			do_action( 'cn_' . sanitize_key( $_GET['cn-action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		}
-	}
-
-	/**
 	 * AJAX callback used to download the system info.
 	 *
+	 * @internal
 	 * @since 8.3
 	 */
 	public static function downloadSystemInfo() {
 
-		check_ajax_referer( 'download_system_info' );
+		_validate::ajaxReferer( 'download_system_info' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -198,15 +171,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_email_system_info` action.
+	 *
 	 * AJAX callback to email the system info.
 	 *
+	 * @internal
 	 * @since 8.3
 	 */
 	public static function emailSystemInfo() {
 
-		$form = new cnFormObjects();
-
-		check_ajax_referer( $form->getNonce( 'email_system_info' ), 'nonce' );
+		_validate::ajaxReferer( 'email_system_info' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -253,14 +227,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_generate_url` action.
+	 *
 	 * AJAX callback to create a secret URL for the system info.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function generateSystemInfoURL() {
 
-		if ( ! check_ajax_referer( 'generate_remote_system_info_url', false, false ) ) {
+		if ( ! _validate::ajaxReferer( 'generate_remote_system_info_url', null, null, false ) ) {
 
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
@@ -271,7 +247,7 @@ class cnAdminActions {
 		}
 
 		/** @todo need to check the $token is not WP_Error. */
-		$token   = cnString::random( 32 );
+		$token   = sanitize_key( _string::random( 32 ) );
 		$expires = apply_filters( 'cn_system_info_remote_token_expire', DAY_IN_SECONDS * 3 );
 
 		cnCache::set(
@@ -292,14 +268,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_revoke_url` action.
+	 *
 	 * AJAX callback to revoke the secret URL for the system info.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function revokeSystemInfoURL() {
 
-		if ( ! check_ajax_referer( 'revoke_remote_system_info_url', false, false ) ) {
+		if ( ! _validate::ajaxReferer( 'revoke_remote_system_info_url', null, null, false ) ) {
 
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
@@ -315,14 +293,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_settings` action.
+	 *
 	 * AJAX callback to download the settings in a JSON encoded text file.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function downloadSettings() {
 
-		check_ajax_referer( 'export_settings' );
+		_validate::ajaxReferer( 'export_settings' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -333,14 +313,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_import_settings` action.
+	 *
 	 * AJAX callback to import settings from a JSON encoded text file.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function importSettings() {
 
-		check_ajax_referer( 'import_settings' );
+		_validate::ajaxReferer( 'import_settings' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -375,14 +357,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_download_batch_export` action.
+	 *
 	 * Admin ajax callback to download the CSV file.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportBatchDownload() {
 
-		if ( false === Request\Nonce::input( 'nonce', 'cn-batch-export-download' )->isValid() ) {
+		if ( false === Request\Nonce::input( 'batch-export-download', null, 'nonce' )->isValid() ) {
 
 			wp_die(
 				esc_html__( 'Nonce verification failed.', 'connections' ),
@@ -454,14 +438,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_addresses` action.
+	 *
 	 * Admin ajax callback to batch export the addresses.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportAddresses() {
 
-		check_ajax_referer( 'export_csv_addresses' );
+		_validate::ajaxReferer( 'export_csv_addresses' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -469,22 +455,22 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Addresses();
-		$nonce  = wp_create_nonce( 'export_csv_addresses' );
+		$nonce  = _nonce::create( 'export_csv_addresses' );
 
 		self::csvBatchExport( $export, 'address', $step, $nonce );
 	}
 
 	/**
-	 * Save the user's defined height of the category metabox.
-	 *
 	 * Callback for the `wp_ajax_set_category_div_height` action.
 	 *
-	 * @access private
-	 * @since  8.6.5
+	 * Save the user's defined height of the category metabox.
+	 *
+	 * @internal
+	 * @since 8.6.5
 	 */
 	public static function setUserCategoryDivHeight() {
 
-		check_ajax_referer( 'set_category_div_height' );
+		_validate::ajaxReferer( 'set_category_div_height' );
 
 		$height = isset( $_POST['height'] ) ? absint( $_POST['height'] ) : 200;
 
@@ -493,7 +479,7 @@ class cnAdminActions {
 			wp_send_json_success(
 				array(
 					'message' => 'Success!',
-					'nonce'   => wp_create_nonce( 'set_category_div_height' ),
+					'_cnonce' => _nonce::create( 'set_category_div_height' ),
 				)
 			);
 
@@ -504,256 +490,16 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Callback for the `install_plugins_tabs` filter.
+	 * Callback for the `wp_ajax_export_csv_phone_numbers` action.
 	 *
-	 * @see WP_Plugin_Install_List_Table::prepare_items()
-	 *
-	 * @access private
-	 * @since  8.6.8
-	 *
-	 * @param array $tabs The tabs shown on the Plugin Install screen.
-	 *
-	 * @return array
-	 */
-	public static function installTab( $tabs ) {
-
-		$tabs['connections'] = 'Connections';
-
-		return $tabs;
-	}
-
-	/**
-	 * Callback for the `install_plugins_table_api_args_connections` filter.
-	 *
-	 * @see WP_Plugin_Install_List_Table::prepare_items()
-	 *
-	 * @access private
-	 * @since  8.6.8
-	 *
-	 * @param array $args Plugin Install API arguments.
-	 *
-	 * @return array
-	 */
-	public static function installArgs( $args ) {
-
-		global $tabs, $tab, $paged, $type, $term;
-
-		$per_page = 30;
-
-		$args = array(
-			'page'     => $paged,
-			'per_page' => $per_page,
-			'fields'   => array(
-				'last_updated'    => true,
-				'icons'           => true,
-				'active_installs' => true,
-			),
-			// Send the locale and installed plugin slugs to the API, so it can provide context-sensitive results.
-			'locale'   => get_user_locale(),
-			// 'installed_plugins' => $this->get_installed_plugin_slugs(),
-		);
-
-		$args['installed_plugins'] = array( 'connections' );
-		$args['author']            = 'shazahm1hotmailcom';
-		// $args['search'] = 'Connections Business Directory';
-
-		add_action( 'install_plugins_connections', array( __CLASS__, 'installResults' ), 9, 1 );
-
-		return $args;
-	}
-
-	/**
-	 * Callback for the `install_plugins_connections` action.
-	 *
-	 * @see wp-admin/plugin-install.php
-	 *
-	 * @access private
-	 * @since  8.6.8
-	 *
-	 * @param int $page The current page number of the plugins list table.
-	 */
-	public static function installResults( $page ) {
-
-		/** @var WP_Plugin_Install_List_Table $wp_list_table */
-		global $wp_list_table;
-
-		foreach ( $wp_list_table->items as $key => &$item ) {
-
-			if ( is_array( $item ) ) {
-
-				// Remove the core plugin.
-				if ( 'connections' === $item['slug'] ) {
-
-					unset( $wp_list_table->items[ $key ] );
-				}
-
-				// Remove any items which do not have Connections in its name.
-				if ( false === strpos( $item['name'], 'Connections' ) ) {
-
-					unset( $wp_list_table->items[ $key ] );
-				}
-
-			} elseif ( is_object( $item ) ) {
-
-				if ( 'connections' === $item->slug ) {
-
-					unset( $wp_list_table->items[ $key ] );
-				}
-
-				if ( false === strpos( $item->name, 'Connections' ) ) {
-
-					unset( $wp_list_table->items[ $key ] );
-				}
-			}
-		}
-
-		// Save the items from the original query.
-		$core = $wp_list_table->items;
-
-		// Affiliate URL and preg replace pattern.
-		$tslAffiliateURL = 'https://tinyscreenlabs.com/?tslref=connections';
-		$pattern         = "/(?<=href=(\"|'))[^\"']+(?=(\"|'))/";
-
-		// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
-		//$mam = plugins_api(
-		//	'plugin_information',
-		//	array(
-		//		'slug'              => 'mobile-app-manager-for-connections',
-		//		'fields'            => array(
-		//			'last_updated'    => TRUE,
-		//			'icons'           => TRUE,
-		//			'active_installs' => TRUE,
-		//		),
-		//		'locale'            => get_user_locale(),
-		//		'installed_plugins' => array( 'connections' ),
-		//	)
-		//);
-		// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
-
-		$offers = plugins_api(
-			'plugin_information',
-			array(
-				'slug'              => 'connections-business-directory-offers',
-				'fields'            => array(
-					'last_updated'    => true,
-					'icons'           => true,
-					'active_installs' => true,
-				),
-				'locale'            => get_user_locale(),
-				'installed_plugins' => array( 'connections' ),
-			)
-		);
-
-		// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
-		//$tsl = plugins_api(
-		//	'query_plugins',
-		//	array(
-		//		'author'            => 'tinyscreenlabs',
-		//		'fields'            => array(
-		//			'last_updated'    => TRUE,
-		//			'icons'           => TRUE,
-		//			'active_installs' => TRUE,
-		//		),
-		//		'locale'            => get_user_locale(),
-		//		'installed_plugins' => array( 'connections' ),
-		//	)
-		//);
-
-		//if ( ! is_wp_error( $tsl ) ) {
-		//
-		//	foreach ( $tsl->plugins as $plugin ) {
-		//
-		//		switch ( $plugin->slug ) {
-		//
-		//			// Add TSL MAM to the top of the plugin items array.
-		//			case 'mobile-app-manager-for-connections':
-		//
-		//				$wp_list_table->items = cnArray::prepend( $wp_list_table->items, $plugin );
-		//				break;
-		//
-		//			// Add TSL Offers to the bottom of the plugin items array.
-		//			case 'connections-business-directory-offers':
-		//
-		//				$wp_list_table->items[] = $plugin;
-		//				break;
-		//		}
-		//	}
-		//}
-		// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
-
-		?>
-		<form id="plugin-filter" method="post">
-			<?php
-			// $wp_list_table->display();
-			$wp_list_table->_pagination_args = array();
-
-			if ( 0 < count( $core ) ) {
-				$wp_list_table->items = $core;
-				self::installDisplayGroup( 'Free' );
-			}
-
-			// phpcs:disable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
-			//if ( ! is_wp_error( $mam ) ) {
-			//
-			//	// Update the links to TSL to use the affiliate URL.
-			//	$mam->homepage = $tslAffiliateURL;
-			//	$mam->author = preg_replace( $pattern, $tslAffiliateURL, $mam->author );
-			//
-			//	$wp_list_table->items = array( $mam );
-			//	self::installDisplayGroup( 'Mobile App' );
-			//}
-			// phpcs:enable Squiz.Commenting.InlineComment.NoSpaceBefore, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
-
-			if ( ! is_wp_error( $offers ) ) {
-
-				// Update the links to TSL to use the affiliate URL.
-				$offers->homepage = $tslAffiliateURL;
-				$offers->author   = preg_replace( $pattern, $tslAffiliateURL, $offers->author );
-
-				$wp_list_table->items = array( $offers );
-				self::installDisplayGroup( 'Third Party' );
-			}
-			?>
-		</form>
-		<?php
-
-		// Restore original items.
-		$wp_list_table->items = $core;
-	}
-
-	/**
-	 * Display the plugin info cards.
-	 *
-	 * @access private
-	 * @since  8.6.8
-	 *
-	 * @param string $name
-	 */
-	private static function installDisplayGroup( $name ) {
-
-		/** @var WP_Plugin_Install_List_Table $wp_list_table */
-		global $wp_list_table;
-
-		// Needs an extra wrapping div for nth-child selectors to work.
-		?>
-		<div class="plugin-group"><h3> <?php echo esc_html( $name ); ?></h3>
-			<div class="plugin-items">
-
-				<?php $wp_list_table->display(); ?>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Admin ajax callback to batch export the phone numbers.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportPhoneNumbers() {
 
-		check_ajax_referer( 'export_csv_phone_numbers' );
+		_validate::ajaxReferer( 'export_csv_phone_numbers' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -761,20 +507,22 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Phone_Numbers();
-		$nonce  = wp_create_nonce( 'export_csv_phone_numbers' );
+		$nonce  = _nonce::create( 'export_csv_phone_numbers' );
 
 		self::csvBatchExport( $export, 'phone', $step, $nonce );
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_email` action.
+	 *
 	 * Admin ajax callback to batch export the email addresses.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportEmail() {
 
-		check_ajax_referer( 'export_csv_email' );
+		_validate::ajaxReferer( 'export_csv_email' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -782,20 +530,22 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Email();
-		$nonce  = wp_create_nonce( 'export_csv_email' );
+		$nonce  = _nonce::create( 'export_csv_email' );
 
 		self::csvBatchExport( $export, 'email', $step, $nonce );
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_dates` action.
+	 *
 	 * Admin ajax callback to batch export the dates.
 	 *
-	 * @access private
-	 * @since  8.5
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function csvExportDates() {
 
-		check_ajax_referer( 'export_csv_dates' );
+		_validate::ajaxReferer( 'export_csv_dates' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -803,20 +553,22 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Dates();
-		$nonce  = wp_create_nonce( 'export_csv_dates' );
+		$nonce  = _nonce::create( 'export_csv_dates' );
 
 		self::csvBatchExport( $export, 'date', $step, $nonce );
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_term` action.
+	 *
 	 * Admin ajax callback to batch export the category data.
 	 *
-	 * @access private
-	 * @since  8.5.5
+	 * @internal
+	 * @since 8.5.5
 	 */
 	public static function csvExportTerm() {
 
-		check_ajax_referer( 'export_csv_term' );
+		_validate::ajaxReferer( 'export_csv_term' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -824,22 +576,24 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Term();
-		$nonce  = wp_create_nonce( 'export_csv_term' );
+		$nonce  = _nonce::create( 'export_csv_term' );
 
 		self::csvBatchExport( $export, 'category', $step, $nonce );
 	}
 
 	/**
+	 * Callback for the `wp_ajax_import_csv_term` action.
+	 *
 	 * Admin ajax callback to batch import the term data.
 	 *
-	 * @access private
-	 * @since  8.5.5
+	 * @internal
+	 * @since 8.5.5
 	 */
 	public static function csvImportTerm() {
 
-		check_ajax_referer( 'import_csv_term' );
+		_validate::ajaxReferer( 'import_csv_term' );
 
-		if ( false === Request\Nonce::from( INPUT_POST, '_ajax_nonce', 'import_csv_term' )->isValid() ) {
+		if ( false === Request\Nonce::from( INPUT_POST, 'import_csv_term', null, '_ajax_nonce' )->isValid() ) {
 
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'connections' ) ) );
 		}
@@ -869,20 +623,22 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$import = new cnCSV_Batch_Import_Term( $path );
-		$nonce  = wp_create_nonce( 'import_csv_term' );
+		$nonce  = _nonce::create( 'import_csv_term' );
 
 		self::csvBatchImport( $import, 'category', $step, $nonce );
 	}
 
 	/**
+	 * Callback for the `wp_ajax_export_csv_all` action.
+	 *
 	 * Admin ajax callback to batch export the all entry data.
 	 *
-	 * @access private
-	 * @since  8.5.1
+	 * @internal
+	 * @since 8.5.1
 	 */
 	public static function csvExportAll() {
 
-		check_ajax_referer( 'export_csv_all' );
+		_validate::ajaxReferer( 'export_csv_all' );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -890,7 +646,7 @@ class cnAdminActions {
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_All();
-		$nonce  = wp_create_nonce( 'export_csv_all' );
+		$nonce  = _nonce::create( 'export_csv_all' );
 
 		self::csvBatchExport( $export, 'all', $step, $nonce );
 	}
@@ -899,7 +655,7 @@ class cnAdminActions {
 	 * Common CSV batch export code to start the batch export step and provide the JSON response.
 	 *
 	 * @access private
-	 * @since  8.5
+	 * @since 8.5
 	 *
 	 * @param cnCSV_Batch_Export $export
 	 * @param string             $type
@@ -968,7 +724,7 @@ class cnAdminActions {
 			$args = array(
 				'cn-action' => 'download_batch_export',
 				'type'      => $type,
-				'nonce'     => wp_create_nonce( 'cn-batch-export-download' ),
+				'nonce'     => _nonce::create( 'batch-export-download' ),
 			);
 
 			$url = add_query_arg( $args, self_admin_url() );
@@ -986,13 +742,13 @@ class cnAdminActions {
 	 * Callback for the `wp_ajax_csv_upload` action.
 	 *
 	 * @internal
-	 * @since  unknown
+	 * @since unknown
 	 */
 	public static function uploadCSV() {
 
 		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
-		if ( false === Request\Nonce::from( INPUT_POST, 'nonce', 'csv_upload' )->isValid() ) {
+		if ( false === Request\Nonce::from( INPUT_POST, 'csv_upload', null, 'nonce' )->isValid() ) {
 
 			wp_send_json_error(
 				array(
@@ -1016,7 +772,7 @@ class cnAdminActions {
 			wp_send_json_error(
 				array(
 					'form'    => $_POST,
-					'message' => __( 'No file file selected. Please select a file to import.', 'connections' ),
+					'message' => __( 'No file selected. Please select a file to import.', 'connections' ),
 					'request' => $_REQUEST,
 				)
 			);
@@ -1062,7 +818,7 @@ class cnAdminActions {
 						'parent' => esc_html__( 'Parent', 'connections' ),
 					),
 					'headers' => $headers,
-					'nonce'   => wp_create_nonce( 'import_csv_term' ),
+					'nonce'   => _nonce::create( 'import_csv_term' ),
 				)
 			);
 
@@ -1178,6 +934,8 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_manage_actions` action.
+	 *
 	 * Process controller for action taken by the user.
 	 *
 	 * @internal
@@ -1185,10 +943,9 @@ class cnAdminActions {
 	 */
 	public static function entryManagement() {
 
-		$form     = new cnFormObjects();
 		$queryVar = array();
 
-		check_admin_referer( $form->getNonce( 'cn_manage_actions' ), '_cn_wpnonce' );
+		_validate::adminReferer( 'cn_manage_actions' );
 
 		// Process user selected filters.
 		self::saveUserFilters();
@@ -1262,17 +1019,16 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_add_entry`, `cn_update_entry`, and `cn_duplicate_entry` action.
+	 *
 	 * Add / Edit / Update / Copy an entry.
 	 *
-	 * @access public
-	 * @since  0.7.8
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.7.8
 	 */
 	public static function processEntry() {
 
-		$form   = new cnFormObjects();
-		$action = isset( $_REQUEST['cn-action'] ) ? sanitize_key( $_REQUEST['cn-action'] ) : '';
+		$action = Request\Admin_Action::from( INPUT_POST )->value();
 
 		// Set up the redirect URL.
 		$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_add';
@@ -1285,7 +1041,7 @@ class cnAdminActions {
 				 */
 				if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 
-					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
+					_validate::adminReferer( 'add_entry' );
 
 					cnEntry_Action::add( $_POST );
 
@@ -1297,14 +1053,16 @@ class cnAdminActions {
 				break;
 
 			case 'copy_entry':
+				$id = Request\ID::input()->value();
+
 				/*
 				 * Check whether the current user can add an entry.
 				 */
-				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) ) {
+				if ( 0 < $id && ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) ) {
 
-					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
+					_validate::adminReferer( 'add_entry' );
 
-					cnEntry_Action::copy( absint( $_GET['id'] ), $_POST );
+					cnEntry_Action::copy( $id, $_POST );
 
 				} else {
 
@@ -1314,17 +1072,19 @@ class cnAdminActions {
 				break;
 
 			case 'update_entry':
+				$id = Request\ID::input()->value();
+
 				// Set up the redirect URL.
 				$redirect = isset( $_POST['redirect'] ) ? wp_sanitize_redirect( $_POST['redirect'] ) : 'admin.php?page=connections_manage';
 
 				/*
 				 * Check whether the current user can edit an entry.
 				 */
-				if ( isset( $_GET['id'] ) && ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) ) {
+				if ( 0 < $id && ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) ) {
 
-					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
+					_validate::adminReferer( 'update_entry', $id );
 
-					cnEntry_Action::update( absint( $_GET['id'] ), $_POST );
+					cnEntry_Action::update( $id, $_POST );
 
 				} else {
 
@@ -1365,12 +1125,15 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Add, update or delete the entry meta data.
+	 * Callback for the `cn_process_meta-entry` action.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @param  string $action The action to being performed to an entry.
-	 * @param  int    $id     The entry ID.
+	 * Add, update or delete the entry metadata.
+	 *
+	 * @internal
+	 * @since 0.8
+	 *
+	 * @param string $action The action to being performed to an entry.
+	 * @param int    $id     The entry ID.
 	 *
 	 * @return array|false An array of meta IDs or FALSE on failure.
 	 */
@@ -1473,7 +1236,7 @@ class cnAdminActions {
 
 				if ( false !== $results ) {
 
-					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
+					// Loop through $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {
 
 						if ( cnMeta::isPrivate( $row['meta_key'] ) ) {
@@ -1482,7 +1245,7 @@ class cnAdminActions {
 						}
 					}
 
-					// Loop thru the associated meta and update any that may have been changed.
+					// Loop through the associated meta and update any that may have been changed.
 					// If the meta id doesn't exist in the $_POST data, assume the user deleted it.
 					foreach ( $results as $metaID => $row ) {
 
@@ -1541,39 +1304,25 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_set_status` action.
+	 *
 	 * Set the entry status to pending or approved.
 	 *
-	 * @access private
-	 * @since  0.7.8
-	 *
-	 * @param int    $id     Entry ID.
-	 * @param string $status The entry status to be assigned.
+	 * @internal
+	 * @since 0.7.8
 	 */
-	public static function setEntryStatus( $id = 0, $status = '' ) {
+	public static function setEntryStatus() {
 
-		// If no entry ID was supplied, check $_GET.
-		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : absint( $id );
+		$id = Request\ID::input()->value();
 
-		check_admin_referer( 'entry_status_' . $id );
+		_validate::adminReferer( 'entry_status', $id );
 
 		/*
 		 * Check whether the current user can edit an entry.
 		 */
 		if ( current_user_can( 'connections_edit_entry' ) ) {
 
-			// The permitted statuses.
-			$permitted = array( 'pending', 'approved' );
-
-			// If `status` was not supplied, check $_GET.
-			if ( ( empty( $status ) ) && ( isset( $_GET['status'] ) && ! empty( $_GET['status'] ) ) ) {
-
-				$status = sanitize_key( $_GET['status'] );
-
-			}
-
-			// Ensure the supplied status is a permitted status, else default `status` to `pending`.
-			// If no `status` was supplied, this will default `status` to `pending`.
-			$status = in_array( $status, $permitted ) ? $status : 'pending';
+			$status = Request\Entry_Status::input()->value();
 
 			cnEntry_Action::status( $status, $id );
 
@@ -1600,6 +1349,9 @@ class cnAdminActions {
 
 	/**
 	 * Set the approval status of entries in bulk.
+	 *
+	 * Nonce verification is done in the calling method.
+	 * Do not call without performing nonce verification.
 	 *
 	 * @internal
 	 * @since 0.7.8
@@ -1643,6 +1395,9 @@ class cnAdminActions {
 	/**
 	 * Set the visibility status of entries in bulk.
 	 *
+	 * Nonce verification is done in the calling method.
+	 * Do not call without performing nonce verification.
+	 *
 	 * @internal
 	 * @since 0.7.8
 	 *
@@ -1675,6 +1430,8 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_delete_entry` action.
+	 *
 	 * Delete an entry.
 	 *
 	 * @internal
@@ -1684,7 +1441,7 @@ class cnAdminActions {
 
 		$id = Request\ID::input()->value();
 
-		check_admin_referer( "entry_delete_{$id}" );
+		_validate::adminReferer( 'entry_delete', $id );
 
 		/*
 		 * Check whether the current user delete an entry.
@@ -1731,6 +1488,8 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback for the `cn_filter` action.
+	 *
 	 * Process user filters.
 	 *
 	 * @internal
@@ -1740,7 +1499,7 @@ class cnAdminActions {
 
 		$queryVar = array();
 
-		check_admin_referer( 'filter' );
+		_validate::adminReferer( 'filter' );
 
 		self::saveUserFilters();
 
@@ -1899,237 +1658,10 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Activate a template.
+	 * Callback for the `cn_log_bulk_actions` hook which processes the action and then redirects back to the current admin page.
 	 *
-	 * @access public
-	 * @since  0.7.7
-	 */
-	public static function activateTemplate() {
-
-		/** @var connectionsLoad $connections */
-		global $connections;
-
-		/*
-		 * Check whether user can manage Templates
-		 */
-		if ( current_user_can( 'connections_manage_template' ) &&
-			 isset( $_GET['template'] ) &&
-			 isset( $_GET['type'] )
-		) {
-
-			$type = sanitize_key( $_GET['type'] );
-			$slug = sanitize_key( $_GET['template'] );
-
-			check_admin_referer( "activate_{$slug}" );
-
-			$connections->options->setActiveTemplate( $type, $slug );
-
-			$connections->options->saveOptions();
-
-			cnMessage::set( 'success', 'template_change_active' );
-
-			delete_transient( 'cn_legacy_templates' );
-
-			wp_safe_redirect(
-				get_admin_url(
-					get_current_blog_id(),
-					add_query_arg(
-						array(
-							'type' => $type,
-						),
-						'admin.php?page=connections_templates'
-					)
-				)
-			);
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_settings' );
-		}
-	}
-
-	/**
-	 * Delete a template.
-	 *
-	 * @TODO Move delete to a generic method in cnFileSystem()
-	 *
-	 * @access public
-	 * @since  0.7.7
-	 */
-	public static function deleteTemplate() {
-
-		/*
-		 * Check whether user can manage Templates
-		 */
-		if ( current_user_can( 'connections_manage_template' ) &&
-			 isset( $_GET['template'] ) &&
-			 isset( $_GET['type'] )
-		) {
-
-			$type = sanitize_key( $_GET['type'] );
-			$slug = sanitize_key( $_GET['template'] );
-
-			check_admin_referer( "delete_{$slug}" );
-
-			/**
-			 * Delete a directory.
-			 *
-			 * @param string $directory The path to delete.
-			 *
-			 * @return bool
-			 */
-			function removeDirectory( $directory ) {
-
-				$deleteError      = false;
-				$currentDirectory = opendir( $directory );
-
-				while ( ( $file = readdir( $currentDirectory ) ) !== false ) {
-
-					if ( '.' !== $file && '..' !== $file ) {
-
-						chmod( $directory . $file, 0777 ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
-
-						if ( is_dir( $directory . $file ) ) {
-
-							chdir( '.' );
-							removeDirectory( $directory . $file . '/' );
-							rmdir( $directory . $file ) || $deleteError = true; // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
-
-						} else {
-
-							@unlink( $directory . $file ) || $deleteError = true;
-						}
-
-						if ( $deleteError ) {
-
-							return false;
-						}
-					}
-				}
-
-				closedir( $currentDirectory );
-
-				if ( ! rmdir( $directory ) ) { // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir
-
-					return false;
-				}
-
-				return true;
-			}
-
-			if ( removeDirectory( CN_CUSTOM_TEMPLATE_PATH . '/' . $slug . '/' ) ) {
-				cnMessage::set( 'success', 'template_deleted' );
-			} else {
-				cnMessage::set( 'error', 'template_delete_failed' );
-			}
-
-			delete_transient( 'cn_legacy_templates' );
-
-			wp_safe_redirect(
-				get_admin_url(
-					get_current_blog_id(),
-					add_query_arg(
-						array(
-							'type' => $type,
-						),
-						'admin.php?page=connections_templates'
-					)
-				)
-			);
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_settings' );
-		}
-	}
-
-	/**
-	 * Update the role settings.
-	 *
-	 * @access private
-	 * @since  0.7.5
-	 */
-	public static function updateRoleCapabilities() {
-
-		/** @var $wp_roles WP_Roles */
-		global $wp_roles;
-
-		$form = new cnFormObjects();
-
-		/*
-		 * Check whether user can edit roles
-		 */
-		if ( current_user_can( 'connections_change_roles' ) ) {
-
-			check_admin_referer( $form->getNonce( 'update_role_settings' ), '_cn_wpnonce' );
-
-			if ( isset( $_POST['roles'] ) ) {
-
-				// Cycle thru each role available because checkboxes do not report a value when not checked.
-				foreach ( $wp_roles->get_names() as $role => $name ) {
-
-					if ( ! isset( $_POST['roles'][ $role ] ) ) {
-
-						continue;
-					}
-
-					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-						// The administrator should always have all capabilities.
-						if ( 'administrator' === $role ) {
-
-							continue;
-						}
-
-						if ( 'true' === $grant ) {
-
-							cnRole::add( $role, sanitize_key( $capability ) );
-
-						} else {
-
-							cnRole::remove( $role, sanitize_key( $capability ) );
-						}
-					}
-				}
-			}
-
-			if ( isset( $_POST['reset'] ) ) {
-
-				cnRole::reset( array_map( 'sanitize_key', $_POST['reset'] ) );
-			}
-
-			if ( isset( $_POST['reset_all'] ) ) {
-
-				cnRole::reset();
-			}
-
-			cnMessage::set( 'success', 'role_settings_updated' );
-
-			wp_safe_redirect(
-				get_admin_url(
-					get_current_blog_id(),
-					'admin.php?page=connections_roles'
-				)
-			);
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_roles' );
-		}
-
-	}
-
-	/**
-	 * Callback for the cn_log_bulk_actions hook which processes the action and then redirects back to the current admin page.
-	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function logManagement() {
 
@@ -2181,23 +1713,18 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Callback for the cn_delete_log hook which processes the delete action and then redirects back to the current admin page.
+	 * Callback for the `cn_delete_log` hook which processes the delete action and then redirects back to the current admin page.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function deleteLog() {
 
 		if ( current_user_can( 'install_plugins' ) ) {
 
-			$id = 0;
+			$id = Request\ID::input()->value();
 
-			if ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) {
-
-				$id = absint( $_GET['id'] );
-			}
-
-			check_admin_referer( 'log_delete_' . $id );
+			_validate::adminReferer( 'log_delete', $id );
 
 			cnLog::delete( $id );
 

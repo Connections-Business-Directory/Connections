@@ -333,7 +333,7 @@ jQuery(document).ready( function($) {
 							},
 							data:    {
 								height: categorydiv.height(),
-								_ajax_nonce: cn_string.categoryDiv.nonce
+								_cnonce: cn_string.categoryDiv._cnonce
 							}
 						}
 					);

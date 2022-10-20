@@ -216,6 +216,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_parse'          => 'includes/Utility/_parse.php',
 			'Connections_Directory\Utility\_sanitize'       => 'includes/Utility/_sanitize.php',
 			'Connections_Directory\Utility\_string'         => 'includes/Utility/_string.php',
+			'Connections_Directory\Utility\_token'          => 'includes/Utility/_token.php',
 			'Connections_Directory\Utility\_url'            => 'includes/Utility/_url.php',
 			'Connections_Directory\Utility\_validate'       => 'includes/Utility/_validate.php',
 			'Connections_Directory\Utility\Convert\_length' => 'includes/Utility/Convert/_length.php',
@@ -234,6 +235,7 @@ class cnDependency {
 			'Connections_Directory\Request\CSV_Export_Step'          => 'includes/Request/CSV_Export_Step.php',
 			'Connections_Directory\Request\Entry_Initial_Character'  => 'includes/Request/Entry_Initial_Character.php',
 			'Connections_Directory\Request\Entry_Search_Term'        => 'includes/Request/Entry_Search_Term.php',
+			'Connections_Directory\Request\Entry_Status'             => 'includes/Request/Entry_Status.php',
 			'Connections_Directory\Request\Email_System_Info'        => 'includes/Request/Email_System_Info.php',
 			'Connections_Directory\Request\ID'                       => 'includes/Request/ID.php',
 			'Connections_Directory\Request\Input'                    => 'includes/Request/Input.php',
@@ -244,6 +246,7 @@ class cnDependency {
 			'Connections_Directory\Request\Manage_Bulk_Action'       => 'includes/Request/Manage_Bulk_Action.php',
 			'Connections_Directory\Request\Manage_Filter'            => 'includes/Request/Manage_Filter.php',
 			'Connections_Directory\Request\Nonce'                    => 'includes/Request/Nonce.php',
+			'Connections_Directory\Request\Role_Capability'          => 'includes/Request/Role_Capability.php',
 			'Connections_Directory\Request\Search'                   => 'includes/Request/Search.php',
 			'Connections_Directory\Request\Server'                   => 'includes/Request/Server.php',
 			'Connections_Directory\Request\Server_HTTP_Host'         => 'includes/Request/Server_HTTP_Host.php',
@@ -254,6 +257,7 @@ class cnDependency {
 			'Connections_Directory\Request\Server_Software'          => 'includes/Request/Server_Software.php',
 			'Connections_Directory\Request\System_Information_Token' => 'includes/Request/System_Information_Token.php',
 			'Connections_Directory\Request\Taxonomy'                 => 'includes/Request/Taxonomy.php',
+			'Connections_Directory\Request\Template'                 => 'includes/Request/Template.php',
 			'Connections_Directory\Request\Term'                     => 'includes/Request/Term.php',
 
 			// Taxonomy API.
@@ -567,6 +571,14 @@ class cnDependency {
 			// Sitemaps.
 			'Connections_Directory\Sitemaps\Registry' => 'includes/Sitemaps/Registry.php',
 			'Connections_Directory\Sitemaps\Provider' => 'includes/Sitemaps/Provider.php',
+
+			// Hooks.
+			'Connections_Directory\Hook\Action'                       => 'includes/Hook/Action.php',
+			'Connections_Directory\Hook\Action\Admin\Footer'          => 'includes/Hook/Action/Admin/Footer.php',
+			'Connections_Directory\Hook\Action\Admin\Role_Capability' => 'includes/Hook/Action/Admin/Role_Capability.php',
+			'Connections_Directory\Hook\Action\Admin\Plugin_Row'      => 'includes/Hook/Action/Admin/Plugin_Row.php',
+			'Connections_Directory\Hook\Action\Admin\Plugin_Tab'      => 'includes/Hook/Action/Admin/Plugin_Tab.php',
+			'Connections_Directory\Hook\Action\Admin\Template'        => 'includes/Hook/Action/Admin/Template.php',
 
 			// Integrations.
 			'cnGoogleMapsTimeZone'                                     => 'includes/Integration/Google/class.google-maps-timezone-api.php',

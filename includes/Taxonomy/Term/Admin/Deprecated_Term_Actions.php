@@ -6,6 +6,7 @@ use cnFormObjects;
 use cnMessage;
 use cnTerm;
 use Connections_Directory\Request;
+use Connections_Directory\Utility\_validate;
 
 /**
  * Callback for the `cn_add-term` action.
@@ -144,7 +145,7 @@ function deleteTerm() {
 
 		$id = Request\ID::input()->value();
 
-		check_admin_referer( "term_delete_{$id}" );
+		_validate::adminReferer( 'term_delete', $id );
 
 		$result = cnTerm::delete( $id, $slug );
 

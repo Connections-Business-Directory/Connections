@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Request;
+use Connections_Directory\Utility\_nonce;
 
 /**
  * Terms List Table class.
@@ -517,7 +518,6 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 	 */
 	public function column_subject( $log ) {
 
-		$form    = new cnFormObjects();
 		$actions = array();
 		$out     = '';
 
@@ -534,7 +534,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 
 		// $action = ;
 
-		$deleteURL = $form->tokenURL(
+		$deleteURL = _nonce::url(
 			add_query_arg(
 				array(
 					'page'      => 'connections_tools',
@@ -545,7 +545,8 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 				),
 				self_admin_url( 'admin.php' )
 			),
-			'log_delete_' . $log['id']
+			'log_delete',
+			$log['id']
 		);
 
 		/* translators: The email log subject line. Uses for the view link. */

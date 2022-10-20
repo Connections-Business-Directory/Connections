@@ -37,7 +37,9 @@ class cnAdminFunction {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class, if it has already been initialized, return the initialized instance.
+	 * Callback for the `admin_init` action.
+	 *
+	 * Set up the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @see cnAdminFunction()
 	 *
@@ -93,21 +95,6 @@ class cnAdminFunction {
 				cnMessage::create( 'notice', 'image_path_writeable_failed' );
 			}
 
-			// if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_exists_failed' );
-			// if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_writeable_failed' );
-
-			// if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
-			// if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
-
-			// Add Settings link to the plugin actions.
-			add_filter( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
-
-			// Add FAQ, Support and Donate links.
-			add_filter( 'plugin_row_meta', array( __CLASS__, 'addMetaLinks' ), 10, 2 );
-
-			// Add Changelog table row in the Manage Plugins admin page.
-			add_action( 'in_plugin_update_message-' . CN_BASE_NAME, array( __CLASS__, 'displayUpgradeNotice' ), 20, 2 );
-
 			// Add the screen layout filter.
 			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
 
@@ -116,8 +103,6 @@ class cnAdminFunction {
 			 * Screen Options class by Janis Elsts which registers the screen options panels.
 			 */
 			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ), 9 );
-
-			add_filter( 'admin_footer_text', array( __CLASS__, 'rateUs' ) );
 		}
 
 	}
@@ -141,163 +126,6 @@ class cnAdminFunction {
 
 			cnMessage::create( 'notice', 'db_update_required' );
 		}
-	}
-
-	/**
-	 * Callback for the `plugin_action_links_{$plugin_file}` filter.
-	 *
-	 * Add the Settings link to the plugin admin page.
-	 *
-	 * @see WP_Plugins_List_Table::single_row()
-	 *
-	 * @internal
-	 * @since unknown
-	 *
-	 * @param array $links An array of plugin action links.
-	 *
-	 * @return array
-	 */
-	public static function addActionLinks( $links ) {
-
-		$new_links = array();
-
-		$new_links[] = '<a href="admin.php?page=connections_settings">' . __( 'Settings', 'connections' ) . '</a>';
-
-		return array_merge( $new_links, $links );
-	}
-
-	/**
-	 * Callback for the `plugin_row_meta` filter.
-	 *
-	 * Add the links for premium templates, extensions and support info.
-	 *
-	 * @internal
-	 * @since unknown
-	 *
-	 * @param array  $links An array of the plugin's metadata, including
-	 *                      the version, author, author URI, and plugin URI.
-	 * @param string $file  Path to the plugin file relative to the plugins directory.
-	 *
-	 * @return array
-	 */
-	public static function addMetaLinks( $links, $file ) {
-
-		if ( CN_BASE_NAME === $file ) {
-
-			$permalink = apply_filters(
-				'Connections_Directory/Admin/Menu/Submenu/Support/Permalink',
-				'https://wordpress.org/support/plugin/connections/'
-			);
-
-			$title = apply_filters(
-				'Connections_Directory/Admin/Menu/Submenu/Support/Title',
-				esc_html__( 'Support', 'connections' )
-			);
-
-			$title     = esc_html( $title );
-			$permalink = esc_url( $permalink );
-
-			$links[] = '<a href="https://connections-pro.com/?page_id=29" target="_blank">' . esc_html__( 'Extensions', 'connections' ) . '</a>';
-			$links[] = '<a href="https://connections-pro.com/?page_id=419" target="_blank">' . esc_html__( 'Templates', 'connections' ) . '</a>';
-			$links[] = '<a href="https://connections-pro.com/documentation/contents/" target="_blank">' . esc_html__( 'Documentation', 'connections' ) . '</a>';
-			$links[] = '<a href="' . $permalink . '" target="_blank">' . $title . '</a>';
-		}
-
-		return $links;
-	}
-
-	/**
-	 * Callback for the `in_plugin_update_message_{$file}` action.
-	 *
-	 * Display the upgrade notice and changelog on the Manage Plugin admin screen.
-	 *
-	 * Inspired by Changelogger. Code based on W3 Total Cache.
-	 *
-	 * @see wp_plugin_update_row()
-	 *
-	 * @internal
-	 * @since unknown
-	 *
-	 * @param array  $plugin_data An Array of the plugin metadata.
-	 * @param object $r           An array of metadata about the available plugin update.
-	 */
-	public static function displayUpgradeNotice( $plugin_data, $r ) {
-
-		// echo '<p>' . print_r( $r, TRUE ) .  '</p>';
-		// echo '<p>' . print_r( $plugin_data, TRUE ) .  '</p>';
-		echo '</p>'; // Required to close the open <p> tag that exists when this action is run.
-
-		// Show the upgrade notice if it exists.
-		if ( isset( $r->upgrade_notice ) ) {
-			/* translators: Plugin version number. */
-			echo '<div class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), esc_html( $r->new_version ) ) . '</strong></div>';
-			echo '<ul><li>' . esc_html( wp_strip_all_tags( $r->upgrade_notice ) ) . '</li></ul>';
-		}
-
-		// Grab the plugin info using the WordPress.org Plugins API.
-		// First, check to see if the function exists, if it doesn't, include the file which contains it.
-		if ( ! function_exists( 'plugins_api' ) ) {
-			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-		}
-
-		$plugin = plugins_api(
-			'plugin_information',
-			array(
-				'slug'   => 'connections',
-				'fields' => array(
-					'tested'       => true,
-					'requires'     => false,
-					'rating'       => false,
-					'downloaded'   => false,
-					'downloadlink' => false,
-					'last_updated' => false,
-					'homepage'     => false,
-					'tags'         => false,
-					'sections'     => true,
-				),
-			)
-		);
-		// echo '<p>' . print_r( $plugin, TRUE ) .  '</p>';
-		// echo '<p>' . print_r( $plugin->sections['changelog'], TRUE ) .  '</p>';
-
-		// Create the regex that'll parse the changelog for the latest version.
-		$regex = '~<h([1-6])>' . preg_quote( $r->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
-
-		preg_match( $regex, $plugin->sections['changelog'], $matches );
-		// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
-
-		// If no changelog is found for the current version, return.
-		if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
-
-			preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
-			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
-
-			// Make sure the change items were found and not empty before proceeding.
-			if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
-
-				$ul = false;
-
-				// Finally, lets render the changelog list.
-				foreach ( $matches[1] as $key => $line ) {
-
-					if ( ! $ul ) {
-
-						echo '<div class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></div>';
-						echo '<ul class="cn-changelog">';
-						$ul = true;
-					}
-
-					echo '<li style="' . ( 0 === $key % 2 ? ' clear: left;' : '' ) . '">' . wp_kses_post( $line ) . '</li>';
-				}
-
-				if ( $ul ) {
-
-					echo '</ul><div style="clear: left;"></div>';
-				}
-			}
-		}
-
-		echo '<p class="cn-update-message-p-clear-before">'; // Required to open a </p> tag that exists when this action is run.
 	}
 
 	/**
@@ -512,51 +340,4 @@ class cnAdminFunction {
 		// cnUser::setScreenOptions() saves the user meta, return FALSE to short circuit set_screen_options().
 		return false;
 	}
-
-	/**
-	 * Callback for the `admin_footer_text` filter.
-	 *
-	 * Add rating links to the admin dashboard.
-	 *
-	 * @internal
-	 * @since 8.2.9
-	 *
-	 * @param string $text The existing footer text.
-	 *
-	 * @return string
-	 */
-	public static function rateUs( $text ) {
-
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-
-			return $text;
-		}
-
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// var_dump( get_current_screen()->id );
-		// var_dump( $instance->pageHook );
-
-		if ( in_array( get_current_screen()->id, get_object_vars( $instance->pageHook ) ) ) {
-		// if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
-
-			$rate_text = sprintf(
-				/* translators: Plugin review URI's. */
-				__(
-					'Thank you for using <a href="%1$s" target="_blank">Connections Business Directory</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a>',
-					'connections'
-				),
-				'https://connections-pro.com',
-				'https://wordpress.org/support/plugin/connections/reviews/?filter=5#new-post'
-			);
-
-			return str_replace( '</span>', '', $text ) . ' | ' . wp_kses_post( $rate_text ) . '</span>';
-
-		} else {
-
-			return $text;
-		}
-	}
-
 }

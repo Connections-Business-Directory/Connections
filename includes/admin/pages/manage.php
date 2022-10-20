@@ -67,7 +67,7 @@ function connectionsShowViewPage( $action = null ) {
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', false, '_cn_wpnonce', false );
+						_nonce::field( 'add_entry', null, null, false );
 
 						do_action( 'cn_admin_form_add_entry_before', $entry, $form );
 
@@ -110,8 +110,9 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 
-				$id = isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
-				check_admin_referer( 'entry_copy_' . $id );
+				$id = Request\ID::input()->value();
+
+				_validate::adminReferer( 'entry_copy', $id );
 
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
@@ -160,7 +161,7 @@ function connectionsShowViewPage( $action = null ) {
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'add_entry', false, '_cn_wpnonce', false );
+						_nonce::field( 'add_entry', null, null, false );
 
 						do_action( 'cn_admin_form_copy_entry_before', $entry, $form );
 
@@ -203,10 +204,9 @@ function connectionsShowViewPage( $action = null ) {
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-				$id          = Request\ID::input()->value();
-				$nonceAction = _nonce::action( 'entry_edit', $id );
+				$id = Request\ID::input()->value();
 
-				_validate::adminReferer( $nonceAction );
+				_validate::adminReferer( 'entry_edit', $id );
 
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
@@ -238,7 +238,7 @@ function connectionsShowViewPage( $action = null ) {
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-						$form->tokenField( 'update_entry', false, '_cn_wpnonce', false );
+						_nonce::field( 'update_entry', $entry->getId(), null, false );
 
 						do_action( 'cn_admin_form_edit_entry_before', $entry, $form );
 
@@ -274,7 +274,6 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		default:
-			$form = new cnFormObjects();
 
 			echo '<h1>Connections : ' , esc_html__( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , esc_html__( 'Add New', 'connections' ) , '</a></h1>';
 
@@ -340,7 +339,7 @@ function connectionsShowViewPage( $action = null ) {
 							'<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
 							$filters['status'] == $key ? ' class="current" ' : ' ',
 							esc_url(
-								$form->tokenURL(
+								_nonce::url(
 									add_query_arg(
 										array(
 											'page'      => 'connections_manage',
@@ -382,7 +381,7 @@ function connectionsShowViewPage( $action = null ) {
 						<?php submit_button( esc_attr__( 'Search Entries', 'connections' ), '', '', false, array( 'id' => 'search-submit' ) ); ?>
 					</p>
 
-					<?php $form->tokenField( 'cn_manage_actions' ); ?>
+					<?php _nonce::field( 'cn_manage_actions' ); ?>
 
 					<input type="hidden" name="cn-action" value="manage_actions"/>
 
@@ -526,28 +525,28 @@ function connectionsShowViewPage( $action = null ) {
 								 * Generate the page link token URL.
 								 */
 								$pageFilterURL['first_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['first_page'] ), $currentPageURL ),
 										'filter'
 									)
 								);
 
 								$pageFilterURL['previous_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['previous_page'] ), $currentPageURL ),
 										'filter'
 									)
 								);
 
 								$pageFilterURL['next_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['next_page'] ), $currentPageURL ),
 										'filter'
 									)
 								);
 
 								$pageFilterURL['last_page'] = esc_url(
-									$form->tokenURL(
+									_nonce::url(
 										add_query_arg( array( 'pg' => $pageValue['last_page'] ), $currentPageURL ),
 										'filter'
 									)
@@ -659,10 +658,10 @@ function connectionsShowViewPage( $action = null ) {
 					</div>
 					<div class="clear"></div>
 
-					<table cellspacing="0" class="widefat connections">
+					<table class="widefat connections">
 						<thead>
 						<tr>
-							<td class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></td>
+							<td class="manage-column column-cb check-column" id="cb"><input type="checkbox"/></td>
 							<th class="col" style="width:10%;"></th>
 							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
 							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
@@ -671,7 +670,7 @@ function connectionsShowViewPage( $action = null ) {
 						</thead>
 						<tfoot>
 						<tr>
-							<td class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></td>
+							<td class="manage-column column-cb check-column"><input type="checkbox"/></td>
 							<th class="col" style="width:10%;"></th>
 							<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
 							<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
@@ -691,11 +690,11 @@ function connectionsShowViewPage( $action = null ) {
 					/*
 					 * Generate the edit, copy and delete URLs with nonce tokens.
 					 */
-					$editTokenURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
-					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
-					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
-					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
-					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$editNonceURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
+					$copyNonceURL      = _nonce::url( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy', $entry->getId() );
+					$deleteNonceURL    = _nonce::url( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete', $entry->getId() );
+					$approvedNonceURL  = _nonce::url( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status', $entry->getId() );
+					$unapproveNonceURL = _nonce::url( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status', $entry->getId() );
 
 					switch ( $entry->getStatus() ) {
 						case 'pending':
@@ -737,7 +736,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						echo '<a class="row-title" title="Edit ' . esc_attr( $name ) . '" href="' . esc_url( $editTokenURL ) . '">' . esc_html( $name ) . '</a>';
+						echo '<a class="row-title" title="Edit ' . esc_attr( $name ) . '" href="' . esc_url( $editNonceURL ) . '">' . esc_html( $name ) . '</a>';
 
 					} else {
 
@@ -779,41 +778,43 @@ function connectionsShowViewPage( $action = null ) {
 						)
 					);
 
-					$rowActions['view'] = cnURL::permalink(
-						array(
-							'slug'   => $entry->getSlug(),
-							// translators: The directory entry name.
-							'title'  => sprintf( esc_html__( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
-							'text'   => esc_html__( 'View', 'connections' ),
-							'return' => true,
-						)
-					);
+					if ( 'approved' === $entry->getStatus() ) {
+						$rowActions['view'] = cnURL::permalink(
+							array(
+								'slug'   => $entry->getSlug(),
+								// translators: The directory entry name.
+								'title'  => sprintf( esc_html__( 'View %s', 'connections' ), $entry->getName( array( 'format' => '%first% %last%' ) ) ),
+								'text'   => esc_html__( 'View', 'connections' ),
+								'return' => true,
+							)
+						);
+					}
 
 					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveTokenURL ) . '" title="' . esc_attr__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
+						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . esc_url( $unapproveNonceURL ) . '" title="' . esc_attr__( 'Unapprove', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Unapprove', 'connections' ) . '</a>';
 					}
 
 					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) {
 
-						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedTokenURL ) . '" title="' . esc_attr__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
+						$rowEditActions['approve'] = '<a class="action approve" href="' . esc_url( $approvedNonceURL ) . '" title="' . esc_attr__( 'Approve', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Approve', 'connections' ) . '</a>';
 					}
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 
-						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editTokenURL ) . '" title="' . esc_attr__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
+						$rowEditActions['edit'] = '<a class="editbutton" href="' . esc_url( $editNonceURL ) . '" title="' . esc_attr__( 'Edit', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Edit', 'connections' ) . '</a>';
 					}
 
 					// phpcs:disable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 					// if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 					//
-					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . esc_url( $copyTokenURL ) . '" title="' . esc_html__( 'Copy', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Copy', 'connections' ) . '</a>';
+					// 	$rowEditActions['copy'] = '<a class="copybutton" href="' . esc_url( $copyNonceURL ) . '" title="' . esc_html__( 'Copy', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Copy', 'connections' ) . '</a>';
 					// }
 					// phpcs:enable Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.SpacingBefore, Squiz.Commenting.InlineComment.InvalidEndChar
 
 					if ( current_user_can( 'connections_delete_entry' ) ) {
 
-						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteTokenURL ) . '" title="' . esc_attr__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
+						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . esc_url( $deleteNonceURL ) . '" title="' . esc_attr__( 'Delete', 'connections' ) . ' ' . $fullName . '">' . esc_html__( 'Delete', 'connections' ) . '</a>';
 					}
 
 					/**
@@ -855,7 +856,7 @@ function connectionsShowViewPage( $action = null ) {
 							/*
 							 * Generate the category link token URL.
 							 */
-							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' ); //phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
+							$categoryFilterURL = _nonce::url( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' ); //phpcs:ignore Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
 							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . esc_html( $category->name ) . '</a>';
 

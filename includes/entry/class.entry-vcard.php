@@ -9,6 +9,7 @@
  * @since       unknown
  */
 
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_string;
 
 // Exit if accessed directly.
@@ -523,27 +524,32 @@ class cnEntry_vCard extends cnEntry_HTML {
 		return $this->vCard;
 	}
 
+	/**
+	 * Download the Entry vCard file.
+	 *
+	 * @since unknown
+	 */
 	public static function download() {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
 		$process = cnQuery::getVar( 'cn-process' );
-		$token   = cnQuery::getVar( 'cn-token' );
 		$id      = absint( cnQuery::getVar( 'cn-id' ) );
+		$nonce   = Request\Nonce::input( 'download_vcard', $id, 'cn-token' );
 
 		if ( 'vcard' === $process ) {
 
-			$slug = cnQuery::getVar( 'cn-entry-slug' ); // var_dump($slug);
+			$slug = cnQuery::getVar( 'cn-entry-slug' );
 
 			/*
 			 * If the token and id values were set, the link was likely from the admin.
 			 * Check for those values and validate the token. The primary reason for this
 			 * to be able to download vCards of entries that are set to "Unlisted".
 			 */
-			if ( ! empty( $id ) && ! empty( $token ) ) {
+			if ( ! empty( $id ) && ! empty( $nonce ) ) {
 
-				if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id ) ) {
+				if ( ! $nonce->isValid() ) {
 
 					wp_die( 'Invalid vCard Token' );
 				}
@@ -556,11 +562,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry ); // var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry );
 
 			} else {
 
-				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); // var_dump($entry);die;
+				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) );
 
 				// Die if no entry was found.
 				if ( empty( $entry ) ) {
@@ -568,10 +574,10 @@ class cnEntry_vCard extends cnEntry_HTML {
 					wp_die( esc_html__( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnEntry_vCard( $entry[0] ); // var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry[0] );
 			}
 
-			$filename = sanitize_file_name( $vCard->getName() ); // var_dump($filename);
+			$filename = sanitize_file_name( $vCard->getName() );
 			$data     = $vCard->data()->fetch();
 
 			header( 'Content-Description: File Transfer' );

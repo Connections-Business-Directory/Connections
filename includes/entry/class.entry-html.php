@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Content_Blocks;
+use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -2795,9 +2796,9 @@ class cnEntry_HTML extends cnEntry {
 		$replace   = array();
 
 		// These are values will need to be added to the query string in order to download unlisted entries from the admin.
-		if ( 'unlisted' === $this->getVisibility() ) {
+		if ( 'unlisted' === $this->getVisibility() || 'pending' === $this->getStatus() ) {
 			$id    = $this->getId();
-			$token = wp_create_nonce( 'download_vcard_' . $this->getId() );
+			$token = _nonce::create( 'download_vcard', $this->getId() );
 		}
 
 		$defaults = array(

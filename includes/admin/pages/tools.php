@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_nonce;
 
 function connectionsShowToolsPage() {
 
@@ -113,8 +114,7 @@ class cnAdmin_Tools {
 	/**
 	 * Stores the instance of this class.
 	 *
-	 * @access private
-	 * @since  8.3
+	 * @since 8.3
 	 *
 	 * @var cnAdmin_Tools
 	 */
@@ -131,11 +131,7 @@ class cnAdmin_Tools {
 	}
 
 	/**
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   cnAdmin_Tools::init()
+	 * @since 8.3
 	 *
 	 * @return cnAdmin_Tools
 	 */
@@ -152,12 +148,7 @@ class cnAdmin_Tools {
 	/**
 	 * Register the admin tool actions.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   cnAdmin_Tools::getTabs()
-	 * @uses   add_action()
+	 * @since 8.3
 	 */
 	private static function init() {
 
@@ -175,11 +166,7 @@ class cnAdmin_Tools {
 	/**
 	 * Register the tabs.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   apply_filters()
+	 * @since 8.3
 	 *
 	 * @return array
 	 */
@@ -235,11 +222,7 @@ class cnAdmin_Tools {
 	/**
 	 * Retrieve tools tabs.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses  cnAdmin_Tools::registerTabs()
+	 * @since 8.3
 	 */
 	public static function getTabs() {
 
@@ -259,14 +242,8 @@ class cnAdmin_Tools {
 	/**
 	 * Callback to render export data tools.
 	 *
-	 * @access public
-	 * @since  8.5
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   do_action()
-	 * @uses   _e()
-	 * @uses   wp_create_nonce()
+	 * @internal
+	 * @since 8.5
 	 */
 	public static function export() {
 
@@ -294,7 +271,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-addresses" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_addresses" data-nonce="<?php echo esc_attr( wp_create_nonce( 'export_csv_addresses' ) ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-addresses" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_addresses" data-nonce="<?php echo esc_attr( _nonce::create( 'export_csv_addresses' ) ); ?>"/>
 					</p>
 
 				</form>
@@ -319,7 +296,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-phone-numbers" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_phone_numbers" data-nonce="<?php echo esc_attr( wp_create_nonce( 'export_csv_phone_numbers' ) ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-phone-numbers" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_phone_numbers" data-nonce="<?php echo esc_attr( _nonce::create( 'export_csv_phone_numbers' ) ); ?>"/>
 					</p>
 
 				</form>
@@ -344,7 +321,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-email" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_email" data-nonce="<?php echo esc_attr( wp_create_nonce( 'export_csv_email' ) ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-email" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_email" data-nonce="<?php echo esc_attr( _nonce::create( 'export_csv_email' ) ); ?>"/>
 					</p>
 
 				</form>
@@ -369,7 +346,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-dates" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_dates" data-nonce="<?php echo esc_attr( wp_create_nonce( 'export_csv_dates' ) ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-dates" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_dates" data-nonce="<?php echo esc_attr( _nonce::create( 'export_csv_dates' ) ); ?>"/>
 					</p>
 
 				</form>
@@ -394,7 +371,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-term" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_term" data-nonce="<?php echo esc_attr( wp_create_nonce( 'export_csv_term' ) ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-term" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_term" data-nonce="<?php echo esc_attr( _nonce::create( 'export_csv_term' ) ); ?>"/>
 					</p>
 
 				</form>
@@ -419,7 +396,7 @@ class cnAdmin_Tools {
 					</p>
 
 					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-all" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_all" data-nonce="<?php echo esc_attr( wp_create_nonce( 'export_csv_all' ) ); ?>"/>
+						<input type="submit" class="button-secondary" name="csv-export-all" value="<?php _e( 'Export', 'connections' ); ?>" data-action="export_csv_all" data-nonce="<?php echo esc_attr( _nonce::create( 'export_csv_all' ) ); ?>"/>
 					</p>
 
 				</form>
@@ -435,14 +412,8 @@ class cnAdmin_Tools {
 	/**
 	 * Callback to render import data tools.
 	 *
-	 * @access public
-	 * @since  8.5.5
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   do_action()
-	 * @uses   _e()
-	 * @uses   wp_create_nonce()
+	 * @internal
+	 * @since 8.5.5
 	 */
 	public static function import() {
 
@@ -471,7 +442,7 @@ class cnAdmin_Tools {
 							<input type="hidden" name="id" value="cn-import-category" />
 							<input type="hidden" name="action" value="csv_upload" />
 							<input type="hidden" name="type" value="category" />
-							<?php wp_nonce_field( 'csv_upload', 'nonce' ); ?>
+							<?php _nonce::field( 'csv_upload', null, 'nonce', false ); ?>
 						</p>
 
 						<?php submit_button( esc_html__( 'Upload', 'connections' ), 'secondary', 'cn-upload-csv-category' ); ?>
@@ -506,16 +477,8 @@ class cnAdmin_Tools {
 	/**
 	 * Callback to display the system info.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   do_action()
-	 * @uses   _e()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   cnSystem_Info::display()
-	 * @uses   wp_nonce_field()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function systemInfo() {
 
@@ -548,7 +511,7 @@ cnSystem_Info::display();
 				<?php // Form used to download .txt file. ?>
 				<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
 					<input type="hidden" name="action" value="download_system_info"/>
-					<?php wp_nonce_field( 'download_system_info' ); ?>
+					<?php _nonce::field( 'download_system_info' ); ?>
 					<?php submit_button( __( 'Download System Info as Text File', 'connections' ), 'secondary', 'submit' ); ?>
 				</form>
 			</div><!-- .inside -->
@@ -569,16 +532,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback to display the email the system info.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   cnFormObjects()
-	 * @uses   _e()
-	 * @uses   __()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   submit_button()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function systemInfoEmail() {
 
@@ -587,8 +542,6 @@ cnSystem_Info::display();
 		}
 
 		do_action( 'cn_tools_email_system_info_before' );
-
-		$form = new cnFormObjects();
 
 		?>
 
@@ -643,7 +596,7 @@ cnSystem_Info::display();
 						</tr>
 					</table>
 					<input type="hidden" name="action" value="email_system_info"/>
-					<?php $form->tokenField( 'email_system_info', false, '_cn_wpnonce', false ); ?>
+					<?php _nonce::field( 'email_system_info' ); ?>
 					<?php submit_button( __( 'Send Email', 'connections' ), 'secondary', 'submit', true, array( 'id' => 'cn-send-system-info-submit' ) ); ?>
 				</form>
 
@@ -657,14 +610,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback to display the remote URL for the system info.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   home_url()
-	 * @uses   _e()
-	 * @uses   esc_url()
-	 * @uses   wp_create_nonce()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function systemInfoRemote() {
 
@@ -698,8 +645,8 @@ cnSystem_Info::display();
 				</p>
 
 				<p class="submit">
-					<input type="submit" onClick="return false;" class="button-secondary" name="generate-url" value="<?php _e( 'Generate URL', 'connections' ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'generate_remote_system_info_url' ) ); ?>"/>
-					<input type="submit" onClick="return false;" class="button-secondary" name="revoke-url" value="<?php _e( 'Revoke URL', 'connections' ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'revoke_remote_system_info_url' ) ); ?>"/>
+					<input type="submit" onClick="return false;" class="button-secondary" name="generate-url" value="<?php _e( 'Generate URL', 'connections' ); ?>" data-nonce="<?php echo esc_attr( _nonce::create( 'generate_remote_system_info_url' ) ); ?>"/>
+					<input type="submit" onClick="return false;" class="button-secondary" name="revoke-url" value="<?php _e( 'Revoke URL', 'connections' ); ?>" data-nonce="<?php echo esc_attr( _nonce::create( 'revoke_remote_system_info_url' ) ); ?>"/>
 				</p>
 
 			</div><!-- .inside -->
@@ -711,17 +658,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback to render import/export settings.
 	 *
-	 * @access public
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   do_action()
-	 * @uses   _E()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   wp_nonce_field()
-	 * @uses   submit_button()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function settingsImportExport() {
 
@@ -747,7 +685,7 @@ cnSystem_Info::display();
 
 				<form method="post" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
 					<input type="hidden" name="action" value="export_settings"/>
-					<?php wp_nonce_field( 'export_settings' ); ?>
+					<?php _nonce::field( 'export_settings' ); ?>
 					<?php submit_button( __( 'Export', 'connections' ), 'secondary', 'submit' ); ?>
 				</form>
 			</div><!-- .inside -->
@@ -775,7 +713,7 @@ cnSystem_Info::display();
 					</p>
 
 					<input type="hidden" name="action" value="import_settings"/>
-					<?php wp_nonce_field( 'import_settings' ); ?>
+					<?php _nonce::field( 'import_settings' ); ?>
 					<?php submit_button( __( 'Import', 'connections' ), 'secondary', 'submit', true, array( 'id' => 'cn-import-settings-submit' ) ); ?>
 				</form>
 			</div><!-- .inside -->
@@ -788,19 +726,8 @@ cnSystem_Info::display();
 	/**
 	 * Callback used to render the log view of the log type being viewed.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
-	 *
-	 * @uses   current_user_can()
-	 * @uses   wp_list_pluck()
-	 * @uses   esc_url()
-	 * @uses   self_admin_url()
-	 * @uses   cnLog::types()
-	 * @uses   cnLog_Email::types()
-	 * @uses   cnHTML::select()
-	 * @uses   submit_button()
-	 * @uses   do_action()
+	 * @internal
+	 * @since 8.3
 	 */
 	public static function logs() {
 

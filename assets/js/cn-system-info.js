@@ -112,14 +112,14 @@
 			var subject = $( id + ' #cn-email-subject' ).val();
 			var message = $( id + ' #cn-email-message' ).val();
 			var action  = $( id + ' [name="action"]' ).val();
-			var nonce   = $( id + ' [name="_cn_wpnonce"]' ).val();
+			var nonce   = $( id + ' [name="_cnonce"]' ).val();
 
 			return {
 				email: email,
 				subject: subject,
 				message: message,
 				action: action,
-				nonce: nonce
+				_cnonce: nonce
 			};
 		},
 
@@ -174,7 +174,7 @@
 					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
 				},
 				data: {
-					_ajax_nonce: $( object ).data('nonce')
+					_cnonce: $( object ).data('nonce')
 				}
 			});
 		},
@@ -199,7 +199,7 @@
 					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
 				},
 				data: {
-					_ajax_nonce: $( object ).data('nonce')
+					_cnonce: $( object ).data('nonce')
 				}
 			});
 

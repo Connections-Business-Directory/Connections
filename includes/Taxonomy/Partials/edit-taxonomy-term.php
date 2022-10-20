@@ -5,6 +5,7 @@
  */
 
 use Connections_Directory\Request;
+use Connections_Directory\Utility\_nonce;
 
 // Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -56,7 +57,7 @@ do_action( "cn_{$taxonomy->getSlug()}_pre_edit_form", $term, $taxonomy->getSlug(
 		)
 	);
 
-	$form->tokenField( "update-term-{$term->term_id}" );
+	_nonce::field( 'update-term', $term->term_id );
 	?>
 	<input type="hidden" name="cn-action" value="update-term" />
 	<input type="hidden" name="term-id" value="<?php echo esc_attr( $term->term_id ); ?>"/>

@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.6
 Tested up to: 6.0.2
 Requires PHP: 5.6.20
-Stable tag: 10.4.30
+Stable tag: 10.4.31
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,52 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.31 10/20/2022 =
+* NEW: Introduce `\Request\Entry_Status` for user input request sanitization/validation.
+* NEW: Introduce `_nonce::create()`.
+* NEW: Introduce `\Utility\_token`.
+* NEW: Introduce `\Request\Template`.
+* NEW: Introduce `\Hook\Action\Admin\Template`.
+* NEW: Introduce `\Request\Role_Capability`.
+* NEW: Introduce `\Hook\Action\Admin\Role_Capability`.
+* NEW: Introduce `\Hook\Action`.
+* NEW: Introduce `\Hook\Action\Admin\Footer`.
+* NEW: Introduce `\Hook\Action\Admin\Plugin_Row`.
+* NEW: Introduce `\Hook\Action\Admin\Plugin_Tab`.
+* TWEAK: Refactor admin delete entry action links to remove use of the deprecated `cnFormObjects::tokenURL()` method.
+* TWEAK: Refactor `cnAdminActions::setEntryStatus()` to utilize `\Request\Entry_Status`, `_nonce::action()`, and `_validate::adminReferer()`.
+* TWEAK: Remove use of deprecated `cnFormObjects::tokenURL()` method.
+* TWEAK: Remove obsolete `cellspacing` and `scope` table attributes.
+* TWEAK: Refactor `_validate::adminReferer()` and `_validate::ajaxReferer()` to include an `$item` parameter.
+* TWEAK: Update instances of `_validate::adminReferer()` to utilize the `$item` parameter to remove code duplication.
+* TWEAK: Utilize `\Request\Admin_Action` to get request action.
+* TWEAK: Refactor the `cn_manage_actions` nonce field to utilize `_nonce::field()` and be validated using `_validate::adminReferer()`.
+* TWEAK: Add trialing parenthesis to exit.
+* TWEAK: Refactor `\Request\_nonce` to utilize `_nonce` utility constant/methods.
+* TWEAK: First pass at removing use of deprecated `cnFormObjects` nonce methods.
+* TWEAK: Refactor the template admin actions to utilize `\Request\Template` and `\Hook\Action\Admin\Template`.
+* TWEAK: Utilize `Request\Nonce` for creating and validating the vCard download.
+* TWEAK: Refactor the role capability admin actions to utilize `\Request\Role_Capability` and `\Hook\Action\Admin\Role_Capability`.
+* TWEAK: Remove unused messages from `cnMessage`.
+* TWEAK: Register the template actions on the `admin_init` hook.
+* TWEAK: Utilize `\Hook\Action` do namespaced action callbacks.
+* TWEAK: Refactor to utilize `\Hook\Action\Admin\Footer`.
+* TWEAK: Refactor to utilize `\Hook\Action\Admin\Plugin_Row`.
+* TWEAK: Refactor to utilize `\Hook\Action\Admin\Plugin_Tab`.
+* DEV: The output of `_::highlight_var_dump()` should be wrapped in a `div`.
+* BUG: Run system info token through `sanitize_key()` so it will match the request sanitization.
+* BUG: Do not show the "View" link on the Manage admin page when the entry is in the moderation queue.
+* BUG: Check for both entry status and visibility when created the download link for the vCard.
+* BUG: The `highlight_string()` should return, not echo.
+* OTHER: Correct misspellings.
+* DEV: Rename nonce URL to be more descriptive.
+* DEV: Remove commented out unused code.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* DEV: Add missing phpDoc.
+* DEV: Remove unused import.
+* DEV: Add inline comment.
 
 = 10.4.30 10/05/2022 =
 * NEW: Introduce the `Color_Picker` field to the Fields API.
@@ -567,31 +613,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Tweaks to `phpcs.xml`.
 * DEV: Add code sample to exclude the "View All" page from indexing.
 
-= 10.4.16 03/04/2022 =
-* NEW: Add the `address` and `position` parameters to `cnRetrieve::emailAddresses()`.
-* NEW: Add support for `email` to `cnRetrieve::getEntryBy()`.
-* TWEAK: Add span around the name honorable suffix separator, so it can be selected via CSS.
-* TWEAK: Extract 'if' statement with common parts.
-* SECURITY: Sanitize a couple values passed to the term tree walker.
-* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
-* OTHER: Correct grammar, misspellings, punctuation, and spacing `cnRetrieve`.
-* OTHER: Remove unnecessary newline.
-* DEV: phpDoc updates.
-* DEV: Remove use of deprecated method.
-* DEV: Remove deprecated legacy method, `cnRetrieve::parseTaxonomyQueryLegacy()`.
-* DEV: Remove deprecated legacy method, `cnRetrieve::orderBy()`.
-* DEV: Remove unused import.
-* DEV: Remove unused class variable.
-* DEV: Remove unused methods in `cnRetrieve`.
-* DEV: Remove use of deprecated methods in `cnRetrieve`.
-* DEV: Remove phpStorm @noinspection tag.
-* DEV: Add phpcs ignore statements to `cnRetrieve`.
-* DEV: Remove use of deprecated method in a couple of the term list walkers.
-
 == Upgrade Notice ==
-
-= 10.4.16 =
-It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.17 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -633,4 +655,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.30 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.31 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

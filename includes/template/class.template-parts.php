@@ -18,6 +18,7 @@ use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
+use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_parse;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -1896,10 +1897,7 @@ class cnTemplatePart {
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
 
-				// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.
-				$form = new cnFormObjects();
-
-				$links[] = '<a' . ( $current === $char ? ' class="cn-char-current button"' : ' class="cn-char button"' ) . ' href="' . esc_url( $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ), 'filter' ) ) . '">' . $char . '</a> ' . PHP_EOL;
+				$links[] = '<a' . ( $current === $char ? ' class="cn-char-current button"' : ' class="cn-char button"' ) . ' href="' . esc_url( _nonce::url( add_query_arg( array( 'cn-char' => urlencode( $char ) ) ), 'filter' ) ) . '">' . $char . '</a> ' . PHP_EOL;
 
 			} else {
 

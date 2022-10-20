@@ -9,6 +9,8 @@
  * @since       unknown
  */
 
+use Connections_Directory\Utility\_nonce;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -50,7 +52,7 @@ function connectionsShowRolesPage() {
 			);
 
 			$form->open( $attr );
-			$form->tokenField( 'update_role_settings' );
+			_nonce::field( 'update_role_settings' );
 			?>
 
 			<div id="poststuff" class="metabox-holder has-right-sidebar">

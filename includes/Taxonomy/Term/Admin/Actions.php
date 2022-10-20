@@ -2,13 +2,13 @@
 
 namespace Connections_Directory\Taxonomy\Term\Admin;
 
-use cnFormObjects;
 use cnMessage;
 use cnMeta;
 use cnTerm;
 use Connections_Directory\Request;
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Taxonomy\Registry;
+use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Term\Admin\Deprecated_Actions\addTerm;
 use function Connections_Directory\Taxonomy\Term\Admin\Deprecated_Actions\bulkTerm;
 use function Connections_Directory\Taxonomy\Term\Admin\Deprecated_Actions\deleteTerm;
@@ -39,9 +39,7 @@ final class Actions {
 
 		if ( current_user_can( $taxonomy->getCapabilities()->edit_terms ) ) {
 
-			$form = new cnFormObjects();
-
-			check_admin_referer( $form->getNonce( 'add-term' ), '_cn_wpnonce' );
+			_validate::adminReferer( 'add-term' );
 
 			// `$_REQUEST` data is escaped in `cnTerm::insert()` utilizing `sanitize_term()`.
 			$result = cnTerm::insert(
@@ -97,9 +95,7 @@ final class Actions {
 
 		if ( current_user_can( $taxonomy->getCapabilities()->edit_terms ) ) {
 
-			$form = new cnFormObjects();
-
-			check_admin_referer( $form->getNonce( "update-term-{$term['term-id']}" ), '_cn_wpnonce' );
+			_validate::adminReferer( 'update-term', $term['term-id'] );
 
 			// Make sure the term isn't being set to itself as a parent.
 			if ( $term['term-id'] === $term['term-parent'] ) {
@@ -170,7 +166,7 @@ final class Actions {
 
 		if ( current_user_can( $taxonomy->getCapabilities()->delete_terms, $id ) ) {
 
-			check_admin_referer( "term_delete_{$id}" );
+			_validate::adminReferer( 'term_delete', $id );
 
 			$result = cnTerm::delete( $id, $taxonomy->getSlug() );
 

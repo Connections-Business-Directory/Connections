@@ -401,6 +401,7 @@ final class Connections_Directory {
 		add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
 		add_action( 'admin_init', array( Action::class, 'run' ) );
 		add_action( 'admin_init', array( Action\Admin\Footer::class, 'register' ) );
+		add_action( 'admin_init', array( Action\Admin\Plugin_Tab::class, 'register' ) );
 
 		/*
 		 * Register action and filter callbacks at priority 9,

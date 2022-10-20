@@ -577,6 +577,7 @@ class cnDependency {
 			'Connections_Directory\Hook\Action\Admin\Footer'          => 'includes/Hook/Action/Admin/Footer.php',
 			'Connections_Directory\Hook\Action\Admin\Role_Capability' => 'includes/Hook/Action/Admin/Role_Capability.php',
 			'Connections_Directory\Hook\Action\Admin\Plugin_Row'      => 'includes/Hook/Action/Admin/Plugin_Row.php',
+			'Connections_Directory\Hook\Action\Admin\Plugin_Tab'      => 'includes/Hook/Action/Admin/Plugin_Tab.php',
 			'Connections_Directory\Hook\Action\Admin\Template'        => 'includes/Hook/Action/Admin/Template.php',
 
 			// Integrations.

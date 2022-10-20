@@ -395,13 +395,17 @@ final class Connections_Directory {
 		// Register the Dashboard metaboxes.
 		add_action( 'cn_metabox', array( 'cnDashboardMetabox', 'init' ), 1 );
 
-		// Adds the admin actions and filters.
+		/*
+		 * Register the admin actions and filters.
+		 */
 		add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
 		add_action( 'admin_init', array( Action::class, 'run' ) );
 		add_action( 'admin_init', array( Action\Admin\Footer::class, 'register' ) );
 
 		/*
-		// Register action hook callbacks at priority 9, so they are registered before {@see Action::run()} in executed.
+		 * Register action and filter callbacks at priority 9,
+		 * so they are registered before {@see Action::run()} in executed.
+		 */
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
 

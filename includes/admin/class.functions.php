@@ -118,8 +118,6 @@ class cnAdminFunction {
 			 * Screen Options class by Janis Elsts which registers the screen options panels.
 			 */
 			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ), 9 );
-
-			add_filter( 'admin_footer_text', array( __CLASS__, 'rateUs' ) );
 		}
 
 	}
@@ -514,51 +512,4 @@ class cnAdminFunction {
 		// cnUser::setScreenOptions() saves the user meta, return FALSE to short circuit set_screen_options().
 		return false;
 	}
-
-	/**
-	 * Callback for the `admin_footer_text` filter.
-	 *
-	 * Add rating links to the admin dashboard.
-	 *
-	 * @internal
-	 * @since 8.2.9
-	 *
-	 * @param string $text The existing footer text.
-	 *
-	 * @return string
-	 */
-	public static function rateUs( $text ) {
-
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-
-			return $text;
-		}
-
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// var_dump( get_current_screen()->id );
-		// var_dump( $instance->pageHook );
-
-		if ( in_array( get_current_screen()->id, get_object_vars( $instance->pageHook ) ) ) {
-		// if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
-
-			$rate_text = sprintf(
-				/* translators: Plugin review URI's. */
-				__(
-					'Thank you for using <a href="%1$s" target="_blank">Connections Business Directory</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a>',
-					'connections'
-				),
-				'https://connections-pro.com',
-				'https://wordpress.org/support/plugin/connections/reviews/?filter=5#new-post'
-			);
-
-			return str_replace( '</span>', '', $text ) . ' | ' . wp_kses_post( $rate_text ) . '</span>';
-
-		} else {
-
-			return $text;
-		}
-	}
-
 }

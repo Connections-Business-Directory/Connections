@@ -613,31 +613,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Tweaks to `phpcs.xml`.
 * DEV: Add code sample to exclude the "View All" page from indexing.
 
-= 10.4.16 03/04/2022 =
-* NEW: Add the `address` and `position` parameters to `cnRetrieve::emailAddresses()`.
-* NEW: Add support for `email` to `cnRetrieve::getEntryBy()`.
-* TWEAK: Add span around the name honorable suffix separator, so it can be selected via CSS.
-* TWEAK: Extract 'if' statement with common parts.
-* SECURITY: Sanitize a couple values passed to the term tree walker.
-* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
-* OTHER: Correct grammar, misspellings, punctuation, and spacing `cnRetrieve`.
-* OTHER: Remove unnecessary newline.
-* DEV: phpDoc updates.
-* DEV: Remove use of deprecated method.
-* DEV: Remove deprecated legacy method, `cnRetrieve::parseTaxonomyQueryLegacy()`.
-* DEV: Remove deprecated legacy method, `cnRetrieve::orderBy()`.
-* DEV: Remove unused import.
-* DEV: Remove unused class variable.
-* DEV: Remove unused methods in `cnRetrieve`.
-* DEV: Remove use of deprecated methods in `cnRetrieve`.
-* DEV: Remove phpStorm @noinspection tag.
-* DEV: Add phpcs ignore statements to `cnRetrieve`.
-* DEV: Remove use of deprecated method in a couple of the term list walkers.
-
 == Upgrade Notice ==
-
-= 10.4.16 =
-It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.17 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

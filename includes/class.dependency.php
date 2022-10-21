@@ -238,6 +238,7 @@ class cnDependency {
 			'Connections_Directory\Request\Entry_Status'             => 'includes/Request/Entry_Status.php',
 			'Connections_Directory\Request\Email_System_Info'        => 'includes/Request/Email_System_Info.php',
 			'Connections_Directory\Request\ID'                       => 'includes/Request/ID.php',
+			'Connections_Directory\Request\Integer'                  => 'includes/Request/Integer.php',
 			'Connections_Directory\Request\Input'                    => 'includes/Request/Input.php',
 			'Connections_Directory\Request\Int_Array'                => 'includes/Request/Int_Array.php',
 			'Connections_Directory\Request\List_Table_Taxonomy'      => 'includes/Request/List_Table_Taxonomy.php',

@@ -145,9 +145,6 @@ class cnAdminActions {
 		// Register the action to delete a single log.
 		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
 		add_action( 'cn_delete_log', array( __CLASS__, 'deleteLog' ) );
-
-		// Register action to set category height.
-		add_action( 'wp_ajax_set_category_div_height', array( __CLASS__, 'setUserCategoryDivHeight' ) );
 	}
 
 	/**
@@ -458,36 +455,6 @@ class cnAdminActions {
 		$nonce  = _nonce::create( 'export_csv_addresses' );
 
 		self::csvBatchExport( $export, 'address', $step, $nonce );
-	}
-
-	/**
-	 * Callback for the `wp_ajax_set_category_div_height` action.
-	 *
-	 * Save the user's defined height of the category metabox.
-	 *
-	 * @internal
-	 * @since 8.6.5
-	 */
-	public static function setUserCategoryDivHeight() {
-
-		_validate::ajaxReferer( 'set_category_div_height' );
-
-		$height = Request\Integer::from( INPUT_POST, 'height' )->value();
-		$height = 200 > $height ? 200 : $height;
-
-		if ( Connections_Directory()->currentUser->setCategoryDivHeight( $height ) ) {
-
-			wp_send_json_success(
-				array(
-					'message' => "Set height to {$height}",
-					'_cnonce' => _nonce::create( 'set_category_div_height' ),
-				)
-			);
-
-		} else {
-
-			wp_send_json_error( array( 'message' => __( 'Failed to set user category height.', 'connections' ) ) );
-		}
 	}
 
 	/**

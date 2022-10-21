@@ -472,7 +472,8 @@ class cnAdminActions {
 
 		_validate::ajaxReferer( 'set_category_div_height' );
 
-		$height = isset( $_POST['height'] ) ? absint( $_POST['height'] ) : 200;
+		$height = Request\Integer::from( INPUT_POST, 'height' )->value();
+		$height = 200 > $height ? 200 : $height;
 
 		if ( Connections_Directory()->currentUser->setCategoryDivHeight( $height ) ) {
 

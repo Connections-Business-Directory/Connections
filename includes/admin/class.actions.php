@@ -478,7 +478,7 @@ class cnAdminActions {
 
 			wp_send_json_success(
 				array(
-					'message' => 'Success!',
+					'message' => "Set height to {$height}",
 					'_cnonce' => _nonce::create( 'set_category_div_height' ),
 				)
 			);

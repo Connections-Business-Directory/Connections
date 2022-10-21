@@ -6,21 +6,21 @@
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections\Hook\Action\Admin
+ * @subpackage Connections\Hook\Filter\Admin
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2022, Steven A. Zahm
  * @link       https://connections-pro.com/
  */
 
-namespace Connections_Directory\Hook\Action\Admin;
+namespace Connections_Directory\Hook\Filter\Admin;
 
 use WP_Plugin_Install_List_Table;
 
 /**
  * Class Plugin_Tab
  *
- * @package Connections_Directory\Hook\Action\Admin
+ * @package Connections_Directory\Hook\Filter\Admin
  */
 final class Plugin_Tab {
 

@@ -448,7 +448,7 @@ class cnRetrieve {
 			$field[0] = strtolower( trim( $field[0] ) );
 
 			// Check to make sure the supplied field is one of the valid fields to order by.
-			if ( in_array( $field[0], $orderFields ) || cnString::startsWith( 'meta_key:', $field[0] ) ) {
+			if ( in_array( $field[0], $orderFields ) || _string::startsWith( 'meta_key:', $field[0] ) ) {
 				// The date_modified actually maps to the `ts` column in the db.
 				if ( 'date_modified' === $field[0] ) {
 					$field[0] = 'ts';
@@ -462,7 +462,7 @@ class cnRetrieve {
 					}
 				}
 
-				if ( cnString::startsWith( 'meta_key:', $field[0] ) ) {
+				if ( _string::startsWith( 'meta_key:', $field[0] ) ) {
 
 					// Extract the meta key name from $field[0].
 					$meta = explode( ':', $field[0] );

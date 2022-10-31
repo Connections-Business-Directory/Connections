@@ -74,7 +74,6 @@ class cnShortcode_Connections extends cnShortcode {
 			'exclude_category'      => '',
 			'category_name'         => '',
 			'category_slug'         => '',
-			'wp_current_category'   => false,
 			'allow_public_override' => false,
 			'private_override'      => false,
 			'show_alphaindex'       => cnSettingsAPI::get( 'connections', 'display_results', 'index' ),

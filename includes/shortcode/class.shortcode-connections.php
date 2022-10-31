@@ -187,7 +187,7 @@ class cnShortcode_Connections extends cnShortcode {
 			// file which was not enqueued in the page header.
 			do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
 
-			// The return to top anchor
+			// The return to top anchor.
 			do_action( 'cn_list_return_to_target', $atts );
 
 		$html .= ob_get_clean();

@@ -117,7 +117,7 @@ class cnShortcode_Connections extends cnShortcode {
 		$atts = apply_filters( 'cn_list_atts-' . $template->getSlug(), $atts );
 
 		/*
-		 * Convert some of the $atts values in the array to boolean.
+		 * Convert some $atts values in the array to boolean.
 		 */
 		cnFormatting::toBoolean( $atts['allow_public_override'] );
 		cnFormatting::toBoolean( $atts['private_override'] );

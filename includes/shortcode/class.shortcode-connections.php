@@ -127,7 +127,6 @@ class cnShortcode_Connections extends cnShortcode {
 		cnFormatting::toBoolean( $atts['wp_current_category'] );
 		cnFormatting::toBoolean( $atts['lock'] );
 		cnFormatting::toBoolean( $atts['force_home'] );
-		// var_dump( $atts );
 
 		/*
 		 * The post editor entity encodes the post text we have to decode it

@@ -127,7 +127,6 @@ class cnShortcode_Connections extends cnShortcode {
 		_format::toBoolean( $atts['show_alphaindex'] );
 		_format::toBoolean( $atts['repeat_alphaindex'] );
 		_format::toBoolean( $atts['show_alphahead'] );
-		_format::toBoolean( $atts['wp_current_category'] );
 		_format::toBoolean( $atts['lock'] );
 		_format::toBoolean( $atts['force_home'] );
 

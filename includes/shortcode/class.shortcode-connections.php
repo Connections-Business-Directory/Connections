@@ -1,5 +1,6 @@
 <?php
 
+use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_format;
 
 // Exit if accessed directly.
@@ -152,7 +153,7 @@ class cnShortcode_Connections extends cnShortcode {
 			// that was json_decode can be ran and the resulting array used in cnRetrieve::entries().
 			$atts['meta_query'] = str_replace( array( '(', ')' ), array( '[', ']' ), $atts['meta_query'] );
 
-			$metaQuery = \Connections_Directory\Utility\_::maybeJSONdecode( $atts['meta_query'] );
+			$metaQuery = _::maybeJSONdecode( $atts['meta_query'] );
 
 			$atts['meta_query'] = is_array( $metaQuery ) ? $metaQuery : array();
 		}

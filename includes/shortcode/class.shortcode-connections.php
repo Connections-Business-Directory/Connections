@@ -1,5 +1,7 @@
 <?php
 
+use Connections_Directory\Utility\_format;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -119,14 +121,14 @@ class cnShortcode_Connections extends cnShortcode {
 		/*
 		 * Convert some $atts values in the array to boolean.
 		 */
-		cnFormatting::toBoolean( $atts['allow_public_override'] );
-		cnFormatting::toBoolean( $atts['private_override'] );
-		cnFormatting::toBoolean( $atts['show_alphaindex'] );
-		cnFormatting::toBoolean( $atts['repeat_alphaindex'] );
-		cnFormatting::toBoolean( $atts['show_alphahead'] );
-		cnFormatting::toBoolean( $atts['wp_current_category'] );
-		cnFormatting::toBoolean( $atts['lock'] );
-		cnFormatting::toBoolean( $atts['force_home'] );
+		_format::toBoolean( $atts['allow_public_override'] );
+		_format::toBoolean( $atts['private_override'] );
+		_format::toBoolean( $atts['show_alphaindex'] );
+		_format::toBoolean( $atts['repeat_alphaindex'] );
+		_format::toBoolean( $atts['show_alphahead'] );
+		_format::toBoolean( $atts['wp_current_category'] );
+		_format::toBoolean( $atts['lock'] );
+		_format::toBoolean( $atts['force_home'] );
 
 		/*
 		 * The post editor entity encodes the post text we have to decode it

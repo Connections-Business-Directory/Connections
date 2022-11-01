@@ -819,10 +819,24 @@ class cnEntry {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		// WP function -- formatting class
 		$slug = empty( $slug ) || ! is_string( $slug ) ? $this->getName( array( 'format' => '%first%-%last%' ), 'db' ) : $slug;
-
 		$slug = sanitize_title( apply_filters( 'cn_entry_slug', $slug ) );
+
+		/**
+		 * Filters the
+		 *
+		 * Passing a non-null value will short-circuit the generation, returning that value instead.
+		 *
+		 * @since 10.4.32
+		 *
+		 * @param string|null $slug
+		 * @param string      $slug
+		 */
+		$shortCircuit = apply_filters( 'Connections_Directory/Entry/Unique_Slug', null, $slug, $this );
+
+		if ( null !== $shortCircuit ) {
+			return $shortCircuit;
+		}
 
 		// If the entry was entered with no name, use the entry ID instead.
 		if ( empty( $slug ) ) {

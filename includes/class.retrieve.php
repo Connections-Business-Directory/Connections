@@ -96,11 +96,10 @@ class cnRetrieve {
 		$defaults['list_type'] = null;
 		$defaults['category']  = '';
 		// Map category attributes to new attribute names and set defaults.
-		$defaults['category__and']     = _array::get( $atts, 'category_in', array() );
-		$defaults['category__not_in']  = _array::get( $atts, 'exclude_category', array() );
-		$defaults['category_name__in'] = _array::get( $atts, 'category_name', array() );
-		$defaults['category_slug__in'] = _array::get( $atts, 'category_slug', array() );
-		// $defaults['wp_current_category']   = FALSE;
+		$defaults['category__and']         = _array::get( $atts, 'category_in', array() );
+		$defaults['category__not_in']      = _array::get( $atts, 'exclude_category', array() );
+		$defaults['category_name__in']     = _array::get( $atts, 'category_name', array() );
+		$defaults['category_slug__in']     = _array::get( $atts, 'category_slug', array() );
 		$defaults['char']                  = '';
 		$defaults['id']                    = null;
 		$defaults['id__not_in']            = null;
@@ -171,7 +170,6 @@ class cnRetrieve {
 			$atts['category']         = '';
 			$atts['category__and']    = '';
 			$atts['category__not_in'] = '';
-			// $atts['wp_current_category'] = NULL;
 		}
 
 		if ( ! empty( $atts['slug'] ) ) {
@@ -450,7 +448,7 @@ class cnRetrieve {
 			$field[0] = strtolower( trim( $field[0] ) );
 
 			// Check to make sure the supplied field is one of the valid fields to order by.
-			if ( in_array( $field[0], $orderFields ) || cnString::startsWith( 'meta_key:', $field[0] ) ) {
+			if ( in_array( $field[0], $orderFields ) || _string::startsWith( 'meta_key:', $field[0] ) ) {
 				// The date_modified actually maps to the `ts` column in the db.
 				if ( 'date_modified' === $field[0] ) {
 					$field[0] = 'ts';
@@ -464,7 +462,7 @@ class cnRetrieve {
 					}
 				}
 
-				if ( cnString::startsWith( 'meta_key:', $field[0] ) ) {
+				if ( _string::startsWith( 'meta_key:', $field[0] ) ) {
 
 					// Extract the meta key name from $field[0].
 					$meta = explode( ':', $field[0] );

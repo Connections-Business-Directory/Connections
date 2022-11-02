@@ -3,6 +3,7 @@
 use Connections_Directory\Blocks;
 use Connections_Directory\Content_Blocks;
 use Connections_Directory\Hook\Action;
+use Connections_Directory\Hook\Filter;
 use Connections_Directory\Integration;
 use Connections_Directory\Request;
 
@@ -19,7 +20,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.31';
+	const VERSION = '10.4.32';
 
 	/**
 	 * Stores the instance of this class.
@@ -400,17 +401,19 @@ final class Connections_Directory {
 		 */
 		add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
 		add_action( 'admin_init', array( Action::class, 'run' ) );
-		add_action( 'admin_init', array( Action\Admin\Footer::class, 'register' ) );
-		add_action( 'admin_init', array( Action\Admin\Plugin_Tab::class, 'register' ) );
+		add_action( 'admin_init', array( Filter\Admin\Footer::class, 'register' ) );
+		add_action( 'admin_init', array( Filter\Admin\Plugin_Tab::class, 'register' ) );
 
 		/*
 		 * Register action and filter callbacks at priority 9,
-		 * so they are registered before {@see Action::run()} in executed.
+		 * so they are registered before {@see Action::run()} is executed.
 		 */
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Ajax\Category_Metabox_Height::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Ajax\System_Information::class, 'register' ), 9 );
 
-		add_action( 'load-plugins.php', array( Action\Admin\Plugin_Row::class, 'register' ) );
+		add_action( 'load-plugins.php', array( Filter\Admin\Plugin_Row::class, 'register' ) );
 
 		/*
 		 * Add the filter to update the user settings when the "Apply" button is clicked.

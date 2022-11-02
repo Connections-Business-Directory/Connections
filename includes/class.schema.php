@@ -227,7 +227,7 @@ class cnSchema {
 			ordo int(11) NOT NULL default '0',
 			entry_type tinytext NOT NULL,
 			visibility tinytext NOT NULL,
-			slug tinytext NOT NULL,
+			slug varchar(255) NOT NULL default '',
 			family_name tinytext NOT NULL,
 			honorific_prefix tinytext NOT NULL,
 			first_name tinytext NOT NULL,
@@ -257,7 +257,8 @@ class cnSchema {
 			owner bigint(20) NOT NULL,
 			user bigint(20) NOT NULL,
 			status varchar(20) NOT NULL,
-			PRIMARY KEY  (id)
+			PRIMARY KEY  (id),
+			KEY slug (slug(191))
 			)";
 
 		$sql[] = 'ENGINE=' . self::getEngine();

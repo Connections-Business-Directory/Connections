@@ -1,5 +1,8 @@
 <?php
 
+use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_format;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -74,7 +77,6 @@ class cnShortcode_Connections extends cnShortcode {
 			'exclude_category'      => '',
 			'category_name'         => '',
 			'category_slug'         => '',
-			'wp_current_category'   => false,
 			'allow_public_override' => false,
 			'private_override'      => false,
 			'show_alphaindex'       => cnSettingsAPI::get( 'connections', 'display_results', 'index' ),
@@ -118,17 +120,15 @@ class cnShortcode_Connections extends cnShortcode {
 		$atts = apply_filters( 'cn_list_atts-' . $template->getSlug(), $atts );
 
 		/*
-		 * Convert some of the $atts values in the array to boolean.
+		 * Convert some $atts values in the array to boolean.
 		 */
-		cnFormatting::toBoolean( $atts['allow_public_override'] );
-		cnFormatting::toBoolean( $atts['private_override'] );
-		cnFormatting::toBoolean( $atts['show_alphaindex'] );
-		cnFormatting::toBoolean( $atts['repeat_alphaindex'] );
-		cnFormatting::toBoolean( $atts['show_alphahead'] );
-		cnFormatting::toBoolean( $atts['wp_current_category'] );
-		cnFormatting::toBoolean( $atts['lock'] );
-		cnFormatting::toBoolean( $atts['force_home'] );
-		// var_dump( $atts );
+		_format::toBoolean( $atts['allow_public_override'] );
+		_format::toBoolean( $atts['private_override'] );
+		_format::toBoolean( $atts['show_alphaindex'] );
+		_format::toBoolean( $atts['repeat_alphaindex'] );
+		_format::toBoolean( $atts['show_alphahead'] );
+		_format::toBoolean( $atts['lock'] );
+		_format::toBoolean( $atts['force_home'] );
 
 		/*
 		 * The post editor entity encodes the post text we have to decode it
@@ -152,7 +152,7 @@ class cnShortcode_Connections extends cnShortcode {
 			// that was json_decode can be ran and the resulting array used in cnRetrieve::entries().
 			$atts['meta_query'] = str_replace( array( '(', ')' ), array( '[', ']' ), $atts['meta_query'] );
 
-			$metaQuery = \Connections_Directory\Utility\_::maybeJSONdecode( $atts['meta_query'] );
+			$metaQuery = _::maybeJSONdecode( $atts['meta_query'] );
 
 			$atts['meta_query'] = is_array( $metaQuery ) ? $metaQuery : array();
 		}
@@ -186,7 +186,7 @@ class cnShortcode_Connections extends cnShortcode {
 			// file which was not enqueued in the page header.
 			do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
 
-			// The return to top anchor
+			// The return to top anchor.
 			do_action( 'cn_list_return_to_target', $atts );
 
 		$html .= ob_get_clean();

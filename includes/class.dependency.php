@@ -238,6 +238,7 @@ class cnDependency {
 			'Connections_Directory\Request\Entry_Status'             => 'includes/Request/Entry_Status.php',
 			'Connections_Directory\Request\Email_System_Info'        => 'includes/Request/Email_System_Info.php',
 			'Connections_Directory\Request\ID'                       => 'includes/Request/ID.php',
+			'Connections_Directory\Request\Integer'                  => 'includes/Request/Integer.php',
 			'Connections_Directory\Request\Input'                    => 'includes/Request/Input.php',
 			'Connections_Directory\Request\Int_Array'                => 'includes/Request/Int_Array.php',
 			'Connections_Directory\Request\List_Table_Taxonomy'      => 'includes/Request/List_Table_Taxonomy.php',
@@ -573,12 +574,14 @@ class cnDependency {
 			'Connections_Directory\Sitemaps\Provider' => 'includes/Sitemaps/Provider.php',
 
 			// Hooks.
-			'Connections_Directory\Hook\Action'                       => 'includes/Hook/Action.php',
-			'Connections_Directory\Hook\Action\Admin\Footer'          => 'includes/Hook/Action/Admin/Footer.php',
-			'Connections_Directory\Hook\Action\Admin\Role_Capability' => 'includes/Hook/Action/Admin/Role_Capability.php',
-			'Connections_Directory\Hook\Action\Admin\Plugin_Row'      => 'includes/Hook/Action/Admin/Plugin_Row.php',
-			'Connections_Directory\Hook\Action\Admin\Plugin_Tab'      => 'includes/Hook/Action/Admin/Plugin_Tab.php',
-			'Connections_Directory\Hook\Action\Admin\Template'        => 'includes/Hook/Action/Admin/Template.php',
+			'Connections_Directory\Hook\Action'                              => 'includes/Hook/Action.php',
+			'Connections_Directory\Hook\Action\Admin\Role_Capability'        => 'includes/Hook/Action/Admin/Role_Capability.php',
+			'Connections_Directory\Hook\Action\Admin\Template'               => 'includes/Hook/Action/Admin/Template.php',
+			'Connections_Directory\Hook\Action\Ajax\Category_Metabox_Height' => 'includes/Hook/Action/Ajax/Category_Metabox_Height.php',
+			'Connections_Directory\Hook\Action\Ajax\System_Information'      => 'includes/Hook/Action/Ajax/System_Information.php',
+			'Connections_Directory\Hook\Filter\Admin\Footer'                 => 'includes/Hook/Filter/Admin/Footer.php',
+			'Connections_Directory\Hook\Filter\Admin\Plugin_Row'             => 'includes/Hook/Filter/Admin/Plugin_Row.php',
+			'Connections_Directory\Hook\Filter\Admin\Plugin_Tab'             => 'includes/Hook/Filter/Admin/Plugin_Tab.php',
 
 			// Integrations.
 			'cnGoogleMapsTimeZone'                                     => 'includes/Integration/Google/class.google-maps-timezone-api.php',

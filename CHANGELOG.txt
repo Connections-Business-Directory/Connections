@@ -1,5 +1,26 @@
 == Changelog ==
 
+= 10.4.32 11/02/2022 =
+* NEW: Introduce `\Request\Integer`.
+* NEW: Introduce `\Hook\Action\Ajax\Category_Metabox_Height`.
+* NEW: Introduce the `Connections_Directory/Entry/Unique_Slug` filter.
+* NEW: Introduce `\Input::hasFailedSchemaSanitization()` and `\Input::hasFailedSchemaValidation()`.
+* NEW: Introduce `\Hook\Action\Ajax\System_Information`.
+* TWEAK: Update success message when the category metabox height is successfully changed to include the height.
+* TWEAK: Refactor `\Request\ID` to extend `\Request\Integer`.
+* TWEAK: Refactor `cnAdminActions::setUserCategoryDivHeight()` to utilize `\Request\ID`.
+* TWEAK: Refactor category metabox height to utilize `\Hook\Action\Ajax\Category_Metabox_Height`.
+* TWEAK: Remove deprecated and commented out `wp_current_category` shortcode option.
+* TWEAK: Remove use of deprecated `cnFormatting` class.
+* TWEAK: Remove use of deprecated `cnString` class.
+* TWEAK: Refactor the system info actions to utilize `\Hook\Action\Ajax\System_Information`.
+* TWEAK: Minor db schema change to improve unique slug lookup.
+* OTHER: Correct misspellings.
+* DEV: Correct namespace of filter hook callbacks.
+* DEV: Remove commented out code.
+* DEV: Qualifier can be replaced with an import.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+
 = 10.4.31 10/20/2022 =
 * NEW: Introduce `\Request\Entry_Status` for user input request sanitization/validation.
 * NEW: Introduce `_nonce::create()`.

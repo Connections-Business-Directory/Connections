@@ -20,57 +20,15 @@ namespace Connections_Directory\Request;
  *
  * @package Connections_Directory\Request
  */
-class ID extends Input {
+class ID extends Integer {
 
 	/**
-	 * The request variable key.
+	 * ID constructor.
 	 *
-	 * @since 10.4.8
-	 *
-	 * @var string
+	 * @since 10.4.32
 	 */
-	protected $key = 'id';
+	public function __construct() {
 
-
-	/**
-	 * The input schema.
-	 *
-	 * @since 10.4.8
-	 *
-	 * @var array
-	 */
-	protected $schema = array(
-		'default' => 0,
-		'type'    => 'integer',
-	);
-
-	/**
-	 * Sanitize the ID.
-	 *
-	 * @since 10.4.8
-	 *
-	 * @param string $unsafe The value to sanitize.
-	 *
-	 * @return int
-	 */
-	protected function sanitize( $unsafe ) {
-
-		return absint( $unsafe );
-	}
-
-	/**
-	 * Validate the ID.
-	 *
-	 * This is sufficiently validated against the schema, return `true`.
-	 *
-	 * @since 10.4.8
-	 *
-	 * @param string $unsafe The raw request value to validate.
-	 *
-	 * @return true
-	 */
-	protected function validate( $unsafe ) {
-
-		return true;
+		parent::__construct( 'id' );
 	}
 }

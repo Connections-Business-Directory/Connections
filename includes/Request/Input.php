@@ -76,6 +76,23 @@ abstract class Input {
 	protected $schema = array();
 
 	/**
+	 * Flag that can be used to determine if input values failed the schema sanitization.
+	 *
+	 * @since 10.4.32
+	 *
+	 * @var bool
+	 */
+	protected $failedSchemaSanitization = false;
+
+	/**
+	 * Flag that can be used to determine if input values failed the schema validation.
+	 *
+	 * @since 10.4.32
+	 * @var bool
+	 */
+	protected $failedSchemaValidation = false;
+
+	/**
 	 * The validated and sanitized request variable.
 	 *
 	 * @since 10.4.8
@@ -248,6 +265,8 @@ abstract class Input {
 
 			if ( $isValid instanceof WP_Error ) {
 
+				$this->failedSchemaValidation = true;
+
 				// Failed validation, set the default value from supplied default or from schema.
 				$this->value = $default;
 
@@ -256,6 +275,8 @@ abstract class Input {
 				$sanitized = $this->_sanitize( $unsafe );
 
 				if ( $sanitized instanceof WP_Error ) {
+					
+					$this->failedSchemaSanitization = true;
 
 					// Failed sanitization, set the default value from supplied default or from schema.
 					$this->value = $default;
@@ -268,6 +289,30 @@ abstract class Input {
 			}
 
 		}
+	}
+
+	/**
+	 * Flag that can be used to determine if input values failed the schema sanitization.
+	 *
+	 * @since 10.4.32
+	 *
+	 * @return bool
+	 */
+	public function hasFailedSchemaSanitization() {
+
+		return $this->failedSchemaSanitization;
+	}
+
+	/**
+	 * Flag that can be used to determine if input values failed the schema validation.
+	 *
+	 * @since 10.4.32
+	 *
+	 * @return bool
+	 */
+	public function hasFailedSchemaValidation() {
+
+		return $this->failedSchemaValidation;
 	}
 
 	/**

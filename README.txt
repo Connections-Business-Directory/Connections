@@ -248,6 +248,27 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.32 11/02/2022 =
+* NEW: Introduce `\Request\Integer`.
+* NEW: Introduce `\Hook\Action\Ajax\Category_Metabox_Height`.
+* NEW: Introduce the `Connections_Directory/Entry/Unique_Slug` filter.
+* NEW: Introduce `\Input::hasFailedSchemaSanitization()` and `\Input::hasFailedSchemaValidation()`.
+* NEW: Introduce `\Hook\Action\Ajax\System_Information`.
+* TWEAK: Update success message when the category metabox height is successfully changed to include the height.
+* TWEAK: Refactor `\Request\ID` to extend `\Request\Integer`.
+* TWEAK: Refactor `cnAdminActions::setUserCategoryDivHeight()` to utilize `\Request\ID`.
+* TWEAK: Refactor category metabox height to utilize `\Hook\Action\Ajax\Category_Metabox_Height`.
+* TWEAK: Remove deprecated and commented out `wp_current_category` shortcode option.
+* TWEAK: Remove use of deprecated `cnFormatting` class.
+* TWEAK: Remove use of deprecated `cnString` class.
+* TWEAK: Refactor the system info actions to utilize `\Hook\Action\Ajax\System_Information`.
+* TWEAK: Minor db schema change to improve unique slug lookup.
+* OTHER: Correct misspellings.
+* DEV: Correct namespace of filter hook callbacks.
+* DEV: Remove commented out code.
+* DEV: Qualifier can be replaced with an import.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+
 = 10.4.31 10/20/2022 =
 * NEW: Introduce `\Request\Entry_Status` for user input request sanitization/validation.
 * NEW: Introduce `_nonce::create()`.
@@ -576,47 +597,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update `.eslintrc` configuration.
 * DEV: Use webpack to package the assets for the jQuery Validation library.
 
-= 10.4.17 03/18/2022 =
-* NEW: Introduce `\Request\Int_Array`.
-* NEW: Introduce `\Request\Manage_Bulk_Actions`.
-* NEW: Introduce `\Request\Manage_Filter`.
-* TWEAK: Update Google Maps API URI.
-* TWEAK: Update bulk entry management actions to utilize `\Request\Int_Array` for improved validation and sanitization while removing code duplication and complexity.
-* TWEAK: Refactor `cnAdminActions::deleteEntry()` to utilize `\Request\ID` for improved data validation, sanitation, and removing code duplication. Note this contains a breaking change to the method signature.
-* TWEAK: Refactor `cnAdminActions::entryManagement()` to utilize `\Request\Manage_Bulk_Action` for improved data validation and sanitization.
-* TWEAK: Refactor the Manage admin page to utilize `cnUser::getScreenOption()` instead of deprecated `cnUser` methods.
-* TWEAK: Refactor `cnAdminActions::saveUserFilters()` to utilize `\Request\Manage_Filter` and remove use of deprecated `cnUser` methods for improved validation, sanitization, and reduce code duplication.
-* TWEAK: Remove unnecessary escaping.
-* TWEAK: Match bulk actions class to WP core.
-* TWEAK: Remove `final` from `\Request\Input::getSchema()` so it can be overridden.
-* TWEAK: Deprecate many of the methods in `cnUser` in favor of a single utility method to reduce code duplication.
-* TWEAK: Set default value for the Manage admin page bulk actions to `-1` to match WordPress core.
-* TWEAK: Use `submit_button()` to output the Manage admin page bulk actions apply button to match WordPress core.
-* TWEAK: Use `submit_button()` to output the Manage admin page filter button to match WordPress core.
-* TWEAK: Change manage admin page form method from post to get to match WordPress core.
-* TWEAK: Change the keyword search and initial character filters to the form get method.
-* TWEAK: Utilize `\Field\Select` to build the dropdown for the Manage admin page bulk actions.
-* I18N: Correct the screen option strings not ready for translation.
-* BUG: Correct bug in logic that determines whether the phone number HTML is shown or not.
-* OTHER: Correct misspellings.
-* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
-* OTHER: Remove unnecessary break statements.
-* OTHER: Space found before semicolon.
-* OTHER: Newline required after opening brace.
-* DEV: phpDoc updates.
-* DEV: Remove use of deprecated method.
-* DEV: Add Leaflet vendor libraries as dependencies.
-* DEV: Update `webpack.config.js` to copy Leaflet libraries to the assets' vendor folder.
-* DEV: Update the Leaflet vendor libraries.
-* DEV: Remove commented out code.
-* DEV: Deprecate `cnUser::resetFilterPage()`.
-* DEV: Tweaks to `phpcs.xml`.
-* DEV: Add code sample to exclude the "View All" page from indexing.
-
 == Upgrade Notice ==
-
-= 10.4.17 =
-It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.18 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -658,4 +639,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.31 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.32 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

@@ -10,7 +10,7 @@ if ( ! defined( 'CN_LOG' ) ) {
 define( 'CN_CURRENT_VERSION', ConnectionsLoad::VERSION );
 
 /** @var string CN_DB_VERSION The current DB version. */
-define( 'CN_DB_VERSION', '0.6' );
+define( 'CN_DB_VERSION', '0.7' );
 
 /** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
 define( 'CN_UPDATE_URL', 'https://connections-pro.com/edd-sl-api' );

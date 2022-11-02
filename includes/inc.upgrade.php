@@ -1078,6 +1078,30 @@ function cnRunDBUpgrade() {
 			echo '</ul>' . PHP_EOL;
 		}
 
+		if ( version_compare( $dbVersion, '0.7', '<' ) ) {
+
+			/* translators: Previous version number. */
+			echo '<h4>', sprintf(
+				esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ),
+				esc_html( $connections->options->getDBVersion() ),
+				esc_html( CN_DB_VERSION )
+			), '</h4>' . PHP_EOL;
+
+			echo '<ul>' . PHP_EOL;
+
+			echo '<li>', esc_html__( 'Add primary table slug index.', 'connections' ), '</li>' . PHP_EOL;
+
+			echo '</ul>' . PHP_EOL;
+
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' MODIFY slug VARCHAR(255)' );
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD INDEX slug(slug(191))' );
+
+			$connections->options->setDBVersion( '0.7' );
+
+			// Save the options.
+			$connections->options->saveOptions();
+		}
+
 		echo '<h4>' , esc_html__( 'Upgrade completed.', 'connections' ) , "</h4>\n";
 		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , esc_html__( 'Continue', 'connections' ) , '</a></h4>';
 

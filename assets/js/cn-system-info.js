@@ -58,12 +58,12 @@
 					$( '#cn-import-settings-submit' ).attr( 'disabled', 'disabled' );
 				},
 				success:      function( response, status, jqXHR ) {
-					CN_System_Tools.ajaxSuccess( '#cn-import-settings-response', response, status, jqXHR );
+					CN_System_Tools.ajaxSuccess( '#cn-import-settings-response', response.data.message, status, jqXHR );
 					$( '#cn-import-settings input[name="import_file"]' ).val( '' );
 					$( '#cn-import-settings-submit' ).removeAttr( 'disabled' );
 				},
 				error:        function( XMLHttpRequest, status, error ) {
-					CN_System_Tools.ajaxError( '#cn-import-settings-response', XMLHttpRequest, status, error );
+					CN_System_Tools.ajaxError( '#cn-import-settings-response', XMLHttpRequest.responseJSON.data.message, status, error );
 					$( '#cn-import-settings-submit' ).removeAttr( 'disabled' );
 					$( '#cn-import-settings input[name="import_file"]' ).val( '' );
 				}
@@ -140,15 +140,19 @@
 							data:     CN_System_Tools.data( id ),
 							cache:    false,
 							success:  function( response, status, jqXHR ) {
-								CN_System_Tools.ajaxSuccess( '#cn-email-response', response, status, jqXHR );
+								CN_System_Tools.ajaxSuccess( '#cn-email-response', response.data.message, status, jqXHR );
 							},
 							error:    function( XMLHttpRequest, status, error ) {
-								CN_System_Tools.ajaxError( '#cn-email-response', XMLHttpRequest, status, error );
+								CN_System_Tools.ajaxError( '#cn-email-response', XMLHttpRequest.responseJSON.data.message, status, error );
 							}
 						} )
 					).then( function() {
 
-							CN_System_Tools.clearForm( id );
+						CN_System_Tools.clearForm( id );
+
+					}).fail( function() {
+
+						CN_System_Tools.clearForm( id );
 					});
 				});
 
@@ -171,7 +175,7 @@
 				},
 				error:   function( response ) {
 
-					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
+					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response.message );
 				},
 				data: {
 					_cnonce: $( object ).data('nonce')
@@ -191,12 +195,12 @@
 						.attr( 'href', '#' )
 						.css( 'display', 'none' );
 
-					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
+					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response.message );
 
 				},
 				error:   function( response ) {
 
-					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
+					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response.message );
 				},
 				data: {
 					_cnonce: $( object ).data('nonce')
@@ -205,9 +209,9 @@
 
 		},
 
-		ajaxSuccess: function( id, response, status, jqXHR ) {
+		ajaxSuccess: function( id, message, status, jqXHR ) {
 
-			switch ( response ) {
+			switch ( message ) {
 
 				case -3:
 
@@ -236,16 +240,17 @@
 
 				default:
 
-					CN_System_Tools.showMessage( id, response );
+					CN_System_Tools.showMessage( id, message );
 					break;
 
 			}
 
 		},
 
-		ajaxError: function( id, XMLHttpRequest, status, error ) {
+		ajaxError: function( id, message, status, error ) {
 
-			CN_System_Tools.showMessage( id, cn_system_info.strAJAXSubmitErrMsg );
+			CN_System_Tools.showMessage( id, message );
+			// CN_System_Tools.showMessage( id, cn_system_info.strAJAXSubmitErrMsg );
 		},
 
 		clearForm: function( id ) {

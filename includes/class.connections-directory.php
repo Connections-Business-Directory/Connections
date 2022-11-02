@@ -411,6 +411,7 @@ final class Connections_Directory {
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\Category_Metabox_Height::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Ajax\System_Information::class, 'register' ), 9 );
 
 		add_action( 'load-plugins.php', array( Filter\Admin\Plugin_Row::class, 'register' ) );
 

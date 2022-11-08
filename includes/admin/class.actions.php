@@ -120,10 +120,6 @@ class cnAdminActions {
 		// Term Meta Actions.
 		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
 
-		// Actions for export/import settings.
-		add_action( 'wp_ajax_export_settings', array( __CLASS__, 'downloadSettings' ) );
-		add_action( 'wp_ajax_import_settings', array( __CLASS__, 'importSettings' ) );
-
 		// Actions for export/import.
 		add_action( 'wp_ajax_export_csv_addresses', array( __CLASS__, 'csvExportAddresses' ) );
 		add_action( 'wp_ajax_export_csv_phone_numbers', array( __CLASS__, 'csvExportPhoneNumbers' ) );
@@ -139,70 +135,6 @@ class cnAdminActions {
 		// Register the action to delete a single log.
 		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
 		add_action( 'cn_delete_log', array( __CLASS__, 'deleteLog' ) );
-	}
-
-	/**
-	 * Callback for the `wp_ajax_export_settings` action.
-	 *
-	 * AJAX callback to download the settings in a JSON encoded text file.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function downloadSettings() {
-
-		_validate::ajaxReferer( 'export_settings' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-
-			wp_send_json( __( 'You do not have sufficient permissions to export the settings.', 'connections' ) );
-		}
-
-		cnSettingsAPI::download();
-	}
-
-	/**
-	 * Callback for the `wp_ajax_import_settings` action.
-	 *
-	 * AJAX callback to import settings from a JSON encoded text file.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function importSettings() {
-
-		_validate::ajaxReferer( 'import_settings' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-
-			wp_send_json( __( 'You do not have sufficient permissions to import the settings.', 'connections' ) );
-		}
-
-		$file = sanitize_text_field( wp_unslash( $_FILES['import_file']['name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-		if ( 'json' !== pathinfo( $file, PATHINFO_EXTENSION ) ) {
-
-			wp_send_json( __( 'Please upload a .json file.', 'connections' ) );
-		}
-
-		$file = sanitize_text_field( wp_unslash( $_FILES['import_file']['tmp_name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-		if ( empty( $file ) ) {
-
-			wp_send_json( __( 'Please select a file to import.', 'connections' ) );
-		}
-
-		$json   = file_get_contents( $file ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
-		$result = cnSettingsAPI::import( $json );
-
-		if ( true === $result ) {
-
-			wp_send_json( __( 'Settings have been imported.', 'connections' ) );
-
-		} else {
-
-			wp_send_json( $result );
-		}
 	}
 
 	/**

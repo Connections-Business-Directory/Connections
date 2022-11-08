@@ -143,7 +143,7 @@ final class System_Information {
 
 		if ( $action->isValid( 'generate_remote_system_info_url' ) ) {
 
-			/** @todo need to check the $token is not WP_Error. */
+			/* @todo need to check the $token is not WP_Error. */
 			$token   = sanitize_key( _string::random( 32 ) );
 			$expires = apply_filters( 'cn_system_info_remote_token_expire', DAY_IN_SECONDS * 3 );
 

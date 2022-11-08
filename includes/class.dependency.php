@@ -80,6 +80,9 @@ class cnDependency {
 		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
 		require_once CN_PATH . 'includes/inc.deprecated-filters.php';
 
+		// Polyfills.
+		require_once CN_PATH . 'includes/Polyfill/json_validate.php';
+
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 		require_once CN_PATH . 'includes/inc.theme-compatibility.php';

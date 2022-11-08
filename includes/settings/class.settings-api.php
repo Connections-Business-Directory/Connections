@@ -2105,11 +2105,9 @@ class cnSettingsAPI {
 	/**
 	 * Import settings from a JSON encoded string.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 *
-	 * @param string $json
+	 * @param string $json The JSON settings to import.
 	 *
 	 * @return bool|string
 	 */

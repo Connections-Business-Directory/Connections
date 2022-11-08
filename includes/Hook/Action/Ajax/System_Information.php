@@ -28,6 +28,8 @@ use PHPMailer\PHPMailer\PHPMailer;
  */
 final class System_Information {
 
+	use Response;
+
 	/**
 	 * Callback for the `admin_init` action.
 	 *
@@ -61,7 +63,7 @@ final class System_Information {
 
 		} else {
 
-			$action->respondError( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), 403 );
+			$action->error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), null, 403 );
 		}
 	}
 
@@ -84,7 +86,7 @@ final class System_Information {
 		 */
 		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && 'xmlhttprequest' !== strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-			$action->respondError( -1, 403 );
+			$action->error( -1, null, 403 );
 		}
 
 		if ( $action->isValid( 'email_system_info' ) ) {
@@ -95,7 +97,7 @@ final class System_Information {
 
 			if ( $request->hasFailedSchemaValidation() || $request->hasFailedSchemaSanitization() ) {
 
-				$action->respondError( __( 'Required input values not provided.', 'connections' ), 403 );
+				$action->error( __( 'Required input values not provided.', 'connections' ), null, 403 );
 			}
 
 			$atts = array(
@@ -111,7 +113,7 @@ final class System_Information {
 			if ( $response ) {
 
 				// Success, send success code.
-				$action->respondSuccess( 1, 200 );
+				$action->success( 1 );
 
 			} else {
 
@@ -119,13 +121,13 @@ final class System_Information {
 				global $phpmailer;
 
 				// phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
-				$action->respondError( $phpmailer->ErrorInfo, 403 );
+				$action->error( $phpmailer->ErrorInfo, null, 403 );
 				// phpcs:enable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 			}
 
 		} else {
 
-			$action->respondError( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), 403 );
+			$action->error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), null, 403 );
 		}
 	}
 
@@ -156,16 +158,11 @@ final class System_Information {
 
 			$url = home_url() . '/?cn-system-info=' . $token;
 
-			wp_send_json_success(
-				array(
-					'url'     => $url,
-					'message' => __( 'Secret URL has been created.', 'connections' ),
-				)
-			);
+			$action->success( __( 'Secret URL has been created.', 'connections' ), array( 'url' => $url ) );
 
 		} else {
 
-			$action->respondError( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), 403 );
+			$action->error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), null, 403 );
 		}
 	}
 
@@ -185,11 +182,11 @@ final class System_Information {
 
 			cnCache::clear( 'system_info_remote_token', 'option-cache' );
 
-			$action->respondSuccess( __( 'Secret URL has been revoked.', 'connections' ), 200 );
+			$action->success( __( 'Secret URL has been revoked.', 'connections' ) );
 
 		} else {
 
-			$action->respondError( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), 403 );
+			$action->error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ), null, 403 );
 		}
 	}
 
@@ -206,41 +203,5 @@ final class System_Information {
 
 		return current_user_can( 'manage_options' ) &&
 			   Request\Nonce::from( INPUT_POST, $action )->isValid();
-	}
-
-	/**
-	 * AJAX error response.
-	 *
-	 * @since 10.4.32
-	 *
-	 * @param string   $message     The response message.
-	 * @param int|null $status_code The HTTP status code to output. Default null.
-	 */
-	private function respondError( $message, $status_code = null ) {
-
-		wp_send_json_error(
-			array(
-				'message' => $message,
-			),
-			$status_code
-		);
-	}
-
-	/**
-	 * AJAX success response.
-	 *
-	 * @since 10.4.32
-	 *
-	 * @param string   $message     The response message.
-	 * @param int|null $status_code The HTTP status code to output. Default null.
-	 */
-	private function respondSuccess( $message, $status_code = null ) {
-
-		wp_send_json_success(
-			array(
-				'message' => $message,
-			),
-			$status_code
-		);
 	}
 }

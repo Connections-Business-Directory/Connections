@@ -25,6 +25,8 @@ use Connections_Directory\Utility\_nonce;
  */
 final class Category_Metabox_Height {
 
+	use Response;
+
 	/**
 	 * Callback for the `admin_init` action.
 	 *
@@ -56,16 +58,16 @@ final class Category_Metabox_Height {
 
 			if ( Connections_Directory()->currentUser->setCategoryDivHeight( $height ) ) {
 
-				$action->respondSuccess( "Set height to {$height}", 200 );
+				$action->success( "Set height to {$height}" );
 
 			} else {
 
-				$action->respondError( __( 'Failed to set user category height.', 'connections' ), 500 );
+				$action->error( __( 'Failed to set user category height.', 'connections' ), null, 500 );
 			}
 
 		} else {
 
-			$action->respondError( __( 'Invalid nonce.', 'connections' ), 403 );
+			$action->error( __( 'Invalid nonce.', 'connections' ), null, 403 );
 		}
 	}
 
@@ -79,42 +81,5 @@ final class Category_Metabox_Height {
 	private function isValid() {
 
 		return Request\Nonce::from( INPUT_POST, 'set_category_div_height' )->isValid();
-	}
-
-	/**
-	 * AJAX error response.
-	 *
-	 * @since 10.4.32
-	 *
-	 * @param string   $message     The response message.
-	 * @param int|null $status_code The HTTP status code to output. Default null.
-	 */
-	private function respondError( $message, $status_code = null ) {
-
-		wp_send_json_error(
-			array(
-				'message' => $message,
-			),
-			$status_code
-		);
-	}
-
-	/**
-	 * AJAX success response.
-	 *
-	 * @since 10.4.32
-	 *
-	 * @param string   $message     The response message.
-	 * @param int|null $status_code The HTTP status code to output. Default null.
-	 */
-	private function respondSuccess( $message, $status_code = null ) {
-
-		wp_send_json_success(
-			array(
-				'message' => $message,
-				'_cnonce' => _nonce::create( 'set_category_div_height' ),
-			),
-			$status_code
-		);
 	}
 }

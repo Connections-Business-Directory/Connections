@@ -4,6 +4,9 @@
  * Class cnDependency
  *
  * @since  8.5.24
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnDependency {
 

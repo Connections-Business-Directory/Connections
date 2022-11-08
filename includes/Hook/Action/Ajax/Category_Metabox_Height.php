@@ -16,7 +16,6 @@
 namespace Connections_Directory\Hook\Action\Ajax;
 
 use Connections_Directory\Request;
-use Connections_Directory\Utility\_nonce;
 
 /**
  * Class Category_Metabox_Height

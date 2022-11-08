@@ -2110,7 +2110,7 @@ class cnSettingsAPI {
 	 *
 	 * @param string $json The JSON settings to import.
 	 *
-	 * @return bool|string
+	 * @return true|string
 	 */
 	public static function import( $json ) {
 

@@ -94,6 +94,89 @@ final class _validate {
 	}
 
 	/**
+	 * Is file a JSON file.
+	 *
+	 * @since 10.4.35
+	 *
+	 * @param string $path     The full path file to check.
+	 * @param string $filename The name of the file (may differ from $path due to $path being in a tmp directory).
+	 *
+	 * @return bool
+	 * @noinspection PhpComposerExtensionStubsInspection
+	 */
+	public static function isFileJSON( $path, $filename ) {
+
+		/**
+		 * @link https://core.trac.wordpress.org/ticket/45633
+		 * @link https://gist.github.com/christianwach/edebf9cb3cf1b412fb835dff73f09357
+		 *
+		 * @param array       $info      The existing file data array.
+		 * @param string      $file      Full path to the file.
+		 * @param string      $filename  The name of the file.
+		 * @param array       $mimes     Key is the file extension with value as the mime type.
+		 * @param string|bool $real_mime The actual mime type or false if the type cannot be determined.
+		 *
+		 * @return array $info The modified file data array.
+		 */
+		$callback = function( $info, $file, $filename, $mimes, $real_mime ) {
+
+			// Get filetype data.
+			$wp_filetype     = wp_check_filetype( $filename, $mimes );
+			$ext             = $wp_filetype['ext'];
+			$type            = $wp_filetype['type'];
+			$proper_filename = $wp_filetype['proper_filename'];
+
+			// Use finfo_file if available to validate non-image files.
+			if ( empty( $real_mime ) && function_exists( 'finfo_file' ) ) {
+				$finfo     = finfo_open( FILEINFO_MIME_TYPE );
+				$real_mime = finfo_file( $finfo, $file );
+				finfo_close( $finfo );
+			}
+
+			// If the extension matches an alternate mime type, let's use it.
+			if ( ! in_array( $real_mime, array( 'application/json', 'text/plain', 'text/html' ) ) ) {
+				$ext  = false;
+				$type = false;
+			}
+
+			return compact( 'ext', 'type', 'proper_filename' );
+		};
+
+		// Add filter for the `$callback`.
+		add_filter( 'wp_check_filetype_and_ext', $callback, 10, 5 );
+
+		$filetype = wp_check_filetype_and_ext( $path, $filename, array( 'json' => 'application/json' ) );
+		$ext      = empty( $filetype['ext'] ) ? '' : $filetype['ext'];
+		$type     = empty( $filetype['type'] ) ? '' : $filetype['type'];
+
+		// Remove filter.
+		remove_filter( 'wp_check_filetype_and_ext', $callback );
+
+		if ( ! $type || ! $ext ) {
+
+			return false;
+		}
+
+		$json = file_get_contents( $path );
+
+		return self::isJSON( $json );
+	}
+
+	/**
+	 * Whether the supplied string is valid JSON.
+	 *
+	 * @since 10.4.35
+	 *
+	 * @param string $value The string to validate.
+	 *
+	 * @return bool
+	 */
+	public static function isJSON( $value ) {
+
+		return json_validate( $value );
+	}
+
+	/**
 	 * Whether the supplied value is a float.
 	 *
 	 * @since 10.4.6

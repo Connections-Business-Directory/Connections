@@ -584,6 +584,8 @@ class cnDependency {
 			'Connections_Directory\Hook\Action\Admin\Role_Capability'        => 'includes/Hook/Action/Admin/Role_Capability.php',
 			'Connections_Directory\Hook\Action\Admin\Template'               => 'includes/Hook/Action/Admin/Template.php',
 			'Connections_Directory\Hook\Action\Ajax\Category_Metabox_Height' => 'includes/Hook/Action/Ajax/Category_Metabox_Height.php',
+			'Connections_Directory\Hook\Action\Ajax\Response'                => 'includes/Hook/Action/Ajax/Response.php',
+			'Connections_Directory\Hook\Action\Ajax\Settings_Export_Import'  => 'includes/Hook/Action/Ajax/Settings_Export_Import.php',
 			'Connections_Directory\Hook\Action\Ajax\System_Information'      => 'includes/Hook/Action/Ajax/System_Information.php',
 			'Connections_Directory\Hook\Filter\Admin\Footer'                 => 'includes/Hook/Filter/Admin/Footer.php',
 			'Connections_Directory\Hook\Filter\Admin\Plugin_Row'             => 'includes/Hook/Filter/Admin/Plugin_Row.php',

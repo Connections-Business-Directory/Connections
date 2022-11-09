@@ -539,7 +539,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 				array(
 					'page'      => 'connections_tools',
 					'tab'       => 'logs',
-					'type'      => $this->type,
+					'type'      => empty( $this->type ) ? false : $this->type,
 					'cn-action' => 'delete_log',
 					'id'        => $log['id'],
 				),

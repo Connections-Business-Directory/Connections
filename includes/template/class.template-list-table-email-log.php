@@ -129,7 +129,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		 * $args array var.
 		 */
 
-		$this->search = ! empty( Request\Search::from( INPUT_POST )->value() ) ? trim( Request\Search::input()->value() ) : '';
+		$this->search = ! empty( Request\Search::input()->value() ) ? trim( Request\Search::input()->value() ) : '';
 
 		//if ( ! empty( $_REQUEST['orderby'] ) ) {
 		//

@@ -20,7 +20,7 @@ namespace Connections_Directory\Request;
  *
  * @package Connections_Directory\Request
  */
-class Int_Array extends Input {
+class Integer_Array extends Input {
 
 	/**
 	 * The request filter.
@@ -47,7 +47,7 @@ class Int_Array extends Input {
 	 *
 	 * @var string
 	 */
-	protected $key = 'id';
+	protected $key = '';
 
 	/**
 	 * The input schema.
@@ -63,6 +63,23 @@ class Int_Array extends Input {
 			'type' => 'integer',
 		),
 	);
+
+	/**
+	 * ID constructor.
+	 *
+	 * @since 10.4.32
+	 *
+	 * @param string $key The request variable parameter.
+	 */
+	public function __construct( $key = '' ) {
+
+		if ( is_string( $key ) && 0 < strlen( $key ) ) {
+
+			$this->key = $key;
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * Sanitize the ID.

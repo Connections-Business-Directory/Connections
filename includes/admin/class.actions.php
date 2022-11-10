@@ -699,7 +699,7 @@ class cnAdminActions {
 
 		// Grab the bulk action requested by user.
 		$action = Request\Manage_Bulk_Action::input()->value();
-		$ids    = Request\Int_Array::input()->value();
+		$ids    = Request\ID_Array::input()->value();
 
 		switch ( $action ) {
 

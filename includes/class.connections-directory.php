@@ -408,6 +408,7 @@ final class Connections_Directory {
 		 * Register action and filter callbacks at priority 9,
 		 * so they are registered before {@see Action::run()} is executed.
 		 */
+		add_action( 'admin_init', array( Action\Admin\Log_Management::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\Category_Metabox_Height::class, 'register' ), 9 );

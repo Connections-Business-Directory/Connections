@@ -131,10 +131,6 @@ class cnAdminActions {
 
 		add_action( 'wp_ajax_csv_upload', array( __CLASS__, 'uploadCSV' ) );
 		add_action( 'wp_ajax_import_csv_term', array( __CLASS__, 'csvImportTerm' ) );
-
-		// Register the action to delete a single log.
-		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
-		add_action( 'cn_delete_log', array( __CLASS__, 'deleteLog' ) );
 	}
 
 	/**
@@ -1408,90 +1404,4 @@ class cnAdminActions {
 
 		categoryManagement();
 	}
-
-	/**
-	 * Callback for the `cn_log_bulk_actions` hook which processes the action and then redirects back to the current admin page.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function logManagement() {
-
-		$action = '';
-
-		if ( current_user_can( 'install_plugins' ) ) {
-
-			if ( isset( $_GET['action'] ) && '-1' !== $_GET['action'] ) {
-
-				$action = sanitize_key( $_GET['action'] );
-
-			} elseif ( isset( $_GET['action2'] ) && '-1' !== $_GET['action2'] ) {
-
-				$action = sanitize_key( $_GET['action2'] );
-			}
-
-			switch ( $action ) {
-
-				case 'delete':
-					check_admin_referer( 'bulk-email' );
-
-					foreach ( $_GET['log'] as $id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-						cnLog::delete( absint( $id ) );
-					}
-
-					cnMessage::set( 'success', 'log_bulk_delete' );
-
-					break;
-			}
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_manage_logs' );
-		}
-
-		$url = add_query_arg(
-			array(
-				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? sanitize_key( $_GET['type'] ) : false,
-				'cn-action' => false,
-				'action'    => false,
-				'action2'   => false,
-			),
-			wp_get_referer()
-		);
-
-		wp_safe_redirect( $url );
-		exit();
-	}
-
-	/**
-	 * Callback for the `cn_delete_log` hook which processes the delete action and then redirects back to the current admin page.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function deleteLog() {
-
-		if ( current_user_can( 'install_plugins' ) ) {
-
-			$id = Request\ID::input()->value();
-
-			_validate::adminReferer( 'log_delete', $id );
-
-			cnLog::delete( $id );
-
-			cnMessage::set( 'success', 'log_delete' );
-
-			$url = add_query_arg(
-				array(
-					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? sanitize_key( $_GET['type'] ) : false,
-				),
-				wp_get_referer()
-			);
-
-			wp_safe_redirect( $url );
-			exit();
-		}
-	}
-
 }

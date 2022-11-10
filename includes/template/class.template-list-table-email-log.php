@@ -414,7 +414,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 
 		/* translators: The email log subject line. Used for screen reader text for a checkbox. */
 		return '<label class="screen-reader-text" for="cb-select-' . $id . '">' . sprintf( esc_html__( 'Select %s', 'connections' ), $subject ) . '</label>' .
-			   '<input type="checkbox" name="log[]" value="' . $id . '" id="cb-select-' . $id . '" />';
+			   '<input type="checkbox" name="selected[]" value="' . $id . '" id="cb-select-' . $id . '" />';
 	}
 
 	/**

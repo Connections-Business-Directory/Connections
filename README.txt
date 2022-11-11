@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.6
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 10.4.32
+Stable tag: 10.4.33
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,23 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.33 11/10/2022 =
+* NEW: Introduce a polyfill for `json_validate()` added to PHP 8.3.
+* NEW: Introduce `_validate::isFileJSON()` and `_validate::isJSON()`.
+* NEW: Introduce `\Request\List_Table_Logs`.
+* NEW: Introduce `\Hook\Action\Admin\Log_Management`.
+* TWEAK: Remove use of deprecated `cnFunction::decodeJSON()` method.
+* TWEAK: Refactor the system info actions to utilize `\Hook\Action\Ajax\Response` and `\Hook\Action\Ajax\Settings_Export_Import`.
+* TWEAK: Refactor and `\Hook\Action\Ajax\Settings_Export_Import` and `\Hook\Action\Ajax\Category_Metabox_Height` to utilize `\Hook\Action\Ajax\Response` to reduce code duplication.
+* TWEAK: Remove unused import.
+* TWEAK: Refactor to utilize `\Hook\Action\Admin\Log_Management`.
+* TWEAK: Rename `\Request\Int_Array` to `\Request\Integer_Array`. Extend `\Request\Integer_Array`to create ``\Request\ID_Array` and refactor instances of `\Request\Integer_Array` to utilize `\Request\ID_Array`.
+* BUG: The search term for logs is a get request, not a post.
+* BUG: Only include the log type in the delete action URL if not empty.
+* BUG: Add nonce to the Tools Logs admin page.
+* DEV: phpDoc updates.
+* DEV: Adjust inline comment.
 
 = 10.4.32 11/02/2022 =
 * NEW: Introduce `\Request\Integer`.
@@ -578,29 +595,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update `phpcs.xml` config.
 * DEV: Update `package-lock.json`.
 
-= 10.4.18 03/28/2022 =
-* NEW: Introduce `Utility\_deprecated::_file()`.
-* TWEAK: Move the `Browser` library from the composer vendor folder to the Libraries folder.
-* TWEAK: Move the `wsScreenOptions` library from the composer vendor folder to the Libraries folder.
-* TWEAK: Move the `rinvex\countries` library from the composer vendor folder to the Libraries folder.
-* TWEAK: Update the `rinvex\Country` library.
-* TWEAK: Move the `pear\File_IMC` library from the composer vendor folder to the Libraries folder.
-* TWEAK: Move the `ForceUTF8\Encoding` library from the composer vendor folder to the Libraries folder.
-* TWEAK: Remove the `EDD_SL_Plugin_Updater` library.
-* TWEAK: Move the `parseCSV` library from the composer vendor folder to the Libraries folder.
-* TWEAK: Add placeholder files in the composer vendor folder that load the `parseCSV` library from Libraries folder.
-* TWEAK: Move various legacy javascript libraries from the composer vendor folder to the scripts vendor folder.
-* DEV: When minifying javascript using webpack drop console should be utilized to remove console statements from production files.
-* DEV: Set `allowedTextDomain` in `.eslintrc`.
-* DEV: Address most items flagged by eslint in `jquery.mapblock.js`.
-* DEV: Use webpack to package the assets for the jQuery Map Block script.
-* DEV: Update `.eslintrc` configuration.
-* DEV: Use webpack to package the assets for the jQuery Validation library.
-
 == Upgrade Notice ==
-
-= 10.4.18 =
-It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.19 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -642,4 +637,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.32 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.33 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

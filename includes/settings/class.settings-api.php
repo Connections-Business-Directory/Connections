@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Connections_Directory\Form\Field;
+use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
 use function Connections_Directory\Form\Field\remapOptions as remapFieldOptions;
 
@@ -2105,17 +2106,15 @@ class cnSettingsAPI {
 	/**
 	 * Import settings from a JSON encoded string.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
 	 *
-	 * @param string $json
+	 * @param string $json The JSON settings to import.
 	 *
-	 * @return bool|string
+	 * @return true|string
 	 */
 	public static function import( $json ) {
 
-		$result = cnFunction::decodeJSON( $json, true );
+		$result = _::decodeJSON( $json, true );
 
 		if ( is_wp_error( $result ) ) {
 

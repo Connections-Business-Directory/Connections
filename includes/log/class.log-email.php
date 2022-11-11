@@ -210,8 +210,9 @@ final class cnLog_Email {
 		</form>
 		<?php do_action( 'cn_logs_email_top' ); ?>
 		<form id="cn-email-logs-filter" method="get">
-			<?php $table->display(); ?>
 			<input type="hidden" name="cn-action" value="log_bulk_actions">
+			<?php \Connections_Directory\Utility\_nonce::field( 'bulk-email-logs' ); ?>
+			<?php $table->display(); ?>
 			<!--<input type="hidden" name="page" value="connections_tools"/>-->
 			<!--<input type="hidden" name="tab" value="logs"/>-->
 		</form>

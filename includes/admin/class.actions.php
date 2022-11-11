@@ -18,7 +18,6 @@ use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_sanitize;
-use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\_validate;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\addCategory;
 use function Connections_Directory\Taxonomy\Category\Admin\Deprecated_Actions\categoryManagement;
@@ -120,10 +119,6 @@ class cnAdminActions {
 		// Term Meta Actions.
 		add_action( 'cn_delete_term', array( 'Connections_Directory\Taxonomy\Term\Admin\Actions', 'deleteTermMeta' ), 10, 4 );
 
-		// Actions for export/import settings.
-		add_action( 'wp_ajax_export_settings', array( __CLASS__, 'downloadSettings' ) );
-		add_action( 'wp_ajax_import_settings', array( __CLASS__, 'importSettings' ) );
-
 		// Actions for export/import.
 		add_action( 'wp_ajax_export_csv_addresses', array( __CLASS__, 'csvExportAddresses' ) );
 		add_action( 'wp_ajax_export_csv_phone_numbers', array( __CLASS__, 'csvExportPhoneNumbers' ) );
@@ -135,74 +130,6 @@ class cnAdminActions {
 
 		add_action( 'wp_ajax_csv_upload', array( __CLASS__, 'uploadCSV' ) );
 		add_action( 'wp_ajax_import_csv_term', array( __CLASS__, 'csvImportTerm' ) );
-
-		// Register the action to delete a single log.
-		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
-		add_action( 'cn_delete_log', array( __CLASS__, 'deleteLog' ) );
-	}
-
-	/**
-	 * Callback for the `wp_ajax_export_settings` action.
-	 *
-	 * AJAX callback to download the settings in a JSON encoded text file.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function downloadSettings() {
-
-		_validate::ajaxReferer( 'export_settings' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-
-			wp_send_json( __( 'You do not have sufficient permissions to export the settings.', 'connections' ) );
-		}
-
-		cnSettingsAPI::download();
-	}
-
-	/**
-	 * Callback for the `wp_ajax_import_settings` action.
-	 *
-	 * AJAX callback to import settings from a JSON encoded text file.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function importSettings() {
-
-		_validate::ajaxReferer( 'import_settings' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-
-			wp_send_json( __( 'You do not have sufficient permissions to import the settings.', 'connections' ) );
-		}
-
-		$file = sanitize_text_field( wp_unslash( $_FILES['import_file']['name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-		if ( 'json' !== pathinfo( $file, PATHINFO_EXTENSION ) ) {
-
-			wp_send_json( __( 'Please upload a .json file.', 'connections' ) );
-		}
-
-		$file = sanitize_text_field( wp_unslash( $_FILES['import_file']['tmp_name'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-		if ( empty( $file ) ) {
-
-			wp_send_json( __( 'Please select a file to import.', 'connections' ) );
-		}
-
-		$json   = file_get_contents( $file ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
-		$result = cnSettingsAPI::import( $json );
-
-		if ( true === $result ) {
-
-			wp_send_json( __( 'Settings have been imported.', 'connections' ) );
-
-		} else {
-
-			wp_send_json( $result );
-		}
 	}
 
 	/**
@@ -772,7 +699,7 @@ class cnAdminActions {
 
 		// Grab the bulk action requested by user.
 		$action = Request\Manage_Bulk_Action::input()->value();
-		$ids    = Request\Int_Array::input()->value();
+		$ids    = Request\ID_Array::input()->value();
 
 		switch ( $action ) {
 
@@ -1476,90 +1403,4 @@ class cnAdminActions {
 
 		categoryManagement();
 	}
-
-	/**
-	 * Callback for the `cn_log_bulk_actions` hook which processes the action and then redirects back to the current admin page.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function logManagement() {
-
-		$action = '';
-
-		if ( current_user_can( 'install_plugins' ) ) {
-
-			if ( isset( $_GET['action'] ) && '-1' !== $_GET['action'] ) {
-
-				$action = sanitize_key( $_GET['action'] );
-
-			} elseif ( isset( $_GET['action2'] ) && '-1' !== $_GET['action2'] ) {
-
-				$action = sanitize_key( $_GET['action2'] );
-			}
-
-			switch ( $action ) {
-
-				case 'delete':
-					check_admin_referer( 'bulk-email' );
-
-					foreach ( $_GET['log'] as $id ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-
-						cnLog::delete( absint( $id ) );
-					}
-
-					cnMessage::set( 'success', 'log_bulk_delete' );
-
-					break;
-			}
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_manage_logs' );
-		}
-
-		$url = add_query_arg(
-			array(
-				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? sanitize_key( $_GET['type'] ) : false,
-				'cn-action' => false,
-				'action'    => false,
-				'action2'   => false,
-			),
-			wp_get_referer()
-		);
-
-		wp_safe_redirect( $url );
-		exit();
-	}
-
-	/**
-	 * Callback for the `cn_delete_log` hook which processes the delete action and then redirects back to the current admin page.
-	 *
-	 * @internal
-	 * @since 8.3
-	 */
-	public static function deleteLog() {
-
-		if ( current_user_can( 'install_plugins' ) ) {
-
-			$id = Request\ID::input()->value();
-
-			_validate::adminReferer( 'log_delete', $id );
-
-			cnLog::delete( $id );
-
-			cnMessage::set( 'success', 'log_delete' );
-
-			$url = add_query_arg(
-				array(
-					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? sanitize_key( $_GET['type'] ) : false,
-				),
-				wp_get_referer()
-			);
-
-			wp_safe_redirect( $url );
-			exit();
-		}
-	}
-
 }

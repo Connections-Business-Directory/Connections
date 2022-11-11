@@ -20,7 +20,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.32';
+	const VERSION = '10.4.33';
 
 	/**
 	 * Stores the instance of this class.
@@ -408,10 +408,12 @@ final class Connections_Directory {
 		 * Register action and filter callbacks at priority 9,
 		 * so they are registered before {@see Action::run()} is executed.
 		 */
+		add_action( 'admin_init', array( Action\Admin\Log_Management::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\Category_Metabox_Height::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\System_Information::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Ajax\Settings_Export_Import::class, 'register' ), 9 );
 
 		add_action( 'load-plugins.php', array( Filter\Admin\Plugin_Row::class, 'register' ) );
 

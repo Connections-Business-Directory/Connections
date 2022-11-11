@@ -129,7 +129,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		 * $args array var.
 		 */
 
-		$this->search = ! empty( Request\Search::from( INPUT_POST )->value() ) ? trim( Request\Search::input()->value() ) : '';
+		$this->search = ! empty( Request\Search::input()->value() ) ? trim( Request\Search::input()->value() ) : '';
 
 		//if ( ! empty( $_REQUEST['orderby'] ) ) {
 		//
@@ -414,7 +414,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 
 		/* translators: The email log subject line. Used for screen reader text for a checkbox. */
 		return '<label class="screen-reader-text" for="cb-select-' . $id . '">' . sprintf( esc_html__( 'Select %s', 'connections' ), $subject ) . '</label>' .
-			   '<input type="checkbox" name="log[]" value="' . $id . '" id="cb-select-' . $id . '" />';
+			   '<input type="checkbox" name="selected[]" value="' . $id . '" id="cb-select-' . $id . '" />';
 	}
 
 	/**
@@ -539,7 +539,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 				array(
 					'page'      => 'connections_tools',
 					'tab'       => 'logs',
-					'type'      => $this->type,
+					'type'      => empty( $this->type ) ? false : $this->type,
 					'cn-action' => 'delete_log',
 					'id'        => $log['id'],
 				),

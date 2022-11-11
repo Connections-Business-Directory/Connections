@@ -4,6 +4,9 @@
  * Class cnDependency
  *
  * @since  8.5.24
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnDependency {
 
@@ -79,6 +82,9 @@ class cnDependency {
 		// Deprecated Actions/Filters.
 		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
 		require_once CN_PATH . 'includes/inc.deprecated-filters.php';
+
+		// Polyfills.
+		require_once CN_PATH . 'includes/Polyfill/json_validate.php';
 
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
@@ -238,9 +244,11 @@ class cnDependency {
 			'Connections_Directory\Request\Entry_Status'             => 'includes/Request/Entry_Status.php',
 			'Connections_Directory\Request\Email_System_Info'        => 'includes/Request/Email_System_Info.php',
 			'Connections_Directory\Request\ID'                       => 'includes/Request/ID.php',
-			'Connections_Directory\Request\Integer'                  => 'includes/Request/Integer.php',
+			'Connections_Directory\Request\ID_Array'                 => 'includes/Request/ID_Array.php',
 			'Connections_Directory\Request\Input'                    => 'includes/Request/Input.php',
-			'Connections_Directory\Request\Int_Array'                => 'includes/Request/Int_Array.php',
+			'Connections_Directory\Request\Integer'                  => 'includes/Request/Integer.php',
+			'Connections_Directory\Request\Integer_Array'            => 'includes/Request/Integer_Array.php',
+			'Connections_Directory\Request\List_Table_Logs'          => 'includes/Request/List_Table_Logs.php',
 			'Connections_Directory\Request\List_Table_Taxonomy'      => 'includes/Request/List_Table_Taxonomy.php',
 			'Connections_Directory\Request\Log_ID'                   => 'includes/Request/Log_ID.php',
 			'Connections_Directory\Request\Log_Type'                 => 'includes/Request/Log_Type.php',
@@ -575,9 +583,12 @@ class cnDependency {
 
 			// Hooks.
 			'Connections_Directory\Hook\Action'                              => 'includes/Hook/Action.php',
+			'Connections_Directory\Hook\Action\Admin\Log_Management'         => 'includes/Hook/Action/Admin/Log_Management.php',
 			'Connections_Directory\Hook\Action\Admin\Role_Capability'        => 'includes/Hook/Action/Admin/Role_Capability.php',
 			'Connections_Directory\Hook\Action\Admin\Template'               => 'includes/Hook/Action/Admin/Template.php',
 			'Connections_Directory\Hook\Action\Ajax\Category_Metabox_Height' => 'includes/Hook/Action/Ajax/Category_Metabox_Height.php',
+			'Connections_Directory\Hook\Action\Ajax\Response'                => 'includes/Hook/Action/Ajax/Response.php',
+			'Connections_Directory\Hook\Action\Ajax\Settings_Export_Import'  => 'includes/Hook/Action/Ajax/Settings_Export_Import.php',
 			'Connections_Directory\Hook\Action\Ajax\System_Information'      => 'includes/Hook/Action/Ajax/System_Information.php',
 			'Connections_Directory\Hook\Filter\Admin\Footer'                 => 'includes/Hook/Filter/Admin/Footer.php',
 			'Connections_Directory\Hook\Filter\Admin\Plugin_Row'             => 'includes/Hook/Filter/Admin/Plugin_Row.php',

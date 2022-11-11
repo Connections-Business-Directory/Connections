@@ -1,5 +1,22 @@
 == Changelog ==
 
+= 10.4.33 11/10/2022 =
+* NEW: Introduce a polyfill for `json_validate()` added to PHP 8.3.
+* NEW: Introduce `_validate::isFileJSON()` and `_validate::isJSON()`.
+* NEW: Introduce `\Request\List_Table_Logs`.
+* NEW: Introduce `\Hook\Action\Admin\Log_Management`.
+* TWEAK: Remove use of deprecated `cnFunction::decodeJSON()` method.
+* TWEAK: Refactor the system info actions to utilize `\Hook\Action\Ajax\Response` and `\Hook\Action\Ajax\Settings_Export_Import`.
+* TWEAK: Refactor and `\Hook\Action\Ajax\Settings_Export_Import` and `\Hook\Action\Ajax\Category_Metabox_Height` to utilize `\Hook\Action\Ajax\Response` to reduce code duplication.
+* TWEAK: Remove unused import.
+* TWEAK: Refactor to utilize `\Hook\Action\Admin\Log_Management`.
+* TWEAK: Rename `\Request\Int_Array` to `\Request\Integer_Array`. Extend `\Request\Integer_Array`to create ``\Request\ID_Array` and refactor instances of `\Request\Integer_Array` to utilize `\Request\ID_Array`.
+* BUG: The search term for logs is a get request, not a post.
+* BUG: Only include the log type in the delete action URL if not empty.
+* BUG: Add nonce to the Tools Logs admin page.
+* DEV: phpDoc updates.
+* DEV: Adjust inline comment.
+
 = 10.4.32 11/02/2022 =
 * NEW: Introduce `\Request\Integer`.
 * NEW: Introduce `\Hook\Action\Ajax\Category_Metabox_Height`.

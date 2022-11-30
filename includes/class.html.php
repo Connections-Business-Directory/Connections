@@ -489,11 +489,12 @@ class cnHTML {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( in_array( $atts['type'], array( 'checkbox', 'hidden', 'radio', 'text' ), true ) ) {
+		if ( in_array( $atts['type'], array( 'checkbox', 'hidden', 'number', 'radio', 'text' ), true ) ) {
 
 			$messages = array(
 				'checkbox' => 'Use `\Connections_Directory\Form\Field\Checkbox::create()`.',
 				'hidden'   => 'Use `\Connections_Directory\Form\Field\Hidden::create()`.',
+				'number'   => 'Use `\Connections_Directory\Form\Field\Number::create()`.',
 				'radio'    => 'Use `\Connections_Directory\Form\Field\Radio::create()`.',
 				'text'     => 'Use `\Connections_Directory\Form\Field\Text::create()`.',
 			);

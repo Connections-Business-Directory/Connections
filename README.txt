@@ -248,6 +248,23 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.34 12/02/2022 =
+* NEW: Introduce `_format::secondsToHuman()`.
+* TWEAK: Update deprecation message for the number input field type.
+* TWEAK: Move CSV Batch Import classes to the autoloader.
+* TWEAK: Move CSV Batch Export classes to the autoloader.
+* BUG: Add additional checks to help ensure the PHP warning "array_push() expects parameter 1 to be array" is not triggered with the Yoast SEO integration.
+* OTHER: Bump tested to.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phpDoc corrections.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Update package-lock.json.
+* DEV: Add make-pot npm script.
+* DEV: Update Transifex config.
+* DEV: Add npm script to make POT and push/pull PO/POT files from Transifex.
+* DEV: Update dist files.
+
 = 10.4.33 11/10/2022 =
 * NEW: Introduce a polyfill for `json_validate()` added to PHP 8.3.
 * NEW: Introduce `_validate::isFileJSON()` and `_validate::isJSON()`.
@@ -569,36 +586,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
 * DEV: phpDoc updates.
 
-= 10.4.19 04/01/2022 =
-* NEW: Introduce `_sanitize::hexColor()`.
-* NEW: Introduce `_validate::isHexColor()`.
-* NEW: Introduce `Entry::getLink()`.
-* TWEAK: Move `exit` before `use` statements.
-* TWEAK: Use `_array::get()` to prevent array index undefined PHP notice when retrieving family relation name.
-* TWEAK: Remove unused deprecated method `cnHTML::escapeClassnames()`.
-* TWEAK: Remove unused deprecated method `cnSanitize::htmlClass()`.
-* TWEAK: Deprecate `cnSanitize::hexColor()`.
-* TWEAK: Deprecate `cnSanitize::hexColorNoHash()`.
-* TWEAK: Deprecate `_color::maybeHashHEXColor()` and `_format::maybeHashHEXColor()`.
-* TWEAK: Remove unused import.
-* TWEAK: Remove use of deprecated method `cnSanitize::hexColor()` throughout.
-* TWEAK: Remove use of deprecated method `cnFormatting::maybeHashHEXColor()` throughout.
-* TWEAK: Remove use of deprecated method `_color::maybeHashHEXColor()` throughout.
-* TWEAK: Remove use of deprecated method `cnUtility::remapRange()` throughout.
-* BUG: Default taxonomy labels should inherit from taxonomy name.
-* BUG: Prevent possible undefined index notice in the Directory Block.
-* OTHER: Remove commented out code.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: phpDoc updates.
-* DEV: Update `.scrutinizer.yml` config.
-* DEV: Update `composer.json` config.
-* DEV: Update `phpcs.xml` config.
-* DEV: Update `package-lock.json`.
-
 == Upgrade Notice ==
-
-= 10.4.19 =
-It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.20 =
 It is recommended to back up before updating. Requires WordPress >= 5.4 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -640,4 +628,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.33 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.34 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.

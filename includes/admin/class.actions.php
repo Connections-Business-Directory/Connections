@@ -365,9 +365,6 @@ class cnAdminActions {
 			);
 		}
 
-		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
-		require_once CN_PATH . 'includes/import/class.csv-import-batch-category.php';
-
 		$step   = Request\CSV_Export_Step::input()->value();
 		$import = new cnCSV_Batch_Import_Term( $path );
 		$nonce  = _nonce::create( 'import_csv_term' );
@@ -492,8 +489,6 @@ class cnAdminActions {
 	 * @since unknown
 	 */
 	public static function uploadCSV() {
-
-		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
 		if ( false === Request\Nonce::from( INPUT_POST, 'csv_upload', null, 'nonce' )->isValid() ) {
 

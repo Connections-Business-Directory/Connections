@@ -594,6 +594,10 @@ class cnDependency {
 			'Connections_Directory\Hook\Filter\Admin\Plugin_Row'             => 'includes/Hook/Filter/Admin/Plugin_Row.php',
 			'Connections_Directory\Hook\Filter\Admin\Plugin_Tab'             => 'includes/Hook/Filter/Admin/Plugin_Tab.php',
 
+			// CSV Export/Import.
+			'cnCSV_Batch_Import'      => 'includes/import/class.csv-import-batch.php',
+			'cnCSV_Batch_Import_Term' => 'includes/import/class.csv-import-batch-category.php',
+
 			// Integrations.
 			'cnGoogleMapsTimeZone'                                     => 'includes/Integration/Google/class.google-maps-timezone-api.php',
 			'Connections_Directory\Integration\SEO\Yoast_SEO'          => 'includes/Integration/SEO/Yoast_SEO.php',

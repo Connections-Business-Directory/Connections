@@ -1,5 +1,22 @@
 == Changelog ==
 
+= 10.4.34 12/02/2022 =
+* NEW: Introduce `_format::secondsToHuman()`.
+* TWEAK: Update deprecation message for the number input field type.
+* TWEAK: Move CSV Batch Import classes to the autoloader.
+* TWEAK: Move CSV Batch Export classes to the autoloader.
+* BUG: Add additional checks to help ensure the PHP warning "array_push() expects parameter 1 to be array" is not triggered with the Yoast SEO integration.
+* OTHER: Bump tested to.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phpDoc corrections.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Update package-lock.json.
+* DEV: Add make-pot npm script.
+* DEV: Update Transifex config.
+* DEV: Add npm script to make POT and push/pull PO/POT files from Transifex.
+* DEV: Update dist files.
+
 = 10.4.33 11/10/2022 =
 * NEW: Introduce a polyfill for `json_validate()` added to PHP 8.3.
 * NEW: Introduce `_validate::isFileJSON()` and `_validate::isJSON()`.

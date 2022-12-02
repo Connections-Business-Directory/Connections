@@ -1,8 +1,8 @@
 [main]
 host = https://www.transifex.com
 
-[connections.pot-file]
+[o:shazahm1:p:connections:r:pot-file]
 file_filter = languages/connections-<lang>.po
 source_file = languages/connections.pot
 source_lang = en
-type = PO
+type        = PO

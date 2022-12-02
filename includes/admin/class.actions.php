@@ -153,9 +153,6 @@ class cnAdminActions {
 
 		$type = Request\CSV_Export_Type::input()->value();
 
-		require_once CN_PATH . 'includes/export/class.csv-export.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
-
 		switch ( $type ) {
 
 			case 'address':
@@ -225,10 +222,6 @@ class cnAdminActions {
 
 		_validate::ajaxReferer( 'export_csv_addresses' );
 
-		require_once CN_PATH . 'includes/export/class.csv-export.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
-
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Addresses();
 		$nonce  = _nonce::create( 'export_csv_addresses' );
@@ -247,10 +240,6 @@ class cnAdminActions {
 	public static function csvExportPhoneNumbers() {
 
 		_validate::ajaxReferer( 'export_csv_phone_numbers' );
-
-		require_once CN_PATH . 'includes/export/class.csv-export.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Phone_Numbers();
@@ -271,10 +260,6 @@ class cnAdminActions {
 
 		_validate::ajaxReferer( 'export_csv_email' );
 
-		require_once CN_PATH . 'includes/export/class.csv-export.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
-
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Email();
 		$nonce  = _nonce::create( 'export_csv_email' );
@@ -294,10 +279,6 @@ class cnAdminActions {
 
 		_validate::ajaxReferer( 'export_csv_dates' );
 
-		require_once CN_PATH . 'includes/export/class.csv-export.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
-
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Dates();
 		$nonce  = _nonce::create( 'export_csv_dates' );
@@ -316,10 +297,6 @@ class cnAdminActions {
 	public static function csvExportTerm() {
 
 		_validate::ajaxReferer( 'export_csv_term' );
-
-		require_once CN_PATH . 'includes/export/class.csv-export.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_Term();
@@ -365,9 +342,6 @@ class cnAdminActions {
 			);
 		}
 
-		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
-		require_once CN_PATH . 'includes/import/class.csv-import-batch-category.php';
-
 		$step   = Request\CSV_Export_Step::input()->value();
 		$import = new cnCSV_Batch_Import_Term( $path );
 		$nonce  = _nonce::create( 'import_csv_term' );
@@ -386,10 +360,6 @@ class cnAdminActions {
 	public static function csvExportAll() {
 
 		_validate::ajaxReferer( 'export_csv_all' );
-
-		require_once CN_PATH . 'includes/export/class.csv-export.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
-		require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
 
 		$step   = Request\CSV_Export_Step::input()->value();
 		$export = new cnCSV_Batch_Export_All();
@@ -492,8 +462,6 @@ class cnAdminActions {
 	 * @since unknown
 	 */
 	public static function uploadCSV() {
-
-		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
 
 		if ( false === Request\Nonce::from( INPUT_POST, 'csv_upload', null, 'nonce' )->isValid() ) {
 

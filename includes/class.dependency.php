@@ -594,6 +594,18 @@ class cnDependency {
 			'Connections_Directory\Hook\Filter\Admin\Plugin_Row'             => 'includes/Hook/Filter/Admin/Plugin_Row.php',
 			'Connections_Directory\Hook\Filter\Admin\Plugin_Tab'             => 'includes/Hook/Filter/Admin/Plugin_Tab.php',
 
+			// CSV Export/Import.
+			'cnCSV_Batch_Import'               => 'includes/import/class.csv-import-batch.php',
+			'cnCSV_Batch_Import_Term'          => 'includes/import/class.csv-import-batch-category.php',
+			'cnCSV_Export'                     => 'includes/export/class.csv-export.php',
+			'cnCSV_Batch_Export'               => 'includes/export/class.csv-export-batch.php',
+			'cnCSV_Batch_Export_Addresses'     => 'includes/export/class.csv-export-batch-addresses.php',
+			'cnCSV_Batch_Export_All'           => 'includes/export/class.csv-export-batch-all.php',
+			'cnCSV_Batch_Export_Dates'         => 'includes/export/class.csv-export-batch-dates.php',
+			'cnCSV_Batch_Export_Email'         => 'includes/export/class.csv-export-batch-email.php',
+			'cnCSV_Batch_Export_Phone_Numbers' => 'includes/export/class.csv-export-batch-phone-numbers.php',
+			'cnCSV_Batch_Export_Term'          => 'includes/export/class.csv-export-batch-category.php',
+
 			// Integrations.
 			'cnGoogleMapsTimeZone'                                     => 'includes/Integration/Google/class.google-maps-timezone-api.php',
 			'Connections_Directory\Integration\SEO\Yoast_SEO'          => 'includes/Integration/SEO/Yoast_SEO.php',

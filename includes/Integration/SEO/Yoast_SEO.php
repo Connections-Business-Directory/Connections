@@ -173,7 +173,11 @@ final class Yoast_SEO {
 		$registry  = Registry::get();
 		$providers = $registry->getProviders();
 
-		if ( is_array( $providers ) ) {
+		if ( is_array( $providers )
+			 && is_object( $wpseo_sitemaps )
+			 && property_exists( $wpseo_sitemaps, 'providers' )
+			 && is_array( $wpseo_sitemaps->providers )
+		) {
 
 			foreach ( $providers as $provider ) {
 

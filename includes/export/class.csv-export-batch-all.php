@@ -68,7 +68,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	private $headerNames = array();
 
 	/**
-	 * Setup the export.
+	 * Set up the export.
 	 *
 	 * @access public
 	 * @since  8.5.1
@@ -98,7 +98,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	}
 
 	/**
-	 * Setup the fields and export meta configuration.
+	 * Set up the fields and export meta configuration.
 	 *
 	 * @access public
 	 * @since  8.5.1
@@ -135,7 +135,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *     @type string $fields The fields to export from the indicated $table.
 		 *                          Use to export data from the specified $fields from the supporting field type tables,
 		 *                          such as CN_ENTRY_ADDRESS_TABLE, CN_ENTRY_PHONE_TABLE and so on.
-		 *                          NOTE: These should be provided as a semi-colon delimited string of field id.
+		 *                          NOTE: These should be provided as a semicolon delimited string of field id.
 		 *                          NOTE: Leave blank when exporting `meta_key` values from CN_ENTRY_TABLE_META.
 		 *     @type string $table  The table to export data from.
 		 *     @type string $types  The data types to export.
@@ -148,7 +148,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 * This example illustrates how to use export type `6`.
 		 *
 		 * The result will be the term name of term ID 2071 as the column header and the row contents will be term
-		 * descendants if they are attached to the the current entry being exported.
+		 * descendants if they are attached to the current entry being exported.
 		 *
 		 * @example
 		 *
@@ -930,7 +930,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	}
 
 	/**
-	 * Export the the entry data from a supporting data table.
+	 * Export the entry data from a supporting data table.
 	 *
 	 * @access private
 	 * @since  8.5.1

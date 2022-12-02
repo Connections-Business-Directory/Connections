@@ -125,6 +125,8 @@
         "lint": "npm run lint:js & npm run lint:scss",
         "lint:js": "eslint assets/src/**/*.js blocks/**/*.js",
         "lint:scss": "stylelint assets/src/**/*.scss",
-        "translate": "wp i18n make-pot . languages/connections.pot --exclude=assets,bin,cache,includes/Libraries,node_modules,tests,vendor"
+        "translate": "wp i18n make-pot . languages/connections.pot --exclude=assets,bin,cache,includes/Libraries,node_modules,tests,vendor",
+        "tx-pull": "tx pull -a --minimum-perc=1",
+        "tx-push": "tx push -s"
     }
 }

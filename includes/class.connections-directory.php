@@ -20,7 +20,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.33';
+	const VERSION = '10.4.34';
 
 	/**
 	 * Stores the instance of this class.

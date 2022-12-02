@@ -135,7 +135,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 *
 	 * @param  int $step The step to process.
 	 *
-	 * @return mixed bool|WP_Error
+	 * @return bool|WP_Error
 	 */
 	public function process( $step ) {
 

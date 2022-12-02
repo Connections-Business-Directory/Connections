@@ -599,7 +599,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		for ( $i = 0; $i < $count; $i++ ) {
 
-			// If there is a special type, export it, otherwise, just draw it
+			// If there is a special type, export it, otherwise, just draw it.
 			$header = $this->explodeBreakoutHeader( $this->fields[ $i ] );
 
 			// Trim the hanging comma and space.
@@ -661,7 +661,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		} elseif ( 2 === $type ) {
 
-			// Joined from another table
+			// Joined from another table.
 
 			$headers[] = $this->escapeAndQuote( $atts['header'] );
 
@@ -778,7 +778,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		$data = $wpdb->get_results( $sql );
 
-		// The number of rows returned by the last query without the limit clause set
+		// The number of rows returned by the last query without the limit clause set.
 		$found = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
 		$this->setCount( (int) $found[0]->{'FOUND_ROWS()'} );
 
@@ -866,7 +866,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				// Prepare an empty frame of the category cells...
 				for ( $j = 0; $j < $count + 1; $j++ ) {
 
-					// Make an array filled with empty cells
+					// Make an array filled with empty cells.
 					$terms[ $j ] = '"",';
 				}
 

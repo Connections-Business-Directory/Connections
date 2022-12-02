@@ -179,6 +179,60 @@ final class _format {
 	}
 
 	/**
+	 * Convert number of seconds to human-readable string format.
+	 *
+	 * The `$limit` argument sets the number of time interval periods to display.
+	 * Example, (int) 12345 will display "3 hours 25 minutes 45 seconds".
+	 * Setting `$limit` to (int) 2 will display "3 hours 25 minutes".
+	 * Displaying only the two largest time interval periods.
+	 *
+	 * @since 10.4.34
+	 *
+	 * @link  https://stackoverflow.com/a/19680778/5351316
+	 * @link  https://stackoverflow.com/a/50281019/5351316
+	 * @link  https://stackoverflow.com/a/59901330/5351316
+	 *
+	 * @param int $seconds Number of seconds.
+	 * @param int $limit   The number of time period intervals to limit the return string.
+	 *
+	 * @return string|null
+	 */
+	public static function secondsToHuman( $seconds = 0, $limit = 0 ) {
+
+		$dateFrom = new \DateTime( '@0' );
+		$dateTo   = new \DateTime( "@$seconds" );
+		$interval = $dateFrom->diff( $dateTo );
+		$fragment = array();
+		$limit    = filter_var( $limit, FILTER_VALIDATE_INT, array( 'options' => array( 'default' => 6, 'min_range' => 1, 'max_range' => 6 ) ) ); // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
+
+		$properties = array(
+			'y' => 'year',
+			'm' => 'month',
+			'd' => 'day',
+			'h' => 'hour',
+			'i' => 'minute',
+			's' => 'second',
+		);
+
+		$pluralize = function( $count, $text ) {
+			return $count . ( 1 == $count ? " $text" : " ${text}s" );
+		};
+
+		foreach ( $properties as $period => $string ) {
+
+			if ( $limit && count( $fragment ) >= $limit ) {
+				break;
+			}
+
+			if ( $interval->{$period} >= 1 ) {
+				$fragment[] = $pluralize( $interval->{$period}, $string );
+			}
+		}
+
+		return ! empty( $fragment ) ? implode( ' ', $fragment ) . ( $interval->invert ? ' ago' : '' ) : null;
+	}
+
+	/**
 	 * Convert a PHP format string to a jQueryUI Datepicker/DateTimepicker compatible datetime format string.
 	 *
 	 * @access public

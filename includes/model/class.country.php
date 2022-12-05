@@ -25,7 +25,7 @@ final class cnCountry {
 	 */
 	public function __construct( $attributes ) {
 
-		// Set the attributes
+		// Set the attributes.
 		$this->setAttributes( $attributes );
 	}
 

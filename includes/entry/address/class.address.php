@@ -324,8 +324,6 @@ final class cnAddress extends cnEntry_Collection_Item {
 				default:
 					unset( $this->$name );
 			}
-
-			// unset( $this->$name );
 		}
 	}
 

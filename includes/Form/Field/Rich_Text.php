@@ -46,6 +46,7 @@ class Rich_Text {
 	 * Field constructor.
 	 */
 	public function __construct() {
+		$this->setDefaultValue( '' );
 	}
 
 	/**

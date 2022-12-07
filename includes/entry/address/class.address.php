@@ -720,7 +720,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		// Create GoogleMapsTimeZone object with default properties.
 		$gmtAPI = new cnGoogleMapsTimeZone( $this->getLatitude(), $this->getLongitude() );
 
-		// Perform query
+		// Perform query.
 		return $gmtAPI->queryTimeZone();
 	}
 

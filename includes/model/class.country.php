@@ -134,7 +134,7 @@ final class cnCountry {
 	 */
 	public function getName() {
 
-		return $this->get( 'name.common' ) ? $this->get( 'name.common' ) : $this->get( 'name' );
+		return $this->get( 'name.common' ) ? $this->get( 'name.common', '' ) : $this->get( 'name', '' );
 	}
 
 	/**

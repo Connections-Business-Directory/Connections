@@ -225,6 +225,31 @@ final class _validate {
 	}
 
 	/**
+	 * Validate that the supplied value is a string and not empty.
+	 *
+	 * Example:
+	 * '' === false
+	 * ' ' === true
+	 * '1' === true
+	 * '0' === true
+	 * 1 === false
+	 * 0 === false
+	 * true === false
+	 * false === false
+	 * null === false
+	 *
+	 * @since 10.4.35
+	 *
+	 * @param string $value String to check.
+	 *
+	 * @return bool
+	 */
+	public static function isStringNotEmpty( $value ) {
+
+		return is_string( $value ) && '' !== $value;
+	}
+
+	/**
 	 * Determine if supplied value is a positive integer.
 	 *
 	 * Negative integers will return `false`.

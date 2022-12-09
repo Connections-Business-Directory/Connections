@@ -1,5 +1,8 @@
 <?php
 
+use Connections_Directory\Utility\_format;
+use Connections_Directory\Utility\_validate;
+
 /**
  * Class cnEntry_Collection_Item
  *
@@ -272,7 +275,9 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setID( $id ) {
 
-		$this->id = (int) $id;
+		if ( _validate::isPositiveInteger( $id ) ) {
+			$this->id = absint( $id );
+		}
 
 		return $this;
 	}
@@ -361,7 +366,9 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setOrder( $order ) {
 
-		$this->order = (int) $order;
+		if ( _validate::isPositiveInteger( $order ) ) {
+			$this->order = absint( $order );
+		}
 
 		return $this;
 	}
@@ -398,7 +405,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setPreferred( $preferred ) {
 
-		$this->preferred = (bool) $preferred;
+		$this->preferred = _format::toBoolean( $preferred );
 
 		return $this;
 	}

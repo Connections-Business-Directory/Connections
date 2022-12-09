@@ -11,6 +11,9 @@
  * @property string $type
  * @property string $visibility
  * @property string $name
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 

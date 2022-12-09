@@ -398,7 +398,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineOne( $street ) {
 
-		$this->line_1 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_1 = $street;
+		}
 
 		return $this;
 	}
@@ -424,7 +426,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineTwo( $street ) {
 
-		$this->line_2 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_2 = $street;
+		}
 
 		return $this;
 	}
@@ -450,7 +454,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineThree( $street ) {
 
-		$this->line_3 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_3 = $street;
+		}
 
 		return $this;
 	}
@@ -476,7 +482,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineFour( $street ) {
 
-		$this->line_4 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_4 = $street;
+		}
 
 		return $this;
 	}
@@ -502,7 +510,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setDistrict( $district ) {
 
-		$this->district = cnSanitize::field( 'district', $district, 'raw' );
+		if ( _validate::isStringNotEmpty( $district ) ) {
+			$this->district = $district;
+		}
 
 		return $this;
 	}
@@ -528,7 +538,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setCounty( $county ) {
 
-		$this->county = cnSanitize::field( 'county', $county, 'raw' );
+		if ( _validate::isStringNotEmpty( $county ) ) {
+			$this->county = $county;
+		}
 
 		return $this;
 	}
@@ -554,7 +566,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLocality( $locality ) {
 
-		$this->locality = cnSanitize::field( 'locality', $locality, 'raw' );
+		if ( _validate::isStringNotEmpty( $locality ) ) {
+			$this->locality = $locality;
+		}
 
 		return $this;
 	}
@@ -580,7 +594,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setRegion( $region ) {
 
-		$this->region = cnSanitize::field( 'region', $region, 'raw' );
+		if ( _validate::isStringNotEmpty( $region ) ) {
+			$this->region = $region;
+		}
 
 		return $this;
 	}
@@ -606,7 +622,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setPostalCode( $postal_code ) {
 
-		$this->postal_code = cnSanitize::field( 'postal-code', $postal_code, 'raw' );
+		if ( _validate::isStringNotEmpty( $postal_code ) ) {
+			$this->postal_code = $postal_code;
+		}
 
 		return $this;
 	}
@@ -633,9 +651,17 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setCountry( $country, $code = '' ) {
 
+		if ( ! is_string( $country ) ) {
+			$country = '';
+		}
+
+		if ( ! is_string( $code ) ) {
+			$code = '';
+		}
+
 		$this->country = new cnCountry(
 			array(
-				'name'              => cnSanitize::field( 'country', $country, 'raw' ),
+				'name'              => $country,
 				'iso_3166_1_alpha2' => $code,
 			)
 		);

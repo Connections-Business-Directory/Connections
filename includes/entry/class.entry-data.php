@@ -921,8 +921,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized. This method will eventually be declared as
 	 *                        private.
 	 *
@@ -957,8 +955,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -973,8 +969,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $firstName
 	 * @param string $context   The context in which it should be sanitized.
@@ -994,8 +988,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1010,8 +1002,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $middleName
 	 * @param string $context    The context in which it should be sanitized.
@@ -1031,8 +1021,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1047,8 +1035,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $lastName
 	 * @param string $context  The context in which it should be sanitized.
@@ -1068,8 +1054,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1084,8 +1068,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $suffix
 	 * @param string $context The context in which it should be sanitized.
@@ -1179,8 +1161,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1196,8 +1176,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field
-	 *
 	 * @param string $organization
 	 * @param string $context      The context in which it should be sanitized.
 	 */
@@ -1211,8 +1189,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
@@ -1229,8 +1205,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $title
 	 * @param string $context The context in which it should be sanitized.
 	 */
@@ -1244,8 +1218,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
@@ -1261,8 +1233,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field
 	 *
 	 * @param string $department
 	 * @param string $context    The context in which it should be sanitized.
@@ -1320,8 +1290,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1336,8 +1304,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $firstName
 	 * @param string $context   The context in which it should be sanitized.
@@ -1357,8 +1323,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1373,8 +1337,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $lastName
 	 * @param string $context  The context in which it should be sanitized.
@@ -1393,8 +1355,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1409,8 +1369,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $familyName
 	 * @param string $context    The context in which it should be sanitized.

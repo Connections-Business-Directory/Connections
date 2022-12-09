@@ -309,7 +309,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setType( $type ) {
 
-		$this->type = cnSanitize::field( 'attribute', $type, 'raw' );
+		$this->type = $type;
 
 		return $this;
 	}
@@ -335,7 +335,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setVisibility( $visibility ) {
 
-		$this->visibility = cnSanitize::field( 'attribute', $visibility, 'raw' );
+		$this->visibility = $visibility;
 
 		return $this;
 	}

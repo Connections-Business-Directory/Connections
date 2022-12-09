@@ -65,7 +65,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	protected $properties = array();
 
 	/**
-	 * Hash map of the the old array keys / object properties to cnAddress method callbacks.
+	 * Hash map of the old array keys / object properties to cnAddress method callbacks.
 	 *
 	 * Used in self::__get()
 	 *

@@ -378,6 +378,42 @@ final class cnAddress extends cnEntry_Collection_Item {
 	}
 
 	/**
+	 * Set the address type.
+	 *
+	 * @since 10.4.35
+	 *
+	 * @param string $type The address type slug.
+	 *
+	 * @return static
+	 */
+	public function setType( $type ) {
+
+		$default = cnOptions::getDefaultAddressType();
+		$valid   = cnOptions::getAddressTypeOptions();
+
+		$this->type = array_key_exists( $type, $valid ) ? $type : key( $default );
+
+		return $this;
+	}
+
+	/**
+	 * Get the address type name.
+	 *
+	 * @since 10.4.35
+	 *
+	 * @return string
+	 */
+	public function getName() {
+
+		$other = _x( 'Other', 'unknown address type', 'connections' );
+		$type  = $this->getType();
+		$valid = cnOptions::getAddressTypeOptions();
+
+		// Previous versions set the type to the Select string from the dropdown (bug), so set the name to 'Other'.
+		return ! isset( $valid[ $type ] ) || 'Select' === $valid[ $type ] ? $other : $valid[ $type ];
+	}
+
+	/**
 	 * @access public
 	 * @since  8.6
 	 *

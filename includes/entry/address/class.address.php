@@ -291,19 +291,6 @@ final class cnAddress extends cnEntry_Collection_Item {
 	}
 
 	/**
-	 * Return an array of registered address types.
-	 *
-	 * @access private
-	 * @since  8.6
-	 *
-	 * @return array
-	 */
-	private static function getTypes() {
-
-		return cnOptions::getAddressTypeOptions();
-	}
-
-	/**
 	 * Escaped or sanitize cnAddress based on context.
 	 *
 	 * @access public

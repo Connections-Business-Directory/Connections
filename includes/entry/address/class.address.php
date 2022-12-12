@@ -175,12 +175,11 @@ final class cnAddress extends cnEntry_Collection_Item {
 	);
 
 	/**
-	 * cnAddress constructor.
+	 * Constructor.
 	 *
-	 * @access public
-	 * @since  8.6
+	 * @since 8.6
 	 *
-	 * @param array $data
+	 * @param array $data Address data.
 	 */
 	public function __construct( $data = array() ) {
 

@@ -340,7 +340,9 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setVisibility( $visibility ) {
 
-		$this->visibility = $visibility;
+		$valid = array( 'public', 'private', 'unlisted' );
+
+		$this->visibility = in_array( $visibility, $valid, true ) ? $visibility : 'public';
 
 		return $this;
 	}

@@ -79,6 +79,7 @@ class cnSanitize {
 	 * Sanitizes string based on the string type.
 	 *
 	 * @since 0.8
+	 * @deprecated 10.4.35
 	 *
 	 * @param string $type   Type of string to validate.
 	 * @param string $string String to be sanitized.
@@ -86,6 +87,8 @@ class cnSanitize {
 	 * @return string Sanitized text.
 	 */
 	public static function string( $type, $string ) {
+
+		_deprecated_function( __METHOD__, '10.4.35' );
 
 		switch ( $type ) {
 

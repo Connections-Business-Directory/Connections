@@ -211,6 +211,25 @@ final class _validate {
 	 *
 	 * Reliable consistent method vs `is_int()`.
 	 *
+	 * Example:
+	 * '' === false
+	 * ' ' === false
+	 * '1' === true
+	 * '0' === true
+	 * '-1' === true
+	 * 1 === true
+	 * 0 === true
+	 * -1 === true
+	 * '00' === true
+	 * '01' === true
+	 * 1.0 === true
+	 * '1.0' === true
+	 * true === false
+	 * false === false
+	 * null === false
+	 * 0x24 === true
+	 * 1337e0 === true
+	 *
 	 * @link  https://stackoverflow.com/a/29018655/5351316
 	 *
 	 * @since 10.4.1
@@ -253,6 +272,25 @@ final class _validate {
 	 * Determine if supplied value is a positive integer.
 	 *
 	 * Negative integers will return `false`.
+	 *
+	 * Example:
+	 * '' === false
+	 * ' ' === false
+	 * '1' === true
+	 * '0' === true
+	 * '-1' === false
+	 * 1 === true
+	 * 0 === true
+	 * -1 === false
+	 * '00' === true
+	 * '01' === true
+	 * 1.0 === true
+	 * '1.0' === true
+	 * true === false
+	 * false === false
+	 * null === false
+	 * 0x24 === true
+	 * 1337e0 === true
 	 *
 	 * @link  https://stackoverflow.com/a/29018655/5351316
 	 *

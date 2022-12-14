@@ -11,6 +11,8 @@
  * @since      0.8
  */
 
+use Connections_Directory\Utility\_sanitize;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -121,7 +123,7 @@ class cnMetabox_Process {
 
 			$value = $this->sanitize(
 				$field['type'],
-				isset( $_POST[ $field['id'] ] ) ? $_POST[ $field['id'] ] : null,
+				isset( $_POST[ $field['id'] ] ) ? $_POST[ $field['id'] ] : null, // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				isset( $field['options'] ) ? $field['options'] : array(),
 				isset( $field['default'] ) ? $field['default'] : null
 			);
@@ -172,11 +174,11 @@ class cnMetabox_Process {
 				break;
 
 			case 'text':
-				$value = cnSanitize::string( 'text', $value );
+				$value = sanitize_text_field( $value );
 				break;
 
 			case 'textarea':
-				$value = cnSanitize::string( 'textarea', $value );
+				$value = sanitize_textarea_field( $value );
 				break;
 
 			case 'slider':
@@ -184,15 +186,15 @@ class cnMetabox_Process {
 				break;
 
 			case 'colorpicker':
-				$value = cnSanitize::string( 'color', $value );
+				$value = _sanitize::hexColor( $value );
 				break;
 
 			case 'quicktag':
-				$value = cnSanitize::string( 'quicktag', $value );
+				$value = cnSanitize::quicktag( $value );
 				break;
 
 			case 'rte':
-				$value = cnSanitize::string( 'html', $value );
+				$value = cnSanitize::html( $value );
 				break;
 
 			default:

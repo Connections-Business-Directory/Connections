@@ -117,7 +117,7 @@ class cnSanitize {
 				break;
 
 			case 'integer':
-				$string = self::integer( $string );
+				$string = _sanitize::integer( $string );
 				break;
 
 			case 'color':

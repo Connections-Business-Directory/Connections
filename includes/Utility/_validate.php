@@ -240,7 +240,8 @@ final class _validate {
 	 */
 	public static function isInteger( $value ) {
 
-		return false !== filter_var( $value, FILTER_VALIDATE_INT );
+		// return false !== filter_var( $value, FILTER_VALIDATE_INT );
+		return is_numeric( $value ) && ( floatval( $value ) % 1 === 0 );
 	}
 
 	/**
@@ -302,6 +303,7 @@ final class _validate {
 	 */
 	public static function isPositiveInteger( $value ) {
 
-		return ctype_digit( strval( $value ) );
+		// return ! is_bool( $value ) && ctype_digit( strval( $value ) );
+		return is_numeric( $value ) && ( floatval( $value ) >= 0 ) && ( floatval( $value ) % 1 === 0 );
 	}
 }

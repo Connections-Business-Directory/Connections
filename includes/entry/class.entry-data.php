@@ -1247,8 +1247,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnString::normalize()
-	 *
 	 * @param array  $atts {
 	 *     Optional
 	 *
@@ -2257,9 +2255,6 @@ class cnEntry {
 	 * @access  public
 	 * @since   unknown
 	 *
-	 * @uses    date_i18n()
-	 * @uses    current_time()
-	 *
 	 * @param  string $type   The date type to get, anniversary or birthday.
 	 * @param  string $format The date format to show the date in. Use PHP date formatting.
 	 *
@@ -2537,9 +2532,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   cnMeta::get()
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
@@ -2829,10 +2821,6 @@ class cnEntry {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @uses   cnEntry::getSlug()
-	 * @uses   cnEntry::getLogoName()
-	 * @uses   cnEntry::getImageNameOriginal()
-	 *
 	 * @param  string $type The image path to return, logo | photo.
 	 *
 	 * @return string       The absolute image path.
@@ -2880,11 +2868,7 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @uses   self::getSlug()
-	 * @uses   self::getLogoName()
-	 * @uses   self::getImageNameOriginal()
+	 *
 	 * @param  string $type The image URL to return, logo | photo.
 	 * @return string       The image URL.
 	 */

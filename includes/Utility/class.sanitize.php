@@ -180,7 +180,7 @@ class cnSanitize {
 				switch ( $field ) {
 
 					case 'excerpt':
-						return self::string( 'textarea', $value );
+						return sanitize_textarea_field( $value );
 
 					case 'name':
 					case 'street':

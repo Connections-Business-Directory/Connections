@@ -146,6 +146,11 @@ class cnMetabox_Process {
 	 * @internal
 	 * @since 0.8
 	 *
+	 * @param string $type    The field type.
+	 * @param mixed  $value   The value to sanitize.
+	 * @param array  $options
+	 * @param null   $default
+	 *
 	 * @return mixed
 	 */
 	public function sanitize( $type, $value, $options = array(), $default = null ) {

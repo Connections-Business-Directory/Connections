@@ -11,6 +11,7 @@
 
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
@@ -53,7 +54,7 @@ class cnEntry {
 	 * @since 8.5.14
 	 * @var int
 	 */
-	private $order;
+	private $order = 0;
 
 	/**
 	 * @var string
@@ -649,9 +650,7 @@ class cnEntry {
 	 */
 	public function getOrder() {
 
-		$order = is_null( $this->order ) ? 0 : $this->order;
-
-		return cnSanitize::integer( $order );
+		return $this->order;
 	}
 
 	/**
@@ -664,7 +663,7 @@ class cnEntry {
 	 */
 	public function setOrder( $order ) {
 
-		$this->order = cnSanitize::integer( $order );
+		$this->order = _sanitize::integer( $order );
 	}
 
 	/**

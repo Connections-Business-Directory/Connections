@@ -445,20 +445,6 @@ class cnSanitize {
 	}
 
 	/**
-	 * Return integer.
-	 *
-	 * @since 0.8
-	 *
-	 * @param int $value An integer to sanitize.
-	 *
-	 * @return int
-	 */
-	public static function integer( $value ) {
-
-		return intval( $value );
-	}
-
-	/**
 	 * Sanitizes a hex color.
 	 *
 	 * Returns either '' or a 3 or 6 digit hex color (with #).

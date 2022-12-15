@@ -45,6 +45,12 @@ final class Import_Entries {
 	 * @return void
 	 */
 	public static function postBox() {
+
+		$action = new self();
+
+		if ( ! $action->isValid() ) {
+			return;
+		}
 		?>
 		<div class="postbox">
 			<h3 style="font-size:16px;">
@@ -68,5 +74,17 @@ final class Import_Entries {
 			</div><!-- .inside -->
 		</div><!-- .postbox -->
 		<?php
+	}
+
+	/**
+	 * Whether the current user has the required role capability.
+	 *
+	 * @since 10.4.35
+	 *
+	 * @return bool
+	 */
+	private function isValid() {
+
+		return current_user_can( 'import' );
 	}
 }

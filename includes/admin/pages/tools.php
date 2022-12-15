@@ -417,10 +417,6 @@ class cnAdmin_Tools {
 	 */
 	public static function import() {
 
-		if ( ! current_user_can( 'import' ) ) {
-			return;
-		}
-
 		do_action( 'cn_tools_import_before' );
 		do_action( 'Connections_Directory/Admin/Page/Tools/Tab/Import' );
 		do_action( 'cn_tools_import_after' );

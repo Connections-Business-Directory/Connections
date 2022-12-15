@@ -422,6 +422,7 @@ class cnAdmin_Tools {
 		}
 
 		do_action( 'cn_tools_import_before' );
+		do_action( 'Connections_Directory/Admin/Page/Tools/Tab/Import' );
 		?>
 
 		<div class="postbox">

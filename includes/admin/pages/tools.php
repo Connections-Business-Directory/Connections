@@ -417,9 +417,9 @@ class cnAdmin_Tools {
 	 */
 	public static function import() {
 
-		do_action( 'cn_tools_import_before' );
+		do_action( 'Connections_Directory/Admin/Page/Tools/Tab/Import/Before' );
 		do_action( 'Connections_Directory/Admin/Page/Tools/Tab/Import' );
-		do_action( 'cn_tools_import_after' );
+		do_action( 'Connections_Directory/Admin/Page/Tools/Tab/Import/After' );
 	}
 
 	/**

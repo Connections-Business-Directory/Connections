@@ -19,6 +19,14 @@ class Textarea extends Field {
 	use Autocomplete;
 
 	/**
+	 * Field constructor.
+	 */
+	public function __construct() {
+		$this->setDefaultValue( '' );
+		parent::__construct();
+	}
+
+	/**
 	 * Prepare the field attributes and stringify them.
 	 *
 	 * @since 10.4

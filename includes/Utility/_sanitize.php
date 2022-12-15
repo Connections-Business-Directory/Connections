@@ -165,6 +165,44 @@ final class _sanitize {
 	}
 
 	/**
+	 * Return integer.
+	 *
+	 * Example ( in => out ):
+	 * '' => 0
+	 * ' ' => 0
+	 * '1' => 1
+	 * '0' => 0
+	 * '-1' => -1
+	 * 1 => 1
+	 * 0 => 0
+	 * -1 => -1
+	 * '00' => 0
+	 * '01' => 0
+	 * 1.0 => 1
+	 * '1.0' => 1
+	 * true => 0
+	 * false => 0
+	 * null => 0
+	 * 0x24 => 36
+	 * 1337e0 => 1337
+	 *
+	 * @since 10.4.35
+	 *
+	 * @param int $value An integer to sanitize.
+	 *
+	 * @return int
+	 */
+	public static function integer( $value ) {
+
+		if ( _validate::isInteger( $value ) ) {
+
+			return intval( $value );
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Sanitizes search term.
 	 *
 	 * @since 10.4.4

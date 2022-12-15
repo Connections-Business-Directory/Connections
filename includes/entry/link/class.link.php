@@ -132,15 +132,15 @@ final class cnLink extends cnEntry_Collection_Item {
 			$url = cnSanitize::field( 'url', cnURL::prefix( $url ), 'raw' );
 		}
 
-		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnArray::get( $data, 'type', key( $default ) );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
+		$this->visibility = cnArray::get( $data, 'visibility', 'public' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		$this->title      = cnSanitize::field( 'name', cnArray::get( $data, 'title', '' ), 'raw' );
+		$this->title      = cnArray::get( $data, 'title', '' );
 		$this->url        = is_string( $url ) ? $url : '';
-		$this->target     = cnSanitize::field( 'attribute', cnArray::get( $data, 'target', $target ), 'raw' );
+		$this->target     = cnArray::get( $data, 'target', $target );
 		$this->follow     = cnFormatting::toBoolean( $follow );
 		$this->image      = cnFormatting::toBoolean( $image );
 		$this->logo       = cnFormatting::toBoolean( $logo );
@@ -221,7 +221,7 @@ final class cnLink extends cnEntry_Collection_Item {
 	 */
 	public function setTitle( $title ) {
 
-		$this->title = cnSanitize::field( 'name', $title, 'raw' );
+		$this->title = $title;
 
 		return $this;
 	}
@@ -276,7 +276,7 @@ final class cnLink extends cnEntry_Collection_Item {
 	 */
 	public function setTarget( $target ) {
 
-		$this->target = cnSanitize::field( 'attribute', $target, 'raw' );
+		$this->target = $target;
 
 		return $this;
 	}

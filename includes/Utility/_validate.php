@@ -96,7 +96,7 @@ final class _validate {
 	/**
 	 * Is file a JSON file.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $path     The full path file to check.
 	 * @param string $filename The name of the file (may differ from $path due to $path being in a tmp directory).
@@ -165,7 +165,7 @@ final class _validate {
 	/**
 	 * Whether the supplied string is valid JSON.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $value The string to validate.
 	 *
@@ -211,6 +211,25 @@ final class _validate {
 	 *
 	 * Reliable consistent method vs `is_int()`.
 	 *
+	 * Example:
+	 * '' === false
+	 * ' ' === false
+	 * '1' === true
+	 * '0' === true
+	 * '-1' === true
+	 * 1 === true
+	 * 0 === true
+	 * -1 === true
+	 * '00' === true
+	 * '01' === true
+	 * 1.0 === true
+	 * '1.0' === true
+	 * true === false
+	 * false === false
+	 * null === false
+	 * 0x24 === true
+	 * 1337e0 === true
+	 *
 	 * @link  https://stackoverflow.com/a/29018655/5351316
 	 *
 	 * @since 10.4.1
@@ -221,13 +240,58 @@ final class _validate {
 	 */
 	public static function isInteger( $value ) {
 
-		return false !== filter_var( $value, FILTER_VALIDATE_INT );
+		// return false !== filter_var( $value, FILTER_VALIDATE_INT );
+		return is_numeric( $value ) && ( floatval( $value ) % 1 === 0 );
+	}
+
+	/**
+	 * Validate that the supplied value is a string and not empty.
+	 *
+	 * Example:
+	 * '' === false
+	 * ' ' === true
+	 * '1' === true
+	 * '0' === true
+	 * 1 === false
+	 * 0 === false
+	 * true === false
+	 * false === false
+	 * null === false
+	 *
+	 * @since 10.4.35
+	 *
+	 * @param string $value String to check.
+	 *
+	 * @return bool
+	 */
+	public static function isStringNotEmpty( $value ) {
+
+		return is_string( $value ) && '' !== $value;
 	}
 
 	/**
 	 * Determine if supplied value is a positive integer.
 	 *
 	 * Negative integers will return `false`.
+	 *
+	 * Example:
+	 * '' === false
+	 * ' ' === false
+	 * '1' === true
+	 * '0' === true
+	 * '-1' === false
+	 * 1 === true
+	 * 0 === true
+	 * -1 === false
+	 * '00' === true
+	 * '01' === true
+	 * 1.0 === true
+	 * '1.0' === true
+	 * true === false
+	 * false === false
+	 * null === false
+	 * 0x24 === true
+	 * 1337e0 === true
 	 *
 	 * @link  https://stackoverflow.com/a/29018655/5351316
 	 *
@@ -239,6 +303,7 @@ final class _validate {
 	 */
 	public static function isPositiveInteger( $value ) {
 
-		return ctype_digit( strval( $value ) );
+		// return ! is_bool( $value ) && ctype_digit( strval( $value ) );
+		return is_numeric( $value ) && ( floatval( $value ) >= 0 ) && ( floatval( $value ) % 1 === 0 );
 	}
 }

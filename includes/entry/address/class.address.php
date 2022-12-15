@@ -1,5 +1,8 @@
 <?php
 
+use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_validate;
+
 /**
  * Class cnAddress
  *
@@ -133,7 +136,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 	);
 
 	/**
-	 * Hash map of the the old array keys / object properties to cnAddress method callbacks.
+	 * Hash map of the old array keys / object properties to cnAddress method callbacks.
 	 *
 	 * Used in self::__get()
 	 *
@@ -175,84 +178,44 @@ final class cnAddress extends cnEntry_Collection_Item {
 	);
 
 	/**
-	 * cnAddress constructor.
+	 * Constructor.
 	 *
-	 * @access public
-	 * @since  8.6
+	 * @since 8.6
 	 *
-	 * @param array $data
+	 * @param array $data Address data.
 	 */
 	public function __construct( $data = array() ) {
 
-		$types   = self::getTypes();
-		$default = cnOptions::getDefaultAddressType();
+		$this->setID( _array::get( $data, 'id', 0 ) );
 
-		/** @noinspection DuplicatedCode */
-		$this->id = (int) cnArray::get( $data, 'id', 0 );
+		$this->setType( _array::get( $data, 'type', 'null' ) ); // Use "null" as the default instead of `null` because methods requires a string.
+		$this->setVisibility( _array::get( $data, 'visibility', 'public' ) );
+		$this->setOrder( _array::get( $data, 'order', 0 ) );
+		$this->setPreferred( _array::get( $data, 'preferred', false ) );
 
-		$preferred = cnArray::get( $data, 'preferred', false );
-
-		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
-
-		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
-		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
-		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		$this->line_1     = cnSanitize::field( 'street', cnArray::get( $data, 'line_1', '' ), 'raw' );
-		$this->line_2     = cnSanitize::field( 'street', cnArray::get( $data, 'line_2', '' ), 'raw' );
-		$this->line_3     = cnSanitize::field( 'street', cnArray::get( $data, 'line_3', '' ), 'raw' );
-		$this->line_4     = cnSanitize::field( 'street', cnArray::get( $data, 'line_4', '' ), 'raw' );
-		$this->district   = cnSanitize::field( 'district', cnArray::get( $data, 'district', '' ), 'raw' );
-		$this->county     = cnSanitize::field( 'county', cnArray::get( $data, 'county', '' ), 'raw' );
-
-		$this->locality = cnSanitize::field(
-			'locality',
-			cnArray::get( $data, 'locality', cnArray::get( $data, 'city', '' ) ),
-			'raw'
-		);
+		$this->setLineOne( _array::get( $data, 'line_1', '' ) );
+		$this->setLineTwo( _array::get( $data, 'line_2', '' ) );
+		$this->setLineThree( _array::get( $data, 'line_3', '' ) );
+		$this->setLineFour( _array::get( $data, 'line_4', '' ) );
+		$this->setDistrict( _array::get( $data, 'district', '' ) );
+		$this->setCounty( _array::get( $data, 'county', '' ) );
 
 		/*
 		 * Need to check for `city`, `state` and `zipcode` in the array data for backwards compatibility.
 		 */
-		$this->region = cnSanitize::field(
-			'region',
-			cnArray::get( $data, 'region', cnArray::get( $data, 'state', '' ) ),
-			'raw'
+		$this->setLocality( _array::get( $data, 'locality', _array::get( $data, 'city', '' ) ) );
+		$this->setRegion( _array::get( $data, 'region', _array::get( $data, 'state', '' ) ) );
+		$this->setPostalCode( _array::get( $data, 'postal_code', _array::get( $data, 'zipcode', '' ) ) );
+
+		$this->setCountry(
+			_array::get( $data, 'country', '' ),
+			_array::get( $data, 'country_code', '' )
 		);
 
-		$this->postal_code = cnSanitize::field(
-			'postal-code',
-			cnArray::get( $data, 'postal_code', cnArray::get( $data, 'zipcode', '' ) ),
-			'raw'
+		$this->setCoordinates(
+			_array::get( $data, 'latitude' ),
+			_array::get( $data, 'longitude' )
 		);
-
-		$country = array(
-			'name'              => cnSanitize::field(
-				'country',
-				cnArray::get( $data, 'country', '' ),
-				'raw'
-			),
-			'iso_3166_1_alpha2' => cnArray::get( $data, 'country_code', '' ),
-		);
-
-		$this->country = new cnCountry( $country );
-
-		$this->coordinates = new cnCoordinates(
-			cnArray::get( $data, 'latitude' ),
-			cnArray::get( $data, 'longitude' )
-		);
-
-		$this->latitude  = $this->coordinates->getLatitude();
-		$this->longitude = $this->coordinates->getLongitude();
-
-		// Previous versions set the type to the Select string from the dropdown (bug), so set the name to 'Other'.
-		$this->name = ! isset( $types[ $this->type ] ) || 'Select' === $types[ $this->type ] ? 'Other' : $types[ $this->type ];
-
-		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.
-		if ( empty( $this->visibility ) ) {
-
-			$this->visibility = 'public';
-		}
 
 		$this->url = array(
 			'district'    => $this->district,
@@ -324,22 +287,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 				default:
 					unset( $this->$name );
 			}
-
-			// unset( $this->$name );
 		}
-	}
-
-	/**
-	 * Return an array of registered address types.
-	 *
-	 * @access private
-	 * @since  8.6
-	 *
-	 * @return array
-	 */
-	private static function getTypes() {
-
-		return cnOptions::getAddressTypeOptions();
 	}
 
 	/**
@@ -380,6 +328,42 @@ final class cnAddress extends cnEntry_Collection_Item {
 	}
 
 	/**
+	 * Set the address type.
+	 *
+	 * @since 10.4.35
+	 *
+	 * @param string $type The address type slug.
+	 *
+	 * @return static
+	 */
+	public function setType( $type ) {
+
+		$default = cnOptions::getDefaultAddressType();
+		$valid   = cnOptions::getAddressTypeOptions();
+
+		$this->type = array_key_exists( $type, $valid ) ? $type : key( $default );
+
+		return $this;
+	}
+
+	/**
+	 * Get the address type name.
+	 *
+	 * @since 10.4.35
+	 *
+	 * @return string
+	 */
+	public function getName() {
+
+		$other = _x( 'Other', 'unknown address type', 'connections' );
+		$type  = $this->getType();
+		$valid = cnOptions::getAddressTypeOptions();
+
+		// Previous versions set the type to the Select string from the dropdown (bug), so set the name to 'Other'.
+		return ! isset( $valid[ $type ] ) || 'Select' === $valid[ $type ] ? $other : $valid[ $type ];
+	}
+
+	/**
 	 * @access public
 	 * @since  8.6
 	 *
@@ -400,7 +384,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineOne( $street ) {
 
-		$this->line_1 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_1 = $street;
+		}
 
 		return $this;
 	}
@@ -426,7 +412,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineTwo( $street ) {
 
-		$this->line_2 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_2 = $street;
+		}
 
 		return $this;
 	}
@@ -452,7 +440,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineThree( $street ) {
 
-		$this->line_3 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_3 = $street;
+		}
 
 		return $this;
 	}
@@ -478,7 +468,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLineFour( $street ) {
 
-		$this->line_4 = cnSanitize::field( 'street', $street, 'raw' );
+		if ( _validate::isStringNotEmpty( $street ) ) {
+			$this->line_4 = $street;
+		}
 
 		return $this;
 	}
@@ -504,7 +496,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setDistrict( $district ) {
 
-		$this->district = cnSanitize::field( 'district', $district, 'raw' );
+		if ( _validate::isStringNotEmpty( $district ) ) {
+			$this->district = $district;
+		}
 
 		return $this;
 	}
@@ -530,7 +524,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setCounty( $county ) {
 
-		$this->county = cnSanitize::field( 'county', $county, 'raw' );
+		if ( _validate::isStringNotEmpty( $county ) ) {
+			$this->county = $county;
+		}
 
 		return $this;
 	}
@@ -556,7 +552,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setLocality( $locality ) {
 
-		$this->locality = cnSanitize::field( 'locality', $locality, 'raw' );
+		if ( _validate::isStringNotEmpty( $locality ) ) {
+			$this->locality = $locality;
+		}
 
 		return $this;
 	}
@@ -582,7 +580,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setRegion( $region ) {
 
-		$this->region = cnSanitize::field( 'region', $region, 'raw' );
+		if ( _validate::isStringNotEmpty( $region ) ) {
+			$this->region = $region;
+		}
 
 		return $this;
 	}
@@ -608,7 +608,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setPostalCode( $postal_code ) {
 
-		$this->postal_code = cnSanitize::field( 'postal-code', $postal_code, 'raw' );
+		if ( _validate::isStringNotEmpty( $postal_code ) ) {
+			$this->postal_code = $postal_code;
+		}
 
 		return $this;
 	}
@@ -635,9 +637,17 @@ final class cnAddress extends cnEntry_Collection_Item {
 	 */
 	public function setCountry( $country, $code = '' ) {
 
+		if ( ! is_string( $country ) ) {
+			$country = '';
+		}
+
+		if ( ! is_string( $code ) ) {
+			$code = '';
+		}
+
 		$this->country = new cnCountry(
 			array(
-				'name'              => cnSanitize::field( 'country', $country, 'raw' ),
+				'name'              => $country,
 				'iso_3166_1_alpha2' => $code,
 			)
 		);
@@ -722,7 +732,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		// Create GoogleMapsTimeZone object with default properties.
 		$gmtAPI = new cnGoogleMapsTimeZone( $this->getLatitude(), $this->getLongitude() );
 
-		// Perform query
+		// Perform query.
 		return $gmtAPI->queryTimeZone();
 	}
 

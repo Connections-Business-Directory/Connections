@@ -25,7 +25,7 @@ final class cnCountry {
 	 */
 	public function __construct( $attributes ) {
 
-		// Set the attributes
+		// Set the attributes.
 		$this->setAttributes( $attributes );
 	}
 
@@ -134,7 +134,7 @@ final class cnCountry {
 	 */
 	public function getName() {
 
-		return $this->get( 'name.common' ) ? $this->get( 'name.common' ) : $this->get( 'name' );
+		return $this->get( 'name.common' ) ? $this->get( 'name.common', '' ) : $this->get( 'name', '' );
 	}
 
 	/**

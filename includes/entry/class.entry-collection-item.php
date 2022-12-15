@@ -1,5 +1,8 @@
 <?php
 
+use Connections_Directory\Utility\_format;
+use Connections_Directory\Utility\_validate;
+
 /**
  * Class cnEntry_Collection_Item
  *
@@ -11,6 +14,9 @@
  * @property string $type
  * @property string $visibility
  * @property string $name
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 
@@ -62,7 +68,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	protected $properties = array();
 
 	/**
-	 * Hash map of the the old array keys / object properties to cnAddress method callbacks.
+	 * Hash map of the old array keys / object properties to cnAddress method callbacks.
 	 *
 	 * Used in self::__get()
 	 *
@@ -269,7 +275,9 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setID( $id ) {
 
-		$this->id = (int) $id;
+		if ( _validate::isPositiveInteger( $id ) ) {
+			$this->id = absint( $id );
+		}
 
 		return $this;
 	}
@@ -306,7 +314,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setType( $type ) {
 
-		$this->type = cnSanitize::field( 'attribute', $type, 'raw' );
+		$this->type = $type;
 
 		return $this;
 	}
@@ -332,7 +340,9 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setVisibility( $visibility ) {
 
-		$this->visibility = cnSanitize::field( 'attribute', $visibility, 'raw' );
+		$valid = array( 'public', 'private', 'unlisted' );
+
+		$this->visibility = in_array( $visibility, $valid, true ) ? $visibility : 'public';
 
 		return $this;
 	}
@@ -358,7 +368,9 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setOrder( $order ) {
 
-		$this->order = (int) $order;
+		if ( _validate::isPositiveInteger( $order ) ) {
+			$this->order = absint( $order );
+		}
 
 		return $this;
 	}
@@ -395,7 +407,7 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	 */
 	public function setPreferred( $preferred ) {
 
-		$this->preferred = (bool) $preferred;
+		$this->preferred = _format::toBoolean( $preferred );
 
 		return $this;
 	}

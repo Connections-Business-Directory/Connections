@@ -79,6 +79,7 @@ class cnSanitize {
 	 * Sanitizes string based on the string type.
 	 *
 	 * @since 0.8
+	 * @deprecated 10.4.35
 	 *
 	 * @param string $type   Type of string to validate.
 	 * @param string $string String to be sanitized.
@@ -86,6 +87,8 @@ class cnSanitize {
 	 * @return string Sanitized text.
 	 */
 	public static function string( $type, $string ) {
+
+		_deprecated_function( __METHOD__, '10.4.35' );
 
 		switch ( $type ) {
 
@@ -114,7 +117,7 @@ class cnSanitize {
 				break;
 
 			case 'integer':
-				$string = self::integer( $string );
+				$string = _sanitize::integer( $string );
 				break;
 
 			case 'color':
@@ -177,7 +180,7 @@ class cnSanitize {
 				switch ( $field ) {
 
 					case 'excerpt':
-						return self::string( 'textarea', $value );
+						return sanitize_textarea_field( $value );
 
 					case 'name':
 					case 'street':
@@ -439,20 +442,6 @@ class cnSanitize {
 		}
 
 		return $id;
-	}
-
-	/**
-	 * Return integer.
-	 *
-	 * @since 0.8
-	 *
-	 * @param int $value An integer to sanitize.
-	 *
-	 * @return int
-	 */
-	public static function integer( $value ) {
-
-		return intval( $value );
 	}
 
 	/**

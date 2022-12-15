@@ -368,6 +368,10 @@ class cnSystem_Info {
 
 			foreach ( $row as $header => $cell ) {
 
+				if ( ! is_string( $cell ) ) {
+					$cell = '';
+				}
+
 				$column[] = str_pad( $cell, $widths[ $header ], ' ', STR_PAD_RIGHT );
 			}
 
@@ -415,6 +419,10 @@ class cnSystem_Info {
 
 			// Loop through the meta for each column.
 			foreach ( $row as $header => $value ) {
+
+				if ( ! is_string( $value ) ) {
+					$value = '';
+				}
 
 				// Check to see if the column width for column meta was already recorded.
 				if ( isset( $widths[ $header ] ) ) {

@@ -20,7 +20,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.34';
+	const VERSION = '10.4.35';
 
 	/**
 	 * Stores the instance of this class.
@@ -411,6 +411,8 @@ final class Connections_Directory {
 		add_action( 'admin_init', array( Action\Admin\Log_Management::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Admin\Tools\Import_Entries::class, 'register' ) );
+		add_action( 'admin_init', array( Action\Admin\Tools\Import_Categories::class, 'register' ) );
 		add_action( 'admin_init', array( Action\Ajax\Category_Metabox_Height::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\System_Information::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\Settings_Export_Import::class, 'register' ), 9 );

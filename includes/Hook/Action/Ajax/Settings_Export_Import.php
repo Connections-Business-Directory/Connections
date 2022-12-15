@@ -2,7 +2,7 @@
 /**
  * Export/Import settings.
  *
- * @since 10.4.35
+ * @since 10.4.33
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
@@ -34,7 +34,7 @@ final class Settings_Export_Import {
 	 *
 	 * Register the action hooks.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 */
 	public static function register() {
 
@@ -113,7 +113,7 @@ final class Settings_Export_Import {
 	/**
 	 * Whether the request nonce is valid.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $action The nonce action name to validate.
 	 *

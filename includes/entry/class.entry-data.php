@@ -11,6 +11,7 @@
 
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
@@ -53,7 +54,7 @@ class cnEntry {
 	 * @since 8.5.14
 	 * @var int
 	 */
-	private $order;
+	private $order = 0;
 
 	/**
 	 * @var string
@@ -649,9 +650,7 @@ class cnEntry {
 	 */
 	public function getOrder() {
 
-		$order = is_null( $this->order ) ? 0 : $this->order;
-
-		return cnSanitize::integer( $order );
+		return $this->order;
 	}
 
 	/**
@@ -664,7 +663,7 @@ class cnEntry {
 	 */
 	public function setOrder( $order ) {
 
-		$this->order = cnSanitize::integer( $order );
+		$this->order = _sanitize::integer( $order );
 	}
 
 	/**
@@ -921,8 +920,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized. This method will eventually be declared as
 	 *                        private.
 	 *
@@ -957,8 +954,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -973,8 +968,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $firstName
 	 * @param string $context   The context in which it should be sanitized.
@@ -994,8 +987,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1010,8 +1001,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $middleName
 	 * @param string $context    The context in which it should be sanitized.
@@ -1031,8 +1020,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1047,8 +1034,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $lastName
 	 * @param string $context  The context in which it should be sanitized.
@@ -1068,8 +1053,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1084,8 +1067,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $suffix
 	 * @param string $context The context in which it should be sanitized.
@@ -1179,8 +1160,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1196,8 +1175,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field
-	 *
 	 * @param string $organization
 	 * @param string $context      The context in which it should be sanitized.
 	 */
@@ -1211,8 +1188,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
@@ -1229,8 +1204,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $title
 	 * @param string $context The context in which it should be sanitized.
 	 */
@@ -1244,8 +1217,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
@@ -1262,8 +1233,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field
-	 *
 	 * @param string $department
 	 * @param string $context    The context in which it should be sanitized.
 	 */
@@ -1277,8 +1246,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnString::normalize()
 	 *
 	 * @param array  $atts {
 	 *     Optional
@@ -1320,8 +1287,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1336,8 +1301,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $firstName
 	 * @param string $context   The context in which it should be sanitized.
@@ -1357,8 +1320,6 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1373,8 +1334,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $lastName
 	 * @param string $context  The context in which it should be sanitized.
@@ -1393,8 +1352,6 @@ class cnEntry {
 	 * @access private
 	 * @since  unknown
 	 *
-	 * @uses   cnSanitize::field()
-	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1409,8 +1366,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   cnSanitize::field()
 	 *
 	 * @param string $familyName
 	 * @param string $context    The context in which it should be sanitized.
@@ -2300,9 +2255,6 @@ class cnEntry {
 	 * @access  public
 	 * @since   unknown
 	 *
-	 * @uses    date_i18n()
-	 * @uses    current_time()
-	 *
 	 * @param  string $type   The date type to get, anniversary or birthday.
 	 * @param  string $format The date format to show the date in. Use PHP date formatting.
 	 *
@@ -2580,9 +2532,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   cnMeta::get()
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
@@ -2872,10 +2821,6 @@ class cnEntry {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @uses   cnEntry::getSlug()
-	 * @uses   cnEntry::getLogoName()
-	 * @uses   cnEntry::getImageNameOriginal()
-	 *
 	 * @param  string $type The image path to return, logo | photo.
 	 *
 	 * @return string       The absolute image path.
@@ -2923,11 +2868,7 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @uses   self::getSlug()
-	 * @uses   self::getLogoName()
-	 * @uses   self::getImageNameOriginal()
+	 *
 	 * @param  string $type The image URL to return, logo | photo.
 	 * @return string       The image URL.
 	 */

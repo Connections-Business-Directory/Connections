@@ -2,7 +2,7 @@
 /**
  * Helper methods for AJAX action responses.
  *
- * @since 10.4.35
+ * @since 10.4.33
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
@@ -25,7 +25,7 @@ trait Response {
 	/**
 	 * AJAX error response.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string     $message     The response message.
 	 * @param array|null $data        The data to include in the response.
@@ -39,7 +39,7 @@ trait Response {
 	/**
 	 * AJAX success response.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string     $message     The response message.
 	 * @param array|null $data        The data to include in the response.
@@ -53,7 +53,7 @@ trait Response {
 	/**
 	 * Merge the response and data into a single array.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string     $message The response message.
 	 * @param array|null $data    The data to include in the response.

@@ -96,7 +96,7 @@ final class _validate {
 	/**
 	 * Is file a JSON file.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $path     The full path file to check.
 	 * @param string $filename The name of the file (may differ from $path due to $path being in a tmp directory).
@@ -165,7 +165,7 @@ final class _validate {
 	/**
 	 * Whether the supplied string is valid JSON.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $value The string to validate.
 	 *

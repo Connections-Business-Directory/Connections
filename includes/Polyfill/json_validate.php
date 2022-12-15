@@ -2,7 +2,7 @@
 /**
  * Polyfill for the `json_validate()` function introduced in PHP 8.3.
  *
- * @since 10.4.35
+ * @since 10.4.33
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
@@ -20,7 +20,7 @@ if ( ! function_exists( 'json_validate' ) ) :
 	 * @link https://stackoverflow.com/a/45241792/5351316
 	 * @link https://wiki.php.net/rfc/json_validate
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $value The string to validate.
 	 *

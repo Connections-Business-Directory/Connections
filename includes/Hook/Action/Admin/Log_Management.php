@@ -2,7 +2,7 @@
 /**
  * Log admin actions.
  *
- * @since 10.4.35
+ * @since 10.4.33
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
@@ -31,7 +31,7 @@ final class Log_Management {
 	 *
 	 * Register the action hooks.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 */
 	public static function register() {
 
@@ -117,7 +117,7 @@ final class Log_Management {
 	 * Whether the current user has the required role capability and
 	 * that the request nonce is valid.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string      $action Nonce action name.
 	 * @param null|string $item   Item name. Use when protecting multiple items on the same page.
@@ -133,7 +133,7 @@ final class Log_Management {
 	/**
 	 * Redirect back to admin page.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $url The admin URL to redirect to.
 	 */

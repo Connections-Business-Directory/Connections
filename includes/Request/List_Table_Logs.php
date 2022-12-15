@@ -2,7 +2,7 @@
 /**
  * Get, validate, and validate logs list table request variables.
  *
- * @since 10.4.35
+ * @since 10.4.33
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
@@ -27,7 +27,7 @@ class List_Table_Logs extends Input {
 	/**
 	 * The request method type.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @var int
 	 */
@@ -36,7 +36,7 @@ class List_Table_Logs extends Input {
 	/**
 	 * The request variable key.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @var string
 	 */
@@ -45,7 +45,7 @@ class List_Table_Logs extends Input {
 	/**
 	 * The input schema.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @var array
 	 */
@@ -83,7 +83,7 @@ class List_Table_Logs extends Input {
 	/**
 	 * Get the request variable.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @return array
 	 */
@@ -116,7 +116,7 @@ class List_Table_Logs extends Input {
 	/**
 	 * Sanitize the list table input request variables.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param array $unsafe The value to sanitize.
 	 *
@@ -142,7 +142,7 @@ class List_Table_Logs extends Input {
 	 *
 	 * This is sufficiently validated against the schema, return `true`.
 	 *
-	 * @since 10.4.35
+	 * @since 10.4.33
 	 *
 	 * @param string $unsafe The raw request value to validate.
 	 *

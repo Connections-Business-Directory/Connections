@@ -175,7 +175,7 @@ class Address {
 	 */
 	public function setLineOne( $street ) {
 
-		$this->line_1 = cnSanitize::field( 'street', $street, 'raw' );
+		$this->line_1 = $street;
 
 		return $this;
 	}
@@ -199,7 +199,7 @@ class Address {
 	 */
 	public function setLineTwo( $street ) {
 
-		$this->line_2 = cnSanitize::field( 'street', $street, 'raw' );
+		$this->line_2 = $street;
 
 		return $this;
 	}
@@ -223,7 +223,7 @@ class Address {
 	 */
 	public function setLineThree( $street ) {
 
-		$this->line_3 = cnSanitize::field( 'street', $street, 'raw' );
+		$this->line_3 = $street;
 
 		return $this;
 	}
@@ -247,7 +247,7 @@ class Address {
 	 */
 	public function setLineFour( $street ) {
 
-		$this->line_4 = cnSanitize::field( 'street', $street, 'raw' );
+		$this->line_4 = $street;
 
 		return $this;
 	}
@@ -271,7 +271,7 @@ class Address {
 	 */
 	public function setDistrict( $district ) {
 
-		$this->district = cnSanitize::field( 'district', $district, 'raw' );
+		$this->district = $district;
 
 		return $this;
 	}
@@ -295,7 +295,7 @@ class Address {
 	 */
 	public function setCounty( $county ) {
 
-		$this->county = cnSanitize::field( 'county', $county, 'raw' );
+		$this->county = $county;
 
 		return $this;
 	}
@@ -319,7 +319,7 @@ class Address {
 	 */
 	public function setLocality( $locality ) {
 
-		$this->locality = cnSanitize::field( 'locality', $locality, 'raw' );
+		$this->locality = $locality;
 
 		return $this;
 	}
@@ -343,7 +343,7 @@ class Address {
 	 */
 	public function setRegion( $region ) {
 
-		$this->region = cnSanitize::field( 'region', $region, 'raw' );
+		$this->region = $region;
 
 		return $this;
 	}
@@ -367,7 +367,7 @@ class Address {
 	 */
 	public function setPostalCode( $postal_code ) {
 
-		$this->postal_code = cnSanitize::field( 'postal-code', $postal_code, 'raw' );
+		$this->postal_code = $postal_code;
 
 		return $this;
 	}
@@ -394,7 +394,7 @@ class Address {
 
 		$this->country = new Country(
 			array(
-				'name'              => cnSanitize::field( 'country', $country, 'raw' ),
+				'name'              => $country,
 				'iso_3166_1_alpha2' => $code,
 			)
 		);

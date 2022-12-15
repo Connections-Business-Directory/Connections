@@ -72,13 +72,13 @@ final class cnPhone extends cnEntry_Collection_Item {
 
 		$preferred = cnArray::get( $data, 'preferred', false );
 
-		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnArray::get( $data, 'type', key( $default ) );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
+		$this->visibility = cnArray::get( $data, 'visibility', 'public' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		$this->number     = cnSanitize::field( 'phone-number', cnArray::get( $data, 'number', '' ), 'raw' );
+		$this->number     = cnArray::get( $data, 'number', '' );
 
 		/*
 		 * // START -- Compatibility for previous versions.
@@ -168,7 +168,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 	 */
 	public function setNumber( $number ) {
 
-		$this->number = cnSanitize::field( 'phone-number', $number, 'raw' );
+		$this->number = $number;
 
 		return $this;
 	}

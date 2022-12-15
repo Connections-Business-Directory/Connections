@@ -70,10 +70,10 @@ final class cnEntry_Social_Network extends cnEntry_Collection_Item {
 
 		$this->id  = (int) cnArray::get( $data, 'id', 0 );
 		$preferred = cnArray::get( $data, 'preferred', false );
-		$type      = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type      = cnArray::get( $data, 'type', key( $default ) );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
+		$this->visibility = cnArray::get( $data, 'visibility', 'public' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
 		$url              = cnArray::get( $data, 'url', '' );

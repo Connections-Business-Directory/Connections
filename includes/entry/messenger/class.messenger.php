@@ -72,13 +72,13 @@ final class cnMessenger extends cnEntry_Collection_Item {
 
 		$preferred = cnArray::get( $data, 'preferred', false );
 
-		$type = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type = cnArray::get( $data, 'type', key( $default ) );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
-		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
+		$this->visibility = cnArray::get( $data, 'visibility', 'public' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		$this->uid        = cnSanitize::field( 'messenger-id', cnArray::get( $data, 'uid', '' ), 'raw' );
+		$this->uid        = cnArray::get( $data, 'uid', '' );
 
 		/*
 		 * // START -- Compatibility for previous versions.
@@ -168,7 +168,7 @@ final class cnMessenger extends cnEntry_Collection_Item {
 	 */
 	public function setUserID( $userID ) {
 
-		$this->uid = cnSanitize::field( 'messenger-id', $userID, 'raw' );
+		$this->uid = $userID;
 
 		return $this;
 	}

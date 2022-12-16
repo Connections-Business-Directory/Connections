@@ -31,7 +31,7 @@ final class Import_Entries {
 	 */
 	public static function register() {
 
-		if ( ! class_exists( '_Connections_CSV_Import', false ) ) {
+		if ( ! class_exists( 'Connections_CSV_Import', false ) ) {
 
 			add_action( 'Connections_Directory/Admin/Page/Tools/Tab/Import', array( __CLASS__, 'postBox' ) );
 		}

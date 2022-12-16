@@ -69,7 +69,7 @@ class cnDashboardMetabox {
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'feed' ),
-			'feed'     => 'http://feeds.feedburner.com/connections-pro/news',
+			'feed'     => 'https://feeds.feedburner.com/connections-pro/news',
 		);
 
 		self::$metaboxes[] = array(

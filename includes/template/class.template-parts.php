@@ -64,12 +64,7 @@ class cnTemplatePart {
 	 * If the template is being loaded, the output will be buffered by default
 	 * and the result of the buffer returned.
 	 *
-	 * @access public
 	 * @since  0.8.11
-	 * @static
-	 *
-	 * @uses   cnLocate::fileNames()
-	 * @uses   cnTemplatePart::locate()
 	 *
 	 * @param  string  $base         The base template name.
 	 * @param  string  $name         The template name.
@@ -110,11 +105,7 @@ class cnTemplatePart {
 	/**
 	 * Retrieve the name of the highest priority template file that exists.
 	 *
-	 * @access public
 	 * @since  0.8.11
-	 * @static
-	 * @uses   cnLocate::file()
-	 * @uses   load_template()
 	 *
 	 * @param string|array $files        Template file(s) to search for, in order of priority.
 	 * @param array        $params       An array of arguments that will be extract() if the template part is to be loaded.

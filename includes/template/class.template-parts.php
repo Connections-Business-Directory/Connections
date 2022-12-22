@@ -138,25 +138,24 @@ class cnTemplatePart {
 	/**
 	 * Load the template.
 	 *
-	 * This is basically a Connections version of WP core load_template().
+	 * This is basically a Connections version of WP core {@see load_template()}.
 	 *
 	 * The difference is an array $params can be passed which will be
 	 * extract() so the $params are in scope of the template part.
 	 *
-	 * @access public
-	 * @static
 	 * @since  0.8.11
-	 * @global       $posts
-	 * @global       $post
-	 * @global       $wp_did_header
-	 * @global       $wp_query
-	 * @global       $wp_rewrite
-	 * @global       $wpdb
-	 * @global       $wp_version
-	 * @global       $wp
-	 * @global       $id
-	 * @global       $comment
-	 * @global       $user_ID
+	 *
+	 * @global array      $posts
+	 * @global WP_Post    $post       Global post object.
+	 * @global bool       $wp_did_header
+	 * @global WP_Query   $wp_query   WordPress Query object.
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 * @global wpdb       $wpdb       WordPress database abstraction object.
+	 * @global string     $wp_version
+	 * @global WP         $wp         Current WordPress environment instance.
+	 * @global int        $id
+	 * @global WP_Comment $comment    Global comment object.
+	 * @global int        $user_ID
 	 *
 	 * @param string $file         The file path of the template part to be loaded.
 	 * @param array  $params       An array of arguments that will be extract().

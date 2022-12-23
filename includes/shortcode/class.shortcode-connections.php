@@ -149,7 +149,7 @@ class cnShortcode_Connections extends cnShortcode {
 
 			// The meta query syntax follows the JSON standard, except, the WordPress Shortcode API does not allow
 			// brackets within shortcode options, so parenthesis have to be used instead, so, lets swap them
-			// that was json_decode can be ran and the resulting array used in cnRetrieve::entries().
+			// that was json_decode can be run and the resulting array used in cnRetrieve::entries().
 			$atts['meta_query'] = str_replace( array( '(', ')' ), array( '[', ']' ), $atts['meta_query'] );
 
 			$metaQuery = _::maybeJSONdecode( $atts['meta_query'] );

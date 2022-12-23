@@ -780,7 +780,6 @@ class cnShortcode {
 	 * Get the Directory Homepage ID based on context.
 	 *
 	 * @since 10.2
-	 * @private
 	 *
 	 * @return int
 	 */

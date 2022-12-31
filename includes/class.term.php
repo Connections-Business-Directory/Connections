@@ -13,6 +13,7 @@ use Connections_Directory\Taxonomy;
 use function Connections_Directory\Taxonomy\_getTermChildren;
 use function Connections_Directory\Taxonomy\_getTermHierarchy;
 use function Connections_Directory\Taxonomy\_padTermCounts;
+use function Connections_Directory\Taxonomy\updateTermCache as update_term_cache;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.

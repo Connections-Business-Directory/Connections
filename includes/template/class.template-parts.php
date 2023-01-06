@@ -178,9 +178,7 @@ class cnTemplatePart {
 			$result = require $file;
 		}
 
-		$result = false === $result ? $result : true;
-
-		return $result;
+		return ! ( false === $result );
 	}
 
 	/**

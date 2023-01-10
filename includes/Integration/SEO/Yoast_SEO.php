@@ -48,7 +48,7 @@ final class Yoast_SEO {
 
 			self::$instance = $self = new self();
 
-			if ( defined( 'WPSEO_VERSION' ) && version_compare( WPSEO_VERSION, '14.1', '>=' ) ) {
+			if ( defined( 'WPSEO_VERSION' ) && version_compare( WPSEO_VERSION, '15.2', '>=' ) ) {
 
 				$self->hooks();
 			}
@@ -295,10 +295,9 @@ final class Yoast_SEO {
 	 */
 	public static function titleSeparator( $separator ) {
 
-		if ( method_exists( 'WPSEO_Utils', 'get_title_separator' ) ) {
+		if ( method_exists( '\Yoast\WP\SEO\Helpers\Options_Helper', 'get_title_separator' ) ) {
 
-			/** @noinspection PhpFullyQualifiedNameUsageInspection */
-			$separator = \WPSEO_Utils::get_title_separator();
+			$separator = YoastSEO()->helpers->options->get_title_separator();
 		}
 
 		return $separator;
@@ -325,9 +324,11 @@ final class Yoast_SEO {
 			return $title;
 		}
 
-		/** @noinspection PhpFullyQualifiedNameUsageInspection */
-		$separator = \WPSEO_Utils::get_title_separator();
-		$title     = cnSEO::metaTitle( $title, $separator );
+		if ( method_exists( '\Yoast\WP\SEO\Helpers\Options_Helper', 'get_title_separator' ) ) {
+
+			$separator = YoastSEO()->helpers->options->get_title_separator();
+			$title     = cnSEO::metaTitle( $title, $separator );
+		}
 
 		return $title;
 	}

@@ -320,6 +320,7 @@ function isHierarchical( $slug ) {
  * @since 10.3
  *
  * @param array $term_ids List of term IDs.
+ *
  * @return array|false An array of metadata on success, false if there is nothing to update.
  */
 function updateTermMetaCache( $term_ids ) {
@@ -334,7 +335,7 @@ function updateTermMetaCache( $term_ids ) {
  *
  * @since 10.3
  *
- * @param Term[] $terms    Array of term objects to change.
+ * @param Term[] $terms Array of term objects to change.
  */
 function updateTermCache( $terms ) {
 

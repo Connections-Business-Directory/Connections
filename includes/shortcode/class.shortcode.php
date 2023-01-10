@@ -49,12 +49,8 @@ class cnShortcode {
 	/**
 	 * Register the core shortcodes.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
-	 * @uses   add_shortcode()
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.8
 	 */
 	public static function register() {
 
@@ -784,7 +780,6 @@ class cnShortcode {
 	 * Get the Directory Homepage ID based on context.
 	 *
 	 * @since 10.2
-	 * @private
 	 *
 	 * @return int
 	 */

@@ -4,8 +4,8 @@ Donate link: https://connections-pro.com/
 Tags: business directory, directory plugin, member directory, listings, staff directory, chamber of commerce, church directory, company directory, contact directory, listings directory, local business directory, address book
 Requires at least: 5.6
 Tested up to: 6.1.1
-Requires PHP: 5.6.20
-Stable tag: 10.4.35
+Requires PHP: 7.0
+Stable tag: 10.4.36
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.36 01/10/2023 =
+* NOTICE: Bump min PHP version to 7.0.
+* TWEAK: Update the dashboard news feed to URL to `https`.
+* TWEAK: Simplify return value logic.
+* TWEAK: Bump minimum support version of Yoast SEO to 15.2. Remove use of deprecated method `WPSEO_Utils::get_title_separator()`.
+* TWEAK: Add function exists check for Yoast SEO before checking if the `get_title_separator()` method exists.
+* BUG: Correct the classname check.
+* BUG: Ensure the correct `update_term_cache()` function is called to prevent cache pollution.
+* OTHER: Correct misspellings.
+* DEV: Move polyfill functions to separate files and include them as dependencies.
+* DEV: phpDoc corrections.
 
 = 10.4.35 12/15/2022 =
 * NEW: Introduce `_validate::isStringNotEmpty()`.
@@ -652,3 +664,6 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 
 = 10.4.35 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
+
+= 10.4.36 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.

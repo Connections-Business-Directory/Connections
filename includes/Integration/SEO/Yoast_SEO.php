@@ -295,7 +295,9 @@ final class Yoast_SEO {
 	 */
 	public static function titleSeparator( $separator ) {
 
-		if ( method_exists( '\Yoast\WP\SEO\Helpers\Options_Helper', 'get_title_separator' ) ) {
+		if ( function_exists( 'YoastSEO' )
+			 && method_exists( '\Yoast\WP\SEO\Helpers\Options_Helper', 'get_title_separator' )
+		) {
 
 			$separator = YoastSEO()->helpers->options->get_title_separator();
 		}
@@ -324,7 +326,9 @@ final class Yoast_SEO {
 			return $title;
 		}
 
-		if ( method_exists( '\Yoast\WP\SEO\Helpers\Options_Helper', 'get_title_separator' ) ) {
+		if ( function_exists( 'YoastSEO' )
+			 && method_exists( '\Yoast\WP\SEO\Helpers\Options_Helper', 'get_title_separator' )
+		) {
 
 			$separator = YoastSEO()->helpers->options->get_title_separator();
 			$title     = cnSEO::metaTitle( $title, $separator );

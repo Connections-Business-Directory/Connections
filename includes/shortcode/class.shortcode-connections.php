@@ -1,7 +1,9 @@
 <?php
 
 use Connections_Directory\Utility\_;
+use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_format;
+use Connections_Directory\Utility\_sanitize;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -131,6 +133,11 @@ class cnShortcode_Connections extends cnShortcode {
 		_format::toBoolean( $atts['force_home'] );
 
 		/*
+		 * Sanitize integer values.
+		 */
+		$atts['width'] = _sanitize::integer( $atts['width'] );
+
+		/*
 		 * The post editor entity encodes the post text we have to decode it
 		 * so a match can be made when the query is run.
 		 */
@@ -193,16 +200,16 @@ class cnShortcode_Connections extends cnShortcode {
 
 		$html .= sprintf(
 			'<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
-			$instance->options->getVersion(),
-			$instance->options->getDBVersion(),
-			empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
+			esc_attr( $instance->options->getVersion() ),
+			esc_attr( $instance->options->getDBVersion() ),
+			empty( $atts['width'] ) ? '' : ' style="' . _escape::css( "width: {$atts['width']}px;" ) . '"'
 		);
 
 		$html .= sprintf(
 			'<div class="%1$s" id="cn-%2$s" data-template-version="%3$s">',
-			implode( ' ', $class ),
-			$template->getSlug(),
-			$template->getVersion()
+			_escape::classNames( $class ),
+			esc_attr( $template->getSlug() ),
+			esc_attr( $template->getVersion() )
 		);
 
 		// The filter should check $content that content is not empty before processing $content.
@@ -229,7 +236,7 @@ class cnShortcode_Connections extends cnShortcode {
 			$html .= $content;
 		}
 
-		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . PHP_EOL;
+		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . esc_attr( $template->getSlug() ) . ' -->' : '' ) . PHP_EOL;
 
 		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . PHP_EOL;
 
@@ -240,5 +247,4 @@ class cnShortcode_Connections extends cnShortcode {
 		// @todo This should be run via a filter.
 		return self::removeEOL( $html );
 	}
-
 }

@@ -246,6 +246,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.37 01/20/2023 =
+* NOTICE: Minimum required PHP version is 7.0.
+* SECURITY: Add missing argument sanitization and escaping when outputting THE `[connections]` shortcode content.
+* SECURITY: Add escaping to the `[upcoming_list]` shortcode output.
+* TWEAK: Remove duplicate code from the `[upcoming_list]` shortcode to remove end of line characters.
+* DEV: Update copyright year in file header.
+
 = 10.4.36 01/10/2023 =
 
 * NOTICE: Bump min PHP version to 7.0.

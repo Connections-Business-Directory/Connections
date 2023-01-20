@@ -248,6 +248,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.37 01/20/2023 =
+* NOTICE: Minimum required PHP version is 7.0.
+* SECURITY: Add missing argument sanitization and escaping when outputting THE `[connections]` shortcode content.
+* SECURITY: Add escaping to the `[upcoming_list]` shortcode output.
+* TWEAK: Remove duplicate code from the `[upcoming_list]` shortcode to remove end of line characters.
+* DEV: Update copyright year in file header.
+
 = 10.4.36 01/10/2023 =
 * NOTICE: Bump min PHP version to 7.0.
 * TWEAK: Update the dashboard news feed to URL to `https`.
@@ -666,4 +673,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.36 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.37 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.

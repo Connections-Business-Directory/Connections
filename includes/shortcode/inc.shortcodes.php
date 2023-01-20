@@ -9,10 +9,10 @@
  * @since       unknown
  */
 
+use Connections_Directory\Utility\_escape;
+
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Template tag to call the entry list. All options can be passed as an
@@ -166,7 +166,7 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 
 		if ( 0 < strlen( $atts['no_results'] ) ) {
 
-			$out .= '<p class="cn-upcoming-no-results">' . $atts['no_results'] . '</p>';
+			$out .= '<p class="cn-upcoming-no-results">' . _escape::html( $atts['no_results'] ) . '</p>';
 
 		} else {
 
@@ -216,13 +216,13 @@ function _upcoming_list( $atts, $content = null, $tag = 'upcoming_list' ) {
 			$out .= ob_get_contents();
 		ob_end_clean();
 
-		$out .= '<div class="connections-list cn-upcoming cn-' . $atts['list_type'] . '" id="cn-list" data-connections-version="' . $connections->options->getVersion() . '-' . $connections->options->getDBVersion() . '">' . "\n";
+		$out .= '<div class="connections-list cn-upcoming ' . _escape::classNames( "cn-{$atts['list_type']}" ) . '" id="cn-list" data-connections-version="' . esc_attr( "{$connections->options->getVersion()}-{$connections->options->getDBVersion()}" ) . '">' . "\n";
 
-			$out .= "\n" . '<div class="cn-template cn-' . $template->getSlug() . '" id="cn-' . $template->getSlug() . '">' . "\n";
+			$out .= "\n" . '<div class="cn-template ' . _escape::classNames( "cn-{$template->getSlug()}" ) . '" id="' . _escape::id( "cn-{$template->getSlug()}" ) . '">' . "\n";
 
 				$out .= "\n" . '<div class="cn-clear" id="cn-list-head">' . "\n";
 					if ( $atts['show_title'] ) {
-						$out .= '<div class="cn-upcoming-title">' . $list_title . '</div>';
+						$out .= '<div class="cn-upcoming-title">' . _escape::html( $list_title ) . '</div>';
 					}
 				$out .= "\n" . '</div>' . "\n";
 

@@ -615,11 +615,11 @@ class cnShortcode {
 				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
 
 			case 'search':
-				if ( has_action( 'cn_submit_search_form' ) ) {
+				if ( has_action( 'Connections_Directory/Shortcode/View/Search' ) ) {
 
 					ob_start();
 
-					do_action( 'cn_submit_search_form', $atts, $content, $tag );
+					do_action( 'Connections_Directory/Shortcode/View/Search', $atts, $content, $tag );
 
 					return ob_get_clean();
 

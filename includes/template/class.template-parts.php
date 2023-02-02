@@ -656,8 +656,8 @@ class cnTemplatePart {
 
 		array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( true ) );
 
-		$class = apply_filters( 'cn_list_row_class', $class );
-		$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
+		$class = apply_filters( 'cn_list_row_class', $class, $entry );
+		$class = apply_filters( "cn_list_row_class-{$template->getSlug()}", $class, $entry );
 
 		cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
 

@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.6
 Tested up to: 6.1.1
 Requires PHP: 7.0
-Stable tag: 10.4.37
+Stable tag: 10.4.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.37 02/02/2023 =
+* TWEAK: Pass `$entry` object in the `cn_list_row_class` filter.
+* TWEAK: Rename `cn_submit_search_form` action to `Connections_Directory/Shortcode/View/Search`.
 
 = 10.4.37 01/20/2023 =
 * NOTICE: Minimum required PHP version is 7.0.
@@ -676,4 +680,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.37 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.38 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.

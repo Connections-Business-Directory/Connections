@@ -246,6 +246,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.38 02/02/2023 =
+* TWEAK: Pass `$entry` object in the `cn_list_row_class` filter.
+* TWEAK: Rename `cn_submit_search_form` action to `Connections_Directory/Shortcode/View/Search`.
+
 = 10.4.37 01/20/2023 =
 * NOTICE: Minimum required PHP version is 7.0.
 * SECURITY: Add missing argument sanitization and escaping when outputting THE `[connections]` shortcode content.

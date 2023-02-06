@@ -67,6 +67,6 @@ if ( $check->passes() ) {
 
 		Connections_Directory::instance( __FILE__ );
 
-		do_action( 'cn_loaded' );
+		Connections_Directory\Utility\_deprecated\_doAction( 'cn_loaded', array(), '10.4.39', 'Connections_Directory/Loaded' );
 	}
 }

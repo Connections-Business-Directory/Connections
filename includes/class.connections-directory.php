@@ -271,6 +271,22 @@ final class Connections_Directory {
 				self::$instance->initOptions();
 			}
 			// self::$instance->options->setDBVersion('0.1.9'); self::$instance->options->saveOptions();
+
+			/**
+			 * Allow addons to hook into Connections core after it has been loaded.
+			 *
+			 * NOTE: Priority `5` set to allow hooking into `plugins_loaded`
+			 * at higher, lower, or default priority.
+			 *
+			 * @since 10.4.39
+			 */
+			add_action(
+				'plugins_loaded',
+				static function() {
+					do_action( 'Connections_Directory/Loaded' );
+				},
+				5
+			);
 		}
 
 		return self::$instance;

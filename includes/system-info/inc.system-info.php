@@ -125,6 +125,11 @@ User Agent String:          <?php echo esc_html( $browser->getUserAgent() ) . PH
 Version:                    <?php echo get_bloginfo( 'version' ) . PHP_EOL; ?>
 Language:                   <?php echo ( ! empty( $locale ) ? $locale : 'en_US' ) . PHP_EOL; ?>
 ABSPATH                     <?php echo ABSPATH . PHP_EOL; ?>
+WP_CONTENT_DIR:             <?php echo WP_CONTENT_DIR . PHP_EOL; ?>
+WP_CONTENT_URL:             <?php echo WP_CONTENT_URL . PHP_EOL; ?>
+WP_PLUGIN_DIR:              <?php echo WP_PLUGIN_DIR . PHP_EOL; ?>
+WP_PLUGIN_URL:              <?php echo WP_PLUGIN_URL . PHP_EOL; ?>
+UPLOADS:                    <?php echo defined( 'UPLOADS' ) ? UPLOADS : 'UNDEFINED' . PHP_EOL; ?>
 Permalink Structure:        <?php echo ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . PHP_EOL; ?>
 Active Theme:               <?php echo $theme . PHP_EOL; ?>
 <?php

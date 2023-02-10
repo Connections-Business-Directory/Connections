@@ -54,13 +54,13 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Display or retrieve the HTML select list of terms.
 	 *
-	 * This is the Connections equivalent of @see wp_dropdown_categories() in WordPress core ../wp-includes/category-template.php
+	 * This is the Connections equivalent of {@see wp_dropdown_categories()} in WordPress core ../wp-includes/category-template.php
 	 *
 	 * @since  8.2.4
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
-	 *     NOTE: Additionally, all valid options as supported in @see cnTerm::getTaxonomyTerms().
+	 *     NOTE: Additionally, all valid options as supported in {@see cnTerm::getTaxonomyTerms()}.
 	 *
 	 * @type string $taxonomy           The taxonomy tree to display.
 	 *                                  Default: 'category'

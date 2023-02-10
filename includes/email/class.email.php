@@ -54,6 +54,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Class cnEmail
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnEmail {
 
@@ -145,7 +148,6 @@ class cnEmail {
 	/**
 	 * Set class defaults.
 	 *
-	 * @access public
 	 * @since  0.7.8
 	 */
 	public function __construct() {
@@ -157,10 +159,9 @@ class cnEmail {
 	/**
 	 * Add custom headers to be passed to the wp_mail() $header param.
 	 *
-	 * @access public
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
-	 * @param $header
+	 * @param string $header
 	 */
 	public function header( $header ) {
 
@@ -171,8 +172,7 @@ class cnEmail {
 	/**
 	 * Set whether the email should be sent as HTML.
 	 *
-	 * @access public
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
 	 * @param bool $html
 	 */
@@ -195,10 +195,9 @@ class cnEmail {
 	/**
 	 * Set the email character set.
 	 *
-	 * @access public
-	 * @since  0.7.8
+	 * @since 0.7.8
 	 *
-	 * @param $charset
+	 * @param string $charset
 	 */
 	public function charSet( $charset ) {
 
@@ -212,9 +211,10 @@ class cnEmail {
 	 * Files to attach: a single filename, an array of file names,
 	 * or a newline-delimited string list of multiple file names.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param string|array
+	 *
+	 * @param string|array $attachments
+	 *
 	 * @return void
 	 */
 	public function attachments( $attachments ) {
@@ -227,11 +227,10 @@ class cnEmail {
 	 * Sets the `from` email and name [optional].
 	 * This will be passed the wp_mail() $headers param.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  string $email From email address.
-	 * @param  string $name  [optional] From email name.
-	 * @return void
+	 *
+	 * @param string $email From email address.
+	 * @param string $name  From email name.
 	 */
 	public function from( $email, $name = '' ) {
 
@@ -253,11 +252,10 @@ class cnEmail {
 	 * Can be called multiple times, one for each email address to which the email is to be sent.
 	 * This will be passed the wp_mail() $to param as an array.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  string $email To email address.
-	 * @param  string $name  [optional] To email name.
-	 * @return void
+	 *
+	 * @param string $email To email address.
+	 * @param string $name  To email name.
 	 */
 	public function to( $email, $name = '' ) {
 
@@ -273,11 +271,10 @@ class cnEmail {
 	 * Can be called multiple times, one for each email address to which the email is to be cc'd.
 	 * This will be passed the wp_mail() $to param as an array.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  string $email To email address.
-	 * @param  string $name  [optional] To email name.
-	 * @return void
+	 *
+	 * @param string $email To email address.
+	 * @param string $name  To email name.
 	 */
 	public function cc( $email, $name = '' ) {
 
@@ -293,11 +290,10 @@ class cnEmail {
 	 * Can be called multiple times, one for each email address to which the email is to be bcc/d.
 	 * This will be passed the wp_mail() $to param as an array.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  string $email To email address.
-	 * @param  string $name  [optional] To email name.
-	 * @return void
+	 *
+	 * @param string $email To email address.
+	 * @param string $name  [optional] To email name.
 	 */
 	public function bcc( $email, $name = '' ) {
 
@@ -311,10 +307,9 @@ class cnEmail {
 	/**
 	 * The email subject line.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  string $subject
-	 * @return void
+	 *
+	 * @param string $subject
 	 */
 	public function subject( $subject ) {
 
@@ -325,10 +320,9 @@ class cnEmail {
 	/**
 	 * The email message content.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  string $content
-	 * @return void
+	 *
+	 * @param string $content
 	 */
 	public function message( $content ) {
 
@@ -344,8 +338,8 @@ class cnEmail {
 	 * set by this class. To be a good citizen, we'll add them back
 	 * after the email has been sent.
 	 *
-	 * @access public
 	 * @since 0.7.8
+	 *
 	 * @return bool
 	 */
 	public function send() {
@@ -479,8 +473,7 @@ class cnEmail {
 	/**
 	 * Set the content type and char set header.
 	 *
-	 * @access private
-	 * @since  8.2.10
+	 * @since 8.2.10
 	 */
 	private function parseType() {
 
@@ -490,8 +483,7 @@ class cnEmail {
 	/**
 	 * Set the 'From' header for @see wp_mail().
 	 *
-	 * @access private
-	 * @since  8.2.10
+	 * @since 8.2.10
 	 */
 	private function parseFrom() {
 
@@ -509,8 +501,7 @@ class cnEmail {
 	/**
 	 * Build the to array for the @see wp_mail() $to param.
 	 *
-	 * @access private
-	 * @since  8.2.10
+	 * @since 8.2.10
 	 *
 	 * @return array
 	 */
@@ -541,8 +532,7 @@ class cnEmail {
 	/**
 	 * Build the cc header string for @see wp_mail() and add it to the header.
 	 *
-	 * @access private
-	 * @since  8.2.10
+	 * @since 8.2.10
 	 */
 	private function parseCC() {
 
@@ -568,8 +558,7 @@ class cnEmail {
 	/**
 	 * Build the bcc header string for @see wp_mail() and add it to the header.
 	 *
-	 * @access private
-	 * @since  8.2.10
+	 * @since 8.2.10
 	 */
 	private function parseBCC() {
 
@@ -595,10 +584,9 @@ class cnEmail {
 	/**
 	 * Clear any of the email properties.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  string $property The property to clear.
-	 * @return void
+	 *
+	 * @param string $property The property to clear.
 	 */
 	public function clear( $property = 'all' ) {
 

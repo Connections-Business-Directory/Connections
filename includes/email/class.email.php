@@ -180,12 +180,12 @@ class cnEmail {
 
 		if ( $html ) {
 
-			// Set HTML Content Type
+			// Set HTML Content Type.
 			$this->type = 'text/html';
 
 		} else {
 
-			// Set Plain Text Content Type
+			// Set Plain Text Content Type.
 			$this->type = 'text/plain';
 
 		}

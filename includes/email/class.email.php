@@ -16,7 +16,7 @@
  * // Set from whom the email is being sent.
  * $email->from( 'send@domain.tld', 'From Name' );
  *
- * // Send to multiple email addesses.
+ * // Send to multiple email addresses.
  * // Call for each address to which the email is to be sent.
  * $email->to( 'email-1@domain.tld', 'name' );
  * $email->to( 'email-2@domain.tld' );
@@ -169,7 +169,7 @@ class cnEmail {
 	}
 
 	/**
-	 * Set whether or not the email should be sent as HTML.
+	 * Set whether the email should be sent as HTML.
 	 *
 	 * @access public
 	 * @since  0.7.8
@@ -225,7 +225,7 @@ class cnEmail {
 
 	/**
 	 * Sets the `from` email and name [optional].
-	 * This will be passed the the wp_mail() $headers param.
+	 * This will be passed the wp_mail() $headers param.
 	 *
 	 * @access public
 	 * @since 0.7.8
@@ -251,7 +251,7 @@ class cnEmail {
 	/**
 	 * Sets the `to` email and name [optional].
 	 * Can be called multiple times, one for each email address to which the email is to be sent.
-	 * This will be passed the the wp_mail() $to param as an array.
+	 * This will be passed the wp_mail() $to param as an array.
 	 *
 	 * @access public
 	 * @since 0.7.8
@@ -270,8 +270,8 @@ class cnEmail {
 
 	/**
 	 * Sets the `cc` email and name [optional].
-	 * Can be called multiple times, one for each email address to which the email is to be cc/d.
-	 * This will be passed the the wp_mail() $to param as an array.
+	 * Can be called multiple times, one for each email address to which the email is to be cc'd.
+	 * This will be passed the wp_mail() $to param as an array.
 	 *
 	 * @access public
 	 * @since 0.7.8
@@ -291,7 +291,7 @@ class cnEmail {
 	/**
 	 * Sets the `bcc` email and name [optional].
 	 * Can be called multiple times, one for each email address to which the email is to be bcc/d.
-	 * This will be passed the the wp_mail() $to param as an array.
+	 * This will be passed the wp_mail() $to param as an array.
 	 *
 	 * @access public
 	 * @since 0.7.8
@@ -339,7 +339,7 @@ class cnEmail {
 	/**
 	 * Send the email.
 	 *
-	 * This will remove all filters hooked in to all of the current
+	 * This will remove all filters hooked in to all the current
 	 * wp_mail filters to prevent them from overriding the values
 	 * set by this class. To be a good citizen, we'll add them back
 	 * after the email has been sent.

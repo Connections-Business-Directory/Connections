@@ -322,7 +322,7 @@ class cnTemplatePart {
 	 *
 	 * @global $wp_rewrite
 	 *
-	 * @param array $atts The method parameter arguments. Generally, the shortcode options are passed.
+	 * @param array{ home_id: int, force_home: bool, return: bool } $atts The method parameter arguments. Generally, the shortcode options are passed.
 	 *
 	 * @return string
 	 */
@@ -388,6 +388,7 @@ class cnTemplatePart {
 			// Reverted the above change due to
 			// @see https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395816
 			$out .= '<form class="cn-form" id="cn-cat-select"' . ( $isHomepage || $atts['force_home'] ? ' action="' . $permalink . '"' : '' ) . ' method="get">';
+
 			if ( is_front_page() ) {
 				$out .= '<input type="hidden" name="page_id" value="' . $homeID . '">';
 			}

@@ -398,12 +398,6 @@ class cnTemplatePart {
 			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID . '">';
 		}
 
-		//if ( is_customize_preview() ) {
-		//
-		//	$out .= '<input type="hidden" name="cn-customize-template" value="true">';
-		//	$out .= '<input type="hidden" name="cn-template" value="cmap">';
-		//}
-
 		// Add the cnSEO permalink filter.
 		cnSEO::doFilterPermalink();
 

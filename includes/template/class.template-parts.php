@@ -384,12 +384,6 @@ class cnTemplatePart {
 
 			$permalink = cnURL::makeRelative( $permalink );
 
-			//if ( is_customize_preview() ) {
-			//
-			//	$addAction = TRUE;
-			//	$permalink = get_permalink( $homeID );
-			//}
-
 			// Changed `$addAction` to `TRUE` in for action attribute ternary so the search is always off the page root.
 			// See this issue: https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395856
 			// Doesn't seem to cause any issues, but I can not remember the purpose of defaulting to  the current page

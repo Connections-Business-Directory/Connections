@@ -322,7 +322,8 @@ class cnTemplatePart {
 	 *
 	 * @global $wp_rewrite
 	 *
-	 * @param array{ home_id: int, force_home: bool, return: bool } $atts The method parameter arguments. Generally, the shortcode options are passed.
+	 * @param array{ home_id: int, force_home: bool, return: bool } $atts The method parameter arguments.
+	 *                                                                    Generally, the shortcode options are passed.
 	 *
 	 * @return string
 	 */

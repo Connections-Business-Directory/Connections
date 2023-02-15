@@ -10,9 +10,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
@@ -20,6 +18,7 @@ use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
 use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_parse;
+use Connections_Directory\Utility\_url;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -352,7 +351,8 @@ class cnTemplatePart {
 		 */
 		$atts = apply_filters( 'cn_form_open_atts', $atts );
 
-		$html = '';
+		$html   = '';
+		$action = '';
 
 		if ( is_customize_preview() ) {
 
@@ -368,16 +368,25 @@ class cnTemplatePart {
 		if ( $wp_rewrite->using_permalinks() ) {
 
 			$isHomepage = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) != $atts['home_id'] ? true : false;
-			$permalink  = get_permalink( $homeID );
 
-			/**
-			 * Filter the form action attribute.
-			 *
-			 * @since 8.5.15
-			 */
-			$permalink = apply_filters( 'cn_form_open_action', $permalink, $atts );
+			if ( $isHomepage || $atts['force_home'] ) {
 
-			$permalink = cnURL::makeRelative( $permalink );
+				$permalink = get_permalink( $homeID );
+
+				/**
+				 * Filter the form action attribute.
+				 *
+				 * @since 8.5.15
+				 * @since 10.4.39 Changed filter hook name.
+				 *
+				 * @param string $permalink The form action permalink.
+				 * @param array  $atts      The filter parameter arguments.
+				 */
+				$permalink = apply_filters( 'Connections_Directory/Template/Partial/Search/Form_Action', $permalink, $atts );
+				$permalink = _url::makeRelative( $permalink );
+
+				$action = " action=\"{$permalink}\"";
+			}
 
 			// Changed `$isHomepage` to `TRUE` in for action attribute ternary so the search is always off the page root.
 			// See this issue: https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395856
@@ -388,7 +397,7 @@ class cnTemplatePart {
 			//
 			// Reverted the above change due to
 			// @see https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395816
-			$html .= '<form class="cn-form" id="cn-cat-select"' . ( $isHomepage || $atts['force_home'] ? ' action="' . $permalink . '"' : '' ) . ' method="get">';
+			$html .= '<form class="cn-form" id="cn-cat-select"' . $action . ' method="get">';
 
 			if ( is_front_page() ) {
 				$html .= '<input type="hidden" name="page_id" value="' . $homeID . '">';

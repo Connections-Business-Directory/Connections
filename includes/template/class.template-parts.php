@@ -372,7 +372,6 @@ class cnTemplatePart {
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
-			//$addAction = $homeID != $atts['home_id'] ? TRUE : FALSE;
 			$addAction = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) != $atts['home_id'] ? true : false;
 			$permalink = get_permalink( $homeID );
 

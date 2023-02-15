@@ -318,17 +318,11 @@ class cnTemplatePart {
 	/**
 	 * Renders a Connections compatible form opening.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
 	 *
 	 * @global $wp_rewrite
 	 *
-	 * @uses   get_permalink()
-	 * @uses   is_front_page()
-	 * @uses   is_page()
-	 *
-	 * @param  array $atts
+	 * @param array $atts The method parameter arguments. Generally, the shortcode options are passed.
 	 *
 	 * @return string
 	 */

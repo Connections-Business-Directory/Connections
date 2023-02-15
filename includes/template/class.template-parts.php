@@ -352,11 +352,11 @@ class cnTemplatePart {
 		 */
 		$atts = apply_filters( 'cn_form_open_atts', $atts );
 
-		$out = '';
+		$html = '';
 
 		if ( is_customize_preview() ) {
 
-			return self::echoOrReturn( $atts['return'], $out );
+			return self::echoOrReturn( $atts['return'], $html );
 		}
 
 		// Get the directory home page ID.
@@ -388,22 +388,22 @@ class cnTemplatePart {
 			//
 			// Reverted the above change due to
 			// @see https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395816
-			$out .= '<form class="cn-form" id="cn-cat-select"' . ( $isHomepage || $atts['force_home'] ? ' action="' . $permalink . '"' : '' ) . ' method="get">';
+			$html .= '<form class="cn-form" id="cn-cat-select"' . ( $isHomepage || $atts['force_home'] ? ' action="' . $permalink . '"' : '' ) . ' method="get">';
 
 			if ( is_front_page() ) {
-				$out .= '<input type="hidden" name="page_id" value="' . $homeID . '">';
+				$html .= '<input type="hidden" name="page_id" value="' . $homeID . '">';
 			}
 
 		} else {
 
-			$out .= '<form class="cn-form" id="cn-cat-select" method="get">';
-			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID . '">';
+			$html .= '<form class="cn-form" id="cn-cat-select" method="get">';
+			$html .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID . '">';
 		}
 
 		// Add the cnSEO permalink filter.
 		cnSEO::doFilterPermalink();
 
-		return self::echoOrReturn( $atts['return'], $out );
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

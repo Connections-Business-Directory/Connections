@@ -204,3 +204,24 @@ add_filter(
 		);
 	}
 );
+
+add_filter(
+	'Connections_Directory/Template/Partial/Search/Form_Action',
+	static function( $permalink, $atts ) {
+
+		/**
+		 * Filter the form action attribute.
+		 *
+		 * @param string $permalink The form action permalink.
+		 * @param array  $atts      The filter parameter arguments.
+		 */
+		return apply_filters_deprecated(
+			'cn_form_open_action',
+			array( $permalink, $atts ),
+			'10.4.39',
+			'Connections_Directory/Template/Partial/Search/Form_Action'
+		);
+	},
+	10,
+	2
+);

@@ -383,8 +383,10 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Radio'                  => 'includes/Form/Field/Radio.php',
 			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',
 			'Connections_Directory\Form\Field\Rich_Text'              => 'includes/Form/Field/Rich_Text.php',
+			'Connections_Directory\Form\Field\Search'                 => 'includes/Form/Field/Search.php',
 			'Connections_Directory\Form\Field\Select'                 => 'includes/Form/Field/Select.php',
 			'Connections_Directory\Form\Field\Slider'                 => 'includes/Form/Field/Slider.php',
+			'Connections_Directory\Form\Field\Submit'                 => 'includes/Form/Field/Submit.php',
 			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
 

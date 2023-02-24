@@ -84,6 +84,7 @@ class cnDependency {
 		require_once CN_PATH . 'includes/inc.deprecated-filters.php';
 
 		// Polyfills.
+		require_once CN_PATH . 'includes/Polyfill/ctype_digit.php';
 		require_once CN_PATH . 'includes/Polyfill/is_gd_image.php';
 		require_once CN_PATH . 'includes/Polyfill/json_validate.php';
 		require_once CN_PATH . 'includes/Polyfill/wp_doing_ajax.php';

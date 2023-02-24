@@ -1764,14 +1764,12 @@ class cnTemplatePart {
 	 * Create the search input.
 	 *
 	 * Accepted option for the $atts property are:
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
-	 * @access public
-	 * @version 1.0
 	 * @since 0.7.3
-	 * @uses wp_parse_args()
-	 * @uses cnQuery::getVar()
-	 * @param array $atts [optional]
+	 *
+	 * @param array{show_label: bool, return: bool} $atts
+	 *
 	 * @return string
 	 */
 	public static function search( $atts = array() ) {

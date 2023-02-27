@@ -496,7 +496,7 @@ class Conditional_Content extends cnShortcode {
 	}
 
 	/**
-	 * Whether or not search is being performed.
+	 * Whether search query is requested.
 	 *
 	 * @since 9.14
 	 *

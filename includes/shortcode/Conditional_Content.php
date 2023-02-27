@@ -504,7 +504,7 @@ class Conditional_Content extends cnShortcode {
 	 */
 	public function isSearch() {
 
-		return Request\Entry_Search_Term::input()->value() ? true : false;
+		return Request::get()->isSearch();
 	}
 
 	/**

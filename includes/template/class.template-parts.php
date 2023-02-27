@@ -600,7 +600,7 @@ class cnTemplatePart {
 				do_action( 'cn_list_character_index', $atts );
 			}
 
-			if ( $atts['show_alphahead'] ) {
+			if ( $atts['show_alphahead'] && ! Request::get()->isSearch() ) {
 
 				printf( '<h4 class="cn-alphahead">%1$s</h4>', esc_html( $currentLetter ) );
 			}
@@ -1770,6 +1770,11 @@ class cnTemplatePart {
 	 * @return string|void
 	 */
 	public static function index( $atts = array() ) {
+
+		if ( Request::get()->isSearch() ) {
+
+			return;
+		}
 
 		$links   = array( PHP_EOL );
 		$current = Request\Entry_Initial_Character::input()->value();

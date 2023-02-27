@@ -1767,7 +1767,7 @@ class cnTemplatePart {
 	 *
 	 * @param array $atts
 	 *
-	 * @return string
+	 * @return string|void
 	 */
 	public static function index( $atts = array() ) {
 

@@ -24,6 +24,13 @@ final class Request {
 	private static $instance;
 
 	/**
+	 * @since 10.4.39
+	 *
+	 * @var bool
+	 */
+	private $hasQuery;
+
+	/**
 	 * An associative array where the key is the registered query variable and the value is the parse request value.
 	 *
 	 * This array will contain only Connections related query variables.
@@ -142,6 +149,7 @@ final class Request {
 			}
 		}
 
+		$self->hasQuery = ! empty( array_filter( $self->queryVars, array( 'Connections_Directory\Utility\_', 'notEmpty' ) ) );
 	}
 
 	/**
@@ -194,6 +202,18 @@ final class Request {
 	public function setVar( $key, $value ) {
 
 		_array::set( $this->queryVars, $key, $value );
+	}
+
+	/**
+	 * Whether the current request has a query.
+	 *
+	 * @since 10.4.39
+	 *
+	 * @return bool
+	 */
+	public function hasQuery() {
+
+		return $this->hasQuery;
 	}
 
 	/**

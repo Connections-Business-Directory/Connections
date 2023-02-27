@@ -1655,19 +1655,19 @@ class cnTemplatePart {
 
 		$age = absint( current_time( 'timestamp', true ) - strtotime( $atts['timestamp'] ) );
 
-		if ( $age < 657000 ) { // less than one week: red
+		if ( $age < 657000 ) { // less than one week: red.
 			$atts['style']['color'] = 'red';
-		} elseif ( $age < 1314000 ) { // one-two weeks: maroon
+		} elseif ( $age < 1314000 ) { // one-two weeks: maroon.
 			$atts['style']['color'] = 'maroon';
-		} elseif ( $age < 2628000 ) { // two weeks to one month: green
+		} elseif ( $age < 2628000 ) { // two weeks to one month: green.
 			$atts['style']['color'] = 'green';
-		} elseif ( $age < 7884000 ) { // one - three months: blue
+		} elseif ( $age < 7884000 ) { // one - three months: blue.
 			$atts['style']['color'] = 'blue';
-		} elseif ( $age < 15768000 ) { // three to six months: navy
+		} elseif ( $age < 15768000 ) { // three to six months: navy.
 			$atts['style']['color'] = 'navy';
-		} elseif ( $age < 31536000 ) { // six months to a year: black
+		} elseif ( $age < 31536000 ) { // six months to a year: black.
 			$atts['style']['color'] = 'black';
-		} else {      // more than one year: don't show the update age
+		} else {      // more than one year: don't show the update age.
 			$atts['style']['display'] = 'none';
 		}
 

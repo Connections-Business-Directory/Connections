@@ -229,4 +229,18 @@ final class Request {
 
 		return apply_filters( 'Connections_Directory/Request/isREST', $is_rest_api_request );
 	}
+
+	/**
+	 * Whether search query is requested.
+	 *
+	 * @since 10.4.39
+	 *
+	 * @return bool
+	 */
+	public function isSearch() {
+
+		$query = Entry_Search_Term::input()->value();
+
+		return is_string( $query ) && '' !== $query;
+	}
 }

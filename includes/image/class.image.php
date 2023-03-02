@@ -912,7 +912,7 @@ class cnImage {
 					if ( $final_height > $height ) {
 
 						$origin_x = $width / 2;
-						$width    = $orig_w * ( $height / $orig_h );
+						$width    = floor( $orig_w * ( $height / $orig_h ) );
 						$origin_x = round( $origin_x - ( $width / 2 ) );
 
 					} else {
@@ -943,7 +943,7 @@ class cnImage {
 
 					if ( $final_height > $height ) {
 
-						$width = $orig_w * ( $height / $orig_h );
+						$width = floor( $orig_w * ( $height / $orig_h ) );
 
 					} else {
 

@@ -466,6 +466,8 @@ class cnImage {
 	 *
 	 *     quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
 	 *
+	 * @since 10.4.39 Change the quality default value to `null`, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used.
+	 *
 	 * @param string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
 	 * @param array  $atts   An associative array containing the options used to process the image.
 	 * @param string $return Accepts the following values: base64|data|editor|stream|url
@@ -542,7 +544,7 @@ class cnImage {
 			'crop_focus'    => array( .5, .5 ),
 			'crop_only'     => false,
 			'canvas_color'  => '#FFFFFF',
-			'quality'       => 82,
+			'quality'       => null, /** Set to null, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used. */
 			'sub_dir'       => '',
 		);
 
@@ -783,11 +785,17 @@ class cnImage {
 			}
 		}
 
-		// Ensure valid value for $quality. If invalid valid is supplied reset to the default of 90, matching WP core.
-		if ( filter_var( (int) $quality, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) ) ) === false ) {
-
-			$quality = 82;
-		}
+		$quality = filter_var(
+			(int) $quality,
+			FILTER_VALIDATE_INT,
+			array(
+				'options' => array(
+					'default'   => null, /** Set to null, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used. */
+					'min_range' => 1,
+					'max_range' => 100
+				)
+			)
+		);
 
 		/*
 		 * --> END <-- Sanitize/Validate $atts values.

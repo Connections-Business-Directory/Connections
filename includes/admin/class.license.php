@@ -158,10 +158,10 @@ class cnLicense {
 
 		add_filter( 'cn_register_settings_fields', array( $this, 'registerSettingsFields' ) );
 
-		// Activate license key on settings save
+		// Activate license key on settings save.
 		add_action( 'admin_init', array( $this, 'activate' ) );
 
-		// Deactivate license key
+		// Deactivate license key.
 		add_action( 'admin_init', array( $this, 'deactivate' ) );
 
 		/*
@@ -843,7 +843,7 @@ HERERDOC;
 	 */
 	public function field( $name, $value, $field ) {
 
-		// The field size. Valid values are: small | regular | large
+		// The field size. Valid values are: small | regular | large.
 		$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 		// Get the status if the item's license key.
@@ -968,7 +968,7 @@ HERERDOC;
 			return;
 		}
 
-		// Run on activate button press
+		// Run on activate button press.
 		if ( isset( $_POST[ $this->slug . '-activate_license' ] ) ) {
 
 			// delete_transient( 'connections_license-' . $this->slug );
@@ -1018,7 +1018,7 @@ HERERDOC;
 			return;
 		}
 
-		// Run on deactivate button press
+		// Run on deactivate button press.
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
 
 			// delete_transient( 'connections_license-' . $this->slug );
@@ -1129,7 +1129,7 @@ HERERDOC;
 				break;
 		}
 
-		// Data to send to the API
+		// Data to send to the API.
 		$query = array(
 			'edd_action' => $eddAction,
 			'license'    => $license,
@@ -1137,7 +1137,7 @@ HERERDOC;
 			'url'        => home_url(),
 		);
 
-		// Call the API
+		// Call the API.
 		$response = wp_remote_get(
 			add_query_arg( $query, trailingslashit( $url ) ),
 			array(
@@ -1146,13 +1146,13 @@ HERERDOC;
 			)
 		);
 
-		// Make sure there are no errors
+		// Make sure there are no errors.
 		if ( is_wp_error( $response ) ) {
 
 			return $response;
 		}
 
-		// Decode the license data
+		// Decode the license data.
 		$data = json_decode( wp_remote_retrieve_body( $response ) );
 
 		switch ( $action ) {

@@ -31,9 +31,10 @@ trait Label {
 	 * Add an instance of Label to the Field.
 	 *
 	 * @since 10.4
+	 * @since 10.4.39 Add the `implicit` as a valid label position.
 	 *
-	 * @param Field_Label $label
-	 * @param string      $position
+	 * @param Field_Label $label    An instance of the Label object.
+	 * @param string      $position Whether the label should come before or after or wrap the computer.
 	 *
 	 * @return static
 	 */
@@ -41,7 +42,7 @@ trait Label {
 
 		$this->label = $label;
 
-		if ( in_array( $position, array( 'before', 'after' ), true ) ) {
+		if ( in_array( $position, array( 'before', 'after', 'implicit' ), true ) ) {
 
 			$this->labelPosition = $position;
 		}

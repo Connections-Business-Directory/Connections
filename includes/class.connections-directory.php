@@ -20,7 +20,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.38';
+	const VERSION = '10.4.39';
 
 	/**
 	 * Stores the instance of this class.
@@ -271,6 +271,22 @@ final class Connections_Directory {
 				self::$instance->initOptions();
 			}
 			// self::$instance->options->setDBVersion('0.1.9'); self::$instance->options->saveOptions();
+
+			/**
+			 * Allow addons to hook into Connections core after it has been loaded.
+			 *
+			 * NOTE: Priority `5` set to allow hooking into `plugins_loaded`
+			 * at higher, lower, or default priority.
+			 *
+			 * @since 10.4.39
+			 */
+			add_action(
+				'plugins_loaded',
+				static function() {
+					do_action( 'Connections_Directory/Loaded' );
+				},
+				5
+			);
 		}
 
 		return self::$instance;
@@ -411,6 +427,7 @@ final class Connections_Directory {
 		add_action( 'admin_init', array( Action\Admin\Log_Management::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Role_Capability::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Admin\Template::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Admin\Tools\Remote_Request_Test::class, 'register' ) );
 		add_action( 'admin_init', array( Action\Admin\Tools\Import_Entries::class, 'register' ) );
 		add_action( 'admin_init', array( Action\Admin\Tools\Import_Categories::class, 'register' ) );
 		add_action( 'admin_init', array( Action\Ajax\Category_Metabox_Height::class, 'register' ), 9 );

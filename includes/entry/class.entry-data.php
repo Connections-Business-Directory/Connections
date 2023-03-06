@@ -2927,6 +2927,7 @@ class cnEntry {
 	 *     type   => (int) The IMAGETYPE_XXX constants indicating the type of the image.
 	 *
 	 * @since 8.1
+	 * @since 10.4.39 Change the quality default value to `null`, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used.
 	 *
 	 * @param array{type: string, size: string, width: int, height: int, crop_mode: int, quality: int} $atts
 	 *
@@ -2944,7 +2945,7 @@ class cnEntry {
 			'width'     => 0,
 			'height'    => 0,
 			'crop_mode' => 1,
-			'quality'   => 82,
+			'quality'   => null, /** Set to null, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used. */
 		);
 
 		$defaults = apply_filters( 'cn_default_atts_image_meta', $defaults );

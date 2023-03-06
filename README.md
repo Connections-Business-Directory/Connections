@@ -246,6 +246,37 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.39 03/06/2023 =
+
+* NEW: Introduce the `Search` and `Submit` fields to the Fields API.
+* NEW: Introduce polyfill for `ctype_digit()`.
+* NEW: Introduce `Request::isSearch()`.
+* NEW: Introduce `Request::hasQuery()`.
+* NEW: Introduce the "Tests" Tools tab and a tool to test `wp_remote_(get|post)()` requests.
+* TWEAK: Deprecate the `cn_loaded` action hook in favor of the `Connections_Directory/Loaded` action hook triggered on
+  the `plugins_loaded` action hook to have it run reliably, as it is possible for add-ons to be loaded by WP before
+  Connections is loaded.
+* TWEAK: Add additional core WordPress constants to the System Info tool.
+* TWEAK: Rename a variable to make it more clear as to the intended function of its value.
+* TWEAK: Cleanup code `cnTemplatePart::formOpen()`.
+* TWEAK: Add deprecated filter for `cn_form_open_action`.
+* TWEAK: Remove deprecated `cnTemplatePart::characterIndex()` method.
+* TWEAK: Refactor `Conditional_Content::isSearch()` to utilize `Request::isSearch()` to remove code duplication.
+* TWEAK: Only add the leading space to the `label` element if it has attributes.
+* TWEAK: Add support for implicit label position for a form field.
+* TWEAK: Set the various image quality arguments to default to `null` from `82` so the code WP Image Editor default
+  image quality will be used.
+* TWEAK: Include the `Partial` folder when locating template partials.
+* TWEAK: Allow upper and lowercase file names.
+* BUG: The character index and section heading should not be displayed when performing a keyword query request.
+* BUG: Ensure image width is a whole number When processing.
+* BUG: The `$params` argument should be extracted when loading template parts.
+* OTHER: Correct misspellings.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* DEV: Removed unused commented out code.
+
 = 10.4.38 02/02/2023 =
 * TWEAK: Pass `$entry` object in the `cn_list_row_class` filter.
 * TWEAK: Rename `cn_submit_search_form` action to `Connections_Directory/Shortcode/View/Search`.
@@ -635,29 +666,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove unnecessary semicolon.
 * DEV: Move the core Metabox API file to a sub folder for improved organization.
 * DEV: Ensure one class per file.
-
-= 10.4.22 04/21/2022 =
-
-* BUG: Update the Manage admin page to use the correct current page variable.
-* OTHER: Update `dist` files.
-* DEV: Bump async from 2.6.3 to 2.6.4.
-* DEV: Update `css-loader`.
-* DEV: Apply ESLint to `webpack.config.js`.
-* DEV: Utilize `rtlcss-webpack-plugin` instead of `webpack-rtl-plugin` to generate RTL CSS files.
-* DEV: phpDoc corrections.
-
-= 10.4.21 04/18/2022 =
-
-* BUG: Ensure default values for pagination on Manage admin page.
-* BUG: Correct logic for enhanced dropdowns on mobile.
-* BUG: Correct double-escaping of class names.
-* TWEAK: Remove unnecessary break statements in switch.
-* TWEAK: Prevent direct access to file.
-* TWEAK: Utilize `class` keyword for class name resolution to register hook callbacks.
-* OTHER: Correct misspellings.
-* OTHER: Remove unused commented out code.
-* OTHER: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: phpDoc corrections.
-* DEV: Correct inline doc position.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

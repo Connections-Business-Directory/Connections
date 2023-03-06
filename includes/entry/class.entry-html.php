@@ -128,10 +128,11 @@ class cnEntry_HTML extends cnEntry {
 	 *
 	 * @todo Enable support for a default image to be set.
 	 *
-	 * @access public
 	 * @since unknown
-	 * @version 1.0
+	 * @since 10.4.39 Change the quality default value to `null`, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used.
+	 *
 	 * @param array $atts [optional]
+	 *
 	 * @return string
 	 */
 	public function getImage( $atts = array() ) {
@@ -158,7 +159,7 @@ class cnEntry_HTML extends cnEntry {
 			'width'     => 0,
 			'height'    => 0,
 			'zc'        => 1,
-			'quality'   => 82,
+			'quality'   => null, /** Set to null, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used. */
 			'before'    => '',
 			'after'     => '',
 			'sizes'     => array( '100vw' ),

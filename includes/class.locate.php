@@ -118,6 +118,7 @@ class cnLocate {
 		$path[50] = trailingslashit( $upload_dir['basedir'] ) . $template_directory;
 		$path[90] = CN_CUSTOM_TEMPLATE_PATH;
 
+		$path[800] = trailingslashit( CN_PATH . 'includes' . DIRECTORY_SEPARATOR . 'Partials' );
 		$path[999] = trailingslashit( CN_PATH . 'templates' );
 
 		$path = apply_filters( 'cn_locate_file_paths', $path );
@@ -281,7 +282,8 @@ class cnLocate {
 		$name = implode( '-', $name ) . '.' . $ext;
 
 		// return strtolower( sanitize_file_name( $name ) );
-		return strtolower( $name );
+		// return strtolower( $name );
+		return $name;
 	}
 
 	/**

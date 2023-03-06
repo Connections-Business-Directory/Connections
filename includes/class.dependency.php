@@ -84,6 +84,7 @@ class cnDependency {
 		require_once CN_PATH . 'includes/inc.deprecated-filters.php';
 
 		// Polyfills.
+		require_once CN_PATH . 'includes/Polyfill/ctype_digit.php';
 		require_once CN_PATH . 'includes/Polyfill/is_gd_image.php';
 		require_once CN_PATH . 'includes/Polyfill/json_validate.php';
 		require_once CN_PATH . 'includes/Polyfill/wp_doing_ajax.php';
@@ -383,8 +384,10 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Radio'                  => 'includes/Form/Field/Radio.php',
 			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',
 			'Connections_Directory\Form\Field\Rich_Text'              => 'includes/Form/Field/Rich_Text.php',
+			'Connections_Directory\Form\Field\Search'                 => 'includes/Form/Field/Search.php',
 			'Connections_Directory\Form\Field\Select'                 => 'includes/Form/Field/Select.php',
 			'Connections_Directory\Form\Field\Slider'                 => 'includes/Form/Field/Slider.php',
+			'Connections_Directory\Form\Field\Submit'                 => 'includes/Form/Field/Submit.php',
 			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
 
@@ -585,19 +588,20 @@ class cnDependency {
 			'Connections_Directory\Sitemaps\Provider' => 'includes/Sitemaps/Provider.php',
 
 			// Hooks.
-			'Connections_Directory\Hook\Action'                               => 'includes/Hook/Action.php',
-			'Connections_Directory\Hook\Action\Admin\Log_Management'          => 'includes/Hook/Action/Admin/Log_Management.php',
-			'Connections_Directory\Hook\Action\Admin\Role_Capability'         => 'includes/Hook/Action/Admin/Role_Capability.php',
-			'Connections_Directory\Hook\Action\Admin\Template'                => 'includes/Hook/Action/Admin/Template.php',
-			'Connections_Directory\Hook\Action\Admin\Tools\Import_Categories' => 'includes/Hook/Action/Admin/Tools/Import_Categories.php',
-			'Connections_Directory\Hook\Action\Admin\Tools\Import_Entries'    => 'includes/Hook/Action/Admin/Tools/Import_Entries.php',
-			'Connections_Directory\Hook\Action\Ajax\Category_Metabox_Height'  => 'includes/Hook/Action/Ajax/Category_Metabox_Height.php',
-			'Connections_Directory\Hook\Action\Ajax\Response'                 => 'includes/Hook/Action/Ajax/Response.php',
-			'Connections_Directory\Hook\Action\Ajax\Settings_Export_Import'   => 'includes/Hook/Action/Ajax/Settings_Export_Import.php',
-			'Connections_Directory\Hook\Action\Ajax\System_Information'       => 'includes/Hook/Action/Ajax/System_Information.php',
-			'Connections_Directory\Hook\Filter\Admin\Footer'                  => 'includes/Hook/Filter/Admin/Footer.php',
-			'Connections_Directory\Hook\Filter\Admin\Plugin_Row'              => 'includes/Hook/Filter/Admin/Plugin_Row.php',
-			'Connections_Directory\Hook\Filter\Admin\Plugin_Tab'              => 'includes/Hook/Filter/Admin/Plugin_Tab.php',
+			'Connections_Directory\Hook\Action'                                 => 'includes/Hook/Action.php',
+			'Connections_Directory\Hook\Action\Admin\Log_Management'            => 'includes/Hook/Action/Admin/Log_Management.php',
+			'Connections_Directory\Hook\Action\Admin\Role_Capability'           => 'includes/Hook/Action/Admin/Role_Capability.php',
+			'Connections_Directory\Hook\Action\Admin\Template'                  => 'includes/Hook/Action/Admin/Template.php',
+			'Connections_Directory\Hook\Action\Admin\Tools\Import_Categories'   => 'includes/Hook/Action/Admin/Tools/Import_Categories.php',
+			'Connections_Directory\Hook\Action\Admin\Tools\Import_Entries'      => 'includes/Hook/Action/Admin/Tools/Import_Entries.php',
+			'Connections_Directory\Hook\Action\Admin\Tools\Remote_Request_Test' => 'includes/Hook/Action/Admin/Tools/Remote_Request_Test.php',
+			'Connections_Directory\Hook\Action\Ajax\Category_Metabox_Height'    => 'includes/Hook/Action/Ajax/Category_Metabox_Height.php',
+			'Connections_Directory\Hook\Action\Ajax\Response'                   => 'includes/Hook/Action/Ajax/Response.php',
+			'Connections_Directory\Hook\Action\Ajax\Settings_Export_Import'     => 'includes/Hook/Action/Ajax/Settings_Export_Import.php',
+			'Connections_Directory\Hook\Action\Ajax\System_Information'         => 'includes/Hook/Action/Ajax/System_Information.php',
+			'Connections_Directory\Hook\Filter\Admin\Footer'                    => 'includes/Hook/Filter/Admin/Footer.php',
+			'Connections_Directory\Hook\Filter\Admin\Plugin_Row'                => 'includes/Hook/Filter/Admin/Plugin_Row.php',
+			'Connections_Directory\Hook\Filter\Admin\Plugin_Tab'                => 'includes/Hook/Filter/Admin/Plugin_Tab.php',
 
 			// CSV Export/Import.
 			'cnCSV_Batch_Import'               => 'includes/import/class.csv-import-batch.php',

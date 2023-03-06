@@ -10,9 +10,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
@@ -20,6 +18,7 @@ use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
 use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_parse;
+use Connections_Directory\Utility\_url;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -164,7 +163,7 @@ class cnTemplatePart {
 			extract( $wp_query->query_vars, EXTR_SKIP );
 		}
 
-		if ( is_array( $wp_query->query_vars ) ) {
+		if ( is_array( $params ) ) {
 
 			extract( $params );
 		}
@@ -318,17 +317,12 @@ class cnTemplatePart {
 	/**
 	 * Renders a Connections compatible form opening.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
 	 *
 	 * @global $wp_rewrite
 	 *
-	 * @uses   get_permalink()
-	 * @uses   is_front_page()
-	 * @uses   is_page()
-	 *
-	 * @param  array $atts
+	 * @param array{ home_id: int, force_home: bool, return: bool } $atts The method parameter arguments.
+	 *                                                                    Generally, the shortcode options are passed.
 	 *
 	 * @return string
 	 */
@@ -357,11 +351,12 @@ class cnTemplatePart {
 		 */
 		$atts = apply_filters( 'cn_form_open_atts', $atts );
 
-		$out = '';
+		$html   = '';
+		$action = '';
 
 		if ( is_customize_preview() ) {
 
-			return self::echoOrReturn( $atts['return'], $out );
+			return self::echoOrReturn( $atts['return'], $html );
 		}
 
 		// Get the directory home page ID.
@@ -372,26 +367,28 @@ class cnTemplatePart {
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
-			//$addAction = $homeID != $atts['home_id'] ? TRUE : FALSE;
-			$addAction = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) != $atts['home_id'] ? true : false;
-			$permalink = get_permalink( $homeID );
+			$isHomepage = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) != $atts['home_id'] ? true : false;
 
-			/**
-			 * Filter the form action attribute.
-			 *
-			 * @since 8.5.15
-			 */
-			$permalink = apply_filters( 'cn_form_open_action', $permalink, $atts );
+			if ( $isHomepage || $atts['force_home'] ) {
 
-			$permalink = cnURL::makeRelative( $permalink );
+				$permalink = get_permalink( $homeID );
 
-			//if ( is_customize_preview() ) {
-			//
-			//	$addAction = TRUE;
-			//	$permalink = get_permalink( $homeID );
-			//}
+				/**
+				 * Filter the form action attribute.
+				 *
+				 * @since 8.5.15
+				 * @since 10.4.39 Changed filter hook name.
+				 *
+				 * @param string $permalink The form action permalink.
+				 * @param array  $atts      The filter parameter arguments.
+				 */
+				$permalink = apply_filters( 'Connections_Directory/Template/Partial/Search/Form_Action', $permalink, $atts );
+				$permalink = _url::makeRelative( $permalink );
 
-			// Changed `$addAction` to `TRUE` in for action attribute ternary so the search is always off the page root.
+				$action = " action=\"{$permalink}\"";
+			}
+
+			// Changed `$isHomepage` to `TRUE` in for action attribute ternary so the search is always off the page root.
 			// See this issue: https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395856
 			// Doesn't seem to cause any issues, but I can not remember the purpose of defaulting to  the current page
 			// for the form action when home_id always should default to the current page unless set otherwise.
@@ -400,27 +397,22 @@ class cnTemplatePart {
 			//
 			// Reverted the above change due to
 			// @see https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395816
-			$out .= '<form class="cn-form" id="cn-cat-select"' . ( $addAction || $atts['force_home'] ? ' action="' . $permalink . '"' : '' ) . ' method="get">';
+			$html .= '<form class="cn-form" id="cn-cat-select"' . $action . ' method="get">';
+
 			if ( is_front_page() ) {
-				$out .= '<input type="hidden" name="page_id" value="' . $homeID . '">';
+				$html .= '<input type="hidden" name="page_id" value="' . $homeID . '">';
 			}
 
 		} else {
 
-			$out .= '<form class="cn-form" id="cn-cat-select" method="get">';
-			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID . '">';
+			$html .= '<form class="cn-form" id="cn-cat-select" method="get">';
+			$html .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID . '">';
 		}
-
-		//if ( is_customize_preview() ) {
-		//
-		//	$out .= '<input type="hidden" name="cn-customize-template" value="true">';
-		//	$out .= '<input type="hidden" name="cn-template" value="cmap">';
-		//}
 
 		// Add the cnSEO permalink filter.
 		cnSEO::doFilterPermalink();
 
-		return self::echoOrReturn( $atts['return'], $out );
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -608,7 +600,7 @@ class cnTemplatePart {
 				do_action( 'cn_list_character_index', $atts );
 			}
 
-			if ( $atts['show_alphahead'] ) {
+			if ( $atts['show_alphahead'] && ! Request::get()->isSearch() ) {
 
 				printf( '<h4 class="cn-alphahead">%1$s</h4>', esc_html( $currentLetter ) );
 			}
@@ -1663,19 +1655,19 @@ class cnTemplatePart {
 
 		$age = absint( current_time( 'timestamp', true ) - strtotime( $atts['timestamp'] ) );
 
-		if ( $age < 657000 ) { // less than one week: red
+		if ( $age < 657000 ) { // less than one week: red.
 			$atts['style']['color'] = 'red';
-		} elseif ( $age < 1314000 ) { // one-two weeks: maroon
+		} elseif ( $age < 1314000 ) { // one-two weeks: maroon.
 			$atts['style']['color'] = 'maroon';
-		} elseif ( $age < 2628000 ) { // two weeks to one month: green
+		} elseif ( $age < 2628000 ) { // two weeks to one month: green.
 			$atts['style']['color'] = 'green';
-		} elseif ( $age < 7884000 ) { // one - three months: blue
+		} elseif ( $age < 7884000 ) { // one - three months: blue.
 			$atts['style']['color'] = 'blue';
-		} elseif ( $age < 15768000 ) { // three to six months: navy
+		} elseif ( $age < 15768000 ) { // three to six months: navy.
 			$atts['style']['color'] = 'navy';
-		} elseif ( $age < 31536000 ) { // six months to a year: black
+		} elseif ( $age < 31536000 ) { // six months to a year: black.
 			$atts['style']['color'] = 'black';
-		} else {      // more than one year: don't show the update age
+		} else {      // more than one year: don't show the update age.
 			$atts['style']['display'] = 'none';
 		}
 
@@ -1692,94 +1684,15 @@ class cnTemplatePart {
 	}
 
 	/**
-	 * Outputs the legacy character index. This is being deprecated in favor of cnTemplatePart::index().
-	 * This was added for backward compatibility only for the legacy templates.
-	 *
-	 * @access     public
-	 * @since      0.7.6.5
-	 * @deprecated since 0.7.6.5
-	 *
-	 * @uses       wp_parse_args()
-	 * @uses       is_ssl()
-	 * @uses       add_query_arg()
-	 *
-	 * @param  array $atts [optional]
-	 *
-	 * @return string
-	 */
-	public static function characterIndex( $atts = array() ) {
-
-		_deprecated_function( __METHOD__, '9.11', 'cnTemplatePart::index()' );
-
-		static $out = '';
-		$links      = array();
-		$alphaindex = range( 'A', 'Z' );
-
-		$defaults = array(
-			'return' => false,
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		/*
-		 * $out is a static variable so if is not empty, this method was already run,
-		 * so there is no need to rebuild the character index.
-		 */
-		if ( ! empty( $out ) ) {
-
-			return self::echoOrReturn( $atts['return'], $out );
-		}
-
-		// The URL in the address bar.
-		$requestedURL  = is_ssl() ? 'https://' : 'http://';
-		$requestedURL .= Request\Server_HTTP_Host::input()->value();
-		$requestedURL .= Request\Server_Request_URI::input()->value();
-
-		$parsedURL = @parse_url( $requestedURL );
-
-		$redirectURL = explode( '?', $requestedURL );
-		$redirectURL = $redirectURL[0];
-
-		// Ensure array index is set, prevent PHP error notice.
-		if ( ! isset( $parsedURL['query'] ) ) {
-			$parsedURL['query'] = array();
-		}
-
-		$parsedURL['query'] = preg_replace( '#^\??&*?#', '', $parsedURL['query'] );
-
-		// Add back on to the URL any remaining query string values.
-		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
-			parse_str( $parsedURL['query'], $_parsed_query );
-			$_parsed_query = array_map( 'rawurlencode_deep', $_parsed_query );
-		}
-
-		foreach ( $alphaindex as $letter ) {
-
-			if ( empty( $parsedURL['query'] ) ) {
-				$links[] = '<a href="#cn-char-' . $letter . '">' . $letter . '</a>';
-			} else {
-				$links[] = '<a href="' . esc_url( add_query_arg( $_parsed_query, $redirectURL . '#cn-char-' . $letter ) ) . '">' . $letter . '</a>';
-			}
-
-		}
-
-		$out = '<div class="cn-alphaindex">' . implode( ' ', $links ) . '</div>' . PHP_EOL;
-
-		return self::echoOrReturn( $atts['return'], $out );
-	}
-
-	/**
 	 * Create the search input.
 	 *
 	 * Accepted option for the $atts property are:
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
-	 * @access public
-	 * @version 1.0
 	 * @since 0.7.3
-	 * @uses wp_parse_args()
-	 * @uses cnQuery::getVar()
-	 * @param array $atts [optional]
+	 *
+	 * @param array{show_label: bool, return: bool} $atts
+	 *
 	 * @return string
 	 */
 	public static function search( $atts = array() ) {
@@ -1854,9 +1767,14 @@ class cnTemplatePart {
 	 *
 	 * @param array $atts
 	 *
-	 * @return string
+	 * @return string|void
 	 */
 	public static function index( $atts = array() ) {
+
+		if ( Request::get()->isSearch() ) {
+
+			return;
+		}
 
 		$links   = array( PHP_EOL );
 		$current = Request\Entry_Initial_Character::input()->value();

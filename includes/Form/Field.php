@@ -120,6 +120,7 @@ abstract class Field implements Interfaces\Field {
 	 * Get the field and field label HTML.
 	 *
 	 * @since 10.4
+	 * @since 10.4.39 Add support for the `implicit` label position.
 	 *
 	 * @return string
 	 */
@@ -129,8 +130,20 @@ abstract class Field implements Interfaces\Field {
 		$label   = $this->getLabelHTML();
 		$field   = $this->getFieldHTML();
 		$append  = $this->append;
+		$html    = "{$label}{$field}";
 
-		return $prepend . ( 'after' === $this->labelPosition ? "{$field}{$label}" : "{$label}{$field}" ) . $append;
+		switch ( $this->labelPosition ) {
+
+			case 'after':
+				$html = "{$field}{$label}";
+				break;
+
+			case 'implicit':
+				$html = str_replace( '</label>', "$field</label>", $label );
+				break;
+		}
+
+		return $prepend . $html . $append;
 	}
 
 	/**

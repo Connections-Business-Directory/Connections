@@ -496,7 +496,7 @@ class Conditional_Content extends cnShortcode {
 	}
 
 	/**
-	 * Whether or not search is being performed.
+	 * Whether search query is requested.
 	 *
 	 * @since 9.14
 	 *
@@ -504,7 +504,7 @@ class Conditional_Content extends cnShortcode {
 	 */
 	public function isSearch() {
 
-		return Request\Entry_Search_Term::input()->value() ? true : false;
+		return Request::get()->isSearch();
 	}
 
 	/**

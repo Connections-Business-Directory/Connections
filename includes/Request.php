@@ -24,6 +24,13 @@ final class Request {
 	private static $instance;
 
 	/**
+	 * @since 10.4.39
+	 *
+	 * @var bool
+	 */
+	private $hasQuery;
+
+	/**
 	 * An associative array where the key is the registered query variable and the value is the parse request value.
 	 *
 	 * This array will contain only Connections related query variables.
@@ -142,6 +149,7 @@ final class Request {
 			}
 		}
 
+		$self->hasQuery = ! empty( array_filter( $self->queryVars, array( 'Connections_Directory\Utility\_', 'notEmpty' ) ) );
 	}
 
 	/**
@@ -197,6 +205,18 @@ final class Request {
 	}
 
 	/**
+	 * Whether the current request has a query.
+	 *
+	 * @since 10.4.39
+	 *
+	 * @return bool
+	 */
+	public function hasQuery() {
+
+		return $this->hasQuery;
+	}
+
+	/**
 	 * Returns true when the request is AJAX.
 	 *
 	 * @since 10.3
@@ -228,5 +248,19 @@ final class Request {
 		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix ) );
 
 		return apply_filters( 'Connections_Directory/Request/isREST', $is_rest_api_request );
+	}
+
+	/**
+	 * Whether search query is requested.
+	 *
+	 * @since 10.4.39
+	 *
+	 * @return bool
+	 */
+	public function isSearch() {
+
+		$query = Entry_Search_Term::input()->value();
+
+		return is_string( $query ) && '' !== $query;
 	}
 }

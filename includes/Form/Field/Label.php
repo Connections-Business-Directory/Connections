@@ -152,7 +152,15 @@ class Label {
 
 		if ( 0 < strlen( $this->text ) ) {
 
-			$html = '<label ' . $this->prepareAttributes() . '>' . _escape::html( $this->text ) . '</label>';
+			$attributes = $this->prepareAttributes();
+
+			// If there are label attributes; add a leading space.
+			if ( 0 < strlen( $attributes ) ) {
+
+				$attributes = " $attributes";
+			}
+
+			$html = '<label' . $attributes . '>' . _escape::html( $this->text ) . '</label>';
 		}
 
 		return $html;

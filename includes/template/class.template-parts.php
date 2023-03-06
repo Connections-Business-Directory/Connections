@@ -163,7 +163,7 @@ class cnTemplatePart {
 			extract( $wp_query->query_vars, EXTR_SKIP );
 		}
 
-		if ( is_array( $wp_query->query_vars ) ) {
+		if ( is_array( $params ) ) {
 
 			extract( $params );
 		}

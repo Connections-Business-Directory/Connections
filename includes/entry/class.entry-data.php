@@ -852,7 +852,7 @@ class cnEntry {
 			$num = 0;
 
 			// Keep incrementing $num, until a space for a unique slug is found.
-			while ( in_array( ( $slug . '-' . ++$num ), $slugs ) );
+			while ( in_array( ( $slug . '-' . ( ++$num ) ), $slugs ) );
 
 			// Update $slug with the suffix.
 			$slug = $slug . "-$num";

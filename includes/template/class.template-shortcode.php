@@ -250,7 +250,7 @@ class cnTemplate_Shortcode {
 			.         '\\[\\/\\2\\]'             // Closing shortcode tag.
 			.     ')?'
 			. ')'
-			. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+			. '(\\]?)';                          // 6: Optional second closing bracket for escaping shortcodes: [[tag]]
 	}
 
 	/**

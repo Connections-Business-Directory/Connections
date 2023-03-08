@@ -57,7 +57,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		$cmp_x = $orig_w / $width;
 		$cmp_y = $orig_h / $height;
 
-		// calculate x or y coordinate and width or height of source
+		// Calculate x or y coordinate and width or height of source.
 		if ( $cmp_x > $cmp_y ) {
 
 			$src_w = round( $orig_w / $cmp_x * $cmp_y );
@@ -114,7 +114,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		if ( function_exists( 'imagerotate' ) ) {
 			$rotated = imagerotate( $this->image, $angle, 0 );
 
-			// Add alpha blending
+			// Add alpha blending.
 			imagealphablending( $rotated, true );
 			imagesavealpha( $rotated, true );
 
@@ -175,14 +175,14 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			return false;
 		}
 
-		// get image width and height
+		// Get image width and height.
 		$w = imagesx( $image );
 		$h = imagesy( $image );
 
-		// turn alpha blending off
+		// Turn alpha blending off.
 		imagealphablending( $image, false );
 
-		// find the most opaque pixel in the image (the one with the smallest alpha value)
+		// Find the most opaque pixel in the image (the one with the smallest alpha value).
 		$minalpha = 127;
 		for ( $x = 0; $x < $w; $x++ ) {
 			for ( $y = 0; $y < $h; $y++ ) {
@@ -193,21 +193,21 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			}
 		}
 
-		// loop through image pixels and modify alpha for each
+		// Loop through image pixels and modify alpha for each.
 		for ( $x = 0; $x < $w; $x++ ) {
 			for ( $y = 0; $y < $h; $y++ ) {
-				// get current alpha value (represents the TANSPARENCY!)
+				// Get current alpha value (represents the TRANSPARENCY!).
 				$colorxy = imagecolorat( $image, $x, $y );
 				$alpha   = ( $colorxy >> 24 ) & 0xFF;
-				// calculate new alpha
+				// Calculate new alpha.
 				if ( 127 !== $minalpha ) {
 					$alpha = 127 + 127 * $opacity * ( $alpha - 127 ) / ( 127 - $minalpha );
 				} else {
 					$alpha += 127 * $opacity;
 				}
-				// get the color index with new alpha
+				// Get the color index with new alpha.
 				$alphacolorxy = imagecolorallocatealpha( $image, ( $colorxy >> 16 ) & 0xFF, ( $colorxy >> 8 ) & 0xFF, $colorxy & 0xFF, $alpha );
-				// set pixel with the new color + opacity
+				// Set pixel with the new color + opacity.
 				if ( ! imagesetpixel( $image, $x, $y, $alphacolorxy ) ) {
 					return false;
 				}

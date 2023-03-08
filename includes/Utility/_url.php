@@ -17,7 +17,7 @@ final class _url {
 	 *
 	 * @since unknown
 	 *
-	 * @param string $url The URL to encode
+	 * @param string $url The URL to encode.
 	 *
 	 * @return string A string containing the encoded URL with disallowed
 	 *                characters converted to their percentage encodings.
@@ -265,7 +265,7 @@ final class _url {
 			'type'       => 'name',
 			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 			'force_home' => false,
-			'data'       => 'tag', // Valid: 'tag' | 'url'
+			'data'       => 'tag', // Valid: 'tag' | 'url'.
 			'return'     => false,
 		);
 

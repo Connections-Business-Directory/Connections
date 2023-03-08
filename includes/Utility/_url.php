@@ -9,6 +9,9 @@ use cnSettingsAPI;
  * Class _url
  *
  * @package Connections_Directory\Utility
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
  */
 final class _url {
 

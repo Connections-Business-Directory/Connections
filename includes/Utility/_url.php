@@ -370,7 +370,6 @@ final class _url {
 				break;
 
 			case 'edit':
-
 				$result = Connections_Directory()->retrieve->entry( $atts['slug'] );
 
 				if ( false !== $result ) {

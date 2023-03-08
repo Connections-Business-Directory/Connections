@@ -21,7 +21,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 */
 	protected $image = null;
 
-	function __destruct() {
+	public function __destruct() {
 		if ( $this->image instanceof Gmagick ) {
 			// we don't need the original in memory anymore
 			$this->image->clear();

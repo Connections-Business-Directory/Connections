@@ -2,9 +2,11 @@
 namespace Connections_Directory\Entry;
 
 use cnAddress;
+use cnEmail_Address;
 use cnEntry;
 use cnLink;
 use cnOutput;
+use cnPhone;
 use cnSanitize;
 use Connections_Directory\Utility\_string;
 
@@ -264,6 +266,68 @@ class Functions {
 		if ( $address instanceof cnAddress ) {
 
 			return $address;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get preferred Entry phone number if set, if not, then get first phone number attached to Entry.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @param cnEntry $entry Instance of the Entry object.
+	 *
+	 * @return false|cnPhone
+	 */
+	public static function getPhone( cnEntry $entry ) {
+
+		// Try to get the preferred phone number.
+		$phone = $entry->phoneNumbers->getPreferred();
+
+		// If no preferred is set, grab the first phone number.
+		if ( ! $phone instanceof cnPhone ) {
+
+			$phone = $entry->phoneNumbers->getCollection()->first();
+		}
+
+		// The filters need to be reset so additional calls to get phone numbers with different params return expected results.
+		$entry->phoneNumbers->resetFilters();
+
+		if ( $phone instanceof cnPhone ) {
+
+			return $phone;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get preferred Entry email address if set, if not, then get first email address attached to Entry.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @param cnEntry $entry Instance of the Entry object.
+	 *
+	 * @return false|cnEmail_Address
+	 */
+	public static function getEmail( cnEntry $entry ) {
+
+		// Try to get the preferred email address.
+		$email = $entry->emailAddresses->getPreferred();
+
+		// If no preferred is set, grab the first email address.
+		if ( ! $email instanceof cnEmail_Address ) {
+
+			$email = $entry->emailAddresses->getCollection()->first();
+		}
+
+		// The filters need to be reset so additional calls to get email addresses with different params return expected results.
+		$entry->emailAddresses->resetFilters();
+
+		if ( $email instanceof cnEmail_Address ) {
+
+			return $email;
 		}
 
 		return false;

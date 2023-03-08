@@ -9,6 +9,7 @@
  * @package  Connections/API
  * @since    8.5.26
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

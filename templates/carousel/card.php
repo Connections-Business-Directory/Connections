@@ -5,6 +5,7 @@
  *
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
+
 ?>
 <div class="slick-slider-slide">
 	<div class="slick-slide-grid">

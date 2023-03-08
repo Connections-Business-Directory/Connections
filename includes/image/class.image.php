@@ -1676,7 +1676,7 @@ class cnImage {
 	 *
 	 * @param  string $source URL or absolute path to an image.
 	 *
-	 * @return mixed          array | object An associative array of image meta or an instance of WP_Error.
+	 * @return array|WP_Error An associative array of image meta or an instance of WP_Error.
 	 */
 	public static function info( $source ) {
 

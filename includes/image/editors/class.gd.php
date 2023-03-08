@@ -157,8 +157,16 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		return new WP_Error( 'image_opacity_error', __( 'Image opacity change failed.', 'connections' ), $this->file );
 	}
 
-	// from: http://php.net/manual/en/function.imagefilter.php
-	// params: image resource id, opacity (eg. 0.0-1.0)
+	/**
+	 * Apply image opacity.
+	 *
+	 * @link http://php.net/manual/en/function.imagefilter.php
+	 *
+	 * @param GdImage $image   Instance of GdImage resource object.
+	 * @param int     $opacity Opacity value between 0.0–1.0.
+	 *
+	 * @return false
+	 */
 	protected function _opacity( $image, $opacity ) {
 		if ( ! function_exists( 'imagealphablending' ) ||
 			 ! function_exists( 'imagecolorat' ) ||

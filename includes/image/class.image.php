@@ -792,8 +792,8 @@ class cnImage {
 				'options' => array(
 					'default'   => null, /** Set to null, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used. */
 					'min_range' => 1,
-					'max_range' => 100
-				)
+					'max_range' => 100,
+				),
 			)
 		);
 

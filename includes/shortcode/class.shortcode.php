@@ -388,50 +388,50 @@ class cnShortcode {
 	 */
 	public static function single( $content ) {
 
-		//error_log( "\n" . 'PRE-SINGLE: ' . $content . "\n" );
+		// error_log( "\n" . 'PRE-SINGLE: ' . $content . "\n" );
 
 		$slug    = cnQuery::getVar( 'cn-entry-slug' );
 		$matches = self::find( 'connections', $content, 'matches' );
 
 		if ( $slug && $matches ) {
 
-			//$atts = shortcode_parse_atts( $matches[0][3] );
-
-			//$atts['slug'] = sanitize_title( $slug );
-
-			//$shortcode = self::write( 'connections', $atts );
+			// $atts = shortcode_parse_atts( $matches[0][3] );
 			//
-			//$theme  = wp_get_theme();
-			//$parent = $theme->parent();
+			// $atts['slug'] = sanitize_title( $slug );
 			//
-			//if ( FALSE === $parent ) {
+			// $shortcode = self::write( 'connections', $atts );
 			//
-			//	$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+			// $theme  = wp_get_theme();
+			// $parent = $theme->parent();
 			//
-			//} elseif ( $parent instanceof WP_Theme ) {
+			// if ( FALSE === $parent ) {
 			//
-			//	$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+			// 	$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
 			//
-			//} else {
+			// } elseif ( $parent instanceof WP_Theme ) {
 			//
-			//	$replace = FALSE;
-			//}
+			// 	$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
 			//
-			//if ( $replace ) {
+			// } else {
 			//
-			//	$content = str_replace( $matches[0][0], $shortcode, $content );
+			// 	$replace = FALSE;
+			// }
 			//
-			//} else {
+			// if ( $replace ) {
 			//
-			//	$content = $shortcode;
-			//}
+			// 	$content = str_replace( $matches[0][0], $shortcode, $content );
+			//
+			// } else {
+			//
+			// 	$content = $shortcode;
+			// }
 
 			foreach ( $matches as $key => $match ) {
 
 				// Remove all but the first shortcode from the post content.
 				if ( 0 < $key ) {
 
-					//$content = str_replace( $match[0], '', $content );
+					// $content = str_replace( $match[0], '', $content );
 					$content = cnString::replaceFirst( $match[0], '', $content );
 
 				// Rewrite the shortcode, adding the entry slug to the shortcode.
@@ -446,17 +446,17 @@ class cnShortcode {
 					cnArray::set( $atts, 'slug', sanitize_title( $slug ) );
 
 					// Do not apply `array_filter()` on the `$atts` because it will remove necessary options from the shortcode.
-					//$atts = array_filter( $atts );
+					// $atts = array_filter( $atts );
 
 					$shortcode = cnShortcode::write( 'connections', $atts );
 
-					//$content = str_replace( $match[0], $shortcode, $content );
+					// $content = str_replace( $match[0], $shortcode, $content );
 					$content = cnString::replaceFirst( $match[0], $shortcode, $content );
 				}
 			}
 		}
 
-		//error_log( "\n" . 'POST-SINGLE: ' . $content . "\n" );
+		// error_log( "\n" . 'POST-SINGLE: ' . $content . "\n" );
 
 		return $content;
 	}

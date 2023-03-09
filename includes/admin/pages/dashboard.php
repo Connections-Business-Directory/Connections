@@ -36,7 +36,6 @@ function connectionsShowDashboardPage() {
 	} else {
 		global $connections;
 
-		$form = new cnFormObjects();
 		?>
 		<div class="wrap">
 
@@ -60,23 +59,14 @@ function connectionsShowDashboardPage() {
 
 		</div><!-- .wrap -->
 
-		<?php
-		$attr = array(
-			'action' => '',
-			'method' => 'get',
-		);
-
-		$form->open( $attr );
-
-		/* Used to save closed metaboxes and their order */
-		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-
-		echo '</form>';
-		?>
-
+		<form method="get" action="">
+			<?php
+			/* Used to save closed metaboxes and their order. */
+			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+			?>
+		</form>
 		<div class="clear"></div>
-
-	<?php
+		<?php
 	}
 }

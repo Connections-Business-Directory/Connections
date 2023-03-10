@@ -208,7 +208,6 @@ class cnTemplate {
 			if ( ! has_action( 'cn_template-' . $this->slug ) ) {
 
 				// Add the action which will include the template file. The action is executed in cnTemplate_Part::cards().
-				// add_action( 'cn_template-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
 				add_action(
 					'cn_template-' . $this->slug,
 					function( $entry, $template, $atts ) use ( $templatePath ) {
@@ -220,7 +219,6 @@ class cnTemplate {
 				);
 
 				// @todo This is a legacy action that should be removed at some point in the future. 04.11.2014
-				// add_action( 'cn_action_card-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
 				add_action(
 					'cn_action_card-' . $this->slug,
 					function( $entry, $template, $atts ) use ( $templatePath ) {

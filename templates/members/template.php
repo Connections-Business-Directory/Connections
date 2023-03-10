@@ -23,17 +23,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @todo   :
  *    -Add Link to personal profile in popup for each member displayed, NOT FOR MOBILE VIEWING
  */
+// create the div.
+$member_listing        = '<div class="member-entry">';
+$mobile_member_listing = '<div class="member-entry">';
 
+// Info Div header.
+$member_listing        .= '<div><span class="member-details"><strong>';
+$mobile_member_listing .= '<div><span class="member-details"><strong>';
 /** @var cnEntry $entry */
 if ( count( $entry->getFamilyMembers() ) > 0 ) {
-
-	// create the div.
-	$member_listing        = '<div class="member-entry">';
-	$mobile_member_listing = '<div class="member-entry">';
-
-	// Info Div header.
-	$member_listing        .= '<div><span class="member-details"><strong>';
-	$mobile_member_listing .= '<div><span class="member-details"><strong>';
 
 	// create family member.
 	$member_group = new cnEntry();
@@ -92,18 +90,18 @@ if ( count( $entry->getFamilyMembers() ) > 0 ) {
 		if ( 'home' === $value_address->type ) {
 
 			// Format the address.
-			$address = $value_address->line_one . '<br />';
+			$address = esc_html( $value_address->line_one ) . '<br />';
 
 			// Check for line2.
 			if ( '' !== $value_address->line_two ) {
-				$address .= $value_address->line_two . '<br />';
+				$address .= esc_html( $value_address->line_two ) . '<br />';
 			}
 
-			$address .= $value_address->city . ', ';
-			$address .= $value_address->state . ' ';
-			$address .= $value_address->zipcode;
+			$address .= esc_html( $value_address->city ) . ', ';
+			$address .= esc_html( $value_address->state ) . ' ';
+			$address .= esc_html( $value_address->zipcode );
 
-			$address_link  = 'http://maps.google.com/?q=';
+			$address_link  = 'https://maps.google.com/?q=';
 			$address_link .= $value_address->line_one . ' ';
 
 			// Check for line2.
@@ -116,7 +114,7 @@ if ( count( $entry->getFamilyMembers() ) > 0 ) {
 			$address_link .= $value_address->zipcode;
 
 			// Add the address.
-			$member_popup_info     .= esc_html( $address ) . '<br /><a class="google-maps-link" href="' . esc_url( $address_link ) . '" target="_blank">View Large Map</a><br />';
+			$member_popup_info     .= $address . '<br /><a class="google-maps-link" href="' . esc_url( $address_link ) . '" target="_blank">View Large Map</a><br />';
 			$mobile_member_listing .= '<br /><a class="google-maps-link" href="' . esc_url( $address_link ) . '">View Map</a><br />';
 
 			// Find all the spaces.
@@ -170,7 +168,7 @@ if ( count( $entry->getFamilyMembers() ) > 0 ) {
 		$mobile_member_name .= '<br />' . $member_group->getFullFirstLastName() . ':<br />';
 
 		// Check for family member and display all info.
-		if ( count( $member_group ) > 0 ) {
+		if ( count( $relationData ) > 0 ) {
 			// Check if array.
 			if ( is_array( $member_group->getPhoneNumbers() ) ) {
 				// Get all phone numbers for family members.
@@ -226,13 +224,13 @@ if ( '' !== $member_list_first_names ) {
 }
 
 // Add group name.
-$member_listing    .= '<a class="contact" id="' . esc_attr( $entry->getId() ) . '" title="' . esc_attr( $member_popup_info ) . "'>" . esc_html( $entry->getFamilyName() . $member_list_first_names ) . '</a>';
-$mobile_member_info = "<span class='m-contact' id='" . esc_attr( $entry->getId() ) . "'><b>" . esc_html( $entry->getFamilyName() . $member_list_first_names ) . '</b></span><br />' . $mobile_member_listing;
+$member_listing    .= '<a class="contact" id="' . esc_attr( $entry->getId() ) . '">' . esc_html( $entry->getFamilyName() . $member_list_first_names ) . '</a>';
+$mobile_member_info = '<span class="m-contact" id="' . esc_attr( $entry->getId() ) . '"><b>' . esc_html( $entry->getFamilyName() . $member_list_first_names ) . '</b></span><br />' . $mobile_member_listing;
 
 // Close the Info Div header.
 $member_listing     .= '</strong></span><br />';
 $mobile_member_info .= '</strong></span><br />';
-
+$member_listing     .= '<textarea style="display: none;">' . esc_textarea( $member_popup_info ) . '</textarea>';
 // Close the div.
 $member_listing     .= '</div><div style="clear:both;"></div></div>';
 $mobile_member_info .= '</div><div style="clear:both;"></div></div><hr />';

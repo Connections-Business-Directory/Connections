@@ -14,11 +14,11 @@ this.contactPreview = function() {
 		$this.css( "cursor", "pointer" );
 	} );
 	//alert( jQuery().jquery);
-	jQuery( "a.contact" ).live( 'click', function( e ) {
+	jQuery( "a.contact" ).on( 'click', function( e ) {
 		//store clicked link
 		var $this = jQuery( this );
 		//store title
-		var title = $this.data( 'title' );
+		var title = $this.closest( '.member-entry' ).find( 'textarea' ).val();
 
 		jQuery( "body" ).append( "<div id='contact-info'>" + title + "<div id='close-contact-footer'><a id='close-contact' class='close-contact'>Close</a></div></div>" );
 		jQuery( "a.close-contact" ).css( "cursor", "pointer" );
@@ -26,7 +26,7 @@ this.contactPreview = function() {
 		jQuery( "#contact-info" ).fadeIn( 500 ).center();
 	} );
 
-	jQuery( "#close-contact" ).live( 'click', function() {
+	jQuery( "body" ).on( 'click', "#close-contact", function() {
 		jQuery( '#contact-info' ).remove();
 	} );
 

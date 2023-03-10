@@ -438,11 +438,10 @@ class cnTemplate {
 		if ( empty( $this->path ) && ! empty( $this->class ) ) {
 
 			$reflector  = new ReflectionClass( $this->class );
-			$this->path = trailingslashit( dirname( $reflector->getFileName() ) );
-			// var_dump( $this->path );
+			$this->path = dirname( $reflector->getFileName() );
 		}
 
-		return $this->path;
+		return trailingslashit( $this->path );
 	}
 
 	/**
@@ -465,7 +464,7 @@ class cnTemplate {
 			$this->url = cnURL::fromPath( $this->getPath() );
 		}
 
-		return $this->url;
+		return trailingslashit( $this->url );
 	}
 
 	/**

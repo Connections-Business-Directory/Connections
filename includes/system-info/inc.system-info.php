@@ -150,10 +150,10 @@ Page For Posts:             <?php echo ( 0 != $blog_page_id ? get_the_title( $bl
 <?php
 // Make sure wp_remote_post() is working
 $params = array(
-	'sslverify'  => cnHTTP::verifySSL(),
+	'sslverify'  => false,
 	'timeout'    => 60,
 	'user-agent' => 'CN/' . CN_CURRENT_VERSION,
-	'body'       => '_notify-validate',
+	'body'       => array( 'cmd' => '_notify-validate' ),
 );
 
 $response = wp_remote_post( 'https://www.paypal.com/cgi-bin/webscr', $params );

@@ -144,7 +144,7 @@ Parent Theme:               <?php echo $parent_theme . PHP_EOL; ?>
 <?php endif; ?>
 Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; ?>
 <?php
-// Only show page specs if front page is set to 'page'
+// Only show page specs if front page is set to 'page'.
 if ( 'page' == get_option( 'show_on_front' ) ) :
 $front_page_id = get_option( 'page_on_front' );
 $blog_page_id  = get_option( 'page_for_posts' );
@@ -153,7 +153,7 @@ Page On Front:              <?php echo ( 0 != $front_page_id ? get_the_title( $f
 Page For Posts:             <?php echo ( 0 != $blog_page_id ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . PHP_EOL; ?>
 <?php endif; ?>
 <?php
-// Make sure wp_remote_post() is working
+// Make sure wp_remote_post() is working.
 $params = array(
 	'sslverify'  => false,
 	'timeout'    => 60,
@@ -258,10 +258,10 @@ Template Path Writeable:    <?php echo cnFormatting::toYesNo( is_writeable( CN_C
 Cache Path Exists:          <?php echo cnFormatting::toYesNo( is_dir( CN_CACHE_PATH ) ) . PHP_EOL; ?>
 Cache Path Writeable:       <?php echo cnFormatting::toYesNo( is_writeable( CN_CACHE_PATH ) ) . PHP_EOL; ?>
 <?php
-// Get plugins that have an update
+// Get plugins that have an update.
 $updates = get_plugin_updates();
 
-// Must-use plugins
+// Must-use plugins.
 $muplugins = get_mu_plugins();
 
 if ( 0 < count( $muplugins ) ) :
@@ -314,7 +314,7 @@ foreach ( $plugins as $plugin_path => $plugin ) {
 
 do_action( 'cn_sysinfo_after_wordpress_plugins_inactive' );
 
-// WordPress Multisite active plugins
+// WordPress Multisite active plugins.
 if ( is_multisite() ) :
 	?>
 

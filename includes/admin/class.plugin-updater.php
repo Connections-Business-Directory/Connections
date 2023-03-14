@@ -11,6 +11,8 @@
  * @since       8.5.27
  */
 
+use Connections_Directory\Utility\_http;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -651,7 +653,7 @@ class cnPlugin_Updater {
 
 		$options = array(
 			'timeout'    => $timeout,
-			'sslverify'  => cnHTTP::verifySSL(),
+			'sslverify'  => _http::verifySSL(),
 			'body'       => array(
 				'url'     => home_url(),
 				'action'  => ! empty( $plugin ) ? 'info' : 'update-check',

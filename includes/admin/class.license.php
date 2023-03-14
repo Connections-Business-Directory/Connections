@@ -14,6 +14,7 @@
  */
 
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_http;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -1140,7 +1141,7 @@ HERERDOC;
 			add_query_arg( $query, trailingslashit( $url ) ),
 			array(
 				'timeout'   => 15,
-				'sslverify' => cnHTTP::verifySSL(),
+				'sslverify' => _http::verifySSL(),
 			)
 		);
 

@@ -146,9 +146,9 @@ Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; 
 <?php
 // Only show page specs if front page is set to 'page'.
 if ( 'page' == get_option( 'show_on_front' ) ) :
-$front_page_id = get_option( 'page_on_front' );
-$blog_page_id  = get_option( 'page_for_posts' );
-?>
+	$front_page_id = get_option( 'page_on_front' );
+	$blog_page_id  = get_option( 'page_for_posts' );
+	?>
 Page On Front:              <?php echo ( 0 != $front_page_id ? get_the_title( $front_page_id ) . ' (#' . $front_page_id . ')' : 'Unset' ) . PHP_EOL; ?>
 Page For Posts:             <?php echo ( 0 != $blog_page_id ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . PHP_EOL; ?>
 <?php endif; ?>
@@ -269,7 +269,7 @@ if ( 0 < count( $muplugins ) ) :
 
 -- Must-Use Plugins
 
-<?php
+	<?php
 	foreach ( $muplugins as $plugin => $plugin_data ) {
 		echo $plugin_data['Name'] . ': ' . $plugin_data['Version'] . PHP_EOL;
 	}
@@ -319,7 +319,7 @@ if ( is_multisite() ) :
 	?>
 
 -- Network Active Plugins
-<?php
+	<?php
 	$plugins        = wp_get_active_network_plugins();
 	$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
 

@@ -9,9 +9,6 @@
  * @since       0.7.6
  */
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
@@ -21,6 +18,9 @@ use Connections_Directory\Utility\_parse;
 use Connections_Directory\Utility\_url;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnTemplatePart

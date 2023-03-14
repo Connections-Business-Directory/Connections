@@ -13,12 +13,10 @@
  * @since       0.8
  */
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 use Connections_Directory\Utility\_escape;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnLicense

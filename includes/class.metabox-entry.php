@@ -9,14 +9,14 @@
  * @since       0.8
  */
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
 use Connections_Directory\Metabox;
 use Connections_Directory\Metabox\Entry\Publish;
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnEntryMetabox

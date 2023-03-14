@@ -448,12 +448,12 @@ class cnAdmin_Tools {
 			<div class="inside">
 
 					<textarea readonly="readonly" onclick="this.focus();this.select()" name="cn-system-info" title="<?php _e( 'To copy the System Info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'connections' ); ?>" style="display: block; width: 100%; height: 500px; font-family: 'Consolas', 'Monaco', monospace; white-space: pre; overflow: auto;">
-		<?php
+<?php
 // phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
 // Non-standard indentation needed for plain-text display.
 cnSystem_Info::display();
 // phpcs:enable Generic.WhiteSpace.ScopeIndent.Incorrect
-		?>
+?>
 					</textarea>
 
 				<?php // Form used to download .txt file. ?>

@@ -3,12 +3,17 @@
  * This content in rendered within a textarea field. This textarea is late escaped.
  *
  * @see cnSystem_Info::display()
+ * @see cnSystem_Info::get()
+ *
+ * @var Connections_Directory $instance
+ * @var string $host
+ * @var string $parent_theme
+ * @var string $theme
  *
  * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
  */
-
 ?>
 ### Begin System Info ###
 

@@ -228,7 +228,7 @@ class Categories extends Content_Block {
 					'<%1$s class="%2$s">%3$s</%1$s>',
 					_escape::tagName( $this->get( 'item_tag' ) ),
 					// The `cn_category` class is named with an underscore for backward compatibility.
-					_escape::classNames( "cn-category-name cn_category cn-category-{$category->term_id}" ),
+					_escape::classNames( "cn-category-name cn_category cn-category-{$category->term_id} cn-category-{$category->slug}" ),
 					// `$text` is escaped.
 					$text
 				),

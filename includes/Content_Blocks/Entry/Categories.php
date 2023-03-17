@@ -256,9 +256,12 @@ class Categories extends Content_Block {
 
 		if ( 'list' == $this->get( 'type' ) ) {
 
+			$classNames = apply_filters( 'cn_entry_output_category_items_class', array( 'cn-category-list' ) );
+
 			$html .= sprintf(
-				'<%1$s class="cn-category-list">%2$s</%1$s>',
+				'<%1$s class="%2$s">%3$s</%1$s>',
 				'unordered' === $this->get( 'list' ) ? 'ul' : 'ol',
+				_escape::classNames( $classNames ),
 				implode( '', $items )
 			);
 

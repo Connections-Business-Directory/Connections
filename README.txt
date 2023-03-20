@@ -3,7 +3,7 @@ Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: business directory, directory plugin, member directory, listings, staff directory, chamber of commerce, church directory, company directory, contact directory, listings directory, local business directory, address book
 Requires at least: 5.6
-Tested up to: 6.1.1
+Tested up to: 6.2
 Requires PHP: 7.0
 Stable tag: 10.4.39
 License: GPLv2 or later

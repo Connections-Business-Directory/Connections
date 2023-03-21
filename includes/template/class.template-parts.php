@@ -1586,11 +1586,10 @@ class cnTemplatePart {
 	/**
 	 * The return to top anchor.
 	 *
-	 * @access public
-	 * @version 1.0
 	 * @since 0.7.3
-	 * @uses wp_parse_args()
-	 * @param array $atts [optional]
+	 *
+	 * @param array $atts [optional].
+	 *
 	 * @return string
 	 */
 	public static function returnToTop( $atts = array() ) {

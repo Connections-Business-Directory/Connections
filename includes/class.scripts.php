@@ -138,7 +138,9 @@ class cnScript {
 
 		$path = Connections_Directory()->pluginPath();
 
-		$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry';
+		// Add noop callback to Google Maps API parameters.
+		// @link https://stackoverflow.com/a/75212692
+		$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&callback=Function.prototype';
 		$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
 
 		if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {

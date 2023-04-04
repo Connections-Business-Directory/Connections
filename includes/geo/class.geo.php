@@ -409,24 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get the United Kingdom regions (counties).
-	 *
-	 * @access public
-	 * @since  8.6.13
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
-	 */
-	public static function GB_Regions() {
-
-		$regions = cnCountries::getByCode( 'gb' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-		return apply_filters( 'cn_gb_regions', $regions );
-	}
-
-	/**
 	 * Get the Spain regions.
 	 *
 	 * @access public

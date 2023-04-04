@@ -409,25 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get the Japanese regions.
-	 *
-	 * @access public
-	 * @since  8.1.6
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
-	 */
-	public static function JP_Regions() {
-
-		$regions = cnCountries::getByCode( 'jp' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-
-		return apply_filters( 'cn_japanese_regions', $regions );
-	}
-
-	/**
 	 * Get the Mexican regions.
 	 *
 	 * @access public

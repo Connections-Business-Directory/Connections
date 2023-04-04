@@ -376,7 +376,7 @@ class cnGeo {
 			 */
 			$countries['IL'] = 'ישראל';
 
-			// Correct Italy. It seems the Germ is being returned instead of the Italian.
+			// Correct Italy. It seems the German is being returned instead of the Italian.
 			$countries['IT'] = 'Italia';
 		}
 

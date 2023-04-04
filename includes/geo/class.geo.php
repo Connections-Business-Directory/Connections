@@ -409,25 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get the Thailand regions.
-	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
-	 */
-	public static function TH_Regions() {
-
-		$regions = cnCountries::getByCode( 'th' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-
-		return apply_filters( 'cn_th_regions', $regions );
-	}
-
-	/**
 	 * Get Turkey States
 	 *
 	 * @access public

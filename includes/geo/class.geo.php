@@ -409,25 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get the Nepalese regions (Districts).
-	 *
-	 * @access public
-	 * @since  8.1.6
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
-	 */
-	public static function NP_Regions() {
-
-		$regions = cnCountries::getByCode( 'np' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-
-		return apply_filters( 'cn_nepalese_regions', $regions );
-	}
-
-	/**
 	 * Get the Peruvian regions.
 	 *
 	 * @access public

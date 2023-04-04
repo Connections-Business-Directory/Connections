@@ -1592,7 +1592,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	public static function returnToTop( $atts = array() ) {
+	public static function returnToTop( array $atts = array() ) {
 
 		$defaults = array(
 			'tag'    => 'span',

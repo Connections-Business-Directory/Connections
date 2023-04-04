@@ -1607,11 +1607,11 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$styles = cnHTML::attribute( 'style', $atts['style'] );
+		$css = _html::stringifyCSSAttributes( $atts['style'] );
 
 		$anchor = '<a href="' . $atts['href'] . '" title="' . $atts['title'] . '">' . $atts['text'] . '</a>';
 
-		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? $styles : '' ) . '>' . $anchor . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( 0 < strlen( $css ) ? " style=\"{$css}\"" : '' ) . '>' . $anchor . '</' . $atts['tag'] . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

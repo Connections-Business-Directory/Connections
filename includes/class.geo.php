@@ -378,6 +378,9 @@ class cnGeo {
 
 			// Correct Italy. It seems the German is being returned instead of the Italian.
 			$countries['IT'] = 'Italia';
+
+			// Correct Spain. It seems the Catalan translation is returned instead of the Spanish.
+			$countries['ES'] = 'España';
 		}
 
 		// Push a few select countries to the top of the list.

@@ -21,7 +21,7 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 /**
  * This Geocoding API is still a work in progress.
  * It is not recommended to be used in production
- * outside of the core Connections WordPress plugin.
+ * outside the core Connections WordPress plugin.
  *
  * References:
  * http://www.movable-type.co.uk/scripts/latlong.html
@@ -52,13 +52,12 @@ class cnGeo {
 	 * Credit for the haversine formula in PHP:
 	 * http://www.codecodex.com/wiki/Calculate_Distance_Between_Two_Points_on_a_Globe#PHP
 	 *
-	 * @access public
 	 * @since 0.7.30
-	 * @version 1.0
-	 * @uses wp_parse_args()
+	 *
 	 * @param array $origin
 	 * @param array $destination
 	 * @param array $atts        [optional]
+	 *
 	 * @return float
 	 */
 	public static function distance( $origin, $destination, $atts = array() ) {
@@ -240,12 +239,11 @@ class cnGeo {
 	/**
 	 * Retrieve country name based on the country code.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
-	 * @param  string $code The country code.
+	 * @since 0.8
 	 *
-	 * @return mixed  string | bool The country name for the supplied code; FALSE if not found.
+	 * @param string $code The country code.
+	 *
+	 * @return false|string The country name for the supplied code; FALSE if not found.
 	 */
 	public static function getCountryByCode( $code ) {
 
@@ -263,9 +261,7 @@ class cnGeo {
 	/**
 	 * Given a country and state code, return the state name
 	 *
-	 * @access public
-	 * @since  8.6.13
-	 * @static
+	 * @since 8.6.13
 	 *
 	 * @param string $country_code The ISO Code for the country.
 	 * @param string $region_code  The ISO Code for the region.
@@ -283,9 +279,7 @@ class cnGeo {
 	/**
 	 * Return all country codes.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
 	 *
 	 * @return array An indexed array of country codes.
 	 */
@@ -299,11 +293,9 @@ class cnGeo {
 	/**
 	 * Retrieve regions based on country code.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
 	 *
-	 * @param  string $code The country code.
+	 * @param string $code The country code.
 	 *
 	 * @return array An associative array where the key is the region abbr and the value is the full region name.
 	 */
@@ -338,9 +330,7 @@ class cnGeo {
 	/**
 	 * Get countries.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
 	 *
 	 * @return array An associative array of countries where the key is the country abbr and the value is the full country name.
 	 */
@@ -392,9 +382,7 @@ class cnGeo {
 	/**
 	 * Get the US regions.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
 	 * @deprecated 8.7
 	 *
 	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.

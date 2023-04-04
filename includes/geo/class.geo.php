@@ -409,25 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get the Australian regions.
-	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
-	 */
-	public static function AU_Regions() {
-
-		$regions = cnCountries::getByCode( 'au' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-
-		return apply_filters( 'cn_au_regions', $regions );
-	}
-
-	/**
 	 * Get the Bangladeshi regions (Districts).
 	 *
 	 * @access public

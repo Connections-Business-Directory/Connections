@@ -409,25 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get Turkey States
-	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array $states A list of states
-	 */
-	public static function TR_Regions() {
-
-		$regions = cnCountries::getByCode( 'tr' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-
-		return apply_filters( 'cn_turkey_regions', $regions );
-	}
-
-	/**
 	 * Retrieve country dial code based on the country code.
 	 *
 	 * @access public

@@ -411,12 +411,11 @@ class cnGeo {
 	/**
 	 * Retrieve country dial code based on the country code.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
-	 * @param  string $code The country code.
+	 * @since 0.8
 	 *
-	 * @return mixed  string | bool The country dial code for the supplied code; FALSE if not found.
+	 * @param string $code The country code.
+	 *
+	 * @return false|string The country dial code for the supplied code; FALSE if not found.
 	 */
 	public static function getPhoneCodeByCountryCode( $code ) {
 
@@ -434,11 +433,9 @@ class cnGeo {
 	/**
 	 * Retrieve the country phone codes.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
 	 *
-	 * @return array  An associative array where the key is the country code and the values is the country dial code.
+	 * @return array An associative array where the key is the country code and the value is the country dial code.
 	 */
 	public static function getCountryPhoneCodes() {
 

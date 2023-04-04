@@ -409,25 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get the Peruvian regions.
-	 *
-	 * @access public
-	 * @since  8.1.6
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
-	 */
-	public static function PE_Regions() {
-
-		$regions = cnCountries::getByCode( 'pe' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-
-		return apply_filters( 'cn_peruvian_regions', $regions );
-	}
-
-	/**
 	 * Get the South African regions.
 	 *
 	 * @access public

@@ -409,25 +409,6 @@ class cnGeo {
 	}
 
 	/**
-	 * Get Angola regions.
-	 *
-	 * @access public
-	 * @since  8.6.10
-	 * @static
-	 * @deprecated 8.7
-	 *
-	 * @return array $regions A list of regions
-	 */
-	public static function AO_Regions() {
-
-		$regions = cnCountries::getByCode( 'ao' )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
-
-		return apply_filters( 'cn_angola_regions', $regions );
-	}
-
-	/**
 	 * Get the Bulgarian regions.
 	 *
 	 * @access public

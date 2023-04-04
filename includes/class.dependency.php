@@ -395,9 +395,6 @@ class cnDependency {
 			'cnMeta'       => 'includes/class.meta.php',
 			'cnMeta_Query' => 'includes/class.meta-query.php',
 
-			// Geocoding.
-			'cnGeo'                    => 'includes/class.geo.php',
-
 			// Image API.
 			'cnImage'                  => 'includes/image/class.image.php',
 
@@ -527,6 +524,7 @@ class cnDependency {
 
 			// Countries.
 			'cnCountries'              => 'includes/geo/class.countries.php',
+			'cnGeo'                    => 'includes/geo/class.geo.php',
 
 			// Models.
 			'Connections_Directory\Model\Address' => 'includes/model/class.address.php',

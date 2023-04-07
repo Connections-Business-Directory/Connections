@@ -42,10 +42,37 @@ defined( 'ABSPATH' ) || exit;
  */
 class _fragment {
 
+	/**
+	 * The default cache group prefix.
+	 */
 	const PREFIX = 'cn';
+
+	/**
+	 * The cache key.
+	 *
+	 * @var string
+	 */
 	protected $key;
+
+	/**
+	 * The cache group.
+	 *
+	 * @var string
+	 */
 	protected $group;
+
+	/**
+	 * The time to live value.
+	 *
+	 * @var int
+	 */
 	protected $ttl = WEEK_IN_SECONDS;
+
+	/**
+	 * The cached fragment or false if one was not found.
+	 *
+	 * @var false|mixed
+	 */
 	protected $fragment = '';
 
 	/**

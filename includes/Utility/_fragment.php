@@ -131,4 +131,16 @@ class _fragment {
 			empty( $group ) ? self::PREFIX : $group
 		);
 	}
+
+	/**
+	 * Return the object cache as string.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @return string
+	 */
+	public function __toString() {
+
+		return is_string( $this->fragment ) ? $this->fragment : '';
+	}
 }

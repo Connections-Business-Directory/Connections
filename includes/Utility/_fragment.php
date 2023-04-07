@@ -46,6 +46,7 @@ class _fragment {
 	protected $key;
 	protected $group;
 	protected $ttl = WEEK_IN_SECONDS;
+	protected $fragment = '';
 
 	/**
 	 * Setup the fragment cache values.
@@ -57,8 +58,9 @@ class _fragment {
 	 */
 	public function __construct( $key, $group = '' ) {
 
-		$this->key   = $key;
-		$this->group = $group;
+		$this->key      = $key;
+		$this->group    = $group;
+		$this->fragment = _cache::get( $this->key, 'transient', $this->group );
 	}
 
 	/**
@@ -70,11 +72,9 @@ class _fragment {
 	 */
 	public function get(): bool {
 
-		$fragment = _cache::get( $this->key, 'transient', $this->group );
+		if ( $this->exists() ) {
 
-		if ( false !== $fragment ) {
-
-			echo $fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $this->fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return true;
 
 		} else {
@@ -82,6 +82,23 @@ class _fragment {
 			ob_start();
 			return false;
 		}
+	}
+
+	/**
+	 * Whether a fragment exists.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @return bool
+	 */
+	public function exists(): bool {
+
+		if ( false !== $this->fragment ) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

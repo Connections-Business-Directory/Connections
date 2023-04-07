@@ -68,7 +68,7 @@ class _fragment {
 	 *
 	 * @return bool
 	 */
-	public function get() {
+	public function get(): bool {
 
 		$fragment = _cache::get( $this->key, 'transient', $this->group );
 

@@ -20,17 +20,17 @@ defined( 'ABSPATH' ) || exit;
  * @url http://markjaquith.wordpress.com/2013/04/26/fragment-caching-in-wordpress/
  *
  * <code>
- * $fragment = new cnFragment( 'unique-key', 3600 );
+ * $fragment = new _fragment( 'unique-key', 'fragment-group' );
  *
  * if ( ! $fragment->get() ) {
  *
  *     functions_that_do_stuff_live();
  *     these_should_echo();
  *
- *     echo 'All output should be echo'd';
+ *     echo 'All output should be echoed';
  *
  *     // IMPORTANT: YOU CANNOT FORGET THIS. If you do, the site will break.
- *     $frag->save();
+ *     $fragment->save();
  *
  * }
  * </code>

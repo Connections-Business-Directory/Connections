@@ -108,16 +108,10 @@ class _fragment {
 	 */
 	public static function clear( $key, $group = '' ) {
 
-		if ( true !== $key ) {
-
-			_cache::clear( $key, 'transient', self::PREFIX );
-
-		} else {
-
-			$group_key = empty( $group ) ? self::PREFIX : $group;
-
-			_cache::clear( true, 'transient', $group_key );
-		}
-
+		_cache::clear(
+			$key,
+			'transient',
+			empty( $group ) ? self::PREFIX : $group
+		);
 	}
 }

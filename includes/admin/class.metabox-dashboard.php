@@ -10,6 +10,8 @@
  */
 
 // Exit if accessed directly.
+use Connections_Directory\Shortcode\Upcoming_List;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -359,7 +361,7 @@ class cnDashboardMetabox {
 			'no_results'       => $metabox['args']['message'],
 		);
 
-		connectionsUpcomingList( $atts );
+		Upcoming_List::instance( $atts )->render();
 	}
 
 	/**

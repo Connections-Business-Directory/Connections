@@ -38,10 +38,6 @@ class cnDependency {
 		// Add the default filters.
 		require_once CN_PATH . 'includes/inc.default-filters.php';
 
-		// Shortcodes
-		// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
-		require_once CN_PATH . 'includes/shortcode/inc.shortcodes.php';
-
 		if ( is_admin() ) {
 
 			// Load the templates used on the Dashboard admin page.

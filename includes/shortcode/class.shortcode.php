@@ -64,7 +64,7 @@ class cnShortcode {
 
 			// Register the core shortcodes.
 			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
-			add_shortcode( 'upcoming_list', '_upcoming_list' );
+			Connections_Directory\Shortcode\Upcoming_List::add();
 
 			add_shortcode( 'cn-mapblock', array( 'Connections_Directory\Shortcode\mapBlock', 'shortcode' ) );
 

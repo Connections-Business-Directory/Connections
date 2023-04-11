@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Add a new sitemap provider.
  *
- * NOTE: The `$name` parameter  must be characters a thru z only in all lowercase.
+ * NOTE: The `$name` parameter  must be characters a through z only in all lowercase.
  *       This is a requirement of the core WordPress sitemaps feature.
  *
  * @since 10.0

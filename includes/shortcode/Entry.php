@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package Connections_Directory\Shortcode
  */
-class Entry extends cnShortcode {
+class Entry {
 
 	/**
 	 * The shortcode output HTML.
@@ -74,7 +74,7 @@ class Entry extends cnShortcode {
 		 * specific paths. This filter is then removed at the end of the shortcode.
 		 */
 		add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
-		self::addFilterRegistry( 'cn_locate_file_paths' );
+		cnShortcode::addFilterRegistry( 'cn_locate_file_paths' );
 
 		do_action( 'cn_template_include_once-' . $template->getSlug() );
 		do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
@@ -83,7 +83,7 @@ class Entry extends cnShortcode {
 
 		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
 		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
-		self::addFilterRegistry( 'cn_list_retrieve_atts-' . $template->getSlug() );
+		cnShortcode::addFilterRegistry( 'cn_list_retrieve_atts-' . $template->getSlug() );
 
 		$results = Connections_Directory()->retrieve->entries( $atts );
 
@@ -92,7 +92,7 @@ class Entry extends cnShortcode {
 
 			$results = apply_filters( 'cn_list_results', $results );
 			$results = apply_filters( 'cn_list_results-' . $template->getSlug(), $results );
-			self::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
+			cnShortcode::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
 
 		} else {
 
@@ -132,10 +132,10 @@ class Entry extends cnShortcode {
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
-		self::clearFilterRegistry();
+		cnShortcode::clearFilterRegistry();
 
 		// @todo This should be run via a filter.
-		$this->html = self::removeEOL( $this->html );
+		$this->html = cnShortcode::removeEOL( $this->html );
 	}
 
 	/**
@@ -187,7 +187,7 @@ class Entry extends cnShortcode {
 
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
 		$defaults = apply_filters( "cn_list_atts_permitted-{$template->getSlug()}", $defaults );
-		self::addFilterRegistry( 'cn_list_atts_permitted-' . $template->getSlug() );
+		cnShortcode::addFilterRegistry( 'cn_list_atts_permitted-' . $template->getSlug() );
 
 		return $defaults;
 	}
@@ -210,7 +210,7 @@ class Entry extends cnShortcode {
 
 		$atts = apply_filters( 'cn_list_atts', $atts );
 		$atts = apply_filters( "cn_list_atts-{$template->getSlug()}", $atts );
-		self::addFilterRegistry( 'cn_list_atts-' . $template->getSlug() );
+		cnShortcode::addFilterRegistry( 'cn_list_atts-' . $template->getSlug() );
 
 		// Force some specific defaults.
 		$atts['content']         = '';

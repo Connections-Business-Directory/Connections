@@ -22,17 +22,25 @@ use cnTemplateFactory;
 use cnTemplatePart;
 use Connections_Directory\Utility\_format;
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Class Entry
  *
  * @package Connections_Directory\Shortcode
  */
-class Entry {
+final class Entry {
+
+	use Do_Shortcode;
+
+	/**
+	 * The shortcode tag.
+	 *
+	 * @since 9.12
+	 * @since 9.15 Change from private to protected.
+	 * @since 10.4.40 Change to constant.
+	 *
+	 * @var string
+	 */
+	const TAG = 'cn-entry';
 
 	/**
 	 * The shortcode output HTML.
@@ -43,14 +51,15 @@ class Entry {
 	private $html = '';
 
 	/**
-	 * The shortcode tag.
+	 * Register the shortcode.
 	 *
-	 * @since 9.12
-	 * @since 9.15 Change from private to protected.
-	 *
-	 * @var string
+	 * @since 9.14
 	 */
-	protected static $tag = 'cn-entry';
+	public static function add() {
+
+		add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'maybeDoShortcode' ), 10, 4 );
+		add_shortcode( self::TAG, array( __CLASS__, 'instance' ) );
+	}
 
 	/**
 	 * @since 9.5
@@ -59,7 +68,7 @@ class Entry {
 	 * @param string $content The shortcode content.
 	 * @param string $tag     The shortcode tag.
 	 */
-	public function __construct( $atts, $content, $tag ) {
+	public function __construct( array $atts, string $content, string $tag = self::TAG ) {
 
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
@@ -79,7 +88,7 @@ class Entry {
 		do_action( 'cn_template_include_once-' . $template->getSlug() );
 		do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
 
-		$atts = $this->parseAtts( $atts, $template, $tag );
+		$atts = $this->prepareAttributes( $atts, $template, $tag );
 
 		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
 		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
@@ -139,43 +148,33 @@ class Entry {
 	}
 
 	/**
-	 * Register the shortcode.
-	 *
-	 * @since 9.14
-	 */
-	public static function add() {
-
-		add_shortcode( static::$tag, array( __CLASS__, 'shortcode' ) );
-	}
-
-	/**
 	 * Callback for `add_shortcode()`.
 	 *
 	 * @since 9.5
-	 *
-	 * @see Entry::add()
+	 * @since 10.4.40 Change method name from `shortcode` to `instance`.
 	 *
 	 * @param array  $atts    The shortcode arguments.
 	 * @param string $content The shortcode content.
 	 * @param string $tag     The shortcode tag.
 	 *
-	 * @return static
+	 * @return self
 	 */
-	public static function shortcode( $atts, $content, $tag ) {
+	public static function instance( array $atts, string $content = '', string $tag = self::TAG ): self {
 
-		return new static( $atts, $content, $tag );
+		return new self( $atts, $content, $tag );
 	}
 
 	/**
 	 * The shortcode defaults.
 	 *
 	 * @since 9.5
+	 * @since 10.4.40 Change method name from `getDefaults` to `getDefaultAttributes`.
 	 *
 	 * @param Template $template Instance of Template.
 	 *
 	 * @return array
 	 */
-	private function getDefaults( $template ) {
+	private function getDefaultAttributes( Template $template ): array {
 
 		$defaults = array(
 			'id'         => null,
@@ -196,6 +195,7 @@ class Entry {
 	 * Parse the user supplied atts.
 	 *
 	 * @since 9.5
+	 * @since 10.4.40 Change method name from `parseAtts` to `prepareAttributes`.
 	 *
 	 * @param array    $atts     The shortcode arguments.
 	 * @param Template $template The shortcode content.
@@ -203,9 +203,9 @@ class Entry {
 	 *
 	 * @return array
 	 */
-	public function parseAtts( $atts, $template, $tag ) {
+	public function prepareAttributes( array $atts, Template $template, string $tag = self::TAG ): array {
 
-		$defaults = $this->getDefaults( $template );
+		$defaults = $this->getDefaultAttributes( $template );
 		$atts     = shortcode_atts( $defaults, $atts, $tag );
 
 		$atts = apply_filters( 'cn_list_atts', $atts );
@@ -247,7 +247,7 @@ class Entry {
 	 *
 	 * @return string
 	 */
-	private function renderTemplate( $template, $items, $attributes ) {
+	private function renderTemplate( Template $template, array $items, array $attributes ): string {
 
 		ob_start();
 
@@ -290,6 +290,28 @@ class Entry {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Get the generated shortcode HTML.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @return string
+	 */
+	public function getHTML(): string {
+
+		return $this->html;
+	}
+
+	/**
+	 * Render the shortcode HTML.
+	 *
+	 * @since 10.4.40
+	 */
+	public function render() {
+
+		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping is done in the template.
 	}
 
 	/**

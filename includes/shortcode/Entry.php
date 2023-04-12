@@ -1,4 +1,18 @@
 <?php
+/**
+ * The `[cn-entry]` shortcode.
+ *
+ * @since      9.5
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections Business Directory
+ * @subpackage Connections\Shortcode\Entry
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
+
 namespace Connections_Directory\Shortcode;
 
 use cnSettingsAPI;
@@ -21,21 +35,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Entry extends cnShortcode {
 
 	/**
+	 * The shortcode output HTML.
+	 *
+	 * @since 9.5
 	 * @var string
 	 */
 	private $html = '';
 
 	/**
+	 * The shortcode tag.
+	 *
 	 * @since 9.12
+	 * @since 9.15 Change from private to protected.
+	 *
 	 * @var string
 	 */
 	protected static $tag = 'cn-entry';
 
 	/**
+	 * @since 9.5
 	 *
-	 * @param array  $atts
-	 * @param string $content
-	 * @param string $tag
+	 * @param array  $atts    The shortcode arguments.
+	 * @param string $content The shortcode content.
+	 * @param string $tag     The shortcode tag.
 	 */
 	public function __construct( $atts, $content, $tag ) {
 
@@ -127,13 +149,15 @@ class Entry extends cnShortcode {
 	}
 
 	/**
-	 * Callback for `add_shortcode()`
+	 * Callback for `add_shortcode()`.
+	 *
+	 * @since 9.5
 	 *
 	 * @see Entry::add()
 	 *
-	 * @param array  $atts
-	 * @param string $content
-	 * @param string $tag
+	 * @param array  $atts    The shortcode arguments.
+	 * @param string $content The shortcode content.
+	 * @param string $tag     The shortcode tag.
 	 *
 	 * @return static
 	 */
@@ -145,7 +169,9 @@ class Entry extends cnShortcode {
 	/**
 	 * The shortcode defaults.
 	 *
-	 * @param Template $template
+	 * @since 9.5
+	 *
+	 * @param Template $template Instance of Template.
 	 *
 	 * @return array
 	 */
@@ -169,9 +195,11 @@ class Entry extends cnShortcode {
 	/**
 	 * Parse the user supplied atts.
 	 *
-	 * @param array    $atts
-	 * @param Template $template
-	 * @param string   $tag
+	 * @since 9.5
+	 *
+	 * @param array    $atts     The shortcode arguments.
+	 * @param Template $template The shortcode content.
+	 * @param string   $tag      The shortcode tag.
 	 *
 	 * @return array
 	 */
@@ -211,11 +239,11 @@ class Entry extends cnShortcode {
 	}
 
 	/**
-	 * @since
+	 * @since 9.5
 	 *
-	 * @param Template $template
-	 * @param array    $items
-	 * @param array    $attributes
+	 * @param Template $template   An instance of Template.
+	 * @param array    $items      An array of entry data objects.
+	 * @param array    $attributes The shortcode arguments.
 	 *
 	 * @return string
 	 */
@@ -265,6 +293,10 @@ class Entry extends cnShortcode {
 	}
 
 	/**
+	 * Return the generated shortcode HTML.
+	 *
+	 * @since 9.5
+	 *
 	 * @return string
 	 */
 	public function __toString() {

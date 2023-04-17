@@ -381,7 +381,7 @@ final class Upcoming_List {
 
 				$html .= "<div class=\"cn-upcoming-row{$alternate} vcard\">" . PHP_EOL;
 				ob_start();
-				do_action( 'cn_action_card-' . $this->template->getSlug(), $entry, $this->template, $this->attributes );
+				do_action( 'cn_template-' . $this->template->getSlug(), $entry, $this->template, $this->attributes );
 				$html .= ob_get_clean();
 				$html .= PHP_EOL . "</div> <!-- end .cn-upcoming-row{$alternate} -->" . PHP_EOL;
 			}

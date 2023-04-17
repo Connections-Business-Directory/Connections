@@ -137,7 +137,7 @@ final class Connections_Directory {
 	 *
 	 * @since 0.7.6
 	 *
-	 * @var cnTemplatePart
+	 * @var cnTemplate[]
 	 */
 	public $template;
 

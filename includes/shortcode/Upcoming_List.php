@@ -371,12 +371,6 @@ final class Upcoming_List {
 					$entry->setLastName( '' );
 				}
 
-				$entry->name = $entry->getName(
-					array(
-						'format' => $this->attributes['name_format'],
-					)
-				);
-
 				'' === $alternate ? $alternate = '-alternate' : $alternate = '';
 
 				$html .= "<div class=\"cn-upcoming-row{$alternate} vcard\">" . PHP_EOL;

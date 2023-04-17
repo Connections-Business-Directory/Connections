@@ -12,6 +12,7 @@
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 
+use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_nonce;
 
 // Exit if accessed directly.
@@ -204,7 +205,7 @@ function connectionsShowTemplatesPage() {
 								}
 								?>
 
-								<td <?php echo cnHTML::attribute( 'class', $class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+								<td class="<?php _escape::classNames( $class, true ); ?>">
 
 									<?php
 									cnTemplateThumbnail( $template );

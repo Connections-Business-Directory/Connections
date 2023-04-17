@@ -26,6 +26,14 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 class cnTemplate {
 
 	/**
+	 * The template's initiating classname.
+	 *
+	 * @since 10.4.40
+	 * @var string
+	 */
+	private $class;
+
+	/**
 	 * Template name.
 	 *
 	 * @since 0.7.6

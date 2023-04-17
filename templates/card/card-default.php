@@ -36,6 +36,14 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 		 */
 		const SLUG = 'card';
 
+		/**
+		 * Instance of cnTemplate.
+		 *
+		 * @since 10.4.40
+		 * @var cnTemplate
+		 */
+		private $template;
+
 		public static function register() {
 
 			$atts = array(

@@ -74,6 +74,14 @@ class cnLicense {
 	private $key;
 
 	/**
+	 * The plugin update URL used for EDD SL Updater.
+	 *
+	 * @since 10.4.40
+	 * @var string
+	 */
+	private $updateURL;
+
+	/**
 	 * Setup The item license.
 	 *
 	 * @access public

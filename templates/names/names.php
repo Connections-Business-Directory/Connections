@@ -31,6 +31,14 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 	 */
 	class CN_Names_Template {
 
+		/**
+		 * Instance of cnTemplate.
+		 *
+		 * @since 10.4.40
+		 * @var cnTemplate
+		 */
+		private $template;
+
 		public static function register() {
 
 			$atts = array(

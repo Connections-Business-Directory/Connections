@@ -24,8 +24,10 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnTemplatePart
+ *
+ * @since 10.4.40 Extend with stdClass to remove "Creation of dynamic property" deprecation notices.
  */
-class cnTemplatePart {
+class cnTemplatePart extends stdClass {
 
 	/**
 	 * Register the default template actions.

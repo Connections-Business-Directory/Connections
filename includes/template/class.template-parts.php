@@ -1621,12 +1621,7 @@ class cnTemplatePart {
 	/**
 	 * The last updated message for an entry.
 	 *
-	 * @access public
-	 * @since  0.7.6.5
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   human_time_diff()
-	 * @uses   current_time()
+	 * @since 0.7.6.5
 	 *
 	 * @param  array $atts [optional]
 	 *

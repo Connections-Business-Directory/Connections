@@ -1670,12 +1670,12 @@ class cnTemplatePart {
 			$atts['style']['display'] = 'none';
 		}
 
-		$styles = cnHTML::attribute( 'style', $atts['style'] );
+		$css = _html::stringifyCSSAttributes( $atts['style'] );
 
 		/* translators: Human readable timestamp. */
 		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp', true ) ) );
 
-		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? $styles : '' ) . '>' . $updated . '</' . $atts['tag'] . '>';
+		$out = '<' . _escape::tagName( $atts['tag'] ) . ' class="cn-last-updated" style="' . _escape::css( $css ) . '">' . $updated . '</' . _escape::tagName( $atts['tag'] ) . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

@@ -27,7 +27,7 @@ class cnTemplateFactory {
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @var object
+	 * @var stdClass
 	 */
 	public static $templates;
 

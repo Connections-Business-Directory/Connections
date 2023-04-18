@@ -406,37 +406,6 @@ class cnShortcode {
 
 		if ( $slug && $matches ) {
 
-			// $atts = shortcode_parse_atts( $matches[0][3] );
-			//
-			// $atts['slug'] = sanitize_title( $slug );
-			//
-			// $shortcode = self::write( 'connections', $atts );
-			//
-			// $theme  = wp_get_theme();
-			// $parent = $theme->parent();
-			//
-			// if ( FALSE === $parent ) {
-			//
-			// 	$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
-			//
-			// } elseif ( $parent instanceof WP_Theme ) {
-			//
-			// 	$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
-			//
-			// } else {
-			//
-			// 	$replace = FALSE;
-			// }
-			//
-			// if ( $replace ) {
-			//
-			// 	$content = str_replace( $matches[0][0], $shortcode, $content );
-			//
-			// } else {
-			//
-			// 	$content = $shortcode;
-			// }
-
 			foreach ( $matches as $key => $match ) {
 
 				// Remove all but the first shortcode from the post content.

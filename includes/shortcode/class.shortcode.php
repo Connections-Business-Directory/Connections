@@ -880,7 +880,7 @@ class cnShortcode {
 	 */
 	public static function removePBR( $content ) {
 
-		$content = strtr(
+		return strtr(
 			$content,
 			array(
 				'<p><!--'  => '<!--',
@@ -892,7 +892,5 @@ class cnShortcode {
 				'/]<br />' => ']',
 			)
 		);
-
-		return $content;
 	}
 }

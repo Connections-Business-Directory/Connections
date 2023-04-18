@@ -26,6 +26,12 @@ defined( 'ABSPATH' ) || exit;
  */
 class cnShortcode {
 
+	/**
+	 * An array of hook names.
+	 *
+	 * @since 0.8
+	 * @var string[]
+	 */
 	private static $filterRegistry = array();
 
 	/**
@@ -778,10 +784,7 @@ class cnShortcode {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @static
 	 * @param  string $tag The action of filter hook tag.
-	 *
-	 * @return void
 	 */
 	public static function addFilterRegistry( $tag ) {
 
@@ -793,9 +796,6 @@ class cnShortcode {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @static
-	 *
-	 * @return void
 	 */
 	public static function clearFilterRegistry() {
 		global $wp_filter;

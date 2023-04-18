@@ -566,13 +566,6 @@ class cnShortcode {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		/*$getAllowPublic = $instance->options->getAllowPublic();
-		var_dump($getAllowPublic);
-		$getAllowPublicOverride = $instance->options->getAllowPublicOverride();
-		var_dump($getAllowPublicOverride);
-		$getAllowPrivateOverride = $instance->options->getAllowPrivateOverride();
-		var_dump($getAllowPrivateOverride);*/
-
 		/*
 		 * Only show this message under the following condition:
 		 * - ( The user is not logged in AND the 'Login Required' is checked ) AND ( neither of the shortcode visibility overrides are enabled ).

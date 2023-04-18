@@ -1,4 +1,17 @@
 <?php
+/**
+ * Common static methods that can be used across all core shortcodes.
+ *
+ * @since       0.8
+ *
+ * @@category   WordPress\Plugin
+ * @package     Connections Business Directory
+ * @subpackage  Connections\Shortcode_API
+ * @author      Steven A. Zahm
+ * @license     GPL-2.0+
+ * @copyright   Copyright (c) 2023, Steven A. Zahm
+ * @link        https://connections-pro.com/
+ */
 
 use Connections_Directory\Utility\_array;
 

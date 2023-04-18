@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since       0.8
  */
 
-class cnShortcode_Connections extends cnShortcode {
+class cnShortcode_Connections {
 
 	/**
 	 * @param array  $atts
@@ -63,7 +63,7 @@ class cnShortcode_Connections extends cnShortcode {
 		 * specific paths. This filter is then removed at the end of the shortcode.
 		 */
 		add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
-		self::addFilterRegistry( 'cn_locate_file_paths' );
+		cnShortcode::addFilterRegistry( 'cn_locate_file_paths' );
 
 		/**
 		 * @todo Move to to {@see cnTemplateFactory::loadTemplate()}???
@@ -114,7 +114,7 @@ class cnShortcode_Connections extends cnShortcode {
 			'width'                 => null,
 			'lock'                  => false,
 			'force_home'            => false,
-			'home_id'               => self::getHomeID(),
+			'home_id'               => cnShortcode::getHomeID(),
 		);
 
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
@@ -179,7 +179,7 @@ class cnShortcode_Connections extends cnShortcode {
 
 			$results = apply_filters( 'cn_list_results', $results );
 			$results = apply_filters( 'cn_list_results-' . $template->getSlug(), $results );
-			self::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
+			cnShortcode::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
 		}
 
 		$class    = array( 'cn-template', "cn-{$template->getSlug()}" );
@@ -249,6 +249,6 @@ class cnShortcode_Connections extends cnShortcode {
 		cnShortcode::clearFilterRegistry();
 
 		// @todo This should be run via a filter.
-		return self::removeEOL( $html );
+		return cnShortcode::removeEOL( $html );
 	}
 }

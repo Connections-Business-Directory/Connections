@@ -19,15 +19,11 @@ use Connections_Directory\Utility\_array;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Common static methods that can be used across all core shortcodes.
+ * Class cnShortcode
  *
- * @package     Connections
- * @subpackage  Shortcode API
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.8
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
-
 class cnShortcode {
 
 	private static $filterRegistry = array();

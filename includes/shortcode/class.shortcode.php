@@ -519,7 +519,7 @@ class cnShortcode {
 					}
 
 
-					// Show the just the search form w/o showing the initial results?
+					// Show just the search form w/o showing the initial results?
 					// If a Connections query var is set, show the results instead.
 					// if ( isset( $atts['initial_results'] )
 					// 	&& strtolower( $atts['initial_results'] ) == 'false'
@@ -680,7 +680,7 @@ class cnShortcode {
 
 							/*
 							 * The `cn_edit_entry_form` action should only be executed if the user is
-							 * logged in and they have the `connections_manage` capability and either the
+							 * logged in, and they have the `connections_manage` capability and either the
 							 * `connections_edit_entry` or `connections_edit_entry_moderated` capability.
 							 */
 
@@ -710,7 +710,7 @@ class cnShortcode {
 						break;
 
 					default:
-						// Ensure an array is passed the the cnRetrieve::entries method.
+						// Ensure an array is passed the cnRetrieve::entries method.
 						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
 
 						$results = $instance->retrieve->entries( $atts );
@@ -743,7 +743,7 @@ class cnShortcode {
 	}
 
 	/**
-	 * Whether or not the supplied WP_Post is of a supported post type.
+	 * Whether the supplied WP_Post is of a supported post type.
 	 *
 	 * @since 10.2
 	 *

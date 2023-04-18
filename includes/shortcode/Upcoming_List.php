@@ -168,6 +168,13 @@ final class Upcoming_List {
 			$templateSlug   = Connections_Directory()->options->getActiveTemplate( $parsed['list_type'] );
 			$this->template = cnTemplateFactory::getTemplate( $templateSlug );
 		}
+
+		if ( $this->template instanceof cnTemplate ) {
+
+			do_action( 'cn_register_legacy_template_parts' );
+			do_action( "cn_action_include_once-{$this->template->getSlug()}" );
+			do_action( "cn_action_js-{$this->template->getSlug()}" );
+		}
 	}
 
 	/**
@@ -254,10 +261,6 @@ final class Upcoming_List {
 
 		$html      = '';
 		$alternate = '';
-
-		do_action( 'cn_register_legacy_template_parts' );
-		do_action( "cn_action_include_once-{$this->template->getSlug()}" );
-		do_action( "cn_action_js-{$this->template->getSlug()}" );
 
 		/*
 		 * This filter adds the current template paths to cnLocate so when template

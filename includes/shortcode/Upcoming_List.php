@@ -104,8 +104,10 @@ final class Upcoming_List {
 			$defaults  = $this->getDefaultAttributes();
 			$untrusted = shortcode_atts( $defaults, $untrusted, $tag );
 
-			$untrusted = apply_filters( 'cn_list_atts', $untrusted );
-			$untrusted = apply_filters( "cn_list_atts-{$this->template->getSlug()}", $untrusted );
+			$untrusted = apply_filters(
+				"cn_list_atts-{$this->template->getSlug()}",
+				apply_filters( 'cn_list_atts', $untrusted )
+			);
 
 			$this->attributes = $this->prepareAttributes( $untrusted );
 			$this->html       = $this->generateHTML();
@@ -205,10 +207,10 @@ final class Upcoming_List {
 			'home_id'          => cnShortcode::getHomeID(),
 		);
 
-		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
-		$defaults = apply_filters( "cn_list_atts_permitted-{$this->template->getSlug()}", $defaults );
-
-		return $defaults;
+		return apply_filters(
+			"cn_list_atts_permitted-{$this->template->getSlug()}",
+			apply_filters( 'cn_list_atts_permitted', $defaults )
+		);
 	}
 
 	/**

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since       0.8
  */
 
-class cnThumb extends cnShortcode {
+class cnThumb {
 
 	public static function shortcode( $atts, $content = '', $tag = 'cn_thumb' ) {
 

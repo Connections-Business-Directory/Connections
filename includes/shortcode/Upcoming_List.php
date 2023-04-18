@@ -106,7 +106,6 @@ final class Upcoming_List {
 
 			$untrusted = apply_filters( 'cn_list_atts', $untrusted );
 			$untrusted = apply_filters( "cn_list_atts-{$this->template->getSlug()}", $untrusted );
-			cnShortcode::addFilterRegistry( "cn_list_atts-{$this->template->getSlug()}" );
 
 			$this->attributes = $this->prepareAttributes( $untrusted );
 			$this->html       = $this->generateHTML();
@@ -201,7 +200,6 @@ final class Upcoming_List {
 
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
 		$defaults = apply_filters( "cn_list_atts_permitted-{$this->template->getSlug()}", $defaults );
-		cnShortcode::addFilterRegistry( "cn_list_atts_permitted-{$this->template->getSlug()}" );
 
 		return $defaults;
 	}

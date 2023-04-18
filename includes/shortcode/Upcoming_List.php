@@ -269,6 +269,10 @@ final class Upcoming_List {
 		add_filter( 'cn_locate_file_paths', array( $this->template, 'templatePaths' ) );
 		cnShortcode::addFilterRegistry( 'cn_locate_file_paths' );
 
+		/**
+		 * @todo Move to to {@see cnTemplateFactory::loadTemplate()}???
+		 *       Note: These same actions are also in the [connections] and [cn-entry] shortcodes.
+		 */
 		do_action( "cn_template_include_once-{$this->template->getSlug()}" );
 		do_action( "cn_template_enqueue_js-{$this->template->getSlug()}" );
 

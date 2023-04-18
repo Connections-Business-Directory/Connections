@@ -65,6 +65,10 @@ class cnShortcode_Connections extends cnShortcode {
 		add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
 		self::addFilterRegistry( 'cn_locate_file_paths' );
 
+		/**
+		 * @todo Move to to {@see cnTemplateFactory::loadTemplate()}???
+		 *       Note: These same actions are also in the [upcoming_list] and [cn-entry] shortcodes.
+		 */
 		do_action( 'cn_template_include_once-' . $template->getSlug() );
 		do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
 

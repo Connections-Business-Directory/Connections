@@ -39,13 +39,12 @@ trait Do_Shortcode {
 	 */
 	public static function maybeDoShortcode( $shortCircuit, string $tag, $atts, array $m ) {
 
-		if ( self::TAG === $tag ) {
+		if ( self::TAG !== $tag ) {
 
-			return self::doShortcode( $tag, $atts, $m );
+			return $shortCircuit;
 		}
 
-		// Ensure `false` is returned as `$shortCircuit` may have been set to the string output of another shortcode.
-		return false;
+		return self::doShortcode( $tag, $atts, $m );
 	}
 
 	/**

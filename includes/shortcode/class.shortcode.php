@@ -37,11 +37,8 @@ class cnShortcode {
 	/**
 	 * Register required actions/filters.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.8
 	 */
 	public static function hooks() {
 
@@ -99,9 +96,7 @@ class cnShortcode {
 	/**
 	 * Find the shortcode tag within the supplied string.
 	 *
-	 * @access public
-	 * @since  8.4.5
-	 * @static
+	 * @since 8.4.5
 	 *
 	 * @param string $tag     The shortcode tag.
 	 * @param string $content The string to find the shortcode tag in.
@@ -206,10 +201,8 @@ class cnShortcode {
 	 * Rewrite is_numeric() with no quotes.
 	 * Check string to see if it has one or both single or double quotes and ensure to use the opposite when rewriting the value.
 	 *
-	 * @access public
-	 * @since  8.4.5
-	 * @since  8.5.21 Refactor to be more "smart" in writing the option values with/without quotes.
-	 * @static
+	 * @since 8.4.5
+	 * @since 8.5.21 Refactor to be more "smart" in writing the option values with/without quotes.
 	 *
 	 * @param string $tag  The shortcode tag.
 	 * @param array  $atts An associative array where the key is the option name and the value is the option value.
@@ -267,11 +260,10 @@ class cnShortcode {
 	 *
 	 * The `the_content` filter is used to apply this backwards on posts where the tags have already been saved.
 	 *
-	 * @access public
-	 * @since  8.5.21
-	 * @static
+	 * @internal
+	 * @since 8.5.21
 	 *
-	 * @param string $content
+	 * @param string $content The post content.
 	 *
 	 * @return string
 	 */
@@ -302,11 +294,10 @@ class cnShortcode {
 	 *
 	 * @link http://stackoverflow.com/a/21491305/5351316
 	 *
-	 * @access public
-	 * @since  8.5.21
-	 * @static
+	 * @internal
+	 * @since 8.5.21
 	 *
-	 * @param string $content
+	 * @param string $content The post content.
 	 *
 	 * @return string
 	 */
@@ -393,11 +384,10 @@ class cnShortcode {
 	 *       defeating the purpose of this code -- to only display the first instance on the shortcode.
 	 *       Possible solution is to check for multiple matches and replace all but the initial match with an empty string.
 	 *
-	 * @access private
-	 * @since  unknown
-	 * @since  8.5.21 Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content
-	 *                when viewing a single entry profile page.
-	 * @static
+	 * @internal
+	 * @since unknown
+	 * @since 8.5.21 Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content
+	 *               when viewing a single entry profile page.
 	 *
 	 * @param string $content Post content.
 	 *
@@ -452,9 +442,8 @@ class cnShortcode {
 	 * WordPress execution stack. This allows the modification of its attributes
 	 * before being processed by the WordPress Shortcode API.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
+	 *
 	 * @param  array  $posts
 	 * @param  object $WP_Query
 	 *
@@ -717,7 +706,7 @@ class cnShortcode {
 	 *
 	 * @since 10.2
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $post Instance of WP_Post.
 	 *
 	 * @return bool
 	 */
@@ -815,10 +804,10 @@ class cnShortcode {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @static
-	 * @param  string $string The result of executing any of the core Connections shortcodes.
 	 *
-	 * @return string         The string with all EOL characters removed.
+	 * @param string $string The result of executing any of the core Connections shortcodes.
+	 *
+	 * @return string
 	 */
 	public static function removeEOL( $string ) {
 
@@ -836,7 +825,7 @@ class cnShortcode {
 	 * Attempts to intelligently remove <p> and <br> tags added around
 	 * the shortcodes by wpautop().
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.8
 	 * @param  string $content The content captured by the cn_template shortcode.
 	 *

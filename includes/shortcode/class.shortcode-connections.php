@@ -23,6 +23,198 @@ if ( ! defined( 'ABSPATH' ) ) {
 class cnShortcode_Connections {
 
 	/**
+	 * Callback for the `[connections]` shortcode.
+	 *
+	 * Display results based on query var `cn-view`.
+	 *
+	 * @internal
+	 * @since 0.7.3
+	 * @since 10.4.40 Moved from {@file class.shortcode.php}.
+	 *
+	 * @param array|string $atts    Shortcode attributes array or empty string.
+	 * @param string|null  $content The content of a shortcode when it wraps some content.
+	 * @param string       $tag     Shortcode name.
+	 *
+	 * @return string
+	 */
+	public static function view( $atts, $content = '', $tag = 'connections' ) {
+
+		// Ensure that the $atts var passed from WordPress is an array.
+		if ( ! is_array( $atts ) ) {
+			$atts = (array) $atts;
+		}
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		/*
+		 * Only show this message under the following condition:
+		 * - ( The user is not logged in AND the 'Login Required' is checked ) AND ( neither of the shortcode visibility overrides are enabled ).
+		 */
+		if ( ( ! is_user_logged_in() && ! $instance->options->getAllowPublic() ) && ! ( $instance->options->getAllowPublicOverride() || $instance->options->getAllowPrivateOverride() ) ) {
+			$message = $instance->settings->get( 'connections', 'connections_login', 'message' );
+
+			// Format and texturize the message.
+			$message = wptexturize( wpautop( $message ) );
+
+			// Make any links and such clickable.
+			$message = make_clickable( $message );
+
+			// Apply the shortcodes.
+			$message = do_shortcode( $message );
+
+			return $message;
+		}
+
+		$view = cnQuery::getVar( 'cn-view' );
+
+		switch ( $view ) {
+
+			case 'submit':
+				if ( has_action( 'cn_submit_entry_form' ) ) {
+
+					ob_start();
+
+					/**
+					 * @todo There s/b capability checks just like when editing an entry so users can only submit when they have the permissions.
+					 */
+					do_action( 'cn_submit_entry_form', $atts, $content, $tag );
+
+					return ob_get_clean();
+
+				} else {
+
+					return '<p>' . esc_html__( 'Future home of front end submissions.', 'connections' ) . '</p>';
+				}
+
+			case 'landing':
+				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
+
+			case 'search':
+				if ( has_action( 'Connections_Directory/Shortcode/View/Search' ) ) {
+
+					ob_start();
+
+					do_action( 'Connections_Directory/Shortcode/View/Search', $atts, $content, $tag );
+
+					return ob_get_clean();
+
+				} else {
+
+					return '<p>' . esc_html__( 'Future home of the search page.', 'connections' ) . '</p>';
+				}
+
+			case 'results':
+				if ( has_action( 'cn_submit_search_results' ) ) {
+
+					ob_start();
+
+					do_action( 'cn_submit_search_results', $atts, $content, $tag );
+
+					return ob_get_clean();
+
+				} else {
+
+					return '<p>' . esc_html__( 'Future home of the search results landing page.', 'connections' ) . '</p>';
+				}
+
+			// Show the standard result list.
+			case 'card':
+				return self::shortcode( $atts, $content );
+
+			// Show the "View All" result list using the "Names" template.
+			case 'all':
+				if ( ! is_array( $atts ) ) {
+					$atts = array();
+				}
+
+				// Disable the output of the repeat character index.
+				cnArray::set( $atts, 'repeat_alphaindex', false );
+
+				// Force the use of the Names template.
+				cnArray::set( $atts, 'template', 'names' );
+
+				return self::shortcode( $atts, $content );
+
+			// Show the entry detail using a template based on the entry type.
+			case 'detail':
+				switch ( cnQuery::getVar( 'cn-process' ) ) {
+
+					case 'edit':
+						if ( has_action( 'cn_edit_entry_form' ) ) {
+
+							// Check to see if the entry has been linked to a user ID.
+							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', true );
+							// var_dump( $entryID );
+
+							$results = $instance->retrieve->entries( array( 'status' => 'approved,pending' ) );
+							// var_dump( $results );
+
+							/*
+							 * The `cn_edit_entry_form` action should only be executed if the user is
+							 * logged in, and they have the `connections_manage` capability and either the
+							 * `connections_edit_entry` or `connections_edit_entry_moderated` capability.
+							 */
+
+							if ( is_user_logged_in() &&
+								( current_user_can( 'connections_manage' ) || ( (int) $entryID == (int) $results[0]->id ) ) &&
+								( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+								) {
+
+								ob_start();
+
+								if ( ! current_user_can( 'connections_edit_entry' ) && 'pending' === $results[0]->status ) {
+
+									echo '<p>' . esc_html__( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
+								}
+
+								do_action( 'cn_edit_entry_form', $atts, $content, $tag );
+
+								return ob_get_clean();
+
+							} else {
+
+								return esc_html__( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' );
+							}
+
+						}
+
+						break;
+
+					default:
+						// Ensure an array is passed the cnRetrieve::entries method.
+						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
+
+						$results = $instance->retrieve->entries( $atts );
+						// var_dump($results);
+
+						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
+
+						return self::shortcode( $atts, $content );
+				}
+
+				break;
+
+			// Show the standard result list.
+			default:
+				// return self::shortcode( $atts, $content );
+
+				if ( has_action( "cn_view_$view" ) ) {
+
+					ob_start();
+
+					do_action( "cn_view_$view", $atts, $content, $tag );
+
+					return ob_get_clean();
+				}
+
+				break;
+		}
+
+		return self::shortcode( $atts, $content );
+	}
+
+	/**
 	 * @param array  $atts
 	 * @param string $content
 	 * @param string $tag

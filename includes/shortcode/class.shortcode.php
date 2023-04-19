@@ -493,7 +493,6 @@ class cnShortcode {
 						self::$shortcode[ $shortcode ] = shortcode_parse_atts( $matches[3][ $key ] );
 					}
 
-
 					// Show just the search form w/o showing the initial results?
 					// If a Connections query var is set, show the results instead.
 					// if ( isset( $atts['initial_results'] )
@@ -501,8 +500,6 @@ class cnShortcode {
 					// 	&& ! (bool) array_intersect( $registeredQueryVars, array_keys( (array) $WP_Query->query_vars ) )
 					// 	)
 					// {
-
-
 
 					// } else {
 
@@ -518,9 +515,7 @@ class cnShortcode {
 					// Replace the shortcode in the post with a new one based on the changes to $atts.
 					// $post->post_content = str_replace( $matches[0][ array_search( $shortcode, $matches[2] ) ], $replace, $post->post_content );
 				}
-
 			}
-
 		}
 
 		return $posts;

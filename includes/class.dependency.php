@@ -474,11 +474,12 @@ class cnDependency {
 			'cnCustomizer_Control_Slider'         => 'includes/customizer/controls/slider/class.slider.php',
 
 			// Template API/s.
-			'cnTemplateFactory'        => 'includes/template/class.template-api.php',
-			'cnTemplatePart'           => 'includes/template/class.template-parts.php',
-			'cnTemplate_Shortcode'     => 'includes/template/class.template-shortcode.php',
-			'cnTemplate_Compatibility' => 'includes/template/class.template-compatibility.php',
-			'cnTemplate'               => 'includes/template/class.template.php',
+			'cnTemplateFactory'                             => 'includes/template/class.template-api.php',
+			'cnTemplatePart'                                => 'includes/template/class.template-parts.php',
+			'cnTemplate_Shortcode'                          => 'includes/template/class.template-shortcode.php',
+			'cnTemplate_Compatibility'                      => 'includes/template/class.template-compatibility.php',
+			'cnTemplate'                                    => 'includes/template/class.template.php',
+			'Connections_Directory\Template\Hook_Transient' => 'includes/template/Hook_Transient.php',
 
 			// System Info.
 			'cnSystem_Info'            => 'includes/system-info/class.system-info.php',

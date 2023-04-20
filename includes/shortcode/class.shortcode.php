@@ -13,6 +13,7 @@
  * @link        https://connections-pro.com/
  */
 
+use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_array;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
@@ -26,14 +27,6 @@ defined( 'ABSPATH' ) || exit;
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnShortcode {
-
-	/**
-	 * An array of hook names.
-	 *
-	 * @since 0.8
-	 * @var string[]
-	 */
-	private static $filterRegistry = array();
 
 	/**
 	 * Register required actions/filters.
@@ -602,33 +595,29 @@ class cnShortcode {
 	 *
 	 * @access private
 	 * @since  0.8
+	 *
+	 * @deprecated 10.4.40
+	 *
 	 * @param  string $tag The action of filter hook tag.
 	 */
 	public static function addFilterRegistry( $tag ) {
 
-		self::$filterRegistry[] = $tag;
+		_deprecated_function( __METHOD__, '10.4.40', '\Template\Hook_Transient::instance()->add()' );
+		Hook_Transient::instance()->add( $tag );
 	}
 
 	/**
 	 * Clear the action/filter registry.
 	 *
+	 * @deprecated 10.4.40
+	 *
 	 * @access private
 	 * @since  0.8
 	 */
 	public static function clearFilterRegistry() {
-		global $wp_filter;
 
-		/*
-		 * Remove any filters a template may have added
-		 * so it is not run again if more than one template
-		 * is in use on the same page.
-		 */
-		foreach ( self::$filterRegistry as $filter ) {
-
-			if ( isset( $wp_filter[ $filter ] ) ) {
-				unset( $wp_filter[ $filter ] );
-			}
-		}
+		_deprecated_function( __METHOD__, '10.4.40', '\Template\Hook_Transient::instance()->clear()' );
+		Hook_Transient::instance()->clear();
 	}
 
 	/**

@@ -84,6 +84,7 @@ class cnShortcode {
 
 			Connections_Directory\Shortcode\Entry::add();
 			Connections_Directory\Shortcode\Conditional_Content::add();
+			// Connections_Directory\Shortcode\Search::add();
 		}
 	}
 

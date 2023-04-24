@@ -20,17 +20,17 @@ defined( 'ABSPATH' ) || exit;
  * @url http://markjaquith.wordpress.com/2013/04/26/fragment-caching-in-wordpress/
  *
  * <code>
- * $fragment = new cnFragment( 'unique-key', 3600 );
+ * $fragment = new _fragment( 'unique-key', 'fragment-group' );
  *
  * if ( ! $fragment->get() ) {
  *
  *     functions_that_do_stuff_live();
  *     these_should_echo();
  *
- *     echo 'All output should be echo'd';
+ *     echo 'All output should be echoed';
  *
  *     // IMPORTANT: YOU CANNOT FORGET THIS. If you do, the site will break.
- *     $frag->save();
+ *     $fragment->save();
  *
  * }
  * </code>
@@ -42,10 +42,38 @@ defined( 'ABSPATH' ) || exit;
  */
 class _fragment {
 
+	/**
+	 * The default cache group prefix.
+	 */
 	const PREFIX = 'cn';
+
+	/**
+	 * The cache key.
+	 *
+	 * @var string
+	 */
 	protected $key;
+
+	/**
+	 * The cache group.
+	 *
+	 * @var string
+	 */
 	protected $group;
+
+	/**
+	 * The time to live value.
+	 *
+	 * @var int
+	 */
 	protected $ttl = WEEK_IN_SECONDS;
+
+	/**
+	 * The cached fragment or false if one was not found.
+	 *
+	 * @var false|mixed
+	 */
+	protected $fragment = '';
 
 	/**
 	 * Setup the fragment cache values.
@@ -57,8 +85,9 @@ class _fragment {
 	 */
 	public function __construct( $key, $group = '' ) {
 
-		$this->key   = $key;
-		$this->group = $group;
+		$this->key      = $key;
+		$this->group    = $group;
+		$this->fragment = _cache::get( $this->key, 'transient', $this->group );
 	}
 
 	/**
@@ -68,13 +97,11 @@ class _fragment {
 	 *
 	 * @return bool
 	 */
-	public function get() {
+	public function get(): bool {
 
-		$fragment = _cache::get( $this->key, 'transient', $this->group );
+		if ( $this->exists() ) {
 
-		if ( false !== $fragment ) {
-
-			echo $fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $this->fragment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return true;
 
 		} else {
@@ -82,6 +109,23 @@ class _fragment {
 			ob_start();
 			return false;
 		}
+	}
+
+	/**
+	 * Whether a fragment exists.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @return bool
+	 */
+	public function exists(): bool {
+
+		if ( false !== $this->fragment ) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -108,16 +152,22 @@ class _fragment {
 	 */
 	public static function clear( $key, $group = '' ) {
 
-		if ( true !== $key ) {
+		_cache::clear(
+			$key,
+			'transient',
+			empty( $group ) ? self::PREFIX : $group
+		);
+	}
 
-			_cache::clear( $key, 'transient', self::PREFIX );
+	/**
+	 * Return the object cache as string.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @return string
+	 */
+	public function __toString() {
 
-		} else {
-
-			$group_key = empty( $group ) ? self::PREFIX : $group;
-
-			_cache::clear( true, 'transient', $group_key );
-		}
-
+		return is_string( $this->fragment ) ? $this->fragment : '';
 	}
 }

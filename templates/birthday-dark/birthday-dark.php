@@ -32,6 +32,14 @@ if ( ! class_exists( 'CN_Birthday_Dark_Template' ) ) {
 	class CN_Birthday_Dark_Template {
 
 		/**
+		 * Instance of cnTemplate.
+		 *
+		 * @since 10.4.40
+		 * @var cnTemplate
+		 */
+		private $template;
+
+		/**
 		 * Register the template.
 		 */
 		public static function register() {

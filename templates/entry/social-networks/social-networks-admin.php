@@ -7,6 +7,7 @@
  *
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
+
 echo '<div class="social-networks">';
 
 foreach ( $networks as $network ) {

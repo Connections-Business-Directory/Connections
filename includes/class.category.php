@@ -35,7 +35,7 @@ class cnCategory {
 	private $count;
 	private $children;
 
-	function __construct( $data = null ) {
+	public function __construct( $data = null ) {
 		if ( isset( $data ) ) {
 
 			if ( isset( $data->term_id ) ) {

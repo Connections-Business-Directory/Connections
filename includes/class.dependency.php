@@ -38,10 +38,6 @@ class cnDependency {
 		// Add the default filters.
 		require_once CN_PATH . 'includes/inc.default-filters.php';
 
-		// Shortcodes
-		// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
-		require_once CN_PATH . 'includes/shortcode/inc.shortcodes.php';
-
 		if ( is_admin() ) {
 
 			// Load the templates used on the Dashboard admin page.
@@ -395,9 +391,6 @@ class cnDependency {
 			'cnMeta'       => 'includes/class.meta.php',
 			'cnMeta_Query' => 'includes/class.meta-query.php',
 
-			// Geocoding.
-			'cnGeo'                    => 'includes/class.geo.php',
-
 			// Image API.
 			'cnImage'                  => 'includes/image/class.image.php',
 
@@ -407,6 +400,9 @@ class cnDependency {
 			'Connections_Directory\Shortcode\mapBlock'            => 'includes/shortcode/class.shortcode-mapblock.php',
 			'Connections_Directory\Shortcode\Entry'               => 'includes/shortcode/Entry.php',
 			'Connections_Directory\Shortcode\Conditional_Content' => 'includes/shortcode/Conditional_Content.php',
+			'Connections_Directory\Shortcode\Do_Shortcode'        => 'includes/shortcode/Do_Shortcode.php',
+			'Connections_Directory\Shortcode\Search'              => 'includes/shortcode/Search.php',
+			'Connections_Directory\Shortcode\Upcoming_List'       => 'includes/shortcode/Upcoming_List.php',
 			'cnThumb'                                             => 'includes/shortcode/class.shortcode-thumbnail.php',
 			'cnThumb_Responsive'                                  => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 
@@ -479,11 +475,12 @@ class cnDependency {
 			'cnCustomizer_Control_Slider'         => 'includes/customizer/controls/slider/class.slider.php',
 
 			// Template API/s.
-			'cnTemplateFactory'        => 'includes/template/class.template-api.php',
-			'cnTemplatePart'           => 'includes/template/class.template-parts.php',
-			'cnTemplate_Shortcode'     => 'includes/template/class.template-shortcode.php',
-			'cnTemplate_Compatibility' => 'includes/template/class.template-compatibility.php',
-			'cnTemplate'               => 'includes/template/class.template.php',
+			'cnTemplateFactory'                             => 'includes/template/class.template-api.php',
+			'cnTemplatePart'                                => 'includes/template/class.template-parts.php',
+			'cnTemplate_Shortcode'                          => 'includes/template/class.template-shortcode.php',
+			'cnTemplate_Compatibility'                      => 'includes/template/class.template-compatibility.php',
+			'cnTemplate'                                    => 'includes/template/class.template.php',
+			'Connections_Directory\Template\Hook_Transient' => 'includes/template/Hook_Transient.php',
 
 			// System Info.
 			'cnSystem_Info'            => 'includes/system-info/class.system-info.php',
@@ -527,6 +524,7 @@ class cnDependency {
 
 			// Countries.
 			'cnCountries'              => 'includes/geo/class.countries.php',
+			'cnGeo'                    => 'includes/geo/class.geo.php',
 
 			// Models.
 			'Connections_Directory\Model\Address' => 'includes/model/class.address.php',

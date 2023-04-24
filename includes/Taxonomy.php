@@ -84,6 +84,14 @@ final class Taxonomy {
 	protected $hierarchical = false;
 
 	/**
+	 * Whether to display a column for the taxonomy on the manage admin page.
+	 *
+	 * @since 10.4.40
+	 * @var bool
+	 */
+	protected $show_admin_column = false;
+
+	/**
 	 * Whether to generate and allow a UI for managing terms in this taxonomy in the admin.
 	 *
 	 * @since 10.2

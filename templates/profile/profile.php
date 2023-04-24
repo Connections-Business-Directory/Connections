@@ -33,6 +33,14 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 		 */
 		const SLUG = 'profile';
 
+		/**
+		 * Instance of cnTemplate.
+		 *
+		 * @since 10.4.40
+		 * @var cnTemplate
+		 */
+		private $template;
+
 		public static function register() {
 
 			$atts = array(

@@ -12,6 +12,7 @@
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  */
 
+use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_nonce;
 
 // Exit if accessed directly.
@@ -204,7 +205,7 @@ function connectionsShowTemplatesPage() {
 								}
 								?>
 
-								<td <?php echo cnHTML::attribute( 'class', $class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+								<td class="<?php _escape::classNames( $class, true ); ?>">
 
 									<?php
 									cnTemplateThumbnail( $template );
@@ -313,7 +314,7 @@ function cnTemplateDescription( $template ) {
 }
 
 /**
- * Renders the deactivate instructions.
+ * Render deactivate instructions.
  *
  * @access private
  * @since  8.4
@@ -417,12 +418,12 @@ function cnTemplateCustomizerButton( $template, $customizerURL, $returnURL ) {
 		);
 
 		/**
-		 * NOTE: According to the docs for the JavaScript Customizer API, you can auto-focus
+		 * NOTE: According to the docs for the JavaScript Customizer API, you can autofocus
 		 *       to the panel, section or control you wish via the URL. Which does work.
 		 *
 		 *       However, if you add this via @see add_query_arg() or escape it using
 		 *       @see esc_url() the required bracket will be removed which are required
-		 *       for auto-focusing via the URL to function. This is why I added it after
+		 *       for autofocusing via the URL to function. This is why I added it after
 		 *       escaping the URL.
 		 *
 		 * @link https://make.wordpress.org/core/2014/10/27/toward-a-complete-javascript-api-for-the-customizer/#focusing

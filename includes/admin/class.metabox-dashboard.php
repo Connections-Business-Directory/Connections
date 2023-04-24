@@ -10,6 +10,8 @@
  */
 
 // Exit if accessed directly.
+use Connections_Directory\Shortcode\Upcoming_List;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -328,7 +330,8 @@ class cnDashboardMetabox {
 			'status'          => $metabox['args']['status'],
 		);
 
-		connectionsEntryList( $atts );
+		// HTML is escaped within shortcode callback and the template files.
+		echo cnShortcode_Connections::shortcode( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		remove_filter( 'cn_list_results', array( $instance->retrieve, 'removeUnknownDateAdded' ), 9 );
 		remove_filter( 'cn_list_retrieve_atts', array( __CLASS__, 'suppressFilters' ) );
@@ -358,7 +361,7 @@ class cnDashboardMetabox {
 			'no_results'       => $metabox['args']['message'],
 		);
 
-		connectionsUpcomingList( $atts );
+		Upcoming_List::instance( $atts )->render();
 	}
 
 	/**

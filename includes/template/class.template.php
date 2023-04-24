@@ -26,6 +26,14 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 class cnTemplate {
 
 	/**
+	 * The template's initiating classname.
+	 *
+	 * @since 10.4.40
+	 * @var string
+	 */
+	private $class;
+
+	/**
 	 * Template name.
 	 *
 	 * @since 0.7.6
@@ -208,21 +216,8 @@ class cnTemplate {
 			if ( ! has_action( 'cn_template-' . $this->slug ) ) {
 
 				// Add the action which will include the template file. The action is executed in cnTemplate_Part::cards().
-				// add_action( 'cn_template-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
 				add_action(
 					'cn_template-' . $this->slug,
-					function( $entry, $template, $atts ) use ( $templatePath ) {
-
-						include $templatePath;
-					},
-					10,
-					3
-				);
-
-				// @todo This is a legacy action that should be removed at some point in the future. 04.11.2014
-				// add_action( 'cn_action_card-' . $this->slug, create_function( '$entry, $template, $atts', 'include(\'' . $templatePath . '\');' ), 10, 3 );
-				add_action(
-					'cn_action_card-' . $this->slug,
 					function( $entry, $template, $atts ) use ( $templatePath ) {
 
 						include $templatePath;
@@ -438,11 +433,10 @@ class cnTemplate {
 		if ( empty( $this->path ) && ! empty( $this->class ) ) {
 
 			$reflector  = new ReflectionClass( $this->class );
-			$this->path = trailingslashit( dirname( $reflector->getFileName() ) );
-			// var_dump( $this->path );
+			$this->path = dirname( $reflector->getFileName() );
 		}
 
-		return $this->path;
+		return trailingslashit( $this->path );
 	}
 
 	/**
@@ -465,7 +459,7 @@ class cnTemplate {
 			$this->url = cnURL::fromPath( $this->getPath() );
 		}
 
-		return $this->url;
+		return trailingslashit( $this->url );
 	}
 
 	/**

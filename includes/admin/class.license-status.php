@@ -9,10 +9,10 @@
  * @since       8.5.28
  */
 
+use Connections_Directory\Utility\_http;
+
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'cnLicense_Status' ) ) :
 
@@ -281,7 +281,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			$options = array(
 				'timeout'    => $timeout,
-				'sslverify'  => cnHTTP::verifySSL(),
+				'sslverify'  => _http::verifySSL(),
 				'body'       => array(
 					'url'     => home_url(),
 					'action'  => 'status',

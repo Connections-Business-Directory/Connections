@@ -32,6 +32,14 @@ final class Term {
 	public $name = '';
 
 	/**
+	 * The term order value.
+	 *
+	 * Since 10.4.40.
+	 * @var int
+	 */
+	public $order;
+
+	/**
 	 * The term's slug.
 	 *
 	 * @since 8.5.10

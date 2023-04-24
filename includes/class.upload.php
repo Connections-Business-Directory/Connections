@@ -396,7 +396,7 @@ class cnUpload {
 
 		while ( file_exists( "$dir/$filename" ) ) {
 
-			$filename = $name . '-' . ++$number . $ext;
+			$filename = $name . '-' . ( ++$number ) . $ext;
 		}
 
 		return $filename;

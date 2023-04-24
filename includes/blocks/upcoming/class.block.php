@@ -2,6 +2,7 @@
 
 namespace Connections_Directory\Blocks;
 
+use Connections_Directory\Shortcode\Upcoming_List;
 use Connections_Directory\Utility\_;
 
 /**
@@ -156,8 +157,6 @@ class Upcoming {
 
 		// error_log( '$options ' .  json_encode( $options, 128 ) );
 
-		$html = _upcoming_list( $options );
-
-		return $html;
+		return Upcoming_List::instance( $options )->getHTML();
 	}
 }

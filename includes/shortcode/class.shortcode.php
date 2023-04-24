@@ -1,32 +1,38 @@
 <?php
+/**
+ * Common static methods that can be used across all core shortcodes.
+ *
+ * @since       0.8
+ *
+ * @@category   WordPress\Plugin
+ * @package     Connections Business Directory
+ * @subpackage  Connections\Shortcode_API
+ * @author      Steven A. Zahm
+ * @license     GPL-2.0+
+ * @copyright   Copyright (c) 2023, Steven A. Zahm
+ * @link        https://connections-pro.com/
+ */
 
+use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_array;
+use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Common static methods that can be used across all core shortcodes.
+ * Class cnShortcode
  *
- * @package     Connections
- * @subpackage  Shortcode API
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.8
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
-
 class cnShortcode {
-
-	private static $filterRegistry = array();
 
 	/**
 	 * Register required actions/filters.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
-	 *
-	 * @return void
+	 * @internal
+	 * @since 0.8
 	 */
 	public static function hooks() {
 
@@ -55,6 +61,11 @@ class cnShortcode {
 	public static function register() {
 
 		/*
+		 * Shortcode support hyphens in the tag name. Bug was fixed:
+		 * @link https://core.trac.wordpress.org/ticket/17657
+		 */
+
+		/*
 		 * Do not register the shortcode when doing ajax requests.
 		 * This is primarily implemented so the shortcodes are not run during Yoast SEO page score admin ajax requests.
 		 * The page score can cause the ajax request to fail and/or prevent the page from saving when page score is
@@ -63,28 +74,24 @@ class cnShortcode {
 		if ( ! wp_doing_ajax() ) {
 
 			// Register the core shortcodes.
-			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
-			add_shortcode( 'upcoming_list', '_upcoming_list' );
+			add_shortcode( 'connections', array( 'cnShortcode_Connections', 'view' ) );
+			Connections_Directory\Shortcode\Upcoming_List::add();
 
 			add_shortcode( 'cn-mapblock', array( 'Connections_Directory\Shortcode\mapBlock', 'shortcode' ) );
-
-			add_shortcode( 'connections_vcard', '_connections_vcard' ); /* Experimental. Do NOT use. */
-			add_shortcode( 'connections_qtip', '_connections_qtip' ); /* Experimental. Do NOT use. */
 
 			add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
 			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
 
 			Connections_Directory\Shortcode\Entry::add();
 			Connections_Directory\Shortcode\Conditional_Content::add();
+			// Connections_Directory\Shortcode\Search::add();
 		}
 	}
 
 	/**
 	 * Find the shortcode tag within the supplied string.
 	 *
-	 * @access public
-	 * @since  8.4.5
-	 * @static
+	 * @since 8.4.5
 	 *
 	 * @param string $tag     The shortcode tag.
 	 * @param string $content The string to find the shortcode tag in.
@@ -189,10 +196,8 @@ class cnShortcode {
 	 * Rewrite is_numeric() with no quotes.
 	 * Check string to see if it has one or both single or double quotes and ensure to use the opposite when rewriting the value.
 	 *
-	 * @access public
-	 * @since  8.4.5
-	 * @since  8.5.21 Refactor to be more "smart" in writing the option values with/without quotes.
-	 * @static
+	 * @since 8.4.5
+	 * @since 8.5.21 Refactor to be more "smart" in writing the option values with/without quotes.
 	 *
 	 * @param string $tag  The shortcode tag.
 	 * @param array  $atts An associative array where the key is the option name and the value is the option value.
@@ -250,11 +255,10 @@ class cnShortcode {
 	 *
 	 * The `the_content` filter is used to apply this backwards on posts where the tags have already been saved.
 	 *
-	 * @access public
-	 * @since  8.5.21
-	 * @static
+	 * @internal
+	 * @since 8.5.21
 	 *
-	 * @param string $content
+	 * @param string $content The post content.
 	 *
 	 * @return string
 	 */
@@ -285,11 +289,10 @@ class cnShortcode {
 	 *
 	 * @link http://stackoverflow.com/a/21491305/5351316
 	 *
-	 * @access public
-	 * @since  8.5.21
-	 * @static
+	 * @internal
+	 * @since 8.5.21
 	 *
-	 * @param string $content
+	 * @param string $content The post content.
 	 *
 	 * @return string
 	 */
@@ -376,11 +379,10 @@ class cnShortcode {
 	 *       defeating the purpose of this code -- to only display the first instance on the shortcode.
 	 *       Possible solution is to check for multiple matches and replace all but the initial match with an empty string.
 	 *
-	 * @access private
-	 * @since  unknown
-	 * @since  8.5.21 Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content
-	 *                when viewing a single entry profile page.
-	 * @static
+	 * @internal
+	 * @since unknown
+	 * @since 8.5.21 Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content
+	 *               when viewing a single entry profile page.
 	 *
 	 * @param string $content Post content.
 	 *
@@ -388,50 +390,19 @@ class cnShortcode {
 	 */
 	public static function single( $content ) {
 
-		//error_log( "\n" . 'PRE-SINGLE: ' . $content . "\n" );
+		// error_log( "\n" . 'PRE-SINGLE: ' . $content . "\n" );
 
 		$slug    = cnQuery::getVar( 'cn-entry-slug' );
 		$matches = self::find( 'connections', $content, 'matches' );
 
 		if ( $slug && $matches ) {
 
-			//$atts = shortcode_parse_atts( $matches[0][3] );
-
-			//$atts['slug'] = sanitize_title( $slug );
-
-			//$shortcode = self::write( 'connections', $atts );
-			//
-			//$theme  = wp_get_theme();
-			//$parent = $theme->parent();
-			//
-			//if ( FALSE === $parent ) {
-			//
-			//	$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
-			//
-			//} elseif ( $parent instanceof WP_Theme ) {
-			//
-			//	$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
-			//
-			//} else {
-			//
-			//	$replace = FALSE;
-			//}
-			//
-			//if ( $replace ) {
-			//
-			//	$content = str_replace( $matches[0][0], $shortcode, $content );
-			//
-			//} else {
-			//
-			//	$content = $shortcode;
-			//}
-
 			foreach ( $matches as $key => $match ) {
 
 				// Remove all but the first shortcode from the post content.
 				if ( 0 < $key ) {
 
-					//$content = str_replace( $match[0], '', $content );
+					// $content = str_replace( $match[0], '', $content );
 					$content = cnString::replaceFirst( $match[0], '', $content );
 
 				// Rewrite the shortcode, adding the entry slug to the shortcode.
@@ -446,17 +417,17 @@ class cnShortcode {
 					cnArray::set( $atts, 'slug', sanitize_title( $slug ) );
 
 					// Do not apply `array_filter()` on the `$atts` because it will remove necessary options from the shortcode.
-					//$atts = array_filter( $atts );
+					// $atts = array_filter( $atts );
 
 					$shortcode = cnShortcode::write( 'connections', $atts );
 
-					//$content = str_replace( $match[0], $shortcode, $content );
+					// $content = str_replace( $match[0], $shortcode, $content );
 					$content = cnString::replaceFirst( $match[0], $shortcode, $content );
 				}
 			}
 		}
 
-		//error_log( "\n" . 'POST-SINGLE: ' . $content . "\n" );
+		// error_log( "\n" . 'POST-SINGLE: ' . $content . "\n" );
 
 		return $content;
 	}
@@ -466,9 +437,8 @@ class cnShortcode {
 	 * WordPress execution stack. This allows the modification of its attributes
 	 * before being processed by the WordPress Shortcode API.
 	 *
-	 * @access private
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
+	 *
 	 * @param  array  $posts
 	 * @param  object $WP_Query
 	 *
@@ -507,16 +477,13 @@ class cnShortcode {
 						self::$shortcode[ $shortcode ] = shortcode_parse_atts( $matches[3][ $key ] );
 					}
 
-
-					// Show the just the search form w/o showing the initial results?
+					// Show just the search form w/o showing the initial results?
 					// If a Connections query var is set, show the results instead.
 					// if ( isset( $atts['initial_results'] )
 					// 	&& strtolower( $atts['initial_results'] ) == 'false'
 					// 	&& ! (bool) array_intersect( $registeredQueryVars, array_keys( (array) $WP_Query->query_vars ) )
 					// 	)
 					// {
-
-
 
 					// } else {
 
@@ -532,9 +499,7 @@ class cnShortcode {
 					// Replace the shortcode in the post with a new one based on the changes to $atts.
 					// $post->post_content = str_replace( $matches[0][ array_search( $shortcode, $matches[2] ) ], $replace, $post->post_content );
 				}
-
 			}
-
 		}
 
 		return $posts;
@@ -547,6 +512,9 @@ class cnShortcode {
 	 *
 	 * @internal
 	 * @since 0.7.3
+	 * @since 10.4.40 Moved to {@file class.shortcode-connections.php}.
+	 *
+	 * @deprecated 10.4.40
 	 *
 	 * @param array|string $atts    Shortcode attributes array or empty string.
 	 * @param string|null  $content The content of a shortcode when it wraps some content.
@@ -556,194 +524,17 @@ class cnShortcode {
 	 */
 	public static function view( $atts, $content = '', $tag = 'connections' ) {
 
-		// Ensure that the $atts var passed from WordPress is an array.
-		if ( ! is_array( $atts ) ) {
-			$atts = (array) $atts;
-		}
+		_deprecated_function( __METHOD__, '10.4.40', 'cnShortcode_Connections::view()' );
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		/*$getAllowPublic = $instance->options->getAllowPublic();
-		var_dump($getAllowPublic);
-		$getAllowPublicOverride = $instance->options->getAllowPublicOverride();
-		var_dump($getAllowPublicOverride);
-		$getAllowPrivateOverride = $instance->options->getAllowPrivateOverride();
-		var_dump($getAllowPrivateOverride);*/
-
-		/*
-		 * Only show this message under the following condition:
-		 * - ( The user is not logged in AND the 'Login Required' is checked ) AND ( neither of the shortcode visibility overrides are enabled ).
-		 */
-		if ( ( ! is_user_logged_in() && ! $instance->options->getAllowPublic() ) && ! ( $instance->options->getAllowPublicOverride() || $instance->options->getAllowPrivateOverride() ) ) {
-			$message = $instance->settings->get( 'connections', 'connections_login', 'message' );
-
-			// Format and texturize the message.
-			$message = wptexturize( wpautop( $message ) );
-
-			// Make any links and such clickable.
-			$message = make_clickable( $message );
-
-			// Apply the shortcodes.
-			$message = do_shortcode( $message );
-
-			return $message;
-		}
-
-		$view = cnQuery::getVar( 'cn-view' );
-
-		switch ( $view ) {
-
-			case 'submit':
-				if ( has_action( 'cn_submit_entry_form' ) ) {
-
-					ob_start();
-
-					/**
-					 * @todo There s/b capability checks just like when editing an entry so users can only submit when they have the permissions.
-					 */
-					do_action( 'cn_submit_entry_form', $atts, $content, $tag );
-
-					return ob_get_clean();
-
-				} else {
-
-					return '<p>' . esc_html__( 'Future home of front end submissions.', 'connections' ) . '</p>';
-				}
-
-			case 'landing':
-				return '<p>' . esc_html__( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
-
-			case 'search':
-				if ( has_action( 'Connections_Directory/Shortcode/View/Search' ) ) {
-
-					ob_start();
-
-					do_action( 'Connections_Directory/Shortcode/View/Search', $atts, $content, $tag );
-
-					return ob_get_clean();
-
-				} else {
-
-					return '<p>' . esc_html__( 'Future home of the search page.', 'connections' ) . '</p>';
-				}
-
-			case 'results':
-				if ( has_action( 'cn_submit_search_results' ) ) {
-
-					ob_start();
-
-					do_action( 'cn_submit_search_results', $atts, $content, $tag );
-
-					return ob_get_clean();
-
-				} else {
-
-					return '<p>' . esc_html__( 'Future home of the search results landing page.', 'connections' ) . '</p>';
-				}
-
-			// Show the standard result list.
-			case 'card':
-				return cnShortcode_Connections::shortcode( $atts, $content );
-
-			// Show the "View All" result list using the "Names" template.
-			case 'all':
-				if ( ! is_array( $atts ) ) {
-					$atts = array();
-				}
-
-				// Disable the output of the repeat character index.
-				cnArray::set( $atts, 'repeat_alphaindex', false );
-
-				// Force the use of the Names template.
-				cnArray::set( $atts, 'template', 'names' );
-
-				return cnShortcode_Connections::shortcode( $atts, $content );
-
-			// Show the entry detail using a template based on the entry type.
-			case 'detail':
-				switch ( cnQuery::getVar( 'cn-process' ) ) {
-
-					case 'edit':
-						if ( has_action( 'cn_edit_entry_form' ) ) {
-
-							// Check to see if the entry has been linked to a user ID.
-							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', true );
-							// var_dump( $entryID );
-
-							$results = $instance->retrieve->entries( array( 'status' => 'approved,pending' ) );
-							// var_dump( $results );
-
-							/*
-							 * The `cn_edit_entry_form` action should only be executed if the user is
-							 * logged in and they have the `connections_manage` capability and either the
-							 * `connections_edit_entry` or `connections_edit_entry_moderated` capability.
-							 */
-
-							if ( is_user_logged_in() &&
-								( current_user_can( 'connections_manage' ) || ( (int) $entryID == (int) $results[0]->id ) ) &&
-								( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
-								) {
-
-								ob_start();
-
-								if ( ! current_user_can( 'connections_edit_entry' ) && 'pending' === $results[0]->status ) {
-
-									echo '<p>' . esc_html__( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
-								}
-
-								do_action( 'cn_edit_entry_form', $atts, $content, $tag );
-
-								return ob_get_clean();
-
-							} else {
-
-								return esc_html__( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' );
-							}
-
-						}
-
-						break;
-
-					default:
-						// Ensure an array is passed the the cnRetrieve::entries method.
-						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
-
-						$results = $instance->retrieve->entries( $atts );
-						// var_dump($results);
-
-						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
-
-						return cnShortcode_Connections::shortcode( $atts, $content );
-				}
-
-				break;
-
-			// Show the standard result list.
-			default:
-				// return cnShortcode_Connections::shortcode( $atts, $content );
-
-				if ( has_action( "cn_view_$view" ) ) {
-
-					ob_start();
-
-					do_action( "cn_view_$view", $atts, $content, $tag );
-
-					return ob_get_clean();
-				}
-
-				break;
-		}
-
-		return cnShortcode_Connections::shortcode( $atts, $content );
+		return cnShortcode_Connections::view( $atts, $content, $tag );
 	}
 
 	/**
-	 * Whether or not the supplied WP_Post is of a supported post type.
+	 * Whether the supplied WP_Post is of a supported post type.
 	 *
 	 * @since 10.2
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $post Instance of WP_Post.
 	 *
 	 * @return bool
 	 */
@@ -805,39 +596,29 @@ class cnShortcode {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @static
-	 * @param  string $tag The action of filter hook tag.
 	 *
-	 * @return void
+	 * @deprecated 10.4.40
+	 *
+	 * @param  string $tag The action of filter hook tag.
 	 */
 	public static function addFilterRegistry( $tag ) {
 
-		self::$filterRegistry[] = $tag;
+		_deprecated_function( __METHOD__, '10.4.40', '\Template\Hook_Transient::instance()->add()' );
+		Hook_Transient::instance()->add( $tag );
 	}
 
 	/**
 	 * Clear the action/filter registry.
 	 *
+	 * @deprecated 10.4.40
+	 *
 	 * @access private
 	 * @since  0.8
-	 * @static
-	 *
-	 * @return void
 	 */
 	public static function clearFilterRegistry() {
-		global $wp_filter;
 
-		/*
-		 * Remove any filters a template may have added
-		 * so it is not run again if more than one template
-		 * is in use on the same page.
-		 */
-		foreach ( self::$filterRegistry as $filter ) {
-
-			if ( isset( $wp_filter[ $filter ] ) ) {
-				unset( $wp_filter[ $filter ] );
-			}
-		}
+		_deprecated_function( __METHOD__, '10.4.40', '\Template\Hook_Transient::instance()->clear()' );
+		Hook_Transient::instance()->clear();
 	}
 
 	/**
@@ -847,10 +628,10 @@ class cnShortcode {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @static
-	 * @param  string $string The result of executing any of the core Connections shortcodes.
 	 *
-	 * @return string         The string with all EOL characters removed.
+	 * @param string $string The result of executing any of the core Connections shortcodes.
+	 *
+	 * @return string
 	 */
 	public static function removeEOL( $string ) {
 
@@ -868,7 +649,7 @@ class cnShortcode {
 	 * Attempts to intelligently remove <p> and <br> tags added around
 	 * the shortcodes by wpautop().
 	 *
-	 * @access public
+	 * @access private
 	 * @since  0.8
 	 * @param  string $content The content captured by the cn_template shortcode.
 	 *
@@ -876,7 +657,7 @@ class cnShortcode {
 	 */
 	public static function removePBR( $content ) {
 
-		$content = strtr(
+		return strtr(
 			$content,
 			array(
 				'<p><!--'  => '<!--',
@@ -888,7 +669,5 @@ class cnShortcode {
 				'/]<br />' => ']',
 			)
 		);
-
-		return $content;
 	}
 }

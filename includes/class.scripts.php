@@ -138,7 +138,9 @@ class cnScript {
 
 		$path = Connections_Directory()->pluginPath();
 
-		$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry';
+		// Add noop callback to Google Maps API parameters.
+		// @link https://stackoverflow.com/a/75212692
+		$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry&callback=Function.prototype';
 		$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
 
 		if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
@@ -360,8 +362,6 @@ class cnScript {
 			wp_register_script( 'cn-ui', $url . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, true );
 		}
 
-		wp_register_script( 'jquery-qtip', $url . "assets/vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', true );
-
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
 		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
 		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', true );
@@ -452,7 +452,6 @@ class cnScript {
 			wp_register_style( 'cn-public-custom', $customCSS, $required, CN_CURRENT_VERSION );
 		}
 
-		wp_register_style( 'cn-qtip', $url . "assets/vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
 		wp_register_style( 'cn-chosen', $url . "assets/vendor/chosen/chosen$min.css", array(), '1.8.7' );
 		wp_register_style( 'cn-brandicons', $url . 'assets/vendor/icomoon-brands/style.css', array(), CN_CURRENT_VERSION );
 		wp_register_style( 'cn-font-awesome', $url . "assets/vendor/fontawesome/css/all$min.css", array(), '5.8.1' );

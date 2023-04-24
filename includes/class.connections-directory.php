@@ -20,14 +20,14 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.39';
+	const VERSION = '10.4.40';
 
 	/**
 	 * Stores the instance of this class.
 	 *
 	 * @since 0.7.9
 	 *
-	 * @var connectionsLoad
+	 * @var self
 	 */
 	private static $instance;
 
@@ -137,7 +137,7 @@ final class Connections_Directory {
 	 *
 	 * @since 0.7.6
 	 *
-	 * @var cnTemplatePart
+	 * @var cnTemplate[]
 	 */
 	public $template;
 
@@ -197,13 +197,11 @@ final class Connections_Directory {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * @access private
-	 * @since  unknown
-	 * @static
+	 * @since unknown
 	 *
-	 * @param string $file
+	 * @param string $file The full path and filename of the plugin.
 	 *
-	 * @return connectionsLoad
+	 * @return self
 	 */
 	public static function instance( $file = '' ) {
 

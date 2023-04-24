@@ -27,7 +27,7 @@ class cnTemplateFactory {
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @var object
+	 * @var stdClass
 	 */
 	public static $templates;
 
@@ -712,10 +712,7 @@ class cnTemplateFactory {
 
 		} else {
 
-			// Grab an instance of the Connections object.
-			$instance = Connections_Directory();
-
-			$slug     = $instance->options->getActiveTemplate( $type );
+			$slug     = Connections_Directory()->options->getActiveTemplate( $type );
 			$template = self::getTemplate( $slug );
 		}
 

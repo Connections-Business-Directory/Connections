@@ -13,12 +13,11 @@
  * @since       0.8
  */
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 use Connections_Directory\Utility\_escape;
+use Connections_Directory\Utility\_http;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class cnLicense
@@ -73,6 +72,14 @@ class cnLicense {
 	 * @var string
 	 */
 	private $key;
+
+	/**
+	 * The plugin update URL used for EDD SL Updater.
+	 *
+	 * @since 10.4.40
+	 * @var string
+	 */
+	private $updateURL;
 
 	/**
 	 * Setup The item license.
@@ -1142,7 +1149,7 @@ HERERDOC;
 			add_query_arg( $query, trailingslashit( $url ) ),
 			array(
 				'timeout'   => 15,
-				'sslverify' => cnHTTP::verifySSL(),
+				'sslverify' => _http::verifySSL(),
 			)
 		);
 

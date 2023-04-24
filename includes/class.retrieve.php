@@ -2562,6 +2562,8 @@ class cnRetrieve {
 	/**
 	 * Return an array of entry ID/s found with the supplied search terms.
 	 *
+	 * @todo Return exact matches when searching by name for both the individual and organization entry types.
+	 * @todo Add option to return exact matches only, to name for both the individual and organization entry types.
 	 * @todo Allow the fields for each table to be defined as a comma delimited list, convert an array and validate against of list of valid table fields.
 	 * @todo Add a filter to allow the search fields to be changed.
 	 *

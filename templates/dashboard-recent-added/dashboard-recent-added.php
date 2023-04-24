@@ -24,6 +24,14 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 	class CN_Dashboard_Recently_Added_Template {
 
 		/**
+		 * Instance of cnTemplate.
+		 *
+		 * @since 10.4.40
+		 * @var cnTemplate
+		 */
+		private $template;
+
+		/**
 		 * Register the template.
 		 */
 		public static function register() {

@@ -7,7 +7,6 @@ use cnQuery;
 use cnRetrieve;
 use cnRewrite;
 use cnSettingsAPI;
-use cnShortcode;
 use cnTerm;
 use WP_Post;
 use WP_User;
@@ -17,7 +16,7 @@ use WP_User;
  *
  * @package Connections_Directory\Shortcode
  */
-class Conditional_Content extends cnShortcode {
+class Conditional_Content {
 
 	/**
 	 * @since 9.14

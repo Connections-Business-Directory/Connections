@@ -12,6 +12,7 @@
  * @subpackage REST API
  * @since    8.5.34
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

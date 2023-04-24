@@ -335,7 +335,7 @@ class Directory {
 		// error_log( '$options ' .  json_encode( $options, 128 ) );
 
 		// $html = \cnShortcode_Connections::shortcode( $options );
-		$html = \cnShortcode::view( $options );
+		$html = \cnShortcode_Connections::view( $options );
 
 		// Strip link URL/s, only in editor preview.
 		if ( $attributes['isEditorPreview'] ) {

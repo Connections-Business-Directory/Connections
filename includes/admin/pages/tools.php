@@ -447,20 +447,34 @@ class cnAdmin_Tools {
 
 			<div class="inside">
 
-					<textarea readonly="readonly" onclick="this.focus();this.select()" name="cn-system-info" title="<?php _e( 'To copy the System Info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'connections' ); ?>" style="display: block; width: 100%; height: 500px; font-family: 'Consolas', 'Monaco', monospace; white-space: pre; overflow: auto;">
-		<?php
+					<textarea readonly="readonly" onclick="this.focus();this.select()" name="cn-system-info" title="<?php _e( 'To copy the System Info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'connections' ); ?>" style="background: #32373c; color: rgba(240,245,250,.7); display: block; width: 100%; height: 500px; font-size: 12px; font-family: 'Consolas', 'Monaco', monospace; white-space: pre; overflow: auto; padding: 10px;">
+<?php
 // phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
 // Non-standard indentation needed for plain-text display.
 cnSystem_Info::display();
 // phpcs:enable Generic.WhiteSpace.ScopeIndent.Incorrect
-		?>
+?>
 					</textarea>
 
 				<?php // Form used to download .txt file. ?>
 				<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
 					<input type="hidden" name="action" value="download_system_info"/>
 					<?php _nonce::field( 'download_system_info' ); ?>
-					<?php submit_button( __( 'Download System Info as Text File', 'connections' ), 'secondary', 'submit' ); ?>
+					<p>
+					<?php
+					submit_button( __( 'Download System Info as Text File', 'connections' ), 'primary', 'submit', false );
+					submit_button(
+						__( 'Copy to Clipboard', 'connections' ),
+						'secondary',
+						'copy-system-info',
+						false,
+						array(
+							'onclick' => 'document.querySelector(\'textarea[name="cn-system-info"]\').select();document.execCommand("copy");return false;',
+							'style'   => 'margin-left: 5px;',
+						)
+					);
+					?>
+					</p>
 				</form>
 			</div><!-- .inside -->
 		</div><!-- .postbox -->

@@ -65,7 +65,7 @@ class cnSystem_Info {
 	 */
 	public static function display() {
 
-		echo esc_textarea( self::get() );
+		echo trim( esc_textarea( self::get() ) );
 	}
 
 

@@ -228,7 +228,7 @@ class Categories extends Content_Block {
 					'<%1$s class="%2$s">%3$s</%1$s>',
 					_escape::tagName( $this->get( 'item_tag' ) ),
 					// The `cn_category` class is named with an underscore for backward compatibility.
-					_escape::classNames( "cn-category-name cn_category cn-category-{$category->term_id}" ),
+					_escape::classNames( "cn-category-name cn_category cn-category-{$category->term_id} cn-category-{$category->slug}" ),
 					// `$text` is escaped.
 					$text
 				),
@@ -256,9 +256,12 @@ class Categories extends Content_Block {
 
 		if ( 'list' == $this->get( 'type' ) ) {
 
+			$classNames = apply_filters( 'cn_entry_output_category_items_class', array( 'cn-category-list' ) );
+
 			$html .= sprintf(
-				'<%1$s class="cn-category-list">%2$s</%1$s>',
+				'<%1$s class="%2$s">%3$s</%1$s>',
 				'unordered' === $this->get( 'list' ) ? 'ul' : 'ol',
+				_escape::classNames( $classNames ),
 				implode( '', $items )
 			);
 

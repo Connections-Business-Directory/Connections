@@ -470,7 +470,7 @@ class cnImage {
 	 *
 	 * @param string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
 	 * @param array  $atts   An associative array containing the options used to process the image.
-	 * @param string $return Accepts the following values: base64|data|editor|stream|url
+	 * @param string $return Accepts the following values: base64|data|editor|stream|url.
 	 *
 	 * @return array{name: string, path: string, url: string, width: int, height: int, size: string, mime: string, type: int, string}|string|WP_Error|WP_Image_Editor
 	 *                If $return is `base64` then base64 encoded image data URI will be returned. Suitable for use in CSS or img src attribute.
@@ -792,8 +792,8 @@ class cnImage {
 				'options' => array(
 					'default'   => null, /** Set to null, so by default, the quality set in {@see WP_Image_Editor::get_default_quality()} will be used. */
 					'min_range' => 1,
-					'max_range' => 100
-				)
+					'max_range' => 100,
+				),
 			)
 		);
 
@@ -1571,7 +1571,7 @@ class cnImage {
 	 * @access private
 	 * @since  8.1
 	 *
-	 * @param null       $payload NULL value being passed by the image_resize_dimensions filter
+	 * @param null       $payload NULL value being passed by the image_resize_dimensions filter.
 	 * @param int        $orig_w  Original width in pixels.
 	 * @param int        $orig_h  Original height in pixels.
 	 * @param int        $dest_w  New width in pixels.
@@ -1676,7 +1676,7 @@ class cnImage {
 	 *
 	 * @param  string $source URL or absolute path to an image.
 	 *
-	 * @return mixed          array | object An associative array of image meta or an instance of WP_Error.
+	 * @return array|WP_Error An associative array of image meta or an instance of WP_Error.
 	 */
 	public static function info( $source ) {
 

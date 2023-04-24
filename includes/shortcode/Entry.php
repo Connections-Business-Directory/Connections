@@ -1,4 +1,19 @@
 <?php
+/**
+ * The `[cn-entry]` shortcode.
+ *
+ * @since      9.5
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections Business Directory
+ * @subpackage Connections\Shortcode\Entry
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
+
+declare( strict_types=1 );
 namespace Connections_Directory\Shortcode;
 
 use cnSettingsAPI;
@@ -6,115 +21,63 @@ use cnShortcode;
 use cnTemplate as Template;
 use cnTemplateFactory;
 use cnTemplatePart;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
-
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
 
 /**
  * Class Entry
  *
  * @package Connections_Directory\Shortcode
  */
-class Entry extends cnShortcode {
+final class Entry {
+
+	use Do_Shortcode;
 
 	/**
-	 * @var string
-	 */
-	private $html = '';
-
-	/**
-	 * @since 9.12
-	 * @var string
-	 */
-	protected static $tag = 'cn-entry';
-
-	/**
+	 * The shortcode tag.
 	 *
-	 * @param array  $atts
-	 * @param string $content
-	 * @param string $tag
+	 * @since 9.12
+	 * @since 9.15 Change from private to protected.
+	 * @since 10.4.40 Change to constant.
+	 *
+	 * @var string
 	 */
-	public function __construct( $atts, $content, $tag ) {
+	const TAG = 'cn-entry';
 
-		$template = cnTemplateFactory::loadTemplate( $atts );
+	/**
+	 * The shortcode attributes.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @var array
+	 */
+	private $attributes = array();
 
-		if ( false === $template ) {
-			$this->html = cnTemplatePart::loadTemplateError( $atts );
-			return;
-		}
+	/**
+	 * The content from an enclosing shortcode.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @var string
+	 */
+	private $content;
 
-		/*
-		 * This filter adds the current template paths to cnLocate so when template
-		 * part file overrides are being searched for, it'll also search in template
-		 * specific paths. This filter is then removed at the end of the shortcode.
-		 */
-		add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
-		self::addFilterRegistry( 'cn_locate_file_paths' );
+	/**
+	 * An instance of the cnTemplate or false.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @var Template|false
+	 */
+	private $template;
 
-		do_action( 'cn_template_include_once-' . $template->getSlug() );
-		do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
-
-		$atts = $this->parseAtts( $atts, $template, $tag );
-
-		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
-		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
-		self::addFilterRegistry( 'cn_list_retrieve_atts-' . $template->getSlug() );
-
-		$results = Connections_Directory()->retrieve->entries( $atts );
-
-		// Apply any registered filters to the results.
-		if ( ! empty( $results ) ) {
-
-			$results = apply_filters( 'cn_list_results', $results );
-			$results = apply_filters( 'cn_list_results-' . $template->getSlug(), $results );
-			self::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
-
-		} else {
-
-			$this->html = '<p>' . esc_html__( 'Entry not found.', 'connections' ) . '</p>';
-			return;
-		}
-
-		ob_start();
-
-		// Prints the template's CSS file.
-		// NOTE: This is primarily to support legacy templates which included a CSS
-		// file which was not enqueued in the page header.
-		do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
-
-		// The return to top anchor.
-		do_action( 'cn_list_return_to_target', $atts );
-
-		$this->html .= ob_get_clean();
-
-		$this->html .= sprintf(
-			'<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s">',
-			Connections_Directory()->options->getVersion(),
-			Connections_Directory()->options->getDBVersion()
-		);
-
-		$this->html .= sprintf(
-			'<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
-			$template->getSlug(),
-			$template->getVersion()
-		);
-
-		$this->html .= $this->renderTemplate( $template, $results, $atts );
-
-		$this->html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . PHP_EOL;
-
-		$this->html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . PHP_EOL;
-
-		// Clear any filters that have been added.
-		// This allows support using the shortcode multiple times on the same page.
-		self::clearFilterRegistry();
-
-		// @todo This should be run via a filter.
-		$this->html = self::removeEOL( $this->html );
-	}
+	/**
+	 * The shortcode output HTML.
+	 *
+	 * @since 9.5
+	 * @var string
+	 */
+	private $html;
 
 	/**
 	 * Register the shortcode.
@@ -123,33 +86,106 @@ class Entry extends cnShortcode {
 	 */
 	public static function add() {
 
-		add_shortcode( static::$tag, array( __CLASS__, 'shortcode' ) );
+		add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'maybeDoShortcode' ), 10, 4 );
+		add_shortcode( self::TAG, array( __CLASS__, 'instance' ) );
 	}
 
 	/**
-	 * Callback for `add_shortcode()`
+	 * Generate the shortcode HTML.
 	 *
-	 * @see Entry::add()
+	 * @since 9.5
 	 *
-	 * @param array  $atts
-	 * @param string $content
-	 * @param string $tag
-	 *
-	 * @return static
+	 * @param array  $untrusted The shortcode arguments.
+	 * @param string $content   The shortcode content.
+	 * @param string $tag       The shortcode tag.
 	 */
-	public static function shortcode( $atts, $content, $tag ) {
+	public function __construct( array $untrusted, string $content, string $tag = self::TAG ) {
 
-		return new static( $atts, $content, $tag );
+		$template = _array::get( $untrusted, 'template', '' );
+
+		$this->loadTemplate( $template );
+
+		if ( $this->template instanceof Template ) {
+
+			$defaults  = $this->getDefaultAttributes();
+			$untrusted = shortcode_atts( $defaults, $untrusted, $tag );
+
+			$untrusted = apply_filters(
+				"cn_list_atts-{$this->template->getSlug()}",
+				apply_filters( 'cn_list_atts', $untrusted )
+			);
+
+			$this->attributes = $this->prepareAttributes( $untrusted );
+			$this->html       = $this->generateHTML();
+
+		} else {
+
+			$this->html = cnTemplatePart::loadTemplateError( $untrusted );
+		}
+
+		$this->content = $content;
+
+		// Clear any filters that have been added.
+		// This allows support using the shortcode multiple times on the same page.
+		cnShortcode::clearFilterRegistry();
+	}
+
+	/**
+	 * Callback for `add_shortcode()`.
+	 *
+	 * @since 9.5
+	 * @since 10.4.40 Change method name from `shortcode` to `instance`.
+	 *
+	 * @param array  $atts    The shortcode arguments.
+	 * @param string $content The shortcode content.
+	 * @param string $tag     The shortcode tag.
+	 *
+	 * @return self
+	 */
+	public static function instance( array $atts, string $content = '', string $tag = self::TAG ): self {
+
+		return new self( $atts, $content, $tag );
+	}
+
+	/**
+	 * Load the template.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @param string $slug The shortcode arguments.
+	 */
+	private function loadTemplate( string $slug ) {
+
+		$this->template = cnTemplateFactory::loadTemplate( array( 'template' => $slug ) );
+
+		if ( $this->template instanceof Template ) {
+
+			/*
+			 * This filter adds the current template paths to cnLocate so when template
+			 * part file overrides are being searched for, it'll also search in template
+			 * specific paths. This filter is then removed at the end of the shortcode.
+			 */
+			add_filter( 'cn_locate_file_paths', array( $this->template, 'templatePaths' ) );
+			cnShortcode::addFilterRegistry( 'cn_locate_file_paths' );
+
+			/**
+			 * @todo Move to to {@see cnTemplateFactory::loadTemplate()}???
+			 *       Note: These same actions are also in the [connections] and [upcoming_list] shortcodes.
+			 */
+			do_action( "cn_template_include_once-{$this->template->getSlug()}" );
+			do_action( "cn_template_enqueue_js-{$this->template->getSlug()}" );
+		}
 	}
 
 	/**
 	 * The shortcode defaults.
 	 *
-	 * @param Template $template
+	 * @since 9.5
+	 * @since 10.4.40 Change method name from `getDefaults` to `getDefaultAttributes`.
 	 *
 	 * @return array
 	 */
-	private function getDefaults( $template ) {
+	private function getDefaultAttributes(): array {
 
 		$defaults = array(
 			'id'         => null,
@@ -159,99 +195,139 @@ class Entry extends cnShortcode {
 			'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 		);
 
-		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
-		$defaults = apply_filters( "cn_list_atts_permitted-{$template->getSlug()}", $defaults );
-		self::addFilterRegistry( 'cn_list_atts_permitted-' . $template->getSlug() );
-
-		return $defaults;
+		return apply_filters(
+			"cn_list_atts_permitted-{$this->template->getSlug()}",
+			apply_filters( 'cn_list_atts_permitted', $defaults )
+		);
 	}
 
 	/**
 	 * Parse the user supplied atts.
 	 *
-	 * @param array    $atts
-	 * @param Template $template
-	 * @param string   $tag
+	 * @since 9.5
+	 * @since 10.4.40 Change method name from `parseAtts` to `prepareAttributes`.
+	 *
+	 * @param array $attributes The shortcode arguments.
 	 *
 	 * @return array
 	 */
-	public function parseAtts( $atts, $template, $tag ) {
-
-		$defaults = $this->getDefaults( $template );
-		$atts     = shortcode_atts( $defaults, $atts, $tag );
-
-		$atts = apply_filters( 'cn_list_atts', $atts );
-		$atts = apply_filters( "cn_list_atts-{$template->getSlug()}", $atts );
-		self::addFilterRegistry( 'cn_list_atts-' . $template->getSlug() );
+	public function prepareAttributes( array $attributes ): array {
 
 		// Force some specific defaults.
-		$atts['content']         = '';
-		$atts['lock']            = true;
-		$atts['show_alphaindex'] = false;
-		$atts['show_alphahead']  = false;
-		$atts['limit']           = 1;
+		$attributes['content']         = '';
+		$attributes['lock']            = true;
+		$attributes['show_alphaindex'] = false;
+		$attributes['show_alphahead']  = false;
+		$attributes['limit']           = 1;
 
-		_format::toBoolean( $atts['force_home'] );
-		_format::toBoolean( $atts['random'] );
+		_format::toBoolean( $attributes['force_home'] );
+		_format::toBoolean( $attributes['random'] );
 
 		// If `id` is not numeric, set it to a string which will be evaluated to a `0` (zero) in `cnRetrieve::entries()` and return no results.
-		if ( ! is_numeric( $atts['id'] ) ) {
+		if ( ! is_numeric( $attributes['id'] ) ) {
 
-			$atts['id'] = 'none';
+			$attributes['id'] = 'none';
 		}
 
-		if ( true === $atts['random'] ) {
+		if ( true === $attributes['random'] ) {
 
 			// If random is set, set `id` to `null`.
-			$atts['id']       = null;
-			$atts['order_by'] = 'id|RANDOM';
+			$attributes['id']       = null;
+			$attributes['order_by'] = 'id|RANDOM';
 		}
 
-		return $atts;
+		return $attributes;
 	}
 
 	/**
-	 * @since
+	 * Generate the shortcode HTML.
 	 *
-	 * @param Template $template
-	 * @param array    $items
-	 * @param array    $attributes
+	 * @since 10.4.40
 	 *
 	 * @return string
 	 */
-	private function renderTemplate( $template, $items, $attributes ) {
+	private function generateHTML(): string {
+
+		$html = '';
+
+		$this->attributes = apply_filters( 'cn_list_retrieve_atts', $this->attributes );
+		$this->attributes = apply_filters( "cn_list_retrieve_atts-{$this->template->getSlug()}", $this->attributes );
+
+		$results = Connections_Directory()->retrieve->entries( $this->attributes );
+
+		// Apply any registered filters to the results.
+		if ( ! empty( $results ) ) {
+
+			$results = apply_filters( 'cn_list_results', $results );
+			$results = apply_filters( "cn_list_results-{$this->template->getSlug()}", $results );
+			cnShortcode::addFilterRegistry( "cn_list_results-{$this->template->getSlug()}" );
+
+		} else {
+
+			return '<p>' . esc_html__( 'Entry not found.', 'connections' ) . '</p>';
+		}
+
+		ob_start();
+
+		// Prints the template's CSS file.
+		// NOTE: This is primarily to support legacy templates which included a CSS
+		// file which was not enqueued in the page header.
+		do_action( "cn_template_inline_css-{$this->template->getSlug()}", $this->attributes );
+
+		// The return to top anchor.
+		do_action( 'cn_list_return_to_target', $this->attributes );
+
+		$html .= ob_get_clean();
+
+		$html .= sprintf(
+			'<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s">',
+			esc_attr( Connections_Directory()->options->getVersion() ),
+			esc_attr( Connections_Directory()->options->getDBVersion() )
+		);
+
+		$html .= sprintf(
+			'<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
+			esc_attr( $this->template->getSlug() ),
+			esc_attr( $this->template->getVersion() )
+		);
+
+		$html .= $this->renderTemplate( $results );
+
+		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $this->template->getSlug() . ' -->' : '' ) . PHP_EOL;
+
+		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . PHP_EOL;
+
+		// @todo This should be run via a filter.
+		return cnShortcode::removeEOL( $html );
+	}
+
+	/**
+	 * Generate the template HTML.
+	 *
+	 * @since 9.5
+	 *
+	 * @param array $items An array of entry data objects.
+	 *
+	 * @return string
+	 */
+	private function renderTemplate( array $items ): string {
 
 		ob_start();
 
 		do_action(
-			"Connections_Directory/Render/Template/{$template->getSlug()}/Before",
-			$attributes,
+			"Connections_Directory/Render/Template/{$this->template->getSlug()}/Before",
+			$this->attributes,
 			$items,
-			$template
+			$this->template
 		);
 
-		//foreach ( $items as $data ) {
-		//
-		//	$entry = new \cnOutput( $data );
-		//
-		//	do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $attributes );
-		//}
-
-		// Render the core result list header.
-		//cnTemplatePart::header( $attributes, $items, $template );
-
-		// Render the core result list body.
-		//cnTemplatePart::body( $attributes, $items, $template );
-		cnTemplatePart::cards( $attributes, $items, $template );
-
-		// Render the core result list footer.
-		//cnTemplatePart::footer( $attributes, $items, $template );
+		cnTemplatePart::cards( $this->attributes, $items, $this->template );
 
 		do_action(
-			"Connections_Directory/Render/Template/{$template->getSlug()}/After",
-			$attributes,
+			"Connections_Directory/Render/Template/{$this->template->getSlug()}/After",
+			$this->attributes,
 			$items,
-			$template
+			$this->template
 		);
 
 		$html = ob_get_clean();
@@ -265,10 +341,36 @@ class Entry extends cnShortcode {
 	}
 
 	/**
+	 * Get the generated shortcode HTML.
+	 *
+	 * @since 10.4.40
+	 *
+	 * @return string
+	 */
+	public function getHTML(): string {
+
+		return $this->html;
+	}
+
+	/**
+	 * Render the shortcode HTML.
+	 *
+	 * @since 10.4.40
+	 */
+	public function render() {
+
+		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping is done in the template.
+	}
+
+	/**
+	 * Return the generated shortcode HTML.
+	 *
+	 * @since 9.5
+	 *
 	 * @return string
 	 */
 	public function __toString() {
 
-		return $this->html;
+		return $this->getHTML();
 	}
 }

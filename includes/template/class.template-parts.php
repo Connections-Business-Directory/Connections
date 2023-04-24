@@ -9,9 +9,6 @@
  * @since       0.7.6
  */
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
@@ -22,10 +19,15 @@ use Connections_Directory\Utility\_url;
 use function Connections_Directory\Taxonomy\Partial\getTermParents;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class cnTemplatePart
+ *
+ * @since 10.4.40 Extend with stdClass to remove "Creation of dynamic property" deprecation notices.
  */
-class cnTemplatePart {
+class cnTemplatePart extends stdClass {
 
 	/**
 	 * Register the default template actions.
@@ -362,7 +364,7 @@ class cnTemplatePart {
 		// Get the directory home page ID.
 		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) : $atts['home_id'];
 
-		// The base post permalink is required, do not filter the permalink thru cnSEO.
+		// The base post permalink is required, do not filter the permalink through cnSEO.
 		cnSEO::doFilterPermalink( false );
 
 		if ( $wp_rewrite->using_permalinks() ) {
@@ -1217,7 +1219,7 @@ class cnTemplatePart {
 
 		// $addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE;
 
-		// The base post permalink is required, do not filter the permalink thru cnSEO.
+		// The base post permalink is required, do not filter the permalink through cnSEO.
 		if ( ! is_admin() ) {
 			cnSEO::doFilterPermalink( false );
 		}
@@ -1485,7 +1487,7 @@ class cnTemplatePart {
 	 * @since  0.8
 	 *
 	 * @param array   $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
-	 * @param cnEntry $entry An instance the the cnEntry object.
+	 * @param cnEntry $entry An instance the cnEntry object.
 	 *
 	 * @return string
 	 */
@@ -1586,14 +1588,13 @@ class cnTemplatePart {
 	/**
 	 * The return to top anchor.
 	 *
-	 * @access public
-	 * @version 1.0
 	 * @since 0.7.3
-	 * @uses wp_parse_args()
-	 * @param array $atts [optional]
+	 *
+	 * @param array $atts [optional].
+	 *
 	 * @return string
 	 */
-	public static function returnToTop( $atts = array() ) {
+	public static function returnToTop( array $atts = array() ) {
 
 		$defaults = array(
 			'tag'    => 'span',
@@ -1608,11 +1609,11 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$styles = cnHTML::attribute( 'style', $atts['style'] );
+		$css = _html::stringifyCSSAttributes( $atts['style'] );
 
 		$anchor = '<a href="' . $atts['href'] . '" title="' . $atts['title'] . '">' . $atts['text'] . '</a>';
 
-		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? $styles : '' ) . '>' . $anchor . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( 0 < strlen( $css ) ? " style=\"{$css}\"" : '' ) . '>' . $anchor . '</' . $atts['tag'] . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -1622,12 +1623,7 @@ class cnTemplatePart {
 	/**
 	 * The last updated message for an entry.
 	 *
-	 * @access public
-	 * @since  0.7.6.5
-	 *
-	 * @uses   wp_parse_args()
-	 * @uses   human_time_diff()
-	 * @uses   current_time()
+	 * @since 0.7.6.5
 	 *
 	 * @param  array $atts [optional]
 	 *
@@ -1671,12 +1667,12 @@ class cnTemplatePart {
 			$atts['style']['display'] = 'none';
 		}
 
-		$styles = cnHTML::attribute( 'style', $atts['style'] );
+		$css = _html::stringifyCSSAttributes( $atts['style'] );
 
 		/* translators: Human readable timestamp. */
 		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp', true ) ) );
 
-		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? $styles : '' ) . '>' . $updated . '</' . $atts['tag'] . '>';
+		$out = '<' . _escape::tagName( $atts['tag'] ) . ' class="cn-last-updated" style="' . _escape::css( $css ) . '">' . $updated . '</' . _escape::tagName( $atts['tag'] ) . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -2034,45 +2030,45 @@ class cnTemplatePart {
 			 */
 			if ( cnShortcode::isSupportedPostType( get_queried_object() ) && $wp_rewrite->using_permalinks() ) {
 
-				// Add the category base and path if paging thru a category.
+				// Add the category base and path if paging through a category.
 				if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 					$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . cnQuery::getVar( 'cn-cat-slug' ) );
 				}
 
-				// Add the country base and path if paging thru a country.
+				// Add the country base and path if paging through a country.
 				if ( cnQuery::getVar( 'cn-country' ) ) {
 
 					_array::forget( $queryVars, 'cn-country' );
 					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . cnQuery::getVar( 'cn-country' ) );
 				}
 
-				// Add the region base and path if paging thru a region.
+				// Add the region base and path if paging through a region.
 				if ( cnQuery::getVar( 'cn-region' ) ) {
 
 					_array::forget( $queryVars, 'cn-region' );
 					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . cnQuery::getVar( 'cn-region' ) );
 				}
 
-				// Add the postal code base and path if paging thru a postal code.
+				// Add the postal code base and path if paging through a postal code.
 				if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 
 					_array::forget( $queryVars, 'cn-postal-code' );
 					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . cnQuery::getVar( 'cn-postal-code' ) );
 				}
 
-				// Add the locality base and path if paging thru a locality.
+				// Add the locality base and path if paging through a locality.
 				if ( cnQuery::getVar( 'cn-locality' ) ) {
 
 					_array::forget( $queryVars, 'cn-locality' );
 					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . cnQuery::getVar( 'cn-locality' ) );
 				}
 
-				// Add the organization base and path if paging thru a organization.
+				// Add the organization base and path if paging through an organization.
 				if ( cnQuery::getVar( 'cn-organization' ) ) {
 					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . cnQuery::getVar( 'cn-organization' ) );
 				}
 
-				// Add the department base and path if paging thru a department.
+				// Add the department base and path if paging through a department.
 				if ( cnQuery::getVar( 'cn-department' ) ) {
 					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . cnQuery::getVar( 'cn-department' ) );
 				}
@@ -2262,7 +2258,7 @@ class cnTemplatePart {
 	 * Parent public function that outputs the various categories output formats.
 	 *
 	 * Accepted option for the $atts property are:
-	 *    type (string) The output type of the categories. Valid options options are: select || multiselect || radio || checkbox
+	 *    type (string) The output type of the categories. Valid options are: select || multiselect || radio || checkbox
 	 *    group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 *    default (string) The default string to show as the first item in the list. Used for select && multiselect only.
 	 *    show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
@@ -2365,7 +2361,7 @@ class cnTemplatePart {
 	 * The private function called by cnTemplate::category that outputs the select, multiselect; grouped and ungrouped.
 	 *
 	 * Accepted option for the $atts property are:
-	 *     type (string) The output type of the categories. Valid options options are: select || multiselect
+	 *     type (string) The output type of the categories. Valid options are: select || multiselect
 	 *     group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 *     default (string) The default string to show as the first item in the list. Used for select && multiselect only.
 	 *     show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
@@ -2545,7 +2541,7 @@ class cnTemplatePart {
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 *     type (string) The output type of the categories. Valid options options are: select || multiselect
+	 *     type (string) The output type of the categories. Valid options are: select || multiselect
 	 *     show_empty (bool) Whether or not to display empty categories.
 	 *     show_count (bool) Whether or not to display the category count.
 	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.

@@ -403,8 +403,6 @@ class cnDependency {
 			'Connections_Directory\Shortcode\Do_Shortcode'        => 'includes/shortcode/Do_Shortcode.php',
 			'Connections_Directory\Shortcode\Search'              => 'includes/shortcode/Search.php',
 			'Connections_Directory\Shortcode\Upcoming_List'       => 'includes/shortcode/Upcoming_List.php',
-			'cnThumb'                                             => 'includes/shortcode/class.shortcode-thumbnail.php',
-			'cnThumb_Responsive'                                  => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 
 			// Register the query vars, rewrite URL/s and canonical redirects.
 			'cnRewrite'                => 'includes/class.rewrite.php',

@@ -77,8 +77,6 @@ class cnShortcode {
 			add_shortcode( 'connections', array( 'cnShortcode_Connections', 'view' ) );
 			Connections_Directory\Shortcode\Upcoming_List::add();
 
-			add_shortcode( 'cn-mapblock', array( 'Connections_Directory\Shortcode\mapBlock', 'shortcode' ) );
-
 			Connections_Directory\Shortcode\Entry::add();
 			Connections_Directory\Shortcode\Conditional_Content::add();
 			// Connections_Directory\Shortcode\Search::add();

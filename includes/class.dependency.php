@@ -397,7 +397,6 @@ class cnDependency {
 			// Shortcodes.
 			'cnShortcode'                                         => 'includes/shortcode/class.shortcode.php',
 			'cnShortcode_Connections'                             => 'includes/shortcode/class.shortcode-connections.php',
-			'Connections_Directory\Shortcode\mapBlock'            => 'includes/shortcode/class.shortcode-mapblock.php',
 			'Connections_Directory\Shortcode\Entry'               => 'includes/shortcode/Entry.php',
 			'Connections_Directory\Shortcode\Conditional_Content' => 'includes/shortcode/Conditional_Content.php',
 			'Connections_Directory\Shortcode\Do_Shortcode'        => 'includes/shortcode/Do_Shortcode.php',

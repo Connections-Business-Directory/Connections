@@ -733,6 +733,7 @@ class cnScript {
 		}
 
 		return has_shortcode( $object->post_content, 'connections' )
+			   || has_shortcode( $object->post_content, 'cn-entry' )
 			   || has_block( 'connections-directory/shortcode-connections', $object )
 			   || $object->ID === (int) $homeID;
 	}

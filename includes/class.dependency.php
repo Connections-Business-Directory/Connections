@@ -395,13 +395,13 @@ class cnDependency {
 			'cnImage'                  => 'includes/image/class.image.php',
 
 			// Shortcodes.
-			'cnShortcode'                                         => 'includes/shortcode/class.shortcode.php',
-			'cnShortcode_Connections'                             => 'includes/shortcode/class.shortcode-connections.php',
-			'Connections_Directory\Shortcode\Entry'               => 'includes/shortcode/Entry.php',
-			'Connections_Directory\Shortcode\Conditional_Content' => 'includes/shortcode/Conditional_Content.php',
-			'Connections_Directory\Shortcode\Do_Shortcode'        => 'includes/shortcode/Do_Shortcode.php',
-			'Connections_Directory\Shortcode\Search'              => 'includes/shortcode/Search.php',
-			'Connections_Directory\Shortcode\Upcoming_List'       => 'includes/shortcode/Upcoming_List.php',
+			'cnShortcode'                                         => 'includes/Shortcode/class.shortcode.php',
+			'cnShortcode_Connections'                             => 'includes/Shortcode/class.shortcode-connections.php',
+			'Connections_Directory\Shortcode\Entry'               => 'includes/Shortcode/Entry.php',
+			'Connections_Directory\Shortcode\Conditional_Content' => 'includes/Shortcode/Conditional_Content.php',
+			'Connections_Directory\Shortcode\Do_Shortcode'        => 'includes/Shortcode/Do_Shortcode.php',
+			'Connections_Directory\Shortcode\Search'              => 'includes/Shortcode/Search.php',
+			'Connections_Directory\Shortcode\Upcoming_List'       => 'includes/Shortcode/Upcoming_List.php',
 
 			// Register the query vars, rewrite URL/s and canonical redirects.
 			'cnRewrite'                => 'includes/class.rewrite.php',

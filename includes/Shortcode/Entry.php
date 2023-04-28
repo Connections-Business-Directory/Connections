@@ -166,7 +166,7 @@ final class Entry {
 	 *
 	 * @since 10.4.40
 	 *
-	 * @param string $slug The shortcode arguments.
+	 * @param string $slug The template slug.
 	 */
 	private function loadTemplate( string $slug ) {
 

@@ -6,6 +6,7 @@ use Connections_Directory\Hook\Action;
 use Connections_Directory\Hook\Filter;
 use Connections_Directory\Integration;
 use Connections_Directory\Request;
+use Connections_Directory\Shortcode;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -477,6 +478,13 @@ final class Connections_Directory {
 
 		// Init the taxonomies. The `setup_theme` action is the action run closest after initializing of the $wp_rewrite global variable.
 		add_action( 'setup_theme', 'Connections_Directory\Taxonomy\init' );
+
+		// Register Shortcodes.
+		add_action( 'init', array( cnShortcode_Connections::class, 'add' ) );
+		add_action( 'init', array( Shortcode\Conditional_Content::class, 'add' ) );
+		add_action( 'init', array( Shortcode\Entry::class, 'add' ) );
+		// add_action( 'init', array( Shortcode\Search::class, 'add' ) );
+		add_action( 'init', array( Shortcode\Upcoming_List::class, 'add' ) );
 
 		// Integrations
 		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.

@@ -62,7 +62,7 @@ function cn_register_taxonomy( $taxonomy, $args = array() ) {
  */
 function connectionsEntryList( $atts ) {
 	// HTML is escaped within shortcode callback and the template files.
-	echo cnShortcode_Connections::shortcode( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo cnShortcode_Connections::view( $atts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**

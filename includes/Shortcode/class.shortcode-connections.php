@@ -160,10 +160,8 @@ class cnShortcode_Connections {
 
 							// Check to see if the entry has been linked to a user ID.
 							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', true );
-							// var_dump( $entryID );
 
 							$results = $instance->retrieve->entries( array( 'status' => 'approved,pending' ) );
-							// var_dump( $results );
 
 							/*
 							 * The `cn_edit_entry_form` action should only be executed if the user is
@@ -201,7 +199,6 @@ class cnShortcode_Connections {
 						// if ( ! is_array( $atts ) ) $atts = (array) $atts;
 
 						$results = $instance->retrieve->entries( $atts );
-						// var_dump($results);
 
 						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
 

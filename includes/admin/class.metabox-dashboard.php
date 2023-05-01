@@ -9,9 +9,9 @@
  * @since       0.8
  */
 
-// Exit if accessed directly.
 use Connections_Directory\Shortcode;
 
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

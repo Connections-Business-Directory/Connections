@@ -124,7 +124,7 @@ final class Upcoming_List {
 
 		} else {
 
-			$this->html = cnTemplatePart::loadTemplateError( $this->attributes );
+			$this->html = cnTemplatePart::loadTemplateError( $untrusted );
 		}
 
 		$this->content = $content;

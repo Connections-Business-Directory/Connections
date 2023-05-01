@@ -225,7 +225,7 @@ final class Entry {
 	 *
 	 * @return array
 	 */
-	public function prepareAttributes( array $attributes ): array {
+	private function prepareAttributes( array $attributes ): array {
 
 		// Force some specific defaults.
 		$attributes['content']         = '';

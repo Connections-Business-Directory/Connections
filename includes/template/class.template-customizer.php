@@ -1477,14 +1477,11 @@ class cnTemplate_Customizer {
 	 */
 	private function controlStrings() {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		$addressTypes = array_keys( $instance->options->getDefaultAddressValues() );
-		$phoneTypes   = array_keys( $instance->options->getDefaultPhoneNumberValues() );
-		$emailTypes   = array_keys( $instance->options->getDefaultEmailValues() );
-		$dateTypes    = array_keys( $instance->options->getDateOptions() );
-		$linkTypes    = array_keys( $instance->options->getDefaultLinkValues() );
+		$addressTypes = array_keys( cnOptions::getAddressTypeOptions() );
+		$phoneTypes   = array_keys( cnOptions::getPhoneTypeOptions() );
+		$emailTypes   = array_keys( cnOptions::getEmailTypeOptions() );
+		$dateTypes    = array_keys( cnOptions::getDateTypeOptions() );
+		$linkTypes    = array_keys( cnOptions::getLinkTypeOptions() );
 
 		$strings = array(
 			'title' => array(

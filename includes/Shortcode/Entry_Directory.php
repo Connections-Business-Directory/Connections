@@ -2,7 +2,7 @@
 /**
  * The `[connections]` shortcode.
  *
- * @since      10.40.41
+ * @since      10.4.41
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory

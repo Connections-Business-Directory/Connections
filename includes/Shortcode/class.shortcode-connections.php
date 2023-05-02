@@ -50,6 +50,7 @@ class cnShortcode_Connections {
 	 * Renders the entry directory.
 	 *
 	 * @since 0.8
+	 * @deprecated 10.4.41
 	 *
 	 * @param array  $atts    The shortcode arguments.
 	 * @param string $content The shortcode content.
@@ -58,6 +59,8 @@ class cnShortcode_Connections {
 	 * @return string
 	 */
 	public static function shortcode( $atts, $content = '', $tag = 'connections' ) {
+
+		_deprecated_function( __METHOD__, '10.4.41', 'Entry_Directory::instance()' );
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();

@@ -1,5 +1,25 @@
 == Changelog ==
 
+= 10.4.41 05/02/2023 =
+* NEW: Introduce the `\Shortcode\Entry_Directory` shortcode; the eventual replacement code for `cnShortcode_Connections::shortcode()`.
+* NEW: Introduce `\Shortcode\Directory_View` and use it as teh callback for the `[connections]` shortcode.
+* TWEAK: Remove the experimental `[cn_thumb]` and `[cn_thumbr]` shortcodes from the plugin, moving them to a separate plugin.
+* TWEAK: Remove experimental `[cn-mapblock]` shortcode.
+* TWEAK: Remove `cnShortcode::register()` and register shortcodes in `Connections_Directory::hooks()` on the `init` hook to consistent with current coding standards.
+* TWEAK: Change folder capitalization from `includes/shortcode` to `includes/Shortcode` to match current naming conventions.
+* TWEAK: Remove use of deprecated methods in `cnTemplate_Customizer::controlStrings()`.
+* TWEAK: Change `Entry::prepareAttributes()` from public to private.
+* TWEAK: Replace deprecated `cnShortcode_Connections::shortcode()` in `cnDashboardMetabox::recent()`.
+* BUG: Ensure `cnScript::maybeEnqueueStyle()` returns true when the `[cn-entry]` shortcode is used.
+* BUG: Pass the correct attributes in `cnTemplatePart::loadTemplateError()` when initiating `Upcoming_List`.
+* BUG: The `connectionsEntryList()` method (template tag) should call `cnShortcode_Connections::view()` not `cnShortcode_Connections::shortcode()`.
+* OTHER: Correct misspellings.
+* DEV: phpDoc corrections.
+* DEV: Correct inline comment.
+* DEV: Remove commented out debug code.
+* DEV: phpDoc updates.
+* DEV: Deprecate `cnShortcode_Connections::shortcode()`.
+
 = 10.4.40 04/24/2023 =
 * NEW: Introduce `Entry\Functions::getPhone()` and `Entry\Functions::getEmail()`.
 * NEW: Add a copy to the clipboard button to the system info admin screen.

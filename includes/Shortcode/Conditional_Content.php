@@ -37,6 +37,9 @@ class Conditional_Content {
 	private $html = '';
 
 	/**
+	 * Shortcode support hyphens in the tag name. Bug was fixed:
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/17657
 	 * @since 9.12
 	 * @var string
 	 */
@@ -71,7 +74,16 @@ class Conditional_Content {
 	 */
 	public static function add() {
 
-		add_shortcode( static::$tag, array( __CLASS__, 'shortcode' ) );
+		/*
+		 * Do not register the shortcode when doing ajax requests.
+		 * This is primarily implemented so the shortcodes are not run during Yoast SEO page score admin ajax requests.
+		 * The page score can cause the ajax request to fail and/or prevent the page from saving when page score is
+		 * being calculated on the output from the shortcode.
+		 */
+		if ( ! Request::get()->isAjax() ) {
+
+			add_shortcode( static::$tag, array( __CLASS__, 'shortcode' ) );
+		}
 	}
 
 	/**

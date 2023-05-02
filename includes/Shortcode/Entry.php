@@ -21,6 +21,7 @@ use cnShortcode;
 use cnTemplate as Template;
 use cnTemplateFactory;
 use cnTemplatePart;
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
 
@@ -35,6 +36,10 @@ final class Entry {
 
 	/**
 	 * The shortcode tag.
+	 *
+	 * Shortcode support hyphens in the tag name. Bug was fixed:
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/17657
 	 *
 	 * @since 9.12
 	 * @since 9.15 Change from private to protected.
@@ -86,8 +91,17 @@ final class Entry {
 	 */
 	public static function add() {
 
-		add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'maybeDoShortcode' ), 10, 4 );
-		add_shortcode( self::TAG, array( __CLASS__, 'instance' ) );
+		/*
+		 * Do not register the shortcode when doing ajax requests.
+		 * This is primarily implemented so the shortcodes are not run during Yoast SEO page score admin ajax requests.
+		 * The page score can cause the ajax request to fail and/or prevent the page from saving when page score is
+		 * being calculated on the output from the shortcode.
+		 */
+		if ( ! Request::get()->isAjax() ) {
+
+			add_shortcode( self::TAG, array( __CLASS__, 'instance' ) );
+			add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'maybeDoShortcode' ), 10, 4 );
+		}
 	}
 
 	/**
@@ -152,7 +166,7 @@ final class Entry {
 	 *
 	 * @since 10.4.40
 	 *
-	 * @param string $slug The shortcode arguments.
+	 * @param string $slug The template slug.
 	 */
 	private function loadTemplate( string $slug ) {
 
@@ -211,7 +225,7 @@ final class Entry {
 	 *
 	 * @return array
 	 */
-	public function prepareAttributes( array $attributes ): array {
+	private function prepareAttributes( array $attributes ): array {
 
 		// Force some specific defaults.
 		$attributes['content']         = '';

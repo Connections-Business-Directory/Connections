@@ -18,6 +18,7 @@ namespace Connections_Directory\Shortcode;
 
 use cnShortcode;
 use cnTemplatePart;
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_format;
 
 /**
@@ -69,9 +70,18 @@ final class Search {
 	 */
 	public static function add() {
 
-		add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'maybeDoShortcode' ), 10, 4 );
-		add_action( 'Connections_Directory/Shortcode/View/Search', array( __CLASS__, 'view' ), 10, 3 );
-		add_shortcode( self::TAG, array( __CLASS__, 'instance' ) );
+		/*
+		 * Do not register the shortcode when doing ajax requests.
+		 * This is primarily implemented so the shortcodes are not run during Yoast SEO page score admin ajax requests.
+		 * The page score can cause the ajax request to fail and/or prevent the page from saving when page score is
+		 * being calculated on the output from the shortcode.
+		 */
+		if ( ! Request::get()->isAjax() ) {
+
+			add_filter( 'pre_do_shortcode_tag', array( __CLASS__, 'maybeDoShortcode' ), 10, 4 );
+			add_action( 'Connections_Directory/Shortcode/View/Search', array( __CLASS__, 'view' ), 10, 3 );
+			add_shortcode( self::TAG, array( __CLASS__, 'instance' ) );
+		}
 	}
 
 	/**

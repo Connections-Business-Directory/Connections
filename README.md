@@ -246,6 +246,32 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.41 05/02/2023 =
+
+* NEW: Introduce the `\Shortcode\Entry_Directory` shortcode; the eventual replacement code
+  for `cnShortcode_Connections::shortcode()`.
+* NEW: Introduce `\Shortcode\Directory_View` and use it as teh callback for the `[connections]` shortcode.
+* TWEAK: Remove the experimental `[cn_thumb]` and `[cn_thumbr]` shortcodes from the plugin, moving them to a separate
+  plugin.
+* TWEAK: Remove experimental `[cn-mapblock]` shortcode.
+* TWEAK: Remove `cnShortcode::register()` and register shortcodes in `Connections_Directory::hooks()` on the `init` hook
+  to consistent with current coding standards.
+* TWEAK: Change folder capitalization from `includes/shortcode` to `includes/Shortcode` to match current naming
+  conventions.
+* TWEAK: Remove use of deprecated methods in `cnTemplate_Customizer::controlStrings()`.
+* TWEAK: Change `Entry::prepareAttributes()` from public to private.
+* TWEAK: Replace deprecated `cnShortcode_Connections::shortcode()` in `cnDashboardMetabox::recent()`.
+* BUG: Ensure `cnScript::maybeEnqueueStyle()` returns true when the `[cn-entry]` shortcode is used.
+* BUG: Pass the correct attributes in `cnTemplatePart::loadTemplateError()` when initiating `Upcoming_List`.
+* BUG: The `connectionsEntryList()` method (template tag) should call `cnShortcode_Connections::view()`
+  not `cnShortcode_Connections::shortcode()`.
+* OTHER: Correct misspellings.
+* DEV: phpDoc corrections.
+* DEV: Correct inline comment.
+* DEV: Remove commented out debug code.
+* DEV: phpDoc updates.
+* DEV: Deprecate `cnShortcode_Connections::shortcode()`.
+
 = 10.4.40 04/24/2023 =
 
 * NEW: Introduce `Entry\Functions::getPhone()` and `Entry\Functions::getEmail()`.
@@ -673,67 +699,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Correct replacement filter name for deprecated filter.
 * DEV: phpDoc corrections.
 * DEV: phpDoc updates.
-
-= 10.4.26 08/16/2022 =
-
-* NEW: Add TikTok to the brand icons set.
-* NEW: Add Telegram, TikTok, and WhatsApp to the default social networks types.
-* NEW: Add Telegram and WhatsApp to the default messenger networks types.
-* NEW: Introduce the `Connections_Directory/Content_Block/Heading` filter.
-* NEW: Introduce `_parse::stringList()` and remove use of deprecated `cnFunction::parseStringList()` function.
-* TWEAK: Remove use of deprecated `bind()` method call.
-* TWEAK: Remove use of deprecated `.removeAttr( 'checked' )` call.
-* TWEAK: Remove use of deprecated `mouseenter()` and `mouseleave()` methods.
-* TWEAK: Make both Telegram and WhatsApp messenger IDs clickable links.
-* TWEAK: Do not escape the pre/append field html to allow for partial HTML.
-* TWEAK: Add 'display' as a safe CSS style.
-* TWEAK: Remove use of deprecated `cnHTML::attribute()` in `Connections_Directory\Map`.
-* TWEAK: Remove legacy `cnValidate` dependency.
-* TWEAK: Remove deprecated methods from `cnUtility`.
-* TWEAK: Remove unused import.
-* TWEAK: Remove unused deprecated `cnSanitize::hexColorNoHash()` method.
-* TWEAK: Tweak `_parse::parameters()` to to allow recursion with excluded index keys.
-* TWEAK: Change all deprecated filter callback closures static.
-* TWEAK: Update `cnEntryMetabox::publish()` to utilize `_parse::parameters()`.
-* TWEAK: Adjust input parameter inheritance in `Radio_Group::prepareInputs()` to allow inputs to have their class, id,
-  name, and styles set independently.
-* TWEAK: Remove deprecated instance of `cnHTML::radio()` used in the entry "Publish" metabox.
-* BUG: Do not add empty strings the field class names.
-* BUG: Do not add empty array key/value pairs to field CSS.
-* OTHER: Delete extra space character.
-* OTHER: Update inline comments.
-* DEV: phpDoc updates.
-* DEV: phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
-* DEV: Exclude the `WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound` rule in WPCS.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
-* DEV: @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
-* DEV: Deprecate `cnSanitize::args()`. Use `_parse::parameters()`.
-* DEV: Add deprecated filters for backwards compatibility.
-* DEV: Update dist files.
-
-= 10.4.25 07/28/2022 =
-
-* NEW: Introduce `Conditional_Content::isRegion()` to enable a region condition support in the `[cn-content]` shortcode.
-* NEW: Introduce the `Connections_Directory/Entry/Action/Save` filter and `Connections_Directory/Entry/Action/Saved`
-  action.
-* SECURITY: Use correct escaping function when process a URL.
-* TWEAK: Convert string concatenation to string interpolation.
-* TWEAK: Remove use of deprecated method.
-* TWEAK: Allow single character search terms.
-* TWEAK: Utilize `_array::get()` helper utility to prevent PHP undefined index notices when access arrays.
-* TWEAK: Remove use of deprecated `block_categories` filter and add backwards compatibility shim.
-* TWEAK: Correct the settings schema `type` value for `enum` string arrays.
-* TWEAK: Add a couple utility methods.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-* DEV: Remove commented out code.
-* DEV: Add brackets to be consistent with coding style.
-* DEV: Update npm package dependencies.
-* DEV: Update filter phpDoc.
-* DEV: Add inline variable documentation.
-* DEV: Update vendor scripts.
-* DEV: Update dist files.
-* DEV: Add a `@todo`.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

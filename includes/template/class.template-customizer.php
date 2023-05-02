@@ -219,7 +219,7 @@ class cnTemplate_Customizer {
 	}
 
 	/**
-	 * Determines whether or not a feature is supported.
+	 * Determines whether a feature is supported.
 	 *
 	 * @access public
 	 * @since  8.4
@@ -1477,14 +1477,11 @@ class cnTemplate_Customizer {
 	 */
 	private function controlStrings() {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		$addressTypes = array_keys( $instance->options->getDefaultAddressValues() );
-		$phoneTypes   = array_keys( $instance->options->getDefaultPhoneNumberValues() );
-		$emailTypes   = array_keys( $instance->options->getDefaultEmailValues() );
-		$dateTypes    = array_keys( $instance->options->getDateOptions() );
-		$linkTypes    = array_keys( $instance->options->getDefaultLinkValues() );
+		$addressTypes = array_keys( cnOptions::getAddressTypeOptions() );
+		$phoneTypes   = array_keys( cnOptions::getPhoneTypeOptions() );
+		$emailTypes   = array_keys( cnOptions::getEmailTypeOptions() );
+		$dateTypes    = array_keys( cnOptions::getDateTypeOptions() );
+		$linkTypes    = array_keys( cnOptions::getLinkTypeOptions() );
 
 		$strings = array(
 			'title' => array(
@@ -1738,7 +1735,7 @@ class cnTemplate_Customizer {
 		}
 
 		/**
-		 * Add other Customizer sections to the exemptions list so they will not be removed.
+		 * Add other Customizer sections to the exemptions list, so they will not be removed.
 		 *
 		 * @since 8.4
 		 *
@@ -1836,7 +1833,7 @@ class cnTemplate_Customizer {
 		);
 
 		/**
-		 * Add other Customizer sections to the exemptions list so they will not be removed.
+		 * Add other Customizer sections to the exemptions list, so they will not be removed.
 		 *
 		 * @since 8.4
 		 *
@@ -1976,7 +1973,7 @@ class cnTemplate_Customizer {
 
 			<div id="cn-customizer-messages">
 				<ul id="cn-customizer-message-list">
-					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Template supports single view. You can click an entry name and customize the single entry view independently from the results list view.', 'connections' ); ?></li>
+					<li class="cn-customizer-message"><?php _e( '<strong>NOTE:</strong> Template supports single view. You can click an entry name and customize the single entry view independently of the results list view.', 'connections' ); ?></li>
 				</ul>
 			</div>
 

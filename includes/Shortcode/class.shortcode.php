@@ -36,9 +36,6 @@ class cnShortcode {
 	 */
 	public static function hooks() {
 
-		// Register the core shortcode with the WordPress Shortcode API.
-		add_action( 'init', array( __CLASS__, 'register' ) );
-
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 		// remove_filter( 'the_content', 'wpautop' );
 
@@ -50,42 +47,6 @@ class cnShortcode {
 
 		// Run this early, before core WP filters.
 		add_filter( 'the_content', array( __CLASS__, 'single' ), 6 );
-	}
-
-	/**
-	 * Register the core shortcodes.
-	 *
-	 * @internal
-	 * @since 0.8
-	 */
-	public static function register() {
-
-		/*
-		 * Shortcode support hyphens in the tag name. Bug was fixed:
-		 * @link https://core.trac.wordpress.org/ticket/17657
-		 */
-
-		/*
-		 * Do not register the shortcode when doing ajax requests.
-		 * This is primarily implemented so the shortcodes are not run during Yoast SEO page score admin ajax requests.
-		 * The page score can cause the ajax request to fail and/or prevent the page from saving when page score is
-		 * being calculated on the output from the `[connections]` shortcode.
-		 */
-		if ( ! wp_doing_ajax() ) {
-
-			// Register the core shortcodes.
-			add_shortcode( 'connections', array( 'cnShortcode_Connections', 'view' ) );
-			Connections_Directory\Shortcode\Upcoming_List::add();
-
-			add_shortcode( 'cn-mapblock', array( 'Connections_Directory\Shortcode\mapBlock', 'shortcode' ) );
-
-			add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
-			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
-
-			Connections_Directory\Shortcode\Entry::add();
-			Connections_Directory\Shortcode\Conditional_Content::add();
-			// Connections_Directory\Shortcode\Search::add();
-		}
 	}
 
 	/**

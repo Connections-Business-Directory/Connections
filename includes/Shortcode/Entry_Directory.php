@@ -435,7 +435,7 @@ final class Entry_Directory {
 	 */
 	public function getHTML(): string {
 
-		return __METHOD__ . $this->html;
+		return $this->html;
 	}
 
 	/**

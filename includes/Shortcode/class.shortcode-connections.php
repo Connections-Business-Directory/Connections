@@ -227,9 +227,13 @@ class cnShortcode_Connections {
 	}
 
 	/**
-	 * @param array  $atts
-	 * @param string $content
-	 * @param string $tag
+	 * Renders the entry directory.
+	 *
+	 * @since 0.8
+	 *
+	 * @param array  $atts    The shortcode arguments.
+	 * @param string $content The shortcode content.
+	 * @param string $tag     The shortcode tag.
 	 *
 	 * @return string
 	 */

@@ -1,6 +1,6 @@
 <?php
 /**
- * The `[connections]` shortcode.
+ * The `[cn-directory]` shortcode.
  *
  * @since      10.4.41
  *
@@ -44,7 +44,7 @@ final class Entry_Directory {
 	 *
 	 * @since 10.4.41
 	 */
-	const TAG = 'directory';
+	const TAG = 'cn-directory';
 
 	/**
 	 * The shortcode attributes.

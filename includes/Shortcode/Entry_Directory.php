@@ -2,11 +2,11 @@
 /**
  * The `[connections]` shortcode.
  *
- * @since      10.4.41
+ * @since      10.40.41
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections\Connections\Shortcode\
+ * @subpackage Connections\Shortcode\
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2023, Steven A. Zahm

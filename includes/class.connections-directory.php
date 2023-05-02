@@ -480,10 +480,10 @@ final class Connections_Directory {
 		add_action( 'setup_theme', 'Connections_Directory\Taxonomy\init' );
 
 		// Register Shortcodes.
-		add_action( 'init', array( cnShortcode_Connections::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Conditional_Content::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Entry_Directory::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Entry::class, 'add' ) );
+		add_action( 'init', array( Shortcode\Directory_View::class, 'add' ) );
 		// add_action( 'init', array( Shortcode\Search::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Upcoming_List::class, 'add' ) );
 

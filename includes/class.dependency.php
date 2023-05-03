@@ -395,8 +395,8 @@ class cnDependency {
 			'cnImage'                  => 'includes/image/class.image.php',
 
 			// Shortcodes.
+			'cnShortcode_Connections'                             => 'includes/Deprecated/class.shortcode-connections.php',
 			'cnShortcode'                                         => 'includes/Shortcode/class.shortcode.php',
-			'cnShortcode_Connections'                             => 'includes/Shortcode/class.shortcode-connections.php',
 			'Connections_Directory\Shortcode\Conditional_Content' => 'includes/Shortcode/Conditional_Content.php',
 			'Connections_Directory\Shortcode\Directory_View'      => 'includes/Shortcode/Directory_View.php',
 			'Connections_Directory\Shortcode\Do_Shortcode'        => 'includes/Shortcode/Do_Shortcode.php',

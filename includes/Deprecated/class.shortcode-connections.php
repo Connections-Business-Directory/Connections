@@ -5,12 +5,15 @@ use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_sanitize;
 use Connections_Directory\Shortcode;
+use function Connections_Directory\Utility\_deprecated\_file as _deprecated_file;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+_deprecated_file( basename( __FILE__ ), '10.4.42' );
 
 /**
  * The core [connections] shortcode.

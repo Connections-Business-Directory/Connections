@@ -91,7 +91,7 @@ function _doAction( $tag, $args, $version, $replacement = '', $message = '' ) {
  *                            Default empty.
  * @param string $message     Optional. A message regarding the change. Default empty.
  */
-function _file( $file, $version, $replacement, $message = '' ) {
+function _file( $file, $version, $replacement = '', $message = '' ) {
 
 	if ( 'development' !== wp_get_environment_type() ) {
 

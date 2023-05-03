@@ -1,4 +1,17 @@
 <?php
+/**
+ * Deprecated file, still required as a couple addons presently call the methods.
+ *
+ * @deprecated 10.4.42
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections Business Directory
+ * @subpackage Connections\Shortcode\
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_escape;

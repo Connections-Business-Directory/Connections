@@ -29,6 +29,7 @@ use Connections_Directory\Utility\_format;
 final class Search {
 
 	use Do_Shortcode;
+	use Get_HTML;
 
 	/**
 	 * The shortcode tag.
@@ -54,14 +55,6 @@ final class Search {
 	 * @var string
 	 */
 	private $content;
-
-	/**
-	 * The shortcode output HTML.
-	 *
-	 * @since 10.4.40
-	 * @var string
-	 */
-	private $html;
 
 	/**
 	 * Register the shortcode.
@@ -398,40 +391,5 @@ final class Search {
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Get the generated shortcode HTML.
-	 *
-	 * @since 10.4.40
-	 *
-	 * @return string
-	 */
-	public function getHTML(): string {
-
-		return $this->html;
-	}
-
-	/**
-	 * Render the shortcode HTML.
-	 *
-	 * @since 10.4.40
-	 */
-	public function render() {
-
-		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping is done in the template.
-	}
-
-	/**
-	 * The shortcode callback returns this object.
-	 * This will ensure the string when processed by WP to display.
-	 *
-	 * @since 10.4.40
-	 *
-	 * @return string
-	 */
-	public function __toString() {
-
-		return $this->getHTML();
 	}
 }

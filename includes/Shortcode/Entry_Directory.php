@@ -38,6 +38,7 @@ use Connections_Directory\Utility\_sanitize;
 final class Entry_Directory {
 
 	use Do_Shortcode;
+	use Get_HTML;
 
 	/**
 	 * The shortcode tag.
@@ -81,14 +82,6 @@ final class Entry_Directory {
 	 * @var Template|false
 	 */
 	private $template;
-
-	/**
-	 * The shortcode output HTML.
-	 *
-	 * @since 10.4.41
-	 * @var string
-	 */
-	private $html;
 
 	/**
 	 * Register the shortcode.
@@ -434,39 +427,5 @@ final class Entry_Directory {
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Get the generated shortcode HTML.
-	 *
-	 * @since 10.4.41
-	 *
-	 * @return string
-	 */
-	public function getHTML(): string {
-
-		return $this->html;
-	}
-
-	/**
-	 * Render the shortcode HTML.
-	 *
-	 * @since 10.4.41
-	 */
-	public function render() {
-
-		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping is done in the template.
-	}
-
-	/**
-	 * Return the generated shortcode HTML.
-	 *
-	 * @since 10.4.41
-	 *
-	 * @return string
-	 */
-	public function __toString() {
-
-		return $this->getHTML();
 	}
 }

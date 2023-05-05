@@ -65,6 +65,15 @@ final class Entry_Directory {
 	private $content;
 
 	/**
+	 * The content from an enclosing shortcode.
+	 *
+	 * @since 10.4.42
+	 *
+	 * @var string
+	 */
+	private $tag;
+
+	/**
 	 * An instance of the cnTemplate or false.
 	 *
 	 * @since 10.4.41
@@ -135,6 +144,7 @@ final class Entry_Directory {
 		}
 
 		$this->content = $content;
+		$this->tag     = $tag;
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
@@ -401,7 +411,7 @@ final class Entry_Directory {
 
 		// The filter should check $content that content is not empty before processing $content.
 		// And if it is empty the filter should return (bool) FALSE, so the core template parts can be executed.
-		$content = apply_filters( 'cn_shortcode_content-' . self::TAG, false, $this->content, $this->attributes, $items, $this->template );
+		$content = apply_filters( "cn_shortcode_content-{$this->tag}", false, $this->content, $this->attributes, $items, $this->template );
 
 		if ( false === $content ) {
 

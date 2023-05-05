@@ -17,7 +17,6 @@ declare( strict_types=1 );
 namespace Connections_Directory\Shortcode;
 
 use cnQuery;
-use cnShortcode_Connections;
 use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 
@@ -213,7 +212,7 @@ final class Directory_View {
 
 			case 'card':
 				// Show the standard result list.
-				return cnShortcode_Connections::shortcode( $this->attributes, $this->content );
+				return Entry_Directory::instance( $this->attributes, $this->content, $this->tag )->getHTML();
 
 			case 'all':
 				// Show the "View All" result list using the "Names" template.
@@ -224,7 +223,7 @@ final class Directory_View {
 				// Force the use of the Names template.
 				_array::set( $this->attributes, 'template', 'names' );
 
-				return cnShortcode_Connections::shortcode( $this->attributes, $this->content );
+				return Entry_Directory::instance( $this->attributes, $this->content, $this->tag )->getHTML();
 
 			case 'detail':
 				// Show the entry detail using a template based on the entry type.
@@ -274,7 +273,7 @@ final class Directory_View {
 
 						$this->attributes['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : null;
 
-						return cnShortcode_Connections::shortcode( $this->attributes, $this->content );
+						return Entry_Directory::instance( $this->attributes, $this->content, $this->tag )->getHTML();
 				}
 
 				break;
@@ -294,7 +293,7 @@ final class Directory_View {
 				break;
 		}
 
-		return cnShortcode_Connections::shortcode( $this->attributes, $this->content );
+		return Entry_Directory::instance( $this->attributes, $this->content, $this->tag )->getHTML();
 	}
 
 	/**

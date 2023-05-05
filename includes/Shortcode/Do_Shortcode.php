@@ -7,7 +7,7 @@
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections\Shortcode\Prepare_Attributes
+ * @subpackage Connections\Shortcode
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2022, Steven A. Zahm

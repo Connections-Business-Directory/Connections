@@ -46,7 +46,7 @@ class cnShortcode_Connections {
 	 *
 	 * @return string
 	 */
-	public static function view( $atts, $content = '', $tag = 'connections' ) {
+	public static function view( $atts, $content = '', $tag = 'connections' ): string {
 
 		_deprecated_function( __METHOD__, '10.4.41', 'Directory_View::instance()' );
 
@@ -65,7 +65,7 @@ class cnShortcode_Connections {
 	 *
 	 * @return string
 	 */
-	public static function shortcode( $atts, $content = '', $tag = 'connections' ) {
+	public static function shortcode( $atts, $content = '', $tag = 'connections' ): string {
 
 		_deprecated_function( __METHOD__, '10.4.41', 'Entry_Directory::instance()' );
 

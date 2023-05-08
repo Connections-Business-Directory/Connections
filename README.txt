@@ -248,6 +248,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.42 05/08/2023 =
+* NEW: Introduce `Shortcode\Get_HTML`.
+* TWEAK: Move `cnShortcode_Connections` to the deprecated folder.
+* TWEAK: The replacement property should be optional in `_deprecated::_file()`.
+* TWEAK: No need to register the `[cn-directory]` shortcode with WP since it is only used in the view controller.
+* TWEAK: Add the private tag property to `Entry_Directory` and pass it to the filters.
+* TWEAK: Utilize `\Shortcode\Entry_Directory` instead of the deprecated `cnShortcode_Connections::shortcode()` method when rendering the directory.
+* TWEAK: Refactor deprecated `cnShortcode_Connections::shortcode()` to call its replacement `Shortcode\Entry_Directory`.
+* TWEAK: Utilize `Shortcode\Get_HTML` in all shortcode objects to reduce code duplication.
+* TWEAK: Remove usage of deprecated `cnShortcode::clearFilterRegistry()`.
+* DEV: Add file header.
+* DEV: Optimize imports.
+* DEV: Add method return type.
+* DEV: phpDoc corrections.
+
 = 10.4.41 05/02/2023 =
 * NEW: Introduce the `\Shortcode\Entry_Directory` shortcode; the eventual replacement code for `cnShortcode_Connections::shortcode()`.
 * NEW: Introduce `\Shortcode\Directory_View` and use it as teh callback for the `[connections]` shortcode.
@@ -639,23 +654,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Deprecate `cnSanitize::html()` and `cnSanitize::quicktag()`.
 * DEV: Remove unused method parameter.
 
-= 10.4.27 09/08/2022 =
-* TWEAK: First pass at refactoring the Metabox API. Convert the "Publish" metabox as a pathfinder.
-* TWEAK: Remove unused deprecated methods `cnFormObjects::registerEditMetaboxes()` and `cnFormObjects::metaboxName()`;
-* TWEAK: Remove use of deprecated `cnMetaboxAPI::defaultPageHooks()` method.
-* TWEAK: Remove unused deprecated `cnMetaboxAPI::defaultPageHooks()` method.
-* TWEAK: Remove used of deprecated `cn_admin_default_metabox_page_hooks` filter.
-* TWEAK: Utilize `Metabox::getPageHooks()` in `cnMetaboxAPI::add()` to remove code duplication.
-* TWEAK: Remove deprecated `_::escAttributeDeep()` method.
-* TWEAK: Remove deprecated `cnHTML::escapeAttributes()` method.
-* TWEAK: Remove deprecated `cnHTML::prefix()` method.
-* TWEAK: Remove use of instances of deprecated `cnHTML::attribute()` method.
-* TWEAK: Remove use of deprecated `cnHTML::prefix()` method.
-* OTHER: Correct change log version number in readme.
-* BUG: Correct replacement filter name for deprecated filter.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-
 == Upgrade Notice ==
 
 = 10.4.27 =
@@ -701,4 +699,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.41 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.42 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.

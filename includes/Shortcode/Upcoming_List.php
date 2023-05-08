@@ -21,6 +21,7 @@ use cnTemplate;
 use cnTemplateFactory;
 use cnTemplatePart;
 use Connections_Directory\Request;
+use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_parse;
@@ -124,7 +125,7 @@ final class Upcoming_List {
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
-		cnShortcode::clearFilterRegistry();
+		Hook_Transient::instance()->clear();
 	}
 
 	/**

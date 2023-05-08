@@ -21,6 +21,7 @@ use cnTemplate;
 use cnTemplateFactory;
 use cnTemplatePart;
 use Connections_Directory\Request;
+use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_parse;
@@ -33,6 +34,7 @@ use Connections_Directory\Utility\_parse;
 final class Upcoming_List {
 
 	use Do_Shortcode;
+	use Get_HTML;
 
 	/**
 	 * The shortcode tag.
@@ -67,14 +69,6 @@ final class Upcoming_List {
 	 * @var cnTemplate|false
 	 */
 	private $template;
-
-	/**
-	 * The shortcode output HTML.
-	 *
-	 * @since 10.4.40
-	 * @var string
-	 */
-	private $html;
 
 	/**
 	 * Register the shortcode.
@@ -131,7 +125,7 @@ final class Upcoming_List {
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
-		cnShortcode::clearFilterRegistry();
+		Hook_Transient::instance()->clear();
 	}
 
 	/**
@@ -409,39 +403,5 @@ final class Upcoming_List {
 
 		// @todo This should be run via a filter.
 		return cnShortcode::removeEOL( $html );
-	}
-
-	/**
-	 * Get the generated shortcode HTML.
-	 *
-	 * @since 10.4.40
-	 *
-	 * @return string
-	 */
-	public function getHTML(): string {
-
-		return $this->html;
-	}
-
-	/**
-	 * Render the shortcode HTML.
-	 *
-	 * @since 10.4.40
-	 */
-	public function render() {
-
-		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping is done in the template.
-	}
-
-	/**
-	 * Return the generated shortcode HTML.
-	 *
-	 * @since 10.4.40
-	 *
-	 * @return string
-	 */
-	public function __toString() {
-
-		return $this->getHTML();
 	}
 }

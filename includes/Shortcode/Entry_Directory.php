@@ -38,6 +38,7 @@ use Connections_Directory\Utility\_sanitize;
 final class Entry_Directory {
 
 	use Do_Shortcode;
+	use Get_HTML;
 
 	/**
 	 * The shortcode tag.
@@ -65,6 +66,15 @@ final class Entry_Directory {
 	private $content;
 
 	/**
+	 * The content from an enclosing shortcode.
+	 *
+	 * @since 10.4.42
+	 *
+	 * @var string
+	 */
+	private $tag;
+
+	/**
 	 * An instance of the cnTemplate or false.
 	 *
 	 * @since 10.4.41
@@ -72,14 +82,6 @@ final class Entry_Directory {
 	 * @var Template|false
 	 */
 	private $template;
-
-	/**
-	 * The shortcode output HTML.
-	 *
-	 * @since 10.4.41
-	 * @var string
-	 */
-	private $html;
 
 	/**
 	 * Register the shortcode.
@@ -135,6 +137,7 @@ final class Entry_Directory {
 		}
 
 		$this->content = $content;
+		$this->tag     = $tag;
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
@@ -401,7 +404,7 @@ final class Entry_Directory {
 
 		// The filter should check $content that content is not empty before processing $content.
 		// And if it is empty the filter should return (bool) FALSE, so the core template parts can be executed.
-		$content = apply_filters( 'cn_shortcode_content-' . self::TAG, false, $this->content, $this->attributes, $items, $this->template );
+		$content = apply_filters( "cn_shortcode_content-{$this->tag}", false, $this->content, $this->attributes, $items, $this->template );
 
 		if ( false === $content ) {
 
@@ -424,39 +427,5 @@ final class Entry_Directory {
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Get the generated shortcode HTML.
-	 *
-	 * @since 10.4.41
-	 *
-	 * @return string
-	 */
-	public function getHTML(): string {
-
-		return $this->html;
-	}
-
-	/**
-	 * Render the shortcode HTML.
-	 *
-	 * @since 10.4.41
-	 */
-	public function render() {
-
-		echo $this->getHTML(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping is done in the template.
-	}
-
-	/**
-	 * Return the generated shortcode HTML.
-	 *
-	 * @since 10.4.41
-	 *
-	 * @return string
-	 */
-	public function __toString() {
-
-		return $this->getHTML();
 	}
 }

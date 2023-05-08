@@ -21,7 +21,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.41';
+	const VERSION = '10.4.42';
 
 	/**
 	 * Stores the instance of this class.
@@ -481,7 +481,7 @@ final class Connections_Directory {
 
 		// Register Shortcodes.
 		add_action( 'init', array( Shortcode\Conditional_Content::class, 'add' ) );
-		add_action( 'init', array( Shortcode\Entry_Directory::class, 'add' ) );
+		// add_action( 'init', array( Shortcode\Entry_Directory::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Entry::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Directory_View::class, 'add' ) );
 		// add_action( 'init', array( Shortcode\Search::class, 'add' ) );

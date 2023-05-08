@@ -1,5 +1,20 @@
 == Changelog ==
 
+= 10.4.42 05/08/2023 =
+* NEW: Introduce `Shortcode\Get_HTML`.
+* TWEAK: Move `cnShortcode_Connections` to the deprecated folder.
+* TWEAK: The replacement property should be optional in `_deprecated::_file()`.
+* TWEAK: No need to register the `[cn-directory]` shortcode with WP since it is only used in the view controller.
+* TWEAK: Add the private tag property to `Entry_Directory` and pass it to the filters.
+* TWEAK: Utilize `\Shortcode\Entry_Directory` instead of the deprecated `cnShortcode_Connections::shortcode()` method when rendering the directory.
+* TWEAK: Refactor deprecated `cnShortcode_Connections::shortcode()` to call its replacement `Shortcode\Entry_Directory`.
+* TWEAK: Utilize `Shortcode\Get_HTML` in all shortcode objects to reduce code duplication.
+* TWEAK: Remove usage of deprecated `cnShortcode::clearFilterRegistry()`.
+* DEV: Add file header.
+* DEV: Optimize imports.
+* DEV: Add method return type.
+* DEV: phpDoc corrections.
+
 = 10.4.41 05/02/2023 =
 * NEW: Introduce the `\Shortcode\Entry_Directory` shortcode; the eventual replacement code for `cnShortcode_Connections::shortcode()`.
 * NEW: Introduce `\Shortcode\Directory_View` and use it as teh callback for the `[connections]` shortcode.

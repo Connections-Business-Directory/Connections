@@ -1012,7 +1012,7 @@ class cnTemplate {
 	 * in cnShortcode_Connections::shortcode(). This is done so when cnLocate
 	 * is searching for template part override files it'll search in the template
 	 * paths too. The filter is then removed at the end of cnShortcode_Connections::shortcode()
-	 * via a call to cnShortcode::clearFilterRegistry(). This is to ensure that the template
+	 * via a call to Hook_Transient::instance()->clear();. This is to ensure that the template
 	 * paths are only searched in that instance of the shortcode.
 	 *
 	 * @internal

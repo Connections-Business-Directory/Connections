@@ -146,9 +146,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			$entries[] = $this->prepare_response_for_collection( $data );
 		}
 
-		$response = rest_ensure_response( $entries );
-
-		return $response;
+		return rest_ensure_response( $entries );
 	}
 
 	/**
@@ -208,9 +206,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$atts = cnSanitize::args( $untrusted, $defaults );
 
-		$results = $instance->retrieve->entries( $atts );
-
-		return $results;
+		return $instance->retrieve->entries( $atts );
 	}
 
 	/**

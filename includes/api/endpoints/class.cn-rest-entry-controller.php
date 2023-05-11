@@ -358,7 +358,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$entry->delete( $id );
 
-		// Delete any meta data associated with the entry.
+		// Delete any metadata associated with the entry.
 		cnEntry_Action::meta( 'delete', $id );
 
 		$response = new WP_REST_Response();
@@ -1190,7 +1190,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					),
 				),
 				'honorific_suffix' => array(
-					'description' => __( 'An honorific suffix preceding a person\'s name such as M.D. /PhD/MSCSW.', 'connections' ),
+					'description' => __( 'An honorific suffix preceding a person\'s name such as M.D. or PhD.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'properties'  => array(

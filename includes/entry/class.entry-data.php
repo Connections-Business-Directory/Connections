@@ -855,7 +855,7 @@ class cnEntry {
 			while ( in_array( ( $slug . '-' . ( ++$num ) ), $slugs ) );
 
 			// Update $slug with the suffix.
-			$slug = $slug . "-$num";
+			$slug = "{$slug}-{$num}";
 		}
 
 		$this->slug = $slug;

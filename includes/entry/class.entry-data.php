@@ -801,7 +801,10 @@ class cnEntry {
 	 */
 	public function setSlug( $slug ) {
 
-		$this->slug = $this->getUniqueSlug( $slug );
+		if ( $slug !== $this->slug ) {
+
+			$this->slug = $this->getUniqueSlug( $slug );
+		}
 	}
 
 	/**

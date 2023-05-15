@@ -797,7 +797,7 @@ class cnEntry {
 	/**
 	 * Sets $slug.
 	 *
-	 * @param string $slug
+	 * @param string $slug The Entry slug.
 	 */
 	public function setSlug( $slug ) {
 
@@ -809,7 +809,7 @@ class cnEntry {
 	 *
 	 * NOTE: If the entry name is UTF8 it will be URL encoded by the sanitize_title() function.
 	 *
-	 * @param string $slug
+	 * @param string $slug The Entry slug.
 	 *
 	 * @return string
 	 */

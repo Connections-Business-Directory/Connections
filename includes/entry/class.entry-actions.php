@@ -254,19 +254,6 @@ class cnEntry_Action {
 		// Create the new folder.
 		cnFileSystem::mkdir( $destinationPath );
 
-		// foreach ( glob( "$sourcePath{$sourceImageInfo['filename']}*.{$sourceImageInfo['extension']}", GLOB_NOSORT ) as $file ) {
-
-		// 	if ( ! is_dir( $file ) && is_readable( $file ) ) {
-
-		// 		$destinationFile = trailingslashit( realpath( $destinationPath ) ) . basename( $file );
-
-		// 		if ( copy( $file, $destinationFile ) === FALSE ) {
-
-		// 			return new WP_Error( 'image_copy_error', __( 'Image copy failed.', 'connections' ) );
-		// 		}
-		// 	}
-		// }
-
 		if ( realpath( $sourcePath ) ) {
 
 			$files = new DirectoryIterator( $sourcePath );

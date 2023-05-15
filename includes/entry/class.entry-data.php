@@ -847,7 +847,7 @@ class cnEntry {
 
 		$slugs = $wpdb->get_col( $query );
 
-		if ( ! empty( $slugs ) ) {
+		if ( ! empty( $slugs ) && in_array( $slug, $slugs, true ) ) {
 
 			$num = 0;
 

@@ -791,7 +791,7 @@ class cnEntry {
 	 */
 	public function getSlug() {
 
-		return ( empty( $this->slug ) ? $this->getUniqueSlug() : $this->slug );
+		return empty( $this->slug ) ? $this->getUniqueSlug() : $this->slug;
 	}
 
 	/**

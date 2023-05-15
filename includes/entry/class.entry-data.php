@@ -858,7 +858,9 @@ class cnEntry {
 			$slug = $slug . "-$num";
 		}
 
-		return $this->slug = $slug;
+		$this->slug = $slug;
+
+		return $this->slug;
 	}
 
 	/**

@@ -236,7 +236,7 @@ class cnEntry_Action {
 	 *
 	 * @return true|WP_Error TRUE on success, an instance of WP_Error on failure.
 	 */
-	private static function copyImages( $filename, $source, $destination ) {
+	public static function copyImages( $filename, $source, $destination ) {
 
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();

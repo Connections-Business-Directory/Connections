@@ -163,7 +163,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return cnOutput|WP_Error Entry object if ID is valid, WP_Error otherwise.
 	 */
-	public function get_entry( $id ) {
+	public function get_entry( int $id ) {
 
 		$error = new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
 
@@ -191,7 +191,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	protected function get_entries( $request, $untrusted = array() ) {
+	protected function get_entries( WP_REST_Request $request, array $untrusted = array() ): array {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -400,7 +400,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return WP_REST_Response $data
 	 */
-	public function prepare_item_for_response( $entry, $request ) {
+	public function prepare_item_for_response( $entry, $request ): WP_REST_Response {
 
 		$requestParams     = $request->get_params();
 		$excerptParameters = array(
@@ -643,7 +643,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array $data
 	 */
-	private function prepare_address_for_response( $entry, $request ) {
+	private function prepare_address_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects   = array();
 		$addresses = $entry->getAddresses( array(), true, false, 'raw' );
@@ -758,7 +758,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array $data
 	 */
-	private function prepare_phone_for_response( $entry, $request ) {
+	private function prepare_phone_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects = array();
 		$numbers = $entry->getPhoneNumbers( array(), true, false, 'raw' );
@@ -806,7 +806,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array $data
 	 */
-	private function prepare_email_for_response( $entry, $request ) {
+	private function prepare_email_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects        = array();
 		$emailAddresses = $entry->getEmailAddresses( array(), true, false, 'raw' );
@@ -854,7 +854,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array $data
 	 */
-	private function prepare_social_for_response( $entry, $request ) {
+	private function prepare_social_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects  = array();
 		$networks = $entry->getSocialMedia( array(), true, false, 'raw' );
@@ -905,7 +905,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function prepare_images_for_response( $entry, $request ) {
+	public function prepare_images_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$requestParams = $request->get_params();
 		$valid         = array(
@@ -1085,7 +1085,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_item_schema() {
+	public function get_item_schema(): array {
 
 		$schema = array(
 			'$schema'     => 'http://json-schema.org/draft-04/schema#',
@@ -1731,7 +1731,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	private function get_image_schema_properties( $type ) {
+	private function get_image_schema_properties( string $type ): array {
 
 		$images = array(
 			'logo'  => array( 'original', 'scaled', 'custom' ),
@@ -1802,7 +1802,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_collection_params() {
+	public function get_collection_params(): array {
 
 		$query_params = parent::get_collection_params();
 

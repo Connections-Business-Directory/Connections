@@ -167,7 +167,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$error = new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
 
-		if ( (int) $id <= 0 ) {
+		if ( $id <= 0 ) {
 
 			return $error;
 		}

@@ -147,7 +147,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		foreach ( $results as $result ) {
 
-			$entry = new cnOutput( $result );
+			$entry = new cnEntry_HTML( $result );
 
 			$data      = $this->prepare_item_for_response( $entry, $request );
 			$entries[] = $this->prepare_response_for_collection( $data );
@@ -181,7 +181,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			return $error;
 		}
 
-		return new cnOutput( $data );
+		return new cnEntry_HTML( $data );
 	}
 
 	/**
@@ -906,7 +906,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function prepare_images_for_response( cnEntry $entry, WP_REST_Request $request ): array {
+	public function prepare_images_for_response( cnEntry_HTML $entry, WP_REST_Request $request ): array {
 
 		$requestParams = $request->get_params();
 		$valid         = array(

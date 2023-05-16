@@ -9,6 +9,7 @@
  * @since      8.5.26
  */
 
+use Connections_Directory\Utility\_array;
 use function Connections_Directory\API\REST\Functions\is_field_included;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -189,19 +190,19 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$categoryIn = cnArray::get( $request, 'category_in', false );
+		$categoryIn = _array::get( $request, 'category_in', false );
 		cnFormatting::toBoolean( $categoryIn );
 
 		$category = $categoryIn ? 'category_in' : 'category';
 
 		$defaults = array(
-			'list_type'        => cnArray::get( $request, 'type', null ),
-			$category          => cnArray::get( $request, 'categories', null ),
-			'exclude_category' => cnArray::get( $request, 'categories_exclude', null ),
-			'id'               => cnArray::get( $request, 'id', null ),
-			'id__not_in'       => cnArray::get( $request, 'exclude', null ),
-			'limit'            => cnArray::get( $request, 'per_page', 10 ),
-			'offset'           => cnArray::get( $request, 'offset', 0 ),
+			'list_type'        => _array::get( $request, 'type', null ),
+			$category          => _array::get( $request, 'categories', null ),
+			'exclude_category' => _array::get( $request, 'categories_exclude', null ),
+			'id'               => _array::get( $request, 'id', null ),
+			'id__not_in'       => _array::get( $request, 'exclude', null ),
+			'limit'            => _array::get( $request, 'per_page', 10 ),
+			'offset'           => _array::get( $request, 'offset', 0 ),
 		);
 
 		$atts = cnSanitize::args( $untrusted, $defaults );
@@ -391,20 +392,20 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$requestParams     = $request->get_params();
 		$excerptParameters = array(
-			'length' => cnArray::get( $requestParams, '_excerpt.length', apply_filters( 'cn_excerpt_length', 55 ) ),
-			'more'   => cnArray::get( $requestParams, '_excerpt.more', '' ),
+			'length' => _array::get( $requestParams, '_excerpt.length', apply_filters( 'cn_excerpt_length', 55 ) ),
+			'more'   => _array::get( $requestParams, '_excerpt.more', '' ),
 		);
 		$fields            = $this->get_fields_for_response( $request );
 		$data              = array();
 
 		if ( is_field_included( 'id', $fields ) ) {
 
-			cnArray::set( $data, 'id', $entry->getId() );
+			_array::set( $data, 'id', $entry->getId() );
 		}
 
 		if ( is_field_included( 'type', $fields ) ) {
 
-			cnArray::set( $data, 'type', $entry->getEntryType() );
+			_array::set( $data, 'type', $entry->getEntryType() );
 		}
 
 		if ( is_field_included( 'link', $fields ) ) {
@@ -414,106 +415,106 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		if ( is_field_included( 'slug', $fields ) ) {
 
-			cnArray::set( $data, 'slug', $entry->getSlug() );
+			_array::set( $data, 'slug', $entry->getSlug() );
 		}
 
 		if ( is_field_included( 'fn.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'fn.rendered', $entry->getName() );
-			// cnArray::set( $data, 'name.rendered', $entry->getName() );
+			_array::set( $data, 'fn.rendered', $entry->getName() );
+			// _array::set( $data, 'name.rendered', $entry->getName() );
 		}
 
 		if ( is_field_included( 'honorific_prefix.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
+			_array::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
 		}
 
 		if ( is_field_included( 'given_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'given_name.rendered', $entry->getFirstName() );
+			_array::set( $data, 'given_name.rendered', $entry->getFirstName() );
 		}
 
 		if ( is_field_included( 'additional_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
+			_array::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
 		}
 
 		if ( is_field_included( 'family_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'family_name.rendered', $entry->getLastName() );
+			_array::set( $data, 'family_name.rendered', $entry->getLastName() );
 		}
 
 		if ( is_field_included( 'honorific_suffix.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
+			_array::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
 		}
 
 		if ( is_field_included( 'job_title.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'job_title.rendered', $entry->getTitle() );
+			_array::set( $data, 'job_title.rendered', $entry->getTitle() );
 		}
 
 		if ( is_field_included( 'org.organization_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
+			_array::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
 		}
 
 		if ( is_field_included( 'org.organization_unit.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
+			_array::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
 		}
 
 		if ( is_field_included( 'contact.given_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+			_array::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
 		}
 
 		if ( is_field_included( 'contact.given_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+			_array::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
 		}
 
 		if ( is_field_included( 'contact.family_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
+			_array::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
 		}
 
 		if ( is_field_included( 'adr', $fields ) ) {
 
-			cnArray::set( $data, 'adr', $this->prepare_address_for_response( $entry, $request ) );
+			_array::set( $data, 'adr', $this->prepare_address_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'tel', $fields ) ) {
 
-			cnArray::set( $data, 'tel', $this->prepare_phone_for_response( $entry, $request ) );
+			_array::set( $data, 'tel', $this->prepare_phone_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'email', $fields ) ) {
 
-			cnArray::set( $data, 'email', $this->prepare_email_for_response( $entry, $request ) );
+			_array::set( $data, 'email', $this->prepare_email_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'social', $fields ) ) {
 
-			cnArray::set( $data, 'social', $this->prepare_social_for_response( $entry, $request ) );
+			_array::set( $data, 'social', $this->prepare_social_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'bio.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'bio.rendered', $entry->getBio() );
+			_array::set( $data, 'bio.rendered', $entry->getBio() );
 		}
 
 		if ( is_field_included( 'notes.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
+			_array::set( $data, 'notes.rendered', $entry->getNotes() );
 		}
 
 		if ( is_field_included( 'excerpt.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
+			_array::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
 		}
 
-		$context = cnArray::get( $request, 'context', 'view' );
+		$context = _array::get( $request, 'context', 'view' );
 
 		if ( $context &&
 			 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
@@ -521,72 +522,72 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 			if ( is_field_included( 'fn.raw', $fields ) ) {
 
-				cnArray::set( $data, 'fn.raw', $entry->getName( array(), 'raw' ) );
+				_array::set( $data, 'fn.raw', $entry->getName( array(), 'raw' ) );
 			}
 
 			if ( is_field_included( 'honorific_prefix.raw', $fields ) ) {
 
-				cnArray::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
+				_array::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
 			}
 
 			if ( is_field_included( 'given_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
+				_array::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'additional_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
+				_array::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'family_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
+				_array::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'honorific_suffix.raw', $fields ) ) {
 
-				cnArray::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
+				_array::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
 			}
 
 			if ( is_field_included( 'job_title.raw', $fields ) ) {
 
-				cnArray::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
+				_array::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
 			}
 
 			if ( is_field_included( 'org.organization_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
+				_array::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
 			}
 
 			if ( is_field_included( 'org.organization_unit.raw', $fields ) ) {
 
-				cnArray::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
+				_array::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
 			}
 
 			if ( is_field_included( 'contact.given_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
+				_array::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'contact.family_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
+				_array::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'bio.raw', $fields ) ) {
 
-				cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
+				_array::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
 			}
 
 			if ( is_field_included( 'notes.raw', $fields ) ) {
 
-				cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
+				_array::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
 			}
 
 			if ( is_field_included( 'excerpt.raw', $fields ) ) {
 
-				cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
+				_array::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
 			}
 		}
 
@@ -597,12 +598,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		if ( is_field_included( 'visibility', $fields ) ) {
 
-			cnArray::set( $data, 'visibility', $entry->getVisibility() );
+			_array::set( $data, 'visibility', $entry->getVisibility() );
 		}
 
 		if ( is_field_included( 'status', $fields ) ) {
 
-			cnArray::set( $data, 'status', $entry->getStatus() );
+			_array::set( $data, 'status', $entry->getStatus() );
 		}
 
 		// Wrap the data in a response object.
@@ -649,61 +650,61 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $address->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'street_address.rendered',
 				cnSanitize::field( 'street', $address->line_1, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'extended_address.rendered',
 				cnSanitize::field( 'street', $address->line_2, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'extended_address_2.rendered',
 				cnSanitize::field( 'street', $address->line_3, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'extended_address_3.rendered',
 				cnSanitize::field( 'street', $address->line_4, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'district.rendered',
 				cnSanitize::field( 'district', $address->district, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'county.rendered',
 				cnSanitize::field( 'county', $address->county, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'locality.rendered',
 				cnSanitize::field( 'locality', $address->city, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'region.rendered',
 				cnSanitize::field( 'region', $address->state, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'postal_code.rendered',
 				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'country_name.rendered',
 				cnSanitize::field( 'country', $address->country, 'display' )
@@ -713,21 +714,21 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
-				cnArray::set( $object, 'street_address.raw', $address->line_1 );
-				cnArray::set( $object, 'extended_address.raw', $address->line_2 );
-				cnArray::set( $object, 'extended_address_2.raw', $address->line_3 );
-				cnArray::set( $object, 'extended_address_3.raw', $address->line_4 );
-				cnArray::set( $object, 'district.raw', $address->district );
-				cnArray::set( $object, 'county.raw', $address->county );
-				cnArray::set( $object, 'locality.raw', $address->city );
-				cnArray::set( $object, 'region.raw', $address->state );
-				cnArray::set( $object, 'postal_code.raw', $address->zipcode );
-				cnArray::set( $object, 'country_name.raw', $address->country );
+				_array::set( $object, 'street_address.raw', $address->line_1 );
+				_array::set( $object, 'extended_address.raw', $address->line_2 );
+				_array::set( $object, 'extended_address_2.raw', $address->line_3 );
+				_array::set( $object, 'extended_address_3.raw', $address->line_4 );
+				_array::set( $object, 'district.raw', $address->district );
+				_array::set( $object, 'county.raw', $address->county );
+				_array::set( $object, 'locality.raw', $address->city );
+				_array::set( $object, 'region.raw', $address->state );
+				_array::set( $object, 'postal_code.raw', $address->zipcode );
+				_array::set( $object, 'country_name.raw', $address->country );
 			}
 
-			cnArray::set( $object, 'latitude', $address->latitude );
-			cnArray::set( $object, 'longitude', $address->longitude );
-			cnArray::set( $object, 'visibility', $address->visibility );
+			_array::set( $object, 'latitude', $address->latitude );
+			_array::set( $object, 'longitude', $address->longitude );
+			_array::set( $object, 'visibility', $address->visibility );
 
 			array_push( $objects, $object );
 		}
@@ -764,7 +765,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $phone->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'number.rendered',
 				cnSanitize::field( 'phone-number', $phone->number, 'display' )
@@ -774,7 +775,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
-				cnArray::set( $object, 'number.raw', $phone->number );
+				_array::set( $object, 'number.raw', $phone->number );
 			}
 
 			array_push( $objects, $object );
@@ -812,7 +813,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $email->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'address.rendered',
 				sanitize_email( $email->address )
@@ -822,7 +823,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
-				cnArray::set( $object, 'address.raw', $email->address );
+				_array::set( $object, 'address.raw', $email->address );
 			}
 
 			array_push( $objects, $object );
@@ -863,7 +864,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $network->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'url',
 				cnSanitize::field( 'url', $network->url, 'display' )
@@ -873,7 +874,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			//     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			//) {
 			//
-			//	cnArray::set( $object, 'url.raw', $network->address );
+			//	_array::set( $object, 'url.raw', $network->address );
 			//}
 
 			array_push( $objects, $object );
@@ -903,9 +904,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$meta          = array();
 
 		// Parse REST request.
-		if ( cnArray::exists( $requestParams, '_images' ) ) {
+		if ( _array::exists( $requestParams, '_images' ) ) {
 
-			$images = cnArray::get( $requestParams, '_images', array() );
+			$images = _array::get( $requestParams, '_images', array() );
 
 			// Not an array request likely invalid or not formatted correctly, return empty array.
 			if ( ! is_array( $images ) ) {
@@ -920,11 +921,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				}
 
 				// If type does not exist, continue to next item in image request.
-				if ( ! cnArray::exists( $image, 'type' ) ) {
+				if ( ! _array::exists( $image, 'type' ) ) {
 					continue;
 				}
 
-				$type = cnArray::get( $image, 'type' );
+				$type = _array::get( $image, 'type' );
 
 				// Not a valid image type, continue to next item in image request.
 				if ( ! in_array( $type, array( 'logo', 'photo' ) ) ) {
@@ -932,9 +933,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				}
 
 				// If a size is requested, parse it, if not, return all valid sizes.
-				if ( cnArray::exists( $image, 'size' ) ) {
+				if ( _array::exists( $image, 'size' ) ) {
 
-					$size = cnArray::get( $image, 'size' );
+					$size = _array::get( $image, 'size' );
 
 					// if the requested size is valid, add it to the requested images.
 					if ( in_array( $size, $valid[ $type ] ) ) {
@@ -944,7 +945,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							array(
 								'type' => $type,
 								'size' => $size,
-								// 'zc'   => cnArray::get( $image, 'zc', 1 ),
+								// 'zc'   => _array::get( $image, 'zc', 1 ),
 							)
 						);
 
@@ -956,9 +957,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							array(
 								'type'   => $type,
 								'size'   => 'custom',
-								'width'  => absint( cnArray::get( $image, 'width' ) ),
-								'height' => absint( cnArray::get( $image, 'height' ) ),
-								'zc'     => absint( cnArray::get( $image, 'zc', 1 ) ),
+								'width'  => absint( _array::get( $image, 'width' ) ),
+								'height' => absint( _array::get( $image, 'height' ) ),
+								'zc'     => absint( _array::get( $image, 'zc', 1 ) ),
 							)
 						);
 					}
@@ -989,11 +990,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		// Process REST request.
 		foreach ( $requested as $data ) {
 
-			$type   = cnArray::get( $data, 'type' );
-			$size   = cnArray::get( $data, 'size', 'original' );
-			$width  = cnArray::get( $data, 'width', 0 );
-			$height = cnArray::get( $data, 'height', 0 );
-			$crop   = cnArray::get( $data, 'zc', 1 );
+			$type   = _array::get( $data, 'type' );
+			$size   = _array::get( $data, 'size', 'original' );
+			$width  = _array::get( $data, 'width', 0 );
+			$height = _array::get( $data, 'height', 0 );
+			$crop   = _array::get( $data, 'zc', 1 );
 
 			$image = $entry->getImageMeta(
 				array(
@@ -1015,12 +1016,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'original'  => 'original',
 				);
 
-				cnArray::forget( $image, 'log' );
-				cnArray::forget( $image, 'path' );
-				cnArray::forget( $image, 'source' );
-				cnArray::forget( $image, 'type' );
+				_array::forget( $image, 'log' );
+				_array::forget( $image, 'path' );
+				_array::forget( $image, 'source' );
+				_array::forget( $image, 'type' );
 
-				$image = cnArray::add(
+				$image = _array::add(
 					$image,
 					'rendered',
 					$entry->getImage(
@@ -1035,7 +1036,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					)
 				);
 
-				$meta = cnArray::add( $meta, "{$type}.{$size}", $image );
+				$meta = _array::add( $meta, "{$type}.{$size}", $image );
 			}
 
 		}
@@ -1763,7 +1764,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				),
 			);
 
-			cnArray::set( $schema, $size, $parameters );
+			_array::set( $schema, $size, $parameters );
 		}
 
 		return $schema;

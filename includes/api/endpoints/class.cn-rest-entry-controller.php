@@ -345,8 +345,14 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$request->set_param(
 			'_images',
 			array(
-				array( 'type' => 'logo', 'size' => 'original' ),
-				array( 'type' => 'photo', 'size' => 'original' ),
+				array(
+					'type' => 'logo',
+					'size' => 'original',
+				),
+				array(
+					'type' => 'photo',
+					'size' => 'original',
+				),
 			)
 		);
 
@@ -969,7 +975,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					// So image size specified, return all standard image size for the requested image type.
 					foreach ( $valid[ $type ] as $size ) {
 
-						array_push( $requested, array( 'type' => $type, 'size' => $size ) );
+						array_push(
+							$requested,
+							array(
+								'type' => $type,
+								'size' => $size,
+							)
+						);
 					}
 				}
 
@@ -982,7 +994,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 				foreach ( $sizes as $size ) {
 
-					array_push( $requested, array( 'type' => $type, 'size' => $size ) );
+					array_push(
+						$requested,
+						array(
+							'type' => $type,
+							'size' => $size,
+						)
+					);
 				}
 			}
 		}

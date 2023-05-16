@@ -39,6 +39,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	protected $namespace;
 
 	/**
+	 * Constructor.
+	 * 
 	 * @since 8.5.26
 	 */
 	public function __construct() {
@@ -899,7 +901,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Entry object.
+	 * @param cnEntry_HTML    $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array

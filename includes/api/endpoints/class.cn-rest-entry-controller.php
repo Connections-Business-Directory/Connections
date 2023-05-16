@@ -40,7 +40,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @since 8.5.26
 	 */
 	public function __construct() {

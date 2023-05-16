@@ -25,14 +25,14 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 	/**
 	 * REST API version.
-	 * 
+	 *
 	 * @since 8.5.26
 	 */
 	const VERSION = '1';
 
 	/**
 	 * The REST namespace.
-	 * 
+	 *
 	 * @since 8.5.26
 	 * @var string
 	 */
@@ -161,7 +161,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @param int $id Supplied ID.
 	 *
-	 * @return cnOutput|WP_Error Entry object if ID is valid, WP_Error otherwise.
+	 * @return cnEntry_HTML|WP_Error Entry object if ID is valid, WP_Error otherwise.
 	 */
 	public function get_entry( int $id ) {
 
@@ -184,10 +184,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 	/**
 	 * Get requested entries.
-	 * 
-	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @param array $untrusted
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param array           $untrusted
 	 *
 	 * @return array
 	 */
@@ -383,7 +382,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		 *
 		 * @since 9.6
 		 *
-		 * @param cnOutput         $entry     The deleted or trashed post.
+		 * @param cnEntry_HTML     $entry    The deleted or trashed post.
 		 * @param WP_REST_Response $response The response data.
 		 * @param WP_REST_Request  $request  The request sent to the API.
 		 */
@@ -395,7 +394,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare a single entry output for response.
 	 *
-	 * @param cnOutput        $entry   Post object.
+	 * @param cnEntry_HTML    $entry   Post object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return WP_REST_Response $data
@@ -900,8 +899,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnOutput        $entry    Entry object.
-	 * @param WP_REST_Request $request  Request object.
+	 * @param cnEntry         $entry   Entry object.
+	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array
 	 */

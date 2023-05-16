@@ -24,11 +24,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 	/**
+	 * REST API version.
+	 * 
 	 * @since 8.5.26
 	 */
 	const VERSION = '1';
 
 	/**
+	 * The REST namespace.
+	 * 
 	 * @since 8.5.26
 	 * @var string
 	 */
@@ -179,9 +183,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Get requested entries.
+	 * 
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @param array           $untrusted
+	 * @param array $untrusted
 	 *
 	 * @return array
 	 */
@@ -1720,7 +1726,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.6
 	 *
-	 * @param string $type
+	 * @param string $type The image type.
+	 *                     Accepts: logo|photo
 	 *
 	 * @return array
 	 */

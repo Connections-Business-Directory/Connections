@@ -883,12 +883,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				cnSanitize::field( 'url', $network->url, 'display' )
 			);
 
-			//if ( 'edit' === $request['context'] &&
+			// if ( 'edit' === $request['context'] &&
 			//     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
-			//) {
+			// ) {
 			//
-			//	_array::set( $object, 'url.raw', $network->address );
-			//}
+			// 	_array::set( $object, 'url.raw', $network->address );
+			// }
 
 			array_push( $objects, $object );
 		}

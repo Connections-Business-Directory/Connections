@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_format;
 use function Connections_Directory\API\REST\Functions\is_field_included;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -198,7 +199,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$instance = Connections_Directory();
 
 		$categoryIn = _array::get( $request, 'category_in', false );
-		cnFormatting::toBoolean( $categoryIn );
+		_format::toBoolean( $categoryIn );
 
 		$category = $categoryIn ? 'category_in' : 'category';
 

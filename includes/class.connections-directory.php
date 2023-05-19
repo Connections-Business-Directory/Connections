@@ -1,5 +1,6 @@
 <?php
 
+use Connections_Directory\API;
 use Connections_Directory\Blocks;
 use Connections_Directory\Content_Blocks;
 use Connections_Directory\Hook\Action;
@@ -476,7 +477,7 @@ final class Connections_Directory {
 		add_action( 'parse_request', array( Request::class, 'parse' ) );
 
 		// Init REST API routes.
-		add_action( 'rest_api_init', array( cnAPI::class, 'registerRoutes' ) );
+		add_action( 'rest_api_init', array( API\REST\Routes::class, 'register' ) );
 
 		// Init the taxonomies. The `setup_theme` action is the action run closest after initializing of the $wp_rewrite global variable.
 		add_action( 'setup_theme', 'Connections_Directory\Taxonomy\init' );

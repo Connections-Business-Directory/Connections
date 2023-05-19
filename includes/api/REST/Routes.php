@@ -1,25 +1,36 @@
 <?php
 /**
- * Connections REST API
+ * Register the REST API routes.
  *
- * @author   Steven A. Zahm
- * @category API
- * @package  Connections/API
- * @since    8.5.26
+ * @since      2023
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections Business Directory
+ * @subpackage Connections\API\REST
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
  */
+
+namespace Connections_Directory\API\REST;
 
 /**
- * Class cnAPI
+ * Class Routes
+ *
+ * @package Connections_Directory\API\REST
  */
-class cnAPI {
+final class Routes {
 
 	/**
+	 * Callback for the `rest_api_init` action hook.
+	 *
 	 * Register REST API routes.
 	 *
-	 * @access public
+	 * @internal
 	 * @since  8.5.26
 	 */
-	public static function registerRoutes() {
+	public static function register() {
 
 		$controllers = array(
 			'CN_REST_Entry_Controller',

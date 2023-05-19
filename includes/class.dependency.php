@@ -488,9 +488,6 @@ class cnDependency {
 			// System Info.
 			'cnSystem_Info'            => 'includes/system-info/class.system-info.php',
 
-			// REST API.
-			'cnAPI'                    => 'includes/api/class.api.php',
-
 			// Address objects.
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
 			'cnAddress'                => 'includes/entry/address/class.address.php',
@@ -634,6 +631,9 @@ class cnDependency {
 			'cnFragment'    => 'includes/Deprecated/class.fragment.php',
 			'cnHTTP'        => 'includes/Deprecated/class.http.php',
 			'SiteShot'      => 'includes/Deprecated/SiteShot.php',
+
+			// REST API.
+			'Connections_Directory\API\REST\Routes' => 'includes/api/REST/Routes.php',
 
 			// REST API controllers.
 			'CN_REST_Entry_Controller'                                => 'includes/api/endpoints/class.cn-rest-entry-controller.php',

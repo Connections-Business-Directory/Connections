@@ -56,9 +56,6 @@ class cnAPI {
 	 */
 	private function includes() {
 
-		// Abstract controllers.
-		// include_once( CN_PATH  . 'includes/api/abstracts/abstract.cn-rest-controller.php' );
-
 		// REST API functions.
 		include_once CN_PATH . 'includes/api/inc.functions.php';
 

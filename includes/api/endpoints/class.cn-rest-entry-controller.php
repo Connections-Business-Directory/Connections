@@ -1088,6 +1088,15 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_schema(): array {
 
+		/*
+		 * Returned cached copy whenever available.
+		 * @link https://developer.wordpress.org/rest-api/extending-the-rest-api/schema/#caching-schema
+		 */
+		if ( $this->schema ) {
+
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		$schema = array(
 			'$schema'     => 'http://json-schema.org/draft-04/schema#',
 			'description' => 'A representation of a person, company, organization, or place',
@@ -1718,6 +1727,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				),
 			),
 		);
+
+		// Cache generated schema on endpoint instance.
+		$this->schema = $schema;
 
 		return $this->add_additional_fields_schema( $schema );
 	}

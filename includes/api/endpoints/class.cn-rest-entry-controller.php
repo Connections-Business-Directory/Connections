@@ -134,7 +134,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get a collection of posts.
+	 * Get a collection of directory entries.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -385,7 +385,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		 *
 		 * @since 9.6
 		 *
-		 * @param cnEntry_HTML     $entry    The deleted or trashed post.
+		 * @param cnEntry_HTML     $entry    The deleted or trashed directory entry.
 		 * @param WP_REST_Response $response The response data.
 		 * @param WP_REST_Request  $request  The request sent to the API.
 		 */
@@ -397,7 +397,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare a single entry output for response.
 	 *
-	 * @param cnEntry_HTML    $entry   Post object.
+	 * @param cnEntry_HTML    $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return WP_REST_Response $data
@@ -640,7 +640,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data
@@ -755,7 +755,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data
@@ -803,7 +803,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data
@@ -851,7 +851,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data

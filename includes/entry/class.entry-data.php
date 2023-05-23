@@ -3190,9 +3190,8 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param string $status
-	 *
-	 * @return void
+	 * @param string $status The entry moderation status.
+	 *                       Valid: approved|pending
 	 */
 	public function setStatus( $status ) {
 

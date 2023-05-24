@@ -3196,9 +3196,10 @@ class cnEntry {
 	 */
 	public function setStatus( $status ) {
 
-		$permittedValues = array( 'approved', 'pending' );
+		$status = strtolower( $status );
+		$valid  = array( 'approved', 'pending' );
 
-		$this->status = in_array( $status, $permittedValues ) ? sanitize_key( $status ) : 'pending';
+		$this->status = in_array( $status, $valid, true ) ? sanitize_key( $status ) : 'pending';
 	}
 
 	/**

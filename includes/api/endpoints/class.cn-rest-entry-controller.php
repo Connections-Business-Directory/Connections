@@ -13,6 +13,7 @@
 
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
+use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\API\REST\Functions\is_field_included;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -312,6 +313,101 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Check if a given request has access to update a specific item.
+	 *
+	 * @since 10.4.43
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|boolean
+	 */
+	public function update_item_permissions_check( $request ) {
+
+		$entry = $this->get_entry( $request['id'] );
+
+		if ( $entry instanceof WP_Error ) {
+
+			return $entry;
+		}
+
+		if ( ! current_user_can( 'connections_edit_entry' )
+			 && ! current_user_can( 'connections_edit_entry_moderated' )
+		) {
+
+			return new WP_Error(
+				'rest_cannot_edit',
+				__( 'Sorry, you are not allowed to edit this entry.', 'connections' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		/**
+		 * @todo Need to check terms permissions.
+		 * @see WP_REST_Posts_Controller::check_assign_terms_permission()
+		 */
+
+		return true;
+	}
+
+	/**
+	 * Update an entry.
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function update_item( $request ) {
+
+		global $wpdb;
+
+		$entryID = _sanitize::integer( $request['id'] );
+		$isValid = $this->get_entry( $entryID );
+
+		if ( $isValid instanceof WP_Error ) {
+
+			return $isValid;
+		}
+
+		// $preUpdateEntry = $isValid;
+		$entry = $this->prepare_item_for_database( $request );
+
+		if ( is_wp_error( $entry ) ) {
+
+			return $entry;
+		}
+
+		if ( false === $entry->update() ) {
+
+			$error = new WP_Error( 'db_update_error', 'Could not update entry in the database.', $wpdb->last_error );
+			$error->add_data( array( 'status' => 500 ) );
+
+			return $error;
+		}
+
+		// Get the updated entry from the database.
+		$entry->set( $entry->getId() );
+		$entry->directoryHome();
+
+		/**
+		 * Runs after an entry is updated.
+		 *
+		 * @since 10.4.43
+		 *
+		 * @param cnEntry_HTML    $entry   An instance of the Entry object.
+		 * @param WP_REST_Request $request The Request object.
+		 */
+		do_action(
+			'Connections_Directory/API/REST/Entry/After_Update',
+			$entry,
+			$request
+		);
+
+		$response = $this->prepare_item_for_response( $entry, $request );
+
+		return rest_ensure_response( $response );
+	}
+
+	/**
 	 * Checks if a given request has access to delete an entry.
 	 *
 	 * @since 9.6
@@ -412,6 +508,165 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		do_action( 'rest_delete_cn_entry', $entry, $response, $request );
 
 		return $response;
+	}
+
+	/**
+	 * Prepare an entry for an update.
+	 *
+	 * @since 10.4.43
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 *
+	 * @return cnEntry_HTML|WP_Error The prepared item, or WP_Error object on failure.
+	 */
+	protected function prepare_item_for_database( $request ) {
+
+		$entryID = _sanitize::integer( $request['id'] );
+		$entry   = $this->get_entry( $entryID );
+
+		if ( $entry instanceof WP_Error ) {
+
+			return $entry;
+		}
+
+		// The request data utilized to update an existing entry.
+		$data = $request->get_params();
+
+		// Set the entry type.
+		if ( array_key_exists( 'type', $data ) ) {
+
+			$entry->setEntryType( $data['type'] );
+		}
+
+		if ( 'individual' === $entry->getEntryType() ) {
+
+			// Set the entry honorific prefix.
+			if ( _array::exists( $data, 'honorific_prefix' ) ) {
+
+				$entry->setHonorificPrefix( $data['honorific_prefix'] );
+			}
+
+			// Set the entry given (first) name.
+			if ( _array::exists( $data, 'given_name' ) ) {
+
+				$entry->setFirstName( $data['given_name'] );
+			}
+
+			// Set the entry additional_name (middle) name.
+			if ( _array::exists( $data, 'additional_name' ) ) {
+
+				$entry->setMiddleName( $data['additional_name'] );
+			}
+
+			// Set the entry family (last) name.
+			if ( _array::exists( $data, 'family_name' ) ) {
+
+				$entry->setLastName( $data['family_name'] );
+			}
+
+			// Set the entry honorific suffix.
+			if ( _array::exists( $data, 'honorific_suffix' ) ) {
+
+				$entry->setHonorificSuffix( $data['honorific_suffix'] );
+			}
+
+			// Set the entry job title.
+			if ( _array::exists( $data, 'job_title' ) ) {
+
+				$entry->setTitle( $data['job_title'] );
+			}
+		}
+
+		// Set the entry organization.
+		if ( _array::has( $data, 'org.organization_name' ) ) {
+
+			$entry->setOrganization( _array::get( $data, 'org.organization_name', '' ) );
+		}
+
+		// Set the entry department.
+		if ( _array::has( $data, 'org.organization_unit' ) ) {
+
+			$entry->setDepartment( _array::get( $data, 'org.organization_unit', '' ) );
+		}
+
+		// Set the entry organization contact given (first) name and family (last) name.
+		if ( 'organization' === $entry->getEntryType() ) {
+
+			if ( _array::has( $data, 'contact.given_name' ) ) {
+
+				$entry->setContactFirstName( _array::get( $data, 'contact.given_name', '' ) );
+			}
+
+			if ( _array::has( $data, 'contact.family_name' ) ) {
+
+				$entry->setContactLastName( _array::get( $data, 'contact.family_name', '' ) );
+			}
+		}
+
+		// Set entry slug.
+		if ( _array::exists( $data, 'slug' ) ) {
+
+			$oldSlug = $entry->getSlug();
+
+			if ( $data['slug'] !== $oldSlug ) {
+
+				$entry->setSlug( $data['slug'] );
+
+				$newSlug = $entry->getSlug();
+
+				// Copy the entry images from the old entry slug folder to the new folder.
+				cnEntry_Action::copyImages( $entry->getImageNameOriginal(), $oldSlug, $newSlug, false );
+				cnEntry_Action::copyImages( $entry->getLogoName(), $oldSlug, $newSlug, false );
+
+				// Delete the entry images and their variations.
+				cnEntry_Action::deleteImages( $entry->getImageNameOriginal(), $oldSlug );
+				cnEntry_Action::deleteImages( $entry->getLogoName(), $oldSlug );
+
+				// Delete the old entry images folder.
+				cnFileSystem::xrmdir( CN_IMAGE_PATH . $oldSlug . DIRECTORY_SEPARATOR );
+			}
+		}
+
+		// Set the entry bio.
+		if ( _array::exists( $data, 'bio' ) ) {
+
+			$entry->setBio( $data['bio'] );
+		}
+
+		// Set the entry notes.
+		if ( _array::exists( $data, 'notes' ) ) {
+
+			$entry->setNotes( $data['notes'] );
+		}
+
+		// Set the entry excerpt.
+		if ( _array::exists( $data, 'excerpt' ) ) {
+
+			$entry->setExcerpt( $data['excerpt'] );
+		}
+
+		// Set entry moderation status.
+		if ( _array::exists( $data, 'status' ) ) {
+
+			// Set moderation status per role capability assigned to the current user.
+			if ( current_user_can( 'connections_edit_entry' ) ) {
+
+				$entry->setStatus( $data['status'] );
+
+			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+
+				// This user capability requires the moderation status to be pending.
+				$entry->setStatus( 'pending' );
+			}
+		}
+
+		// Set entry visibility.
+		if ( _array::exists( $data, 'visibility' ) ) {
+
+			$entry->setVisibility( $data['visibility'] );
+		}
+
+		return $entry;
 	}
 
 	/**
@@ -1173,6 +1428,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'An honorific prefix preceding a person\'s name such as Dr/Mrs/Mr.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Honorific prefix as it exists in the database.', 'connections' ),
@@ -1191,6 +1453,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'Given name. In the U.S., the first name of a person.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'First name as it exists in the database.', 'connections' ),
@@ -1209,6 +1478,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'An additional name for a person. The middle name of a person.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Middle name as it exists in the database.', 'connections' ),
@@ -1227,6 +1503,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'Family name. In the U.S., the last name of an person.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Last name as it exists in the database.', 'connections' ),
@@ -1245,6 +1528,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'An honorific suffix preceding a person\'s name such as M.D. or PhD.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Honorific suffix as it exists in the database.', 'connections' ),
@@ -1263,6 +1553,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The job title of the person (for example, Financial Manager).', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Job title as it exists in the database.', 'connections' ),
@@ -1281,6 +1578,21 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The organization object for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type'       => 'object',
+							'properties' => array(
+								'organization_name' => array(
+									'type' => 'string',
+								),
+								'organization_unit' => array(
+									'type' => 'string',
+								),
+							),
+						),
+					),
 					'properties'  => array(
 						'organization_name' => array(
 							'type'       => 'object',
@@ -1320,6 +1632,21 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The contact name object for the entry of type organization.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type'       => 'object',
+							'properties' => array(
+								'given_name'  => array(
+									'type' => 'string',
+								),
+								'family_name' => array(
+									'type' => 'string',
+								),
+							),
+						),
+					),
 					'properties'  => array(
 						'given_name' => array(
 							'type'       => 'object',
@@ -1665,6 +1992,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The biography for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Biography for the entry, as it exists in the database.', 'connections' ),
@@ -1683,6 +2017,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The excerpt for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Excerpt for the entry, as it exists in the database.', 'connections' ),
@@ -1701,6 +2042,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The notes for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Notes for the entry, as it exists in the database.', 'connections' ),

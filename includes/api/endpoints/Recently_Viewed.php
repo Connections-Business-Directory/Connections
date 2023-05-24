@@ -2,7 +2,6 @@
 
 namespace Connections_Directory\API\REST\Endpoint;
 
-use CN_REST_Entry_Controller;
 use cnArray;
 use cnOutput;
 use Connections_Directory\Utility\_;
@@ -16,7 +15,7 @@ use WP_REST_Server;
  *
  * @package Connections_Directory\API\REST\Endpoint
  */
-class Recently_Viewed extends CN_REST_Entry_Controller {
+class Recently_Viewed extends Entry {
 
 	/**
 	 * @since 9.10

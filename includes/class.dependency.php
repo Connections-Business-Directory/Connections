@@ -636,12 +636,12 @@ class cnDependency {
 			'Connections_Directory\API\REST\Routes' => 'includes/api/REST/Routes.php',
 
 			// REST API controllers.
-			'CN_REST_Entry_Controller'                                => 'includes/api/endpoints/class.cn-rest-entry-controller.php',
 			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php',
 			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/api/endpoints/class.cn-rest-entry-geojson-controller.php',
 			'CN_REST_Terms_Controller'                                => 'includes/api/endpoints/class.cn-rest-terms-controller.php',
 			'CN_REST_Countries_Controller'                            => 'includes/api/endpoints/class.cn-rest-countries-controller.php',
 			'CN_REST_Autocomplete_Controller'                         => 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php',
+			'Connections_Directory\API\REST\Endpoint\Entry'           => 'includes/api/endpoints/class.cn-rest-entry-controller.php',
 			'Connections_Directory\API\REST\Endpoint\Recently_Viewed' => 'includes/api/endpoints/Recently_Viewed.php',
 			'Connections_Directory\REST_API\Endpoint\Settings'        => 'includes/api/endpoints/class.settings.php',
 

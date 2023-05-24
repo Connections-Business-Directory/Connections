@@ -33,14 +33,14 @@ final class Routes {
 	public static function register() {
 
 		$controllers = array(
-			'CN_REST_Entry_Controller',
 			// 'CN_REST_Entry_JSONLD_Controller',
 			// 'CN_REST_Entry_GeoJSON_Controller',
 			'CN_REST_Terms_Controller',
 			'CN_REST_Countries_Controller',
 			'CN_REST_Autocomplete_Controller',
-			'Connections_Directory\REST_API\Endpoint\Settings',
+			'Connections_Directory\API\REST\Endpoint\Entry',
 			'Connections_Directory\API\REST\Endpoint\Recently_Viewed',
+			'Connections_Directory\REST_API\Endpoint\Settings',
 		);
 
 		foreach ( $controllers as $controller ) {

@@ -11,9 +11,22 @@
  * @phpcs:disable PSR2.Methods.MethodDeclaration.Underscore
  */
 
+namespace Connections_Directory\API\REST\Endpoint;
+
+use cnEntry;
+use cnEntry_Action;
+use cnEntry_HTML;
+use cnFileSystem;
+use cnOptions;
+use cnSanitize;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_sanitize;
+use WP_Error;
+use WP_REST_Controller;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
 use function Connections_Directory\API\REST\Functions\is_field_included;
 
 /**
@@ -21,7 +34,7 @@ use function Connections_Directory\API\REST\Functions\is_field_included;
  *
  * @since 8.5.26
  */
-class CN_REST_Entry_Controller extends WP_REST_Controller {
+class Entry extends WP_REST_Controller {
 
 	/**
 	 * REST API version.

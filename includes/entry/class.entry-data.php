@@ -3181,7 +3181,8 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getStatus() {
-		return sanitize_key( $this->status );
+
+		return $this->status;
 	}
 
 	/**

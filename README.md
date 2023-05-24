@@ -246,6 +246,44 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.43 05/24/2023 =
+
+* NEW: Introduce `CN_REST_Entry_Controller::_sanitize()` and `CN_REST_Entry_Controller::_validate()`.
+* NEW: Introduce the `Connections_Directory/API/REST/Controller/Entry/Get_Items/Arguments` filter.
+* TWEAK: Remove unnecessary local variables.
+* TWEAK: Make `cnEntry_Action::copyImages()` public.
+* TWEAK: Assign local variable to object property and then return.
+* TWEAK: Tweak string concatenation.
+* TWEAK: Minor optimization to check for the existing entry slugs within similar slugs before creating an indexed
+  iteration of the slug.
+* TWEAK: If the supplied entry slug is the same as th existing entry slug, do not attempt to a unique slug.
+* TWEAK: Remove unnecessary parentheses.
+* TWEAK: Replace deprecated `cnArray::get()` with `_array::get()`.
+* TWEAK: Type cast is redundant.
+* TWEAK: Remove use of deprecated `cnOutput` object. Replaced with `cnEntry_HTML`.
+* TWEAK: Move REST controllers classes to the autoloader.
+* TWEAK: Move the REST register routes hook into `Connections_Directory::hooks()`.
+* TWEAK: Rename `cnAPI` to `\API\REST\Routes`.
+* TWEAK: Cache the result of `CN_REST_Entry_Controller::get_item_schema()`.
+* TWEAK: Replace deprecated `cnFormatting::toBoolean()` with `_format::toBoolean()`.
+* TWEAK: The value returned from `cnEntry::getStatus()` does not require sanitization each time it is called.
+* TWEAK: Improve validation in `cnEntry::setStatus()`.
+* TWEAK: Minor optimization in `cnEntry_Action::process()`. Call `$entry->getStatus()` only once instead of multiple
+  times.
+* TWEAK: Refactor `cnEntry_Action::copyImages()` to support whether to copy the image variations.
+* TWEAK: First pass at implementing update entry item via a REST API request.
+* TWEAK: Rename class `CN_REST_Entry_Controller` to `Connections_Directory\API\REST\Endpoint\Entry`.
+* TWEAK: Rename file `class.cn-rest-entry-controller.php` to `Entry.php`.
+* BUG: Ensure the directory homepage base URL is set when returning the REST API request results.
+* OTHER: Correct misspellings.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* DEV: Remove unused commented out code.
+* DEV: When a multi-item array uses associative keys, each value should start on a new line.
+* DEV: Add method and return types.
+* DEV: Correct code formatting.
+* DEV: Fix phpDoc alignment.
+
 = 10.4.42 05/08/2023 =
 
 * NEW: Introduce `Shortcode\Get_HTML`.
@@ -657,46 +695,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove inline code comment.
 * DEV: Deprecate `cnFormObjects::tokenField()`, `cnFormObjects::tokenURL()`, and `cnFormObjects::getNonce()`.
 * DEV: Deprecate `cnFormObjects::close()`.
-
-= 10.4.28 09/20/2022 =
-
-* NEW: Introduce `_sanitize::html()` and `_sanitize::string()`.
-* NEW: Introduce `_string::stripScripts()` and `_string::texturize()`.
-* NEW: Introduce the `Rich_Text` and `Quicktag` fields to the Fields API.
-* TWEAK: Replace instances of deprecated `cnString` with `_string`.
-* TWEAK: Refactor `_string::stripTags()` to utilize `_string::stripScripts()`.
-* TWEAK: Add `trim()` to `_escape::html()`.
-* TWEAK: Refactor `cnCategory::getDescription()` to remove use of deprecated method `cnSanitize::sanitizeString()`.
-* TWEAK: Move and rename the cnCache class file to the Utility folder.
-* TWEAK: Rename `cnCache` to `Connections_Directory\Utility\_cache`.
-* TWEAK: Move and rename the cnFragment class file to the Utility folder.
-* TWEAK: Rename `cnFragment` to `Connections_Directory\Utility\_fragment`.
-* TWEAK: Move deprecated files to Deprecated sub folder and move utility interface to the Utility sub folder.
-* TWEAK: Plugin constants do not need to be declared in a class.
-* TWEAK: Rename plugin constants file.
-* TWEAK: Remove broken and unused repeatable metabox code.
-* TWEAK: Remove unused comment out code.
-* TWEAK: Remove unused class properties in `cnMetabox_Render`.
-* TWEAK: Implement the `Rich_Text` and `Quicktag` fields in both the Settings API and Metabox API to reduce code
-  duplication.
-* BUG: Correct replacement message in deprecated method.
-* BUG: Correct table display in system info so the `id` column is no longer dropped.
-* BUG: Use the `pages` attribute when registering metaboxes. Fixes blank Dashboard admin page.
-* DEV: phpDoc updates.
-* DEV: Remove deprecated `_format::toCamelCase()` method.
-* DEV: Remove deprecated `_format::stripNonNumeric()` method.
-* DEV: Remove use of deprecated `cnFormatting::sanitizeString()` from `cnEntry_vCard`.
-* DEV: Remove use of deprecated `cnFormatting` in `cnEntry`.
-* DEV: Remove deprecated method `_format::sanitizeString()`.
-* DEV: Remove deprecated method `cnSanitize::sanitizeString()`.
-* DEV: Remove unused import.
-* DEV: Prevent direct access.
-* DEV: Remove unused `cnSanitize::currency()` method.
-* DEV: Remove unused deprecated method `_format::prepareINPlaceholders()`.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: phpDoc corrections and updates.
-* DEV: Remove unused deprecated `inc.processes.php` file.
-* DEV: Deprecate `cnSanitize::html()` and `cnSanitize::quicktag()`.
-* DEV: Remove unused method parameter.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

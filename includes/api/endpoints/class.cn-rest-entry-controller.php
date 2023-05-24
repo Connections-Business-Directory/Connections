@@ -16,10 +16,6 @@ use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_sanitize;
 use function Connections_Directory\API\REST\Functions\is_field_included;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * REST API Entry Controller.
  *

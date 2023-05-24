@@ -7,33 +7,53 @@
  * @package    Connections
  * @subpackage REST_API
  * @since      8.5.26
+ *
+ * @phpcs:disable PSR2.Methods.MethodDeclaration.Underscore
  */
 
-use function Connections_Directory\API\REST\Functions\is_field_included;
+namespace Connections_Directory\API\REST\Endpoint;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+use cnEntry;
+use cnEntry_Action;
+use cnEntry_HTML;
+use cnFileSystem;
+use cnOptions;
+use cnSanitize;
+use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_format;
+use Connections_Directory\Utility\_sanitize;
+use WP_Error;
+use WP_REST_Controller;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
+use function Connections_Directory\API\REST\Functions\is_field_included;
 
 /**
  * REST API Entry Controller.
  *
  * @since 8.5.26
  */
-class CN_REST_Entry_Controller extends WP_REST_Controller {
+class Entry extends WP_REST_Controller {
 
 	/**
+	 * REST API version.
+	 *
 	 * @since 8.5.26
 	 */
 	const VERSION = '1';
 
 	/**
+	 * The REST namespace.
+	 *
 	 * @since 8.5.26
 	 * @var string
 	 */
 	protected $namespace;
 
 	/**
+	 * Constructor.
+	 *
 	 * @since 8.5.26
 	 */
 	public function __construct() {
@@ -126,7 +146,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get a collection of posts.
+	 * Get a collection of directory entries.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -140,15 +160,14 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		foreach ( $results as $result ) {
 
-			$entry = new cnOutput( $result );
+			$entry = new cnEntry_HTML( $result );
+			$entry->directoryHome();
 
 			$data      = $this->prepare_item_for_response( $entry, $request );
 			$entries[] = $this->prepare_response_for_collection( $data );
 		}
 
-		$response = rest_ensure_response( $entries );
-
-		return $response;
+		return rest_ensure_response( $entries );
 	}
 
 	/**
@@ -158,13 +177,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @param int $id Supplied ID.
 	 *
-	 * @return cnOutput|WP_Error Entry object if ID is valid, WP_Error otherwise.
+	 * @return cnEntry_HTML|WP_Error Entry object if ID is valid, WP_Error otherwise.
 	 */
-	public function get_entry( $id ) {
+	public function get_entry( int $id ) {
 
 		$error = new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
 
-		if ( (int) $id <= 0 ) {
+		if ( $id <= 0 ) {
 
 			return $error;
 		}
@@ -176,41 +195,57 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			return $error;
 		}
 
-		return new cnOutput( $data );
+		$entry = new cnEntry_HTML( $data );
+		$entry->directoryHome();
+
+		return $entry;
 	}
 
 	/**
-	 * @param WP_REST_Request $request Full details about the request.
+	 * Get requested entries.
 	 *
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @param array           $untrusted
 	 *
 	 * @return array
 	 */
-	protected function get_entries( $request, $untrusted = array() ) {
+	protected function get_entries( WP_REST_Request $request, array $untrusted = array() ): array {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$categoryIn = cnArray::get( $request, 'category_in', false );
-		cnFormatting::toBoolean( $categoryIn );
+		$categoryIn = _array::get( $request, 'category_in', false );
+		_format::toBoolean( $categoryIn );
 
 		$category = $categoryIn ? 'category_in' : 'category';
 
 		$defaults = array(
-			'list_type'        => cnArray::get( $request, 'type', null ),
-			$category          => cnArray::get( $request, 'categories', null ),
-			'exclude_category' => cnArray::get( $request, 'categories_exclude', null ),
-			'id'               => cnArray::get( $request, 'id', null ),
-			'id__not_in'       => cnArray::get( $request, 'exclude', null ),
-			'limit'            => cnArray::get( $request, 'per_page', 10 ),
-			'offset'           => cnArray::get( $request, 'offset', 0 ),
+			'list_type'        => _array::get( $request, 'type', null ),
+			$category          => _array::get( $request, 'categories', null ),
+			'exclude_category' => _array::get( $request, 'categories_exclude', null ),
+			'id'               => _array::get( $request, 'id', null ),
+			'id__not_in'       => _array::get( $request, 'exclude', null ),
+			'limit'            => _array::get( $request, 'per_page', 10 ),
+			'offset'           => _array::get( $request, 'offset', 0 ),
 		);
 
-		$atts = cnSanitize::args( $untrusted, $defaults );
+		$arguments = cnSanitize::args( $untrusted, $defaults );
 
-		$results = $instance->retrieve->entries( $atts );
+		/**
+		 * Filters the query arguments when querying entries via the REST API.
+		 *
+		 * @since 10.4.43
+		 *
+		 * @param array           $arguments The array of arguments for querying entries.
+		 * @param WP_REST_Request $request   The REST API request.
+		 */
+		$arguments = apply_filters(
+			'Connections_Directory/API/REST/Controller/Entry/Get_Items/Arguments',
+			$arguments,
+			$request
+		);
 
-		return $results;
+		return $instance->retrieve->entries( $arguments );
 	}
 
 	/**
@@ -287,6 +322,101 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Check if a given request has access to update a specific item.
+	 *
+	 * @since 10.4.43
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|boolean
+	 */
+	public function update_item_permissions_check( $request ) {
+
+		$entry = $this->get_entry( $request['id'] );
+
+		if ( $entry instanceof WP_Error ) {
+
+			return $entry;
+		}
+
+		if ( ! current_user_can( 'connections_edit_entry' )
+			 && ! current_user_can( 'connections_edit_entry_moderated' )
+		) {
+
+			return new WP_Error(
+				'rest_cannot_edit',
+				__( 'Sorry, you are not allowed to edit this entry.', 'connections' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		/**
+		 * @todo Need to check terms permissions.
+		 * @see WP_REST_Posts_Controller::check_assign_terms_permission()
+		 */
+
+		return true;
+	}
+
+	/**
+	 * Update an entry.
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function update_item( $request ) {
+
+		global $wpdb;
+
+		$entryID = _sanitize::integer( $request['id'] );
+		$isValid = $this->get_entry( $entryID );
+
+		if ( $isValid instanceof WP_Error ) {
+
+			return $isValid;
+		}
+
+		// $preUpdateEntry = $isValid;
+		$entry = $this->prepare_item_for_database( $request );
+
+		if ( is_wp_error( $entry ) ) {
+
+			return $entry;
+		}
+
+		if ( false === $entry->update() ) {
+
+			$error = new WP_Error( 'db_update_error', 'Could not update entry in the database.', $wpdb->last_error );
+			$error->add_data( array( 'status' => 500 ) );
+
+			return $error;
+		}
+
+		// Get the updated entry from the database.
+		$entry->set( $entry->getId() );
+		$entry->directoryHome();
+
+		/**
+		 * Runs after an entry is updated.
+		 *
+		 * @since 10.4.43
+		 *
+		 * @param cnEntry_HTML    $entry   An instance of the Entry object.
+		 * @param WP_REST_Request $request The Request object.
+		 */
+		do_action(
+			'Connections_Directory/API/REST/Entry/After_Update',
+			$entry,
+			$request
+		);
+
+		$response = $this->prepare_item_for_response( $entry, $request );
+
+		return rest_ensure_response( $response );
+	}
+
+	/**
 	 * Checks if a given request has access to delete an entry.
 	 *
 	 * @since 9.6
@@ -348,8 +478,14 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$request->set_param(
 			'_images',
 			array(
-				array( 'type' => 'logo', 'size' => 'original' ),
-				array( 'type' => 'photo', 'size' => 'original' ),
+				array(
+					'type' => 'logo',
+					'size' => 'original',
+				),
+				array(
+					'type' => 'photo',
+					'size' => 'original',
+				),
 			)
 		);
 
@@ -358,7 +494,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$entry->delete( $id );
 
-		// Delete any meta data associated with the entry.
+		// Delete any metadata associated with the entry.
 		cnEntry_Action::meta( 'delete', $id );
 
 		$response = new WP_REST_Response();
@@ -374,7 +510,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		 *
 		 * @since 9.6
 		 *
-		 * @param cnOutput         $entry     The deleted or trashed post.
+		 * @param cnEntry_HTML     $entry    The deleted or trashed directory entry.
 		 * @param WP_REST_Response $response The response data.
 		 * @param WP_REST_Request  $request  The request sent to the API.
 		 */
@@ -384,31 +520,190 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Prepare an entry for an update.
+	 *
+	 * @since 10.4.43
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 *
+	 * @return cnEntry_HTML|WP_Error The prepared item, or WP_Error object on failure.
+	 */
+	protected function prepare_item_for_database( $request ) {
+
+		$entryID = _sanitize::integer( $request['id'] );
+		$entry   = $this->get_entry( $entryID );
+
+		if ( $entry instanceof WP_Error ) {
+
+			return $entry;
+		}
+
+		// The request data utilized to update an existing entry.
+		$data = $request->get_params();
+
+		// Set the entry type.
+		if ( array_key_exists( 'type', $data ) ) {
+
+			$entry->setEntryType( $data['type'] );
+		}
+
+		if ( 'individual' === $entry->getEntryType() ) {
+
+			// Set the entry honorific prefix.
+			if ( _array::exists( $data, 'honorific_prefix' ) ) {
+
+				$entry->setHonorificPrefix( $data['honorific_prefix'] );
+			}
+
+			// Set the entry given (first) name.
+			if ( _array::exists( $data, 'given_name' ) ) {
+
+				$entry->setFirstName( $data['given_name'] );
+			}
+
+			// Set the entry additional_name (middle) name.
+			if ( _array::exists( $data, 'additional_name' ) ) {
+
+				$entry->setMiddleName( $data['additional_name'] );
+			}
+
+			// Set the entry family (last) name.
+			if ( _array::exists( $data, 'family_name' ) ) {
+
+				$entry->setLastName( $data['family_name'] );
+			}
+
+			// Set the entry honorific suffix.
+			if ( _array::exists( $data, 'honorific_suffix' ) ) {
+
+				$entry->setHonorificSuffix( $data['honorific_suffix'] );
+			}
+
+			// Set the entry job title.
+			if ( _array::exists( $data, 'job_title' ) ) {
+
+				$entry->setTitle( $data['job_title'] );
+			}
+		}
+
+		// Set the entry organization.
+		if ( _array::has( $data, 'org.organization_name' ) ) {
+
+			$entry->setOrganization( _array::get( $data, 'org.organization_name', '' ) );
+		}
+
+		// Set the entry department.
+		if ( _array::has( $data, 'org.organization_unit' ) ) {
+
+			$entry->setDepartment( _array::get( $data, 'org.organization_unit', '' ) );
+		}
+
+		// Set the entry organization contact given (first) name and family (last) name.
+		if ( 'organization' === $entry->getEntryType() ) {
+
+			if ( _array::has( $data, 'contact.given_name' ) ) {
+
+				$entry->setContactFirstName( _array::get( $data, 'contact.given_name', '' ) );
+			}
+
+			if ( _array::has( $data, 'contact.family_name' ) ) {
+
+				$entry->setContactLastName( _array::get( $data, 'contact.family_name', '' ) );
+			}
+		}
+
+		// Set entry slug.
+		if ( _array::exists( $data, 'slug' ) ) {
+
+			$oldSlug = $entry->getSlug();
+
+			if ( $data['slug'] !== $oldSlug ) {
+
+				$entry->setSlug( $data['slug'] );
+
+				$newSlug = $entry->getSlug();
+
+				// Copy the entry images from the old entry slug folder to the new folder.
+				cnEntry_Action::copyImages( $entry->getImageNameOriginal(), $oldSlug, $newSlug, false );
+				cnEntry_Action::copyImages( $entry->getLogoName(), $oldSlug, $newSlug, false );
+
+				// Delete the entry images and their variations.
+				cnEntry_Action::deleteImages( $entry->getImageNameOriginal(), $oldSlug );
+				cnEntry_Action::deleteImages( $entry->getLogoName(), $oldSlug );
+
+				// Delete the old entry images folder.
+				cnFileSystem::xrmdir( CN_IMAGE_PATH . $oldSlug . DIRECTORY_SEPARATOR );
+			}
+		}
+
+		// Set the entry bio.
+		if ( _array::exists( $data, 'bio' ) ) {
+
+			$entry->setBio( $data['bio'] );
+		}
+
+		// Set the entry notes.
+		if ( _array::exists( $data, 'notes' ) ) {
+
+			$entry->setNotes( $data['notes'] );
+		}
+
+		// Set the entry excerpt.
+		if ( _array::exists( $data, 'excerpt' ) ) {
+
+			$entry->setExcerpt( $data['excerpt'] );
+		}
+
+		// Set entry moderation status.
+		if ( _array::exists( $data, 'status' ) ) {
+
+			// Set moderation status per role capability assigned to the current user.
+			if ( current_user_can( 'connections_edit_entry' ) ) {
+
+				$entry->setStatus( $data['status'] );
+
+			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+
+				// This user capability requires the moderation status to be pending.
+				$entry->setStatus( 'pending' );
+			}
+		}
+
+		// Set entry visibility.
+		if ( _array::exists( $data, 'visibility' ) ) {
+
+			$entry->setVisibility( $data['visibility'] );
+		}
+
+		return $entry;
+	}
+
+	/**
 	 * Prepare a single entry output for response.
 	 *
-	 * @param cnOutput        $entry   Post object.
+	 * @param cnEntry_HTML    $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return WP_REST_Response $data
 	 */
-	public function prepare_item_for_response( $entry, $request ) {
+	public function prepare_item_for_response( $entry, $request ): WP_REST_Response {
 
 		$requestParams     = $request->get_params();
 		$excerptParameters = array(
-			'length' => cnArray::get( $requestParams, '_excerpt.length', apply_filters( 'cn_excerpt_length', 55 ) ),
-			'more'   => cnArray::get( $requestParams, '_excerpt.more', '' ),
+			'length' => _array::get( $requestParams, '_excerpt.length', apply_filters( 'cn_excerpt_length', 55 ) ),
+			'more'   => _array::get( $requestParams, '_excerpt.more', '' ),
 		);
 		$fields            = $this->get_fields_for_response( $request );
 		$data              = array();
 
 		if ( is_field_included( 'id', $fields ) ) {
 
-			cnArray::set( $data, 'id', $entry->getId() );
+			_array::set( $data, 'id', $entry->getId() );
 		}
 
 		if ( is_field_included( 'type', $fields ) ) {
 
-			cnArray::set( $data, 'type', $entry->getEntryType() );
+			_array::set( $data, 'type', $entry->getEntryType() );
 		}
 
 		if ( is_field_included( 'link', $fields ) ) {
@@ -418,106 +713,106 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		if ( is_field_included( 'slug', $fields ) ) {
 
-			cnArray::set( $data, 'slug', $entry->getSlug() );
+			_array::set( $data, 'slug', $entry->getSlug() );
 		}
 
 		if ( is_field_included( 'fn.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'fn.rendered', $entry->getName() );
-			// cnArray::set( $data, 'name.rendered', $entry->getName() );
+			_array::set( $data, 'fn.rendered', $entry->getName() );
+			// _array::set( $data, 'name.rendered', $entry->getName() );
 		}
 
 		if ( is_field_included( 'honorific_prefix.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
+			_array::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
 		}
 
 		if ( is_field_included( 'given_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'given_name.rendered', $entry->getFirstName() );
+			_array::set( $data, 'given_name.rendered', $entry->getFirstName() );
 		}
 
 		if ( is_field_included( 'additional_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
+			_array::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
 		}
 
 		if ( is_field_included( 'family_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'family_name.rendered', $entry->getLastName() );
+			_array::set( $data, 'family_name.rendered', $entry->getLastName() );
 		}
 
 		if ( is_field_included( 'honorific_suffix.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
+			_array::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
 		}
 
 		if ( is_field_included( 'job_title.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'job_title.rendered', $entry->getTitle() );
+			_array::set( $data, 'job_title.rendered', $entry->getTitle() );
 		}
 
 		if ( is_field_included( 'org.organization_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
+			_array::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
 		}
 
 		if ( is_field_included( 'org.organization_unit.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
+			_array::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
 		}
 
 		if ( is_field_included( 'contact.given_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+			_array::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
 		}
 
 		if ( is_field_included( 'contact.given_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+			_array::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
 		}
 
 		if ( is_field_included( 'contact.family_name.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
+			_array::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
 		}
 
 		if ( is_field_included( 'adr', $fields ) ) {
 
-			cnArray::set( $data, 'adr', $this->prepare_address_for_response( $entry, $request ) );
+			_array::set( $data, 'adr', $this->prepare_address_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'tel', $fields ) ) {
 
-			cnArray::set( $data, 'tel', $this->prepare_phone_for_response( $entry, $request ) );
+			_array::set( $data, 'tel', $this->prepare_phone_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'email', $fields ) ) {
 
-			cnArray::set( $data, 'email', $this->prepare_email_for_response( $entry, $request ) );
+			_array::set( $data, 'email', $this->prepare_email_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'social', $fields ) ) {
 
-			cnArray::set( $data, 'social', $this->prepare_social_for_response( $entry, $request ) );
+			_array::set( $data, 'social', $this->prepare_social_for_response( $entry, $request ) );
 		}
 
 		if ( is_field_included( 'bio.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'bio.rendered', $entry->getBio() );
+			_array::set( $data, 'bio.rendered', $entry->getBio() );
 		}
 
 		if ( is_field_included( 'notes.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
+			_array::set( $data, 'notes.rendered', $entry->getNotes() );
 		}
 
 		if ( is_field_included( 'excerpt.rendered', $fields ) ) {
 
-			cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
+			_array::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
 		}
 
-		$context = cnArray::get( $request, 'context', 'view' );
+		$context = _array::get( $request, 'context', 'view' );
 
 		if ( $context &&
 			 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
@@ -525,72 +820,72 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 			if ( is_field_included( 'fn.raw', $fields ) ) {
 
-				cnArray::set( $data, 'fn.raw', $entry->getName( array(), 'raw' ) );
+				_array::set( $data, 'fn.raw', $entry->getName( array(), 'raw' ) );
 			}
 
 			if ( is_field_included( 'honorific_prefix.raw', $fields ) ) {
 
-				cnArray::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
+				_array::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
 			}
 
 			if ( is_field_included( 'given_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
+				_array::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'additional_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
+				_array::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'family_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
+				_array::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'honorific_suffix.raw', $fields ) ) {
 
-				cnArray::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
+				_array::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
 			}
 
 			if ( is_field_included( 'job_title.raw', $fields ) ) {
 
-				cnArray::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
+				_array::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
 			}
 
 			if ( is_field_included( 'org.organization_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
+				_array::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
 			}
 
 			if ( is_field_included( 'org.organization_unit.raw', $fields ) ) {
 
-				cnArray::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
+				_array::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
 			}
 
 			if ( is_field_included( 'contact.given_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
+				_array::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'contact.family_name.raw', $fields ) ) {
 
-				cnArray::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
+				_array::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
 			}
 
 			if ( is_field_included( 'bio.raw', $fields ) ) {
 
-				cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
+				_array::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
 			}
 
 			if ( is_field_included( 'notes.raw', $fields ) ) {
 
-				cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
+				_array::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
 			}
 
 			if ( is_field_included( 'excerpt.raw', $fields ) ) {
 
-				cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
+				_array::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
 			}
 		}
 
@@ -601,12 +896,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		if ( is_field_included( 'visibility', $fields ) ) {
 
-			cnArray::set( $data, 'visibility', $entry->getVisibility() );
+			_array::set( $data, 'visibility', $entry->getVisibility() );
 		}
 
 		if ( is_field_included( 'status', $fields ) ) {
 
-			cnArray::set( $data, 'status', $entry->getStatus() );
+			_array::set( $data, 'status', $entry->getStatus() );
 		}
 
 		// Wrap the data in a response object.
@@ -629,12 +924,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data
 	 */
-	private function prepare_address_for_response( $entry, $request ) {
+	private function prepare_address_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects   = array();
 		$addresses = $entry->getAddresses( array(), true, false, 'raw' );
@@ -653,61 +948,61 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $address->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'street_address.rendered',
 				cnSanitize::field( 'street', $address->line_1, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'extended_address.rendered',
 				cnSanitize::field( 'street', $address->line_2, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'extended_address_2.rendered',
 				cnSanitize::field( 'street', $address->line_3, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'extended_address_3.rendered',
 				cnSanitize::field( 'street', $address->line_4, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'district.rendered',
 				cnSanitize::field( 'district', $address->district, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'county.rendered',
 				cnSanitize::field( 'county', $address->county, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'locality.rendered',
 				cnSanitize::field( 'locality', $address->city, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'region.rendered',
 				cnSanitize::field( 'region', $address->state, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'postal_code.rendered',
 				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'country_name.rendered',
 				cnSanitize::field( 'country', $address->country, 'display' )
@@ -717,21 +1012,21 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
-				cnArray::set( $object, 'street_address.raw', $address->line_1 );
-				cnArray::set( $object, 'extended_address.raw', $address->line_2 );
-				cnArray::set( $object, 'extended_address_2.raw', $address->line_3 );
-				cnArray::set( $object, 'extended_address_3.raw', $address->line_4 );
-				cnArray::set( $object, 'district.raw', $address->district );
-				cnArray::set( $object, 'county.raw', $address->county );
-				cnArray::set( $object, 'locality.raw', $address->city );
-				cnArray::set( $object, 'region.raw', $address->state );
-				cnArray::set( $object, 'postal_code.raw', $address->zipcode );
-				cnArray::set( $object, 'country_name.raw', $address->country );
+				_array::set( $object, 'street_address.raw', $address->line_1 );
+				_array::set( $object, 'extended_address.raw', $address->line_2 );
+				_array::set( $object, 'extended_address_2.raw', $address->line_3 );
+				_array::set( $object, 'extended_address_3.raw', $address->line_4 );
+				_array::set( $object, 'district.raw', $address->district );
+				_array::set( $object, 'county.raw', $address->county );
+				_array::set( $object, 'locality.raw', $address->city );
+				_array::set( $object, 'region.raw', $address->state );
+				_array::set( $object, 'postal_code.raw', $address->zipcode );
+				_array::set( $object, 'country_name.raw', $address->country );
 			}
 
-			cnArray::set( $object, 'latitude', $address->latitude );
-			cnArray::set( $object, 'longitude', $address->longitude );
-			cnArray::set( $object, 'visibility', $address->visibility );
+			_array::set( $object, 'latitude', $address->latitude );
+			_array::set( $object, 'longitude', $address->longitude );
+			_array::set( $object, 'visibility', $address->visibility );
 
 			array_push( $objects, $object );
 		}
@@ -744,12 +1039,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data
 	 */
-	private function prepare_phone_for_response( $entry, $request ) {
+	private function prepare_phone_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects = array();
 		$numbers = $entry->getPhoneNumbers( array(), true, false, 'raw' );
@@ -768,7 +1063,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $phone->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'number.rendered',
 				cnSanitize::field( 'phone-number', $phone->number, 'display' )
@@ -778,7 +1073,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
-				cnArray::set( $object, 'number.raw', $phone->number );
+				_array::set( $object, 'number.raw', $phone->number );
 			}
 
 			array_push( $objects, $object );
@@ -792,12 +1087,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data
 	 */
-	private function prepare_email_for_response( $entry, $request ) {
+	private function prepare_email_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects        = array();
 		$emailAddresses = $entry->getEmailAddresses( array(), true, false, 'raw' );
@@ -816,7 +1111,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $email->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'address.rendered',
 				sanitize_email( $email->address )
@@ -826,7 +1121,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				 ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 			) {
 
-				cnArray::set( $object, 'address.raw', $email->address );
+				_array::set( $object, 'address.raw', $email->address );
 			}
 
 			array_push( $objects, $object );
@@ -840,12 +1135,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnEntry         $entry   Entry object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array $data
 	 */
-	private function prepare_social_for_response( $entry, $request ) {
+	private function prepare_social_for_response( cnEntry $entry, WP_REST_Request $request ): array {
 
 		$objects  = array();
 		$networks = $entry->getSocialMedia( array(), true, false, 'raw' );
@@ -867,18 +1162,18 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type'      => $network->type,
 			);
 
-			cnArray::set(
+			_array::set(
 				$object,
 				'url',
 				cnSanitize::field( 'url', $network->url, 'display' )
 			);
 
-			//if ( 'edit' === $request['context'] &&
+			// if ( 'edit' === $request['context'] &&
 			//     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
-			//) {
+			// ) {
 			//
-			//	cnArray::set( $object, 'url.raw', $network->address );
-			//}
+			// 	_array::set( $object, 'url.raw', $network->address );
+			// }
 
 			array_push( $objects, $object );
 		}
@@ -891,12 +1186,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnOutput        $entry    Entry object.
-	 * @param WP_REST_Request $request  Request object.
+	 * @param cnEntry_HTML    $entry   Entry object.
+	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return array
 	 */
-	public function prepare_images_for_response( $entry, $request ) {
+	public function prepare_images_for_response( cnEntry_HTML $entry, WP_REST_Request $request ): array {
 
 		$requestParams = $request->get_params();
 		$valid         = array(
@@ -907,9 +1202,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$meta          = array();
 
 		// Parse REST request.
-		if ( cnArray::exists( $requestParams, '_images' ) ) {
+		if ( _array::exists( $requestParams, '_images' ) ) {
 
-			$images = cnArray::get( $requestParams, '_images', array() );
+			$images = _array::get( $requestParams, '_images', array() );
 
 			// Not an array request likely invalid or not formatted correctly, return empty array.
 			if ( ! is_array( $images ) ) {
@@ -924,11 +1219,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				}
 
 				// If type does not exist, continue to next item in image request.
-				if ( ! cnArray::exists( $image, 'type' ) ) {
+				if ( ! _array::exists( $image, 'type' ) ) {
 					continue;
 				}
 
-				$type = cnArray::get( $image, 'type' );
+				$type = _array::get( $image, 'type' );
 
 				// Not a valid image type, continue to next item in image request.
 				if ( ! in_array( $type, array( 'logo', 'photo' ) ) ) {
@@ -936,9 +1231,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				}
 
 				// If a size is requested, parse it, if not, return all valid sizes.
-				if ( cnArray::exists( $image, 'size' ) ) {
+				if ( _array::exists( $image, 'size' ) ) {
 
-					$size = cnArray::get( $image, 'size' );
+					$size = _array::get( $image, 'size' );
 
 					// if the requested size is valid, add it to the requested images.
 					if ( in_array( $size, $valid[ $type ] ) ) {
@@ -948,7 +1243,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							array(
 								'type' => $type,
 								'size' => $size,
-								// 'zc'   => cnArray::get( $image, 'zc', 1 ),
+								// 'zc'   => _array::get( $image, 'zc', 1 ),
 							)
 						);
 
@@ -960,9 +1255,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							array(
 								'type'   => $type,
 								'size'   => 'custom',
-								'width'  => absint( cnArray::get( $image, 'width' ) ),
-								'height' => absint( cnArray::get( $image, 'height' ) ),
-								'zc'     => absint( cnArray::get( $image, 'zc', 1 ) ),
+								'width'  => absint( _array::get( $image, 'width' ) ),
+								'height' => absint( _array::get( $image, 'height' ) ),
+								'zc'     => absint( _array::get( $image, 'zc', 1 ) ),
 							)
 						);
 					}
@@ -972,7 +1267,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					// So image size specified, return all standard image size for the requested image type.
 					foreach ( $valid[ $type ] as $size ) {
 
-						array_push( $requested, array( 'type' => $type, 'size' => $size ) );
+						array_push(
+							$requested,
+							array(
+								'type' => $type,
+								'size' => $size,
+							)
+						);
 					}
 				}
 
@@ -985,7 +1286,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 				foreach ( $sizes as $size ) {
 
-					array_push( $requested, array( 'type' => $type, 'size' => $size ) );
+					array_push(
+						$requested,
+						array(
+							'type' => $type,
+							'size' => $size,
+						)
+					);
 				}
 			}
 		}
@@ -993,11 +1300,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		// Process REST request.
 		foreach ( $requested as $data ) {
 
-			$type   = cnArray::get( $data, 'type' );
-			$size   = cnArray::get( $data, 'size', 'original' );
-			$width  = cnArray::get( $data, 'width', 0 );
-			$height = cnArray::get( $data, 'height', 0 );
-			$crop   = cnArray::get( $data, 'zc', 1 );
+			$type   = _array::get( $data, 'type' );
+			$size   = _array::get( $data, 'size', 'original' );
+			$width  = _array::get( $data, 'width', 0 );
+			$height = _array::get( $data, 'height', 0 );
+			$crop   = _array::get( $data, 'zc', 1 );
 
 			$image = $entry->getImageMeta(
 				array(
@@ -1019,12 +1326,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'original'  => 'original',
 				);
 
-				cnArray::forget( $image, 'log' );
-				cnArray::forget( $image, 'path' );
-				cnArray::forget( $image, 'source' );
-				cnArray::forget( $image, 'type' );
+				_array::forget( $image, 'log' );
+				_array::forget( $image, 'path' );
+				_array::forget( $image, 'source' );
+				_array::forget( $image, 'type' );
 
-				$image = cnArray::add(
+				$image = _array::add(
 					$image,
 					'rendered',
 					$entry->getImage(
@@ -1039,7 +1346,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					)
 				);
 
-				$meta = cnArray::add( $meta, "{$type}.{$size}", $image );
+				$meta = _array::add( $meta, "{$type}.{$size}", $image );
 			}
 
 		}
@@ -1064,7 +1371,16 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_item_schema() {
+	public function get_item_schema(): array {
+
+		/*
+		 * Returned cached copy whenever available.
+		 * @link https://developer.wordpress.org/rest-api/extending-the-rest-api/schema/#caching-schema
+		 */
+		if ( $this->schema ) {
+
+			return $this->add_additional_fields_schema( $this->schema );
+		}
 
 		$schema = array(
 			'$schema'     => 'http://json-schema.org/draft-04/schema#',
@@ -1121,6 +1437,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'An honorific prefix preceding a person\'s name such as Dr/Mrs/Mr.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Honorific prefix as it exists in the database.', 'connections' ),
@@ -1139,6 +1462,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'Given name. In the U.S., the first name of a person.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'First name as it exists in the database.', 'connections' ),
@@ -1157,6 +1487,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'An additional name for a person. The middle name of a person.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Middle name as it exists in the database.', 'connections' ),
@@ -1175,6 +1512,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'Family name. In the U.S., the last name of an person.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Last name as it exists in the database.', 'connections' ),
@@ -1190,9 +1534,16 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					),
 				),
 				'honorific_suffix' => array(
-					'description' => __( 'An honorific suffix preceding a person\'s name such as M.D. /PhD/MSCSW.', 'connections' ),
+					'description' => __( 'An honorific suffix preceding a person\'s name such as M.D. or PhD.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Honorific suffix as it exists in the database.', 'connections' ),
@@ -1211,6 +1562,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The job title of the person (for example, Financial Manager).', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Job title as it exists in the database.', 'connections' ),
@@ -1229,6 +1587,21 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The organization object for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type'       => 'object',
+							'properties' => array(
+								'organization_name' => array(
+									'type' => 'string',
+								),
+								'organization_unit' => array(
+									'type' => 'string',
+								),
+							),
+						),
+					),
 					'properties'  => array(
 						'organization_name' => array(
 							'type'       => 'object',
@@ -1268,6 +1641,21 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The contact name object for the entry of type organization.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type'       => 'object',
+							'properties' => array(
+								'given_name'  => array(
+									'type' => 'string',
+								),
+								'family_name' => array(
+									'type' => 'string',
+								),
+							),
+						),
+					),
 					'properties'  => array(
 						'given_name' => array(
 							'type'       => 'object',
@@ -1613,6 +2001,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The biography for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Biography for the entry, as it exists in the database.', 'connections' ),
@@ -1631,6 +2026,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The excerpt for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Excerpt for the entry, as it exists in the database.', 'connections' ),
@@ -1649,6 +2051,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'description' => __( 'The notes for the entry.', 'connections' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
+					'arg_options' => array(
+						'sanitize_callback' => array( __CLASS__, '_sanitize' ),
+						'validate_callback' => array( __CLASS__, '_validate' ),
+						'callback_schema'   => array(
+							'type' => 'string',
+						),
+					),
 					'properties'  => array(
 						'raw'      => array(
 							'description' => __( 'Notes for the entry, as it exists in the database.', 'connections' ),
@@ -1697,6 +2106,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			),
 		);
 
+		// Cache generated schema on endpoint instance.
+		$this->schema = $schema;
+
 		return $this->add_additional_fields_schema( $schema );
 	}
 
@@ -1705,11 +2117,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.6
 	 *
-	 * @param string $type
+	 * @param string $type The image type.
+	 *                     Accepts: logo|photo
 	 *
 	 * @return array
 	 */
-	private function get_image_schema_properties( $type ) {
+	private function get_image_schema_properties( string $type ): array {
 
 		$images = array(
 			'logo'  => array( 'original', 'scaled', 'custom' ),
@@ -1767,7 +2180,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				),
 			);
 
-			cnArray::set( $schema, $size, $parameters );
+			_array::set( $schema, $size, $parameters );
 		}
 
 		return $schema;
@@ -1780,7 +2193,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_collection_params() {
+	public function get_collection_params(): array {
 
 		$query_params = parent::get_collection_params();
 
@@ -1793,5 +2206,64 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		);
 
 		return $query_params;
+	}
+
+	/**
+	 * Callback for `sanitize_callback`.
+	 *
+	 * @see WP_REST_Request::sanitize_params()
+	 *
+	 * @internal
+	 * @since 10.4.43
+	 *
+	 * @param mixed           $value   The value to validate.
+	 * @param WP_REST_Request $request Request object.
+	 * @param string          $param   The parameter name, used in error messages.
+	 *
+	 * @return mixed|WP_Error The sanitized value or a WP_Error instance if the value cannot be safely sanitized.
+	 */
+	public static function _sanitize( $value, WP_REST_Request $request, string $param ) {
+
+		$attributes = $request->get_attributes();
+		$schema     = _array::get( $attributes, "args.{$param}.callback_schema", false );
+
+		return rest_sanitize_value_from_schema( $value, $schema, $param );
+	}
+
+	/**
+	 * Callback for `validate_callback`.
+	 *
+	 * @see WP_REST_Request::has_valid_params()
+	 *
+	 * @internal
+	 * @since 10.4.43
+	 *
+	 * @param mixed           $value   The value to validate.
+	 * @param WP_REST_Request $request Request object.
+	 * @param string          $param   The parameter name, used in error messages.
+	 *
+	 * @return true|WP_Error
+	 */
+	public static function _validate( $value, WP_REST_Request $request, string $param ) {
+
+		$is_valid   = false;
+		$attributes = $request->get_attributes();
+		$schema     = _array::get( $attributes, "args.{$param}.callback_schema", false );
+
+		if ( is_array( $schema ) ) {
+
+			$result = rest_validate_value_from_schema( $value, $schema, $param );
+
+			if ( true === $result ) {
+
+				$is_valid = true;
+
+			} else {
+
+				return $result;
+			}
+		}
+
+		return $is_valid;
 	}
 }

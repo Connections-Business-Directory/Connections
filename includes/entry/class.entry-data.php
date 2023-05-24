@@ -791,17 +791,20 @@ class cnEntry {
 	 */
 	public function getSlug() {
 
-		return ( empty( $this->slug ) ? $this->getUniqueSlug() : $this->slug );
+		return empty( $this->slug ) ? $this->getUniqueSlug() : $this->slug;
 	}
 
 	/**
 	 * Sets $slug.
 	 *
-	 * @param string $slug
+	 * @param string $slug The Entry slug.
 	 */
 	public function setSlug( $slug ) {
 
-		$this->slug = $this->getUniqueSlug( $slug );
+		if ( $slug !== $this->slug ) {
+
+			$this->slug = $this->getUniqueSlug( $slug );
+		}
 	}
 
 	/**
@@ -809,7 +812,7 @@ class cnEntry {
 	 *
 	 * NOTE: If the entry name is UTF8 it will be URL encoded by the sanitize_title() function.
 	 *
-	 * @param string $slug
+	 * @param string $slug The Entry slug.
 	 *
 	 * @return string
 	 */
@@ -847,7 +850,7 @@ class cnEntry {
 
 		$slugs = $wpdb->get_col( $query );
 
-		if ( ! empty( $slugs ) ) {
+		if ( ! empty( $slugs ) && in_array( $slug, $slugs, true ) ) {
 
 			$num = 0;
 
@@ -855,10 +858,12 @@ class cnEntry {
 			while ( in_array( ( $slug . '-' . ( ++$num ) ), $slugs ) );
 
 			// Update $slug with the suffix.
-			$slug = $slug . "-$num";
+			$slug = "{$slug}-{$num}";
 		}
 
-		return $this->slug = $slug;
+		$this->slug = $slug;
+
+		return $this->slug;
 	}
 
 	/**
@@ -3176,7 +3181,8 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getStatus() {
-		return sanitize_key( $this->status );
+
+		return $this->status;
 	}
 
 	/**
@@ -3185,15 +3191,15 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param string $status
-	 *
-	 * @return void
+	 * @param string $status The entry moderation status.
+	 *                       Valid: approved|pending
 	 */
 	public function setStatus( $status ) {
 
-		$permittedValues = array( 'approved', 'pending' );
+		$status = strtolower( $status );
+		$valid  = array( 'approved', 'pending' );
 
-		$this->status = in_array( $status, $permittedValues ) ? sanitize_key( $status ) : 'pending';
+		$this->status = in_array( $status, $valid, true ) ? sanitize_key( $status ) : 'pending';
 	}
 
 	/**

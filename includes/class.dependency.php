@@ -72,6 +72,9 @@ class cnDependency {
 			file_exists( CN_TEMPLATE_PATH . $path ) && include_once CN_TEMPLATE_PATH . $path;
 		}
 
+		// REST API functions.
+		include_once CN_PATH . 'includes/api/inc.functions.php';
+
 		// Deprecated utility functions.
 		require_once CN_PATH . 'includes/Utility/_deprecated.php';
 
@@ -485,9 +488,6 @@ class cnDependency {
 			// System Info.
 			'cnSystem_Info'            => 'includes/system-info/class.system-info.php',
 
-			// REST API.
-			'cnAPI'                    => 'includes/api/class.api.php',
-
 			// Address objects.
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
 			'cnAddress'                => 'includes/entry/address/class.address.php',
@@ -631,6 +631,19 @@ class cnDependency {
 			'cnFragment'    => 'includes/Deprecated/class.fragment.php',
 			'cnHTTP'        => 'includes/Deprecated/class.http.php',
 			'SiteShot'      => 'includes/Deprecated/SiteShot.php',
+
+			// REST API.
+			'Connections_Directory\API\REST\Routes' => 'includes/api/REST/Routes.php',
+
+			// REST API controllers.
+			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php',
+			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/api/endpoints/class.cn-rest-entry-geojson-controller.php',
+			'CN_REST_Terms_Controller'                                => 'includes/api/endpoints/class.cn-rest-terms-controller.php',
+			'CN_REST_Countries_Controller'                            => 'includes/api/endpoints/class.cn-rest-countries-controller.php',
+			'CN_REST_Autocomplete_Controller'                         => 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php',
+			'Connections_Directory\API\REST\Endpoint\Entry'           => 'includes/api/endpoints/Entry.php',
+			'Connections_Directory\API\REST\Endpoint\Recently_Viewed' => 'includes/api/endpoints/Recently_Viewed.php',
+			'Connections_Directory\REST_API\Endpoint\Settings'        => 'includes/api/endpoints/class.settings.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

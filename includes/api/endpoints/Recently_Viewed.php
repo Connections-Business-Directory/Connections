@@ -2,7 +2,6 @@
 
 namespace Connections_Directory\API\REST\Endpoint;
 
-use CN_REST_Entry_Controller;
 use cnArray;
 use cnOutput;
 use Connections_Directory\Utility\_;
@@ -16,7 +15,7 @@ use WP_REST_Server;
  *
  * @package Connections_Directory\API\REST\Endpoint
  */
-class Recently_Viewed extends CN_REST_Entry_Controller {
+class Recently_Viewed extends Entry {
 
 	/**
 	 * @since 9.10
@@ -109,7 +108,7 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 	 *
 	 * @return array
 	 */
-	protected function get_entries( $request, $untrusted = array() ) {
+	protected function get_entries( WP_REST_Request $request, array $untrusted = array() ): array {
 
 		$queryParams = $request->get_query_params();
 		$recent      = $request->get_param( 'recently_viewed' );
@@ -144,7 +143,7 @@ class Recently_Viewed extends CN_REST_Entry_Controller {
 	 *
 	 * @return WP_REST_Response
 	 */
-	public function prepare_item_for_response( $entry, $request ) {
+	public function prepare_item_for_response( $entry, $request ): WP_REST_Response {
 
 		$recent = $request->get_param( 'recently_viewed' );
 		$key    = array_search( $entry->getId(), array_column( $recent, 'entryID' ), true );

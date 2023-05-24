@@ -815,22 +815,24 @@ class cnEntry_Action {
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_add_entry_moderated' ) ) {
+					$currentStatus = $entry->getStatus();
+
+					if ( 'pending' === $currentStatus && current_user_can( 'connections_add_entry_moderated' ) ) {
 
 						$entry->setStatus( 'pending' );
 						$messageID = 'entry_updated_moderated';
 
-					} elseif ( $entry->getStatus() == 'approved' && current_user_can( 'connections_add_entry_moderated' ) ) {
+					} elseif ( 'approved' === $currentStatus && current_user_can( 'connections_add_entry_moderated' ) ) {
 
 						$entry->setStatus( 'approved' );
 						$messageID = 'entry_updated';
 
-					} elseif ( $entry->getStatus() == 'pending' && current_user_can( 'connections_add_entry' ) ) {
+					} elseif ( 'pending' === $currentStatus && current_user_can( 'connections_add_entry' ) ) {
 
 						$entry->setStatus( 'approved' );
 						$messageID = 'entry_updated';
 
-					} elseif ( $entry->getStatus() == 'approved' && current_user_can( 'connections_add_entry' ) ) {
+					} elseif ( 'approved' === $currentStatus && current_user_can( 'connections_add_entry' ) ) {
 
 						$entry->setStatus( 'approved' );
 						$messageID = 'entry_updated';

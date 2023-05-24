@@ -230,13 +230,14 @@ class cnEntry_Action {
 	 *
 	 * @since 8.1
 	 *
-	 * @param string $filename    The filename to copy.
-	 * @param string $source      The source subdirectory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
-	 * @param string $destination The destination subdirectory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 * @param string $filename       The filename to copy.
+	 * @param string $source         The source subdirectory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 * @param string $destination    The destination subdirectory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 * @param bool   $copyVariations Whether to opy the image variations.
 	 *
 	 * @return true|WP_Error TRUE on success, an instance of WP_Error on failure.
 	 */
-	public static function copyImages( $filename, $source, $destination ) {
+	public static function copyImages( $filename, $source, $destination, $copyVariations = true ) {
 
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
@@ -266,7 +267,17 @@ class cnEntry_Action {
 
 				if ( ! $file->isDir() && $file->isReadable() ) {
 
-					$destinationFile = trailingslashit( realpath( $destinationPath ) ) . basename( $file );
+					$basename = basename( $file );
+
+					// Skip image variations.
+					if ( false === $copyVariations
+						 && 1 === preg_match( '~.*-[a-f0-9]{32}\..*~i', $basename )
+					) {
+
+						continue;
+					}
+
+					$destinationFile = trailingslashit( realpath( $destinationPath ) ) . $basename;
 
 					if ( copy( $file->getPathname(), $destinationFile ) === false ) {
 

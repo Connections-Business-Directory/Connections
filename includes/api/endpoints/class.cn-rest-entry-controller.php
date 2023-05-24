@@ -151,6 +151,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		foreach ( $results as $result ) {
 
 			$entry = new cnEntry_HTML( $result );
+			$entry->directoryHome();
 
 			$data      = $this->prepare_item_for_response( $entry, $request );
 			$entries[] = $this->prepare_response_for_collection( $data );
@@ -184,7 +185,10 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			return $error;
 		}
 
-		return new cnEntry_HTML( $data );
+		$entry = new cnEntry_HTML( $data );
+		$entry->directoryHome();
+
+		return $entry;
 	}
 
 	/**

@@ -641,7 +641,7 @@ class cnDependency {
 			'CN_REST_Terms_Controller'                                => 'includes/api/endpoints/class.cn-rest-terms-controller.php',
 			'CN_REST_Countries_Controller'                            => 'includes/api/endpoints/class.cn-rest-countries-controller.php',
 			'CN_REST_Autocomplete_Controller'                         => 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php',
-			'Connections_Directory\API\REST\Endpoint\Entry'           => 'includes/api/endpoints/class.cn-rest-entry-controller.php',
+			'Connections_Directory\API\REST\Endpoint\Entry'           => 'includes/api/endpoints/Entry.php',
 			'Connections_Directory\API\REST\Endpoint\Recently_Viewed' => 'includes/api/endpoints/Recently_Viewed.php',
 			'Connections_Directory\REST_API\Endpoint\Settings'        => 'includes/api/endpoints/class.settings.php',
 

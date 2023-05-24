@@ -7,6 +7,8 @@
  * @package    Connections
  * @subpackage REST_API
  * @since      8.5.26
+ *
+ * @phpcs:disable PSR2.Methods.MethodDeclaration.Underscore
  */
 
 use Connections_Directory\Utility\_array;
@@ -1829,5 +1831,64 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		);
 
 		return $query_params;
+	}
+
+	/**
+	 * Callback for `sanitize_callback`.
+	 *
+	 * @see WP_REST_Request::sanitize_params()
+	 *
+	 * @internal
+	 * @since 10.4.43
+	 *
+	 * @param mixed           $value   The value to validate.
+	 * @param WP_REST_Request $request Request object.
+	 * @param string          $param   The parameter name, used in error messages.
+	 *
+	 * @return mixed|WP_Error The sanitized value or a WP_Error instance if the value cannot be safely sanitized.
+	 */
+	public static function _sanitize( $value, WP_REST_Request $request, string $param ) {
+
+		$attributes = $request->get_attributes();
+		$schema     = _array::get( $attributes, "args.{$param}.callback_schema", false );
+
+		return rest_sanitize_value_from_schema( $value, $schema, $param );
+	}
+
+	/**
+	 * Callback for `validate_callback`.
+	 *
+	 * @see WP_REST_Request::has_valid_params()
+	 *
+	 * @internal
+	 * @since 10.4.43
+	 *
+	 * @param mixed           $value   The value to validate.
+	 * @param WP_REST_Request $request Request object.
+	 * @param string          $param   The parameter name, used in error messages.
+	 *
+	 * @return true|WP_Error
+	 */
+	public static function _validate( $value, WP_REST_Request $request, string $param ) {
+
+		$is_valid   = false;
+		$attributes = $request->get_attributes();
+		$schema     = _array::get( $attributes, "args.{$param}.callback_schema", false );
+
+		if ( is_array( $schema ) ) {
+
+			$result = rest_validate_value_from_schema( $value, $schema, $param );
+
+			if ( true === $result ) {
+
+				$is_valid = true;
+
+			} else {
+
+				return $result;
+			}
+		}
+
+		return $is_valid;
 	}
 }

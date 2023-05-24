@@ -215,9 +215,23 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			'offset'           => _array::get( $request, 'offset', 0 ),
 		);
 
-		$atts = cnSanitize::args( $untrusted, $defaults );
+		$arguments = cnSanitize::args( $untrusted, $defaults );
 
-		return $instance->retrieve->entries( $atts );
+		/**
+		 * Filters the query arguments when querying entries via the REST API.
+		 *
+		 * @since 10.4.43
+		 *
+		 * @param array $arguments         The array of arguments for querying entries.
+		 * @param WP_REST_Request $request The REST API request.
+		 */
+		$arguments = apply_filters(
+			'Connections_Directory/API/REST/Controller/Entry/Get_Items/Arguments',
+			$arguments,
+			$request
+		);
+
+		return $instance->retrieve->entries( $arguments );
 	}
 
 	/**

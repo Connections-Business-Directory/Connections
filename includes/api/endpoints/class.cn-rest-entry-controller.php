@@ -222,8 +222,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		 *
 		 * @since 10.4.43
 		 *
-		 * @param array $arguments         The array of arguments for querying entries.
-		 * @param WP_REST_Request $request The REST API request.
+		 * @param array           $arguments The array of arguments for querying entries.
+		 * @param WP_REST_Request $request   The REST API request.
 		 */
 		$arguments = apply_filters(
 			'Connections_Directory/API/REST/Controller/Entry/Get_Items/Arguments',

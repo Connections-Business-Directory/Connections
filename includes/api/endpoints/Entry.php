@@ -220,11 +220,11 @@ class Entry extends WP_REST_Controller {
 		$category = $categoryIn ? 'category_in' : 'category';
 
 		$defaults = array(
-			'list_type'        => _array::get( $request, 'type', null ),
-			$category          => _array::get( $request, 'categories', null ),
-			'exclude_category' => _array::get( $request, 'categories_exclude', null ),
-			'id'               => _array::get( $request, 'id', null ),
-			'id__not_in'       => _array::get( $request, 'exclude', null ),
+			'list_type'        => _array::get( $request, 'type' ),
+			$category          => _array::get( $request, 'categories' ),
+			'exclude_category' => _array::get( $request, 'categories_exclude' ),
+			'id'               => _array::get( $request, 'id' ),
+			'id__not_in'       => _array::get( $request, 'exclude' ),
 			'limit'            => _array::get( $request, 'per_page', 10 ),
 			'offset'           => _array::get( $request, 'offset', 0 ),
 		);
@@ -951,61 +951,61 @@ class Entry extends WP_REST_Controller {
 			_array::set(
 				$object,
 				'street_address.rendered',
-				cnSanitize::field( 'street', $address->line_1, 'display' )
+				cnSanitize::field( 'street', $address->line_1 )
 			);
 
 			_array::set(
 				$object,
 				'extended_address.rendered',
-				cnSanitize::field( 'street', $address->line_2, 'display' )
+				cnSanitize::field( 'street', $address->line_2 )
 			);
 
 			_array::set(
 				$object,
 				'extended_address_2.rendered',
-				cnSanitize::field( 'street', $address->line_3, 'display' )
+				cnSanitize::field( 'street', $address->line_3 )
 			);
 
 			_array::set(
 				$object,
 				'extended_address_3.rendered',
-				cnSanitize::field( 'street', $address->line_4, 'display' )
+				cnSanitize::field( 'street', $address->line_4 )
 			);
 
 			_array::set(
 				$object,
 				'district.rendered',
-				cnSanitize::field( 'district', $address->district, 'display' )
+				cnSanitize::field( 'district', $address->district )
 			);
 
 			_array::set(
 				$object,
 				'county.rendered',
-				cnSanitize::field( 'county', $address->county, 'display' )
+				cnSanitize::field( 'county', $address->county )
 			);
 
 			_array::set(
 				$object,
 				'locality.rendered',
-				cnSanitize::field( 'locality', $address->city, 'display' )
+				cnSanitize::field( 'locality', $address->city )
 			);
 
 			_array::set(
 				$object,
 				'region.rendered',
-				cnSanitize::field( 'region', $address->state, 'display' )
+				cnSanitize::field( 'region', $address->state )
 			);
 
 			_array::set(
 				$object,
 				'postal_code.rendered',
-				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
+				cnSanitize::field( 'postal-code', $address->zipcode )
 			);
 
 			_array::set(
 				$object,
 				'country_name.rendered',
-				cnSanitize::field( 'country', $address->country, 'display' )
+				cnSanitize::field( 'country', $address->country )
 			);
 
 			if ( 'edit' === $request['context'] &&
@@ -1066,7 +1066,7 @@ class Entry extends WP_REST_Controller {
 			_array::set(
 				$object,
 				'number.rendered',
-				cnSanitize::field( 'phone-number', $phone->number, 'display' )
+				cnSanitize::field( 'phone-number', $phone->number )
 			);
 
 			if ( 'edit' === $request['context'] &&
@@ -1165,7 +1165,7 @@ class Entry extends WP_REST_Controller {
 			_array::set(
 				$object,
 				'url',
-				cnSanitize::field( 'url', $network->url, 'display' )
+				cnSanitize::field( 'url', $network->url )
 			);
 
 			// if ( 'edit' === $request['context'] &&

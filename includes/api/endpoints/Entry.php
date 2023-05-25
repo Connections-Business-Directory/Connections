@@ -205,11 +205,10 @@ class Entry extends WP_REST_Controller {
 	 * Get requested entries.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @param array           $untrusted
 	 *
 	 * @return array
 	 */
-	protected function get_entries( WP_REST_Request $request, array $untrusted = array() ): array {
+	protected function get_entries( WP_REST_Request $request ): array {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -219,7 +218,7 @@ class Entry extends WP_REST_Controller {
 
 		$category = $categoryIn ? 'category_in' : 'category';
 
-		$defaults = array(
+		$arguments = array(
 			'list_type'        => _array::get( $request, 'type' ),
 			$category          => _array::get( $request, 'categories' ),
 			'exclude_category' => _array::get( $request, 'categories_exclude' ),
@@ -228,8 +227,6 @@ class Entry extends WP_REST_Controller {
 			'limit'            => _array::get( $request, 'per_page', 10 ),
 			'offset'           => _array::get( $request, 'offset', 0 ),
 		);
-
-		$arguments = cnSanitize::args( $untrusted, $defaults );
 
 		/**
 		 * Filters the query arguments when querying entries via the REST API.

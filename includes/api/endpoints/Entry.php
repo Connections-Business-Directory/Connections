@@ -1930,6 +1930,7 @@ class Entry extends WP_REST_Controller {
 							'address'   => array(
 								'description' => __( 'The email address.', 'connections' ),
 								'type'        => 'object',
+								'format'      => 'email',
 								'context'     => array( 'view', 'edit', 'embed' ),
 								'properties'  => array(
 									'rendered' => array(
@@ -1979,6 +1980,7 @@ class Entry extends WP_REST_Controller {
 							'url'       => array(
 								'description' => __( 'Social network URL.', 'connections' ),
 								'type'        => 'string',
+								'format'      => 'uri',
 								'context'     => array( 'view', 'edit', 'embed' ),
 							),
 						),

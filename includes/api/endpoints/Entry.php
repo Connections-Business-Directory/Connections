@@ -204,6 +204,9 @@ class Entry extends WP_REST_Controller {
 	/**
 	 * Get requested entries.
 	 *
+	 * @since 10.4.44 Deprecate the `id` parameter in favor of the `include` parameter.
+	 *        The `id` parameter will be used as the default parameter value if set.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return array
@@ -212,6 +215,10 @@ class Entry extends WP_REST_Controller {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
+
+		$id      = _array::get( $request, 'id', array() );
+		$include = _array::get( $request, 'include', array() );
+		$id__in  = 0 < count( $include ) ? $include : $id;
 
 		$categoryIn = _array::get( $request, 'category_in', false );
 		_format::toBoolean( $categoryIn );
@@ -222,7 +229,7 @@ class Entry extends WP_REST_Controller {
 			'list_type'        => _array::get( $request, 'type' ),
 			$category          => _array::get( $request, 'categories' ),
 			'exclude_category' => _array::get( $request, 'categories_exclude' ),
-			'id'               => _array::get( $request, 'id' ),
+			'id'               => $id__in,
 			'id__not_in'       => _array::get( $request, 'exclude' ),
 			'limit'            => _array::get( $request, 'per_page', 10 ),
 			'offset'           => _array::get( $request, 'offset', 0 ),

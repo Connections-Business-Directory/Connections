@@ -102,6 +102,7 @@ class cnRetrieve {
 		$defaults['category_slug__in']     = _array::get( $atts, 'category_slug', array() );
 		$defaults['char']                  = '';
 		$defaults['id']                    = null;
+		// $defaults['id__in']                = null; // @todo Need to implement.
 		$defaults['id__not_in']            = null;
 		$defaults['slug']                  = null;
 		$defaults['family_name']           = null;

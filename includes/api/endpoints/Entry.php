@@ -424,11 +424,11 @@ class Entry extends WP_REST_Controller {
 	 */
 	public function delete_item_permissions_check( $request ) {
 
-		$entry = $this->get_entry( $request['id'] );
+		$isValid = $this->get_entry( $request['id'] );
 
-		if ( $entry instanceof WP_Error ) {
+		if ( $isValid instanceof WP_Error ) {
 
-			return $entry;
+			return $isValid;
 		}
 
 		/*

@@ -206,6 +206,8 @@ class Entry extends WP_REST_Controller {
 	 *
 	 * @since 10.4.44 Deprecate the `id` parameter in favor of the `include` parameter.
 	 *        The `id` parameter will be used as the default parameter value if set.
+	 * @since 10.4.44 Deprecate the `category_in` parameter in favor of the `tax_relation` parameter.
+	 *        The `category_in` (default `false`) will be used as the default parameter value if set.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -220,15 +222,16 @@ class Entry extends WP_REST_Controller {
 		$include = _array::get( $request, 'include', array() );
 		$id__in  = 0 < count( $include ) ? $include : $id;
 
-		$categoryIn = _array::get( $request, 'category_in', false );
-		_format::toBoolean( $categoryIn );
+		$categoryIn       = _array::get( $request, 'category_in', false );
+		$taxonomyRelation = _format::toBoolean( $categoryIn ) ? 'AND' : 'OR';
+		$taxonomyRelation = _array::get( $request, 'tax_relation', $taxonomyRelation );
 
-		$category = $categoryIn ? 'category_in' : 'category';
+		$category = 'AND' === $taxonomyRelation ? 'category__and' : 'category';
 
 		$arguments = array(
 			'list_type'        => _array::get( $request, 'type' ),
 			$category          => _array::get( $request, 'categories' ),
-			'exclude_category' => _array::get( $request, 'categories_exclude' ),
+			'category__not_in' => _array::get( $request, 'categories_exclude' ),
 			'id'               => $id__in,
 			'id__not_in'       => _array::get( $request, 'exclude' ),
 			'limit'            => _array::get( $request, 'per_page', 10 ),

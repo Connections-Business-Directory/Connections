@@ -215,9 +215,6 @@ class Entry extends WP_REST_Controller {
 	 */
 	protected function get_entries( WP_REST_Request $request ): array {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
 		$id      = _array::get( $request, 'id', array() );
 		$include = _array::get( $request, 'include', array() );
 		$id__in  = 0 < count( $include ) ? $include : $id;
@@ -252,7 +249,7 @@ class Entry extends WP_REST_Controller {
 			$request
 		);
 
-		return $instance->retrieve->entries( $arguments );
+		return Connections_Directory()->retrieve->entries( $arguments );
 	}
 
 	/**

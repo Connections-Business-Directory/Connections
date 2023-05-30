@@ -2179,6 +2179,7 @@ class Entry extends WP_REST_Controller {
 	 * Get the query params for collections.
 	 *
 	 * @since 8.5.26
+	 * @since 10.4.44 Add the `exclude`, `include`, `offset`, `categories`, and `categories_exclude` parameters.
 	 *
 	 * @return array
 	 */
@@ -2192,6 +2193,59 @@ class Entry extends WP_REST_Controller {
 			'description'       => __( 'Limit result set to entries with a specific slug.', 'connections' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$query_params['exclude'] = array(
+			'description' => __( 'Ensure result set excludes specific IDs.', 'connections' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['include'] = array(
+			'description' => __( 'Limit result set to specific IDs.', 'connections' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['offset'] = array(
+			'description' => __( 'Offset the result set by a specific number of items.', 'connections' ),
+			'type'        => 'integer',
+		);
+
+		$query_params['tax_relation'] = array(
+			'description' => __( 'Limit result set based on relationship between multiple taxonomies.', 'connections' ),
+			'type'        => 'string',
+			'enum'        => array(
+				'AND',
+				'OR',
+			),
+		);
+
+		$query_params['categories'] = array(
+			'description' => __(
+				'Limit result set to items with specific terms assigned in the categories taxonomy.',
+				'connections'
+			),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['categories_exclude'] = array(
+			'description' => __( 'Limit result set to items except those with specific terms assigned in the categories taxonomy.', 'connections' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
 		);
 
 		return $query_params;

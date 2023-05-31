@@ -174,3 +174,24 @@ add_action(
 	10,
 	3
 );
+
+add_action(
+	'Connections_Directory/API/REST/Controller/Entry/Delete/After',
+	/**
+	 * @since 10.4.44
+	 *
+	 * @param cnEntry_HTML     $entry    The deleted or trashed directory entry.
+	 * @param WP_REST_Response $response The response data.
+	 * @param WP_REST_Request  $request  The request sent to the API.
+	 */
+	static function( $entry, $response, $request ) {
+		do_action_deprecated(
+			'rest_delete_cn_entry',
+			array( $entry, $response, $request ),
+			'10.4.44',
+			''
+		);
+	},
+	10,
+	3
+);

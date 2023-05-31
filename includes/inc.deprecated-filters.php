@@ -225,3 +225,25 @@ add_filter(
 	10,
 	2
 );
+
+add_filter(
+	'Connections_Directory/API/REST/Controller/Entry/Prepare_Item/Response',
+	/**
+	 * @since 10.4.44
+	 *
+	 * @param WP_REST_Response $response The response object.
+	 * @param cnEntry          $entry    Entry object.
+	 * @param WP_REST_Request  $request  Request object.
+	 */
+	static function( $response, $entry, $request ) {
+
+		return apply_filters_deprecated(
+			'rest_prepare_cn_entry',
+			array( $response, $entry, $request ),
+			'10.4.44',
+			'Connections_Directory/API/REST/Controller/Entry/Prepare_Item/Response'
+		);
+	},
+	10,
+	3
+);

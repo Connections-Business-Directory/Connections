@@ -410,7 +410,7 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Request $request The Request object.
 		 */
 		do_action(
-			'Connections_Directory/API/REST/Entry/After_Update',
+			'Connections_Directory/API/REST/Controller/Entry/Update/After',
 			$entry,
 			$request
 		);

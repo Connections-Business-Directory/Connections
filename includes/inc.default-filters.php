@@ -43,7 +43,7 @@ add_filter( 'cn_output_bio', 'shortcode_unautop' );
 // add_filter( 'cn_output_bio', 'prepend_attachment' );
 
 add_filter( 'cn_output_bio', 'capital_P_dangit', 11 );
-add_filter( 'cn_output_bio', 'do_shortcode', 11 ); // AFTER wpautop()
+add_filter( 'cn_output_bio', 'do_shortcode', 11 ); // AFTER wpautop().
 
 add_filter( 'cn_output_notes', 'make_clickable', 9 );
 
@@ -55,7 +55,7 @@ add_filter( 'cn_output_notes', 'shortcode_unautop' );
 // add_filter( 'cn_output_notes', 'prepend_attachment' );
 
 add_filter( 'cn_output_notes', 'capital_P_dangit', 11 );
-add_filter( 'cn_output_notes', 'do_shortcode', 11 ); // AFTER wpautop()
+add_filter( 'cn_output_notes', 'do_shortcode', 11 ); // AFTER wpautop().
 
 add_filter( 'cn_output_excerpt', 'make_clickable', 9 );
 
@@ -67,5 +67,4 @@ add_filter( 'cn_output_excerpt', 'shortcode_unautop' );
 // add_filter( 'cn_output_excerpt', 'prepend_attachment' );
 
 add_filter( 'cn_output_excerpt', 'capital_P_dangit', 11 );
-add_filter( 'cn_output_excerpt', 'do_shortcode', 11 ); // AFTER wpautop()
-
+add_filter( 'cn_output_excerpt', 'do_shortcode', 11 ); // AFTER wpautop().

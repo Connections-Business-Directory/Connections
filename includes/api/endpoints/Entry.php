@@ -518,7 +518,12 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Response $response The response data.
 		 * @param WP_REST_Request  $request  The request sent to the API.
 		 */
-		do_action( 'rest_delete_cn_entry', $entry, $response, $request );
+		do_action(
+			'Connections_Directory/API/REST/Controller/Entry/Delete/After',
+			$entry,
+			$response,
+			$request
+		);
 
 		return $response;
 	}

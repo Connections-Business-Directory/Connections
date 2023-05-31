@@ -925,7 +925,12 @@ class Entry extends WP_REST_Controller {
 		 * @param cnEntry          $entry    Entry object.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
-		return apply_filters( 'rest_prepare_cn_entry', $response, $entry, $request );
+		return apply_filters(
+			'Connections_Directory/API/REST/Controller/Entry/Prepare_Item/Response',
+			$response,
+			$entry,
+			$request
+		);
 	}
 
 	/**

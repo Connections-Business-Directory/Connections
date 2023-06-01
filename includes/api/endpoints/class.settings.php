@@ -108,7 +108,7 @@ class Settings extends WP_REST_Settings_Controller {
 	}
 
 	/**
-	 * Get an settings option group.
+	 * Get a settings option group.
 	 *
 	 * @since 9.3
 	 *

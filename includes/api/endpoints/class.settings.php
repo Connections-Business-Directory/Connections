@@ -36,12 +36,11 @@ class Settings extends WP_REST_Settings_Controller {
 	 */
 	const VERSION = '1';
 
-	/** @noinspection PhpMissingParentConstructorInspection */
-
 	/**
 	 * Constructor.
 	 *
 	 * @since 9.3
+	 * @noinspection PhpMissingParentConstructorInspection
 	 */
 	public function __construct() {
 

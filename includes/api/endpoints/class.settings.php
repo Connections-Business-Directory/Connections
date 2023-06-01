@@ -370,8 +370,8 @@ class Settings extends WP_REST_Settings_Controller {
 	}
 
 	/**
-	 * Retrieves all of the registered REST options from the from the core WP Settings API but limited to those
-	 * registered with the Connections Settings API.
+	 * Retrieves all the registered REST options from the core WP Settings API
+	 * but limited to those registered with the Connections Settings API.
 	 *
 	 * @since 9.3
 	 *

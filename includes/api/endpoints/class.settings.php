@@ -158,9 +158,7 @@ class Settings extends WP_REST_Settings_Controller {
 		 * Because get_option() is lossy, we have to
 		 * cast values to the type they are registered with.
 		 */
-		$response = $this->prepare_value( $response, $args['schema'] );
-
-		return $response;
+		return $this->prepare_value( $response, $args['schema'] );
 	}
 
 	/**

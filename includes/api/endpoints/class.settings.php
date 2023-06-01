@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory\REST_API\Endpoint;
+namespace Connections_Directory\API\REST\Endpoint;
 
 use cnArray;
 use cnSettingsAPI;

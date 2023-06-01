@@ -19,10 +19,6 @@ use WP_REST_Response;
 use WP_REST_Server;
 use WP_REST_Settings_Controller;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Manage a site's settings via the REST API.
  *

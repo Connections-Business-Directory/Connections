@@ -643,7 +643,7 @@ class cnDependency {
 			'CN_REST_Autocomplete_Controller'                         => 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php',
 			'Connections_Directory\API\REST\Endpoint\Entry'           => 'includes/api/endpoints/Entry.php',
 			'Connections_Directory\API\REST\Endpoint\Recently_Viewed' => 'includes/api/endpoints/Recently_Viewed.php',
-			'Connections_Directory\API\REST\Endpoint\Settings'        => 'includes/api/endpoints/class.settings.php',
+			'Connections_Directory\API\REST\Endpoint\Settings'        => 'includes/api/endpoints/Settings.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

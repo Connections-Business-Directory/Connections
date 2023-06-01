@@ -31,6 +31,8 @@ use WP_REST_Settings_Controller;
 class Settings extends WP_REST_Settings_Controller {
 
 	/**
+	 * API version.
+	 * 
 	 * @since 9.3
 	 * @var   string
 	 */

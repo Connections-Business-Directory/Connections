@@ -11,8 +11,8 @@
 
 namespace Connections_Directory\API\REST\Endpoint;
 
-use cnArray;
 use cnSettingsAPI;
+use Connections_Directory\Utility\_array;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -120,7 +120,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 		$options = $this->get_registered_options();
 
-		if ( ! cnArray::exists( $options, $request['option'] ) ) {
+		if ( ! _array::exists( $options, $request['option'] ) ) {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
@@ -131,7 +131,7 @@ class Settings extends WP_REST_Settings_Controller {
 		}
 
 		$name = $request['option'];
-		$args = cnArray::get( $options, $name, null );
+		$args = _array::get( $options, $name, null );
 
 		/**
 		 * Filters the value of a setting recognized by the REST API.
@@ -225,9 +225,9 @@ class Settings extends WP_REST_Settings_Controller {
 		$params  = $request->get_params();
 
 		// The request params also contain the option name, remove it from the array.
-		cnArray::forget( $params, 'option' );
+		_array::forget( $params, 'option' );
 
-		if ( ! cnArray::exists( $options, $name ) ) {
+		if ( ! _array::exists( $options, $name ) ) {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
@@ -237,7 +237,7 @@ class Settings extends WP_REST_Settings_Controller {
 			);
 		}
 
-		$args = cnArray::get( $options, $name, null );
+		$args = _array::get( $options, $name, null );
 
 		/**
 		 * Filters whether to preempt a setting value update.
@@ -329,7 +329,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 		$options = $this->get_registered_options();
 
-		if ( ! cnArray::exists( $options, $request['option'] ) ) {
+		if ( ! _array::exists( $options, $request['option'] ) ) {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
@@ -340,7 +340,7 @@ class Settings extends WP_REST_Settings_Controller {
 		}
 
 		$name = $request['option'];
-		$args = cnArray::get( $options, $name, null );
+		$args = _array::get( $options, $name, null );
 
 		$response = new WP_REST_Response();
 		$response->set_data(

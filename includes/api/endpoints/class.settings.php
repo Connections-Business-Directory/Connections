@@ -1,4 +1,13 @@
 <?php
+/**
+ * REST API Settings Controller
+ *
+ * @author     Steven A. Zahm
+ * @category   API
+ * @package    Connections
+ * @subpackage REST_API
+ * @since      9.3
+ */
 
 namespace Connections_Directory\API\REST\Endpoint;
 
@@ -10,15 +19,6 @@ use WP_REST_Response;
 use WP_REST_Server;
 use WP_REST_Settings_Controller;
 
-/**
- * REST API Settings Controller
- *
- * @author     Steven A. Zahm
- * @category   API
- * @package    Connections
- * @subpackage REST_API
- * @since      9.3
- */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

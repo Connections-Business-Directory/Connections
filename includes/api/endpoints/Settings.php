@@ -147,7 +147,12 @@ class Settings extends WP_REST_Settings_Controller {
 		 * @param string $name   Setting name (as shown in REST API responses).
 		 * @param array  $args   Arguments passed to register_setting() for this setting.
 		 */
-		$response = apply_filters( 'rest_pre_get_setting', null, $name, $args );
+		$response = apply_filters(
+			'Connections_Directory/API/REST/Controller/Settings/Before/Get/Value',
+			null,
+			$name,
+			$args
+		);
 
 		if ( is_null( $response ) ) {
 			// Default to a null value as "null" in the response means "not set".
@@ -192,7 +197,12 @@ class Settings extends WP_REST_Settings_Controller {
 			 * @param string $name   Setting name (as shown in REST API responses).
 			 * @param array  $args   Arguments passed to register_setting() for this setting.
 			 */
-			$response[ $name ] = apply_filters( 'rest_pre_get_setting', null, $name, $args );
+			$response[ $name ] = apply_filters(
+				'Connections_Directory/API/REST/Controller/Settings/Before/Get/Value',
+				null,
+				$name,
+				$args
+			);
 
 			if ( is_null( $response[ $name ] ) ) {
 				// Default to a null value as "null" in the response means "not set".
@@ -255,7 +265,13 @@ class Settings extends WP_REST_Settings_Controller {
 		 * @param mixed  $value  Updated setting value.
 		 * @param array  $args   Arguments passed to register_setting() for this setting.
 		 */
-		$updated = apply_filters( 'rest_pre_update_setting', false, $name, $params, $args );
+		$updated = apply_filters(
+			'Connections_Directory/API/REST/Controller/Settings/Before/Update/Value',
+			false,
+			$name,
+			$params,
+			$args
+		);
 
 		if ( $updated ) {
 

@@ -112,7 +112,7 @@ class Settings extends WP_REST_Settings_Controller {
 	 *
 	 * @since 9.3
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request $request The Request object.
 	 *
 	 * @return array|mixed|void|WP_Error|WP_REST_Response
 	 */

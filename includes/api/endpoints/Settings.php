@@ -1,15 +1,4 @@
 <?php
-
-namespace Connections_Directory\REST_API\Endpoint;
-
-use cnArray;
-use cnSettingsAPI;
-use WP_Error;
-use WP_REST_Request;
-use WP_REST_Response;
-use WP_REST_Server;
-use WP_REST_Settings_Controller;
-
 /**
  * REST API Settings Controller
  *
@@ -19,9 +8,16 @@ use WP_REST_Settings_Controller;
  * @subpackage REST_API
  * @since      9.3
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+
+namespace Connections_Directory\API\REST\Endpoint;
+
+use cnSettingsAPI;
+use Connections_Directory\Utility\_array;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
+use WP_REST_Settings_Controller;
 
 /**
  * Manage a site's settings via the REST API.
@@ -35,17 +31,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Settings extends WP_REST_Settings_Controller {
 
 	/**
+	 * API version.
+	 *
 	 * @since 9.3
 	 * @var   string
 	 */
 	const VERSION = '1';
 
-	/** @noinspection PhpMissingParentConstructorInspection */
-
 	/**
 	 * Constructor.
 	 *
 	 * @since 9.3
+	 * @noinspection PhpMissingParentConstructorInspection
 	 */
 	public function __construct() {
 
@@ -111,11 +108,11 @@ class Settings extends WP_REST_Settings_Controller {
 	}
 
 	/**
-	 * Get an settings option group.
+	 * Get a settings option group.
 	 *
 	 * @since 9.3
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request $request The Request object.
 	 *
 	 * @return array|mixed|void|WP_Error|WP_REST_Response
 	 */
@@ -123,7 +120,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 		$options = $this->get_registered_options();
 
-		if ( ! cnArray::exists( $options, $request['option'] ) ) {
+		if ( ! _array::exists( $options, $request['option'] ) ) {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
@@ -134,7 +131,7 @@ class Settings extends WP_REST_Settings_Controller {
 		}
 
 		$name = $request['option'];
-		$args = cnArray::get( $options, $name, null );
+		$args = _array::get( $options, $name, null );
 
 		/**
 		 * Filters the value of a setting recognized by the REST API.
@@ -150,7 +147,12 @@ class Settings extends WP_REST_Settings_Controller {
 		 * @param string $name   Setting name (as shown in REST API responses).
 		 * @param array  $args   Arguments passed to register_setting() for this setting.
 		 */
-		$response = apply_filters( 'rest_pre_get_setting', null, $name, $args );
+		$response = apply_filters(
+			'Connections_Directory/API/REST/Controller/Settings/Before/Get/Value',
+			null,
+			$name,
+			$args
+		);
 
 		if ( is_null( $response ) ) {
 			// Default to a null value as "null" in the response means "not set".
@@ -161,9 +163,7 @@ class Settings extends WP_REST_Settings_Controller {
 		 * Because get_option() is lossy, we have to
 		 * cast values to the type they are registered with.
 		 */
-		$response = $this->prepare_value( $response, $args['schema'] );
-
-		return $response;
+		return $this->prepare_value( $response, $args['schema'] );
 	}
 
 	/**
@@ -197,7 +197,12 @@ class Settings extends WP_REST_Settings_Controller {
 			 * @param string $name   Setting name (as shown in REST API responses).
 			 * @param array  $args   Arguments passed to register_setting() for this setting.
 			 */
-			$response[ $name ] = apply_filters( 'rest_pre_get_setting', null, $name, $args );
+			$response[ $name ] = apply_filters(
+				'Connections_Directory/API/REST/Controller/Settings/Before/Get/Value',
+				null,
+				$name,
+				$args
+			);
 
 			if ( is_null( $response[ $name ] ) ) {
 				// Default to a null value as "null" in the response means "not set".
@@ -230,9 +235,9 @@ class Settings extends WP_REST_Settings_Controller {
 		$params  = $request->get_params();
 
 		// The request params also contain the option name, remove it from the array.
-		cnArray::forget( $params, 'option' );
+		_array::forget( $params, 'option' );
 
-		if ( ! cnArray::exists( $options, $name ) ) {
+		if ( ! _array::exists( $options, $name ) ) {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
@@ -242,7 +247,7 @@ class Settings extends WP_REST_Settings_Controller {
 			);
 		}
 
-		$args = cnArray::get( $options, $name, null );
+		$args = _array::get( $options, $name, null );
 
 		/**
 		 * Filters whether to preempt a setting value update.
@@ -260,7 +265,13 @@ class Settings extends WP_REST_Settings_Controller {
 		 * @param mixed  $value  Updated setting value.
 		 * @param array  $args   Arguments passed to register_setting() for this setting.
 		 */
-		$updated = apply_filters( 'rest_pre_update_setting', false, $name, $params, $args );
+		$updated = apply_filters(
+			'Connections_Directory/API/REST/Controller/Settings/Before/Update/Value',
+			false,
+			$name,
+			$params,
+			$args
+		);
 
 		if ( $updated ) {
 
@@ -334,7 +345,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 		$options = $this->get_registered_options();
 
-		if ( ! cnArray::exists( $options, $request['option'] ) ) {
+		if ( ! _array::exists( $options, $request['option'] ) ) {
 
 			return new WP_Error(
 				'rest_invalid_option_name',
@@ -345,7 +356,7 @@ class Settings extends WP_REST_Settings_Controller {
 		}
 
 		$name = $request['option'];
-		$args = cnArray::get( $options, $name, null );
+		$args = _array::get( $options, $name, null );
 
 		$response = new WP_REST_Response();
 		$response->set_data(
@@ -370,8 +381,8 @@ class Settings extends WP_REST_Settings_Controller {
 	}
 
 	/**
-	 * Retrieves all of the registered REST options from the from the core WP Settings API but limited to those
-	 * registered with the Connections Settings API.
+	 * Retrieves all the registered REST options from the core WP Settings API
+	 * but limited to those registered with the Connections Settings API.
 	 *
 	 * @since 9.3
 	 *

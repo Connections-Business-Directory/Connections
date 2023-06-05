@@ -1496,10 +1496,20 @@ class cnTerm {
 		// Merge old and new args with new args overwriting old ones.
 		$args = array_merge( $term, $args );
 
+		if ( current_user_can( 'unfiltered_html' ) ) {
+			remove_filter( 'pre_term_description', 'wp_filter_kses' );
+			add_filter( 'pre_term_description', 'wp_filter_post_kses' );
+		}
+
 		$defaults    = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '' );
 		$args        = wp_parse_args( $args, $defaults );
 		$args        = sanitize_term( $args, 'cn_' . $taxonomy, 'db' );
 		$parsed_args = $args;
+
+		if ( current_user_can( 'unfiltered_html' ) ) {
+			remove_filter( 'pre_term_description', 'wp_filter_post_kses' );
+			add_filter( 'pre_term_description', 'wp_filter_kses' );
+		}
 
 		// expected_slashed ($name).
 		$name        = wp_unslash( $args['name'] );

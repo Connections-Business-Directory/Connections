@@ -204,32 +204,36 @@ class Entry extends WP_REST_Controller {
 	/**
 	 * Get requested entries.
 	 *
+	 * @since 10.4.44 Deprecate the `id` parameter in favor of the `include` parameter.
+	 *        The `id` parameter will be used as the default parameter value if set.
+	 * @since 10.4.44 Deprecate the `category_in` parameter in favor of the `tax_relation` parameter.
+	 *        The `category_in` (default `false`) will be used as the default parameter value if set.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @param array           $untrusted
 	 *
 	 * @return array
 	 */
-	protected function get_entries( WP_REST_Request $request, array $untrusted = array() ): array {
+	protected function get_entries( WP_REST_Request $request ): array {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$id      = _array::get( $request, 'id', array() );
+		$include = _array::get( $request, 'include', array() );
+		$id__in  = 0 < count( $include ) ? $include : $id;
 
-		$categoryIn = _array::get( $request, 'category_in', false );
-		_format::toBoolean( $categoryIn );
+		$categoryIn       = _array::get( $request, 'category_in', false );
+		$taxonomyRelation = _format::toBoolean( $categoryIn ) ? 'AND' : 'OR';
+		$taxonomyRelation = _array::get( $request, 'tax_relation', $taxonomyRelation );
 
-		$category = $categoryIn ? 'category_in' : 'category';
+		$category = 'AND' === $taxonomyRelation ? 'category__and' : 'category';
 
-		$defaults = array(
-			'list_type'        => _array::get( $request, 'type', null ),
-			$category          => _array::get( $request, 'categories', null ),
-			'exclude_category' => _array::get( $request, 'categories_exclude', null ),
-			'id'               => _array::get( $request, 'id', null ),
-			'id__not_in'       => _array::get( $request, 'exclude', null ),
+		$arguments = array(
+			'list_type'        => _array::get( $request, 'type' ),
+			$category          => _array::get( $request, 'categories' ),
+			'category__not_in' => _array::get( $request, 'categories_exclude' ),
+			'id'               => $id__in,
+			'id__not_in'       => _array::get( $request, 'exclude' ),
 			'limit'            => _array::get( $request, 'per_page', 10 ),
 			'offset'           => _array::get( $request, 'offset', 0 ),
 		);
-
-		$arguments = cnSanitize::args( $untrusted, $defaults );
 
 		/**
 		 * Filters the query arguments when querying entries via the REST API.
@@ -245,7 +249,7 @@ class Entry extends WP_REST_Controller {
 			$request
 		);
 
-		return $instance->retrieve->entries( $arguments );
+		return Connections_Directory()->retrieve->entries( $arguments );
 	}
 
 	/**
@@ -406,7 +410,7 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Request $request The Request object.
 		 */
 		do_action(
-			'Connections_Directory/API/REST/Entry/After_Update',
+			'Connections_Directory/API/REST/Controller/Entry/Update/After',
 			$entry,
 			$request
 		);
@@ -427,11 +431,11 @@ class Entry extends WP_REST_Controller {
 	 */
 	public function delete_item_permissions_check( $request ) {
 
-		$entry = $this->get_entry( $request['id'] );
+		$isValid = $this->get_entry( $request['id'] );
 
-		if ( $entry instanceof WP_Error ) {
+		if ( $isValid instanceof WP_Error ) {
 
-			return $entry;
+			return $isValid;
 		}
 
 		/*
@@ -514,7 +518,12 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Response $response The response data.
 		 * @param WP_REST_Request  $request  The request sent to the API.
 		 */
-		do_action( 'rest_delete_cn_entry', $entry, $response, $request );
+		do_action(
+			'Connections_Directory/API/REST/Controller/Entry/Delete/After',
+			$entry,
+			$response,
+			$request
+		);
 
 		return $response;
 	}
@@ -916,7 +925,12 @@ class Entry extends WP_REST_Controller {
 		 * @param cnEntry          $entry    Entry object.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
-		return apply_filters( 'rest_prepare_cn_entry', $response, $entry, $request );
+		return apply_filters(
+			'Connections_Directory/API/REST/Controller/Entry/Prepare_Item/Response',
+			$response,
+			$entry,
+			$request
+		);
 	}
 
 	/**
@@ -951,61 +965,61 @@ class Entry extends WP_REST_Controller {
 			_array::set(
 				$object,
 				'street_address.rendered',
-				cnSanitize::field( 'street', $address->line_1, 'display' )
+				cnSanitize::field( 'street', $address->line_1 )
 			);
 
 			_array::set(
 				$object,
 				'extended_address.rendered',
-				cnSanitize::field( 'street', $address->line_2, 'display' )
+				cnSanitize::field( 'street', $address->line_2 )
 			);
 
 			_array::set(
 				$object,
 				'extended_address_2.rendered',
-				cnSanitize::field( 'street', $address->line_3, 'display' )
+				cnSanitize::field( 'street', $address->line_3 )
 			);
 
 			_array::set(
 				$object,
 				'extended_address_3.rendered',
-				cnSanitize::field( 'street', $address->line_4, 'display' )
+				cnSanitize::field( 'street', $address->line_4 )
 			);
 
 			_array::set(
 				$object,
 				'district.rendered',
-				cnSanitize::field( 'district', $address->district, 'display' )
+				cnSanitize::field( 'district', $address->district )
 			);
 
 			_array::set(
 				$object,
 				'county.rendered',
-				cnSanitize::field( 'county', $address->county, 'display' )
+				cnSanitize::field( 'county', $address->county )
 			);
 
 			_array::set(
 				$object,
 				'locality.rendered',
-				cnSanitize::field( 'locality', $address->city, 'display' )
+				cnSanitize::field( 'locality', $address->city )
 			);
 
 			_array::set(
 				$object,
 				'region.rendered',
-				cnSanitize::field( 'region', $address->state, 'display' )
+				cnSanitize::field( 'region', $address->state )
 			);
 
 			_array::set(
 				$object,
 				'postal_code.rendered',
-				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
+				cnSanitize::field( 'postal-code', $address->zipcode )
 			);
 
 			_array::set(
 				$object,
 				'country_name.rendered',
-				cnSanitize::field( 'country', $address->country, 'display' )
+				cnSanitize::field( 'country', $address->country )
 			);
 
 			if ( 'edit' === $request['context'] &&
@@ -1066,7 +1080,7 @@ class Entry extends WP_REST_Controller {
 			_array::set(
 				$object,
 				'number.rendered',
-				cnSanitize::field( 'phone-number', $phone->number, 'display' )
+				cnSanitize::field( 'phone-number', $phone->number )
 			);
 
 			if ( 'edit' === $request['context'] &&
@@ -1165,7 +1179,7 @@ class Entry extends WP_REST_Controller {
 			_array::set(
 				$object,
 				'url',
-				cnSanitize::field( 'url', $network->url, 'display' )
+				cnSanitize::field( 'url', $network->url )
 			);
 
 			// if ( 'edit' === $request['context'] &&
@@ -1728,7 +1742,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address line one, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1741,7 +1754,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address line two, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1754,7 +1766,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address line three, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1767,7 +1778,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address line four, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1780,7 +1790,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address district, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1793,7 +1802,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address county, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1806,7 +1814,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address locality, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1819,7 +1826,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address region, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1832,7 +1838,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address post code, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1845,7 +1850,6 @@ class Entry extends WP_REST_Controller {
 										'description' => __( 'HTML address country, transformed for display.', 'connections' ),
 										'type'        => 'string',
 										'context'     => array( 'view', 'edit', 'embed' ),
-										// 'readonly'    => true,
 									),
 								),
 							),
@@ -1943,6 +1947,7 @@ class Entry extends WP_REST_Controller {
 							'address'   => array(
 								'description' => __( 'The email address.', 'connections' ),
 								'type'        => 'object',
+								'format'      => 'email',
 								'context'     => array( 'view', 'edit', 'embed' ),
 								'properties'  => array(
 									'rendered' => array(
@@ -1992,6 +1997,7 @@ class Entry extends WP_REST_Controller {
 							'url'       => array(
 								'description' => __( 'Social network URL.', 'connections' ),
 								'type'        => 'string',
+								'format'      => 'uri',
 								'context'     => array( 'view', 'edit', 'embed' ),
 							),
 						),
@@ -2190,6 +2196,7 @@ class Entry extends WP_REST_Controller {
 	 * Get the query params for collections.
 	 *
 	 * @since 8.5.26
+	 * @since 10.4.44 Add the `exclude`, `include`, `offset`, `categories`, and `categories_exclude` parameters.
 	 *
 	 * @return array
 	 */
@@ -2203,6 +2210,59 @@ class Entry extends WP_REST_Controller {
 			'description'       => __( 'Limit result set to entries with a specific slug.', 'connections' ),
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$query_params['exclude'] = array(
+			'description' => __( 'Ensure result set excludes specific IDs.', 'connections' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['include'] = array(
+			'description' => __( 'Limit result set to specific IDs.', 'connections' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['offset'] = array(
+			'description' => __( 'Offset the result set by a specific number of items.', 'connections' ),
+			'type'        => 'integer',
+		);
+
+		$query_params['tax_relation'] = array(
+			'description' => __( 'Limit result set based on relationship between multiple taxonomies.', 'connections' ),
+			'type'        => 'string',
+			'enum'        => array(
+				'AND',
+				'OR',
+			),
+		);
+
+		$query_params['categories'] = array(
+			'description' => __(
+				'Limit result set to items with specific terms assigned in the categories taxonomy.',
+				'connections'
+			),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['categories_exclude'] = array(
+			'description' => __( 'Limit result set to items except those with specific terms assigned in the categories taxonomy.', 'connections' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
 		);
 
 		return $query_params;

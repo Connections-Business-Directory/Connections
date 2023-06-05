@@ -40,7 +40,7 @@ final class Routes {
 			'CN_REST_Autocomplete_Controller',
 			'Connections_Directory\API\REST\Endpoint\Entry',
 			'Connections_Directory\API\REST\Endpoint\Recently_Viewed',
-			'Connections_Directory\REST_API\Endpoint\Settings',
+			'Connections_Directory\API\REST\Endpoint\Settings',
 		);
 
 		foreach ( $controllers as $controller ) {

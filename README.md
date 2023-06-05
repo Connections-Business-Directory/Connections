@@ -246,6 +246,40 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.44 05/24/2023 =
+
+* NEW: Add the `exclude`, `include`, `offset`, `categories`, and `categories_exclude` parameters
+  to `Entry::get_collection_params()`.
+* TWEAK: Remove instances of using parameter default value.
+* TWEAK: Remove unused and unnecessary parameter from `Entry::get_entries()`.
+* TWEAK: Add the format parameter to the email and social schema.
+* TWEAK: Deprecate the `id` parameter in favor of the `include` parameter. The `id` parameter will be used as the
+  default parameter value if set.
+* TWEAK: Deprecate the `category_in` parameter in favor of the `tax_relation` parameter. The `category_in` (
+  default `false`) will be used as the default parameter value if set.
+* TWEAK: Rename action from `Connections_Directory/API/REST/Entry/After_Update`
+  to `Connections_Directory/API/REST/Controller/Entry/Update/After`.
+* TWEAK: Rename action `rest_delete_cn_entry` to `Connections_Directory/API/REST/Controller/Entry/Delete/After`.
+* TWEAK: Rename action from `rest_prepare_cn_entry`
+  to `Connections_Directory/API/REST/Controller/Entry/Prepare_Item/Response`.
+* TWEAK: Add deprecated action/filter for renamed hooks.
+* TWEAK: Remove direct access check.
+* TWEAK: Remove deprecated use of `cnArray`.
+* TWEAK: Rename `class.settings.php` to `Settings.php`.
+* TWEAK: Permit the admin role to utilize an expanded range of HTML tags with term descriptions.
+* TWEAK: Rename the REST Settings API filters.
+* BUG: Correct the namespace name for the Settings REST API Route.
+* OTHER: Correct misspellings.
+* DEV: Remove unused commented out code.
+* DEV: Rename variable to make it more clear of its purpose.
+* DEV: Add a todo.
+* DEV: Remove use of unnecessary local variable.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Move file phpDoc to file head.
+* DEV: Correct placement of IDE `@noinspection` tag.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+
 = 10.4.43 05/24/2023 =
 
 * NEW: Introduce `CN_REST_Entry_Controller::_sanitize()` and `CN_REST_Entry_Controller::_validate()`.
@@ -672,28 +706,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove deprecated methods `Connections_Directory::displayMessages()`
   , `Connections_Directory::setRuntimeMessage()`, `Connections_Directory::setErrorMessage()`,
   and `Connections_Directory::setSuccessMessage()`.
-
-= 10.4.29 09/27/2022 =
-
-* NEW: Introduce the `Date_Picker` field to the Fields API.
-* NEW: Introduce `Utility\_nonce`.
-* NEW: Introduce `_validate::adminReferer()` and `_validate::ajaxReferer()`.
-* TWEAK: Add compatibility action for Form versions <= 2.7.5.
-* TWEAK: Make anonymous action callbacks static.
-* TWEAK: Remove unused deprecated `cnFormObjects::token()` method.
-* TWEAK: Remove unused function variable.
-* TWEAK: Remove unused commented out code.
-* TWEAK: Remove unnecessary space.
-* TWEAK: Utilize `Request\Admin_Action` for improved validation/sanitization in `cnAdminMenu::showPage()`.
-* TWEAK: Utilize `Request\ID` for improved validation/sanitization in `connectionsShowViewPage()`.
-* TWEAK: Remove instances of deprecated `cnFormObjects::close()` method throughout.
-* TWEAK: Utilize `_nonce::url()` to generate the edit entry nonce URLs throughout.
-* TWEAK: Utilize `_validate::adminReferer()` to validate the edit entry nonce referer.
-* TWEAK: Apply `remapFieldOptions()` to the `checkbox-group` settings field type.
-* BUG: Correct related by department typo in content block heading.
-* DEV: phpDoc corrections.
-* DEV: Remove inline code comment.
-* DEV: Deprecate `cnFormObjects::tokenField()`, `cnFormObjects::tokenURL()`, and `cnFormObjects::getNonce()`.
-* DEV: Deprecate `cnFormObjects::close()`.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

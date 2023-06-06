@@ -291,7 +291,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_item_schema() {
+	public function get_item_schema(): array {
 
 		$schema = array(
 			'$schema'     => 'http://json-schema.org/draft-04/schema#',
@@ -312,7 +312,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_collection_params() {
+	public function get_collection_params(): array {
 
 		$query_params = array(
 			'context'  => array( 'default' => 'view' ),

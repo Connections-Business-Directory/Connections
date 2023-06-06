@@ -138,8 +138,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get a collection of items
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -157,8 +156,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get one item from the collection
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -185,8 +183,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 *
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -215,8 +212,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 *
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -246,8 +242,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 *
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -286,8 +281,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @return array
 	 */
@@ -307,8 +301,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @return array
 	 */

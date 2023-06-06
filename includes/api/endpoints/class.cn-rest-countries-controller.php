@@ -8,7 +8,16 @@
  * @since    8.7
  */
 
+namespace Connections_Directory\API\REST\Endpoint;
+
+use cnCountries;
+use cnCountry;
 use Connections_Directory\Utility\_array;
+use WP_Error;
+use WP_REST_Controller;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
 
 /**
  * REST API Countries Controller.
@@ -16,7 +25,7 @@ use Connections_Directory\Utility\_array;
  * @package Connections/API
  * @extends WP_REST_Controller
  */
-class CN_REST_Countries_Controller extends WP_REST_Controller {
+class Countries extends WP_REST_Controller {
 
 	/**
 	 * REST API version.

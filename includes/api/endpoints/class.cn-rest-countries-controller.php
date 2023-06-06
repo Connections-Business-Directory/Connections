@@ -17,17 +17,23 @@
 class CN_REST_Countries_Controller extends WP_REST_Controller {
 
 	/**
+	 * REST API version.
+	 *
 	 * @since 8.7
 	 */
 	const VERSION = '1';
 
 	/**
+	 * The REST namespace.
+	 *
 	 * @since 8.7
 	 * @var string
 	 */
 	protected $namespace;
 
 	/**
+	 * The REST base name.
+	 *
 	 * @since 8.7
 	 * @var string
 	 */

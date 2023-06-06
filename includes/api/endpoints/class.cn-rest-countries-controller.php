@@ -316,6 +316,11 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 			),
 		);
 
+		$query_params['detailed'] = array(
+			'description' => __( 'Whether to retrieve detailed country data.', 'connections' ),
+			'type'        => 'boolean',
+		);
+
 		return $query_params;
 	}
 }

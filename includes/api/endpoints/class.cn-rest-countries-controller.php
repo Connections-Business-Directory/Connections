@@ -70,6 +70,9 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 			)
 		);
 
+		$countries    = cnCountries::getAll( false, ARRAY_A );
+		$countryCodes = array_keys( $countries );
+
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->base . '/(?P<code>[a-z]{2,2})',
@@ -79,6 +82,10 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
 					),
 					'permission_callback' => '__return_true',
 				),
@@ -95,6 +102,10 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item_geojson' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
 					),
 					'permission_callback' => '__return_true',
 				),
@@ -111,6 +122,10 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item_regions' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
 					),
 					'permission_callback' => '__return_true',
 				),
@@ -127,6 +142,13 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item_region' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
+						'region'  => array(
+							'type' => 'string',
+						),
 					),
 					'permission_callback' => '__return_true',
 				),

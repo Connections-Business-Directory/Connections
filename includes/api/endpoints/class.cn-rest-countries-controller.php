@@ -8,6 +8,8 @@
  * @since    8.7
  */
 
+use Connections_Directory\Utility\_array;
+
 /**
  * REST API Countries Controller.
  *
@@ -168,7 +170,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 
-		$detailed = cnArray::get( $request, 'detailed', false );
+		$detailed = _array::get( $request, 'detailed', false );
 
 		$countries = cnCountries::getAll( $detailed, ARRAY_A );
 
@@ -186,7 +188,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 
-		$code = cnArray::get( $request, 'code' );
+		$code = _array::get( $request, 'code' );
 
 		$response = cnCountries::getByCode( $code, ARRAY_A );
 
@@ -213,7 +215,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_geojson( $request ) {
 
-		$code = cnArray::get( $request, 'code' );
+		$code = _array::get( $request, 'code' );
 
 		$response = cnCountries::getByCode( $code );
 
@@ -242,7 +244,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_regions( $request ) {
 
-		$code = cnArray::get( $request, 'code', false );
+		$code = _array::get( $request, 'code', false );
 
 		$response = cnCountries::getByCode( $code );
 
@@ -272,8 +274,8 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_region( $request ) {
 
-		$code   = cnArray::get( $request, 'code' );
-		$region = cnArray::get( $request, 'region' );
+		$code   = _array::get( $request, 'code' );
+		$region = _array::get( $request, 'region' );
 
 		$response = cnCountries::getByCode( $code );
 

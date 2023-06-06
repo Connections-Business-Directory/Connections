@@ -34,6 +34,8 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	protected $base = 'countries';
 
 	/**
+	 * Constructor.
+	 *
 	 * @since 8.7
 	 */
 	public function __construct() {

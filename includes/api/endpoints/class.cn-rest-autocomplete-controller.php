@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
+	use \Connections_Directory\API\REST\Route;
+
 	/**
 	 * @since 8.38
 	 */

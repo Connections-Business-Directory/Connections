@@ -12,6 +12,7 @@
 namespace Connections_Directory\API\REST\Endpoint;
 
 use cnSettingsAPI;
+use Connections_Directory\API\REST\Route;
 use Connections_Directory\Utility\_array;
 use WP_Error;
 use WP_REST_Request;
@@ -29,6 +30,8 @@ use WP_REST_Settings_Controller;
  * @see WP_REST_Settings_Controller
  */
 class Settings extends WP_REST_Settings_Controller {
+
+	use Route;
 
 	/**
 	 * API version.

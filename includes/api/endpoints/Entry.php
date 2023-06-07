@@ -19,6 +19,7 @@ use cnEntry_HTML;
 use cnFileSystem;
 use cnOptions;
 use cnSanitize;
+use Connections_Directory\API\REST\Route;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_sanitize;
@@ -35,6 +36,8 @@ use function Connections_Directory\API\REST\Functions\is_field_included;
  * @since 8.5.26
  */
 class Entry extends WP_REST_Controller {
+
+	use Route;
 
 	/**
 	 * REST API version.

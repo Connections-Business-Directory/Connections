@@ -633,9 +633,9 @@ class cnDependency {
 			'SiteShot'      => 'includes/Deprecated/SiteShot.php',
 
 			// REST API.
-			'Connections_Directory\API\REST\Routes' => 'includes/api/REST/Routes.php',
+			'Connections_Directory\API\REST\Route'  => 'includes/api/REST/Route.php',
 
-			// REST API controllers.
+			// REST API routes.
 			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php',
 			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/api/endpoints/class.cn-rest-entry-geojson-controller.php',
 			'CN_REST_Terms_Controller'                                => 'includes/api/endpoints/class.cn-rest-terms-controller.php',

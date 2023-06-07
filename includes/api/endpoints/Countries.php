@@ -12,6 +12,7 @@ namespace Connections_Directory\API\REST\Endpoint;
 
 use cnCountries;
 use cnCountry;
+use Connections_Directory\API\REST\Route;
 use Connections_Directory\Utility\_array;
 use WP_Error;
 use WP_REST_Controller;
@@ -26,6 +27,8 @@ use WP_REST_Server;
  * @extends WP_REST_Controller
  */
 class Countries extends WP_REST_Controller {
+
+	use Route;
 
 	/**
 	 * REST API version.

@@ -8,10 +8,6 @@
  * @since    8.38
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * REST API Countries Controller.
  *

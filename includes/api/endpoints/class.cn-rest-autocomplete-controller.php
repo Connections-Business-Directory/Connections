@@ -132,12 +132,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		if ( 1 >= strlen( $args['search'] ) ) {
 
 			return rest_ensure_response( $response );
-
-			//return new WP_Error(
-			//	'invalid_string_length',
-			//	__( 'Autocomplete query string must be two or more characters.', 'connections' ),
-			//	$args['search']
-			//);
 		}
 
 		$terms = preg_split( '/[\s,]+/', $args['search'] );
@@ -322,20 +316,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 		$query_params['context']['default'] = 'view';
 
-		//$query_params['exclude'] = array(
-		//	'description'        => __( 'Ensure result set excludes specific ids.', 'connections' ),
-		//	'type'               => 'array',
-		//	'default'            => array(),
-		//	'sanitize_callback'  => 'wp_parse_id_list',
-		//);
-
-		//$query_params['include'] = array(
-		//	'description'        => __( 'Limit result set to specific ids.', 'connections' ),
-		//	'type'               => 'array',
-		//	'default'            => array(),
-		//	'sanitize_callback'  => 'wp_parse_id_list',
-		//);
-
 		$query_params['offset'] = array(
 			'description'       => __( 'Offset the result set by a specific number of items.', 'connections' ),
 			'type'              => 'integer',
@@ -371,33 +351,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			),
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-
-		//$query_params['hide_empty'] = array(
-		//	'description'           => __( 'Whether to hide resources not assigned to any posts.', 'connections' ),
-		//	'type'                  => 'boolean',
-		//	'default'               => FALSE,
-		//	'validate_callback'     => 'rest_validate_request_arg',
-		//);
-
-		//$query_params['parent'] = array(
-		//	'description'        => __( 'Limit result set to resources assigned to a specific parent.', 'connections' ),
-		//	'type'               => 'integer',
-		//	'sanitize_callback'  => 'absint',
-		//	'validate_callback'  => 'rest_validate_request_arg',
-		//);
-
-		//$query_params['post'] = array(
-		//	'description'           => __( 'Limit result set to resources assigned to a specific post.', 'connections' ),
-		//	'type'                  => 'integer',
-		//	'default'               => NULL,
-		//	'validate_callback'     => 'rest_validate_request_arg',
-		//);
-
-		//$query_params['slug']    = array(
-		//	'description'        => __( 'Limit result set to resources with a specific slug.', 'connections' ),
-		//	'type'               => 'string',
-		//	'validate_callback'  => 'rest_validate_request_arg',
-		//);
 
 		return $query_params;
 	}

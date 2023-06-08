@@ -73,7 +73,7 @@ class cnDependency {
 		}
 
 		// REST API functions.
-		include_once CN_PATH . 'includes/api/REST/inc.functions.php';
+		include_once CN_PATH . 'includes/API/REST/inc.functions.php';
 
 		// Deprecated utility functions.
 		require_once CN_PATH . 'includes/Utility/_deprecated.php';
@@ -633,17 +633,17 @@ class cnDependency {
 			'SiteShot'      => 'includes/Deprecated/SiteShot.php',
 
 			// REST API.
-			'Connections_Directory\API\REST\Route'  => 'includes/api/REST/Route.php',
+			'Connections_Directory\API\REST\Route' => 'includes/API/REST/Route.php',
 
 			// REST API routes.
-			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/api/REST/Route/class.cn-rest-entry-json-ld-controller.php',
-			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/api/REST/Route/class.cn-rest-entry-geojson-controller.php',
-			'CN_REST_Terms_Controller'                             => 'includes/api/REST/Route/class.cn-rest-terms-controller.php',
-			'Connections_Directory\API\REST\Route\Autocomplete'    => 'includes/api/REST/Route/Autocomplete.php',
-			'Connections_Directory\API\REST\Route\Countries'       => 'includes/api/REST/Route/Countries.php',
-			'Connections_Directory\API\REST\Route\Entry'           => 'includes/api/REST/Route/Entry.php',
-			'Connections_Directory\API\REST\Route\Recently_Viewed' => 'includes/api/REST/Route/Recently_Viewed.php',
-			'Connections_Directory\API\REST\Route\Settings'        => 'includes/api/REST/Route/Settings.php',
+			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/API/REST/Route/class.cn-rest-entry-json-ld-controller.php',
+			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/API/REST/Route/class.cn-rest-entry-geojson-controller.php',
+			'CN_REST_Terms_Controller'                             => 'includes/API/REST/Route/class.cn-rest-terms-controller.php',
+			'Connections_Directory\API\REST\Route\Autocomplete'    => 'includes/API/REST/Route/Autocomplete.php',
+			'Connections_Directory\API\REST\Route\Countries'       => 'includes/API/REST/Route/Countries.php',
+			'Connections_Directory\API\REST\Route\Entry'           => 'includes/API/REST/Route/Entry.php',
+			'Connections_Directory\API\REST\Route\Recently_Viewed' => 'includes/API/REST/Route/Recently_Viewed.php',
+			'Connections_Directory\API\REST\Route\Settings'        => 'includes/API/REST/Route/Settings.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

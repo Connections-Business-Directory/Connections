@@ -233,12 +233,12 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 		$sql = sprintf(
 			'SELECT SQL_CALC_FOUND_ROWS %s FROM %s WHERE %s GROUP BY %s LIMIT %d OFFSET %d',
-			implode( ', ', $select ), // SELECT
-			implode( ', ', $from ),   // FROM
-			implode( ' ', $where ),   // WHERE
-			implode( ', ', $group ),  // GROUP BY
-			$limit,                         // LIMIT
-			$offset                         // OFFSET
+			implode( ', ', $select ), // SELECT.
+			implode( ', ', $from ),   // FROM.
+			implode( ' ', $where ),   // WHERE.
+			implode( ', ', $group ),  // GROUP BY.
+			$limit,                   // LIMIT.
+			$offset                   // OFFSET.
 		);
 
 		error_log( $sql );

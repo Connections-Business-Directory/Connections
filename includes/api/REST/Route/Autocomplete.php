@@ -8,7 +8,7 @@
  * @since    8.38
  */
 
-namespace Connections_Directory\API\REST\Endpoint;
+namespace Connections_Directory\API\REST\Route;
 
 use cnQuery;
 use Connections_Directory\API\REST\Route;

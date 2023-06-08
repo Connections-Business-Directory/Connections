@@ -11,7 +11,7 @@
  * @phpcs:disable PSR2.Methods.MethodDeclaration.Underscore
  */
 
-namespace Connections_Directory\API\REST\Endpoint;
+namespace Connections_Directory\API\REST\Route;
 
 use cnEntry;
 use cnEntry_Action;

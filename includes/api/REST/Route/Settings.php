@@ -9,7 +9,7 @@
  * @since      9.3
  */
 
-namespace Connections_Directory\API\REST\Endpoint;
+namespace Connections_Directory\API\REST\Route;
 
 use cnSettingsAPI;
 use Connections_Directory\API\REST\Route;

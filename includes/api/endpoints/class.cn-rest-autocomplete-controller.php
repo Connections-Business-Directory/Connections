@@ -8,6 +8,7 @@
  * @since    8.38
  */
 
+use Connections_Directory\API\REST\Route;
 use Connections_Directory\Utility\_array;
 
 /**
@@ -18,7 +19,7 @@ use Connections_Directory\Utility\_array;
  */
 class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
-	use \Connections_Directory\API\REST\Route;
+	use Route;
 
 	/**
 	 * REST API version.

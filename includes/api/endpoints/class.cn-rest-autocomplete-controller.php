@@ -21,23 +21,31 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	use \Connections_Directory\API\REST\Route;
 
 	/**
+	 * REST API version.
+	 *
 	 * @since 8.38
 	 */
 	const VERSION = '1';
 
 	/**
+	 * The REST namespace.
+	 *
 	 * @since 8.38
 	 * @var string
 	 */
 	protected $namespace;
 
 	/**
+	 * The REST base name.
+	 *
 	 * @since 8.38
 	 * @var string
 	 */
 	protected $base = 'autocomplete';
 
 	/**
+	 * Constructor.
+	 *
 	 * @since 8.38
 	 */
 	public function __construct() {
@@ -68,6 +76,8 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * REST route callback.
+	 *
 	 * @since 8.38
 	 *
 	 * @param WP_REST_Request $request Full data about the request.

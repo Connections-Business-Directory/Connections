@@ -284,7 +284,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_collection_params() {
+	public function get_collection_params(): array {
 
 		$query_params = array(
 			'context'  => $this->get_context_param(),

@@ -8,9 +8,17 @@
  * @since    8.7
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace Connections_Directory\API\REST\Endpoint;
+
+use cnCountries;
+use cnCountry;
+use Connections_Directory\API\REST\Route;
+use Connections_Directory\Utility\_array;
+use WP_Error;
+use WP_REST_Controller;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
 
 /**
  * REST API Countries Controller.
@@ -18,26 +26,36 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package Connections/API
  * @extends WP_REST_Controller
  */
-class CN_REST_Countries_Controller extends WP_REST_Controller {
+class Countries extends WP_REST_Controller {
+
+	use Route;
 
 	/**
+	 * REST API version.
+	 *
 	 * @since 8.7
 	 */
 	const VERSION = '1';
 
 	/**
+	 * The REST namespace.
+	 *
 	 * @since 8.7
 	 * @var string
 	 */
 	protected $namespace;
 
 	/**
+	 * The REST base name.
+	 *
 	 * @since 8.7
 	 * @var string
 	 */
 	protected $base = 'countries';
 
 	/**
+	 * Constructor.
+	 *
 	 * @since 8.7
 	 */
 	public function __construct() {
@@ -66,6 +84,9 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 			)
 		);
 
+		$countries    = cnCountries::getAll( false, ARRAY_A );
+		$countryCodes = array_keys( $countries );
+
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->base . '/(?P<code>[a-z]{2,2})',
@@ -75,6 +96,10 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
 					),
 					'permission_callback' => '__return_true',
 				),
@@ -91,6 +116,10 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item_geojson' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
 					),
 					'permission_callback' => '__return_true',
 				),
@@ -107,6 +136,10 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item_regions' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
 					),
 					'permission_callback' => '__return_true',
 				),
@@ -123,6 +156,13 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_item_region' ),
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+						'code'    => array(
+							'type' => 'string',
+							'enum' => $countryCodes,
+						),
+						'region'  => array(
+							'type' => 'string',
+						),
 					),
 					'permission_callback' => '__return_true',
 				),
@@ -134,8 +174,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get a collection of items
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -143,7 +182,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 
-		$detailed = cnArray::get( $request, 'detailed', false );
+		$detailed = _array::get( $request, 'detailed', false );
 
 		$countries = cnCountries::getAll( $detailed, ARRAY_A );
 
@@ -153,8 +192,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get one item from the collection
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -162,7 +200,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 
-		$code = cnArray::get( $request, 'code' );
+		$code = _array::get( $request, 'code' );
 
 		$response = cnCountries::getByCode( $code, ARRAY_A );
 
@@ -181,8 +219,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 *
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -190,7 +227,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_geojson( $request ) {
 
-		$code = cnArray::get( $request, 'code' );
+		$code = _array::get( $request, 'code' );
 
 		$response = cnCountries::getByCode( $code );
 
@@ -211,8 +248,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 *
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -220,7 +256,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_regions( $request ) {
 
-		$code = cnArray::get( $request, 'code', false );
+		$code = _array::get( $request, 'code', false );
 
 		$response = cnCountries::getByCode( $code );
 
@@ -242,8 +278,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 *
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -251,8 +286,8 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_region( $request ) {
 
-		$code   = cnArray::get( $request, 'code' );
-		$region = cnArray::get( $request, 'region' );
+		$code   = _array::get( $request, 'code' );
+		$region = _array::get( $request, 'region' );
 
 		$response = cnCountries::getByCode( $code );
 
@@ -282,12 +317,11 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @return array
 	 */
-	public function get_item_schema() {
+	public function get_item_schema(): array {
 
 		$schema = array(
 			'$schema'     => 'http://json-schema.org/draft-04/schema#',
@@ -303,12 +337,11 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections
 	 *
-	 * @access public
-	 * @since  8.7
+	 * @since 8.7
 	 *
 	 * @return array
 	 */
-	public function get_collection_params() {
+	public function get_collection_params(): array {
 
 		$query_params = array(
 			'context'  => array( 'default' => 'view' ),
@@ -317,6 +350,11 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 				'type'        => 'boolean',
 				'default'     => false,
 			),
+		);
+
+		$query_params['detailed'] = array(
+			'description' => __( 'Whether to retrieve detailed country data.', 'connections' ),
+			'type'        => 'boolean',
 		);
 
 		return $query_params;

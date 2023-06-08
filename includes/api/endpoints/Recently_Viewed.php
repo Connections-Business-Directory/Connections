@@ -4,6 +4,7 @@ namespace Connections_Directory\API\REST\Endpoint;
 
 use cnArray;
 use cnOutput;
+use Connections_Directory\API\REST\Route;
 use Connections_Directory\Utility\_;
 use WP_Error;
 use WP_REST_Request;
@@ -16,6 +17,8 @@ use WP_REST_Server;
  * @package Connections_Directory\API\REST\Endpoint
  */
 class Recently_Viewed extends Entry {
+
+	use Route;
 
 	/**
 	 * @since 9.10

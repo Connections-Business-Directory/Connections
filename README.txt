@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.6
 Tested up to: 6.2
 Requires PHP: 7.0
-Stable tag: 10.4.44
+Stable tag: 10.4.45
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,7 +248,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
-= 10.4.44 05/24/2023 =
+= 10.4.45 06/08/2023 =
+* TWEAK: Remove unnecessary direct access check.
+* TWEAK: Add the `detailed` query argument schema to the Countries collection parameters.
+* TWEAK: Add `code` query argument schema to the Countries collections endpoint parameters.
+* TWEAK: Remove deprecated use of `cnArray`.
+* TWEAK: Rename class `CN_REST_Countries_Controller` to `Connections_Directory\API\REST\Endpoint\Countries`.
+* TWEAK: Rename file `class.cn-rest-countries-controller.php` to `Countries.php`.
+* TWEAK: Refactor how REST Routes and Endpoints are registered to optimize loading using a trait to reduce code duplication.
+* DEV: phpDoc updates.
+* DEV: Add return type declaration.
+
+= 10.4.44 06/05/2023 =
 * NEW: Add the `exclude`, `include`, `offset`, `categories`, and `categories_exclude` parameters to `Entry::get_collection_params()`.
 * TWEAK: Remove instances of using parameter default value.
 * TWEAK: Remove unused and unnecessary parameter from `Entry::get_entries()`.
@@ -628,38 +639,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove unused import.
 * DEV: Add inline comment.
 
-= 10.4.30 10/05/2022 =
-* NEW: Introduce the `Color_Picker` field to the Fields API.
-* NEW: Introduce the `Slider` field to the Fields API.
-* TWEAK: The date picker class should be added when creating the field.
-* TWEAK: Introduce `cnMetabox_Render::description()` to deduplicate the code to render the metabox field description.
-* TWEAK: Utilize `Color_Picker` field in the Settings API to remove code duplication.
-* TWEAK: Remove unnecessary class exists check and adjust file indent.
-* TWEAK: Refactor the deprecated methods `cnFormObjects::buildSelect()` and `cnFormObjects::buildRadio()` to utilize the Fields API field objects.
-* TWEAK: Return object in `Checkbox_Group::addInput()` and `Radio_Group::addInput()` to allow chaining, matching other object methods pattern.
-* TWEAK: Remove unnecessary constructor and class property from `cnFormObjects`.
-* TWEAK: `foreach` loop can be replaced with `implode()`.
-* TWEAK: Utilize `Radio_Group::setPrefix()` to apply the field `class` and `id` prefixes.
-* TWEAK: Refactor `cnMetabox_Render::fields()` to utilize `Field\Slider`.
-* TWEAK: Small refactor of `Field\Rich_Text` to set the `textarea_name` setting parameter automatically.
-* BUG: Correctly apply the prefix to the HTML input classes and id.
-* BUG: The `id` prefix should be applied to the checkbox and radio group input labels.
-* OTHER: Correct misspellings.
-* DEV: phpDoc updates.
-* DEV: phpDoc corrections.
-* DEV: Move `cnFormObjects` to the `Deprecated` folder.
-* DEV: Exit if accessed directly.
-* DEV: Deprecate `cnFormObjects::open()`.
-* DEV: Remove commented out code.
-* DEV: Correct code alignment.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: Add missing space.
-* DEV: Remove deprecated methods `Connections_Directory::displayMessages()`, `Connections_Directory::setRuntimeMessage()`, `Connections_Directory::setErrorMessage()`, and `Connections_Directory::setSuccessMessage()`.
-
 == Upgrade Notice ==
-
-= 10.4.30 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.31 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -701,4 +681,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.44 =
+It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.45 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.

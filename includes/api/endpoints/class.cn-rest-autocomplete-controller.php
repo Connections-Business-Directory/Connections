@@ -236,8 +236,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			$offset                   // OFFSET.
 		);
 
-		error_log( $sql );
-
 		$response = $wpdb->get_results( $sql, ARRAY_A );
 		$count    = $wpdb->get_results( 'SELECT FOUND_ROWS() AS total' );
 		$total    = $count[0]->total;

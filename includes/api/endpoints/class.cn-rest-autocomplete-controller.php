@@ -85,7 +85,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	 *
 	 * @return WP_Error|WP_REST_Response
 	 */
-	public function autocomplete( $request ) {
+	public function autocomplete( WP_REST_Request $request ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

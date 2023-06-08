@@ -247,7 +247,7 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Request $request   The REST API request.
 		 */
 		$arguments = apply_filters(
-			'Connections_Directory/API/REST/Controller/Entry/Get_Items/Arguments',
+			'Connections_Directory/API/REST/Route/Entry/Get_Items/Arguments',
 			$arguments,
 			$request
 		);
@@ -413,7 +413,7 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Request $request The Request object.
 		 */
 		do_action(
-			'Connections_Directory/API/REST/Controller/Entry/Update/After',
+			'Connections_Directory/API/REST/Route/Entry/Update/After',
 			$entry,
 			$request
 		);
@@ -522,7 +522,7 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Request  $request  The request sent to the API.
 		 */
 		do_action(
-			'Connections_Directory/API/REST/Controller/Entry/Delete/After',
+			'Connections_Directory/API/REST/Route/Entry/Delete/After',
 			$entry,
 			$response,
 			$request
@@ -929,7 +929,7 @@ class Entry extends WP_REST_Controller {
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters(
-			'Connections_Directory/API/REST/Controller/Entry/Prepare_Item/Response',
+			'Connections_Directory/API/REST/Route/Entry/Prepare_Item/Response',
 			$response,
 			$entry,
 			$request

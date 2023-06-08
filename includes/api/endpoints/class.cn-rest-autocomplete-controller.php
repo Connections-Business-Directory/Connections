@@ -8,8 +8,16 @@
  * @since    8.38
  */
 
+namespace Connections_Directory\API\REST\Endpoint;
+
+use cnQuery;
 use Connections_Directory\API\REST\Route;
 use Connections_Directory\Utility\_array;
+use WP_Error;
+use WP_REST_Controller;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
 
 /**
  * REST API Countries Controller.
@@ -17,7 +25,7 @@ use Connections_Directory\Utility\_array;
  * @package Connections/API
  * @extends WP_REST_Controller
  */
-class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
+class Autocomplete extends WP_REST_Controller {
 
 	use Route;
 
@@ -87,7 +95,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	 */
 	public function autocomplete( WP_REST_Request $request ) {
 
-		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$response = array();

@@ -639,7 +639,7 @@ class cnDependency {
 			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php',
 			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/api/endpoints/class.cn-rest-entry-geojson-controller.php',
 			'CN_REST_Terms_Controller'                                => 'includes/api/endpoints/class.cn-rest-terms-controller.php',
-			'CN_REST_Autocomplete_Controller'                         => 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php',
+			'Connections_Directory\API\REST\Endpoint\Autocomplete'    => 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php',
 			'Connections_Directory\API\REST\Endpoint\Countries'       => 'includes/api/endpoints/Countries.php',
 			'Connections_Directory\API\REST\Endpoint\Entry'           => 'includes/api/endpoints/Entry.php',
 			'Connections_Directory\API\REST\Endpoint\Recently_Viewed' => 'includes/api/endpoints/Recently_Viewed.php',

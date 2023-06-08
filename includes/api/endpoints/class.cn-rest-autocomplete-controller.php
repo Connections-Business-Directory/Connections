@@ -8,6 +8,8 @@
  * @since    8.38
  */
 
+use Connections_Directory\Utility\_array;
+
 /**
  * REST API Countries Controller.
  *
@@ -100,10 +102,10 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			'orderby' => $request['orderby'],
 			// 'post'       => $request['post'],
 			// 'hide_empty' => $request['hide_empty'],
-			'number'  => cnArray::get( $request, 'per_page' ),
-			'offset'  => cnArray::get( $request, 'offset' ),
-			'search'  => cnArray::get( $request, 'search' ),
-			'type'    => cnArray::get( $request, 'type' ),
+			'number'  => _array::get( $request, 'per_page' ),
+			'offset'  => _array::get( $request, 'offset' ),
+			'search'  => _array::get( $request, 'search' ),
+			'type'    => _array::get( $request, 'type' ),
 			// 'slug'       => $request['slug'],
 		);
 
@@ -142,7 +144,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 		} else {
 
-			$args['offset'] = ( cnArray::get( $request, 'page' ) - 1 ) * $args['number'];
+			$args['offset'] = ( _array::get( $request, 'page' ) - 1 ) * $args['number'];
 		}
 
 		$index = array_search( $args['type'], $endpoints );

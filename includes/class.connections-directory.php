@@ -70,13 +70,6 @@ final class Connections_Directory {
 	private static $basename = '';
 
 	/**
-	 * @since 8.5.26
-	 *
-	 * @var cnAPI
-	 */
-	private $api;
-
-	/**
 	 * @since unknown
 	 *
 	 * @var cnUser

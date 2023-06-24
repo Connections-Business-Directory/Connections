@@ -14,7 +14,6 @@ use Connections_Directory\Form\Field\Attribute\Required;
 use Connections_Directory\Form\Field\Attribute\Style;
 use Connections_Directory\Form\Field\Attribute\Id;
 use Connections_Directory\Form\Field\Attribute\Value;
-use Connections_Directory\Utility\_escape;
 
 /**
  * Class Field

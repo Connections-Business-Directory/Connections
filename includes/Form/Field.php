@@ -55,6 +55,8 @@ abstract class Field implements Interfaces\Field {
 
 	/**
 	 * Field constructor.
+	 *
+	 * @param array $properties The field properties.
 	 */
 	public function __construct() {
 	}
@@ -63,6 +65,8 @@ abstract class Field implements Interfaces\Field {
 	 * Create an instance of the Field.
 	 *
 	 * @since 10.4
+	 *
+	 * @param array $properties The field properties.
 	 *
 	 * @return static
 	 */

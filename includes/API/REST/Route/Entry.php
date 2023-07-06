@@ -125,6 +125,92 @@ class Entry extends WP_REST_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<id>[\d]+)/moderate',
+			array(
+				'args'   => array(
+					'id' => array(
+						'description' => __( 'Unique identifier for the directory entry.', 'connections' ),
+						'type'        => 'integer',
+					),
+				),
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => function( $request ) {
+
+						global $wpdb;
+
+						$data = $request->get_params();
+
+						$id     = _array::get( $data, 'id' );
+						$action = _array::get( $data, 'action', 'unapprove' );
+
+						$statuses = array(
+							'approve'   => 'approved',
+							'unapprove' => 'pending',
+						);
+
+						$result = cnEntry_Action::status( $statuses[ $action ], $id );
+
+						if ( true !== $result ) {
+
+							$error = new WP_Error( 'db_update_error', 'Could not update entry in the database.', $wpdb->last_error );
+							$error->add_data( array( 'status' => 500 ) );
+
+							return $error;
+						}
+
+						$entry = $this->get_entry( $id );
+						$entry->directoryHome();
+
+						$response = $this->prepare_item_for_response( $entry, $request );
+
+						return rest_ensure_response( $response );
+					},
+					'permission_callback' => array( $this, 'moderate_item_permissions_check' ),
+					'args'                => array(
+						'id'     => array(
+							'description' => __( 'Unique identifier for the entry.', 'connections' ),
+							'type'        => 'integer',
+							// 'context'     => array( 'edit' ),
+							'readonly'    => true,
+						),
+						'action' => array(
+							'description'       => __( 'Limit results to those matching a string.', 'connections' ),
+							'type'              => 'string',
+							'enum'              => array( 'approve', 'unapprove' ),
+							'sanitize_callback' => 'sanitize_key',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+					),
+				),
+				'schema' => function() {
+
+					return array(
+						'$schema'    => 'http://json-schema.org/draft-04/schema#',
+						'title'      => 'moderate',
+						'type'       => 'object',
+						'properties' => array(
+							'id' => array(
+								'description' => __( 'Unique identifier for directory entry.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'edit' ),
+								'readonly'    => true,
+							),
+							'action' => array(
+								'description'       => __( 'Limit results to those matching a string.', 'connections' ),
+								'type'              => 'string',
+								'enum'              => array( 'approve', 'unapprove' ),
+								'sanitize_callback' => 'sanitize_key',
+								'validate_callback' => 'rest_validate_request_arg',
+							),
+						),
+					);
+				},
+			)
+		);
 	}
 
 	/**
@@ -326,6 +412,41 @@ class Entry extends WP_REST_Controller {
 		$response->link_header( 'alternate', $entry->getPermalink(), array( 'type' => 'text/html' ) );
 
 		return $response;
+	}
+
+	/**
+	 * Check if a given request has access to update a specific item.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|boolean
+	 */
+	public function moderate_item_permissions_check( WP_REST_Request $request ) {
+
+		$entry = $this->get_entry( $request['id'] );
+
+		if ( $entry instanceof WP_Error ) {
+
+			return $entry;
+		}
+
+		if ( ! current_user_can( 'connections_edit_entry' ) ) {
+
+			return new WP_Error(
+				'rest_cannot_edit',
+				__( 'Sorry, you are not allowed to edit this entry.', 'connections' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		/**
+		 * @todo Need to check terms permissions.
+		 * @see WP_REST_Posts_Controller::check_assign_terms_permission()
+		 */
+
+		return true;
 	}
 
 	/**

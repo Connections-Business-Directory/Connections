@@ -470,6 +470,7 @@ final class Connections_Directory {
 		add_action( 'parse_request', array( Request::class, 'parse' ) );
 
 		// Init REST API routes.
+		add_action( 'rest_api_init', array( API\REST\Route\Account::class, 'register' ) );
 		add_action( 'rest_api_init', array( API\REST\Route\Autocomplete::class, 'register' ) );
 		add_action( 'rest_api_init', array( API\REST\Route\Countries::class, 'register' ) );
 		add_action( 'rest_api_init', array( API\REST\Route\Entry::class, 'register' ) );

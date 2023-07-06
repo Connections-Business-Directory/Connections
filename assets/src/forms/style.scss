@@ -1,0 +1,43 @@
+/*
+ * Spinner
+ * The spinner element is a pseudo-element
+ * @link https://codepen.io/dcode-software/pen/abZPmRb
+ */
+[data-component^="form"] button[type="submit"] {
+	position: relative;
+
+	.cbd-field--button__text {
+		transition: all 0.2s;
+	}
+
+	&.cbd-field--button__is-loading .cbd-field--button__text {
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	&.cbd-field--button__is-loading::after {
+		content: "";
+		position: absolute;
+		width: 16px;
+		height: 16px;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
+		border: 4px solid transparent;
+		border-top-color: #fff;
+		border-radius: 50%;
+		animation: cbd-field--button__loading 1s ease infinite;
+	}
+}
+
+@keyframes cbd-field--button__loading {
+	from {
+		transform: rotate(0turn);
+	}
+
+	to {
+		transform: rotate(1turn);
+	}
+}

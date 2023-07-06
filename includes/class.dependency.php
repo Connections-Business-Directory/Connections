@@ -353,6 +353,7 @@ class cnDependency {
 			// HTML elements class.
 			'cnHTML'                                                  => 'includes/class.html.php',
 			'Connections_Directory\Form'                              => 'includes/Form.php',
+			'Connections_Directory\Form\User_Login'                   => 'includes/Form/User_Login.php',
 			'Connections_Directory\Form\Interfaces\Field'             => 'includes/Form/Interfaces/Field.php',
 			'Connections_Directory\Form\Field\Attributes'             => 'includes/Form/Field/Attributes.php',
 			'Connections_Directory\Form\Field\Attribute\Autocomplete' => 'includes/Form/Field/Attribute/Autocomplete.php',
@@ -643,6 +644,7 @@ class cnDependency {
 			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/API/REST/Route/class.cn-rest-entry-json-ld-controller.php',
 			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/API/REST/Route/class.cn-rest-entry-geojson-controller.php',
 			'CN_REST_Terms_Controller'                             => 'includes/API/REST/Route/class.cn-rest-terms-controller.php',
+			'Connections_Directory\API\REST\Route\Account'         => 'includes/API/REST/Route/Account.php',
 			'Connections_Directory\API\REST\Route\Autocomplete'    => 'includes/API/REST/Route/Autocomplete.php',
 			'Connections_Directory\API\REST\Route\Countries'       => 'includes/API/REST/Route/Countries.php',
 			'Connections_Directory\API\REST\Route\Entry'           => 'includes/API/REST/Route/Entry.php',

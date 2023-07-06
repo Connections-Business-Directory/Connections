@@ -101,6 +101,18 @@ class Label {
 	}
 
 	/**
+	 * Get the field label text.
+	 * 
+	 * @since 10.4.46
+	 *
+	 * @return string
+	 */
+	public function getText(): string {
+
+		return $this->text;
+	}
+
+	/**
 	 * Set the label text.
 	 *
 	 * @since 10.4

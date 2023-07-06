@@ -38,6 +38,25 @@ trait Attributes {
 	}
 
 	/**
+	 * Add an array of attributes to a field.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param array $attributes The field attributes.
+	 *
+	 * @return static
+	 */
+	public function addAttributes( array $attributes ) {
+
+		foreach ( $attributes as $property => $value ) {
+
+			_array::set( $this->attributes, $property, $value );
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Remove an attribute from a field.
 	 *
 	 * @since  10.4

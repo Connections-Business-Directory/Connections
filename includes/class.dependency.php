@@ -352,6 +352,7 @@ class cnDependency {
 
 			// HTML elements class.
 			'cnHTML'                                                  => 'includes/class.html.php',
+			'Connections_Directory\Form'                              => 'includes/Form.php',
 			'Connections_Directory\Form\Interfaces\Field'             => 'includes/Form/Interfaces/Field.php',
 			'Connections_Directory\Form\Field\Attributes'             => 'includes/Form/Field/Attributes.php',
 			'Connections_Directory\Form\Field\Attribute\Autocomplete' => 'includes/Form/Field/Attribute/Autocomplete.php',

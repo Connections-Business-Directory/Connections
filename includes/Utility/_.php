@@ -579,4 +579,28 @@ final class _ {
 
 		return $highlighted;
 	}
+
+	/**
+	 * @since 10.4.46
+	 */
+	public static function callstack( $log = false ) {
+
+		$trace = var_export( ( new \Exception() )->getTraceAsString(), true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+		$trace = ltrim( $trace, '\'' );
+		$trace = rtrim( $trace, '\'' );
+		$trace = explode( '#', $trace );
+
+		unset( $trace[0], $trace[1] );
+
+		$trace = PHP_EOL . '#' . implode( "#\r", $trace ) . PHP_EOL;
+
+		if ( $log ) {
+
+			error_log( $trace ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+
+		} else {
+
+			echo $trace; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	}
 }

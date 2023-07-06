@@ -368,6 +368,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Attribute\Style'        => 'includes/Form/Field/Attribute/Style.php',
 			'Connections_Directory\Form\Field\Attribute\Value'        => 'includes/Form/Field/Attribute/Value.php',
 			'Connections_Directory\Form\Field'                        => 'includes/Form/Field.php',
+			'Connections_Directory\Form\Field\Button'                 => 'includes/Form/Field/Button.php',
 			'Connections_Directory\Form\Field\Checkbox'               => 'includes/Form/Field/Checkbox.php',
 			'Connections_Directory\Form\Field\Checkbox_Group'         => 'includes/Form/Field/Checkbox_Group.php',
 			'Connections_Directory\Form\Field\Color_Picker'           => 'includes/Form/Field/Color_Picker.php',

@@ -25,8 +25,8 @@ trait Attributes {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $key
-	 * @param mixed  $value
+	 * @param string $key   The attribute name.
+	 * @param mixed  $value The attribute value.
 	 *
 	 * @return static
 	 */

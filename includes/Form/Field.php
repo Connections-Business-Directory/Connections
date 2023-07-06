@@ -58,7 +58,7 @@ abstract class Field implements Interfaces\Field {
 	 *
 	 * @param array $properties The field properties.
 	 */
-	public function __construct() {
+	public function __construct( array $properties = array() ) {
 	}
 
 	/**
@@ -70,9 +70,9 @@ abstract class Field implements Interfaces\Field {
 	 *
 	 * @return static
 	 */
-	public static function create() {
+	public static function create( array $properties = array() ): Field {
 
-		return new static();
+		return new static( $properties );
 	}
 
 	/**

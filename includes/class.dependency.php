@@ -379,6 +379,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Label'                  => 'includes/Form/Field/Label.php',
 			'Connections_Directory\Form\Field\Number'                 => 'includes/Form/Field/Number.php',
 			'Connections_Directory\Form\Field\Option'                 => 'includes/Form/Field/Option.php',
+			'Connections_Directory\Form\Field\Password'               => 'includes/Form/Field/Password.php',
 			'Connections_Directory\Form\Field\Quicktag'               => 'includes/Form/Field/Quicktag.php',
 			'Connections_Directory\Form\Field\Radio'                  => 'includes/Form/Field/Radio.php',
 			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',

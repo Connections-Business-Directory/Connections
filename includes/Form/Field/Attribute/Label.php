@@ -15,9 +15,11 @@ trait Label {
 	 * Instance of Label.
 	 *
 	 * @since 10.4
+	 * @since 10.4.26 Make the property public for access to object methods.
+	 *
 	 * @var Field_Label|null
 	 */
-	protected $label;
+	public $label;
 
 	/**
 	 * Position of the checkbox field label. Default: `after`

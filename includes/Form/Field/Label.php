@@ -102,7 +102,7 @@ class Label {
 
 	/**
 	 * Get the field label text.
-	 * 
+	 *
 	 * @since 10.4.46
 	 *
 	 * @return string

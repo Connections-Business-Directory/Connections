@@ -32,6 +32,20 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 final class _ {
 
 	/**
+	 * Gets a short class name.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param object|string $class Class name or object.
+	 *
+	 * @return string
+	 */
+	public static function getClassShortName( $class ): string {
+
+		return ( new \ReflectionClass( $class ) )->getShortName();
+	}
+
+	/**
 	 * Checks if the current environment type is set to 'development' or 'local'.
 	 *
 	 * @see \WP_Site_Health::is_development_environment()

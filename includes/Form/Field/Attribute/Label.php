@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace Connections_Directory\Form\Field\Attribute;
 
 use Connections_Directory\Form\Field\Label as Field_Label;

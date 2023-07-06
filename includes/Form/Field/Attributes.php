@@ -42,7 +42,7 @@ trait Attributes {
 	 *
 	 * @since  10.4
 	 *
-	 * @param string $key
+	 * @param string $key The attribute to remove from the field by its name.
 	 *
 	 * @return static
 	 */

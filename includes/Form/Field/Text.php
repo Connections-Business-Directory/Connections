@@ -36,6 +36,20 @@ class Text extends Input {
 	protected $type = 'text';
 
 	/**
+	 * Create an instance of the field.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param array $properties The field properties.
+	 */
+	public function __construct( array $properties = array() ) {
+
+		parent::__construct( $properties );
+
+		$this->setAutocomplete( _array::get( $properties, 'autocomplete', '' ) );
+	}
+
+	/**
 	 * Prepare the field attributes and stringify them.
 	 *
 	 * @since 10.4

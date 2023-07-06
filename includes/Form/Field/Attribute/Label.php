@@ -44,6 +44,22 @@ trait Label {
 
 		$this->label = $label;
 
+		$this->setLabelPosition( $position );
+
+		return $this;
+	}
+
+	/**
+	 * Set the label position.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param string $position The label position.
+	 *
+	 * @return static
+	 */
+	public function setLabelPosition( string $position ) {
+
 		if ( in_array( $position, array( 'before', 'after', 'implicit' ), true ) ) {
 
 			$this->labelPosition = $position;

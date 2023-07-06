@@ -5,7 +5,6 @@ declare( strict_types=1 );
 namespace Connections_Directory\Form\Field;
 
 use Connections_Directory\Form\Field;
-use Connections_Directory\Form\Field\Attribute\Autocomplete;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
@@ -17,8 +16,6 @@ use Connections_Directory\Utility\_string;
  * @package Connections_Directory\Form\Field
  */
 class Select extends Field {
-
-	use Autocomplete;
 
 	/**
 	 * The Select field default Option.

@@ -104,7 +104,7 @@ trait Label {
 	 *
 	 * @return string
 	 */
-	public function getLabelHTML() {
+	public function getLabelHTML(): string {
 
 		if ( $this->label instanceof Field_Label ) {
 

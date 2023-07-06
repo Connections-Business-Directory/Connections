@@ -22,9 +22,7 @@ abstract class Input extends Field {
 	 *
 	 * @since 10.4
 	 *
-	 * @param array $properties
-	 *
-	 * @return static
+	 * @param array $properties The field properties.
 	 */
 	public static function create( $properties = array() ) {
 

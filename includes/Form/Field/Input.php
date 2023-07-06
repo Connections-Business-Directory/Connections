@@ -5,7 +5,7 @@ declare( strict_types=1 );
 namespace Connections_Directory\Form\Field;
 
 use Connections_Directory\Form\Field;
-use Connections_Directory\Form\Field\Attribute\Autocomplete;
+use Connections_Directory\Form\Field\Attribute\Schema;
 use Connections_Directory\Utility\_array;
 
 /**
@@ -15,7 +15,7 @@ use Connections_Directory\Utility\_array;
  */
 abstract class Input extends Field {
 
-	use Autocomplete;
+	use Schema;
 
 	/**
 	 * Create an instance of the Input field.

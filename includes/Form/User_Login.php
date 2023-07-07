@@ -86,7 +86,7 @@ final class User_Login extends Form {
 
 		add_action(
 			'Connections_Directory/Form/' . $this->getShortname() . '/Render/After',
-			static function ( $form ) {
+			static function () {
 				wp_enqueue_script( 'Connections_Directory/Form/User_Login/Script' );
 			}
 		);

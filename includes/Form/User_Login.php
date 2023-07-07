@@ -182,7 +182,7 @@ final class User_Login extends Form {
 					'attributes'   => array(
 						'maxlength' => 100,
 					),
-					'data' => array(
+					'data'         => array(
 						'1p-ignore' => 'true',
 						'lpignore'  => 'true',
 					),
@@ -205,7 +205,7 @@ final class User_Login extends Form {
 					'required'     => true,
 					'autocomplete' => 'current-password',
 					'attributes'   => array(),
-					'data' => array(
+					'data'         => array(
 						'1p-ignore' => 'true',
 						'lpignore'  => 'true',
 					),

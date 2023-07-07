@@ -248,6 +248,55 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.46 06/08/2023 =
+* NEW: Introduce the Password form field.
+* NEW: Introduce the Button form element.
+* NEW: Introduce the Schema trait for form fields.
+* NEW: Introduce `Label::setLabelPosition()`.
+* NEW: Introduce `Attributes::addAttributes()`.
+* NEW: Introduce `Label::getText()`.
+* NEW: Introduce `Form` base class.
+* NEW: Introduce the Entry Moderate REST API Route.
+* NEW: Introduce the User Account REST API route with the login endpoint and a login form utilizing the Form/Fields API for form generation and field schema validation during the REST request.
+* NEW: Introduce `_::getClassShortName()`.
+* NEW: Introduce `_::callstack()`.
+* TWEAK: Remove unnecessary direct access check.
+* TWEAK: Remove deprecated use of `cnArray`.
+* TWEAK: Qualifier can be replaced with an import.
+* TWEAK: Remove error log function call. Should not be in production code.
+* TWEAK: Rename class `CN_REST_Autocomplete_Controller` to `Connections_Directory\API\REST\Endpoint\Autocomplete`.
+* TWEAK: Rename file `class.cn-rest-autocomplete-controller.php` to `Autocomplete.php`.
+* TWEAK: Move REST API related files into the `API/REST` folder and update the namespace to match.
+* TWEAK: Update hook names to match namespace.
+* TWEAK: Capitalize the `api` folder name.
+* TWEAK: Remove unused `api` property from `Connections_Directory`.
+* TWEAK: Change the `$label` property in the Label trait to public, so the methods for the `Field_Label` form field are accessible.
+* TWEAK: Add return type declaration to `Label::getLabelHTML()`.
+* TWEAK: Add declare strict types to `Label`.
+* TWEAK: Add declare strict types to `Field`.
+* TWEAK: Add declare strict types to `Input`.
+* TWEAK: Add declare strict types to `Attributes`.
+* TWEAK: Add declare strict types to `Label`.
+* TWEAK: Add declare strict types to `Select`.
+* TWEAK: Add declare strict types to `Text`.
+* TWEAK: Add declare strict types to `Autocomplete`.
+* TWEAK: Add the `Schema` trait to the `Input` form field.
+* TWEAK: Remove the `AutoComplete` attribute from the `Select` form field.
+* TWEAK: Add the `Autocomplete` attribute to the `Text` form field.
+* TWEAK: Add constructor to the `Text` form field.
+* TWEAK: Refactor the `Input` form field to initiate its properties using the constructor instead fgo the create method.
+* TWEAK: Refactor `Field` constructor and create method to require the properties parameter.
+* TWEAK: Remove unused variable.
+* DEV: phpDoc updates.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Removed unused commented out code.
+* DEV: Add function return type.
+* DEV: Add parameter type declaration.
+* DEV: Remove unused import.
+* DEV: Add dev @todo.
+* DEV: Add commented out code required for testing CSV exports.
+* DEV: Array alignment.
+
 = 10.4.45 06/08/2023 =
 * TWEAK: Remove unnecessary direct access check.
 * TWEAK: Add the `detailed` query argument schema to the Countries collection parameters.
@@ -593,56 +642,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Qualifier can be replaced with an import.
 * DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
 
-= 10.4.31 10/20/2022 =
-* NEW: Introduce `\Request\Entry_Status` for user input request sanitization/validation.
-* NEW: Introduce `_nonce::create()`.
-* NEW: Introduce `\Utility\_token`.
-* NEW: Introduce `\Request\Template`.
-* NEW: Introduce `\Hook\Action\Admin\Template`.
-* NEW: Introduce `\Request\Role_Capability`.
-* NEW: Introduce `\Hook\Action\Admin\Role_Capability`.
-* NEW: Introduce `\Hook\Action`.
-* NEW: Introduce `\Hook\Action\Admin\Footer`.
-* NEW: Introduce `\Hook\Action\Admin\Plugin_Row`.
-* NEW: Introduce `\Hook\Action\Admin\Plugin_Tab`.
-* TWEAK: Refactor admin delete entry action links to remove use of the deprecated `cnFormObjects::tokenURL()` method.
-* TWEAK: Refactor `cnAdminActions::setEntryStatus()` to utilize `\Request\Entry_Status`, `_nonce::action()`, and `_validate::adminReferer()`.
-* TWEAK: Remove use of deprecated `cnFormObjects::tokenURL()` method.
-* TWEAK: Remove obsolete `cellspacing` and `scope` table attributes.
-* TWEAK: Refactor `_validate::adminReferer()` and `_validate::ajaxReferer()` to include an `$item` parameter.
-* TWEAK: Update instances of `_validate::adminReferer()` to utilize the `$item` parameter to remove code duplication.
-* TWEAK: Utilize `\Request\Admin_Action` to get request action.
-* TWEAK: Refactor the `cn_manage_actions` nonce field to utilize `_nonce::field()` and be validated using `_validate::adminReferer()`.
-* TWEAK: Add trialing parenthesis to exit.
-* TWEAK: Refactor `\Request\_nonce` to utilize `_nonce` utility constant/methods.
-* TWEAK: First pass at removing use of deprecated `cnFormObjects` nonce methods.
-* TWEAK: Refactor the template admin actions to utilize `\Request\Template` and `\Hook\Action\Admin\Template`.
-* TWEAK: Utilize `Request\Nonce` for creating and validating the vCard download.
-* TWEAK: Refactor the role capability admin actions to utilize `\Request\Role_Capability` and `\Hook\Action\Admin\Role_Capability`.
-* TWEAK: Remove unused messages from `cnMessage`.
-* TWEAK: Register the template actions on the `admin_init` hook.
-* TWEAK: Utilize `\Hook\Action` do namespaced action callbacks.
-* TWEAK: Refactor to utilize `\Hook\Action\Admin\Footer`.
-* TWEAK: Refactor to utilize `\Hook\Action\Admin\Plugin_Row`.
-* TWEAK: Refactor to utilize `\Hook\Action\Admin\Plugin_Tab`.
-* DEV: The output of `_::highlight_var_dump()` should be wrapped in a `div`.
-* BUG: Run system info token through `sanitize_key()` so it will match the request sanitization.
-* BUG: Do not show the "View" link on the Manage admin page when the entry is in the moderation queue.
-* BUG: Check for both entry status and visibility when created the download link for the vCard.
-* BUG: The `highlight_string()` should return, not echo.
-* OTHER: Correct misspellings.
-* DEV: Rename nonce URL to be more descriptive.
-* DEV: Remove commented out unused code.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-* DEV: Add missing phpDoc.
-* DEV: Remove unused import.
-* DEV: Add inline comment.
-
 == Upgrade Notice ==
-
-= 10.4.31 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.32 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -685,3 +685,6 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 
 = 10.4.45 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.46 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

@@ -41,7 +41,7 @@ final class User_Login extends Form {
 	/**
 	 * User_Login constructor.
 	 *
-	 * @param array $parameters
+	 * @param array $parameters The form parameters.
 	 */
 	public function __construct( array $parameters = array() ) {
 
@@ -131,6 +131,8 @@ final class User_Login extends Form {
 	}
 
 	/**
+	 * Add a span tag around the submit button that can be used to add a loading spinner via CSS.
+	 *
 	 * @internal
 	 * @since 10.4.46
 	 *
@@ -156,7 +158,7 @@ final class User_Login extends Form {
 	 */
 	private function fields( array $parameters ): array {
 
-		/**
+		/*
 		 * @todo The core WP classnames for blocks, such as button should be applied.
 		 */
 

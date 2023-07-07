@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace Connections_Directory\Form\Field;
 
 use Connections_Directory\Utility\_array;
@@ -25,8 +27,8 @@ trait Attributes {
 	 *
 	 * @since 10.4
 	 *
-	 * @param string $key
-	 * @param mixed  $value
+	 * @param string $key   The attribute name.
+	 * @param mixed  $value The attribute value.
 	 *
 	 * @return static
 	 */
@@ -38,11 +40,30 @@ trait Attributes {
 	}
 
 	/**
+	 * Add an array of attributes to a field.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param array $attributes The field attributes.
+	 *
+	 * @return static
+	 */
+	public function addAttributes( array $attributes ) {
+
+		foreach ( $attributes as $property => $value ) {
+
+			_array::set( $this->attributes, $property, $value );
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Remove an attribute from a field.
 	 *
 	 * @since  10.4
 	 *
-	 * @param string $key
+	 * @param string $key The attribute to remove from the field by its name.
 	 *
 	 * @return static
 	 */

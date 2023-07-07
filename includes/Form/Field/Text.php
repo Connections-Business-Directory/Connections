@@ -1,7 +1,10 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace Connections_Directory\Form\Field;
 
+use Connections_Directory\Form\Field\Attribute\Autocomplete;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
@@ -13,6 +16,8 @@ use Connections_Directory\Utility\_string;
  * @package Connections_Directory\Form\Field
  */
 class Text extends Input {
+
+	use Autocomplete;
 
 	/**
 	 * Position of the checkbox field label. Default: `before`
@@ -29,6 +34,20 @@ class Text extends Input {
 	 * @var string
 	 */
 	protected $type = 'text';
+
+	/**
+	 * Create an instance of the field.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param array $properties The field properties.
+	 */
+	public function __construct( array $properties = array() ) {
+
+		parent::__construct( $properties );
+
+		$this->setAutocomplete( _array::get( $properties, 'autocomplete', '' ) );
+	}
 
 	/**
 	 * Prepare the field attributes and stringify them.

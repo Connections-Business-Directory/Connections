@@ -89,7 +89,7 @@ class Description {
 	 *
 	 * @since 10.4
 	 *
-	 * @param $text
+	 * @param string $text Description text.
 	 *
 	 * @return static
 	 */

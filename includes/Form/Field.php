@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace Connections_Directory\Form;
 
 use Connections_Directory\Form\Field\Attributes;
@@ -14,7 +16,6 @@ use Connections_Directory\Form\Field\Attribute\Required;
 use Connections_Directory\Form\Field\Attribute\Style;
 use Connections_Directory\Form\Field\Attribute\Id;
 use Connections_Directory\Form\Field\Attribute\Value;
-use Connections_Directory\Utility\_escape;
 
 /**
  * Class Field
@@ -54,8 +55,10 @@ abstract class Field implements Interfaces\Field {
 
 	/**
 	 * Field constructor.
+	 *
+	 * @param array $properties The field properties.
 	 */
-	public function __construct() {
+	public function __construct( array $properties = array() ) {
 	}
 
 	/**
@@ -63,11 +66,13 @@ abstract class Field implements Interfaces\Field {
 	 *
 	 * @since 10.4
 	 *
+	 * @param array $properties The field properties.
+	 *
 	 * @return static
 	 */
-	public static function create() {
+	public static function create( array $properties = array() ): Field {
 
-		return new static();
+		return new static( $properties );
 	}
 
 	/**

@@ -13,6 +13,8 @@
  * @link       https://connections-pro.com/
  */
 
+declare( strict_types=1 );
+
 namespace Connections_Directory\Form\Field;
 
 use Connections_Directory\Form\Field\Attribute\Classnames;
@@ -96,6 +98,18 @@ class Label {
 		$this->for = $for;
 
 		return $this;
+	}
+
+	/**
+	 * Get the field label text.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @return string
+	 */
+	public function getText(): string {
+
+		return $this->text;
 	}
 
 	/**

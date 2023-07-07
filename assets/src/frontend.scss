@@ -583,6 +583,11 @@ input#cn-submit {
 @import "content-blocks/related-carousel/style";
 
 /*
+ * Import Form Styles
+ */
+@import "forms/style";
+
+/*
  * Tables
  * @todo these styles interfere with the templates that use tables.
  */

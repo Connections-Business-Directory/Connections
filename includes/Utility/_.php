@@ -32,6 +32,20 @@ use function Connections_Directory\Utility\_deprecated\_func as _deprecated_func
 final class _ {
 
 	/**
+	 * Gets a short class name.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param object|string $class Class name or object.
+	 *
+	 * @return string
+	 */
+	public static function getClassShortName( $class ): string {
+
+		return ( new \ReflectionClass( $class ) )->getShortName();
+	}
+
+	/**
 	 * Checks if the current environment type is set to 'development' or 'local'.
 	 *
 	 * @see \WP_Site_Health::is_development_environment()
@@ -564,5 +578,29 @@ final class _ {
 		}
 
 		return $highlighted;
+	}
+
+	/**
+	 * @since 10.4.46
+	 */
+	public static function callstack( $log = false ) {
+
+		$trace = var_export( ( new \Exception() )->getTraceAsString(), true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+		$trace = ltrim( $trace, '\'' );
+		$trace = rtrim( $trace, '\'' );
+		$trace = explode( '#', $trace );
+
+		unset( $trace[0], $trace[1] );
+
+		$trace = PHP_EOL . '#' . implode( "#\r", $trace ) . PHP_EOL;
+
+		if ( $log ) {
+
+			error_log( $trace ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+
+		} else {
+
+			echo $trace; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
 	}
 }

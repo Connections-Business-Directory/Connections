@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory\API\REST\Endpoint;
+namespace Connections_Directory\API\REST\Route;
 
 use cnArray;
 use cnOutput;

@@ -9,7 +9,7 @@
  * @since      9.3
  */
 
-namespace Connections_Directory\API\REST\Endpoint;
+namespace Connections_Directory\API\REST\Route;
 
 use cnSettingsAPI;
 use Connections_Directory\API\REST\Route;
@@ -151,7 +151,7 @@ class Settings extends WP_REST_Settings_Controller {
 		 * @param array  $args   Arguments passed to register_setting() for this setting.
 		 */
 		$response = apply_filters(
-			'Connections_Directory/API/REST/Controller/Settings/Before/Get/Value',
+			'Connections_Directory/API/REST/Route/Settings/Before/Get/Value',
 			null,
 			$name,
 			$args
@@ -201,7 +201,7 @@ class Settings extends WP_REST_Settings_Controller {
 			 * @param array  $args   Arguments passed to register_setting() for this setting.
 			 */
 			$response[ $name ] = apply_filters(
-				'Connections_Directory/API/REST/Controller/Settings/Before/Get/Value',
+				'Connections_Directory/API/REST/Route/Settings/Before/Get/Value',
 				null,
 				$name,
 				$args
@@ -269,7 +269,7 @@ class Settings extends WP_REST_Settings_Controller {
 		 * @param array  $args   Arguments passed to register_setting() for this setting.
 		 */
 		$updated = apply_filters(
-			'Connections_Directory/API/REST/Controller/Settings/Before/Update/Value',
+			'Connections_Directory/API/REST/Route/Settings/Before/Update/Value',
 			false,
 			$name,
 			$params,

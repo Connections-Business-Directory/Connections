@@ -8,9 +8,16 @@
  * @since    8.38
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace Connections_Directory\API\REST\Route;
+
+use cnQuery;
+use Connections_Directory\API\REST\Route;
+use Connections_Directory\Utility\_array;
+use WP_Error;
+use WP_REST_Controller;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
 
 /**
  * REST API Countries Controller.
@@ -18,28 +25,36 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package Connections/API
  * @extends WP_REST_Controller
  */
-class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
+class Autocomplete extends WP_REST_Controller {
 
-	use \Connections_Directory\API\REST\Route;
+	use Route;
 
 	/**
+	 * REST API version.
+	 *
 	 * @since 8.38
 	 */
 	const VERSION = '1';
 
 	/**
+	 * The REST namespace.
+	 *
 	 * @since 8.38
 	 * @var string
 	 */
 	protected $namespace;
 
 	/**
+	 * The REST base name.
+	 *
 	 * @since 8.38
 	 * @var string
 	 */
 	protected $base = 'autocomplete';
 
 	/**
+	 * Constructor.
+	 *
 	 * @since 8.38
 	 */
 	public function __construct() {
@@ -70,15 +85,16 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * REST route callback.
+	 *
 	 * @since 8.38
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
 	 * @return WP_Error|WP_REST_Response
 	 */
-	public function autocomplete( $request ) {
+	public function autocomplete( WP_REST_Request $request ) {
 
-		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$response = array();
@@ -104,10 +120,10 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			'orderby' => $request['orderby'],
 			// 'post'       => $request['post'],
 			// 'hide_empty' => $request['hide_empty'],
-			'number'  => cnArray::get( $request, 'per_page' ),
-			'offset'  => cnArray::get( $request, 'offset' ),
-			'search'  => cnArray::get( $request, 'search' ),
-			'type'    => cnArray::get( $request, 'type' ),
+			'number'  => _array::get( $request, 'per_page' ),
+			'offset'  => _array::get( $request, 'offset' ),
+			'search'  => _array::get( $request, 'search' ),
+			'type'    => _array::get( $request, 'type' ),
 			// 'slug'       => $request['slug'],
 		);
 
@@ -124,12 +140,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		if ( 1 >= strlen( $args['search'] ) ) {
 
 			return rest_ensure_response( $response );
-
-			//return new WP_Error(
-			//	'invalid_string_length',
-			//	__( 'Autocomplete query string must be two or more characters.', 'connections' ),
-			//	$args['search']
-			//);
 		}
 
 		$terms = preg_split( '/[\s,]+/', $args['search'] );
@@ -146,7 +156,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 		} else {
 
-			$args['offset'] = ( cnArray::get( $request, 'page' ) - 1 ) * $args['number'];
+			$args['offset'] = ( _array::get( $request, 'page' ) - 1 ) * $args['number'];
 		}
 
 		$index = array_search( $args['type'], $endpoints );
@@ -225,15 +235,13 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 		$sql = sprintf(
 			'SELECT SQL_CALC_FOUND_ROWS %s FROM %s WHERE %s GROUP BY %s LIMIT %d OFFSET %d',
-			implode( ', ', $select ), // SELECT
-			implode( ', ', $from ),   // FROM
-			implode( ' ', $where ),   // WHERE
-			implode( ', ', $group ),  // GROUP BY
-			$limit,                         // LIMIT
-			$offset                         // OFFSET
+			implode( ', ', $select ), // SELECT.
+			implode( ', ', $from ),   // FROM.
+			implode( ' ', $where ),   // WHERE.
+			implode( ', ', $group ),  // GROUP BY.
+			$limit,                   // LIMIT.
+			$offset                   // OFFSET.
 		);
-
-		error_log( $sql );
 
 		$response = $wpdb->get_results( $sql, ARRAY_A );
 		$count    = $wpdb->get_results( 'SELECT FOUND_ROWS() AS total' );
@@ -283,7 +291,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_collection_params() {
+	public function get_collection_params(): array {
 
 		$query_params = array(
 			'context'  => $this->get_context_param(),
@@ -313,20 +321,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['context']['default'] = 'view';
-
-		//$query_params['exclude'] = array(
-		//	'description'        => __( 'Ensure result set excludes specific ids.', 'connections' ),
-		//	'type'               => 'array',
-		//	'default'            => array(),
-		//	'sanitize_callback'  => 'wp_parse_id_list',
-		//);
-
-		//$query_params['include'] = array(
-		//	'description'        => __( 'Limit result set to specific ids.', 'connections' ),
-		//	'type'               => 'array',
-		//	'default'            => array(),
-		//	'sanitize_callback'  => 'wp_parse_id_list',
-		//);
 
 		$query_params['offset'] = array(
 			'description'       => __( 'Offset the result set by a specific number of items.', 'connections' ),
@@ -363,33 +357,6 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 			),
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-
-		//$query_params['hide_empty'] = array(
-		//	'description'           => __( 'Whether to hide resources not assigned to any posts.', 'connections' ),
-		//	'type'                  => 'boolean',
-		//	'default'               => FALSE,
-		//	'validate_callback'     => 'rest_validate_request_arg',
-		//);
-
-		//$query_params['parent'] = array(
-		//	'description'        => __( 'Limit result set to resources assigned to a specific parent.', 'connections' ),
-		//	'type'               => 'integer',
-		//	'sanitize_callback'  => 'absint',
-		//	'validate_callback'  => 'rest_validate_request_arg',
-		//);
-
-		//$query_params['post'] = array(
-		//	'description'           => __( 'Limit result set to resources assigned to a specific post.', 'connections' ),
-		//	'type'                  => 'integer',
-		//	'default'               => NULL,
-		//	'validate_callback'     => 'rest_validate_request_arg',
-		//);
-
-		//$query_params['slug']    = array(
-		//	'description'        => __( 'Limit result set to resources with a specific slug.', 'connections' ),
-		//	'type'               => 'string',
-		//	'validate_callback'  => 'rest_validate_request_arg',
-		//);
 
 		return $query_params;
 	}

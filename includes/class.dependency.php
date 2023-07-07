@@ -73,7 +73,7 @@ class cnDependency {
 		}
 
 		// REST API functions.
-		include_once CN_PATH . 'includes/api/inc.functions.php';
+		include_once CN_PATH . 'includes/API/REST/inc.functions.php';
 
 		// Deprecated utility functions.
 		require_once CN_PATH . 'includes/Utility/_deprecated.php';
@@ -352,6 +352,8 @@ class cnDependency {
 
 			// HTML elements class.
 			'cnHTML'                                                  => 'includes/class.html.php',
+			'Connections_Directory\Form'                              => 'includes/Form.php',
+			'Connections_Directory\Form\User_Login'                   => 'includes/Form/User_Login.php',
 			'Connections_Directory\Form\Interfaces\Field'             => 'includes/Form/Interfaces/Field.php',
 			'Connections_Directory\Form\Field\Attributes'             => 'includes/Form/Field/Attributes.php',
 			'Connections_Directory\Form\Field\Attribute\Autocomplete' => 'includes/Form/Field/Attribute/Autocomplete.php',
@@ -365,9 +367,11 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Attribute\Prefix'       => 'includes/Form/Field/Attribute/Prefix.php',
 			'Connections_Directory\Form\Field\Attribute\Read_Only'    => 'includes/Form/Field/Attribute/Read_Only.php',
 			'Connections_Directory\Form\Field\Attribute\Required'     => 'includes/Form/Field/Attribute/Required.php',
+			'Connections_Directory\Form\Field\Attribute\Schema'       => 'includes/Form/Field/Attribute/Schema.php',
 			'Connections_Directory\Form\Field\Attribute\Style'        => 'includes/Form/Field/Attribute/Style.php',
 			'Connections_Directory\Form\Field\Attribute\Value'        => 'includes/Form/Field/Attribute/Value.php',
 			'Connections_Directory\Form\Field'                        => 'includes/Form/Field.php',
+			'Connections_Directory\Form\Field\Button'                 => 'includes/Form/Field/Button.php',
 			'Connections_Directory\Form\Field\Checkbox'               => 'includes/Form/Field/Checkbox.php',
 			'Connections_Directory\Form\Field\Checkbox_Group'         => 'includes/Form/Field/Checkbox_Group.php',
 			'Connections_Directory\Form\Field\Color_Picker'           => 'includes/Form/Field/Color_Picker.php',
@@ -379,6 +383,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Label'                  => 'includes/Form/Field/Label.php',
 			'Connections_Directory\Form\Field\Number'                 => 'includes/Form/Field/Number.php',
 			'Connections_Directory\Form\Field\Option'                 => 'includes/Form/Field/Option.php',
+			'Connections_Directory\Form\Field\Password'               => 'includes/Form/Field/Password.php',
 			'Connections_Directory\Form\Field\Quicktag'               => 'includes/Form/Field/Quicktag.php',
 			'Connections_Directory\Form\Field\Radio'                  => 'includes/Form/Field/Radio.php',
 			'Connections_Directory\Form\Field\Radio_Group'            => 'includes/Form/Field/Radio_Group.php',
@@ -633,17 +638,18 @@ class cnDependency {
 			'SiteShot'      => 'includes/Deprecated/SiteShot.php',
 
 			// REST API.
-			'Connections_Directory\API\REST\Route'  => 'includes/api/REST/Route.php',
+			'Connections_Directory\API\REST\Route' => 'includes/API/REST/Route.php',
 
 			// REST API routes.
-			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php',
-			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/api/endpoints/class.cn-rest-entry-geojson-controller.php',
-			'CN_REST_Terms_Controller'                                => 'includes/api/endpoints/class.cn-rest-terms-controller.php',
-			'CN_REST_Autocomplete_Controller'                         => 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php',
-			'Connections_Directory\API\REST\Endpoint\Countries'       => 'includes/api/endpoints/Countries.php',
-			'Connections_Directory\API\REST\Endpoint\Entry'           => 'includes/api/endpoints/Entry.php',
-			'Connections_Directory\API\REST\Endpoint\Recently_Viewed' => 'includes/api/endpoints/Recently_Viewed.php',
-			'Connections_Directory\API\REST\Endpoint\Settings'        => 'includes/api/endpoints/Settings.php',
+			// 'CN_REST_Entry_JSONLD_Controller'                         => 'includes/API/REST/Route/class.cn-rest-entry-json-ld-controller.php',
+			// 'CN_REST_Entry_GeoJSON_Controller'                        => 'includes/API/REST/Route/class.cn-rest-entry-geojson-controller.php',
+			'CN_REST_Terms_Controller'                             => 'includes/API/REST/Route/class.cn-rest-terms-controller.php',
+			'Connections_Directory\API\REST\Route\Account'         => 'includes/API/REST/Route/Account.php',
+			'Connections_Directory\API\REST\Route\Autocomplete'    => 'includes/API/REST/Route/Autocomplete.php',
+			'Connections_Directory\API\REST\Route\Countries'       => 'includes/API/REST/Route/Countries.php',
+			'Connections_Directory\API\REST\Route\Entry'           => 'includes/API/REST/Route/Entry.php',
+			'Connections_Directory\API\REST\Route\Recently_Viewed' => 'includes/API/REST/Route/Recently_Viewed.php',
+			'Connections_Directory\API\REST\Route\Settings'        => 'includes/API/REST/Route/Settings.php',
 
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',

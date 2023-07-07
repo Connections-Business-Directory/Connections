@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace Connections_Directory\Form\Field\Attribute;
 
 use Connections_Directory\Form\Field\Label as Field_Label;
@@ -15,9 +17,11 @@ trait Label {
 	 * Instance of Label.
 	 *
 	 * @since 10.4
+	 * @since 10.4.26 Make the property public for access to object methods.
+	 *
 	 * @var Field_Label|null
 	 */
-	protected $label;
+	public $label;
 
 	/**
 	 * Position of the checkbox field label. Default: `after`
@@ -41,6 +45,22 @@ trait Label {
 	public function addLabel( $label, $position = '' ) {
 
 		$this->label = $label;
+
+		$this->setLabelPosition( $position );
+
+		return $this;
+	}
+
+	/**
+	 * Set the label position.
+	 *
+	 * @since 10.4.46
+	 *
+	 * @param string $position The label position.
+	 *
+	 * @return static
+	 */
+	public function setLabelPosition( string $position ) {
 
 		if ( in_array( $position, array( 'before', 'after', 'implicit' ), true ) ) {
 
@@ -86,7 +106,7 @@ trait Label {
 	 *
 	 * @return string
 	 */
-	public function getLabelHTML() {
+	public function getLabelHTML(): string {
 
 		if ( $this->label instanceof Field_Label ) {
 

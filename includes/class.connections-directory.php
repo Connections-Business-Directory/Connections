@@ -22,7 +22,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.45';
+	const VERSION = '10.4.46';
 
 	/**
 	 * Stores the instance of this class.
@@ -68,13 +68,6 @@ final class Connections_Directory {
 	 * @var string
 	 */
 	private static $basename = '';
-
-	/**
-	 * @since 8.5.26
-	 *
-	 * @var cnAPI
-	 */
-	private $api;
 
 	/**
 	 * @since unknown
@@ -477,11 +470,12 @@ final class Connections_Directory {
 		add_action( 'parse_request', array( Request::class, 'parse' ) );
 
 		// Init REST API routes.
-		add_action( 'rest_api_init', array( API\REST\Endpoint\Countries::class, 'register' ) );
-		add_action( 'rest_api_init', array( API\REST\Endpoint\Entry::class, 'register' ) );
-		add_action( 'rest_api_init', array( API\REST\Endpoint\Recently_Viewed::class, 'register' ) );
-		add_action( 'rest_api_init', array( API\REST\Endpoint\Settings::class, 'register' ) );
-		add_action( 'rest_api_init', array( CN_REST_Autocomplete_Controller::class, 'register' ) );
+		add_action( 'rest_api_init', array( API\REST\Route\Account::class, 'register' ) );
+		add_action( 'rest_api_init', array( API\REST\Route\Autocomplete::class, 'register' ) );
+		add_action( 'rest_api_init', array( API\REST\Route\Countries::class, 'register' ) );
+		add_action( 'rest_api_init', array( API\REST\Route\Entry::class, 'register' ) );
+		add_action( 'rest_api_init', array( API\REST\Route\Recently_Viewed::class, 'register' ) );
+		add_action( 'rest_api_init', array( API\REST\Route\Settings::class, 'register' ) );
 		add_action( 'rest_api_init', array( CN_REST_Terms_Controller::class, 'register' ) );
 
 		// Init the taxonomies. The `setup_theme` action is the action run closest after initializing of the $wp_rewrite global variable.

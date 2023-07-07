@@ -279,6 +279,29 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				$timeout = 5 + (int) ( count( self::$licenses ) / 10 );
 			}
 
+			/*
+			 * @todo
+			 * These array indexes seems like they could be removed.
+			 * Needs more testing.
+			 */
+			// if ( ! empty( $plugin ) ) {
+			//
+			// 	\Connections_Directory\Utility\_array::forget( $plugin, 'author' );
+			// 	\Connections_Directory\Utility\_array::forget( $plugin, 'basename' );
+			// 	\Connections_Directory\Utility\_array::forget( $plugin, 'slug' );
+			//
+			// } else {
+			//
+			// 	$licenses = self::$licenses;
+			//
+			// 	foreach ( $licenses as &$license ) {
+			//
+			// 		\Connections_Directory\Utility\_array::forget( $license, 'author' );
+			// 		\Connections_Directory\Utility\_array::forget( $license, 'basename' );
+			// 		\Connections_Directory\Utility\_array::forget( $license, 'slug' );
+			// 	}
+			// }
+
 			$options = array(
 				'timeout'    => $timeout,
 				'sslverify'  => _http::verifySSL(),

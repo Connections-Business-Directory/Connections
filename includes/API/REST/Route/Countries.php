@@ -8,7 +8,7 @@
  * @since    8.7
  */
 
-namespace Connections_Directory\API\REST\Endpoint;
+namespace Connections_Directory\API\REST\Route;
 
 use cnCountries;
 use cnCountry;

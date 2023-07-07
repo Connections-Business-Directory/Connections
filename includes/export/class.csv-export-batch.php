@@ -146,6 +146,13 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 			return new WP_Error( 'permission_error', __( 'You do not have permission to export data.', 'connections' ) );
 		}
 
+		/*
+		 * Uncomment for testing; limit number of steps.
+		 */
+		// if ( 2 <= $step ) {
+		// 	return false;
+		// }
+
 		if ( $this->step < 2 ) {
 
 			// Make sure we start with a fresh file on step 1.

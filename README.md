@@ -246,7 +246,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
-= 10.4.46 06/08/2023 =
+= 10.4.46 07/07/2023 =
 
 * NEW: Introduce the Password form field.
 * NEW: Introduce the Button form element.

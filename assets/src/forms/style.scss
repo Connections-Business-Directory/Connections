@@ -1,4 +1,18 @@
 /*
+ * Gap between fields.
+ */
+[data-component^="form"] .cbd-form__fields .cbd-form__field {
+	margin: 0.5em 0;
+}
+
+/*
+ * Add a small space between checkbox and label.
+ */
+[data-component^="form"] label input[type="checkbox"] {
+	margin-inline-end: 0.5ch;
+}
+
+/*
  * Spinner
  * The spinner element is a pseudo-element
  * @link https://codepen.io/dcode-software/pen/abZPmRb

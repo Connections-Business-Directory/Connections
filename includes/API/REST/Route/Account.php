@@ -85,28 +85,34 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'login' ),
 					'args'                => array(
-						'_cnonce'  => array(
+						'_cnonce'    => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 						),
-						'log'      => array(
+						'log'        => array(
 							'required'    => true,
 							'description' => __( 'Username or email.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pwd'      => array(
+						'pwd'        => array(
 							'required'    => true,
 							'description' => __( 'Password.', 'connections' ),
 							'type'        => 'string',
 						),
-						'redirect' => array(
+						'redirect'   => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
 							'sanitize_callback' => 'sanitize_url',
 							'type'              => 'string',
 							'format'            => 'uri',
+						),
+						'rememberme' => array(
+							'required'    => false,
+							'description' => __( 'Remember Me', 'connections' ),
+							'type'        => 'string',
+							'enum'        => array( '0', '1' ),
 						),
 					),
 					'permission_callback' => '__return_true',
@@ -208,7 +214,7 @@ class Account extends WP_REST_Controller {
 				array(
 					'user_login'    => $user->get( 'user_login' ),
 					'user_password' => $form->getFieldValue( 'pwd' ),
-					'remember'      => true,
+					'remember'      => '1' === $form->getFieldValue( 'rememberme' ),
 				)
 			);
 		}

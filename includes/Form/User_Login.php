@@ -152,7 +152,15 @@ final class User_Login extends Form {
 	 *
 	 * @since 10.4.46
 	 *
-	 * @param array $parameters Field parameters.
+	 * @param array{
+	 *     label_username: string,
+	 *     label_password: string,
+	 *     label_remember: string,
+	 *     id_username: string,
+	 *     id_password: string,
+	 *     id_remember: string,
+	 *     remember: bool,
+	 * } $parameters Field parameters.
 	 *
 	 * @return Field[]
 	 */
@@ -165,13 +173,16 @@ final class User_Login extends Form {
 		$defaults = array(
 			'label_username' => __( 'Username or Email Address', 'connections' ),
 			'label_password' => __( 'Password', 'connections' ),
+			'label_remember' => __( 'Remember Me', 'connections' ),
 			'id_username'    => 'user_login',
 			'id_password'    => 'user_pass',
+			'id_remember'    => 'rememberme',
+			'remember'       => true,
 		);
 
 		$parameters = _parse::parameters( $parameters, $defaults );
 
-		return array(
+		$fields = array(
 			Field\Text::create(
 				array(
 					'id'           => $parameters['id_username'],
@@ -231,5 +242,24 @@ final class User_Login extends Form {
 				)
 			),
 		);
+
+		if ( $parameters['remember'] ) {
+
+			$fields[] = Field\Checkbox::create(
+				array(
+					'id'      => $parameters['rememberme'],
+					'label'   => $parameters['label_remember'],
+					'name'    => 'rememberme',
+					'value'   => '0',
+					'default' => '0',
+					'schema'  => array(
+						'type' => 'string',
+						'enum' => array( '0', '1' ),
+					),
+				)
+			)->setLabelPosition( 'implicit/after' );
+		}
+
+		return $fields;
 	}
 }

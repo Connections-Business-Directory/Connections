@@ -171,6 +171,8 @@ abstract class Form {
 		$this->addData( _array::get( $parameters, 'data', array() ) );
 		$this->addFields( _array::get( $parameters, 'fields', array() ) );
 		$this->addSubmit( _array::get( $parameters, 'submit', array() ) );
+
+		$this->description = _array::get( $parameters, 'description', '' );
 	}
 
 	/**

@@ -30,15 +30,6 @@ use Connections_Directory\Utility\_token;
 final class User_Login extends Form {
 
 	/**
-	 * The form input field schema.
-	 *
-	 * @since 10.4.46
-	 *
-	 * @var array
-	 */
-	protected $schema = array();
-
-	/**
 	 * User_Login constructor.
 	 *
 	 * @param array $parameters The form parameters.

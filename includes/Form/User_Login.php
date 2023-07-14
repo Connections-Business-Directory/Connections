@@ -157,10 +157,6 @@ final class User_Login extends Form {
 	 */
 	private function fields( array $parameters ): array {
 
-		/*
-		 * @todo The core WP classnames for blocks, such as button should be applied.
-		 */
-
 		$defaults = array(
 			'label_username' => __( 'Username or Email Address', 'connections' ),
 			'label_password' => __( 'Password', 'connections' ),

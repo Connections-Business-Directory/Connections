@@ -120,6 +120,39 @@ class Account extends WP_REST_Controller {
 				// 'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base . '/request-reset-password',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'requestResetPassword' ),
+					'args'                => array(
+						'_cnonce'  => array(
+							'required'    => true,
+							'description' => __( 'The request token.', 'connections' ),
+							'type'        => 'string',
+						),
+						'log'      => array(
+							'required'    => true,
+							'description' => __( 'Username or email.', 'connections' ),
+							'type'        => 'string',
+						),
+						'redirect' => array(
+							'required'          => false,
+							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
+							'validate_callback' => 'wp_http_validate_url',
+							'sanitize_callback' => 'sanitize_url',
+							'type'              => 'string',
+							'format'            => 'uri',
+						),
+					),
+					'permission_callback' => '__return_true',
+				),
+				// 'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
 	}
 
 	/**
@@ -231,6 +264,101 @@ class Account extends WP_REST_Controller {
 		} else {
 
 			$data['reload'] = true;
+		}
+
+		$response->set_data( $data );
+
+		return $response;
+	}
+
+	/**
+	 * User request reset password.
+	 *
+	 * @since 10.4.47
+	 *
+	 * @param WP_REST_Request $request API request.
+	 *
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function requestResetPassword( WP_REST_Request $request ) {
+
+		$data      = array();
+		$response  = new WP_REST_Response();
+		$invalid   = new WP_Error( 'rest_invalid_user', esc_html__( 'Username or password is incorrect.', 'connections' ), array( 'status' => 401 ) );
+		$forbidden = new WP_Error( 'rest_forbidden', esc_html__( 'Bad Request.', 'connections' ), array( 'status' => 400 ) );
+
+		// Check permissions.
+		if ( is_user_logged_in() && ! current_user_can( 'edit_users' ) ) {
+
+			return new WP_Error(
+				'rest_forbidden',
+				esc_html__( 'Permission denied.', 'connections' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		// Initialize the form for validation.
+		$form = new Form\User_Login();
+
+		// Drop any request parameters that have no registered fields in the form.
+		$parameters = array_intersect_key( $request->get_params(), $form->getFieldValues() );
+
+		// Feed the request parameters into the form field values.
+		$form->setFieldValues( $parameters );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+
+		// Validate the form fields against their registered schema.
+		$isValid = $form->validate();
+
+		// If the form fields do not pass their schema validation, return a bad request.
+		if ( false === $isValid ) {
+
+			return $forbidden;
+		}
+
+		// Ensure the supplied nonce token field is valid.
+		if ( ! _token::isValid( $form->getFieldValue( '_cnonce' ), 'user/request-reset-password' ) ) {
+
+			return $forbidden;
+		}
+
+		if ( is_email( $form->getFieldValue( 'log' ) ) ) {
+
+			$user = get_user_by( 'email', $form->getFieldValue( 'log' ) );
+
+		} elseif ( validate_username( $form->getFieldValue( 'log' ) ) ) {
+
+			$user = get_user_by( 'login', $form->getFieldValue( 'log' ) );
+
+		} else {
+
+			$user = false;
+		}
+
+		if ( ! $user instanceof WP_User ) {
+
+			return $invalid;
+		}
+
+		$result = retrieve_password( $user->get( 'user_email' ) );
+
+		if ( $result instanceof WP_Error ) {
+
+			return $result;
+		}
+
+		// Setup response.
+		$response->set_status( 200 );
+		$data['id'] = $user->get( 'ID' );
+
+		if ( 0 < strlen( $form->getRedirect() ) ) {
+
+			// $response->set_status( 307 );
+			$data['redirect'] = $form->getSafeRedirect();
+
+		} else {
+
+			$data['reset'] = true;
 		}
 
 		$response->set_data( $data );

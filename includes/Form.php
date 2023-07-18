@@ -671,7 +671,7 @@ abstract class Form {
 	public function getHTML(): string {
 
 		/**
-		 * Runs after the form HTML has been generated.
+		 * Runs before the form HTML has been generated.
 		 *
 		 * The dynamic part of the hook refers to the form name (e.g. `User_Login`).
 		 * You can check the available forms in the `includes/Form` folder.

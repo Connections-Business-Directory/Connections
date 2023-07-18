@@ -46,6 +46,9 @@
 [data-component^="form"] label input[type="checkbox"] {
 	margin-inline-end: 0.5ch;
 }
+[data-component^="form"] input[type="checkbox"] + label {
+	margin-inline-start: 0.5ch;
+}
 
 /*
  * Spinner

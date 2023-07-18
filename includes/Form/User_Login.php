@@ -131,7 +131,7 @@ final class User_Login extends Form {
 	 *
 	 * @return Field\Button
 	 */
-	public static function spanButtontext( Field\Button $button ): Field\Button {
+	public static function spanButtonText( Field\Button $button ): Field\Button {
 
 		$text = $button->getText();
 

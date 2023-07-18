@@ -102,15 +102,6 @@ abstract class Form {
 	protected $method = 'POST';
 
 	/**
-	 * Confirmation message.
-	 *
-	 * @since 10.4.46
-	 *
-	 * @var string
-	 */
-	protected $message;
-
-	/**
 	 * Redirect URI.
 	 *
 	 * @since 10.4.46

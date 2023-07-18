@@ -662,6 +662,42 @@ abstract class Form {
 	}
 
 	/**
+	 * Generate the form header.
+	 *
+	 * @since 10.4.47
+	 *
+	 * @return string
+	 */
+	protected function getHeader(): string {
+
+		if ( $this->description ) {
+
+			$this->header .= '<p class="cbd-form__description">' . _sanitize::html( $this->description ) . '</p>';
+		}
+
+		$this->header .= '<div class="cbd-form__messages" data-component="messages" role="alert"></div>';
+
+		return $this->header;
+	}
+
+	/**
+	 * Generate the form footer.
+	 *
+	 * @since 10.4.47
+	 *
+	 * @return string
+	 */
+	protected function getFooter(): string {
+
+		if ( $this->submit instanceof Field\Submit || $this->submit instanceof Field\Button ) {
+
+			$this->footer .= $this->submit->getHTML();
+		}
+
+		return $this->footer;
+	}
+
+	/**
 	 * Get the form HTML.
 	 *
 	 * @since 10.4.46
@@ -698,27 +734,7 @@ abstract class Form {
 		$html .= '<form ' . $this->prepareAttributes() . '>';
 
 		// Render header.
-		if ( $this->description || $this->header ) {
-
-			$html .= '<div class="cbd-form__header">';
-
-			if ( $this->description ) {
-
-				$html .= '<p class="cbd-form__description">' . _sanitize::html( $this->description ) . '</p>';
-			}
-
-			if ( $this->header ) {
-
-				$html .= $this->header;
-			}
-
-			$html .= '<div class="cbd-form__messages" data-component="messages" role="alert"></div>';
-			$html .= '</div>';
-
-		} else {
-
-			$html .= '<div class="cbd-form__messages" data-component="messages" role="alert"></div>';
-		}
+		$html .= '<div class="cbd-form__header">' . $this->getHeader() . '</div>';
 
 		// Render fields.
 		if ( $this->fields ) {
@@ -780,22 +796,7 @@ abstract class Form {
 		}
 
 		// Render footer.
-		if ( $this->submit || $this->footer ) {
-
-			$html .= '<div class="cbd-form__footer">';
-
-			if ( $this->submit instanceof Field\Submit || $this->submit instanceof Field\Button ) {
-
-				$html .= $this->submit->getHTML();
-			}
-
-			if ( $this->footer ) {
-
-				$html .= $this->footer;
-			}
-
-			$html .= '</div>';
-		}
+		$html .= '<div class="cbd-form__footer">' . $this->getFooter() . '</div>';
 
 		$html .= '</form>';
 

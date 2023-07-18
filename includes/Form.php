@@ -81,7 +81,7 @@ abstract class Form {
 	 *
 	 * @var string
 	 */
-	protected $footer;
+	protected $footer = '';
 
 	/**
 	 * Header HTML.
@@ -90,7 +90,7 @@ abstract class Form {
 	 *
 	 * @var string
 	 */
-	protected $header;
+	protected $header = '';
 
 	/**
 	 * HTTP method.

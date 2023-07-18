@@ -772,6 +772,33 @@ abstract class Form {
 
 					$html .= '<div class="' . _escape::classNames( $classNames ) . '">';
 
+					/*
+					 * Capture action output.
+					 */
+					ob_start();
+
+					/**
+					 * Runs before a form field HTML has been generated.
+					 *
+					 * The dynamic part of the hook refers to the form name (e.g. `User_Login`).
+					 * You can check the available forms in the `includes/Form` folder.
+					 *
+					 * @since 10.4.47
+					 *
+					 * @param Field  $field The current form field.
+					 * @param static $form  The current instance of Form.
+					 */
+					do_action(
+						'Connections_Directory/Form/' . $this->getShortname() . '/Render/Field/Before',
+						$field,
+						$this
+					);
+
+					/*
+					 * Add captured action output to the form HTML.
+					 */
+					$html .= ob_get_clean();
+
 					$fieldClassNames = array(
 						'cbd-field',
 						"cbd-field--{$fieldType}",
@@ -781,6 +808,33 @@ abstract class Form {
 					$field->label->addClass( 'cbd-field--label' );
 
 					$html .= $field->getHTML();
+
+					/*
+					 * Capture action output.
+					 */
+					ob_start();
+
+					/**
+					 * Runs after a form field HTML has been generated.
+					 *
+					 * The dynamic part of the hook refers to the form name (e.g. `User_Login`).
+					 * You can check the available forms in the `includes/Form` folder.
+					 *
+					 * @since 10.4.47
+					 *
+					 * @param Field  $field The current form field.
+					 * @param static $form  The current instance of Form.
+					 */
+					do_action(
+						'Connections_Directory/Form/' . $this->getShortname() . '/Render/Field/After',
+						$field,
+						$this
+					);
+
+					/*
+					 * Add captured action output to the form HTML.
+					 */
+					$html .= ob_get_clean();
 
 					$html .= '</div>';
 

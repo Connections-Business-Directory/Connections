@@ -670,6 +670,11 @@ abstract class Form {
 	 */
 	public function getHTML(): string {
 
+		/*
+		 * Capture action output.
+		 */
+		ob_start();
+
 		/**
 		 * Runs before the form HTML has been generated.
 		 *
@@ -685,7 +690,12 @@ abstract class Form {
 			$this
 		);
 
-		$html = '<form ' . $this->prepareAttributes() . '>';
+		/*
+		 * Add captured action output to the form HTML.
+		 */
+		$html = ob_get_clean();
+
+		$html .= '<form ' . $this->prepareAttributes() . '>';
 
 		// Render header.
 		if ( $this->description || $this->header ) {
@@ -789,6 +799,11 @@ abstract class Form {
 
 		$html .= '</form>';
 
+		/*
+		 * Capture action output.
+		 */
+		ob_start();
+
 		/**
 		 * Runs after the form HTML has been generated.
 		 *
@@ -803,6 +818,11 @@ abstract class Form {
 			'Connections_Directory/Form/' . $this->getShortname() . '/Render/After',
 			$this
 		);
+
+		/*
+		 * Add captured action output to the form HTML.
+		 */
+		$html .= ob_get_clean();
 
 		return $html;
 	}

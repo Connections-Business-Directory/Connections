@@ -120,6 +120,15 @@ abstract class Form {
 	protected $reset = false;
 
 	/**
+	 * Current class shortname.
+	 *
+	 * @since 10.4.47
+	 *
+	 * @var string
+	 */
+	protected $shortname;
+
+	/**
 	 * Form submit button.
 	 *
 	 * @var Field\Submit
@@ -187,16 +196,14 @@ abstract class Form {
 	 *
 	 * @return string
 	 */
-	protected function getShortname(): string {
+	final protected function getShortname(): string {
 
-		static $shortname;
+		if ( ! isset( $this->shortname ) ) {
 
-		if ( ! isset( $shortname ) ) {
-
-			$shortname = _::getClassShortName( $this );
+			$this->shortname = _::getClassShortName( $this );
 		}
 
-		return $shortname;
+		return $this->shortname;
 	}
 
 	/**

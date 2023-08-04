@@ -282,6 +282,7 @@ module.exports = [
 				'admin/icon-picker/script': './assets/src/sortable-iconpicker',
 				'admin/style': './assets/src/admin.scss',
 				'frontend/script': './assets/src/forms/user-login',
+				'frontend/forms/reset-password/script': './assets/src/forms/reset-password',
 				'frontend/style': './assets/src/frontend.scss',
 				'block/editor/style': './includes/blocks/components/style.scss',
 				'block/editor/script': './includes/blocks/index.js',

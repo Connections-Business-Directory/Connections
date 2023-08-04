@@ -62,7 +62,7 @@ trait Label {
 	 */
 	public function setLabelPosition( string $position ) {
 
-		if ( in_array( $position, array( 'before', 'after', 'implicit' ), true ) ) {
+		if ( in_array( $position, array( 'before', 'after', 'implicit', 'implicit/after', 'implicit/before' ), true ) ) {
 
 			$this->labelPosition = $position;
 		}

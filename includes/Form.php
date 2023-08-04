@@ -81,7 +81,7 @@ abstract class Form {
 	 *
 	 * @var string
 	 */
-	protected $footer;
+	protected $footer = '';
 
 	/**
 	 * Header HTML.
@@ -90,7 +90,7 @@ abstract class Form {
 	 *
 	 * @var string
 	 */
-	protected $header;
+	protected $header = '';
 
 	/**
 	 * HTTP method.
@@ -100,15 +100,6 @@ abstract class Form {
 	 * @var string
 	 */
 	protected $method = 'POST';
-
-	/**
-	 * Confirmation message.
-	 *
-	 * @since 10.4.46
-	 *
-	 * @var string
-	 */
-	protected $message;
 
 	/**
 	 * Redirect URI.
@@ -127,6 +118,15 @@ abstract class Form {
 	 * @var bool
 	 */
 	protected $reset = false;
+
+	/**
+	 * Current class shortname.
+	 *
+	 * @since 10.4.47
+	 *
+	 * @var string
+	 */
+	protected $shortname;
 
 	/**
 	 * Form submit button.
@@ -171,6 +171,8 @@ abstract class Form {
 		$this->addData( _array::get( $parameters, 'data', array() ) );
 		$this->addFields( _array::get( $parameters, 'fields', array() ) );
 		$this->addSubmit( _array::get( $parameters, 'submit', array() ) );
+
+		$this->description = _array::get( $parameters, 'description', '' );
 	}
 
 	/**
@@ -194,16 +196,14 @@ abstract class Form {
 	 *
 	 * @return string
 	 */
-	protected function getShortname(): string {
+	final protected function getShortname(): string {
 
-		static $shortname;
+		if ( ! isset( $this->shortname ) ) {
 
-		if ( ! isset( $shortname ) ) {
-
-			$shortname = _::getClassShortName( $this );
+			$this->shortname = _::getClassShortName( $this );
 		}
 
-		return $shortname;
+		return $this->shortname;
 	}
 
 	/**
@@ -662,6 +662,42 @@ abstract class Form {
 	}
 
 	/**
+	 * Generate the form header.
+	 *
+	 * @since 10.4.47
+	 *
+	 * @return string
+	 */
+	protected function getHeader(): string {
+
+		if ( $this->description ) {
+
+			$this->header .= '<p class="cbd-form__description">' . _sanitize::html( $this->description ) . '</p>';
+		}
+
+		$this->header .= '<div class="cbd-form__messages" data-component="messages" role="alert"></div>';
+
+		return $this->header;
+	}
+
+	/**
+	 * Generate the form footer.
+	 *
+	 * @since 10.4.47
+	 *
+	 * @return string
+	 */
+	protected function getFooter(): string {
+
+		if ( $this->submit instanceof Field\Submit || $this->submit instanceof Field\Button ) {
+
+			$this->footer .= $this->submit->getHTML();
+		}
+
+		return $this->footer;
+	}
+
+	/**
 	 * Get the form HTML.
 	 *
 	 * @since 10.4.46
@@ -670,8 +706,13 @@ abstract class Form {
 	 */
 	public function getHTML(): string {
 
+		/*
+		 * Capture action output.
+		 */
+		ob_start();
+
 		/**
-		 * Runs after the form HTML has been generated.
+		 * Runs before the form HTML has been generated.
 		 *
 		 * The dynamic part of the hook refers to the form name (e.g. `User_Login`).
 		 * You can check the available forms in the `includes/Form` folder.
@@ -685,30 +726,15 @@ abstract class Form {
 			$this
 		);
 
-		$html = '<form ' . $this->prepareAttributes() . '>';
+		/*
+		 * Add captured action output to the form HTML.
+		 */
+		$html = ob_get_clean();
+
+		$html .= '<form ' . $this->prepareAttributes() . '>';
 
 		// Render header.
-		if ( $this->description || $this->header ) {
-
-			$html .= '<div class="cbd-form__header">';
-
-			if ( $this->description ) {
-
-				$html .= '<p class="cbd-form__description">' . _sanitize::html( $this->description ) . '</p>';
-			}
-
-			if ( $this->header ) {
-
-				$html .= $this->header;
-			}
-
-			$html .= '<div class="cbd-form__messages" data-component="messages" role="alert"></div>';
-			$html .= '</div>';
-
-		} else {
-
-			$html .= '<div class="cbd-form__messages" data-component="messages" role="alert"></div>';
-		}
+		$html .= '<div class="cbd-form__header">' . $this->getHeader() . '</div>';
 
 		// Render fields.
 		if ( $this->fields ) {
@@ -730,7 +756,7 @@ abstract class Form {
 				 * @param static $form    The current instance of Form.
 				 */
 				$field = apply_filters(
-					'Connections_Directory/Form/' . $this->getShortname() . '/Render/Field/Before',
+					'Connections_Directory/Form/' . $this->getShortname() . '/Field',
 					$field,
 					$this
 				);
@@ -746,6 +772,33 @@ abstract class Form {
 
 					$html .= '<div class="' . _escape::classNames( $classNames ) . '">';
 
+					/*
+					 * Capture action output.
+					 */
+					ob_start();
+
+					/**
+					 * Runs before a form field HTML has been generated.
+					 *
+					 * The dynamic part of the hook refers to the form name (e.g. `User_Login`).
+					 * You can check the available forms in the `includes/Form` folder.
+					 *
+					 * @since 10.4.47
+					 *
+					 * @param Field  $field The current form field.
+					 * @param static $form  The current instance of Form.
+					 */
+					do_action(
+						'Connections_Directory/Form/' . $this->getShortname() . '/Render/Field/Before',
+						$field,
+						$this
+					);
+
+					/*
+					 * Add captured action output to the form HTML.
+					 */
+					$html .= ob_get_clean();
+
 					$fieldClassNames = array(
 						'cbd-field',
 						"cbd-field--{$fieldType}",
@@ -755,6 +808,33 @@ abstract class Form {
 					$field->label->addClass( 'cbd-field--label' );
 
 					$html .= $field->getHTML();
+
+					/*
+					 * Capture action output.
+					 */
+					ob_start();
+
+					/**
+					 * Runs after a form field HTML has been generated.
+					 *
+					 * The dynamic part of the hook refers to the form name (e.g. `User_Login`).
+					 * You can check the available forms in the `includes/Form` folder.
+					 *
+					 * @since 10.4.47
+					 *
+					 * @param Field  $field The current form field.
+					 * @param static $form  The current instance of Form.
+					 */
+					do_action(
+						'Connections_Directory/Form/' . $this->getShortname() . '/Render/Field/After',
+						$field,
+						$this
+					);
+
+					/*
+					 * Add captured action output to the form HTML.
+					 */
+					$html .= ob_get_clean();
 
 					$html .= '</div>';
 
@@ -770,24 +850,14 @@ abstract class Form {
 		}
 
 		// Render footer.
-		if ( $this->submit || $this->footer ) {
-
-			$html .= '<div class="cbd-form__footer">';
-
-			if ( $this->submit instanceof Field\Submit || $this->submit instanceof Field\Button ) {
-
-				$html .= $this->submit->getHTML();
-			}
-
-			if ( $this->footer ) {
-
-				$html .= $this->footer;
-			}
-
-			$html .= '</div>';
-		}
+		$html .= '<div class="cbd-form__footer">' . $this->getFooter() . '</div>';
 
 		$html .= '</form>';
+
+		/*
+		 * Capture action output.
+		 */
+		ob_start();
 
 		/**
 		 * Runs after the form HTML has been generated.
@@ -803,6 +873,11 @@ abstract class Form {
 			'Connections_Directory/Form/' . $this->getShortname() . '/Render/After',
 			$this
 		);
+
+		/*
+		 * Add captured action output to the form HTML.
+		 */
+		$html .= ob_get_clean();
 
 		return $html;
 	}

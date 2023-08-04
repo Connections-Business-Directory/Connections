@@ -3,70 +3,115 @@
  */
 import apiFetch from '@wordpress/api-fetch';
 
-const form = document.querySelector('[data-component="form-user_login"]');
+const forms = document.querySelectorAll(
+	'[data-component="form-user_login"],' +
+		'[data-component="form-request_reset_password"],' +
+		'[data-component="form-reset_password"]'
+);
 
-form.addEventListener(
-	'submit',
-	(event) => {
-		// Store reference to form to make later code easier to read.
-		const form = event.target;
-		const messages = form.querySelector('[data-component="messages"]');
-		const submit = form.querySelector('button[type="submit"]');
+forms.forEach((form, index, array) => {
+	form.addEventListener(
+		'submit',
+		(event) => {
+			// Store reference to form to make later code easier to read.
+			const form = event.target;
+			const messages = form.querySelector('[data-component="messages"]');
+			const submit = form.querySelector('button[type="submit"]');
 
-		// Set button loading state.
-		submit.classList.add('cbd-field--button__is-loading');
+			// Set button loading state.
+			submit.classList.add('cbd-field--button__is-loading');
 
-		// Reset the messages container content.
-		messages.innerHTML = '';
+			// Reset the messages container class.
+			messages.classList.remove(
+				'cbd-form__message--error',
+				'cbd-form__message--success'
+			);
 
-		if (form.dataset.action) {
-			const data = new FormData(form);
+			// Reset the messages container display.
+			// messages.style.display = 'none';
 
-			// Add redirect to the form data.
-			if (typeof form.dataset.redirect === 'string') {
-				data.append('redirect', form.dataset.redirect);
+			// Reset the messages container content.
+			messages.innerHTML = '';
+
+			if (form.dataset.action) {
+				const data = new FormData(form);
+
+				// Add redirect to the form data.
+				if (typeof form.dataset.redirect === 'string') {
+					data.append('redirect', form.dataset.redirect);
+				}
+
+				apiFetch({
+					path: form.dataset.action,
+					method: form.method,
+					body: data,
+				})
+					.then((res) => {
+						console.log(res);
+
+						// Set button loading state.
+						submit.classList.remove(
+							'cbd-field--button__is-loading'
+						);
+
+						// Display the confirmation message.
+						if (typeof form.dataset.confirmation === 'string') {
+							messages.classList.add(
+								'cbd-form__message--success'
+							);
+							messages.innerHTML =
+								'<div>' + form.dataset.confirmation + '</div>';
+						}
+
+						// Display the confirmation message.
+						// messages.style.display = '';
+
+						// Enable the submit button to allow additional requests.
+						submit.disabled = false;
+
+						if (typeof res.redirect === 'string') {
+							window.location.replace(res.redirect);
+						} else if (
+							typeof res.reload === 'boolean' &&
+							true === res.reload
+						) {
+							window.location.reload();
+						} else if (
+							typeof res.reset === 'boolean' &&
+							true === res.reset
+						) {
+							form.reset();
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+
+						messages.classList.add('cbd-form__message--error');
+
+						if (err.message) {
+							messages.innerHTML =
+								'<div>' + err.message + '</div>';
+						}
+
+						// Display the confirmation message.
+						// messages.style.display = '';
+
+						// Set button loading state.
+						submit.classList.remove(
+							'cbd-field--button__is-loading'
+						);
+
+						// Enable the submit button to allow additional requests.
+						submit.disabled = false;
+					});
 			}
 
-			apiFetch({
-				path: form.dataset.action,
-				method: form.method,
-				body: data,
-			})
-				.then((res) => {
-					console.log(res);
+			// Disable submit button to prevent additional requests.
+			submit.disabled = true;
 
-					// Set button loading state.
-					submit.classList.remove('cbd-field--button__is-loading');
-
-					// Enable the submit button to allow additional requests.
-					submit.disabled = false;
-
-					if (typeof res.redirect === 'string') {
-						window.location.replace(res.redirect);
-					} else if (typeof res.reload === 'boolean') {
-						window.location.reload();
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-
-					if (err.message) {
-						messages.innerHTML = '<div>' + err.message + '</div>';
-					}
-
-					// Set button loading state.
-					submit.classList.remove('cbd-field--button__is-loading');
-
-					// Enable the submit button to allow additional requests.
-					submit.disabled = false;
-				});
-		}
-
-		// Disable submit button to prevent additional requests.
-		submit.disabled = true;
-
-		// Prevent the default form submit.
-		event.preventDefault();
-	},
-	false
-);
+			// Prevent the default form submit.
+			event.preventDefault();
+		},
+		false
+	);
+});

@@ -1,6 +1,10 @@
 {
 	"env": {
-		"jquery": true
+		"jquery": true,
+		"node": true,
+		"browser": true,
+		"commonjs": true,
+		"amd": true
 	},
 	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
 	"globals": {

@@ -1,4 +1,56 @@
 /*
+ * Success/Error message.
+ */
+[data-component^="form"] [data-component="messages"] {
+	color: #1a202c;
+	opacity: 0;
+	transition-property: height, margin, opacity, visibility;
+	transition-duration: 350ms;
+	transition-timing-function: ease-in-out;
+	transition-delay: 0ms;
+	visibility: hidden;
+}
+
+[data-component^="form"] [data-component="messages"].cbd-form__message--error {
+	background-color: #ffebee;
+	border-radius: 5px;
+	border: #f44336 0 solid;
+	border-left-width: 4px;
+	margin: 1rem 0;
+	opacity: 1;
+	padding: 20px;
+	visibility: visible;
+}
+
+[data-component^="form"] [data-component="messages"].cbd-form__message--success {
+	background-color: #e8f5e9;
+	border-radius: 5px;
+	border: #4caf50 0 solid;
+	border-left-width: 4px;
+	margin: 1rem 0;
+	opacity: 1;
+	padding: 20px;
+	visibility: visible;
+}
+
+/*
+ * Gap between fields.
+ */
+[data-component^="form"] .cbd-form__fields .cbd-form__field {
+	margin: 0.5em 0;
+}
+
+/*
+ * Add a small space between checkbox and label.
+ */
+[data-component^="form"] label input[type="checkbox"] {
+	margin-inline-end: 0.5ch;
+}
+[data-component^="form"] input[type="checkbox"] + label {
+	margin-inline-start: 0.5ch;
+}
+
+/*
  * Spinner
  * The spinner element is a pseudo-element
  * @link https://codepen.io/dcode-software/pen/abZPmRb

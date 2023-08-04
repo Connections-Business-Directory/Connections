@@ -1,12 +1,12 @@
 <?php
 /**
- * The user login form.
+ * Request password reset.
  *
- * @since 10.4.46
+ * @since 10.4.47
  *
  * @category   WordPress\Plugin
  * @package    Connections Business Directory
- * @subpackage Connections_Directory\Form
+ * @subpackage Connections\
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2023, Steven A. Zahm
@@ -23,30 +23,40 @@ use Connections_Directory\Utility\_parse;
 use Connections_Directory\Utility\_token;
 
 /**
- * Class User_Login
+ * Class Request_Password_Reset
  *
  * @package Connections_Directory\Form
  */
-final class User_Login extends Form {
+final class Request_Reset_Password extends Form {
 
 	/**
-	 * User_Login constructor.
+	 * Request_Password_Reset constructor.
 	 *
 	 * @param array $parameters The form parameters.
 	 */
 	public function __construct( array $parameters = array() ) {
 
 		$defaults = array(
-			'class'  => array( 'cbd-form__user-login' ),
-			'id'     => 'loginform',
-			'name'   => 'loginform',
-			'action' => get_rest_url( get_current_blog_id(), 'cn-api/v1/account/login' ),
-			'fields' => $this->fields( $parameters ),
-			'submit' => array(
+			'class'       => array( 'cbd-form__request-reset-password' ),
+			'id'          => 'lostpasswordform',
+			'name'        => 'lostpasswordform',
+			'action'      => get_rest_url( get_current_blog_id(), 'cn-api/v1/account/request-reset-password' ),
+			'data'        => array(
+				'confirmation' => esc_html__( 'Check your email for the instructions on how to reset your password.', 'connections' ),
+			),
+			'fields'      => $this->fields( $parameters ),
+			'submit'      => array(
 				'id'    => 'wp-submit',
 				'name'  => 'wp-submit',
-				'class' => array( 'button', 'button-primary' ),
-				'text'  => __( 'Log In', 'connections' ),
+				'class' => array(
+					'button',
+					'button-primary',
+				),
+				'text'  => __( 'Get New Password', 'connections' ),
+			),
+			'description' => __(
+				'Please enter your username or email address. You will receive an email message with instructions on how to reset your password.',
+				'connections'
 			),
 		);
 
@@ -105,7 +115,7 @@ final class User_Login extends Form {
 	 * Callback for the `Connections_Directory/Form/User_Login/Field` filter.
 	 *
 	 * @internal
-	 * @since 10.4.46
+	 * @since 10.4.47
 	 *
 	 * @param Field $field An instance of the Field object.
 	 *
@@ -115,7 +125,7 @@ final class User_Login extends Form {
 
 		if ( '_cnonce' === $field->getName() ) {
 
-			$field->setValue( _token::create( 'user/login' ) );
+			$field->setValue( _token::create( 'user/request-reset-password' ) );
 		}
 
 		return $field;
@@ -125,7 +135,7 @@ final class User_Login extends Form {
 	 * Add a span tag around the submit button that can be used to add a loading spinner via CSS.
 	 *
 	 * @internal
-	 * @since 10.4.46
+	 * @since 10.4.47
 	 *
 	 * @param Field\Button $button An instance of the Button object.
 	 *
@@ -138,38 +148,16 @@ final class User_Login extends Form {
 		return $button->text( '<span class="cbd-field--button__text">' . $text . '</span>' );
 	}
 
-	/**
-	 * The user login form fields.
-	 *
-	 * @since 10.4.46
-	 *
-	 * @param array{
-	 *     label_username: string,
-	 *     label_password: string,
-	 *     label_remember: string,
-	 *     id_username: string,
-	 *     id_password: string,
-	 *     id_remember: string,
-	 *     remember: bool,
-	 * } $parameters Field parameters.
-	 *
-	 * @return Field[]
-	 */
 	private function fields( array $parameters ): array {
 
 		$defaults = array(
 			'label_username' => __( 'Username or Email Address', 'connections' ),
-			'label_password' => __( 'Password', 'connections' ),
-			'label_remember' => __( 'Remember Me', 'connections' ),
 			'id_username'    => 'user_login',
-			'id_password'    => 'user_pass',
-			'id_remember'    => 'rememberme',
-			'remember'       => true,
 		);
 
 		$parameters = _parse::parameters( $parameters, $defaults );
 
-		$fields = array(
+		return array(
 			Field\Text::create(
 				array(
 					'id'           => $parameters['id_username'],
@@ -195,24 +183,6 @@ final class User_Login extends Form {
 					),
 				)
 			),
-			Field\Password::create(
-				array(
-					'id'           => $parameters['id_password'],
-					'label'        => $parameters['label_password'],
-					'name'         => 'pwd',
-					'required'     => true,
-					'autocomplete' => 'current-password',
-					'attributes'   => array(),
-					'data'         => array(
-						'1p-ignore' => 'true',
-						'lpignore'  => 'true',
-					),
-					'schema'       => array(
-						'type'      => 'string',
-						'maxLength' => 4096, // https://wordpress.stackexchange.com/a/400958/59053 .
-					),
-				)
-			),
 			Field\Hidden::create(
 				array(
 					'name'   => '_cnonce',
@@ -229,24 +199,5 @@ final class User_Login extends Form {
 				)
 			),
 		);
-
-		if ( $parameters['remember'] ) {
-
-			$fields[] = Field\Checkbox::create(
-				array(
-					'id'      => $parameters['rememberme'],
-					'label'   => $parameters['label_remember'],
-					'name'    => 'rememberme',
-					'value'   => '0',
-					'default' => '0',
-					'schema'  => array(
-						'type' => 'string',
-						'enum' => array( '0', '1' ),
-					),
-				)
-			)->setLabelPosition( 'implicit/after' );
-		}
-
-		return $fields;
 	}
 }

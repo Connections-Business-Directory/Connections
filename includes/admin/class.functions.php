@@ -72,7 +72,7 @@ class cnAdminFunction {
 			 */
 			$directoryHome = $instance->settings->get( 'connections', 'connections_home_page', 'page_id' );
 
-			if ( ! $directoryHome ) {
+			if ( ! $directoryHome && current_user_can( 'manage_options' ) ) {
 				cnMessage::create( 'notice', 'home_page_set_failed' );
 			}
 

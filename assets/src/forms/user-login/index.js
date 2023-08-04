@@ -5,7 +5,8 @@ import apiFetch from '@wordpress/api-fetch';
 
 const forms = document.querySelectorAll(
 	'[data-component="form-user_login"],' +
-		'[data-component="form-request_reset_password"]'
+		'[data-component="form-request_reset_password"],' +
+		'[data-component="form-reset_password"]'
 );
 
 forms.forEach((form, index, array) => {

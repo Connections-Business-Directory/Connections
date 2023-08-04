@@ -353,6 +353,7 @@ class cnDependency {
 			// HTML elements class.
 			'cnHTML'                                                  => 'includes/class.html.php',
 			'Connections_Directory\Form'                              => 'includes/Form.php',
+			'Connections_Directory\Form\Reset_Password'               => 'includes/Form/Reset_Password.php',
 			'Connections_Directory\Form\Request_Reset_Password'       => 'includes/Form/Request_Reset_Password.php',
 			'Connections_Directory\Form\User_Login'                   => 'includes/Form/User_Login.php',
 			'Connections_Directory\Form\Interfaces\Field'             => 'includes/Form/Interfaces/Field.php',

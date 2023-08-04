@@ -248,6 +248,32 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.47 08/04/2023 =
+* NEW: Add support for the "Remember Me" checkbox in the login form.
+* NEW: Introduce the `account/request-reset-password` REST API endpoint.
+* NEW: Introduce the Account Request Reset Password form.
+* NEW: Introduce `Form::getHeader()` and `Form::getFooter()` so the sections of the form be overridden.
+* NEW: Introduce the Reset Password form.
+* TWEAK: Add support for `implicit/after` and `implicit/before` when defining field label positioning.
+* TWEAK: Minor CSS tweaks, adding gaps between fields and a space between a checkbox field and its label.
+* TWEAK: Set form description in the constructor.
+* TWEAK: Removed unused class property.
+* TWEAK: Add default styling for form confirmation and error messages.
+* TWEAK: Refactor the Form API JavaScript to support multiple forms on a page when attaching event listeners.
+* TWEAK: Remove unused `message` property from the base `Form` object.
+* TWEAK: Set the default value of the `header` and `footer` properties to be an empty string in the `Form` object.
+* TWEAK: Refactor `Form::getShortname()` to not use a static variable as each new form instance must return the current instance class shortname.
+* TWEAK: Add output buffering to the `Form` object actions.
+* TWEAK: Add action before and after rendering a form field in the `Form` object.
+* TWEAK: Add a space between a checkbox field and its label.
+* TWEAK: Add current user can check before registering an admin message.
+* TWEAK: Change filter name from `Connections_Directory/Form/{Form_Name}/Render/Field/Before` to `Connections_Directory/Form/{Form_Name}/Field`.
+* OTHER: Correct misspellings.
+* DEV: Remove @todo.
+* DEV: phpDoc corrections.
+* DEV: Update .eslintrc.
+* DEV: Update the `dist` files.
+
 = 10.4.46 07/07/2023 =
 * NEW: Introduce the Password form field.
 * NEW: Introduce the Button form element.
@@ -621,31 +647,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc updates.
 * DEV: Adjust inline comment.
 
-= 10.4.32 11/02/2022 =
-* NEW: Introduce `\Request\Integer`.
-* NEW: Introduce `\Hook\Action\Ajax\Category_Metabox_Height`.
-* NEW: Introduce the `Connections_Directory/Entry/Unique_Slug` filter.
-* NEW: Introduce `\Input::hasFailedSchemaSanitization()` and `\Input::hasFailedSchemaValidation()`.
-* NEW: Introduce `\Hook\Action\Ajax\System_Information`.
-* TWEAK: Update success message when the category metabox height is successfully changed to include the height.
-* TWEAK: Refactor `\Request\ID` to extend `\Request\Integer`.
-* TWEAK: Refactor `cnAdminActions::setUserCategoryDivHeight()` to utilize `\Request\ID`.
-* TWEAK: Refactor category metabox height to utilize `\Hook\Action\Ajax\Category_Metabox_Height`.
-* TWEAK: Remove deprecated and commented out `wp_current_category` shortcode option.
-* TWEAK: Remove use of deprecated `cnFormatting` class.
-* TWEAK: Remove use of deprecated `cnString` class.
-* TWEAK: Refactor the system info actions to utilize `\Hook\Action\Ajax\System_Information`.
-* TWEAK: Minor db schema change to improve unique slug lookup.
-* OTHER: Correct misspellings.
-* DEV: Correct namespace of filter hook callbacks.
-* DEV: Remove commented out code.
-* DEV: Qualifier can be replaced with an import.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-
 == Upgrade Notice ==
-
-= 10.4.32 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.33 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
@@ -687,4 +689,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.46 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.47 =
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

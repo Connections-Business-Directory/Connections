@@ -76,7 +76,7 @@ final class Request_Reset_Password extends Form {
 	protected function hooks() {
 
 		add_filter(
-			'Connections_Directory/Form/' . $this->getShortname() . '/Render/Field/Before',
+			'Connections_Directory/Form/' . $this->getShortname() . '/Field',
 			array( __CLASS__, 'generateNonce' )
 		);
 
@@ -112,7 +112,7 @@ final class Request_Reset_Password extends Form {
 	}
 
 	/**
-	 * Callback for the `Connections_Directory/Form/User_Login/Render/Field/Before` filter.
+	 * Callback for the `Connections_Directory/Form/User_Login/Field` filter.
 	 *
 	 * @internal
 	 * @since 10.4.47

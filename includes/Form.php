@@ -756,7 +756,7 @@ abstract class Form {
 				 * @param static $form    The current instance of Form.
 				 */
 				$field = apply_filters(
-					'Connections_Directory/Form/' . $this->getShortname() . '/Render/Field/Before',
+					'Connections_Directory/Form/' . $this->getShortname() . '/Field',
 					$field,
 					$this
 				);

@@ -190,15 +190,6 @@ final class Reset_Password extends Form {
 			$field->addData( 'pw', wp_generate_password( 24 ) );
 		}
 
-		if ( 'login' === $field->getName() && isset( $_GET['login'] ) ) {
-
-			$userLogin = $_GET['login'];
-
-			$sanitizedUserLogin = is_email( $userLogin ) ? sanitize_email( $userLogin ) : sanitize_user( $userLogin );
-
-			$field->setValue( $sanitizedUserLogin );
-		}
-
 		if ( 'key' === $field->getName() && isset( $_GET['key'] ) ) {
 
 			$field->setValue( $_GET['key'] );
@@ -362,22 +353,6 @@ final class Reset_Password extends Form {
 					'schema'       => array(
 						'type'      => 'string',
 						'maxLength' => 4096, // https://wordpress.stackexchange.com/a/400958/59053 .
-					),
-				)
-			),
-			Field\Hidden::create(
-				array(
-					'name'         => 'login',
-					'value'        => '',
-					'autocomplete' => 'off',
-					'schema'       => array(
-						'type'      => 'string',
-						/*
-						 * Max `user_login` is 60 characters, and max `user_email` is 100 characters.
-						 * Set max accepted string to 100 characters.
-						 * @link https://codex.wordpress.org/Database_Description#Table:_wp_users
-						 */
-						'maxLength' => 100,
 					),
 				)
 			),

@@ -101,6 +101,11 @@ final class Reset_Password extends Form {
 				wp_enqueue_script( 'Connections_Directory/Form/Rest_Password/Script' );
 			}
 		);
+
+		add_action(
+			'Connections_Directory/Form/' . $this->getShortname() . '/Render/After',
+			array( __CLASS__, 'setCookie' )
+		);
 	}
 
 	/**
@@ -257,6 +262,25 @@ final class Reset_Password extends Form {
 			echo '</div>';
 
 			echo '<div data-component="password-strength-result" class="" aria-live="polite">' . esc_html__( 'Strength indicator', 'connections' ) . '</div>';
+		}
+	}
+
+	/**
+	 * Callback for the `Connections_Directory/Form/Reset_Password/Render/After` action.
+	 *
+	 * Set the user login and password reset key in a cookie.
+	 *
+	 * @since 10.4.48
+	 */
+	public static function setCookie() {
+
+		if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+
+			$name   = 'wp-resetpass-' . COOKIEHASH;
+			$value  = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+			$domain = is_string( COOKIE_DOMAIN ) ? COOKIE_DOMAIN : '';
+
+			setcookie( $name, $value, 0, '/', $domain, is_ssl(), true );
 		}
 	}
 

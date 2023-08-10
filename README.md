@@ -246,6 +246,17 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.48 08/10/2023 =
+
+* NEW: Bump tested to WordPress version 6.3.
+* NEW: Introduce the `account/reset-password` REST API endpoint.
+* TWEAK: Refactor the toggle weak password confirm to use a boolean vs using the weak password score when determining
+  whether to display or not.
+* TWEAK: Add the default value and the field validation schema to the weak password confirmation.
+* TWEAK: Remove the `login` hidden field from the reset password form.
+* TWEAK: Set password reset key cookie after rendering the reset password form.
+* OTHER: Add punctuation to sentences.
+
 = 10.4.47 08/04/2023 =
 * NEW: Add support for the "Remember Me" checkbox in the login form.
 * NEW: Introduce the `account/request-reset-password` REST API endpoint.
@@ -671,27 +682,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update Transifex config.
 * DEV: Add npm script to make POT and push/pull PO/POT files from Transifex.
 * DEV: Update dist files.
-
-= 10.4.33 11/10/2022 =
-
-* NEW: Introduce a polyfill for `json_validate()` added to PHP 8.3.
-* NEW: Introduce `_validate::isFileJSON()` and `_validate::isJSON()`.
-* NEW: Introduce `\Request\List_Table_Logs`.
-* NEW: Introduce `\Hook\Action\Admin\Log_Management`.
-* TWEAK: Remove use of deprecated `cnFunction::decodeJSON()` method.
-* TWEAK: Refactor the system info actions to utilize `\Hook\Action\Ajax\Response`
-  and `\Hook\Action\Ajax\Settings_Export_Import`.
-* TWEAK: Refactor and `\Hook\Action\Ajax\Settings_Export_Import` and `\Hook\Action\Ajax\Category_Metabox_Height` to
-  utilize `\Hook\Action\Ajax\Response` to reduce code duplication.
-* TWEAK: Remove unused import.
-* TWEAK: Refactor to utilize `\Hook\Action\Admin\Log_Management`.
-* TWEAK: Rename `\Request\Int_Array` to `\Request\Integer_Array`. Extend `\Request\Integer_Array`to create ``
-  \Request\ID_Array` and refactor instances of `\Request\Integer_Array` to utilize `\Request\ID_Array`.
-* BUG: The search term for logs is a get request, not a post.
-* BUG: Only include the log type in the delete action URL if not empty.
-* BUG: Add nonce to the Tools Logs admin page.
-* DEV: phpDoc updates.
-* DEV: Adjust inline comment.
-
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

@@ -101,6 +101,11 @@ final class Reset_Password extends Form {
 				wp_enqueue_script( 'Connections_Directory/Form/Rest_Password/Script' );
 			}
 		);
+
+		add_action(
+			'Connections_Directory/Form/' . $this->getShortname() . '/Render/After',
+			array( __CLASS__, 'setCookie' )
+		);
 	}
 
 	/**
@@ -190,15 +195,6 @@ final class Reset_Password extends Form {
 			$field->addData( 'pw', wp_generate_password( 24 ) );
 		}
 
-		if ( 'login' === $field->getName() && isset( $_GET['login'] ) ) {
-
-			$userLogin = $_GET['login'];
-
-			$sanitizedUserLogin = is_email( $userLogin ) ? sanitize_email( $userLogin ) : sanitize_user( $userLogin );
-
-			$field->setValue( $sanitizedUserLogin );
-		}
-
 		if ( 'key' === $field->getName() && isset( $_GET['key'] ) ) {
 
 			$field->setValue( $_GET['key'] );
@@ -270,6 +266,25 @@ final class Reset_Password extends Form {
 	}
 
 	/**
+	 * Callback for the `Connections_Directory/Form/Reset_Password/Render/After` action.
+	 *
+	 * Set the user login and password reset key in a cookie.
+	 *
+	 * @since 10.4.48
+	 */
+	public static function setCookie() {
+
+		if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+
+			$name   = 'wp-resetpass-' . COOKIEHASH;
+			$value  = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+			$domain = is_string( COOKIE_DOMAIN ) ? COOKIE_DOMAIN : '';
+
+			setcookie( $name, $value, 0, '/', $domain, is_ssl(), true );
+		}
+	}
+
+	/**
 	 * Callback for the `Connections_Directory/Form/Reset_Password/Submit` filter.
 	 *
 	 * Add a span tag around the submit button that can be used to add a loading spinner via CSS.
@@ -300,9 +315,9 @@ final class Reset_Password extends Form {
 	private function fields( array $parameters ): array {
 
 		$defaults = array(
-			'label_password_1' => __( 'New password', 'connections' ),
+			'label_password_1' => __( 'New password.', 'connections' ),
 			'id_password_1'    => 'pass1',
-			'label_password_2' => __( 'Confirm new password', 'connections' ),
+			'label_password_2' => __( 'Confirm new password.', 'connections' ),
 			'id_password_2'    => 'pass2',
 		);
 
@@ -335,9 +350,13 @@ final class Reset_Password extends Form {
 			),
 			Field\Checkbox::create(
 				array(
-					'id'    => 'pw_weak',
-					'name'  => 'pw_weak',
-					'label' => __( 'Confirm use of weak password?', 'connections' ),
+					'id'      => 'pw_weak',
+					'name'    => 'pw_weak',
+					'label'   => __( 'Confirm use of weak password?', 'connections' ),
+					'default' => false,
+					'schema'  => array(
+						'type' => 'boolean',
+					),
 				)
 			),
 			Field\Password::create(
@@ -358,22 +377,6 @@ final class Reset_Password extends Form {
 					'schema'       => array(
 						'type'      => 'string',
 						'maxLength' => 4096, // https://wordpress.stackexchange.com/a/400958/59053 .
-					),
-				)
-			),
-			Field\Hidden::create(
-				array(
-					'name'         => 'login',
-					'value'        => '',
-					'autocomplete' => 'off',
-					'schema'       => array(
-						'type'      => 'string',
-						/*
-						 * Max `user_login` is 60 characters, and max `user_email` is 100 characters.
-						 * Set max accepted string to 100 characters.
-						 * @link https://codex.wordpress.org/Database_Description#Table:_wp_users
-						 */
-						'maxLength' => 100,
 					),
 				)
 			),

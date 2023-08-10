@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 10.4.48 08/10/2023 =
+* NEW: Bump tested to WordPress version 6.3.
+* NEW: Introduce the `account/reset-password` REST API endpoint.
+* TWEAK: Refactor the toggle weak password confirm to use a boolean vs using the weak password score when determining whether to display or not.
+* TWEAK: Add the default value and the field validation schema to the weak password confirmation.
+* TWEAK: Remove the `login` hidden field from the reset password form.
+* TWEAK: Set password reset key cookie after rendering the reset password form.
+* OTHER: Add punctuation to sentences.
+
 = 10.4.47 08/04/2023 =
 * NEW: Add support for the "Remember Me" checkbox in the login form.
 * NEW: Introduce the `account/request-reset-password` REST API endpoint.

@@ -136,11 +136,11 @@ import { __ } from '@wordpress/i18n';
 	 * Toggle the display of the confirm weak password checkbox.
 	 *
 	 * @param {Element} element
-	 * @param {number}  score
+	 * @param {boolean} display
 	 * @private
 	 */
-	const _toggleWeakPasswordConfirm = (element, score) => {
-		if (_isWeakPw(score)) {
+	const _toggleWeakPasswordConfirm = (element, display) => {
+		if (display) {
 			element.style.display = 'block';
 		} else {
 			element.style.display = 'none';
@@ -262,18 +262,25 @@ import { __ } from '@wordpress/i18n';
 					if (field.value.length === 0) {
 						pass2.value = '';
 						pass2.disabled = true;
+
+						score.set(form, 0);
+
+						_toggleWeakPasswordConfirm(weakpw, false);
 					} else {
+						score.set(form, _checkPasswordStrength(field.value));
+
+						_toggleWeakPasswordConfirm(
+							weakpw,
+							_isWeakPw(score.get(form))
+						);
+
 						pass2.disabled = false;
 					}
-
-					score.set(form, _checkPasswordStrength(field.value));
 
 					_setPasswordStrengthClass(score.get(form), field.value, [
 						input,
 						passwordStrength,
 					]);
-
-					_toggleWeakPasswordConfirm(weakpw, score.get(form));
 				});
 			}
 		});
@@ -327,15 +334,29 @@ import { __ } from '@wordpress/i18n';
 						passwordStrength,
 					]);
 
-					_toggleWeakPasswordConfirm(weakpw, score.get(form));
+					_toggleWeakPasswordConfirm(
+						weakpw,
+						_isWeakPw(score.get(form))
+					);
 				});
 			});
+		});
+
+		form.addEventListener('reset', () => {
+			score.set(form, 0);
+
+			_setPasswordStrengthClass(score.get(form), '', [
+				pass1,
+				passwordStrength,
+			]);
+
+			_toggleWeakPasswordConfirm(weakpw, false);
 		});
 
 		/*
 		 * Hide the weak password confirmation field and label on load.
 		 */
-		weakpw.style.display = 'none';
+		_toggleWeakPasswordConfirm(weakpw, false);
 
 		/*
 		 * Watch for changes to the data attributes if the password field,

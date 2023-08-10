@@ -300,9 +300,9 @@ final class Reset_Password extends Form {
 	private function fields( array $parameters ): array {
 
 		$defaults = array(
-			'label_password_1' => __( 'New password', 'connections' ),
+			'label_password_1' => __( 'New password.', 'connections' ),
 			'id_password_1'    => 'pass1',
-			'label_password_2' => __( 'Confirm new password', 'connections' ),
+			'label_password_2' => __( 'Confirm new password.', 'connections' ),
 			'id_password_2'    => 'pass2',
 		);
 

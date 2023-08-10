@@ -335,9 +335,13 @@ final class Reset_Password extends Form {
 			),
 			Field\Checkbox::create(
 				array(
-					'id'    => 'pw_weak',
-					'name'  => 'pw_weak',
-					'label' => __( 'Confirm use of weak password?', 'connections' ),
+					'id'      => 'pw_weak',
+					'name'    => 'pw_weak',
+					'label'   => __( 'Confirm use of weak password?', 'connections' ),
+					'default' => false,
+					'schema'  => array(
+						'type' => 'boolean',
+					),
 				)
 			),
 			Field\Password::create(

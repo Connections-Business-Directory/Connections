@@ -175,7 +175,6 @@ function _padTermCounts( &$terms, $taxonomy ) {
 	$visibility = array();
 
 	// Grab an instance of the Connections object.
-	/** @var connectionsLoad $instance */
 	$instance = Connections_Directory();
 
 	// This function only works for hierarchical taxonomies like post categories.

@@ -207,7 +207,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 					)
 				),
 				'per_page'    => $per_page,
-				// 'total_pages' => $set_me, /** This will by calculated by @see WP_List_Table::set_pagination_args() if not supplied. */
+				// 'total_pages' => $set_me, /** This will be calculated by @see WP_List_Table::set_pagination_args() if not supplied. */
 			)
 		);
 

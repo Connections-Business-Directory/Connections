@@ -237,7 +237,7 @@ function _padTermCounts( &$terms, $taxonomy ) {
 		$term_items[ $id ][ $row->entry_id ] = isset( $term_items[ $id ][ $row->entry_id ] ) ? ++$term_items[ $id ][ $row->entry_id ] : 1;
 	}
 
-	// Touch every ancestor's lookup row for each post in each term
+	// Touch every ancestor's lookup row for each post in each term.
 	foreach ( $term_ids as $term_id ) {
 
 		$child     = $term_id;
@@ -264,7 +264,7 @@ function _padTermCounts( &$terms, $taxonomy ) {
 		}
 	}
 
-	// Transfer the touched cells
+	// Transfer the touched cells.
 	foreach ( (array) $term_items as $id => $items ) {
 
 		if ( isset( $terms_by_id[ $id ] ) ) {

@@ -164,8 +164,8 @@ function _getTermHierarchy( $taxonomy ) {
  *
  * @global wpdb $wpdb
  *
- * @param array  $terms    List of Term IDs
- * @param string $taxonomy Term Context
+ * @param array  $terms    List of Term IDs.
+ * @param string $taxonomy Term Context.
  */
 function _padTermCounts( &$terms, $taxonomy ) {
 

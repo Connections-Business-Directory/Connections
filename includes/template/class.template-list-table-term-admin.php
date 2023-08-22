@@ -139,18 +139,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	/**
 	 * Prepares the list of items for displaying.
 	 *
-	 * @access public
-	 * @since  8.2
-	 *
-	 * @uses   WP_List_Table::get_items_per_page()
-	 * @uses   WP_List_Table::get_pagenum()
-	 * @uses   WP_List_Table::set_pagination_args()
-	 * @uses   apply_filters()
-	 * @uses   wp_unslash()
-	 * @uses   cnTerm::getTaxonomyTerms()
-	 * @uses   CN_Term_Admin_List_Table::get_columns()
-	 * @uses   CN_Term_Admin_List_Table::get_hidden_columns()
-	 * @uses   CN_Term_Admin_List_Table::get_sortable_columns()
+	 * @since 8.2
 	 */
 	public function prepare_items() {
 
@@ -688,13 +677,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 *
 	 * NOTE: Using the "posts" column ID in order to take advantage of core WP CSS styles.
 	 *
-	 * @access public
-	 * @since  8.2
+	 * @since 8.2
 	 *
-	 * @uses   number_format_i18n()
-	 * @uses   cnFormObjects::tokenURL()
-	 *
-	 * @param  object $term
+	 * @param Taxonomy\Term $term Taxonomy term object.
 	 *
 	 * @return string
 	 */

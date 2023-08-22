@@ -6,7 +6,6 @@ use cnMeta;
 use cnTerm;
 use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Taxonomy;
-use connectionsLoad;
 use WP_Error;
 use wpdb;
 

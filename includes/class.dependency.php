@@ -258,6 +258,7 @@ class cnDependency {
 			'Connections_Directory\Request\Manage_Bulk_Action'       => 'includes/Request/Manage_Bulk_Action.php',
 			'Connections_Directory\Request\Manage_Filter'            => 'includes/Request/Manage_Filter.php',
 			'Connections_Directory\Request\Nonce'                    => 'includes/Request/Nonce.php',
+			'Connections_Directory\Request\Redirect'                 => 'includes/Request/Redirect.php',
 			'Connections_Directory\Request\Role_Capability'          => 'includes/Request/Role_Capability.php',
 			'Connections_Directory\Request\Search'                   => 'includes/Request/Search.php',
 			'Connections_Directory\Request\Server'                   => 'includes/Request/Server.php',

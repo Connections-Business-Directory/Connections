@@ -194,7 +194,7 @@ class Account extends WP_REST_Controller {
 						),
 						'key'      => array(
 							'required'    => true,
-							'description' => __( 'password reset key.', 'connections' ),
+							'description' => __( 'Password reset key.', 'connections' ),
 							'type'        => 'string',
 						),
 						'redirect' => array(

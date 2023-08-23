@@ -356,7 +356,7 @@ class Account extends WP_REST_Controller {
 		}
 
 		// Initialize the form for validation.
-		$form = new Form\User_Login();
+		$form = new Form\Request_Reset_Password();
 
 		// Drop any request parameters that have no registered fields in the form.
 		$parameters = array_intersect_key( $request->get_params(), $form->getFieldValues() );

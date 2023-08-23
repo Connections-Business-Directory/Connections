@@ -5,6 +5,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 const forms = document.querySelectorAll(
 	'[data-component="form-user_login"],' +
+		'[data-component="form-user_register"],' +
 		'[data-component="form-request_reset_password"],' +
 		'[data-component="form-reset_password"]'
 );
@@ -54,20 +55,10 @@ forms.forEach((form, index, array) => {
 							'cbd-field--button__is-loading'
 						);
 
-						// Display the confirmation message.
-						if (typeof form.dataset.confirmation === 'string') {
-							messages.classList.add(
-								'cbd-form__message--success'
-							);
-							messages.innerHTML =
-								'<div>' + form.dataset.confirmation + '</div>';
+						// If the response contains a confirmation message, set the for data value.
+						if (typeof res.confirmation === 'string') {
+							form.dataset.confirmation = res.confirmation;
 						}
-
-						// Display the confirmation message.
-						// messages.style.display = '';
-
-						// Enable the submit button to allow additional requests.
-						submit.disabled = false;
 
 						if (typeof res.redirect === 'string') {
 							window.location.replace(res.redirect);
@@ -82,6 +73,18 @@ forms.forEach((form, index, array) => {
 						) {
 							form.reset();
 						}
+
+						// Display the confirmation message.
+						if (typeof form.dataset.confirmation === 'string') {
+							messages.classList.add(
+								'cbd-form__message--success'
+							);
+							messages.innerHTML =
+								'<div>' + form.dataset.confirmation + '</div>';
+						}
+
+						// Enable the submit button to allow additional requests.
+						submit.disabled = false;
 					})
 					.catch((err) => {
 						console.log(err);
@@ -92,9 +95,6 @@ forms.forEach((form, index, array) => {
 							messages.innerHTML =
 								'<div>' + err.message + '</div>';
 						}
-
-						// Display the confirmation message.
-						// messages.style.display = '';
 
 						// Set button loading state.
 						submit.classList.remove(

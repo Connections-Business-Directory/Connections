@@ -416,6 +416,12 @@ class Account extends WP_REST_Controller {
 
 		} else {
 
+			$data['confirmation'] = sprintf(
+				/* translators: %s: Link to the login page. */
+				__( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.', 'connections' ),
+				wp_login_url()
+			);
+
 			$data['reset'] = true;
 		}
 

@@ -41,9 +41,6 @@ final class Request_Reset_Password extends Form {
 			'id'          => 'lostpasswordform',
 			'name'        => 'lostpasswordform',
 			'action'      => get_rest_url( get_current_blog_id(), 'cn-api/v1/account/request-reset-password' ),
-			'data'        => array(
-				'confirmation' => esc_html__( 'Check your email for the instructions on how to reset your password.', 'connections' ),
-			),
 			'fields'      => $this->fields( $parameters ),
 			'submit'      => array(
 				'id'    => 'wp-submit',

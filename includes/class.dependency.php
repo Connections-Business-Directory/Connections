@@ -380,6 +380,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Color_Picker'           => 'includes/Form/Field/Color_Picker.php',
 			'Connections_Directory\Form\Field\Date_Picker'            => 'includes/Form/Field/Date_Picker.php',
 			'Connections_Directory\Form\Field\Description'            => 'includes/Form/Field/Description.php',
+			'Connections_Directory\Form\Field\Email'                  => 'includes/Form/Field/Email.php',
 			'Connections_Directory\Form\Field\Group'                  => 'includes/Form/Field/Group.php',
 			'Connections_Directory\Form\Field\Hidden'                 => 'includes/Form/Field/Hidden.php',
 			'Connections_Directory\Form\Field\Input'                  => 'includes/Form/Field/Input.php',

@@ -83,7 +83,7 @@ class Account extends WP_REST_Controller {
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'login' ),
+					'callback'            => array( $this, 'userLogin' ),
 					'args'                => array(
 						'_cnonce'    => array(
 							'required'    => true,
@@ -220,7 +220,7 @@ class Account extends WP_REST_Controller {
 	 *
 	 * @return WP_Error|WP_REST_Response
 	 */
-	public function login( WP_REST_Request $request ) {
+	public function userLogin( WP_REST_Request $request ) {
 
 		$data      = array();
 		$response  = new WP_REST_Response();

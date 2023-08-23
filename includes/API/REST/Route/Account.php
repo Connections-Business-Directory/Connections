@@ -425,7 +425,7 @@ class Account extends WP_REST_Controller {
 	}
 
 	/**
-	 * Rest user password.
+	 * Reset user password.
 	 *
 	 * @since 10.4.48
 	 *

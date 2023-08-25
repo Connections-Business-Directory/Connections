@@ -357,6 +357,7 @@ class cnDependency {
 			'Connections_Directory\Form\Reset_Password'               => 'includes/Form/Reset_Password.php',
 			'Connections_Directory\Form\Request_Reset_Password'       => 'includes/Form/Request_Reset_Password.php',
 			'Connections_Directory\Form\User_Login'                   => 'includes/Form/User_Login.php',
+			'Connections_Directory\Form\User_Register'                => 'includes/Form/User_Register.php',
 			'Connections_Directory\Form\Interfaces\Field'             => 'includes/Form/Interfaces/Field.php',
 			'Connections_Directory\Form\Field\Attributes'             => 'includes/Form/Field/Attributes.php',
 			'Connections_Directory\Form\Field\Attribute\Autocomplete' => 'includes/Form/Field/Attribute/Autocomplete.php',

@@ -32,3 +32,7 @@ Field\Submit::create()
 			->addClass( 'search-submit' )
 			->setValue( esc_attr_x( 'Search', 'submit button', 'connections' ) )
 			->render();
+
+\Connections_Directory\Form\Request_Reset_Password::create()->render();
+\Connections_Directory\Form\Reset_Password::create()->render();
+\Connections_Directory\Form\User_Register::create()->render();

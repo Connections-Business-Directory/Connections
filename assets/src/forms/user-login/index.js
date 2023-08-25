@@ -10,6 +10,16 @@ const forms = document.querySelectorAll(
 		'[data-component="form-reset_password"]'
 );
 
+const _parse = (response) => {
+	console.log(response);
+
+	if (response.status === 204) {
+		return null;
+	}
+
+	return response.json ? response.json() : Promise.reject(response);
+};
+
 forms.forEach((form, index, array) => {
 	form.addEventListener(
 		'submit',
@@ -46,9 +56,19 @@ forms.forEach((form, index, array) => {
 					path: form.dataset.action,
 					method: form.method,
 					body: data,
+					/*
+					 * Disable the automatic parsing of the Response instance and utilize a private callback instead
+					 * because there are errors that can be returned by apiFetch that are not parsed and the native
+					 * Response instance is returned instead of the expected parsed data making it inconsistent.
+					 * Applying the private parse callback ensures a consistent parsed response for the error handler.
+					 */
+					parse: false,
 				})
-					.then((res) => {
-						console.log(res);
+					.then((response) => {
+						return _parse(response);
+					})
+					.then((success) => {
+						console.log(success);
 
 						// Set button loading state.
 						submit.classList.remove(
@@ -56,20 +76,20 @@ forms.forEach((form, index, array) => {
 						);
 
 						// If the response contains a confirmation message, set the for data value.
-						if (typeof res.confirmation === 'string') {
-							form.dataset.confirmation = res.confirmation;
+						if (typeof success.confirmation === 'string') {
+							form.dataset.confirmation = success.confirmation;
 						}
 
-						if (typeof res.redirect === 'string') {
-							window.location.replace(res.redirect);
+						if (typeof success.redirect === 'string') {
+							window.location.replace(success.redirect);
 						} else if (
-							typeof res.reload === 'boolean' &&
-							true === res.reload
+							typeof success.reload === 'boolean' &&
+							true === success.reload
 						) {
 							window.location.reload();
 						} else if (
-							typeof res.reset === 'boolean' &&
-							true === res.reset
+							typeof success.reset === 'boolean' &&
+							true === success.reset
 						) {
 							form.reset();
 						}
@@ -86,14 +106,17 @@ forms.forEach((form, index, array) => {
 						// Enable the submit button to allow additional requests.
 						submit.disabled = false;
 					})
-					.catch((err) => {
-						console.log(err);
+					.catch((response) => {
+						return _parse(response);
+					})
+					.then((error) => {
+						console.error(error);
 
-						messages.classList.add('cbd-form__message--error');
+						if (0 < error.message.length) {
+							messages.classList.add('cbd-form__message--error');
 
-						if (err.message) {
 							messages.innerHTML =
-								'<div>' + err.message + '</div>';
+								'<div>' + error.message + '</div>';
 						}
 
 						// Set button loading state.

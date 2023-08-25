@@ -1,5 +1,23 @@
 == Changelog ==
 
+= 10.4.48 08/25/2023 =
+* NEW: Introduce the `Email` field to the Fields API.
+* NEW: Introduce `Request\Redirect`.
+* NEW: Introduce the `account\register` REST API endpoint.
+* NEW: Introduce the Register User form.
+* TWEAK: Rename the callback for the `account/login` endpoint to `userLogin` for consistency in naming.
+* TWEAK: Move the confirmation message for the Request Reset Password form to the JSON response of the `account/request-reset-password` endpoint.
+* TWEAK: Refactoring of the client-side JS form processing to allow confirmation messages to be passed via the REST API response.
+* TWEAK: Refactor the core form submit event listener use of apiFetch, disabling the default parsing of API responses and use a private parse callback instead to ensure consistent request responses.
+* BUG: Initialize the correct form in the `account/login` REST endpoint for validation.
+* OTHER: Correct misspelling.
+* DEV: phpDoc corrections.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Parameter comment must end with a full stop.
+* DEV: Remove unnecessary inline var phpDoc comment.
+* DEV: Remove unnecessary import.
+* DEV: Update the `dist` files.
+
 = 10.4.48 08/10/2023 =
 * NEW: Bump tested to WordPress version 6.3.
 * NEW: Introduce the `account/reset-password` REST API endpoint.

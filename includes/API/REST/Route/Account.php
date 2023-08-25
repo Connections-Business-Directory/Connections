@@ -83,7 +83,7 @@ class Account extends WP_REST_Controller {
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'login' ),
+					'callback'            => array( $this, 'userLogin' ),
 					'args'                => array(
 						'_cnonce'    => array(
 							'required'    => true,
@@ -194,7 +194,7 @@ class Account extends WP_REST_Controller {
 						),
 						'key'      => array(
 							'required'    => true,
-							'description' => __( 'password reset key.', 'connections' ),
+							'description' => __( 'Password reset key.', 'connections' ),
 							'type'        => 'string',
 						),
 						'redirect' => array(
@@ -211,6 +211,67 @@ class Account extends WP_REST_Controller {
 				// 'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base . '/register',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'userRegister' ),
+					'args'                => array(
+						'_cnonce'    => array(
+							'required'    => true,
+							'description' => __( 'The request token.', 'connections' ),
+							'type'        => 'string',
+							'pattern'     => '^[a-fA-F0-9]{10}$',
+						),
+						'user_login' => array(
+							'required'    => true,
+							'description' => __( 'Username.', 'connections' ),
+							'type'        => 'string',
+							/*
+							 * Max `user_login` is 60 characters.
+							 * @link https://codex.wordpress.org/Database_Description#Table:_wp_users
+							 */
+							'maxLength'   => 60,
+						),
+						'user_email' => array(
+							'required'    => true,
+							'description' => __( 'Email.', 'connections' ),
+							'type'        => 'string',
+							/*
+							 * Max `user_email` is 100 characters.
+							 * @link https://codex.wordpress.org/Database_Description#Table:_wp_users
+							 */
+							'maxLength'   => 100,
+						),
+						'redirect'   => array(
+							'required'          => false,
+							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
+							'validate_callback' => 'wp_http_validate_url',
+							'sanitize_callback' => 'sanitize_url',
+							'type'              => 'string',
+							'format'            => 'uri',
+						),
+					),
+					'permission_callback' => static function() {
+
+						if ( is_user_logged_in() && ! current_user_can( 'create_users' ) ) {
+
+							return new WP_Error(
+								'rest_forbidden',
+								esc_html__( 'Permission denied.', 'connections' ),
+								array( 'status' => rest_authorization_required_code() )
+							);
+						}
+
+						return true;
+					},
+				),
+				// 'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
 	}
 
 	/**
@@ -220,7 +281,7 @@ class Account extends WP_REST_Controller {
 	 *
 	 * @return WP_Error|WP_REST_Response
 	 */
-	public function login( WP_REST_Request $request ) {
+	public function userLogin( WP_REST_Request $request ) {
 
 		$data      = array();
 		$response  = new WP_REST_Response();
@@ -356,7 +417,7 @@ class Account extends WP_REST_Controller {
 		}
 
 		// Initialize the form for validation.
-		$form = new Form\User_Login();
+		$form = new Form\Request_Reset_Password();
 
 		// Drop any request parameters that have no registered fields in the form.
 		$parameters = array_intersect_key( $request->get_params(), $form->getFieldValues() );
@@ -416,6 +477,12 @@ class Account extends WP_REST_Controller {
 
 		} else {
 
+			$data['confirmation'] = sprintf(
+				/* translators: %s: Link to the login page. */
+				__( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.', 'connections' ),
+				wp_login_url()
+			);
+
 			$data['reset'] = true;
 		}
 
@@ -425,7 +492,7 @@ class Account extends WP_REST_Controller {
 	}
 
 	/**
-	 * Rest user password.
+	 * Reset user password.
 	 *
 	 * @since 10.4.48
 	 *
@@ -551,6 +618,87 @@ class Account extends WP_REST_Controller {
 			$data['redirect'] = $form->getSafeRedirect();
 
 		} else {
+
+			$data['reset'] = true;
+		}
+
+		$response->set_data( $data );
+
+		return $response;
+	}
+
+	/**
+	 * Register new user.
+	 *
+	 * @since 10.4.49
+	 *
+	 * @param WP_REST_Request $request API request.
+	 *
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function userRegister( WP_REST_Request $request ) {
+
+		$forbidden = new WP_Error( 'rest_forbidden', esc_html__( 'Bad Request.', 'connections' ), array( 'status' => 400 ) );
+		$response  = new WP_REST_Response();
+
+		if ( ! get_option( 'users_can_register' ) ) {
+
+			return new WP_Error(
+				'registerdisabled',
+				esc_html__( 'User registration is currently not allowed.', 'connections' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		// Initialize the form for validation.
+		$form = new Form\User_Register();
+
+		// Drop any request parameters that have no registered fields in the form.
+		$parameters = array_intersect_key( $request->get_params(), $form->getFieldValues() );
+
+		// Feed the request parameters into the form field values.
+		$form->setFieldValues( $parameters );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+
+		// Validate the form fields against their registered schema.
+		$isValid = $form->validate();
+
+		// If the form fields do not pass their schema validation, return a bad request.
+		if ( false === $isValid ) {
+
+			return $forbidden;
+		}
+
+		// Ensure the supplied nonce token field is valid.
+		if ( ! _token::isValid( $form->getFieldValue( '_cnonce' ), 'user/register' ) ) {
+
+			return $forbidden;
+		}
+
+		$result = register_new_user( $form->getFieldValue( 'user_login' ), $form->getFieldValue( 'user_email' ) );
+
+		if ( $result instanceof WP_Error ) {
+
+			return $result;
+		}
+
+		// Setup response.
+		$response->set_status( 200 );
+
+		$data['id'] = $result;
+
+		if ( 0 < strlen( $form->getRedirect() ) ) {
+
+			// $response->set_status( 307 );
+			$data['redirect'] = $form->getSafeRedirect();
+
+		} else {
+
+			$data['confirmation'] = sprintf(
+				/* translators: %s: Link to the login page. */
+				__( 'Registration complete. Please check your email, then visit the <a href="%s">login page</a>.', 'connections' ),
+				wp_login_url()
+			);
 
 			$data['reset'] = true;
 		}

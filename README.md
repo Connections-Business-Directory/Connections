@@ -246,6 +246,28 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.48 08/25/2023 =
+
+* NEW: Introduce the `Email` field to the Fields API.
+* NEW: Introduce `Request\Redirect`.
+* NEW: Introduce the `account\register` REST API endpoint.
+* NEW: Introduce the Register User form.
+* TWEAK: Rename the callback for the `account/login` endpoint to `userLogin` for consistency in naming.
+* TWEAK: Move the confirmation message for the Request Reset Password form to the JSON response of
+  the `account/request-reset-password` endpoint.
+* TWEAK: Refactoring of the client-side JS form processing to allow confirmation messages to be passed via the REST API
+  response.
+* TWEAK: Refactor the core form submit event listener use of apiFetch, disabling the default parsing of API responses
+  and use a private parse callback instead to ensure consistent request responses.
+* BUG: Initialize the correct form in the `account/login` REST endpoint for validation.
+* OTHER: Correct misspelling.
+* DEV: phpDoc corrections.
+* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
+* DEV: Parameter comment must end with a full stop.
+* DEV: Remove unnecessary inline var phpDoc comment.
+* DEV: Remove unnecessary import.
+* DEV: Update the `dist` files.
+
 = 10.4.48 08/10/2023 =
 
 * NEW: Bump tested to WordPress version 6.3.
@@ -663,24 +685,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
 * DEV: phpDoc corrections.
 * DEV: Deprecated `cnSanitize::string()`.
-
-= 10.4.34 12/02/2022 =
-
-* NEW: Introduce `_format::secondsToHuman()`.
-* TWEAK: Update deprecation message for the number input field type.
-* TWEAK: Move CSV Batch Import classes to the autoloader.
-* TWEAK: Move CSV Batch Export classes to the autoloader.
-* BUG: Add additional checks to help ensure the PHP warning "array_push() expects parameter 1 to be array" is not
-  triggered with the Yoast SEO integration.
-* OTHER: Bump tested to.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: phpDoc corrections.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: Update package-lock.json.
-* DEV: Add make-pot npm script.
-* DEV: Update Transifex config.
-* DEV: Add npm script to make POT and push/pull PO/POT files from Transifex.
-* DEV: Update dist files.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

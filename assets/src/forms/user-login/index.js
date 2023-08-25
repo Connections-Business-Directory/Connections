@@ -5,9 +5,20 @@ import apiFetch from '@wordpress/api-fetch';
 
 const forms = document.querySelectorAll(
 	'[data-component="form-user_login"],' +
+		'[data-component="form-user_register"],' +
 		'[data-component="form-request_reset_password"],' +
 		'[data-component="form-reset_password"]'
 );
+
+const _parse = (response) => {
+	console.log(response);
+
+	if (response.status === 204) {
+		return null;
+	}
+
+	return response.json ? response.json() : Promise.reject(response);
+};
 
 forms.forEach((form, index, array) => {
 	form.addEventListener(
@@ -45,14 +56,43 @@ forms.forEach((form, index, array) => {
 					path: form.dataset.action,
 					method: form.method,
 					body: data,
+					/*
+					 * Disable the automatic parsing of the Response instance and utilize a private callback instead
+					 * because there are errors that can be returned by apiFetch that are not parsed and the native
+					 * Response instance is returned instead of the expected parsed data making it inconsistent.
+					 * Applying the private parse callback ensures a consistent parsed response for the error handler.
+					 */
+					parse: false,
 				})
-					.then((res) => {
-						console.log(res);
+					.then((response) => {
+						return _parse(response);
+					})
+					.then((success) => {
+						console.log(success);
 
 						// Set button loading state.
 						submit.classList.remove(
 							'cbd-field--button__is-loading'
 						);
+
+						// If the response contains a confirmation message, set the for data value.
+						if (typeof success.confirmation === 'string') {
+							form.dataset.confirmation = success.confirmation;
+						}
+
+						if (typeof success.redirect === 'string') {
+							window.location.replace(success.redirect);
+						} else if (
+							typeof success.reload === 'boolean' &&
+							true === success.reload
+						) {
+							window.location.reload();
+						} else if (
+							typeof success.reset === 'boolean' &&
+							true === success.reset
+						) {
+							form.reset();
+						}
 
 						// Display the confirmation message.
 						if (typeof form.dataset.confirmation === 'string') {
@@ -63,38 +103,21 @@ forms.forEach((form, index, array) => {
 								'<div>' + form.dataset.confirmation + '</div>';
 						}
 
-						// Display the confirmation message.
-						// messages.style.display = '';
-
 						// Enable the submit button to allow additional requests.
 						submit.disabled = false;
-
-						if (typeof res.redirect === 'string') {
-							window.location.replace(res.redirect);
-						} else if (
-							typeof res.reload === 'boolean' &&
-							true === res.reload
-						) {
-							window.location.reload();
-						} else if (
-							typeof res.reset === 'boolean' &&
-							true === res.reset
-						) {
-							form.reset();
-						}
 					})
-					.catch((err) => {
-						console.log(err);
+					.catch((response) => {
+						return _parse(response);
+					})
+					.then((error) => {
+						console.error(error);
 
-						messages.classList.add('cbd-form__message--error');
+						if (0 < error.message.length) {
+							messages.classList.add('cbd-form__message--error');
 
-						if (err.message) {
 							messages.innerHTML =
-								'<div>' + err.message + '</div>';
+								'<div>' + error.message + '</div>';
 						}
-
-						// Display the confirmation message.
-						// messages.style.display = '';
 
 						// Set button loading state.
 						submit.classList.remove(

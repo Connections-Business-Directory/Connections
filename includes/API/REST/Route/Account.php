@@ -325,11 +325,11 @@ class Account extends WP_REST_Controller {
 
 		if ( is_email( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'email', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'email', sanitize_email( $form->getFieldValue( 'log' ) ) );
 
 		} elseif ( validate_username( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'login', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'login', sanitize_user( $form->getFieldValue( 'log' ) ) );
 
 		} else {
 
@@ -443,11 +443,11 @@ class Account extends WP_REST_Controller {
 
 		if ( is_email( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'email', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'email', sanitize_email( $form->getFieldValue( 'log' ) ) );
 
 		} elseif ( validate_username( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'login', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'login', sanitize_user( $form->getFieldValue( 'log' ) ) );
 
 		} else {
 

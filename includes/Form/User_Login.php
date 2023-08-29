@@ -169,6 +169,8 @@ final class User_Login extends Form {
 
 		$parameters = _parse::parameters( $parameters, $defaults );
 
+		$parameters['remember'] = _format::toBoolean( $parameters['remember'] );
+
 		$fields = array(
 			Field\Text::create(
 				array(

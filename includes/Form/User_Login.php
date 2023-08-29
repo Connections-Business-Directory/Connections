@@ -19,6 +19,7 @@ namespace Connections_Directory\Form;
 
 use cnScript;
 use Connections_Directory\Form;
+use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_parse;
 use Connections_Directory\Utility\_token;
 

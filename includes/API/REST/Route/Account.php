@@ -359,19 +359,13 @@ class Account extends WP_REST_Controller {
 			return $invalid;
 		}
 
-		// Authenticate user.
-		if ( ! is_user_logged_in() ) {
-
-			do_action( 'Connections_Directory/API/REST/Route/Account/User/Login' );
-
-			wp_signon(
-				array(
-					'user_login'    => $user->get( 'user_login' ),
-					'user_password' => $form->getFieldValue( 'pwd' ),
-					'remember'      => '1' === $form->getFieldValue( 'rememberme' ),
-				)
-			);
-		}
+		wp_signon(
+			array(
+				'user_login'    => $user->get( 'user_login' ),
+				'user_password' => $form->getFieldValue( 'pwd' ),
+				'remember'      => '1' === $form->getFieldValue( 'rememberme' ),
+			)
+		);
 
 		// Setup response.
 		$response->set_status( 200 );

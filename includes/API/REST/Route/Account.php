@@ -115,7 +115,19 @@ class Account extends WP_REST_Controller {
 							'enum'        => array( '0', '1' ),
 						),
 					),
-					'permission_callback' => '__return_true',
+					'permission_callback' => static function() {
+
+						if ( is_user_logged_in() ) {
+
+							return new WP_Error(
+								'rest_forbidden',
+								esc_html__( 'Permission denied.', 'connections' ),
+								array( 'status' => rest_authorization_required_code() )
+							);
+						}
+
+						return true;
+					},
 				),
 				// 'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -287,16 +299,6 @@ class Account extends WP_REST_Controller {
 		$response  = new WP_REST_Response();
 		$invalid   = new WP_Error( 'rest_invalid_user', esc_html__( 'Username or password is incorrect.', 'connections' ), array( 'status' => 401 ) );
 		$forbidden = new WP_Error( 'rest_forbidden', esc_html__( 'Bad Request.', 'connections' ), array( 'status' => 400 ) );
-
-		// Check permissions.
-		if ( is_user_logged_in() ) {
-
-			return new WP_Error(
-				'rest_forbidden',
-				esc_html__( 'Permission denied.', 'connections' ),
-				array( 'status' => rest_authorization_required_code() )
-			);
-		}
 
 		// Initialize the form for validation.
 		$form = new Form\User_Login();

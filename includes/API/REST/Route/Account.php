@@ -19,6 +19,7 @@ namespace Connections_Directory\API\REST\Route;
 
 use Connections_Directory\API\REST\Route;
 use Connections_Directory\Form;
+use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_token;
 use WP_Error;
@@ -295,10 +296,11 @@ class Account extends WP_REST_Controller {
 	 */
 	public function userLogin( WP_REST_Request $request ) {
 
-		$data      = array();
-		$response  = new WP_REST_Response();
-		$invalid   = new WP_Error( 'rest_invalid_user', esc_html__( 'Username or password is incorrect.', 'connections' ), array( 'status' => 401 ) );
-		$forbidden = new WP_Error( 'rest_forbidden', esc_html__( 'Bad Request.', 'connections' ), array( 'status' => 400 ) );
+		$data          = array();
+		$response      = new WP_REST_Response();
+		$invalid       = new WP_Error( 'rest_invalid_user', esc_html__( 'Username or password is incorrect.', 'connections' ), array( 'status' => 401 ) );
+		$forbidden     = new WP_Error( 'rest_forbidden', esc_html__( 'Bad Request.', 'connections' ), array( 'status' => 400 ) );
+		$secure_cookie = '';
 
 		// Initialize the form for validation.
 		$form = new Form\User_Login();
@@ -359,13 +361,54 @@ class Account extends WP_REST_Controller {
 			return $invalid;
 		}
 
-		wp_signon(
+		// If the user wants SSL but the session is not SSL, force a secure cookie.
+		if ( ! force_ssl_admin() ) {
+
+			if ( get_user_option( 'use_ssl', $user->ID ) ) {
+				$secure_cookie = true;
+				force_ssl_admin( true );
+			}
+		}
+
+		if ( Request\Redirect::input()->value() ) {
+
+			$redirect_to = Request\Redirect::input()->value();
+
+			// Redirect to HTTPS if user wants SSL.
+			if ( $secure_cookie && str_contains( $redirect_to, 'wp-admin' ) ) {
+				$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
+			}
+
+		} else {
+
+			$redirect_to = admin_url();
+		}
+
+		$user = wp_signon(
 			array(
 				'user_login'    => $user->get( 'user_login' ),
 				'user_password' => $form->getFieldValue( 'pwd' ),
 				'remember'      => '1' === $form->getFieldValue( 'rememberme' ),
 			)
 		);
+
+		/**
+		 * Filters the login redirect URL.
+		 *
+		 * @since 10.4.50
+		 *
+		 * @param string           $redirect_to           The redirect destination URL.
+		 * @param string           $requested_redirect_to The requested redirect destination URL passed as a parameter.
+		 * @param WP_User|WP_Error $user                  WP_User object if login was successful, WP_Error object otherwise.
+		 */
+		$redirect_to = apply_filters(
+			'login_redirect', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+			$redirect_to,
+			Request\Redirect::input()->value(),
+			$user
+		);
+
+		$form->setRedirect( $redirect_to );
 
 		// Setup response.
 		$response->set_status( 200 );

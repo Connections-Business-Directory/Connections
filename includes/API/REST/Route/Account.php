@@ -19,7 +19,6 @@ namespace Connections_Directory\API\REST\Route;
 
 use Connections_Directory\API\REST\Route;
 use Connections_Directory\Form;
-use Connections_Directory\Request;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_token;
 use WP_Error;
@@ -370,9 +369,9 @@ class Account extends WP_REST_Controller {
 			}
 		}
 
-		if ( Request\Redirect::input()->value() ) {
+		if ( 0 < strlen( $form->getRedirect() ) ) {
 
-			$redirect_to = Request\Redirect::input()->value();
+			$redirect_to = $form->getRedirect();
 
 			// Redirect to HTTPS if user wants SSL.
 			if ( $secure_cookie && str_contains( $redirect_to, 'wp-admin' ) ) {
@@ -404,7 +403,7 @@ class Account extends WP_REST_Controller {
 		$redirect_to = apply_filters(
 			'login_redirect', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$redirect_to,
-			Request\Redirect::input()->value(),
+			$form->getRedirect(),
 			$user
 		);
 

@@ -86,22 +86,22 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'userLogin' ),
 					'args'                => array(
-						'_cnonce'    => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 						),
-						'log'        => array(
+						'log'         => array(
 							'required'    => true,
 							'description' => __( 'Username or email.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pwd'        => array(
+						'pwd'         => array(
 							'required'    => true,
 							'description' => __( 'Password.', 'connections' ),
 							'type'        => 'string',
 						),
-						'redirect'   => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -142,17 +142,17 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'requestResetPassword' ),
 					'args'                => array(
-						'_cnonce'  => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 						),
-						'log'      => array(
+						'log'         => array(
 							'required'    => true,
 							'description' => __( 'Username or email.', 'connections' ),
 							'type'        => 'string',
 						),
-						'redirect' => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -175,22 +175,22 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'resetPassword' ),
 					'args'                => array(
-						'_cnonce'  => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pass1'    => array(
+						'pass1'       => array(
 							'required'    => true,
 							'description' => __( 'New password.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pass2'    => array(
+						'pass2'       => array(
 							'required'    => true,
 							'description' => __( 'Confirm password.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pw_weak'  => array(
+						'pw_weak'     => array(
 							'required'          => false,
 							'description'       => __( 'Confirm use of weak password.', 'connections' ),
 							'type'              => 'boolean',
@@ -205,12 +205,12 @@ class Account extends WP_REST_Controller {
 								return is_bool( $value );
 							},
 						),
-						'key'      => array(
+						'key'         => array(
 							'required'    => true,
 							'description' => __( 'Password reset key.', 'connections' ),
 							'type'        => 'string',
 						),
-						'redirect' => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -233,13 +233,13 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'userRegister' ),
 					'args'                => array(
-						'_cnonce'    => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 							'pattern'     => '^[a-fA-F0-9]{10}$',
 						),
-						'user_login' => array(
+						'user_login'  => array(
 							'required'    => true,
 							'description' => __( 'Username.', 'connections' ),
 							'type'        => 'string',
@@ -249,7 +249,7 @@ class Account extends WP_REST_Controller {
 							 */
 							'maxLength'   => 60,
 						),
-						'user_email' => array(
+						'user_email'  => array(
 							'required'    => true,
 							'description' => __( 'Email.', 'connections' ),
 							'type'        => 'string',
@@ -259,7 +259,7 @@ class Account extends WP_REST_Controller {
 							 */
 							'maxLength'   => 100,
 						),
-						'redirect'   => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -310,7 +310,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();
@@ -463,7 +463,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();
@@ -564,7 +564,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();
@@ -697,7 +697,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();

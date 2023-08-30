@@ -49,7 +49,7 @@ forms.forEach((form, index, array) => {
 
 				// Add redirect to the form data.
 				if (typeof form.dataset.redirect === 'string') {
-					data.append('redirect', form.dataset.redirect);
+					data.append('redirect_to', form.dataset.redirect);
 				}
 
 				apiFetch({

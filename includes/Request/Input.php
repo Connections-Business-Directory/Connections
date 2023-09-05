@@ -206,6 +206,26 @@ abstract class Input {
 	}
 
 	/**
+	 * Override the default value in the request variable schema.
+	 *
+	 * NOTE: This must be called before {@see static::value()}.
+	 * NOTE: Request values are processed once no matter the number of times {@see static::value()} is called,
+	 *       so the default can only be overridden once, before the initial {@see static::value()} call.
+	 *
+	 * @since 10.4.50
+	 *
+	 * @param mixed $value The request variable default value.
+	 *
+	 * @return $this
+	 */
+	final public function setDefault( $value ): Input {
+
+		_array::set( $this->schema, 'default', $value );
+
+		return $this;
+	}
+
+	/**
 	 * Get the request variable.
 	 *
 	 * @since 10.4.8

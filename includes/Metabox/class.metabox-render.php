@@ -606,6 +606,25 @@ class cnMetabox_Render {
 
 					break;
 
+				case 'number':
+					$sizes = array( 'small', 'regular', 'large' );
+					$size  = _array::get( $field, 'size', 'large' );
+
+					Field\Number::create()
+							  ->setId( $field['id'] )
+							  ->addClass( in_array( $size, $sizes ) ? "{$size}-text" : 'large-text' )
+							  ->setName( $field['id'] )
+							  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
+							  ->addAttribute( 'aria-describedby', "{$field['id']}-description" )
+							  ->setValue( $value )
+							  ->prepend( '<div' . $class . $id . $style . '>' )
+							  ->append( '</div>' )
+							  ->render();
+
+					self::description( $field['id'], $field['desc'] );
+
+					break;
+
 				case 'textarea':
 					$sizes = array( 'small', 'large' );
 					$size  = _array::get( $field, 'size', 'small' );

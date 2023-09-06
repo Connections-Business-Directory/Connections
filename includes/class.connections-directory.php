@@ -467,7 +467,7 @@ final class Connections_Directory {
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
 
 		// Parse the request query variables.
-		add_action( 'parse_request', array( Request::class, 'parse' ) );
+		add_action( 'parse_request', array( Request::class, 'parse' ), 11 ); // Set priority 11 because WPGraphQL in Event Espresso v.5.0.10.p broke the ability of Connections to parse the request.
 
 		// Init REST API routes.
 		add_action( 'rest_api_init', array( API\REST\Route\Account::class, 'register' ) );

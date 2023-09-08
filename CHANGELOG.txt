@@ -1,6 +1,23 @@
 == Changelog ==
 
-= 10.4.48 08/25/2023 =
+= 10.4.50 09/08/2023 =
+* NEW: Introduce the `number` field type in the Metabox API.
+* NEW: Introduce `Request\Input::setDefault()`.
+* NEW: Introduce `User_Login::maybeRedirect()`.
+* TWEAK: Ensure both the username and user email request values are sanitized before user.
+* TWEAK: Move the permission check to the `permission_callback` for the `account/login` REST API endpoint.
+* TWEAK: Ensure the `remember` parameter for the login form is properly coerced into a boolean.
+* TWEAK: Remove unnecessary user login check before user sign on.
+* TWEAK: Refactor the `account/login` endpoint to support the `login_redirect` filter.
+* TWEAK: Rename the `redirect` property to `redirect_to` in the `account` REST API route to match the core WordPress naming convention.
+* TWEAK: Remove use of `Request\Redirect` in the `Account REST API` and utilize the request `redirect_to` property.
+* TWEAK: If the URL passed into `From/setRedirect()` fails validation set the `redirect` property to an empty string.
+* TWEAK: Refactor the default `redirect_to` value to match WordPress core in the REST API `Account\Login` endpoint.
+* TWEAK: Change the priority of the `parse_request` from `10` to `11` to stop Event Espresso from breaking the ability to parse the request variables.
+* BUG: Correct the default address name return value.
+* DEV: Update `dist` files.
+
+= 10.4.49 08/25/2023 =
 * NEW: Introduce the `Email` field to the Fields API.
 * NEW: Introduce `Request\Redirect`.
 * NEW: Introduce the `account\register` REST API endpoint.

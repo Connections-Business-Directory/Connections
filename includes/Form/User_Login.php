@@ -19,6 +19,8 @@ namespace Connections_Directory\Form;
 
 use cnScript;
 use Connections_Directory\Form;
+use Connections_Directory\Request;
+use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_parse;
 use Connections_Directory\Utility\_token;
 
@@ -54,6 +56,7 @@ final class User_Login extends Form {
 
 		$this->hooks();
 		$this->registerScripts();
+		$this->maybeRedirect();
 
 		parent::__construct( $parameters );
 	}
@@ -99,6 +102,20 @@ final class User_Login extends Form {
 			$asset['version'],
 			true
 		);
+	}
+
+	/**
+	 * Set up the form redirect data attribute.
+	 *
+	 * @Since 10.4.50
+	 */
+	protected function maybeRedirect() {
+
+		$requested = Request\Redirect::input()->value();
+
+		$redirect = 0 < strlen( $requested ) ? $requested : admin_url();
+
+		$this->setRedirect( $redirect );
 	}
 
 	/**
@@ -168,6 +185,8 @@ final class User_Login extends Form {
 		);
 
 		$parameters = _parse::parameters( $parameters, $defaults );
+
+		$parameters['remember'] = _format::toBoolean( $parameters['remember'] );
 
 		$fields = array(
 			Field\Text::create(

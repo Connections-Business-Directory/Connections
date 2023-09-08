@@ -571,6 +571,10 @@ abstract class Form {
 		if ( false !== $valid ) {
 
 			$this->redirect = $valid;
+
+		} else {
+
+			$this->redirect = '';
 		}
 
 		return $this;

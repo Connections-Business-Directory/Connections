@@ -85,22 +85,22 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'userLogin' ),
 					'args'                => array(
-						'_cnonce'    => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 						),
-						'log'        => array(
+						'log'         => array(
 							'required'    => true,
 							'description' => __( 'Username or email.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pwd'        => array(
+						'pwd'         => array(
 							'required'    => true,
 							'description' => __( 'Password.', 'connections' ),
 							'type'        => 'string',
 						),
-						'redirect'   => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -115,7 +115,19 @@ class Account extends WP_REST_Controller {
 							'enum'        => array( '0', '1' ),
 						),
 					),
-					'permission_callback' => '__return_true',
+					'permission_callback' => static function() {
+
+						if ( is_user_logged_in() ) {
+
+							return new WP_Error(
+								'rest_forbidden',
+								esc_html__( 'Permission denied.', 'connections' ),
+								array( 'status' => rest_authorization_required_code() )
+							);
+						}
+
+						return true;
+					},
 				),
 				// 'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -129,17 +141,17 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'requestResetPassword' ),
 					'args'                => array(
-						'_cnonce'  => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 						),
-						'log'      => array(
+						'log'         => array(
 							'required'    => true,
 							'description' => __( 'Username or email.', 'connections' ),
 							'type'        => 'string',
 						),
-						'redirect' => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -162,22 +174,22 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'resetPassword' ),
 					'args'                => array(
-						'_cnonce'  => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pass1'    => array(
+						'pass1'       => array(
 							'required'    => true,
 							'description' => __( 'New password.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pass2'    => array(
+						'pass2'       => array(
 							'required'    => true,
 							'description' => __( 'Confirm password.', 'connections' ),
 							'type'        => 'string',
 						),
-						'pw_weak'  => array(
+						'pw_weak'     => array(
 							'required'          => false,
 							'description'       => __( 'Confirm use of weak password.', 'connections' ),
 							'type'              => 'boolean',
@@ -192,12 +204,12 @@ class Account extends WP_REST_Controller {
 								return is_bool( $value );
 							},
 						),
-						'key'      => array(
+						'key'         => array(
 							'required'    => true,
 							'description' => __( 'Password reset key.', 'connections' ),
 							'type'        => 'string',
 						),
-						'redirect' => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -220,13 +232,13 @@ class Account extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'userRegister' ),
 					'args'                => array(
-						'_cnonce'    => array(
+						'_cnonce'     => array(
 							'required'    => true,
 							'description' => __( 'The request token.', 'connections' ),
 							'type'        => 'string',
 							'pattern'     => '^[a-fA-F0-9]{10}$',
 						),
-						'user_login' => array(
+						'user_login'  => array(
 							'required'    => true,
 							'description' => __( 'Username.', 'connections' ),
 							'type'        => 'string',
@@ -236,7 +248,7 @@ class Account extends WP_REST_Controller {
 							 */
 							'maxLength'   => 60,
 						),
-						'user_email' => array(
+						'user_email'  => array(
 							'required'    => true,
 							'description' => __( 'Email.', 'connections' ),
 							'type'        => 'string',
@@ -246,7 +258,7 @@ class Account extends WP_REST_Controller {
 							 */
 							'maxLength'   => 100,
 						),
-						'redirect'   => array(
+						'redirect_to' => array(
 							'required'          => false,
 							'description'       => __( 'The URL to redirect to after form submission.', 'connections' ),
 							'validate_callback' => 'wp_http_validate_url',
@@ -283,20 +295,11 @@ class Account extends WP_REST_Controller {
 	 */
 	public function userLogin( WP_REST_Request $request ) {
 
-		$data      = array();
-		$response  = new WP_REST_Response();
-		$invalid   = new WP_Error( 'rest_invalid_user', esc_html__( 'Username or password is incorrect.', 'connections' ), array( 'status' => 401 ) );
-		$forbidden = new WP_Error( 'rest_forbidden', esc_html__( 'Bad Request.', 'connections' ), array( 'status' => 400 ) );
-
-		// Check permissions.
-		if ( is_user_logged_in() ) {
-
-			return new WP_Error(
-				'rest_forbidden',
-				esc_html__( 'Permission denied.', 'connections' ),
-				array( 'status' => rest_authorization_required_code() )
-			);
-		}
+		$data          = array();
+		$response      = new WP_REST_Response();
+		$invalid       = new WP_Error( 'rest_invalid_user', esc_html__( 'Username or password is incorrect.', 'connections' ), array( 'status' => 401 ) );
+		$forbidden     = new WP_Error( 'rest_forbidden', esc_html__( 'Bad Request.', 'connections' ), array( 'status' => 400 ) );
+		$secure_cookie = '';
 
 		// Initialize the form for validation.
 		$form = new Form\User_Login();
@@ -306,7 +309,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();
@@ -325,11 +328,11 @@ class Account extends WP_REST_Controller {
 
 		if ( is_email( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'email', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'email', sanitize_email( $form->getFieldValue( 'log' ) ) );
 
 		} elseif ( validate_username( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'login', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'login', sanitize_user( $form->getFieldValue( 'log' ) ) );
 
 		} else {
 
@@ -357,19 +360,71 @@ class Account extends WP_REST_Controller {
 			return $invalid;
 		}
 
-		// Authenticate user.
-		if ( ! is_user_logged_in() ) {
+		// If the user wants SSL but the session is not SSL, force a secure cookie.
+		if ( ! force_ssl_admin() ) {
 
-			do_action( 'Connections_Directory/API/REST/Route/Account/User/Login' );
-
-			wp_signon(
-				array(
-					'user_login'    => $user->get( 'user_login' ),
-					'user_password' => $form->getFieldValue( 'pwd' ),
-					'remember'      => '1' === $form->getFieldValue( 'rememberme' ),
-				)
-			);
+			if ( get_user_option( 'use_ssl', $user->ID ) ) {
+				$secure_cookie = true;
+				force_ssl_admin( true );
+			}
 		}
+
+		if ( 0 < strlen( $form->getRedirect() ) ) {
+
+			$redirect_to = $form->getRedirect();
+
+			// Redirect to HTTPS if user wants SSL.
+			if ( $secure_cookie && str_contains( $redirect_to, 'wp-admin' ) ) {
+				$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
+			}
+
+		} else {
+
+			$redirect_to = admin_url();
+		}
+
+		$user = wp_signon(
+			array(
+				'user_login'    => $user->get( 'user_login' ),
+				'user_password' => $form->getFieldValue( 'pwd' ),
+				'remember'      => '1' === $form->getFieldValue( 'rememberme' ),
+			)
+		);
+
+		/**
+		 * Filters the login redirect URL.
+		 *
+		 * @since 10.4.50
+		 *
+		 * @param string           $redirect_to           The redirect destination URL.
+		 * @param string           $requested_redirect_to The requested redirect destination URL passed as a parameter.
+		 * @param WP_User|WP_Error $user                  WP_User object if login was successful, WP_Error object otherwise.
+		 */
+		$redirect_to = apply_filters(
+			'login_redirect', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+			$redirect_to,
+			$form->getRedirect(),
+			$user
+		);
+
+		if ( ( empty( $redirect_to ) || 'wp-admin/' == $redirect_to || admin_url() == $redirect_to ) ) {
+
+			// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
+			if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) ) {
+
+				$redirect_to = user_admin_url();
+
+			} elseif ( is_multisite() && ! $user->has_cap( 'read' ) ) {
+
+				$redirect_to = get_dashboard_url( $user->ID );
+
+			} elseif ( ! $user->has_cap( 'edit_posts' ) ) {
+
+				$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
+			}
+		}
+
+		$form->setRedirect( $redirect_to );
 
 		// Setup response.
 		$response->set_status( 200 );
@@ -424,7 +479,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();
@@ -443,11 +498,11 @@ class Account extends WP_REST_Controller {
 
 		if ( is_email( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'email', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'email', sanitize_email( $form->getFieldValue( 'log' ) ) );
 
 		} elseif ( validate_username( $form->getFieldValue( 'log' ) ) ) {
 
-			$user = get_user_by( 'login', $form->getFieldValue( 'log' ) );
+			$user = get_user_by( 'login', sanitize_user( $form->getFieldValue( 'log' ) ) );
 
 		} else {
 
@@ -525,7 +580,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();
@@ -658,7 +713,7 @@ class Account extends WP_REST_Controller {
 
 		// Feed the request parameters into the form field values.
 		$form->setFieldValues( $parameters );
-		$form->setRedirect( _array::get( $request->get_params(), 'redirect', '' ) );
+		$form->setRedirect( _array::get( $request->get_params(), 'redirect_to', '' ) );
 
 		// Validate the form fields against their registered schema.
 		$isValid = $form->validate();

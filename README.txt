@@ -248,7 +248,24 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
-= 10.4.48 08/25/2023 =
+= 10.4.50 09/08/2023 =
+* NEW: Introduce the `number` field type in the Metabox API.
+* NEW: Introduce `Request\Input::setDefault()`.
+* NEW: Introduce `User_Login::maybeRedirect()`.
+* TWEAK: Ensure both the username and user email request values are sanitized before user.
+* TWEAK: Move the permission check to the `permission_callback` for the `account/login` REST API endpoint.
+* TWEAK: Ensure the `remember` parameter for the login form is properly coerced into a boolean.
+* TWEAK: Remove unnecessary user login check before user sign on.
+* TWEAK: Refactor the `account/login` endpoint to support the `login_redirect` filter.
+* TWEAK: Rename the `redirect` property to `redirect_to` in the `account` REST API route to match the core WordPress naming convention.
+* TWEAK: Remove use of `Request\Redirect` in the `Account REST API` and utilize the request `redirect_to` property.
+* TWEAK: If the URL passed into `From/setRedirect()` fails validation set the `redirect` property to an empty string.
+* TWEAK: Refactor the default `redirect_to` value to match WordPress core in the REST API `Account\Login` endpoint.
+* TWEAK: Change the priority of the `parse_request` from `10` to `11` to stop Event Espresso from breaking the ability to parse the request variables.
+* BUG: Correct the default address name return value.
+* DEV: Update `dist` files.
+
+= 10.4.49 08/25/2023 =
 * NEW: Introduce the `Email` field to the Fields API.
 * NEW: Introduce `Request\Redirect`.
 * NEW: Introduce the `account\register` REST API endpoint.
@@ -613,37 +630,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Move polyfill functions to separate files and include them as dependencies.
 * DEV: phpDoc corrections.
 
-= 10.4.35 12/15/2022 =
-* NEW: Introduce `_validate::isStringNotEmpty()`.
-* NEW: Introduce `cnAddress::setType()` and `cnAddress::getName()`.
-* NEW: Introduce `_sanitize::integer()`.
-* NEW: Introduce the `Connections_Directory/Admin/Page/Tools/Tab/Import` action.
-* TWEAK: Ensure strings are passed to `str_pad()` and `strlen()` to prevent deprecation notifications in PHP >= 8.1.
-* TWEAK: Set the default value of Field\Rich_Text and Field\Textarea to empty strings instead of null.
-* TWEAK: Return empty string and not null if country name is not set.
-* TWEAK: Remove unnecessary usages of `cnSanitize::field() "raw" in `cnEntry_Collection_Item`.
-* TWEAK: Add validation and formatting to several methods in `cnEntry_Collection_Item`.
-* TWEAK: Add validation to setting methods in `cnAddress` before setting object properties.
-* TWEAK: Add validation to `cnEntry_Collection_Item::setVisibility()` to ensure only valid types can be set.
-* TWEAK: Refactor `cnAddress::__construct()` to use object setters.
-* TWEAK: Remove the unused `cnAddress::getTypes()` method.
-* TWEAK: Utilize `_sanitize::integer()` instead of `cnSanitize::integer()` in `cnSanitize::string()`.
-* TWEAK: Refactoring of `cnEntry::getOrder()` and `cnEntry::setOrder()` to default to `0` and utilize `_sanitize::integer()`.
-* TWEAK: Refactor `cnMetabox_Process::sanitize()` to remove use of deprecated `cnSanitize::string()`.
-* TWEAK: Refactor `cnSanitize::field()` to remove use of deprecated `cnSanitize::string()`.
-* TWEAK: Remove unused deprecated `cnSanitize::integer()` method.
-* TWEAK: Refactor `_validate::isInteger()` and `_validate::isPositiveInteger()` to ensure the correct result across additional inputs.
-* TWEAK: Remove usages of `cnSanitize::field()` with the `raw` context.
-* TWEAK: Move the rendering of the postbox to bulk import categories to the new `Connections_Directory/Admin/Page/Tools/Tab/Import` action hook.
-* DEV: Remove unused commented out line of code.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: phpDoc corrections.
-* DEV: Deprecated `cnSanitize::string()`.
-
 == Upgrade Notice ==
-
-= 10.4.35 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 5.6.20 PHP version >= 7.4 recommended.
 
 = 10.4.36 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
@@ -685,4 +672,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.49 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.50 =
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

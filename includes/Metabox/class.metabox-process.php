@@ -181,6 +181,22 @@ class cnMetabox_Process {
 				$value = sanitize_textarea_field( $value );
 				break;
 
+			case 'number':
+				$value = filter_var(
+					$value,
+					FILTER_SANITIZE_NUMBER_FLOAT,
+					array(
+						'default' => $default,
+						'flags'   => FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND | FILTER_FLAG_ALLOW_SCIENTIFIC,
+					)
+				);
+
+				if ( false === $value ) {
+
+					$value = '';
+				}
+				break;
+
 			case 'slider':
 				$value = absint( $value );
 				break;

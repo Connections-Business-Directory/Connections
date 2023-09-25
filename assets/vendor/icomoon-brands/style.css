@@ -1,15 +1,15 @@
 @font-face {
   font-family: 'Connections-Brandicons';
   src:
-    url('fonts/Connections-Brandicons.ttf?cf68zj') format('truetype'),
-    url('fonts/Connections-Brandicons.woff?cf68zj') format('woff'),
-    url('fonts/Connections-Brandicons.svg?cf68zj#Connections-Brandicons') format('svg');
+    url('fonts/Connections-Brandicons.ttf?pwccrc') format('truetype'),
+    url('fonts/Connections-Brandicons.woff?pwccrc') format('woff'),
+    url('fonts/Connections-Brandicons.svg?pwccrc#Connections-Brandicons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-i[class^='cn-brandicon'] {
+i {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'Connections-Brandicons' !important;
   speak: never;
@@ -24,6 +24,22 @@ i[class^='cn-brandicon'] {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.cn-brandicon-googlescholar:before {
+  content: "\eb1b";
+  color: #4885ed;
+}
+.cn-brandicon-orcid:before {
+  content: "\eb1c";
+  color: #a6ce39;
+}
+.cn-brandicon-researchgate:before {
+  content: "\eb1e";
+  color: #0cb;
+}
+.cn-brandicon-x:before {
+  content: "\eb20";
+  color: #000;
+}
 .cn-brandicon-tiktok:before {
   content: "\eb1a";
 }
@@ -1766,8 +1782,8 @@ i[class^='cn-brandicon'] {
   color: #f16061;
 }
 .cn-brandicon-twitter:before {
-  content: "\eabc";
-  color: #1da1f2;
+  content: "\eb20";
+  color: #000;
 }
 .cn-brandicon-livestream:before {
   content: "\eabd";

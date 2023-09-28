@@ -301,7 +301,7 @@ class cnMetaboxAPI {
 
 			foreach ( $fields as $field ) {
 
-				if ( in_array( $field['type'], array( 'text', 'textarea' ) )
+				if ( in_array( $field['type'], array( 'number', 'text', 'textarea' ) )
 					 && ( isset( $field['id'] ) && ! empty( $field['id'] ) )
 					 && ( isset( $field['name'] ) && ! empty( $field['name'] ) ) ) {
 

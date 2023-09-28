@@ -1,4 +1,4 @@
-i[class^='cn-brandicon'] {
+i[class^="cn-brandicon"] {
 	align-items: center;
 	display: inline-flex;
 	font-style: normal;
@@ -8,9 +8,9 @@ i[class^='cn-brandicon'] {
 	vertical-align: baseline;
 }
 
-i[class^='cn-brandicon']:before {
-	color: #FFF; /* Fallback color for IE11 */
-	color: var( --color, #FFF ); /* Use CSS variable to define color so it can be easily changed via JavaScript/jQuery. */
+i[class^="cn-brandicon"]::before {
+	color: #fff; /* Fallback color for IE11 */
+	color: var(--color, #fff); /* Use CSS variable to define color so it can be easily changed via JavaScript/jQuery. */
 }
 
 i.cn-brandicon-size-16 {

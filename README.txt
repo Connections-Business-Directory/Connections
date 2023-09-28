@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.8
 Tested up to: 6.3
 Requires PHP: 7.0
-Stable tag: 10.4.50
+Stable tag: 10.4.51
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.51 09/28/2023 =
+* TWEAK: Update Twitter to reflect the brand change to 𝕏. Add Google Scholar, ORCiD, ResearchGate, and 𝕏.
+* TWEAK: Allow the Number metabox field type to be registered for the keyword search field.
+* TWEAK: Apply CSS Lint style fixes.
+* BUG: Ensure the `number` metabox field value is properly sanitized.
+* DEV: Update the `dist` assets.
 
 = 10.4.50 09/08/2023 =
 * NEW: Introduce the `number` field type in the Metabox API.
@@ -618,22 +625,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Remove duplicate code from the `[upcoming_list]` shortcode to remove end of line characters.
 * DEV: Update copyright year in file header.
 
-= 10.4.36 01/10/2023 =
-* NOTICE: Bump min PHP version to 7.0.
-* TWEAK: Update the dashboard news feed to URL to `https`.
-* TWEAK: Simplify return value logic.
-* TWEAK: Bump minimum support version of Yoast SEO to 15.2. Remove use of deprecated method `WPSEO_Utils::get_title_separator()`.
-* TWEAK: Add function exists check for Yoast SEO before checking if the `get_title_separator()` method exists.
-* BUG: Correct the classname check.
-* BUG: Ensure the correct `update_term_cache()` function is called to prevent cache pollution.
-* OTHER: Correct misspellings.
-* DEV: Move polyfill functions to separate files and include them as dependencies.
-* DEV: phpDoc corrections.
-
 == Upgrade Notice ==
-
-= 10.4.36 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.37 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
@@ -675,4 +667,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.50 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.51 =
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

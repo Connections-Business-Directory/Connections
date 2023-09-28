@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 10.4.51 09/28/2023 =
+* TWEAK: Update Twitter to reflect the brand change to 𝕏. Add Google Scholar, ORCiD, ResearchGate, and 𝕏.
+* TWEAK: Allow the Number metabox field type to be registered for the keyword search field.
+* TWEAK: Apply CSS Lint style fixes.
+* BUG: Ensure the `number` metabox field value is properly sanitized.
+* DEV: Update the `dist` assets.
+
 = 10.4.50 09/08/2023 =
 * NEW: Introduce the `number` field type in the Metabox API.
 * NEW: Introduce `Request\Input::setDefault()`.

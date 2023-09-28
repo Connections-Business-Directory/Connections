@@ -949,7 +949,7 @@ class cnOptions {
 			'tiktok'        => 'TikTok',
 			'tripadvisor'   => 'TripAdvisor',
 			'tumblr'        => 'Tumblr',
-			'twitter'       => 'Twitter',
+			'twitter'       => 'X',
 			'vimeo'         => 'vimeo',
 			'whatsapp'      => 'WhatsApp',
 			'vk'            => 'VK',

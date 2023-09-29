@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 10.4.52 09/29/2023 =
+* TWEAK: Add webp as a valid image type when validating image uploads.
+* BUG: Revert specificity CSS for icons to be more targeted to the Connections Brandicons (Icomoon).
+
 = 10.4.51 09/28/2023 =
 * TWEAK: Update Twitter to reflect the brand change to 𝕏. Add Google Scholar, ORCiD, ResearchGate, and 𝕏.
 * TWEAK: Allow the Number metabox field type to be registered for the keyword search field.

@@ -1820,6 +1820,7 @@ class cnImage {
 				'jpg'  => 'image/jpeg',
 				'gif'  => 'image/gif',
 				'png'  => 'image/png',
+				'webp' => 'image/webp',
 			),
 		);
 

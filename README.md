@@ -246,6 +246,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.52 09/29/2023 =
+
+* TWEAK: Add webp as a valid image type when validating image uploads.
+* BUG: Revert specificity CSS for icons to be more targeted to the Connections Brandicons (Icomoon).
+
 = 10.4.51 09/28/2023 =
 
 * TWEAK: Update Twitter to reflect the brand change to 𝕏. Add Google Scholar, ORCiD, ResearchGate, and 𝕏.
@@ -661,12 +666,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 = 10.4.38 02/02/2023 =
 * TWEAK: Pass `$entry` object in the `cn_list_row_class` filter.
 * TWEAK: Rename `cn_submit_search_form` action to `Connections_Directory/Shortcode/View/Search`.
-
-= 10.4.37 01/20/2023 =
-* NOTICE: Minimum required PHP version is 7.0.
-* SECURITY: Add missing argument sanitization and escaping when outputting THE `[connections]` shortcode content.
-* SECURITY: Add escaping to the `[upcoming_list]` shortcode output.
-* TWEAK: Remove duplicate code from the `[upcoming_list]` shortcode to remove end of line characters.
-* DEV: Update copyright year in file header.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

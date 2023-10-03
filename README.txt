@@ -38,7 +38,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged-in users only. You can even have entries set as unlisted so only admins can view them.
-* **[Repeatable fields](https://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
+* **[Repeatable fields](https://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, instant messenger, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
 * Hierarchical (nested) **category support**. Businesses and members in your business directory can be added to any number of categories.
 * Include a biographical text for an individual member or business description for each entry in your business directory using an easy-to-use rich text editor.
 * You can easily add a business logo or photo of the staff member for each entry in your business directory or staff directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
@@ -88,7 +88,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * [Enhanced Categories](https://connections-pro.com/add-on/enhanced-categories/) :: Adds many features to the categories.
 * [Form](https://connections-pro.com/add-on/form/) :: Allow site visitor to submit entries to your directory. Also provides frontend editing support.
 * [Link](https://connections-pro.com/add-on/link/) :: Links a WordPress user to an entry so that user can maintain their entry with or without moderation.
-* [ROT13 Encryption](https://connections-pro.com/add-on/rot13-email-encryption/) :: Protect email addresses from being harvested from your business directory by spam bots.
+* [ROT13 Encryption](https://connections-pro.com/add-on/rot13-email-encryption/) :: Protect email addresses from being harvested from your business directory by spambots.
 * [SiteShot](https://connections-pro.com/add-on/siteshot/) :: Show a screen capture of the entry's website.
 * [Widget Pack](https://connections-pro.com/add-on/widget-pack/) :: A set of feature rich, versatile and highly configurable widgets that can be used to enhance your directory.
 
@@ -105,7 +105,7 @@ Connections Business Directory comes with a couple templates to get you started 
 
 = Developer Friendly =
 
-* Open development on [Github](https://github.com/Connections-Business-Directory/Connections).
+* Open development on [GitHub](https://github.com/Connections-Business-Directory/Connections).
 * Access to **180 action hooks** and over **300 filters** ... and counting.
 * Term API.
 * Custom Metabox and Fields API.

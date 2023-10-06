@@ -18,7 +18,11 @@ declare( strict_types=1 );
 namespace Connections_Directory\Integration\Simple_History;
 
 use cnEntry as Entry;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_nonce;
+use Connections_Directory\Utility\_validate;
+use Simple_History\Event_Details\Event_Details_Container_Interface;
+use Simple_History\Event_Details\Event_Details_Group;
 use Simple_History\Helpers;
 use Simple_History\Log_Initiators;
 use Simple_History\Loggers\Logger;
@@ -106,6 +110,7 @@ final class Entry_Logger extends Logger {
 		add_action( 'Connections_Directory/Entry/Deleted', array( $this, 'entryDeleted' ) );
 		add_action( 'Connections_Directory/Entry/Saved', array( $this, 'entrySaved' ) );
 		add_action( 'Connections_Directory/Entry/Update/Before', array( $this, 'entryUpdated' ) );
+		add_action( 'Connections_Directory/Entry/Action/Set_Status/Before', array( $this, 'entryStatusUpdated' ), 10, 2 );
 	}
 
 	/**
@@ -179,23 +184,81 @@ final class Entry_Logger extends Logger {
 	}
 
 	/**
-	 * Callback for the `Connections_Directory/Entry/Update/Before` action.
+	 * Callback for the `Connections_Directory/Entry/Action/Set_Status/Before` action.
 	 *
-	 * Records a log event when an entry is created.
+	 * Records a log event when an entry is moderation status is updated.
 	 *
 	 * @internal
 	 * @since 10.4.53
 	 *
-	 * @param Entry $entry Instance of cnEntry.
+	 * @param array  $ids    An array of Entry IDs to update the moderation status.
+	 * @param string $status The new entry moderation status.
 	 *
 	 * @return void
 	 */
-	public function entryUpdated( Entry $entry ) {
+	public function entryStatusUpdated( array $ids, string $status ) {
 
+		$user = wp_get_current_user();
+
+		if ( ! $user instanceof WP_User ) {
+
+			return;
+		}
+
+		foreach ( $ids as $id ) {
+
+			$entry  = new Entry();
+			$result = $entry->set( $id );
+
+			if ( false === $result ) {
+
+				continue;
+			}
+
+			$this->info_message(
+				'Connections_Directory/Entry/Updated',
+				array(
+					'_initiator'  => Log_Initiators::WP_USER,
+					'_user_id'    => $user->ID,
+					'_user_login' => $user->user_login,
+					'_user_email' => $user->user_email,
+					'user_id'     => $user->ID,
+					'entry_id'    => $entry->getId(),
+					'entry_name'  => $entry->getName(),
+					'entry_diff'  => array(
+						'status' => array(
+							'label'    => _x( 'Moderation Status', 'Logger: Connections Business Directory', 'connections' ),
+							'previous' => $entry->getStatus(),
+							'current'  => $status,
+						),
+					),
+				)
+			);
+		}
+	}
+
+	/**
+	 * Callback for the `Connections_Directory/Entry/Update/Before` action.
+	 *
+	 * Records a log event when an entry is updated.
+	 *
+	 * @internal
+	 * @since 10.4.53
+	 *
+	 * @param Entry $current Instance of cnEntry.
+	 *
+	 * @return void
+	 */
+	public function entryUpdated( Entry $current ) {
+
+		// Set up an instance of the cnEntry object with the previous data.
 		$previous = new Entry();
-		$result   = $previous->set( $entry->getId() );
+		$result   = $previous->set( $current->getId() );
 
-		if ( true === $result ) {}
+		if ( false === $result ) {
+
+			return;
+		}
 
 		$user = wp_get_current_user();
 
@@ -212,10 +275,140 @@ final class Entry_Logger extends Logger {
 				'_user_login' => $user->user_login,
 				'_user_email' => $user->user_email,
 				'user_id'     => $user->ID,
-				'entry_id'    => $entry->getId(),
-				'entry_name'  => $entry->getName(),
+				'entry_id'    => $current->getId(),
+				'entry_name'  => $current->getName(),
+				'entry_diff'  => $this->addDiff( $previous, $current ),
 			)
 		);
+	}
+
+	/**
+	 * Create an array with the diff data.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @param Entry $previous The instance of the previous Entry data.
+	 * @param Entry $current  The instance of the current Entry data.
+	 *
+	 * @return array
+	 */
+	protected function addDiff( Entry $previous, Entry $current ): array {
+
+		$diff = array();
+
+		if ( $previous->getEntryType() !== $current->getEntryType() ) {
+
+			$diff['type'] = array(
+				'label'    => _x( 'Type', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getEntryType(),
+				'current'  => $current->getEntryType(),
+			);
+		}
+
+		if ( $previous->getStatus() !== $current->getStatus() ) {
+
+			$diff['status'] = array(
+				'label'    => _x( 'Moderation Status', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getStatus(),
+				'current'  => $current->getStatus(),
+			);
+		}
+
+		if ( $previous->getVisibility() !== $current->getVisibility() ) {
+
+			$diff['visibility'] = array(
+				'label'    => _x( 'Visibility', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getVisibility(),
+				'current'  => $current->getVisibility(),
+			);
+		}
+
+		if ( $previous->getName() !== $current->getName() ) {
+
+			$diff['name'] = array(
+				'label'    => _x( 'Name', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getName(),
+				'current'  => $current->getName(),
+			);
+		}
+
+		if ( $previous->getOrganization() !== $current->getOrganization() ) {
+
+			$diff['organization'] = array(
+				'label'    => _x( 'Organization', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getOrganization(),
+				'current'  => $current->getOrganization(),
+			);
+		}
+
+		if ( $previous->getDepartment() !== $current->getDepartment() ) {
+
+			$diff['department'] = array(
+				'label'    => _x( 'Department', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getDepartment(),
+				'current'  => $current->getDepartment(),
+			);
+		}
+
+		if ( $previous->getTitle() !== $current->getTitle() ) {
+
+			$diff['title'] = array(
+				'label'    => _x( 'Title', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getTitle(),
+				'current'  => $current->getTitle(),
+			);
+		}
+
+		if ( $previous->getContactName() !== $current->getContactName() ) {
+
+			$diff['contact_name'] = array(
+				'label'    => _x( 'Contact Name', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getContactName(),
+				'current'  => $current->getContactName(),
+			);
+		}
+
+		if ( $previous->getBio() !== $current->getBio() ) {
+
+			$diff['bio'] = array(
+				'label'    => _x( 'Biographical Info', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getBio(),
+				'current'  => $current->getBio(),
+			);
+		}
+
+		if ( $previous->getNotes() !== $current->getNotes() ) {
+
+			$diff['notes'] = array(
+				'label'    => _x( 'Notes', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getNotes(),
+				'current'  => $current->getNotes(),
+			);
+		}
+
+		return $diff;
+	}
+
+	/**
+	 * Get the diff from the log event context.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @param array $context The log event context.
+	 *
+	 * @return array
+	 */
+	protected function getDiffFromContext( array $context ): array {
+
+		$diff = _array::get( $context, 'entry_diff', '[]' );
+
+		$diff = _validate::isJSON( $diff ) ? json_decode( $diff, true ) : array();
+
+		if ( ! is_array( $diff ) ) {
+			return array();
+		}
+
+		return $diff;
 	}
 
 	/**
@@ -236,7 +429,10 @@ final class Entry_Logger extends Logger {
 		$action  = $context['_message_key'] ?? null;
 
 		// If the current action is deleting the entry, the default log message is sufficient.
-		if ( 'Connections_Directory/Entry/Deleted' === $action ) {
+		// OR If the Entry ID does not exist.
+		if ( 'Connections_Directory/Entry/Deleted' === $action
+			  || ! array_key_exists( 'entry_id', $context )
+		) {
 
 			return parent::get_log_row_plain_text_output( $row );
 		}
@@ -271,5 +467,120 @@ final class Entry_Logger extends Logger {
 		}
 
 		return helpers::interpolate( $message, $context, $row );
+	}
+
+	/**
+	 * Modify output to include the entry diff table data.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @param object $row Log meta.
+	 *
+	 * @return string|Event_Details_Container_Interface|Event_Details_Group HTML-formatted output or Event_Details_Container (stringable object).
+	 */
+	public function get_log_row_details_output( $row ) {
+
+		$context = $row->context;
+		$action  = $context['_message_key'];
+		$html    = '';
+
+		switch ( $action ) {
+
+			case 'Connections_Directory/Entry/Saved':
+				// @todo Return data about the entry added such as name, status, visibility, and other fields.
+				$html = parent::get_log_row_details_output( $row );
+				break;
+
+			case 'Connections_Directory/Entry/Updated':
+				$diff  = $this->getDiffFromContext( $context );
+				$table = '';
+				$tr    = array();
+
+				foreach ( $diff as $key => $entry ) {
+
+					switch ( $key ) {
+
+						case 'bio':
+						case 'notes':
+							$textDiff = helpers::text_diff( $entry['previous'], $entry['current'] );
+
+							if ( $textDiff ) {
+								$tr[] = sprintf(
+									'<tr><td>%1$s</td><td>%2$s</td></tr>',
+									$entry['label'],
+									$textDiff
+								);
+							}
+
+							break;
+
+						case 'status':
+							$status            = array(
+								'approved' => __( 'Approved', 'connections' ),
+								'pending'  => __( 'Pending', 'connections' ),
+							);
+							$entry['current']  = $status[ $entry['current'] ];
+							$entry['previous'] = $status[ $entry['previous'] ];
+
+							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+
+							break;
+
+						case 'visibility':
+							$visibility        = array(
+								'public'   => __( 'Public', 'connections' ),
+								'private'  => __( 'Private', 'connections' ),
+								'unlisted' => __( 'Unlisted', 'connections' ),
+							);
+							$entry['current']  = $visibility[ $entry['current'] ];
+							$entry['previous'] = $visibility[ $entry['previous'] ];
+
+							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+
+							break;
+
+						default:
+							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+					}
+				}
+
+				if ( 0 < count( $tr ) ) {
+					$table = '<table class="SimpleHistoryLogitem__keyValueTable">' . implode( PHP_EOL, $tr ) . '</table>';
+				}
+
+				$html = $table;
+
+				break;
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Generate the table row for the log event detail.
+	 *
+	 * @internal
+	 * @since 10.5.53
+	 *
+	 * @param string $label    The row label.
+	 * @param string $previous The previous value.
+	 * @param string $current  The current value.
+	 *
+	 * @return string
+	 */
+	protected function getTableRow( string $label, string $previous, string $current ): string {
+
+		return sprintf(
+			'<tr>
+				<td>%1$s</td>
+				<td>%2$s</td>
+			</tr>',
+			$label,
+			sprintf(
+				'<ins class="SimpleHistoryLogitem__keyValueTable__addedThing">%1$s</ins> <del class="SimpleHistoryLogitem__keyValueTable__removedThing">%2$s</del>',
+				esc_html( $current ),
+				esc_html( $previous )
+			)
+		);
 	}
 }

@@ -451,6 +451,26 @@ final class Entry_Logger extends Logger {
 			);
 		}
 
+		if ( $previous->getLogoName() !== $current->getLogoName() ) {
+
+			$diff['logo'] = array(
+				'label'    => _x( 'Logo', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getLogoName(),
+				'current'  => $current->getLogoName(),
+				'url'      => $current->getOriginalImageURL( 'logo' ),
+			);
+		}
+
+		if ( $previous->getImageNameOriginal() !== $current->getImageNameOriginal() ) {
+
+			$diff['photo'] = array(
+				'label'    => _x( 'Photo', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getImageNameOriginal(),
+				'current'  => $current->getImageNameOriginal(),
+				'url'      => $current->getOriginalImageURL( 'photo' ),
+			);
+		}
+
 		return $diff;
 	}
 
@@ -613,6 +633,13 @@ final class Entry_Logger extends Logger {
 
 							break;
 
+						case 'logo':
+						case 'photo':
+							$url  = _array::get( $entry, 'url', '' );
+							$tr[] = $this->getTableRowImage( $entry['label'], $entry['previous'], $entry['current'], $url );
+
+							break;
+
 						default:
 							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
 					}
@@ -655,6 +682,63 @@ final class Entry_Logger extends Logger {
 				esc_html( $current ),
 				esc_html( $previous )
 			)
+		);
+	}
+
+	/**
+	 * Generate the table row for the image log event detail.
+	 *
+	 * @internal
+	 * @since 10.4.53
+	 *
+	 * @param string $label    The row label.
+	 * @param string $previous The previous image name.
+	 * @param string $current  The current image name.
+	 * @param string $url      The current image URL.
+	 *
+	 * @return string
+	 */
+	protected function getTableRowImage( string $label, string $previous, string $current, string $url ): string {
+
+		if ( 0 < strlen( $url ) ) {
+
+			$html = sprintf(
+				'<div>%2$s</div>
+				<div class="SimpleHistoryLogitemThumbnail">
+					<img src="%1$s">
+				</div>',
+				esc_url( $url ),
+				esc_html( $current )
+			);
+
+		} else {
+
+			$html = sprintf( '<div>%1$s</div>', esc_html( $current ) );
+		}
+
+		return sprintf(
+			'<tr>
+				<td>%1$s</td>
+				<td>
+					<div class="SimpleHistory__diff__contents SimpleHistory__diff__contents--noContentsCrop" tabindex="0">
+						<div class="SimpleHistory__diff__contentsInner">
+							<table class="diff SimpleHistory__diff">
+								<tr>
+									<td class="diff-deletedline">
+										%2$s
+									</td>
+									<td class="diff-addedline">
+										%3$s
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</td>
+			</tr>',
+			esc_html( $label ),
+			esc_html( $previous ),
+			$html
 		);
 	}
 }

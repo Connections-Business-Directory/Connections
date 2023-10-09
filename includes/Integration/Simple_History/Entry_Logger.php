@@ -519,8 +519,8 @@ final class Entry_Logger extends Logger {
 								'approved' => __( 'Approved', 'connections' ),
 								'pending'  => __( 'Pending', 'connections' ),
 							);
-							$entry['current']  = $status[ $entry['current'] ];
-							$entry['previous'] = $status[ $entry['previous'] ];
+							$entry['current']  = _array::get( $status, $entry['current'], '' );
+							$entry['previous'] = _array::get( $status, $entry['previous'], '' );
 
 							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
 
@@ -532,8 +532,8 @@ final class Entry_Logger extends Logger {
 								'private'  => __( 'Private', 'connections' ),
 								'unlisted' => __( 'Unlisted', 'connections' ),
 							);
-							$entry['current']  = $visibility[ $entry['current'] ];
-							$entry['previous'] = $visibility[ $entry['previous'] ];
+							$entry['current']  = _array::get( $visibility, $entry['current'], '' );
+							$entry['previous'] = _array::get( $visibility, $entry['previous'], '' );
 
 							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
 

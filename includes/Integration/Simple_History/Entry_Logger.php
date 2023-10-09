@@ -355,7 +355,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getEntryType() !== $current->getEntryType() ) {
 
 			$diff['type'] = array(
-				'label'    => _x( 'Type', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getEntryType(),
 				'current'  => $current->getEntryType(),
 			);
@@ -364,7 +363,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getStatus() !== $current->getStatus() ) {
 
 			$diff['status'] = array(
-				'label'    => _x( 'Moderation Status', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getStatus(),
 				'current'  => $current->getStatus(),
 			);
@@ -373,7 +371,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getVisibility() !== $current->getVisibility() ) {
 
 			$diff['visibility'] = array(
-				'label'    => _x( 'Visibility', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getVisibility(),
 				'current'  => $current->getVisibility(),
 			);
@@ -382,7 +379,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getName() !== $current->getName() ) {
 
 			$diff['name'] = array(
-				'label'    => _x( 'Name', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getName(),
 				'current'  => $current->getName(),
 			);
@@ -391,7 +387,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getOrganization() !== $current->getOrganization() ) {
 
 			$diff['organization'] = array(
-				'label'    => _x( 'Organization', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getOrganization(),
 				'current'  => $current->getOrganization(),
 			);
@@ -400,7 +395,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getDepartment() !== $current->getDepartment() ) {
 
 			$diff['department'] = array(
-				'label'    => _x( 'Department', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getDepartment(),
 				'current'  => $current->getDepartment(),
 			);
@@ -409,7 +403,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getTitle() !== $current->getTitle() ) {
 
 			$diff['title'] = array(
-				'label'    => _x( 'Title', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getTitle(),
 				'current'  => $current->getTitle(),
 			);
@@ -418,7 +411,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getContactName() !== $current->getContactName() ) {
 
 			$diff['contact_name'] = array(
-				'label'    => _x( 'Contact Name', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getContactName(),
 				'current'  => $current->getContactName(),
 			);
@@ -427,7 +419,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getBio() !== $current->getBio() ) {
 
 			$diff['bio'] = array(
-				'label'    => _x( 'Biographical Info', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getBio(),
 				'current'  => $current->getBio(),
 			);
@@ -436,7 +427,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getNotes() !== $current->getNotes() ) {
 
 			$diff['notes'] = array(
-				'label'    => _x( 'Notes', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getNotes(),
 				'current'  => $current->getNotes(),
 			);
@@ -445,7 +435,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getExcerpt( array(), 'edit' ) !== $current->getExcerpt( array(), 'edit' ) ) {
 
 			$diff['excerpt'] = array(
-				'label'    => _x( 'Excerpt', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getExcerpt( array(), 'edit' ),
 				'current'  => $current->getExcerpt( array(), 'edit' ),
 			);
@@ -454,7 +443,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getLogoName() !== $current->getLogoName() ) {
 
 			$diff['logo'] = array(
-				'label'    => _x( 'Logo', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getLogoName(),
 				'current'  => $current->getLogoName(),
 				'url'      => $current->getOriginalImageURL( 'logo' ),
@@ -464,7 +452,6 @@ final class Entry_Logger extends Logger {
 		if ( $previous->getImageNameOriginal() !== $current->getImageNameOriginal() ) {
 
 			$diff['photo'] = array(
-				'label'    => _x( 'Photo', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getImageNameOriginal(),
 				'current'  => $current->getImageNameOriginal(),
 				'url'      => $current->getOriginalImageURL( 'photo' ),
@@ -583,7 +570,7 @@ final class Entry_Logger extends Logger {
 
 				foreach ( $diff as $key => $entry ) {
 
-					$label    = _array::get( $entry, 'label', '' );
+					$label    = $this->getLabel( $key );
 					$current  = _array::get( $entry, 'current', '' );
 					$previous = _array::get( $entry, 'previous', '' );
 
@@ -662,6 +649,36 @@ final class Entry_Logger extends Logger {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * The log event labels.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @param string $key The label key.
+	 *
+	 * @return string
+	 */
+	protected function getLabel( string $key ): string {
+
+		$labels = array(
+			'type'         => _x( 'Type', 'Logger: Connections Business Directory', 'connections' ),
+			'status'       => _x( 'Moderation Status', 'Logger: Connections Business Directory', 'connections' ),
+			'visibility'   => _x( 'Visibility', 'Logger: Connections Business Directory', 'connections' ),
+			'name'         => _x( 'Name', 'Logger: Connections Business Directory', 'connections' ),
+			'organization' => _x( 'Organization', 'Logger: Connections Business Directory', 'connections' ),
+			'department'   => _x( 'Department', 'Logger: Connections Business Directory', 'connections' ),
+			'title'        => _x( 'Title', 'Logger: Connections Business Directory', 'connections' ),
+			'contact_name' => _x( 'Contact Name', 'Logger: Connections Business Directory', 'connections' ),
+			'bio'          => _x( 'Biographical Info', 'Logger: Connections Business Directory', 'connections' ),
+			'notes'        => _x( 'Notes', 'Logger: Connections Business Directory', 'connections' ),
+			'excerpt'      => _x( 'Excerpt', 'Logger: Connections Business Directory', 'connections' ),
+			'logo'         => _x( 'Logo', 'Logger: Connections Business Directory', 'connections' ),
+			'photo'        => _x( 'Photo', 'Logger: Connections Business Directory', 'connections' ),
+		);
+
+		return _array::get( $labels, $key, '' );
 	}
 
 	/**

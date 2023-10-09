@@ -111,6 +111,7 @@ final class Entry_Logger extends Logger {
 		add_action( 'Connections_Directory/Entry/Saved', array( $this, 'entrySaved' ) );
 		add_action( 'Connections_Directory/Entry/Update/Before', array( $this, 'entryUpdated' ) );
 		add_action( 'Connections_Directory/Entry/Action/Set_Status/Before', array( $this, 'entryStatusUpdated' ), 10, 2 );
+		add_action( 'Connections_Directory/Entry/Action/Set_Visibility/Before', array( $this, 'entryVisibilityUpdated' ), 10, 2 );
 	}
 
 	/**
@@ -230,6 +231,60 @@ final class Entry_Logger extends Logger {
 							'label'    => _x( 'Moderation Status', 'Logger: Connections Business Directory', 'connections' ),
 							'previous' => $entry->getStatus(),
 							'current'  => $status,
+						),
+					),
+				)
+			);
+		}
+	}
+
+	/**
+	 * Callback for the `Connections_Directory/Entry/Action/Set_Visibility/Before` action.
+	 *
+	 * Records a log event when an entry is visibility is updated.
+	 *
+	 * @internal
+	 * @since 10.4.53
+	 *
+	 * @param int[]  $ids        An array of Entry IDs to update the visibility.
+	 * @param string $visibility The new entry visibility.
+	 *
+	 * @return void
+	 */
+	public function entryVisibilityUpdated( array $ids, string $visibility ) {
+
+		$user = wp_get_current_user();
+
+		if ( ! $user instanceof WP_User ) {
+
+			return;
+		}
+
+		foreach ( $ids as $id ) {
+
+			$entry  = new Entry();
+			$result = $entry->set( $id );
+
+			if ( false === $result ) {
+
+				continue;
+			}
+
+			$this->info_message(
+				'Connections_Directory/Entry/Updated',
+				array(
+					'_initiator'  => Log_Initiators::WP_USER,
+					'_user_id'    => $user->ID,
+					'_user_login' => $user->user_login,
+					'_user_email' => $user->user_email,
+					'user_id'     => $user->ID,
+					'entry_id'    => $entry->getId(),
+					'entry_name'  => $entry->getName(),
+					'entry_diff'  => array(
+						'visibility' => array(
+							'label'    => _x( 'Visibility', 'Logger: Connections Business Directory', 'connections' ),
+							'previous' => $entry->getVisibility(),
+							'current'  => $visibility,
 						),
 					),
 				)

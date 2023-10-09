@@ -1027,6 +1027,8 @@ class cnEntry_Action {
 		// Check for and convert to an array.
 		$ids = wp_parse_id_list( $id );
 
+		do_action( 'Connections_Directory/Entry/Action/Set_Visibility/Before', $ids, $visibility );
+
 		// Create the placeholders for the $id values to be used in $wpdb->prepare().
 		$d = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
@@ -1046,6 +1048,7 @@ class cnEntry_Action {
 			 * @param array $ids An array of entry IDs that had their visibility changed.
 			 */
 			do_action( 'cn_process_visibility', $ids );
+			do_action( 'Connections_Directory/Entry/Action/Set_Visibility/After', $ids, $visibility );
 		}
 
 		return false !== $result ? true : false;

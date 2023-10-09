@@ -583,17 +583,21 @@ final class Entry_Logger extends Logger {
 
 				foreach ( $diff as $key => $entry ) {
 
+					$label    = _array::get( $entry, 'label', '' );
+					$current  = _array::get( $entry, 'current', '' );
+					$previous = _array::get( $entry, 'previous', '' );
+
 					switch ( $key ) {
 
 						case 'excerpt':
 						case 'bio':
 						case 'notes':
-							$textDiff = helpers::text_diff( $entry['previous'], $entry['current'] );
+							$textDiff = helpers::text_diff( $previous, $current );
 
 							if ( $textDiff ) {
 								$tr[] = sprintf(
 									'<tr><td>%1$s</td><td>%2$s</td></tr>',
-									$entry['label'],
+									$label,
 									$textDiff
 								);
 							}
@@ -601,48 +605,50 @@ final class Entry_Logger extends Logger {
 							break;
 
 						case 'status':
-							$status            = array(
+							$status = array(
 								'approved' => __( 'Approved', 'connections' ),
 								'pending'  => __( 'Pending', 'connections' ),
 							);
-							$entry['current']  = _array::get( $status, $entry['current'], '' );
-							$entry['previous'] = _array::get( $status, $entry['previous'], '' );
 
-							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+							$current  = _array::get( $status, $current, '' );
+							$previous = _array::get( $status, $previous, '' );
+
+							$tr[] = $this->getTableRow( $label, $previous, $current );
 
 							break;
 
 						case 'type':
-							$type              = cnOptions::getEntryTypes();
-							$entry['current']  = _array::get( $type, $entry['current'], '' );
-							$entry['previous'] = _array::get( $type, $entry['previous'], '' );
+							$type     = cnOptions::getEntryTypes();
+							$current  = _array::get( $type, $current, '' );
+							$previous = _array::get( $type, $previous, '' );
 
-							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+							$tr[] = $this->getTableRow( $label, $previous, $current );
 
 							break;
 
 						case 'visibility':
-							$visibility        = array(
+							$visibility = array(
 								'public'   => __( 'Public', 'connections' ),
 								'private'  => __( 'Private', 'connections' ),
 								'unlisted' => __( 'Unlisted', 'connections' ),
 							);
-							$entry['current']  = _array::get( $visibility, $entry['current'], '' );
-							$entry['previous'] = _array::get( $visibility, $entry['previous'], '' );
 
-							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+							$current  = _array::get( $visibility, $current, '' );
+							$previous = _array::get( $visibility, $previous, '' );
+
+							$tr[] = $this->getTableRow( $label, $previous, $current );
 
 							break;
 
 						case 'logo':
 						case 'photo':
 							$url  = _array::get( $entry, 'url', '' );
-							$tr[] = $this->getTableRowImage( $entry['label'], $entry['previous'], $entry['current'], $url );
+							$tr[] = $this->getTableRowImage( $label, $previous, $current, $url );
 
 							break;
 
 						default:
-							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+							$tr[] = $this->getTableRow( $label, $previous, $current );
 					}
 				}
 

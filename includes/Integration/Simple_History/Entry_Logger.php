@@ -444,7 +444,7 @@ final class Entry_Logger extends Logger {
 
 		if ( $previous->getExcerpt( array(), 'edit' ) !== $current->getExcerpt( array(), 'edit' ) ) {
 
-			$diff['notes'] = array(
+			$diff['excerpt'] = array(
 				'label'    => _x( 'Excerpt', 'Logger: Connections Business Directory', 'connections' ),
 				'previous' => $previous->getExcerpt( array(), 'edit' ),
 				'current'  => $current->getExcerpt( array(), 'edit' ),
@@ -585,6 +585,7 @@ final class Entry_Logger extends Logger {
 
 					switch ( $key ) {
 
+						case 'excerpt':
 						case 'bio':
 						case 'notes':
 							$textDiff = helpers::text_diff( $entry['previous'], $entry['current'] );

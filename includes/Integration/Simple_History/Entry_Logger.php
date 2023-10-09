@@ -191,7 +191,7 @@ final class Entry_Logger extends Logger {
 	 * @internal
 	 * @since 10.4.53
 	 *
-	 * @param array  $ids    An array of Entry IDs to update the moderation status.
+	 * @param int[]  $ids    An array of Entry IDs to update the moderation status.
 	 * @param string $status The new entry moderation status.
 	 *
 	 * @return void

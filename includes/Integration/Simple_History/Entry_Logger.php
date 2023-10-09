@@ -18,6 +18,7 @@ declare( strict_types=1 );
 namespace Connections_Directory\Integration\Simple_History;
 
 use cnEntry as Entry;
+use cnOptions;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_validate;
@@ -576,6 +577,15 @@ final class Entry_Logger extends Logger {
 							);
 							$entry['current']  = _array::get( $status, $entry['current'], '' );
 							$entry['previous'] = _array::get( $status, $entry['previous'], '' );
+
+							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
+
+							break;
+
+						case 'type':
+							$type              = cnOptions::getEntryTypes();
+							$entry['current']  = _array::get( $type, $entry['current'], '' );
+							$entry['previous'] = _array::get( $type, $entry['previous'], '' );
 
 							$tr[] = $this->getTableRow( $entry['label'], $entry['previous'], $entry['current'] );
 

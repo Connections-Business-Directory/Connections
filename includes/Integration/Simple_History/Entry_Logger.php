@@ -442,6 +442,15 @@ final class Entry_Logger extends Logger {
 			);
 		}
 
+		if ( $previous->getExcerpt( array(), 'edit' ) !== $current->getExcerpt( array(), 'edit' ) ) {
+
+			$diff['notes'] = array(
+				'label'    => _x( 'Excerpt', 'Logger: Connections Business Directory', 'connections' ),
+				'previous' => $previous->getExcerpt( array(), 'edit' ),
+				'current'  => $current->getExcerpt( array(), 'edit' ),
+			);
+		}
+
 		return $diff;
 	}
 

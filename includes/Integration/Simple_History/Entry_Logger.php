@@ -445,6 +445,7 @@ final class Entry_Logger extends Logger {
 			$diff['logo'] = array(
 				'previous' => $previous->getLogoName(),
 				'current'  => $current->getLogoName(),
+				'path'     => $current->getOriginalImagePath( 'logo' ),
 				'url'      => $current->getOriginalImageURL( 'logo' ),
 			);
 		}
@@ -454,6 +455,7 @@ final class Entry_Logger extends Logger {
 			$diff['photo'] = array(
 				'previous' => $previous->getImageNameOriginal(),
 				'current'  => $current->getImageNameOriginal(),
+				'path'     => $current->getOriginalImagePath( 'photo' ),
 				'url'      => $current->getOriginalImageURL( 'photo' ),
 			);
 		}
@@ -629,8 +631,9 @@ final class Entry_Logger extends Logger {
 
 						case 'logo':
 						case 'photo':
+							$path = _array::get( $entry, 'path', '' );
 							$url  = _array::get( $entry, 'url', '' );
-							$tr[] = $this->getTableRowImage( $label, $previous, $current, $url );
+							$tr[] = $this->getTableRowImage( $label, $previous, $current, $path, $url );
 
 							break;
 
@@ -718,13 +721,14 @@ final class Entry_Logger extends Logger {
 	 * @param string $label    The row label.
 	 * @param string $previous The previous image name.
 	 * @param string $current  The current image name.
+	 * @param string $path     The current image path.
 	 * @param string $url      The current image URL.
 	 *
 	 * @return string
 	 */
-	protected function getTableRowImage( string $label, string $previous, string $current, string $url ): string {
+	protected function getTableRowImage( string $label, string $previous, string $current, string $path, string $url ): string {
 
-		if ( 0 < strlen( $url ) ) {
+		if ( 0 < strlen( $url ) && file_exists( $path ) ) {
 
 			$html = sprintf(
 				'<div>%2$s</div>

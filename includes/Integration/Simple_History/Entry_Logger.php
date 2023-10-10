@@ -229,7 +229,6 @@ final class Entry_Logger extends Logger {
 					'entry_name'  => $entry->getName(),
 					'entry_diff'  => array(
 						'status' => array(
-							'label'    => _x( 'Moderation Status', 'Logger: Connections Business Directory', 'connections' ),
 							'previous' => $entry->getStatus(),
 							'current'  => $status,
 						),
@@ -283,7 +282,6 @@ final class Entry_Logger extends Logger {
 					'entry_name'  => $entry->getName(),
 					'entry_diff'  => array(
 						'visibility' => array(
-							'label'    => _x( 'Visibility', 'Logger: Connections Business Directory', 'connections' ),
 							'previous' => $entry->getVisibility(),
 							'current'  => $visibility,
 						),

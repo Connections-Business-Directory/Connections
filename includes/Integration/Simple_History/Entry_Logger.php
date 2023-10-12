@@ -570,7 +570,7 @@ final class Entry_Logger extends Logger {
 
 				foreach ( $diff as $key => $entry ) {
 
-					$label    = $this->getLabel( $key );
+					$label    = $this->getLabel( (string) $key );
 					$current  = _array::get( $entry, 'current', '' );
 					$previous = _array::get( $entry, 'previous', '' );
 

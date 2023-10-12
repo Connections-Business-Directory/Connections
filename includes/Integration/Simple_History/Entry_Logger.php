@@ -19,6 +19,7 @@ namespace Connections_Directory\Integration\Simple_History;
 
 use cnEntry as Entry;
 use cnOptions;
+use Connections_Directory\Taxonomy;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_nonce;
 use Connections_Directory\Utility\_validate;
@@ -36,6 +37,15 @@ use WP_User;
  * @package Connections_Directory\Integration\Simple_History
  */
 final class Entry_Logger extends Logger {
+
+	/**
+	 * The log entry data, such as the diff when an entry is updated.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @var array
+	 */
+	protected $data = array();
 
 	/**
 	 * Unique slug for the logger.
@@ -113,6 +123,10 @@ final class Entry_Logger extends Logger {
 		add_action( 'Connections_Directory/Entry/Update/Before', array( $this, 'entryUpdated' ) );
 		add_action( 'Connections_Directory/Entry/Action/Set_Status/Before', array( $this, 'entryStatusUpdated' ), 10, 2 );
 		add_action( 'Connections_Directory/Entry/Action/Set_Visibility/Before', array( $this, 'entryVisibilityUpdated' ), 10, 2 );
+
+		add_action( 'cn_set_object_terms', array( $this, 'entryTaxonomyTermsUpdated' ), 10, 6 );
+
+		add_action( 'Connections_Directory/Entry/Action/Saved', array( $this, 'logEntryUpdated' ), 10, 3 );
 	}
 
 	/**
@@ -181,6 +195,48 @@ final class Entry_Logger extends Logger {
 				'user_id'     => $user->ID,
 				'entry_id'    => $entry->getId(),
 				'entry_name'  => $entry->getName(),
+			)
+		);
+	}
+
+	/**
+	 * Callback for the `Connections_Directory/Entry/Action/Saved` action hook.
+	 *
+	 * Records a log event when an entry is updated.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @param Entry  $entry  Instance of cnEntry.
+	 * @param string $action The current entry action such as `add` and `update`.
+	 * @param array  $data   The raw entry data. Consider this unsafe and should be sanitized and validated before use.
+	 *
+	 * @return void
+	 */
+	public function logEntryUpdated( Entry $entry, string $action, array $data ) {
+
+		if ( 'update' !== $action ) {
+
+			return;
+		}
+
+		$user = wp_get_current_user();
+
+		if ( ! $user instanceof WP_User ) {
+
+			return;
+		}
+
+		$this->info_message(
+			'Connections_Directory/Entry/Updated',
+			array(
+				'_initiator'  => Log_Initiators::WP_USER,
+				'_user_id'    => $user->ID,
+				'_user_login' => $user->user_login,
+				'_user_email' => $user->user_email,
+				'user_id'     => $user->ID,
+				'entry_id'    => $entry->getId(),
+				'entry_name'  => $entry->getName(),
+				'entry_diff'  => _array::get( $this->data, $entry->getId(), array() ),
 			)
 		);
 	}
@@ -294,7 +350,7 @@ final class Entry_Logger extends Logger {
 	/**
 	 * Callback for the `Connections_Directory/Entry/Update/Before` action.
 	 *
-	 * Records a log event when an entry is updated.
+	 * Records the entry diff to the logger data when an entry is updated.
 	 *
 	 * @internal
 	 * @since 10.4.53
@@ -314,24 +370,33 @@ final class Entry_Logger extends Logger {
 			return;
 		}
 
-		$user = wp_get_current_user();
+		$this->addDiff( $previous, $current );
+	}
 
-		if ( ! $user instanceof WP_User ) {
+	/**
+	 * Callback for the `cn_set_object_terms` action hook.
+	 *
+	 * Records the taxonomy terms diff to the logger data when an entry is updated.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @param int    $entryID    The Entry ID.
+	 * @param int[]  $terms      An array of object terms.
+	 * @param int[]  $tt_ids     An array of term taxonomy IDs.
+	 * @param string $taxonomy   Taxonomy slug.
+	 * @param bool   $append     Whether to append new terms to the old terms.
+	 * @param int[]  $old_tt_ids Old array of term taxonomy IDs.
+	 *
+	 * @return void
+	 */
+	public function entryTaxonomyTermsUpdated( int $entryID, array $terms, array $tt_ids, string $taxonomy, bool $append, array $old_tt_ids ) {
 
-			return;
-		}
-
-		$this->info_message(
-			'Connections_Directory/Entry/Updated',
+		_array::set(
+			$this->data,
+			"{$entryID}.taxonomies.{$taxonomy}",
 			array(
-				'_initiator'  => Log_Initiators::WP_USER,
-				'_user_id'    => $user->ID,
-				'_user_login' => $user->user_login,
-				'_user_email' => $user->user_email,
-				'user_id'     => $user->ID,
-				'entry_id'    => $current->getId(),
-				'entry_name'  => $current->getName(),
-				'entry_diff'  => $this->addDiff( $previous, $current ),
+				'current'  => $tt_ids,
+				'previous' => $old_tt_ids,
 			)
 		);
 	}
@@ -344,9 +409,9 @@ final class Entry_Logger extends Logger {
 	 * @param Entry $previous The instance of the previous Entry data.
 	 * @param Entry $current  The instance of the current Entry data.
 	 *
-	 * @return array
+	 * @return void
 	 */
-	protected function addDiff( Entry $previous, Entry $current ): array {
+	protected function addDiff( Entry $previous, Entry $current ) {
 
 		$diff = array();
 
@@ -458,7 +523,7 @@ final class Entry_Logger extends Logger {
 			);
 		}
 
-		return $diff;
+		_array::set( $this->data, $current->getId(), $diff );
 	}
 
 	/**
@@ -635,6 +700,11 @@ final class Entry_Logger extends Logger {
 
 							break;
 
+						case 'taxonomies':
+							$rows = $this->getTaxonomyTableRows( $entry );
+							$tr   = array_merge( $tr, $rows );
+							break;
+
 						default:
 							if ( ! is_string( $previous ) ) {
 
@@ -779,5 +849,91 @@ final class Entry_Logger extends Logger {
 			esc_html( $previous ),
 			$html
 		);
+	}
+
+	/**
+	 * Generate the table row for taxonomy term log event detail.
+	 *
+	 * @internal
+	 * @since 10.4.53
+	 *
+	 * @param array $entry The log event metadata entry.
+	 *
+	 * @return string[]
+	 */
+	protected function getTaxonomyTableRows( array $entry ): array {
+
+		$tr = array();
+
+		$taxonomies = Taxonomy\Registry::get()->getTaxonomies();
+
+		foreach ( $taxonomies as $taxonomy ) {
+
+			if ( array_key_exists( $taxonomy->getSlug(), $entry ) ) {
+
+				$taxonomySlug = $taxonomy->getSlug();
+
+				$label    = $taxonomy->getLabels()->name;
+				$current  = _array::get( $entry, "{$taxonomySlug}.current", array() );
+				$previous = _array::get( $entry, "{$taxonomySlug}.previous", array() );
+				$deleted  = array_diff( $previous, $current );
+				$added    = array();
+				$removed  = array();
+				$items    = array();
+
+				foreach ( $current as $termID ) {
+
+					$term = Taxonomy\Term::get( $termID, $taxonomySlug );
+
+					if ( $term instanceof Taxonomy\Term && ! in_array( $termID, $previous ) ) {
+
+						$added[] = $term;
+					}
+				}
+
+				foreach ( $deleted as $termID ) {
+
+					$term = Taxonomy\Term::get( $termID, $taxonomySlug );
+
+					if ( $term instanceof Taxonomy\Term ) {
+
+						$removed[] = $term;
+					}
+				}
+
+				foreach ( $added as $term ) {
+
+					$items[] = sprintf(
+						'<li><ins class="SimpleHistoryLogitem__keyValueTable__addedThing">%1$s</ins></li>',
+						esc_html( $term->name )
+					);
+				}
+
+				foreach ( $removed as $term ) {
+
+					$items[] = sprintf(
+						'<li><del class="SimpleHistoryLogitem__keyValueTable__removedThing">%1$s</del></li>',
+						esc_html( $term->name )
+					);
+				}
+
+				if ( 0 < count( $items ) ) {
+
+					$tr[] = sprintf(
+						'<tr>
+							<td>%1$s</td>
+							<td>%2$s</td>
+						</tr>',
+						$label,
+						sprintf(
+							'<ul>%1$s</ul>',
+							implode( '', $items )
+						)
+					);
+				}
+			}
+		}
+
+		return $tr;
 	}
 }

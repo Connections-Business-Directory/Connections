@@ -636,7 +636,20 @@ final class Entry_Logger extends Logger {
 							break;
 
 						default:
-							$tr[] = $this->getTableRow( $label, $previous, $current );
+							if ( ! is_string( $previous ) ) {
+
+								$previous = wp_json_encode( $previous );
+							}
+
+							if ( ! is_string( $current ) ) {
+
+								$current = wp_json_encode( $current );
+							}
+
+							if ( 0 < strlen( $previous ) || 0 < strlen( $current ) ) {
+
+								$tr[] = $this->getTableRow( $label, $previous, $current );
+							}
 					}
 				}
 

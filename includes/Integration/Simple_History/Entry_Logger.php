@@ -126,6 +126,7 @@ final class Entry_Logger extends Logger {
 
 		add_action( 'cn_set_object_terms', array( $this, 'entryTaxonomyTermsUpdated' ), 10, 6 );
 
+		add_action( 'Connections_Directory/Entry/Action/Saved', array( $this, 'logEntrySaved' ), 10, 3 );
 		add_action( 'Connections_Directory/Entry/Action/Saved', array( $this, 'logEntryUpdated' ), 10, 3 );
 	}
 
@@ -165,18 +166,25 @@ final class Entry_Logger extends Logger {
 	}
 
 	/**
-	 * Callback for the `Connections_Directory/Entry/Saved` action.
+	 * Callback for the `Connections_Directory/Entry/Action/Saved` action.
 	 *
 	 * Records a log event when an entry is created.
 	 *
 	 * @internal
 	 * @since 10.4.53
 	 *
-	 * @param Entry $entry Instance of cnEntry.
+	 * @param Entry  $entry  Instance of cnEntry.
+	 * @param string $action The current entry action such as `add` and `update`.
+	 * @param array  $data   The raw entry data. Consider this unsafe and should be sanitized and validated before use.
 	 *
 	 * @return void
 	 */
-	public function entrySaved( Entry $entry ) {
+	public function logEntrySaved( Entry $entry, string $action, array $data ) {
+
+		if ( 'add' !== $action ) {
+
+			return;
+		}
 
 		$user = wp_get_current_user();
 
@@ -195,6 +203,7 @@ final class Entry_Logger extends Logger {
 				'user_id'     => $user->ID,
 				'entry_id'    => $entry->getId(),
 				'entry_name'  => $entry->getName(),
+				'entry_data'  => _array::get( $this->data, $entry->getId(), array() ),
 			)
 		);
 	}
@@ -348,6 +357,23 @@ final class Entry_Logger extends Logger {
 	}
 
 	/**
+	 * Callback for the `Connections_Directory/Entry/Saved` action.
+	 *
+	 * Records the entry diff to the logger data when an entry is updated.
+	 *
+	 * @internal
+	 * @since 10.4.53
+	 *
+	 * @param Entry $current Instance of cnEntry.
+	 *
+	 * @return void
+	 */
+	public function entrySaved( Entry $current ) {
+
+		$this->addData( $current );
+	}
+
+	/**
 	 * Callback for the `Connections_Directory/Entry/Update/Before` action.
 	 *
 	 * Records the entry diff to the logger data when an entry is updated.
@@ -399,6 +425,52 @@ final class Entry_Logger extends Logger {
 				'previous' => $old_tt_ids,
 			)
 		);
+	}
+
+	/**
+	 * Create an array with the entry data.
+	 *
+	 * @since 10.4.53
+	 *
+	 * @param Entry $current The instance of the current Entry data.
+	 *
+	 * @return void
+	 */
+	protected function addData( Entry $current ) {
+
+		$data = array();
+
+		$data['type']         = $current->getEntryType();
+		$data['status']       = $current->getStatus();
+		$data['visibility']   = $current->getVisibility();
+		$data['name']         = $current->getName();
+		$data['organization'] = $current->getOrganization();
+		$data['department']   = $current->getDepartment();
+		$data['title']        = $current->getTitle();
+		$data['contact_name'] = $current->getContactName();
+		$data['bio']          = $current->getBio();
+		$data['notes']        = $current->getNotes();
+		$data['excerpt']      = $current->getExcerpt( array(), 'edit' );
+
+		if ( 0 < strlen( $current->getLogoName() ) ) {
+
+			$data['logo'] = array(
+				'name' => $current->getLogoName(),
+				'path' => $current->getOriginalImagePath( 'logo' ),
+				'url'  => $current->getOriginalImageURL( 'logo' ),
+			);
+		}
+
+		if ( 0 < strlen( $current->getImageNameOriginal() ) ) {
+
+			$data['photo'] = array(
+				'name' => $current->getImageNameOriginal(),
+				'path' => $current->getOriginalImagePath( 'photo' ),
+				'url'  => $current->getOriginalImageURL( 'photo' ),
+			);
+		}
+
+		_array::set( $this->data, $current->getId(), $data );
 	}
 
 	/**
@@ -527,17 +599,18 @@ final class Entry_Logger extends Logger {
 	}
 
 	/**
-	 * Get the diff from the log event context.
+	 * Get the data/diff from the log event context.
 	 *
 	 * @since 10.4.53
 	 *
-	 * @param array $context The log event context.
+	 * @param array  $context The log event context.
+	 * @param string $key     The array key of the data/diff to get.
 	 *
 	 * @return array
 	 */
-	protected function getDiffFromContext( array $context ): array {
+	protected function getDataFromContext( array $context, string $key ): array {
 
-		$diff = _array::get( $context, 'entry_diff', '[]' );
+		$diff = _array::get( $context, $key, '[]' );
 
 		$diff = _validate::isJSON( $diff ) ? json_decode( $diff, true ) : array();
 
@@ -624,12 +697,86 @@ final class Entry_Logger extends Logger {
 		switch ( $action ) {
 
 			case 'Connections_Directory/Entry/Saved':
-				// @todo Return data about the entry added such as name, status, visibility, and other fields.
-				$html = parent::get_log_row_details_output( $row );
+				$data  = $this->getDataFromContext( $context, 'entry_data' );
+				$table = '';
+				$tr    = array();
+
+				foreach ( $data as $key => $entry ) {
+
+					$label = $this->getLabel( (string) $key );
+
+					switch ( $key ) {
+
+						case 'status':
+							$status = array(
+								'approved' => __( 'Approved', 'connections' ),
+								'pending'  => __( 'Pending', 'connections' ),
+							);
+
+							$current = _array::get( $status, $entry, '' );
+
+							$tr[] = $this->getTableRow( $label, '', $current );
+
+							break;
+
+						case 'type':
+							$type    = cnOptions::getEntryTypes();
+							$current = _array::get( $type, $entry, '' );
+
+							$tr[] = $this->getTableRow( $label, '', $current );
+
+							break;
+
+						case 'visibility':
+							$visibility = array(
+								'public'   => __( 'Public', 'connections' ),
+								'private'  => __( 'Private', 'connections' ),
+								'unlisted' => __( 'Unlisted', 'connections' ),
+							);
+
+							$current = _array::get( $visibility, $entry, '' );
+
+							$tr[] = $this->getTableRow( $label, '', $current );
+
+							break;
+
+						case 'logo':
+						case 'photo':
+							$name = _array::get( $entry, 'name', '' );
+							$path = _array::get( $entry, 'path', '' );
+							$url  = _array::get( $entry, 'url', '' );
+							$tr[] = $this->getTableRowAddedImage( $label, $name, $path, $url );
+
+							break;
+
+						case 'taxonomies':
+							$rows = $this->getTaxonomyTableRows( $entry );
+							$tr   = array_merge( $tr, $rows );
+							break;
+
+						default:
+							if ( ! is_string( $entry ) ) {
+
+								$entry = wp_json_encode( $entry );
+							}
+
+							if ( 0 < strlen( $entry ) ) {
+
+								$tr[] = $this->getTableRow( $label, '', $entry );
+							}
+					}
+				}
+
+				if ( 0 < count( $tr ) ) {
+					$table = '<table class="SimpleHistoryLogitem__keyValueTable">' . implode( PHP_EOL, $tr ) . '</table>';
+				}
+
+				$html = $table;
+
 				break;
 
 			case 'Connections_Directory/Entry/Updated':
-				$diff  = $this->getDiffFromContext( $context );
+				$diff  = $this->getDataFromContext( $context, 'entry_diff' );
 				$table = '';
 				$tr    = array();
 
@@ -696,7 +843,7 @@ final class Entry_Logger extends Logger {
 						case 'photo':
 							$path = _array::get( $entry, 'path', '' );
 							$url  = _array::get( $entry, 'url', '' );
-							$tr[] = $this->getTableRowImage( $label, $previous, $current, $path, $url );
+							$tr[] = $this->getTableRowUpdatedImage( $label, $previous, $current, $path, $url );
 
 							break;
 
@@ -799,6 +946,51 @@ final class Entry_Logger extends Logger {
 	 * @internal
 	 * @since 10.4.53
 	 *
+	 * @param string $label The row label.
+	 * @param string $name  The image name.
+	 * @param string $path  The image path.
+	 * @param string $url   The image URL.
+	 *
+	 * @return string
+	 */
+	protected function getTableRowAddedImage( string $label, string $name, string $path, string $url ): string {
+
+		$html = '';
+
+		if ( 0 < strlen( $url ) && file_exists( $path ) ) {
+
+			$image = sprintf(
+				'<div>%2$s</div>
+				<div class="SimpleHistoryLogitemThumbnail">
+					<img src="%1$s">
+				</div>',
+				esc_url( $url ),
+				esc_html( $name )
+			);
+
+			$html = sprintf(
+				'<tr>
+					<td>%1$s</td>
+					<td>%2$s</td>
+				</tr>',
+				$label,
+				sprintf(
+					'<ins class="SimpleHistoryLogitem__keyValueTable__addedThing">%1$s</ins> <del class="SimpleHistoryLogitem__keyValueTable__removedThing">%2$s</del>',
+					$image,
+					''
+				)
+			);
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Generate the table row for the image log event detail.
+	 *
+	 * @internal
+	 * @since 10.4.53
+	 *
 	 * @param string $label    The row label.
 	 * @param string $previous The previous image name.
 	 * @param string $current  The current image name.
@@ -807,7 +999,7 @@ final class Entry_Logger extends Logger {
 	 *
 	 * @return string
 	 */
-	protected function getTableRowImage( string $label, string $previous, string $current, string $path, string $url ): string {
+	protected function getTableRowUpdatedImage( string $label, string $previous, string $current, string $path, string $url ): string {
 
 		if ( 0 < strlen( $url ) && file_exists( $path ) ) {
 

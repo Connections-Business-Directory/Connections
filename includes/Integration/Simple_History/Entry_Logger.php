@@ -56,7 +56,7 @@ final class Entry_Logger extends Logger {
 	 *
 	 * @var string
 	 */
-	protected $slug = 'Connections_Directory';
+	protected $slug = 'CBD/Entry';
 
 	/**
 	 * Logger constructor.

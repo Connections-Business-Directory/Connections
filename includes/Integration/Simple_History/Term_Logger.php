@@ -35,7 +35,7 @@ use Simple_History\Simple_History;
 final class Term_Logger extends Logger {
 
 	/**
-	 * The log term data, such as the diff when an term is updated.
+	 * The log term data, such as the diff when a term is updated.
 	 *
 	 * @since 10.4.53
 	 *
@@ -68,6 +68,8 @@ final class Term_Logger extends Logger {
 
 	/**
 	 * Get array with information about this logger.
+	 *
+	 * @since 10.4.53
 	 *
 	 * @return array{
 	 *     name: string,
@@ -169,9 +171,9 @@ final class Term_Logger extends Logger {
 	 * @internal
 	 * @since 10.4.53
 	 *
-	 * @param int    $term_id
-	 * @param string $taxonomy
-	 * @param array  $args
+	 * @param int    $term_id  The term ID.
+	 * @param string $taxonomy The term Taxonomy.
+	 * @param array  $args     The parameters passed to {@see cnTerm::update()}.
 	 *
 	 * @return void
 	 */
@@ -200,6 +202,8 @@ final class Term_Logger extends Logger {
 	}
 
 	/**
+	 * Callback for the `cn_delete_term` action hook.
+	 *
 	 * Fires after a term is deleted from the database and the cache has been cleared.
 	 *
 	 * @internal
@@ -232,11 +236,11 @@ final class Term_Logger extends Logger {
 	}
 
 	/**
-	 * Create an array with the entry data.
+	 * Create an array with the term data.
 	 *
 	 * @since 10.4.53
 	 *
-	 * @param Taxonomy\Term $current The instance of the current Entry data.
+	 * @param Taxonomy\Term $current The instance of the current Term data.
 	 *
 	 * @return void
 	 */
@@ -254,10 +258,12 @@ final class Term_Logger extends Logger {
 	}
 
 	/**
+	 * Create an array with the diff data.
+	 *
 	 * @since 10.4.53
 	 *
-	 * @param Taxonomy\Term $previous
-	 * @param Taxonomy\Term $current
+	 * @param Taxonomy\Term $previous The instance of the previous Term data.
+	 * @param Taxonomy\Term $current  The instance of the current Term data.
 	 *
 	 * @return void
 	 */

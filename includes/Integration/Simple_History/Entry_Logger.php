@@ -73,6 +73,8 @@ final class Entry_Logger extends Logger {
 	/**
 	 * Get array with information about this logger.
 	 *
+	 * @since 10.4.53
+	 *
 	 * @return array{
 	 *     name: string,
 	 *     description: string,
@@ -220,6 +222,7 @@ final class Entry_Logger extends Logger {
 	 *
 	 * Records a log event when an entry is updated.
 	 *
+	 * @internal
 	 * @since 10.4.53
 	 *
 	 * @param Entry  $entry  Instance of cnEntry.
@@ -411,6 +414,7 @@ final class Entry_Logger extends Logger {
 	 *
 	 * Records the taxonomy terms diff to the logger data when an entry is updated.
 	 *
+	 * @internal
 	 * @since 10.4.53
 	 *
 	 * @param int    $entryID    The Entry ID.
@@ -922,7 +926,6 @@ final class Entry_Logger extends Logger {
 	/**
 	 * Generate the table row for the log event detail.
 	 *
-	 * @internal
 	 * @since 10.5.53
 	 *
 	 * @param string $label    The row label.
@@ -950,7 +953,6 @@ final class Entry_Logger extends Logger {
 	/**
 	 * Generate the table row for the image log event detail.
 	 *
-	 * @internal
 	 * @since 10.4.53
 	 *
 	 * @param string $label The row label.
@@ -995,7 +997,6 @@ final class Entry_Logger extends Logger {
 	/**
 	 * Generate the table row for the image log event detail.
 	 *
-	 * @internal
 	 * @since 10.4.53
 	 *
 	 * @param string $label    The row label.
@@ -1053,7 +1054,6 @@ final class Entry_Logger extends Logger {
 	/**
 	 * Generate the table row for taxonomy term log event detail.
 	 *
-	 * @internal
 	 * @since 10.4.53
 	 *
 	 * @param array $entry The log event metadata entry.

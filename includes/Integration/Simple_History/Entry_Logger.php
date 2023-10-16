@@ -617,15 +617,15 @@ final class Entry_Logger extends Logger {
 	 */
 	protected function getDataFromContext( array $context, string $key ): array {
 
-		$diff = _array::get( $context, $key, '[]' );
+		$data = _array::get( $context, $key, '[]' );
 
-		$diff = _validate::isJSON( $diff ) ? json_decode( $diff, true ) : array();
+		$data = _validate::isJSON( $data ) ? json_decode( $data, true ) : array();
 
-		if ( ! is_array( $diff ) ) {
+		if ( ! is_array( $data ) ) {
 			return array();
 		}
 
-		return $diff;
+		return $data;
 	}
 
 	/**

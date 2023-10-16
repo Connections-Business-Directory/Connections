@@ -1623,11 +1623,13 @@ class cnTerm {
 		 * Fires immediately before the given terms are edited.
 		 *
 		 * @since 8.1.6
+		 * @since The `$args` parameter was added.
 		 *
 		 * @param int    $term_id  Term ID.
 		 * @param string $taxonomy Taxonomy slug.
+		 * @param array  $args     The passed arguments.
 		 */
-		do_action( 'cn_edit_terms', $term_id, $taxonomy );
+		do_action( 'cn_edit_terms', $term_id, $taxonomy, $args );
 
 		$wpdb->update( CN_TERMS_TABLE, compact( 'name', 'slug', 'term_group' ), compact( 'term_id' ) );
 

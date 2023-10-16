@@ -32,7 +32,7 @@ use Simple_History\Simple_History;
 use WP_User;
 
 /**
- * Class Logger
+ * Class Entry_Logger
  *
  * @package Connections_Directory\Integration\Simple_History
  */

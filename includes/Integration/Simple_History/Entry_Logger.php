@@ -91,11 +91,11 @@ final class Entry_Logger extends Logger {
 	public function get_info(): array {
 
 		return array(
-			'name'        => _x( 'Plugin: Connections Business Directory Logger', 'Logger: Connections Business Directory', 'connections' ),
-			'description' => _x( 'Log Connections Business Directory Activity.', 'Logger: Connections Business Directory', 'connections' ),
+			'name'        => _x( 'Plugin: Connections Business Directory Entry Logger', 'Logger: Connections Business Directory', 'connections' ),
+			'description' => _x( 'Log Connections Business Directory Entry Activity.', 'Logger: Connections Business Directory', 'connections' ),
 			// Set the capability required to read the events recorded by this logger.
 			'capability'  => 'manage_options',
-			'name_via'    => _x( 'Using plugin Connections Business Directory', 'Logger: Connections Business Directory', 'connections' ),
+			'name_via'    => _x( 'Using plugin Connections Business Directory.', 'Logger: Connections Business Directory', 'connections' ),
 			'messages'    => array(
 				// [key == Action or Filter tag name => value == Log message]
 				'Connections_Directory/Entry/Deleted' => _x( 'Deleted Entry: "{entry_name}"', 'Logger: Connections Business Directory', 'connections' ),
@@ -107,9 +107,9 @@ final class Entry_Logger extends Logger {
 					'label'     => _x( 'Connections Business Directory Entry Activity', 'Directory Entry logger: search', 'connections' ),
 					'label_all' => _x( 'All Directory Entry Activity', 'Directory Entry logger: search', 'connections' ),
 					'options'   => array(
-						_x( 'Directory Entries Created', 'Post logger: search', 'connections' )  => array( 'Connections_Directory/Entry/Saved' ),
-						_x( 'Directory Entries Updated', 'Post logger: search', 'connections' )  => array( 'Connections_Directory/Entry/Updated' ),
-						_x( 'Directory Entries Deleted', 'Post logger: search', 'connections' )  => array( 'Connections_Directory/Entry/Deleted' ),
+						_x( 'Directory Entries Created', 'Entry logger: search', 'connections' )  => array( 'Connections_Directory/Entry/Saved' ),
+						_x( 'Directory Entries Updated', 'Entry logger: search', 'connections' )  => array( 'Connections_Directory/Entry/Updated' ),
+						_x( 'Directory Entries Deleted', 'Entry logger: search', 'connections' )  => array( 'Connections_Directory/Entry/Deleted' ),
 					),
 				),
 			),

@@ -22,7 +22,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.52';
+	const VERSION = '10.4.53';
 
 	/**
 	 * Stores the instance of this class.
@@ -490,6 +490,7 @@ final class Connections_Directory {
 		add_action( 'init', array( Shortcode\Upcoming_List::class, 'add' ) );
 
 		// Integrations
+		add_action( 'plugins_loaded', array( Integration\Simple_History::class, 'init' ) );
 		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.
 		add_action( 'plugins_loaded', array( Integration\SEO\Yoast_SEO::class, 'init' ), 15 );
 		add_action( 'plugins_loaded', array( Integration\SEO\Rank_Math::class, 'init' ), 15 );

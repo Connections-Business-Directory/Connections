@@ -10,6 +10,7 @@ use cnTerm;
 use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Taxonomy\Widget;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_parse;
 use WP;
 use WP_Error;
 use WP_Post_Type;
@@ -1170,6 +1171,9 @@ final class Taxonomy {
 		/**
 		 * This section is similar to {@see _get_custom_object_labels()}.
 		 */
+
+		$labels = _parse::parameters( $labels, $defaults, true, false );
+
 		$defaults['name']           = _array::get( $labels, 'name', ( is_string( $this->label ) && ! empty( $this->label ) ? $this->label : $defaults['name'] ) );
 		$defaults['singular_name']  = _array::get( $labels, 'singular_name', $defaults['name'] );
 		$defaults['name_admin_bar'] = _array::get( $labels, 'name_admin_bar', $defaults['name'] );

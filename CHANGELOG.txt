@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 10.4.53 10/16/2023 =
+* FEATURE: Add integration and support for the [Simple History plugin](https://wordpress.org/plugins/simple-history/).
+* TWEAK: Pass the `$args` parameter to the `cn_edit_terms` filter.
+* TWEAK: Pass the `$args` parameter to the `cn_edit_terms` filter.
+* BUG: Merge provided taxonomy labels with the default labels.
+* OTHER: Correct misspellings.
+
 = 10.4.52 09/29/2023 =
 * TWEAK: Add webp as a valid image type when validating image uploads.
 * BUG: Revert specificity CSS for icons to be more targeted to the Connections Brandicons (Icomoon).

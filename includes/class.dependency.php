@@ -624,13 +624,16 @@ class cnDependency {
 			'cnCSV_Batch_Export_Term'          => 'includes/export/class.csv-export-batch-category.php',
 
 			// Integrations.
-			'cnGoogleMapsTimeZone'                                     => 'includes/Integration/Google/class.google-maps-timezone-api.php',
-			'Connections_Directory\Integration\SEO\Yoast_SEO'          => 'includes/Integration/SEO/Yoast_SEO.php',
-			'Connections_Directory\Integration\SEO\Yoast_SEO\Provider' => 'includes/Integration/SEO/Yoast_SEO/Provider.php',
-			'Connections_Directory\Integration\SEO\Rank_Math'          => 'includes/Integration/SEO/Rank_Math.php',
-			'Connections_Directory\Integration\SEO\Rank_Math\Provider' => 'includes/Integration/SEO/Rank_Math/Provider.php',
-			'Connections_Directory\Integration\WordPress\mShot'        => 'includes/Integration/WordPress/mShot.php',
-			'Connections_Directory\Integration\Gravity_Forms'          => 'includes/Integration/Gravity_Forms.php',
+			'cnGoogleMapsTimeZone'                                          => 'includes/Integration/Google/class.google-maps-timezone-api.php',
+			'Connections_Directory\Integration\SEO\Yoast_SEO'               => 'includes/Integration/SEO/Yoast_SEO.php',
+			'Connections_Directory\Integration\SEO\Yoast_SEO\Provider'      => 'includes/Integration/SEO/Yoast_SEO/Provider.php',
+			'Connections_Directory\Integration\SEO\Rank_Math'               => 'includes/Integration/SEO/Rank_Math.php',
+			'Connections_Directory\Integration\SEO\Rank_Math\Provider'      => 'includes/Integration/SEO/Rank_Math/Provider.php',
+			'Connections_Directory\Integration\WordPress\mShot'             => 'includes/Integration/WordPress/mShot.php',
+			'Connections_Directory\Integration\Gravity_Forms'               => 'includes/Integration/Gravity_Forms.php',
+			'Connections_Directory\Integration\Simple_History'              => 'includes/Integration/Simple_History.php',
+			'Connections_Directory\Integration\Simple_History\Entry_Logger' => 'includes/Integration/Simple_History/Entry_Logger.php',
+			'Connections_Directory\Integration\Simple_History\Term_Logger'  => 'includes/Integration/Simple_History/Term_Logger.php',
 
 			// Deprecated files for deprecated classes. Required to trigger the autoloader.
 			'cnArray'       => 'includes/Deprecated/class.array.php',

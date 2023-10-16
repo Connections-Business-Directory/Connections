@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 5.8
 Tested up to: 6.3
 Requires PHP: 7.0
-Stable tag: 10.4.52
+Stable tag: 10.4.53
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,15 +19,19 @@ Connections Business Directory is one of the [best business directory plugins av
 
 = Features =
 
+* **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
+* [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
+* **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
+    * [Supports the native sitemaps](https://connections-pro.com/connections-10-0-seo-sitemaps/) feature available in WordPress versions 5.5 and newer.
+    * [Yoast SEO and Rank Math sitemaps integration.](https://connections-pro.com/connections-10-1-seo-sitemaps-integrations/)
+* **Event Logging** Integrates with the [Simple History plugin](https://wordpress.org/plugins/simple-history/); logging directory related events such as creating a new entry, modifying an entry, and deleting an entry.
 * Supports the WordPress Block (Gutenberg) Editor with the following blocks.
     * [Carousel Block](https://connections-pro.com/documentation/block/carousel/) :: Display your directory as a carousel.
     * [Directory Block](https://connections-pro.com/documentation/block/directory/) :: Use this block to embed your directory in a page.
     * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full-featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
     * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
-* **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
-* [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * A growing selection of Content Blocks:
     * [Related Entries](https://connections-pro.com/connections-9-8-related-content-blocks/):: Display related Entries in a mobile responsive carousel.
     * [Nearby Entries](https://connections-pro.com/connections-9-9-nearby-entries-content-block/):: Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.
@@ -38,7 +42,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged-in users only. You can even have entries set as unlisted so only admins can view them.
-* **[Repeatable fields](https://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
+* **[Repeatable fields](https://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, instant messenger, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
 * Hierarchical (nested) **category support**. Businesses and members in your business directory can be added to any number of categories.
 * Include a biographical text for an individual member or business description for each entry in your business directory using an easy-to-use rich text editor.
 * You can easily add a business logo or photo of the staff member for each entry in your business directory or staff directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
@@ -47,9 +51,6 @@ Connections Business Directory is one of the [best business directory plugins av
 * **[CSV Import](https://connections-pro.com/documentation/tools/#Categories-2)** of **nested** categories.
 * **[Role capability support](https://connections-pro.com/documentation/roles/)**.
 * [Displaying your business directory on the frontend is as simple as putting a shortcode on a page.](https://connections-pro.com/documentation/install/#Step_4_Displaying_your_Directory) Don't let this simplicity fool you. The shortcode provides a large array of options that are just too numerous to list. To learn more, [go here](https://connections-pro.com/documentation/plugin/shortcodes/).
-* **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
-    * [Supports the native sitemaps](https://connections-pro.com/connections-10-0-seo-sitemaps/) feature available in WordPress versions 5.5 and newer.
-    * [Yoast SEO and Rank Math sitemaps integration.](https://connections-pro.com/connections-10-1-seo-sitemaps-integrations/)
 * **[Extensible](https://connections-pro.com/extensions/)** and developer friendly.
 * Robust **templating support** with the [Template Customizer](https://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with you business directory with many more [premium templates available](https://connections-pro.com/templates/) to really make your business directory shine.
 
@@ -88,7 +89,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * [Enhanced Categories](https://connections-pro.com/add-on/enhanced-categories/) :: Adds many features to the categories.
 * [Form](https://connections-pro.com/add-on/form/) :: Allow site visitor to submit entries to your directory. Also provides frontend editing support.
 * [Link](https://connections-pro.com/add-on/link/) :: Links a WordPress user to an entry so that user can maintain their entry with or without moderation.
-* [ROT13 Encryption](https://connections-pro.com/add-on/rot13-email-encryption/) :: Protect email addresses from being harvested from your business directory by spam bots.
+* [ROT13 Encryption](https://connections-pro.com/add-on/rot13-email-encryption/) :: Protect email addresses from being harvested from your business directory by spambots.
 * [SiteShot](https://connections-pro.com/add-on/siteshot/) :: Show a screen capture of the entry's website.
 * [Widget Pack](https://connections-pro.com/add-on/widget-pack/) :: A set of feature rich, versatile and highly configurable widgets that can be used to enhance your directory.
 
@@ -105,7 +106,7 @@ Connections Business Directory comes with a couple templates to get you started 
 
 = Developer Friendly =
 
-* Open development on [Github](https://github.com/Connections-Business-Directory/Connections).
+* Open development on [GitHub](https://github.com/Connections-Business-Directory/Connections).
 * Access to **180 action hooks** and over **300 filters** ... and counting.
 * Term API.
 * Custom Metabox and Fields API.
@@ -247,6 +248,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.53 10/16/2023 =
+* FEATURE: Add integration and support for the [Simple History plugin](https://wordpress.org/plugins/simple-history/).
+* TWEAK: Pass the `$args` parameter to the `cn_edit_terms` filter.
+* TWEAK: Pass the `$args` parameter to the `cn_edit_terms` filter.
+* BUG: Merge provided taxonomy labels with the default labels.
+* OTHER: Correct misspellings.
 
 = 10.4.52 09/29/2023 =
 * TWEAK: Add webp as a valid image type when validating image uploads.
@@ -591,37 +599,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add `cnShortcode` class phpDoc.
 * DEV: Remove unnecessary line returns.
 
-= 10.4.39 03/06/2023 =
-* NEW: Introduce the `Search` and `Submit` fields to the Fields API.
-* NEW: Introduce polyfill for `ctype_digit()`.
-* NEW: Introduce `Request::isSearch()`.
-* NEW: Introduce `Request::hasQuery()`.
-* NEW: Introduce the "Tests" Tools tab and a tool to test `wp_remote_(get|post)()` requests.
-* TWEAK: Deprecate the `cn_loaded` action hook in favor of the `Connections_Directory/Loaded` action hook triggered on the `plugins_loaded` action hook to have it run reliably, as it is possible for add-ons to be loaded by WP before Connections is loaded.
-* TWEAK: Add additional core WordPress constants to the System Info tool.
-* TWEAK: Rename a variable to make it more clear as to the intended function of its value.
-* TWEAK: Cleanup code `cnTemplatePart::formOpen()`.
-* TWEAK: Add deprecated filter for `cn_form_open_action`.
-* TWEAK: Remove deprecated `cnTemplatePart::characterIndex()` method.
-* TWEAK: Refactor `Conditional_Content::isSearch()` to utilize `Request::isSearch()` to remove code duplication.
-* TWEAK: Only add the leading space to the `label` element if it has attributes.
-* TWEAK: Add support for implicit label position for a form field.
-* TWEAK: Set the various image quality arguments to default to `null` from `82` so the code WP Image Editor default image quality will be used.
-* TWEAK: Include the `Partial` folder when locating template partials.
-* TWEAK: Allow upper and lowercase file names.
-* BUG: The character index and section heading should not be displayed when performing a keyword query request.
-* BUG: Ensure image width is a whole number When processing.
-* BUG: The `$params` argument should be extracted when loading template parts.
-* OTHER: Correct misspellings.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-* DEV: Removed unused commented out code.
-
 == Upgrade Notice ==
-
-= 10.4.39 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.40 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
@@ -660,4 +638,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.52 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.53 =
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

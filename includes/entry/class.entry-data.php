@@ -3323,6 +3323,7 @@ class cnEntry {
 		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_update-entry', $this );
+		do_action( 'Connections_Directory/Entry/Update/Before', $this );
 
 		$result = $wpdb->update(
 			CN_ENTRY_TABLE,
@@ -3416,6 +3417,8 @@ class cnEntry {
 			$this->socialMedia->save();
 
 			$this->updateObjectCaches();
+
+			do_action( 'Connections_Directory/Entry/Updated', $this );
 		}
 
 		do_action( 'cn_updated-entry', $this );
@@ -3594,6 +3597,8 @@ class cnEntry {
 			$this->socialMedia->setEntryID( $this->getId() )->save();
 
 			$this->updateObjectCaches();
+
+			do_action( 'Connections_Directory/Entry/Saved', $this );
 		}
 
 		do_action( 'cn_saved-entry', $this );
@@ -3709,6 +3714,7 @@ class cnEntry {
 		$connections->term->deleteTermRelationships( $id );
 
 		do_action( 'cn_deleted-entry', $this );
+		do_action( 'Connections_Directory/Entry/Deleted', $this );
 	}
 
 }

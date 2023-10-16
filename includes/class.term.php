@@ -1723,12 +1723,14 @@ class cnTerm {
 		 * Fires after a term has been updated, and the term cache has been cleaned.
 		 *
 		 * @since 8.1.6
+		 * @since The `$args` parameter was added.
 		 *
 		 * @param int    $term_id  Term ID.
 		 * @param int    $tt_id    Term taxonomy ID.
 		 * @param string $taxonomy Taxonomy slug.
+		 * @param array  $args     The passed arguments.
 		 */
-		do_action( 'cn_edited_term', $term_id, $tt_id, $taxonomy );
+		do_action( 'cn_edited_term', $term_id, $tt_id, $taxonomy, $args );
 
 		/**
 		 * Fires after a term for a specific taxonomy has been updated, and the term

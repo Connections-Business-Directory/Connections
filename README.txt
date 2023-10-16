@@ -249,6 +249,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.53 10/16/2023 =
+* FEATURE: Add integration and support for the [Simple History plugin](https://wordpress.org/plugins/simple-history/).
+* TWEAK: Pass the `$args` parameter to the `cn_edit_terms` filter.
+* TWEAK: Pass the `$args` parameter to the `cn_edit_terms` filter.
+* BUG: Merge provided taxonomy labels with the default labels.
+* OTHER: Correct misspellings.
+
 = 10.4.52 09/29/2023 =
 * TWEAK: Add webp as a valid image type when validating image uploads.
 * BUG: Revert specificity CSS for icons to be more targeted to the Connections Brandicons (Icomoon).
@@ -592,37 +599,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add `cnShortcode` class phpDoc.
 * DEV: Remove unnecessary line returns.
 
-= 10.4.39 03/06/2023 =
-* NEW: Introduce the `Search` and `Submit` fields to the Fields API.
-* NEW: Introduce polyfill for `ctype_digit()`.
-* NEW: Introduce `Request::isSearch()`.
-* NEW: Introduce `Request::hasQuery()`.
-* NEW: Introduce the "Tests" Tools tab and a tool to test `wp_remote_(get|post)()` requests.
-* TWEAK: Deprecate the `cn_loaded` action hook in favor of the `Connections_Directory/Loaded` action hook triggered on the `plugins_loaded` action hook to have it run reliably, as it is possible for add-ons to be loaded by WP before Connections is loaded.
-* TWEAK: Add additional core WordPress constants to the System Info tool.
-* TWEAK: Rename a variable to make it more clear as to the intended function of its value.
-* TWEAK: Cleanup code `cnTemplatePart::formOpen()`.
-* TWEAK: Add deprecated filter for `cn_form_open_action`.
-* TWEAK: Remove deprecated `cnTemplatePart::characterIndex()` method.
-* TWEAK: Refactor `Conditional_Content::isSearch()` to utilize `Request::isSearch()` to remove code duplication.
-* TWEAK: Only add the leading space to the `label` element if it has attributes.
-* TWEAK: Add support for implicit label position for a form field.
-* TWEAK: Set the various image quality arguments to default to `null` from `82` so the code WP Image Editor default image quality will be used.
-* TWEAK: Include the `Partial` folder when locating template partials.
-* TWEAK: Allow upper and lowercase file names.
-* BUG: The character index and section heading should not be displayed when performing a keyword query request.
-* BUG: Ensure image width is a whole number When processing.
-* BUG: The `$params` argument should be extracted when loading template parts.
-* OTHER: Correct misspellings.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-* DEV: Removed unused commented out code.
-
 == Upgrade Notice ==
-
-= 10.4.39 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.40 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
@@ -661,4 +638,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.52 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.53 =
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

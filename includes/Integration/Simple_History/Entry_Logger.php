@@ -676,7 +676,7 @@ final class Entry_Logger extends Logger {
 						break;
 
 					case 'Connections_Directory/Entry/Updated':
-						$message = __( 'Edited Entry <a href="{edit_link}">"{entry_name}"</a>', 'connections' );
+						$message = __( 'Updated Entry <a href="{edit_link}">"{entry_name}"</a>', 'connections' );
 						break;
 				}
 

@@ -17,7 +17,7 @@ declare( strict_types=1 );
 
 namespace Connections_Directory\Integration\Simple_History;
 
-use cnTerm;
+use cnTerm as Term;
 use Connections_Directory\Taxonomy;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_validate;
@@ -142,7 +142,7 @@ final class Term_Logger extends Logger {
 	 */
 	public function termSaved( int $term_id, int $tt_id, string $taxonomy ) {
 
-		$term = cnTerm::getBy( 'id', $term_id, $taxonomy );
+		$term = Term::getBy( 'id', $term_id, $taxonomy );
 
 		if ( ! $term instanceof Taxonomy\Term ) {
 			return;
@@ -179,7 +179,7 @@ final class Term_Logger extends Logger {
 	 */
 	public function termUpdated( int $term_id, string $taxonomy, array $args ) {
 
-		$previous = cnTerm::getBy( 'id', $term_id, $taxonomy );
+		$previous = Term::getBy( 'id', $term_id, $taxonomy );
 
 		if ( ! $previous instanceof Taxonomy\Term ) {
 
@@ -355,7 +355,7 @@ final class Term_Logger extends Logger {
 		$action  = $context['_message_key'] ?? null;
 
 		$taxonomy = Taxonomy\Registry::get()->getTaxonomy( _array::get( $context, 'term_taxonomy', '' ) );
-		$term     = cnTerm::getBy( 'id', _array::get( $context, 'term_id', 0 ), _array::get( $context, 'term_taxonomy', '' ) );
+		$term     = Term::getBy( 'id', _array::get( $context, 'term_id', 0 ), _array::get( $context, 'term_taxonomy', '' ) );
 
 		if ( $taxonomy instanceof Taxonomy ) {
 
@@ -482,9 +482,9 @@ final class Term_Logger extends Logger {
 
 								$entry = _x( 'None', 'Logger: Connections Business Directory', 'connections' );
 
-							} elseif ( cnTerm::exists( $entry ) ) {
+							} elseif ( Term::exists( $entry ) ) {
 
-								$entry = cnTerm::getBy( 'id', $entry, _array::get( $context, 'term_taxonomy', '' ) );
+								$entry = Term::getBy( 'id', $entry, _array::get( $context, 'term_taxonomy', '' ) );
 							}
 
 							$tr[] = $this->getTableRow(
@@ -561,18 +561,18 @@ final class Term_Logger extends Logger {
 
 								$current = _x( 'None', 'Logger: Connections Business Directory', 'connections' );
 
-							} elseif ( cnTerm::exists( $current ) ) {
+							} elseif ( Term::exists( $current ) ) {
 
-								$current = cnTerm::getBy( 'id', $current, _array::get( $context, 'term_taxonomy', '' ) );
+								$current = Term::getBy( 'id', $current, _array::get( $context, 'term_taxonomy', '' ) );
 							}
 
 							if ( 0 === $previous ) {
 
 								$previous = _x( 'None', 'Logger: Connections Business Directory', 'connections' );
 
-							} elseif ( cnTerm::exists( $previous ) ) {
+							} elseif ( Term::exists( $previous ) ) {
 
-								$previous = cnTerm::getBy( 'id', $previous, _array::get( $context, 'term_taxonomy', '' ) );
+								$previous = Term::getBy( 'id', $previous, _array::get( $context, 'term_taxonomy', '' ) );
 							}
 
 							$tr[] = $this->getTableRow(

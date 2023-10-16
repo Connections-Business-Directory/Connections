@@ -19,15 +19,19 @@ Connections Business Directory is one of the [best business directory plugins av
 
 = Features =
 
+* **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
+* [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
+* **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
+    * [Supports the native sitemaps](https://connections-pro.com/connections-10-0-seo-sitemaps/) feature available in WordPress versions 5.5 and newer.
+    * [Yoast SEO and Rank Math sitemaps integration.](https://connections-pro.com/connections-10-1-seo-sitemaps-integrations/)
+* **Event Logging** Integrates with the [Simple History plugin](https://wordpress.org/plugins/simple-history/); logging directory related events such as creating a new entry, modifying an entry, and deleting an entry.
 * Supports the WordPress Block (Gutenberg) Editor with the following blocks.
     * [Carousel Block](https://connections-pro.com/documentation/block/carousel/) :: Display your directory as a carousel.
     * [Directory Block](https://connections-pro.com/documentation/block/directory/) :: Use this block to embed your directory in a page.
     * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full-featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
     * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
-* **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
-* [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * A growing selection of Content Blocks:
     * [Related Entries](https://connections-pro.com/connections-9-8-related-content-blocks/):: Display related Entries in a mobile responsive carousel.
     * [Nearby Entries](https://connections-pro.com/connections-9-9-nearby-entries-content-block/):: Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.
@@ -47,10 +51,6 @@ Connections Business Directory is one of the [best business directory plugins av
 * **[CSV Import](https://connections-pro.com/documentation/tools/#Categories-2)** of **nested** categories.
 * **[Role capability support](https://connections-pro.com/documentation/roles/)**.
 * [Displaying your business directory on the frontend is as simple as putting a shortcode on a page.](https://connections-pro.com/documentation/install/#Step_4_Displaying_your_Directory) Don't let this simplicity fool you. The shortcode provides a large array of options that are just too numerous to list. To learn more, [go here](https://connections-pro.com/documentation/plugin/shortcodes/).
-* **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
-    * [Supports the native sitemaps](https://connections-pro.com/connections-10-0-seo-sitemaps/) feature available in WordPress versions 5.5 and newer.
-    * [Yoast SEO and Rank Math sitemaps integration.](https://connections-pro.com/connections-10-1-seo-sitemaps-integrations/)
-* **Event Logging** Integrates with the [Simple History plugin](https://wordpress.org/plugins/simple-history/); logging directory related events such as creating a new entry, modifying an entry, and deleting an entry.
 * **[Extensible](https://connections-pro.com/extensions/)** and developer friendly.
 * Robust **templating support** with the [Template Customizer](https://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with you business directory with many more [premium templates available](https://connections-pro.com/templates/) to really make your business directory shine.
 

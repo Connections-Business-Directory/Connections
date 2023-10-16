@@ -633,6 +633,7 @@ class cnDependency {
 			'Connections_Directory\Integration\Gravity_Forms'               => 'includes/Integration/Gravity_Forms.php',
 			'Connections_Directory\Integration\Simple_History'              => 'includes/Integration/Simple_History.php',
 			'Connections_Directory\Integration\Simple_History\Entry_Logger' => 'includes/Integration/Simple_History/Entry_Logger.php',
+			'Connections_Directory\Integration\Simple_History\Term_Logger'  => 'includes/Integration/Simple_History/Term_Logger.php',
 
 			// Deprecated files for deprecated classes. Required to trigger the autoloader.
 			'cnArray'       => 'includes/Deprecated/class.array.php',

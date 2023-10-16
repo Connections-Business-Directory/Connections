@@ -20,6 +20,7 @@ declare( strict_types=1 );
 namespace Connections_Directory\Integration;
 
 use Connections_Directory\Integration\Simple_History\Entry_Logger;
+use Connections_Directory\Integration\Simple_History\Term_Logger;
 
 /**
  * Class Simple_History
@@ -76,7 +77,7 @@ final class Simple_History {
 	 */
 	private function hooks() {
 
-		add_action( 'simple_history/add_custom_logger', array( $this, 'registerLogger' ) );
+		add_action( 'simple_history/add_custom_logger', array( $this, 'registerLoggers' ) );
 	}
 
 	/**
@@ -91,13 +92,14 @@ final class Simple_History {
 	 *
 	 * @return void
 	 */
-	public function registerLogger( \Simple_History\Simple_History $simple_history ) {
+	public function registerLoggers( \Simple_History\Simple_History $simple_history ) {
 
-		if ( class_exists( 'Connections_Directory\Integration\Simple_History\Entry_Logger' )
-			 && method_exists( $simple_history, 'register_logger' )
-		) {
+		if ( ! method_exists( $simple_history, 'register_logger' ) ) {
 
-			$simple_history->register_logger( Entry_Logger::class );
+			return;
 		}
+
+		$simple_history->register_logger( Entry_Logger::class );
+		$simple_history->register_logger( Term_Logger::class );
 	}
 }

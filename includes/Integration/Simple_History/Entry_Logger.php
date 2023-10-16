@@ -78,7 +78,14 @@ final class Entry_Logger extends Logger {
 	 *     description: string,
 	 *     capability: string,
 	 *     name_via: string,
-	 *     messages: array{string[]}
+	 *     messages: array{string[]},
+	 *     labels: array{
+	 *          search: array{
+	 *              label: string,
+	 *              label_all: string,
+	 *              options: string[]
+	 *          }
+	 *      }
 	 * }
 	 */
 	public function get_info(): array {

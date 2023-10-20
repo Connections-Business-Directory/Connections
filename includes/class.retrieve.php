@@ -705,8 +705,11 @@ class cnRetrieve {
 			 */
 
 			set_query_var( 'cn-pg', 0 );
-			$atts['offset'] = 0;
-			$results        = $this->entries( $atts );
+			Request::get()->setVar( 'cn-pg', 0 );
+
+			// $atts['parse_request'] = false;
+			$atts['offset']        = 0;
+			$results               = $this->entries( $atts );
 		}
 
 		return $results;

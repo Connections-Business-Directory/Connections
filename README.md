@@ -246,6 +246,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.54 10/20/2023 =
+
+* BUG: Use `Request::setVar()` to reset the pagination value when the offset count is greater than the total row count
+  to prevent a potential query loop and PHP fatal error.
+
 = 10.4.53 10/16/2023 =
 
 * FEATURE: Add integration and support for the [Simple History plugin](https://wordpress.org/plugins/simple-history/).

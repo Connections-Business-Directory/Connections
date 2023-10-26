@@ -249,6 +249,17 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.55 10/26/2023 =
+* NEW: Introduce `Shortcode` abstract class to reduce code duplication when registering shortcodes with WordPress.
+* TWEAK: Replace instances of `strip_tags()` with `wp_strip_all_tags()`.
+* TWEAK: Add an `is_string()` check to `_string::stripTags()` to help ensure no PHP deprecation notices are thrown.
+* TWEAK: Utilize `_string::stripTags()` instead of `strip_tags()` to help ensure no PHP deprecations notices.
+* TWEAK: Remove unused commented out code referencing a method long removed in `cnRetrieve`.
+* TWEAK: Remove use of deprecated `cnShortcode::addFilterRegistry()` calls in `Shortcode\Entry`.
+* TWEAK: Refactor `Shortcode\Entry` to utilize `Shortcode` to reduce code duplication.
+* BUG: Do not overwrite the `category` shortcode value if the `cn-cat` request variable is empty.
+* DEV: phpDoc corrections.
+
 = 10.4.54 10/20/2023 =
 * BUG: Use `Request::setVar()` to reset the pagination value when the offset count is greater than the total row count to prevent a potential query loop and PHP fatal error.
 
@@ -647,4 +658,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.54 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.55 =
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

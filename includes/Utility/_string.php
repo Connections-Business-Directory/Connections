@@ -507,6 +507,10 @@ final class _string {
 	 */
 	public static function stripTags( $string, $remove_breaks = false, $allowed_tags = '' ) {
 
+		if ( ! is_string( $string ) ) {
+			return '';
+		}
+
 		$string = self::stripScripts( $string );
 		$string = strip_tags( $string, $allowed_tags ); // phpcs:ignore WordPressVIPMinimum.Functions.StripTags.StripTagsTwoParameters
 

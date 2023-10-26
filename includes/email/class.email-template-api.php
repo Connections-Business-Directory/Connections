@@ -236,7 +236,7 @@ class cnEmail_Template {
 	}
 
 	/**
-	 * Strip HTML tags while attempting to preserver structure.
+	 * Strip HTML tags while attempting to preserve structure.
 	 *
 	 * This could be vastly improved. Look into these:
 	 *     Textify: https://github.com/jonathandavis/textify

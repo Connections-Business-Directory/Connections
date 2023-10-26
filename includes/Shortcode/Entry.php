@@ -22,6 +22,7 @@ use cnTemplate as Template;
 use cnTemplateFactory;
 use cnTemplatePart;
 use Connections_Directory\Request;
+use Connections_Directory\Shortcode;
 use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
@@ -31,7 +32,7 @@ use Connections_Directory\Utility\_format;
  *
  * @package Connections_Directory\Shortcode
  */
-final class Entry {
+final class Entry extends Shortcode {
 
 	use Do_Shortcode;
 	use Get_HTML;
@@ -50,24 +51,6 @@ final class Entry {
 	 * @var string
 	 */
 	const TAG = 'cn-entry';
-
-	/**
-	 * The shortcode attributes.
-	 *
-	 * @since 10.4.40
-	 *
-	 * @var array
-	 */
-	private $attributes = array();
-
-	/**
-	 * The content from an enclosing shortcode.
-	 *
-	 * @since 10.4.40
-	 *
-	 * @var string
-	 */
-	private $content;
 
 	/**
 	 * An instance of the cnTemplate or false.
@@ -107,7 +90,7 @@ final class Entry {
 	 * @param string $content   The shortcode content.
 	 * @param string $tag       The shortcode tag.
 	 */
-	public function __construct( array $untrusted, string $content, string $tag = self::TAG ) {
+	public function __construct( array $untrusted, string $content = '', string $tag = self::TAG ) {
 
 		$template = _array::get( $untrusted, 'template', '' );
 
@@ -136,23 +119,6 @@ final class Entry {
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.
 		Hook_Transient::instance()->clear();
-	}
-
-	/**
-	 * Callback for `add_shortcode()`.
-	 *
-	 * @since 9.5
-	 * @since 10.4.40 Change method name from `shortcode` to `instance`.
-	 *
-	 * @param array  $atts    The shortcode arguments.
-	 * @param string $content The shortcode content.
-	 * @param string $tag     The shortcode tag.
-	 *
-	 * @return self
-	 */
-	public static function instance( array $atts, string $content = '', string $tag = self::TAG ): self {
-
-		return new self( $atts, $content, $tag );
 	}
 
 	/**
@@ -193,7 +159,7 @@ final class Entry {
 	 *
 	 * @return array
 	 */
-	private function getDefaultAttributes(): array {
+	protected function getDefaultAttributes(): array {
 
 		$defaults = array(
 			'id'         => null,
@@ -219,7 +185,7 @@ final class Entry {
 	 *
 	 * @return array
 	 */
-	private function prepareAttributes( array $attributes ): array {
+	protected function prepareAttributes( array $attributes ): array {
 
 		// Force some specific defaults.
 		$attributes['content']         = '';
@@ -254,7 +220,7 @@ final class Entry {
 	 *
 	 * @return string
 	 */
-	private function generateHTML(): string {
+	protected function generateHTML(): string {
 
 		$html = '';
 

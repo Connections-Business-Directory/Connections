@@ -615,11 +615,11 @@ final class _string {
 				return $string;
 			}
 
-			$totalLength = mb_strlen( strip_tags( $atts['more'] ) );
+			$totalLength = mb_strlen( self::stripTags( $atts['more'] ) );
 			$openTags    = array();
 			$truncate    = '';
 
-			$string = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$string = self::stripTags( $string, false, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
 
 			preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $string, $tags, PREG_SET_ORDER );
 

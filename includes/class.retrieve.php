@@ -186,7 +186,6 @@ class cnRetrieve {
 		 * // END -- Reset.
 		 */
 
-		// $this->parseTaxonomyQueryLegacy( $atts, $join, $where );
 		$this->parseTaxonomyQuery( $atts, $join, $where );
 
 		/*
@@ -737,7 +736,10 @@ class cnRetrieve {
 			switch ( $queryKey ) {
 
 				case 'cn-cat':
-					$atts['category'] = $queryVar;
+					if ( ! empty( $queryVar ) ) {
+
+						$atts['category'] = $queryVar;
+					}
 					break;
 
 				case 'cn-cat-in':

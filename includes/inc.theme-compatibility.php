@@ -133,7 +133,7 @@ function cn_presscore_page_title( $title ) {
 			$title_style = ' style="color: ' . esc_attr( $config->get( 'fancy_header.title.color' ) ) . '"';
 		}
 
-		$custom_title = '<h1 class="fancy-title entry-title ' . $title_class . '"' . $title_style . '><span>' . strip_tags( $custom_title ) . '</span></h1>';
+		$custom_title = '<h1 class="fancy-title entry-title ' . $title_class . '"' . $title_style . '><span>' . wp_strip_all_tags( $custom_title ) . '</span></h1>';
 
 	}
 

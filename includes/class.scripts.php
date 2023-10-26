@@ -868,7 +868,7 @@ class cnScript {
 
 		if ( 0 < strlen( $css ) ) {
 
-			wp_add_inline_style( 'cn-brandicons', trim( strip_tags( $css ) ) );
+			wp_add_inline_style( 'cn-brandicons', trim( wp_strip_all_tags( $css ) ) );
 		}
 	}
 

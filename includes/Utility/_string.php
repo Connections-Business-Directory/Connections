@@ -495,7 +495,7 @@ final class _string {
 	 *
 	 * NOTE: This is the Connections equivalent of @see wp_strip_all_tags() in WordPress core ../wp-includes/formatting.php
 	 *
-	 * This differs from @see wp_strip_all_tags() in that is adds the `$allowed_tags` param to be passed to `strip_tags()`.
+	 * This differs from @see wp_strip_all_tags() in that it adds the `$allowed_tags` param to be passed to `strip_tags()`.
 	 *
 	 * @since 8.5.22
 	 *
@@ -506,6 +506,10 @@ final class _string {
 	 * @return string The processed string.
 	 */
 	public static function stripTags( $string, $remove_breaks = false, $allowed_tags = '' ) {
+
+		if ( ! is_string( $string ) ) {
+			return '';
+		}
 
 		$string = self::stripScripts( $string );
 		$string = strip_tags( $string, $allowed_tags ); // phpcs:ignore WordPressVIPMinimum.Functions.StripTags.StripTagsTwoParameters
@@ -611,11 +615,11 @@ final class _string {
 				return $string;
 			}
 
-			$totalLength = mb_strlen( strip_tags( $atts['more'] ) );
+			$totalLength = mb_strlen( self::stripTags( $atts['more'] ) );
 			$openTags    = array();
 			$truncate    = '';
 
-			$string = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$string = self::stripTags( $string, false, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
 
 			preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $string, $tags, PREG_SET_ORDER );
 

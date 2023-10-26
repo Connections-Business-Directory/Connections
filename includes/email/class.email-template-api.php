@@ -255,7 +255,7 @@ class cnEmail_Template {
 
 		$content = str_ireplace( $tags, "\r\n", $content );
 
-		return strip_tags( $content );
+		return wp_strip_all_tags( $content );
 	}
 
 	/**

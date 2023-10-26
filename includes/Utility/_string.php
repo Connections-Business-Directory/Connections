@@ -495,7 +495,7 @@ final class _string {
 	 *
 	 * NOTE: This is the Connections equivalent of @see wp_strip_all_tags() in WordPress core ../wp-includes/formatting.php
 	 *
-	 * This differs from @see wp_strip_all_tags() in that is adds the `$allowed_tags` param to be passed to `strip_tags()`.
+	 * This differs from @see wp_strip_all_tags() in that it adds the `$allowed_tags` param to be passed to `strip_tags()`.
 	 *
 	 * @since 8.5.22
 	 *

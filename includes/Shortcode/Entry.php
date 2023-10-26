@@ -174,7 +174,7 @@ final class Entry {
 			 * specific paths. This filter is then removed at the end of the shortcode.
 			 */
 			add_filter( 'cn_locate_file_paths', array( $this->template, 'templatePaths' ) );
-			cnShortcode::addFilterRegistry( 'cn_locate_file_paths' );
+			Hook_Transient::instance()->add( 'cn_locate_file_paths' );
 
 			/**
 			 * @todo Move to to {@see cnTemplateFactory::loadTemplate()}???
@@ -268,7 +268,7 @@ final class Entry {
 
 			$results = apply_filters( 'cn_list_results', $results );
 			$results = apply_filters( "cn_list_results-{$this->template->getSlug()}", $results );
-			cnShortcode::addFilterRegistry( "cn_list_results-{$this->template->getSlug()}" );
+			Hook_Transient::instance()->add( "cn_list_results-{$this->template->getSlug()}" );
 
 		} else {
 

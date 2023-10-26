@@ -186,7 +186,6 @@ class cnRetrieve {
 		 * // END -- Reset.
 		 */
 
-		// $this->parseTaxonomyQueryLegacy( $atts, $join, $where );
 		$this->parseTaxonomyQuery( $atts, $join, $where );
 
 		/*

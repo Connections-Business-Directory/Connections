@@ -253,7 +253,7 @@ final class User_Login extends Form {
 
 			$fields[] = Field\Checkbox::create(
 				array(
-					'id'      => $parameters['rememberme'],
+					'id'      => $parameters['id_remember'],
 					'label'   => $parameters['label_remember'],
 					'name'    => 'rememberme',
 					'value'   => '0',

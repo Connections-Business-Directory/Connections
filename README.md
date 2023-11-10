@@ -246,6 +246,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.56 11/10/2023 =
+
+* BUG: Correct parameter used when defining the "remember me" checkbox in the login form..
+* BUG: Prevent fatal PHP error if `wp_signon()` returns and instance of `WP_Error` instead of an instance of `WP_User`.
+
 = 10.4.55 10/26/2023 =
 
 * NEW: Introduce `Shortcode` abstract class to reduce code duplication when registering shortcodes with WordPress.

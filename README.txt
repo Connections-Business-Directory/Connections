@@ -2,10 +2,10 @@
 Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: business directory, directory plugin, member directory, listings, staff directory, chamber of commerce, church directory, company directory, contact directory, listings directory, local business directory, address book
-Requires at least: 5.8
-Tested up to: 6.3
+Requires at least: 6.0
+Tested up to: 6.4
 Requires PHP: 7.0
-Stable tag: 10.4.55
+Stable tag: 10.4.56
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.56 11/10/2023 =
+* BUG: Correct parameter used when defining the "remember me" checkbox in the login form..
+* BUG: Prevent fatal PHP error if `wp_signon()` returns and instance of `WP_Error` instead of an instance of `WP_User`.
 
 = 10.4.55 10/26/2023 =
 * NEW: Introduce `Shortcode` abstract class to reduce code duplication when registering shortcodes with WordPress.
@@ -661,4 +665,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.55 =
+It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.56 =
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.

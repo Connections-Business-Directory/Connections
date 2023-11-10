@@ -407,6 +407,11 @@ class Account extends WP_REST_Controller {
 			$user
 		);
 
+		if ( ! $user instanceof WP_User ) {
+
+			return $user;
+		}
+
 		if ( ( empty( $redirect_to ) || 'wp-admin/' == $redirect_to || admin_url() == $redirect_to ) ) {
 
 			// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.

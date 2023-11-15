@@ -77,7 +77,16 @@ final class Simple_History {
 	 */
 	private function hooks() {
 
-		add_action( 'simple_history/add_custom_logger', array( $this, 'registerLoggers' ) );
+		/*
+		 * Ensure that the `\Simple_History\Simple_History` class exist before adding its hook.
+		 * The reason is that Simple History changed its namespace in 4.0 from `SimpleHistory`
+		 * to `\Simple_History\Simple_History`. If a user is using a version older than 4.0,
+		 * this will cause a fatal error.
+		 */
+		if ( class_exists( '\Simple_History\Simple_History' ) ) {
+
+			add_action( 'simple_history/add_custom_logger', array( $this, 'registerLoggers' ) );
+		}
 	}
 
 	/**

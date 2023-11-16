@@ -12,9 +12,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;

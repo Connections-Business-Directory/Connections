@@ -14,6 +14,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+use Connections_Directory\Form\Field;
+use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
 
@@ -349,6 +351,56 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		// The dropdown options are escaped as it is being built.
 		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * If a select enhancement library is being used such as Chosen or Select2,
+	 * add the placeholder option to the top of the available options.
+	 *
+	 * Notes:
+	 * - Ticket ID:561312
+	 * - Ticket ID:565804
+	 * - Ticket ID:591582
+	 *
+	 * @param array $atts The `$atts` passed to {@see CN_Walker_Term_Select_List_Enhanced::render()}.
+	 *
+	 * @return string
+	 */
+	private function generatePlaceholder( array $atts ): string {
+
+		$html           = '';
+		$addPlaceholder = _array::get( $atts, 'placeholder_option', true );
+		$isEnhanced     = _array::get( $atts, 'enhanced', true );
+		$defaultLabel   = _array::get( $atts, 'default', __( 'Select Category', 'connections' ) );
+		$selected       = _array::get( $atts, 'selected', array() );
+		$option         = Field\Option::create()->setValue( '' );
+
+		if ( $isEnhanced || $addPlaceholder ) {
+
+			if ( false === $isEnhanced ) {
+
+				// Set the placeholder as the selected option when not filtering by category terms.
+				$selected = is_array( $selected ) ? $selected : (array) $selected;
+
+				if ( 0 == count( array_filter( $selected ) ) ) {
+
+					$option->setChecked( true );
+				}
+			}
+
+			if ( true === wp_is_mobile() ) {
+
+				$option->setDisabled( true );
+				$option->addAttribute( 'hidden', 'hidden' );
+			}
+
+			$optionLabel = $isEnhanced ? '' : $defaultLabel;
+			$option->setText( $optionLabel );
+
+			$html = $option->getHTML();
+		}
+
+		return $html;
 	}
 
 	/**

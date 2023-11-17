@@ -267,18 +267,11 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! empty( $terms ) ) {
 
-			if ( $atts['enhanced'] || $atts['placeholder_option'] ) {
+			$placeholder = $walker->generatePlaceholder( $atts );
 
-				/*
-				 * If a select enhancement library is being used such as Chosen or Select2, add the placeholder option
-				 * to the top of the available options.
-				 *
-				 * When doing a select all, set the placeholder option as the default selected option.
-				 */
-				$selected  = ! $atts['enhanced'] && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
-				$selected .= true === wp_is_mobile() ? " disabled='disabled' hidden='hidden'" : '';
+			if ( 0 < strlen( $placeholder ) ) {
 
-				$select .= "\t" . '<option value="" ' . $selected . '>' . ( $atts['enhanced'] ? '' : $atts['default'] ) . '</option>';
+				$select .= "\t" . $placeholder;
 			}
 
 			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {

@@ -246,6 +246,16 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.57 11/17/2023 =
+
+* NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generatePlaceholder()`.
+* TWEAK: Ensure the `\Simple_History\Simple_History` class exists before adding the Simple History logger registration
+  hook to prevent possible fatal errors when older version of Simple History are installed.
+* TWEAK: Ensure the core WP default filters exists for WP User authentication during the REST API request.
+* TWEAK: Simply direct access exit.
+* TWEAK: Refactor `\Form\Field\Option::prepareAttributes()` to process custom attributes.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced::render()` to utilize `generatePlaceholder()`.
+
 = 10.4.56 11/10/2023 =
 
 * BUG: Correct parameter used when defining the "remember me" checkbox in the login form..
@@ -547,119 +557,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove commented out debug code.
 * DEV: phpDoc updates.
 * DEV: Deprecate `cnShortcode_Connections::shortcode()`.
-
-= 10.4.40 04/24/2023 =
-
-* NEW: Introduce `Entry\Functions::getPhone()` and `Entry\Functions::getEmail()`.
-* NEW: Add a copy to the clipboard button to the system info admin screen.
-* NEW: Introduce the `cn_entry_output_category_items_class` filter.
-* NEW: Introduce the `Do_Shortcode` trait.
-* NEW: Introduce `_fragment::exists()`.
-* NEW: Introduce `_fragment::__toString()`.
-* NEW: Introduce `\Shortcode\Upcoming_List`.
-* NEW: Introduce `\Template\Hook_Transient`.
-* TWEAK: Remove instance of deprecated `cnFormObjects::open()`.
-* TWEAK: Update the community-supplied Members template to function without errors or warnings before moving it to a
-  separate add-on.
-* TWEAK: Remove the legacy community Members template.
-* TWEAK: Add `trailingslashit()` to `cnTemplate::getPath()` and `cnTemplate::getURL()`.
-* TWEAK: Update the accessed directly validation to be consistent with current coding standards.
-* TWEAK: Remove the use of deprecated `cnHTTP::verifySSL()`.
-* TWEAK: Trim system info text to remove leading/trailing whitespace.
-* TWEAK: Add term slug to item class names.
-* TWEAK: Update `\rinvex\country` library to version 9.0.
-* TWEAK: Remove use of deprecated `cnHTML::attribute()` function in `cnTemplatePart::returnToTop()`.
-* TWEAK: Add parameter type declaration to `cnTemplatePart::returnToTop()`.
-* TWEAK: Move the `class.geo.php` file to the `/includes/geo/` folder.
-* TWEAK: Remove the deprecated `cnGeo::AO_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::BG_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::CA_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::AU_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::BD_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::BR_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::GB_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::ES_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::HK_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::HU_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::CN_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::NZ_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::ID_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::IN_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::IR_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::IT_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::JP_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::MX_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::MY_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::NP_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::PE_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::ZA_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::TH_Regions()` method.
-* TWEAK: Remove the deprecated `cnGeo::TR_Regions()` method.
-* TWEAK: Add return type declaration.
-* TWEAK: Remove the abandoned and experimental qTip shortcodes and templates.
-* TWEAK: Call `cnShortcode_Connections::shortcode()` instead of the template tag `connectionsEntryList()` when rendering
-  the recently added/edited dashboard widgets.
-* TWEAK: Utilize `\Shortcode\Upcoming_List` in the "upcoming" admin dashboard widgets and the Upcoming Editor Block.
-* TWEAK: Replace the `[upcoming_list]` shortcode callback with `\Shortcode\Upcoming_List`.
-* TWEAK: Move the `connectionsEntryList()` and `connectionsUpcomingList()` template tags to the global functions.php
-  file.
-* TWEAK: Remove the `inc.shortcodes.php` file as the template tags and the `[upcoming_list]` shortcode callback are no
-  longer utilized, and the file no longer contains any code.
-* TWEAK: The `\Shortcode\Entry` class does not need to extend the `cnShortcode` class.
-* TWEAK: First pass at restructuring `\Shortcode\Entry` to match current coding standards.
-* TWEAK: Second pass at restructuring `\Shortcode\Entry` to match current coding standards.
-* TWEAK: Remove use of deprecated `cnHTML::attribute()` methods on Template's admin page.
-* TWEAK: Remove use of deprecated method `cnHTML::attribute()` in `cnTemplatePart::updated()`.
-* TWEAK: Add class properties to remove "Creation of dynamic property" PHP deprecation notices.
-* TWEAK: Extend `cnTemplatePart` with `stdClass` to remove "Creation of dynamic property" deprecation notices.
-* TWEAK: Remove deprecated dynamic action hook `cn_action_card-{$template->slug}`.
-* TWEAK: Do not set dynamic object property to prevent a PHP deprecation notice.
-* TWEAK: Move a set of actions from `Upcoming_List::generateHTML()` to `Upcoming_List::loadTemplate()`.
-* TWEAK: Minor tweak to coding style when applying filters in `\Shortcode\Upcoming_List`.
-* TWEAK: No need to initiate a new variable to hold the instance of `Connections_Directory`
-  in `cnTemplateFactory::loadTemplate()`.
-* TWEAK: Remove unused commented-out code.
-* TWEAK: The `\Shortcode\Conditional_Content` class does not need to extend the `cnShortcode` class.
-* TWEAK: The `\Shortcode\cnThumb` class does not need to extend the `cnShortcode` class.
-* TWEAK: The `\Shortcode\cnThumb_Responsive` class does not need to extend the `cnShortcode` class.
-* TWEAK: The `\Shortcode\cnShortcode_Connections` class does not need to extend the `cnShortcode` class.
-* TWEAK: Remove unnecessary local variable in `cnShortcode::removePBR()`.
-* TWEAK: Deprecate `cnShortcode::view()` and move to `cnShortcode_Connections::view()`.
-* TWEAK: Update `\Blocks\Directory::render()` to utilize `cnShortcode_Connections::view()` instead of the
-  deprecated `cnShortcode::view()` method.
-* TWEAK: Deprecate both `cnShortcode::addFilterRegistry()` and `cnShortcode::clearFilterRegistry()`. Replaced
-  with `\Template\Hook_Transient`.
-* TWEAK: First pass at integrating the advanced search into the base plugin.
-* BUG: Increment and decrement operators must be bracketed when used in string concatenation.
-* BUG: Fix the `wp_remote_post()` check in the system info.
-* BUG: Add noop callback to Google Maps API parameters.
-* BUG: Use the correct Spanish translation for Spain. It seems the Catalan translation was used.
-* BUG: Correct bug in `_fragment::clear()` where, in some cases, the fragment cache would not be cleared.
-* BUG: Do not remove the `cn_list_atts_permitted-{$templateSlug}` `cn_list_atts-{$templateSlug}` filters in
-  the `[upcoming_list]` shortcode.
-* BUG: Correct bug in `pre_do_shortcode_tag` filter callback` Do_Shortcode::maybeDoShortcode()` that caused filter to
-  return incorrectly.
-* OTHER: Correct misspellings.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: Correct minor phpcs whitespace issues.
-* DEV: The CASE body must start on the line following the statement.
-* DEV: Disable Class name must begin with a capital letter, and the Class name is not valid phpcs issues.
-* DEV: Each array item in a multi-line array declaration must end in a comma.
-* DEV: Parameter comment must end with a full stop.
-* DEV: Visibility must be declared on the method.
-* DEV: There must be exactly one blank line after the file comment.
-* DEV: No space found before comment text.
-* DEV: Remove unused commented-out code.
-* DEV: Correct code tab indentation.
-* DEV: Bump tested to version 6.2.
-* DEV: Add @todo in code.
-* DEV: Add phpDoc to class properties.
-* DEV: Add an inline comment regarding hyphens in shortcode tag names.
-* DEV: Add @todo to make a note to move where two actions are initiated.
-* DEV: Add file header.
-* DEV: Add `cnShortcode` class phpDoc.
-* DEV: Remove unnecessary line returns.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

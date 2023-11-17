@@ -383,6 +383,9 @@ class Account extends WP_REST_Controller {
 			$redirect_to = admin_url();
 		}
 
+		// Ensure the core WP default filters exists for WP User authentication.
+		$this->ensureDefaultFilters();
+
 		$user = wp_signon(
 			array(
 				'user_login'    => $user->get( 'user_login' ),
@@ -448,6 +451,44 @@ class Account extends WP_REST_Controller {
 		$response->set_data( $data );
 
 		return $response;
+	}
+
+	/**
+	 * It seems that something is removing core WP filters required for
+	 * user authentication via a REST API request. Check for each of the
+	 * default filters and register them if they are missing.
+	 *
+	 * Ref: Ticket ID:591997
+	 *
+	 * @since 10.4.57
+	 */
+	private function ensureDefaultFilters() {
+
+		if ( false === has_filter( 'authenticate', 'wp_authenticate_username_password' ) ) {
+
+			add_filter( 'authenticate', 'wp_authenticate_username_password', 20, 3 );
+		}
+
+		if ( false === has_filter( 'authenticate', 'wp_authenticate_email_password' ) ) {
+
+			add_filter( 'authenticate', 'wp_authenticate_email_password', 20, 3 );
+		}
+
+		if ( false === has_filter( 'authenticate', 'wp_authenticate_application_password' ) ) {
+
+			add_filter( 'authenticate', 'wp_authenticate_application_password', 20, 3 );
+		}
+
+		if ( false === has_filter( 'authenticate', 'wp_authenticate_spam_check' ) ) {
+
+			add_filter( 'authenticate', 'wp_authenticate_spam_check', 99 );
+		}
+
+		if ( false === has_filter( 'authenticate', 'wp_authenticate_cookie' ) ) {
+
+			add_filter( 'authenticate', 'wp_authenticate_cookie', 30, 3 );
+		}
+
 	}
 
 	/**

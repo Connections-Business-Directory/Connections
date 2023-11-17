@@ -99,12 +99,24 @@ class Option {
 			_array::set( $attributes, 'disabled', 'disabled' );
 		}
 
-		_array::set( $attributes, 'value', _escape::attribute( $this->getValue() ) );
-
 		if ( $this->isChecked() ) {
 
 			_array::set( $attributes, 'selected', 'selected' );
 		}
+
+		// Sort the attributes alphabetically, because, why not.
+		ksort( $this->attributes, SORT_NATURAL );
+
+		// Merge the remaining attributes.
+		foreach ( $this->attributes as $attribute => $value ) {
+
+			if ( false === array_key_exists( $attribute, $attributes ) ) {
+
+				_array::set( $attributes, $attribute, _escape::attribute( $value ) );
+			}
+		}
+
+		_array::set( $attributes, 'value', _escape::attribute( $this->getValue() ) );
 
 		return _html::stringifyAttributes( $attributes );
 	}

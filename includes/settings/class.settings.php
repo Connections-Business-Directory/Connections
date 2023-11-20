@@ -592,7 +592,7 @@ class Settings {
 
 		if ( 0 < strlen( $options['desc'] ) ) {
 
-			$options['callback'] = function() use ( $options ) {
+			$options['callback'] = function () use ( $options ) {
 
 				echo esc_html( $options['desc'] );
 			};

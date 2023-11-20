@@ -59,7 +59,7 @@ class Title extends Related {
 		// Add the title to the Content Block heading.
 		add_filter(
 			'Connections_Directory/Entry/Related/Query_Parameters',
-			function( $queryParameters ) {
+			function ( $queryParameters ) {
 
 				if ( is_array( $queryParameters ) && array_key_exists( 'title', $queryParameters ) ) {
 

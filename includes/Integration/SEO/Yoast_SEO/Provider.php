@@ -90,7 +90,7 @@ final class Provider implements WPSEO_Sitemap_Provider {
 				// Sort the results by date, ascending.
 				usort(
 					$results,
-					function( $a, $b ) {
+					function ( $a, $b ) {
 
 						$t1 = strtotime( $a->ts );
 						$t2 = strtotime( $b->ts );

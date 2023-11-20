@@ -242,7 +242,7 @@ class Conditional_Content {
 
 		add_action(
 			$this->actionHandle(),
-			function() {
+			function () {
 				echo $this->html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		);

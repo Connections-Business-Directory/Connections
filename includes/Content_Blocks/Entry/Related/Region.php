@@ -59,7 +59,7 @@ class Region extends Related {
 		// Add the region to the Content Block heading.
 		add_filter(
 			'Connections_Directory/Entry/Related/Query_Parameters',
-			function( $queryParameters ) {
+			function ( $queryParameters ) {
 
 				if ( is_array( $queryParameters ) && array_key_exists( 'state', $queryParameters ) ) {
 

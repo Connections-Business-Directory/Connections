@@ -83,7 +83,7 @@ final class Yoast_SEO {
 		// Remove the persistent logs from sitemaps.
 		add_filter(
 			'option_wpseo_titles',
-			function( $options ) {
+			function ( $options ) {
 
 				_array::set( $options, 'noindex-cn_log', true );
 				_array::set( $options, 'display-metabox-pt-cn_log', false );

@@ -288,7 +288,7 @@ add_filter(
 	 *
 	 * @return string
 	 */
-	function( $html, $post ) {
+	function ( $html, $post ) {
 
 		if ( is_callable( array( 'SiteOrigin_Panels', 'renderer' ) ) ) {
 
@@ -312,7 +312,7 @@ add_filter(
  */
 add_action(
 	'current_screen',
-	function( $screen ) {
+	function ( $screen ) {
 
 		global $pcu_plugin;
 
@@ -336,7 +336,7 @@ add_action(
  */
 add_filter(
 	'safe_style_css',
-	function( $attributes ) {
+	function ( $attributes ) {
 
 		$attributes[] = 'display';
 		$attributes[] = 'overflow-x';
@@ -356,7 +356,7 @@ add_filter(
  */
 add_action(
 	'plugins_loaded',
-	static function() {
+	static function () {
 
 		if ( class_exists( 'PageLayer' ) ) {
 
@@ -381,7 +381,7 @@ add_action(
  */
 add_action(
 	'wp_loaded',
-	static function() {
+	static function () {
 
 		if ( ! class_exists( 'AIOVG_Init', false ) ) {
 
@@ -432,7 +432,7 @@ add_action(
  */
 add_action(
 	'wp_footer',
-	static function() {
+	static function () {
 		wp_dequeue_style( 'cn-public-jquery-ui' );
 	},
 	9

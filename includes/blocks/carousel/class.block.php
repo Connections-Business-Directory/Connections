@@ -88,13 +88,13 @@ class Carousel {
 			array(
 				'single'            => true,
 				'type'              => 'string',
-				'auth_callback'     => function() {
+				'auth_callback'     => function () {
 
 					return current_user_can( 'edit_posts' );
 				},
 				'sanitize_callback' => array( __CLASS__, 'sanitize' ),
 				'show_in_rest'      => array(
-					'prepare_callback' => function( $value ) {
+					'prepare_callback' => function ( $value ) {
 
 						// If value is empty, then return an empty JSON encoded array.
 						if ( ! $value ) {

@@ -59,7 +59,7 @@ class Locality extends Related {
 		// Add the locality to the Content Block heading.
 		add_filter(
 			'Connections_Directory/Entry/Related/Query_Parameters',
-			function( $queryParameters ) {
+			function ( $queryParameters ) {
 
 				if ( is_array( $queryParameters ) && array_key_exists( 'city', $queryParameters ) ) {
 

@@ -505,7 +505,7 @@ class cnRetrieve {
 
 				// Check to see if an order flag was set and is a valid order flag.
 				if ( isset( $field[1] ) ) {
-					// Trim any spaces the user might have added and change the string to uppercase..
+					// Trim any spaces the user might have added and change the string to uppercase.
 					$field[1] = strtoupper( trim( $field[1] ) );
 
 					// If a user included a sort flag that is invalid/misspelled it is skipped since it can not be used.

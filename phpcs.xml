@@ -87,7 +87,7 @@
 		</properties>
 	</rule>
 
-	<rule ref="WordPress.WhiteSpace.PrecisionAlignment">
+	<rule ref="Universal.WhiteSpace.PrecisionAlignment">
 		<properties>
 			<property name="ignoreAlignmentTokens" type="array">
 				<element value="T_COMMENT"/>

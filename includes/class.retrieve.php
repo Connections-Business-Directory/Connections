@@ -1667,7 +1667,7 @@ class cnRetrieve {
 							'id'               => $ids,
 							'order_by'         => 'id|SPECIFIED',
 							'parse_request'    => false,
-							'suppress_filters' => true, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFiltersTrue
+							'suppress_filters' => true, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters
 						)
 					);
 

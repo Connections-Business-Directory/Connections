@@ -42,7 +42,7 @@ class cnRetrieve {
 
 	/**
 	 * The $atts['meta_query'] can have two different structures when passed to
-	 * @see cnMeta_Query::parse_query_vars(), they are:
+	 * {@see cnMeta_Query::parse_query_vars()}, they are:
 	 *
 	 * array(
 	 *     'meta_key'     => (string),
@@ -830,7 +830,7 @@ class cnRetrieve {
 
 	/**
 	 * NOTE: This is the Connections equivalent of parse_tax_query() found in ../wp-includes/class-wp-query.php
-	 * @see WP_Query::parse_tax_query()
+	 * {@see WP_Query::parse_tax_query()}
 	 *
 	 * @internal
 	 * @since 10.3

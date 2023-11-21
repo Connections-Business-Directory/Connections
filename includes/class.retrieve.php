@@ -2741,19 +2741,19 @@ class cnRetrieve {
 		 * there are a large number of entries.
 		 *
 		 * NOTES:
-		 * 	The following is the error reported by MySQL when DB does not support FULLTEXT:  'The used table type doesn't support FULLTEXT indexes'
-		 * 	If DB does not support FULLTEXT the query will fail and the $results will be an empty array.
+		 *     The following is the error reported by MySQL when DB does not support FULLTEXT:  'The used table type doesn't support FULLTEXT indexes'
+		 *     If DB does not support FULLTEXT the query will fail and the $results will be an empty array.
 		 *
-		 * 	FULLTEXT Restrictions as noted here: http://onlamp.com/onlamp/2003/06/26/fulltext.html
+		 * FULLTEXT Restrictions as noted here: http://onlamp.com/onlamp/2003/06/26/fulltext.html
 		 *
-		 * 		Some default behaviors of these restrictions can be changed in your my.cnf or using the SET command
+		 *     Some default behaviors of these restrictions can be changed in your my.cnf or using the SET command
 		 *
-		 * 		FULLTEXT indices are NOT supported in InnoDB tables.
-		 * 		MySQL requires that you have at least three rows of data in your result set before it will return any results.
-		 * 		By default, if a search term appears in more than 50% of the rows then MySQL will not return any results.
-		 * 		By default, your search query must be at least four characters long and may not exceed 254 characters.
-		 * 		MySQL has a default stop words file that has a list of common words (i.e., the, that, has) which are not returned in your search. In other words, searching for the will return zero rows.
-		 * 		According to MySQL's manual, the argument to AGAINST() must be a constant string. In other words, you cannot search for values returned within the query.
+		 *     FULLTEXT indices are NOT supported in InnoDB tables.
+		 *     MySQL requires that you have at least three rows of data in your result set before it will return any results.
+		 *     By default, if a search term appears in more than 50% of the rows then MySQL will not return any results.
+		 *     By default, your search query must be at least four characters long and may not exceed 254 characters.
+		 *     MySQL has a default stop words file that has a list of common words (i.e., the, that, has) which are not returned in your search. In other words, searching for the will return zero rows.
+		 *     According to MySQL's manual, the argument to AGAINST() must be a constant string. In other words, you cannot search for values returned within the query.
 		 */
 		if ( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) ) {
 

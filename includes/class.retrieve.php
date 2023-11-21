@@ -383,7 +383,7 @@ class cnRetrieve {
 		 */
 		//if ( empty($atts['order_by']) )
 		//{
-		// Setup the default sort order if none were supplied.
+		// Set up the default sort order if none were supplied.
 		//$orderBy = array('sort_column', 'last_name', 'first_name');
 		//}
 		//else
@@ -2940,7 +2940,7 @@ class cnRetrieve {
 			}
 
 			/*
-			 * Only search the phone records if the field is selected to be search.
+			 * Only search the phone records if the field is selected to be searched.
 			 */
 			if ( ! empty( $atts['fields']['phone'] ) ) {
 
@@ -3140,7 +3140,7 @@ class cnRetrieve {
 			}
 
 			/*
-			 * Only search the phone records if the field is selected to be search.
+			 * Only search the phone records if the field is selected to be searched.
 			 */
 			if ( ! empty( $atts['fields']['phone'] ) ) {
 

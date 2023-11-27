@@ -69,6 +69,28 @@
 		</properties>
 	</rule>
 
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="connections_add_entry"/>
+				<element value="connections_add_entry_moderated"/>
+				<element value="connections_change_settings"/>
+				<element value="connections_change_roles"/>
+				<element value="connections_delete_entry"/>
+				<element value="connections_edit_categories"/>
+				<element value="connections_edit_entry"/>
+				<element value="connections_edit_entry_moderated"/>
+				<element value="connections_manage"/>
+				<element value="connections_manage_template"/>
+				<element value="connections_view_menu"/>
+				<element value="connections_view_dashboard"/>
+				<element value="connections_view_public"/>
+				<element value="connections_view_private"/>
+				<element value="connections_view_unlisted"/>
+			</property>
+		</properties>
+	</rule>
+
 	<rule ref="WordPress.Files.FileName">
 		<properties>
 			<property name="strict_class_file_names" value="false"/>
@@ -87,7 +109,7 @@
 		</properties>
 	</rule>
 
-	<rule ref="WordPress.WhiteSpace.PrecisionAlignment">
+	<rule ref="Universal.WhiteSpace.PrecisionAlignment">
 		<properties>
 			<property name="ignoreAlignmentTokens" type="array">
 				<element value="T_COMMENT"/>

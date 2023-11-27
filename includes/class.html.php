@@ -285,7 +285,7 @@ class cnHTML {
 
 					array_walk(
 						$value,
-						function( &$i, $property ) {
+						function ( &$i, $property ) {
 
 							$i = "$property: $i";
 						}
@@ -301,7 +301,7 @@ class cnHTML {
 
 					array_walk(
 						$value,
-						function( &$i, $property ) {
+						function ( &$i, $property ) {
 
 							$i = "data-$property=\"$i\"";
 						}
@@ -349,7 +349,7 @@ class cnHTML {
 
 					array_walk(
 						$data,
-						function( &$i, $name ) {
+						function ( &$i, $name ) {
 
 							$i = $name . '="' . esc_attr( $i ) . '"';
 						}

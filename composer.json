@@ -8,13 +8,12 @@
     "homepage": "https://connections-pro.com/",
     "license": "GPL-2.0+",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4||^8.0",
         "ext-imagick": "*",
         "ext-gd": "*"
     },
     "require-dev": {
-        "automattic/vipwpcs": "*",
-        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "automattic/vipwpcs": "^3.0.0",
         "php-coveralls/php-coveralls": "*",
         "phpcompatibility/php-compatibility": "*",
         "phpcompatibility/phpcompatibility-wp": "*",
@@ -22,8 +21,7 @@
         "phpunit/phpunit": "*",
         "poststatus/wptest": "dev-master",
         "sirbrillig/phpcs-variable-analysis": "*",
-        "squizlabs/php_codesniffer": "*",
-        "wp-coding-standards/wpcs": "*",
+        "wp-coding-standards/wpcs": "^3.0.0",
         "szepeviktor/phpstan-wordpress": "^1.0",
         "phpstan/extension-installer": "^1.1"
     },

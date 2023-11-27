@@ -22,7 +22,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.57';
+	const VERSION = '10.4.58';
 
 	/**
 	 * Stores the instance of this class.
@@ -274,7 +274,7 @@ final class Connections_Directory {
 			 */
 			add_action(
 				'plugins_loaded',
-				static function() {
+				static function () {
 					do_action( 'Connections_Directory/Loaded' );
 				},
 				5

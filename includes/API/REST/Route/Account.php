@@ -115,7 +115,7 @@ class Account extends WP_REST_Controller {
 							'enum'        => array( '0', '1' ),
 						),
 					),
-					'permission_callback' => static function() {
+					'permission_callback' => static function () {
 
 						if ( is_user_logged_in() ) {
 
@@ -194,12 +194,12 @@ class Account extends WP_REST_Controller {
 							'description'       => __( 'Confirm use of weak password.', 'connections' ),
 							'type'              => 'boolean',
 							// Specify the sanitization callback for the checkbox value.
-							'sanitize_callback' => static function( $value, $request, $param ) {
+							'sanitize_callback' => static function ( $value, $request, $param ) {
 								// Return a boolean value, cast from the input value.
 								return boolval( $value );
 							},
 							// Specify the validation callback for the checkbox value.
-							'validate_callback' => static function( $value, $request, $param ) {
+							'validate_callback' => static function ( $value, $request, $param ) {
 								// Return true if the value is a boolean, false otherwise.
 								return is_bool( $value );
 							},
@@ -267,7 +267,7 @@ class Account extends WP_REST_Controller {
 							'format'            => 'uri',
 						),
 					),
-					'permission_callback' => static function() {
+					'permission_callback' => static function () {
 
 						if ( is_user_logged_in() && ! current_user_can( 'create_users' ) ) {
 

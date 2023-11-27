@@ -138,7 +138,7 @@ class Entry extends WP_REST_Controller {
 				),
 				array(
 					'methods'             => WP_REST_Server::EDITABLE,
-					'callback'            => function( $request ) {
+					'callback'            => function ( $request ) {
 
 						global $wpdb;
 
@@ -186,7 +186,7 @@ class Entry extends WP_REST_Controller {
 						),
 					),
 				),
-				'schema' => function() {
+				'schema' => function () {
 
 					return array(
 						'$schema'    => 'http://json-schema.org/draft-04/schema#',

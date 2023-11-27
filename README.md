@@ -246,6 +246,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.58 11/27/2023 =
+
+* TWEAK: Delete extra trailing period from inline code comment.
+* OTHER: Correct misspellings.
+* OTHER: Update the dist files.
+* WPCS: A single space must follow the `function` keyword.
+* WPCS: Update phpcs ignore.
+* WPCS: Spaces must be used for mid-line alignment; tabs are not allowed.
+* DEV: Update WPCS to version 3.0.
+* DEV: npm audit fix.
+* DEV: Update webpack.
+* DEV: Add the custom role capability properties to phpcs.xml.
+* DEV: phpDoc corrections.
+
 = 10.4.57 11/17/2023 =
 
 * NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generatePlaceholder()`.

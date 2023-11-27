@@ -249,6 +249,19 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.58 11/27/2023 =
+* TWEAK: Delete extra trailing period from inline code comment.
+* OTHER: Correct misspellings.
+* OTHER: Update the dist files.
+* WPCS: A single space must follow the `function` keyword.
+* WPCS: Update phpcs ignore.
+* WPCS: Spaces must be used for mid-line alignment; tabs are not allowed.
+* DEV: Update WPCS to version 3.0.
+* DEV: npm audit fix.
+* DEV: Update webpack.
+* DEV: Add the custom role capability properties to phpcs.xml.
+* DEV: phpDoc corrections.
+
 = 10.4.57 11/17/2023 =
 * NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generatePlaceholder()`.
 * TWEAK: Ensure the `\Simple_History\Simple_History` class exists before adding the Simple History logger registration hook to prevent possible fatal errors when older version of Simple History are installed.
@@ -572,4 +585,7 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.57 =
+It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.28 =
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.

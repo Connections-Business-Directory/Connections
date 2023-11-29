@@ -88,7 +88,7 @@ final class Request {
 	 *
 	 * @var WP $wp
 	 */
-	public static function parse( $wp ) {
+	public static function parse( WP $wp ) {
 
 		$self      = self::get();
 		$queryVars = $wp->query_vars;
@@ -174,7 +174,7 @@ final class Request {
 	 *
 	 * @return mixed Contents of the query variable.
 	 */
-	public function getVar( $key, $defaultValue = '' ) {
+	public function getVar( string $key, $defaultValue = '' ) {
 
 		return _array::get( $this->queryVars, $key, $defaultValue );
 	}
@@ -186,7 +186,7 @@ final class Request {
 	 *
 	 * @param string $key Query variable name.
 	 */
-	public function removeVar( $key ) {
+	public function removeVar( string $key ) {
 
 		_array::forget( $this->queryVars, $key );
 	}
@@ -199,7 +199,7 @@ final class Request {
 	 * @param string $key   Query variable name.
 	 * @param mixed  $value Query variable value.
 	 */
-	public function setVar( $key, $value ) {
+	public function setVar( string $key, $value ) {
 
 		_array::set( $this->queryVars, $key, $value );
 	}

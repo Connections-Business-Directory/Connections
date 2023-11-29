@@ -70,7 +70,7 @@ final class Request {
 	 *
 	 * @return Request
 	 */
-	public static function get() {
+	public static function get(): Request {
 
 		if ( ! self::$instance instanceof self ) {
 
@@ -159,7 +159,7 @@ final class Request {
 	 *
 	 * @return array
 	 */
-	public function getQueryVars() {
+	public function getQueryVars(): array {
 
 		return $this->queryVars;
 	}
@@ -211,7 +211,7 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function hasQuery() {
+	public function hasQuery(): bool {
 
 		return $this->hasQuery;
 	}
@@ -223,7 +223,7 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function isAjax() {
+	public function isAjax(): bool {
 
 		return wp_doing_ajax();
 	}
@@ -236,7 +236,7 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function isRest() {
+	public function isRest(): bool {
 
 		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 			return false;
@@ -257,7 +257,7 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function isSearch() {
+	public function isSearch(): bool {
 
 		$query = Entry_Search_Term::input()->value();
 

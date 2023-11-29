@@ -1,4 +1,17 @@
 <?php
+/**
+ * Parse the current request for Connections-related query variables.
+ *
+ * @since      10.3
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\Request
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory;
 
@@ -17,6 +30,8 @@ use WP;
 final class Request {
 
 	/**
+	 * Instance of the class.
+	 * 
 	 * @since 10.3
 	 *
 	 * @var self
@@ -24,6 +39,8 @@ final class Request {
 	private static $instance;
 
 	/**
+	 * Whether the current request has a Connections-related query.
+	 * 
 	 * @since 10.4.39
 	 *
 	 * @var bool
@@ -86,7 +103,7 @@ final class Request {
 	 * @internal
 	 * @since 10.3
 	 *
-	 * @var WP $wp
+	 * @param WP $wp Instance of the WP object.
 	 */
 	public static function parse( WP $wp ) {
 

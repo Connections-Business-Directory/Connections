@@ -169,14 +169,14 @@ final class Request {
 	 *
 	 * @since 10.3
 	 *
-	 * @param string $key     Query variable key.
-	 * @param mixed  $default Optional. Value to return if the query variable is not set. Default empty string.
+	 * @param string $key          Query variable key.
+	 * @param mixed  $defaultValue Optional. Value to return if the query variable is not set. Default empty string.
 	 *
 	 * @return mixed Contents of the query variable.
 	 */
-	public function getVar( $key, $default = '' ) {
+	public function getVar( $key, $defaultValue = '' ) {
 
-		return _array::get( $this->queryVars, $key, $default );
+		return _array::get( $this->queryVars, $key, $defaultValue );
 	}
 
 	/**

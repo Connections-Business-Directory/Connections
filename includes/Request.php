@@ -31,7 +31,7 @@ final class Request {
 
 	/**
 	 * Instance of the class.
-	 * 
+	 *
 	 * @since 10.3
 	 *
 	 * @var self
@@ -40,7 +40,7 @@ final class Request {
 
 	/**
 	 * Whether the current request has a Connections-related query.
-	 * 
+	 *
 	 * @since 10.4.39
 	 *
 	 * @var bool

@@ -476,14 +476,13 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Render the select option for the current term.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
+	 * @internal
+	 * @since 8.2.4
 	 *
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param object $term  Category data object.
 	 * @param int    $depth Depth of category in reference to parent. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param array  $args  An array of arguments. {@see CN_Walker_Term_Select_List::render()}.
 	 */
 	private function do_el( &$out, $term, $depth, $args ) {
 

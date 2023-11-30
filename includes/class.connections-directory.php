@@ -384,7 +384,7 @@ final class Connections_Directory {
 		add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'updateTermCount' ) );
 
 		// Add the "Edit Entry" menu items to the admin bar.
-		add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );
+		add_action( 'admin_bar_menu', array( Action\Admin_Bar::class, 'addEditEntry' ), 90 );
 
 		// Register the shortcode hooks.
 		cnShortcode::hooks();

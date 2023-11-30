@@ -10,7 +10,7 @@ use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
 
 /**
- * Class Label
+ * Class Option
  *
  * @package Connections_Directory\Form\Field
  */

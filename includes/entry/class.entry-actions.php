@@ -11,7 +11,6 @@
 
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
-use Connections_Directory\Utility\_nonce;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;

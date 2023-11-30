@@ -27,7 +27,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * What the class handles.
 	 *
-	 * @see   Walker::$tree_type
 	 * @since 8.2.4
 	 * @var string
 	 */
@@ -36,7 +35,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Database fields to use.
 	 *
-	 * @see   Walker::$db_fields
 	 * @since 8.2.4
 	 * @todo  Decouple this
 	 * @var array
@@ -56,7 +54,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *
 	 * This is the Connections equivalent of {@see wp_dropdown_categories()} in WordPress core ../wp-includes/category-template.php
 	 *
-	 * @since  8.2.4
+	 * @since 8.2.4
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
@@ -399,11 +397,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Sets @see CN_Walker_Term_Select_List_Chosen::close_group to true if grouping by parent category.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
-	 *
-	 * @see    Walker::start_lvl()
+	 * @since 8.2.4
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of category in reference to parent. Default 0.
@@ -420,11 +414,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Sets @see CN_Walker_Term_Select_List_Chosen::close_group to false if grouping by parent category.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
-	 *
-	 * @see    Walker::end_lvl()
+	 * @since 8.2.4
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of category in reference to parent. Default 0.
@@ -442,14 +432,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Start the element output.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
-	 *
-	 * @see    Walker::start_el()
-	 *
-	 * @uses   apply_filters()
-	 * @uses   number_format_i18n()
+	 * @since 8.2.4
 	 *
 	 * @param string $output            Passed by reference. Used to append additional content.
 	 * @param object $data_object       Category data object.

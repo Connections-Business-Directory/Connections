@@ -48,6 +48,15 @@ final class Request {
 	private $hasQuery;
 
 	/**
+	 * Whether the current query is for a single entry.
+	 *
+	 * @since 10.4.59
+	 *
+	 * @var bool
+	 */
+	private $isSingle = false;
+
+	/**
 	 * An associative array where the key is the registered query variable and the value is the parse request value.
 	 *
 	 * This array will contain only Connections related query variables.
@@ -167,6 +176,7 @@ final class Request {
 		}
 
 		$self->hasQuery = ! empty( array_filter( $self->queryVars, array( 'Connections_Directory\Utility\_', 'notEmpty' ) ) );
+		$self->isSingle = array_key_exists( 'cn-entry-slug', $self->queryVars ) && 0 < strlen( $queryVars['cn-entry-slug'] );
 	}
 
 	/**
@@ -279,5 +289,17 @@ final class Request {
 		$query = Entry_Search_Term::input()->value();
 
 		return is_string( $query ) && '' !== $query;
+	}
+
+	/**
+	 * Whether the current request is for a single entry.
+	 *
+	 * @since 10.4.59
+	 *
+	 * @return bool
+	 */
+	public function isSingle(): bool {
+
+		return $this->isSingle;
 	}
 }

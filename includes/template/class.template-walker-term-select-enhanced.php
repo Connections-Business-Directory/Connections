@@ -405,11 +405,11 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *
 	 * @see    Walker::start_lvl()
 	 *
-	 * @param string $out   Passed by reference. Used to append additional content.
-	 * @param int    $depth Depth of category in reference to parent. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of category in reference to parent. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 */
-	public function start_lvl( &$out, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
 		if ( $args['group'] && $this->has_children ) {
 
@@ -426,15 +426,15 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *
 	 * @see    Walker::end_lvl()
 	 *
-	 * @param string $out   Passed by reference. Used to append additional content.
-	 * @param int    $depth Depth of category in reference to parent. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of category in reference to parent. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 */
-	public function end_lvl( &$out, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
 		if ( $args['group'] && $this->close_group && 0 === $depth ) {
 
-			$out              .= "\t" . '</optgroup>' . PHP_EOL;
+			$output           .= "\t" . '</optgroup>' . PHP_EOL;
 			$this->close_group = false;
 		}
 	}
@@ -451,25 +451,25 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * @uses   apply_filters()
 	 * @uses   number_format_i18n()
 	 *
-	 * @param string $out   Passed by reference. Used to append additional content.
-	 * @param object $term  Category data object.
-	 * @param int    $depth Depth of category in reference to parent's. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
-	 * @param int    $id    ID of the current category.
+	 * @param string $output            Passed by reference. Used to append additional content.
+	 * @param object $data_object       Category data object.
+	 * @param int    $depth             Depth of category in reference to parent's. Default 0.
+	 * @param array  $args              An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param int    $current_object_id ID of the current category.
 	 */
-	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 
 		if ( ! $args['group'] ) {
 
-			$this->do_el( $out, $term, $depth, $args );
+			$this->do_el( $output, $data_object, $depth, $args );
 
 		} elseif ( $args['group'] && 0 === $depth && $this->has_children ) {
 
-			$out .= sprintf( "\t" . '<optgroup label="%1$s">' . PHP_EOL, esc_attr( $term->name ) );
+			$output .= sprintf( "\t" . '<optgroup label="%1$s">' . PHP_EOL, esc_attr( $data_object->name ) );
 
 		} elseif ( $args['group'] && 0 < $depth ) {
 
-			$this->do_el( $out, $term, $depth, $args );
+			$this->do_el( $output, $data_object, $depth, $args );
 		}
 	}
 

@@ -487,23 +487,25 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	private function do_el( &$out, $term, $depth, $args ) {
 
 		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken into account.
-		$pad = ( $depth > 0 ) ? $depth * 12 + 7 : 7;
+		$pad     = ( $depth > 0 ) ? $depth * 12 + 7 : 7;
+		$padding = is_rtl() ? 'padding-right' : 'padding-left';
 
-		// Set the option SELECTED attribute if the category is one of the currently selected categories.
-		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], true ) ? ' SELECTED' : '';
+		$selected   = _array::get( $args, 'selected', array() );
+		$selected   = is_array( $selected ) ? $selected : (array) $selected;
+		$isSelected = in_array( $term->term_id, $selected ) || in_array( $term->slug, $selected, true );
 
-		$out .= sprintf(
-			"\t" . '<option class="cn-term-level-%1$d" style="padding-%2$s: %3$dpx !important;" value="%4$s"%5$s>%6$s%7$s%8$s</option>' . PHP_EOL,
-			$depth,
-			is_rtl() ? 'right' : 'left',
-			$pad,
-			$term->term_id,
-			$selected,
-			$args['enhanced'] ? '' : str_repeat( '&nbsp;', $depth * 3 ),
-			/** This filter is documented in includes/template/class.template-walker-term-select.php */
-			esc_html( apply_filters( 'cn_list_cats', $term->name, $term ) ),
-			// Category count to be appended to the category name.
-			$args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : ''
-		);
+		$option = Field\Option::create()->setValue( $term->term_id );
+
+		$option->addClass( "cn-term-level-{$depth}" );
+		$option->css( $padding, "{$pad}px !important" );
+		$option->setChecked( $isSelected );
+
+		$nbsp  = $args['enhanced'] ? '' : str_repeat( '&nbsp;', $depth * 3 );
+		$name  = esc_html( apply_filters( 'cn_list_cats', $term->name, $term ) );
+		$count = $args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : '';
+
+		$option->setText( $nbsp . $name . $count );
+
+		$out .= $option->getHTML();
 	}
 }

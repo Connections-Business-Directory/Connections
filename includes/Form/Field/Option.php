@@ -1,4 +1,17 @@
 <?php
+/**
+ * Generate the HTML for a select option.
+ *
+ * @since      10.4
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\Form\Field\Option
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory\Form\Field;
 

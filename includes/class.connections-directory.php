@@ -489,7 +489,7 @@ final class Connections_Directory {
 		// add_action( 'init', array( Shortcode\Search::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Upcoming_List::class, 'add' ) );
 
-		// Integrations
+		// Integrations.
 		add_action( 'plugins_loaded', array( Integration\Simple_History::class, 'init' ) );
 		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.
 		add_action( 'plugins_loaded', array( Integration\SEO\Yoast_SEO::class, 'init' ), 15 );

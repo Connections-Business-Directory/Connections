@@ -486,7 +486,7 @@ final class Connections_Directory {
 		// add_action( 'init', array( Shortcode\Entry_Directory::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Entry::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Directory_View::class, 'add' ) );
-		// add_action( 'init', array( Shortcode\Search::class, 'add' ) );
+		add_action( 'init', array( Shortcode\Search::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Upcoming_List::class, 'add' ) );
 
 		// Integrations.

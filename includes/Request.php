@@ -1,4 +1,17 @@
 <?php
+/**
+ * Parse the current request for Connections-related query variables.
+ *
+ * @since      10.3
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\Request
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory;
 
@@ -17,6 +30,8 @@ use WP;
 final class Request {
 
 	/**
+	 * Instance of the class.
+	 *
 	 * @since 10.3
 	 *
 	 * @var self
@@ -24,11 +39,22 @@ final class Request {
 	private static $instance;
 
 	/**
+	 * Whether the current request has a Connections-related query.
+	 *
 	 * @since 10.4.39
 	 *
 	 * @var bool
 	 */
 	private $hasQuery;
+
+	/**
+	 * Whether the current query is for a single entry.
+	 *
+	 * @since 10.4.59
+	 *
+	 * @var bool
+	 */
+	private $isSingle = false;
 
 	/**
 	 * An associative array where the key is the registered query variable and the value is the parse request value.
@@ -70,7 +96,7 @@ final class Request {
 	 *
 	 * @return Request
 	 */
-	public static function get() {
+	public static function get(): Request {
 
 		if ( ! self::$instance instanceof self ) {
 
@@ -86,9 +112,9 @@ final class Request {
 	 * @internal
 	 * @since 10.3
 	 *
-	 * @var WP $wp
+	 * @param WP $wp Instance of the WP object.
 	 */
-	public static function parse( $wp ) {
+	public static function parse( WP $wp ) {
 
 		$self      = self::get();
 		$queryVars = $wp->query_vars;
@@ -150,6 +176,7 @@ final class Request {
 		}
 
 		$self->hasQuery = ! empty( array_filter( $self->queryVars, array( 'Connections_Directory\Utility\_', 'notEmpty' ) ) );
+		$self->isSingle = array_key_exists( 'cn-entry-slug', $self->queryVars ) && 0 < strlen( $queryVars['cn-entry-slug'] );
 	}
 
 	/**
@@ -159,7 +186,7 @@ final class Request {
 	 *
 	 * @return array
 	 */
-	public function getQueryVars() {
+	public function getQueryVars(): array {
 
 		return $this->queryVars;
 	}
@@ -169,14 +196,14 @@ final class Request {
 	 *
 	 * @since 10.3
 	 *
-	 * @param string $key     Query variable key.
-	 * @param mixed  $default Optional. Value to return if the query variable is not set. Default empty string.
+	 * @param string $key          Query variable key.
+	 * @param mixed  $defaultValue Optional. Value to return if the query variable is not set. Default empty string.
 	 *
 	 * @return mixed Contents of the query variable.
 	 */
-	public function getVar( $key, $default = '' ) {
+	public function getVar( string $key, $defaultValue = '' ) {
 
-		return _array::get( $this->queryVars, $key, $default );
+		return _array::get( $this->queryVars, $key, $defaultValue );
 	}
 
 	/**
@@ -186,7 +213,7 @@ final class Request {
 	 *
 	 * @param string $key Query variable name.
 	 */
-	public function removeVar( $key ) {
+	public function removeVar( string $key ) {
 
 		_array::forget( $this->queryVars, $key );
 	}
@@ -199,7 +226,7 @@ final class Request {
 	 * @param string $key   Query variable name.
 	 * @param mixed  $value Query variable value.
 	 */
-	public function setVar( $key, $value ) {
+	public function setVar( string $key, $value ) {
 
 		_array::set( $this->queryVars, $key, $value );
 	}
@@ -211,7 +238,7 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function hasQuery() {
+	public function hasQuery(): bool {
 
 		return $this->hasQuery;
 	}
@@ -223,7 +250,7 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function isAjax() {
+	public function isAjax(): bool {
 
 		return wp_doing_ajax();
 	}
@@ -236,7 +263,7 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function isRest() {
+	public function isRest(): bool {
 
 		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 			return false;
@@ -257,10 +284,22 @@ final class Request {
 	 *
 	 * @return bool
 	 */
-	public function isSearch() {
+	public function isSearch(): bool {
 
 		$query = Entry_Search_Term::input()->value();
 
 		return is_string( $query ) && '' !== $query;
+	}
+
+	/**
+	 * Whether the current request is for a single entry.
+	 *
+	 * @since 10.4.59
+	 *
+	 * @return bool
+	 */
+	public function isSingle(): bool {
+
+		return $this->isSingle;
 	}
 }

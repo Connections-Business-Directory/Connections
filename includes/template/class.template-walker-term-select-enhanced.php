@@ -27,7 +27,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * What the class handles.
 	 *
-	 * @see   Walker::$tree_type
 	 * @since 8.2.4
 	 * @var string
 	 */
@@ -36,7 +35,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Database fields to use.
 	 *
-	 * @see   Walker::$db_fields
 	 * @since 8.2.4
 	 * @todo  Decouple this
 	 * @var array
@@ -56,7 +54,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *
 	 * This is the Connections equivalent of {@see wp_dropdown_categories()} in WordPress core ../wp-includes/category-template.php
 	 *
-	 * @since  8.2.4
+	 * @since 8.2.4
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
@@ -399,17 +397,13 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Sets @see CN_Walker_Term_Select_List_Chosen::close_group to true if grouping by parent category.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
+	 * @since 8.2.4
 	 *
-	 * @see    Walker::start_lvl()
-	 *
-	 * @param string $out   Passed by reference. Used to append additional content.
-	 * @param int    $depth Depth of category in reference to parent. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of category in reference to parent. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 */
-	public function start_lvl( &$out, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
 		if ( $args['group'] && $this->has_children ) {
 
@@ -420,21 +414,17 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Sets @see CN_Walker_Term_Select_List_Chosen::close_group to false if grouping by parent category.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
+	 * @since 8.2.4
 	 *
-	 * @see    Walker::end_lvl()
-	 *
-	 * @param string $out   Passed by reference. Used to append additional content.
-	 * @param int    $depth Depth of category in reference to parent. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of category in reference to parent. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Select_List::render().
 	 */
-	public function end_lvl( &$out, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
 		if ( $args['group'] && $this->close_group && 0 === $depth ) {
 
-			$out              .= "\t" . '</optgroup>' . PHP_EOL;
+			$output           .= "\t" . '</optgroup>' . PHP_EOL;
 			$this->close_group = false;
 		}
 	}
@@ -442,69 +432,63 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	/**
 	 * Start the element output.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
+	 * @since 8.2.4
 	 *
-	 * @see    Walker::start_el()
-	 *
-	 * @uses   apply_filters()
-	 * @uses   number_format_i18n()
-	 *
-	 * @param string $out   Passed by reference. Used to append additional content.
-	 * @param object $term  Category data object.
-	 * @param int    $depth Depth of category in reference to parent's. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
-	 * @param int    $id    ID of the current category.
+	 * @param string $output            Passed by reference. Used to append additional content.
+	 * @param object $data_object       Category data object.
+	 * @param int    $depth             Depth of category in reference to parent's. Default 0.
+	 * @param array  $args              An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param int    $current_object_id ID of the current category.
 	 */
-	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 
 		if ( ! $args['group'] ) {
 
-			$this->do_el( $out, $term, $depth, $args );
+			$this->do_el( $output, $data_object, $depth, $args );
 
 		} elseif ( $args['group'] && 0 === $depth && $this->has_children ) {
 
-			$out .= sprintf( "\t" . '<optgroup label="%1$s">' . PHP_EOL, esc_attr( $term->name ) );
+			$output .= sprintf( "\t" . '<optgroup label="%1$s">' . PHP_EOL, esc_attr( $data_object->name ) );
 
 		} elseif ( $args['group'] && 0 < $depth ) {
 
-			$this->do_el( $out, $term, $depth, $args );
+			$this->do_el( $output, $data_object, $depth, $args );
 		}
 	}
 
 	/**
 	 * Render the select option for the current term.
 	 *
-	 * @access public
-	 * @since  8.2.4
-	 * @static
+	 * @internal
+	 * @since 8.2.4
 	 *
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param object $term  Category data object.
 	 * @param int    $depth Depth of category in reference to parent. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param array  $args  An array of arguments. {@see CN_Walker_Term_Select_List::render()}.
 	 */
 	private function do_el( &$out, $term, $depth, $args ) {
 
 		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken into account.
-		$pad = ( $depth > 0 ) ? $depth * 12 + 7 : 7;
+		$pad     = ( $depth > 0 ) ? $depth * 12 + 7 : 7;
+		$padding = is_rtl() ? 'padding-right' : 'padding-left';
 
-		// Set the option SELECTED attribute if the category is one of the currently selected categories.
-		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], true ) ? ' SELECTED' : '';
+		$selected   = _array::get( $args, 'selected', array() );
+		$selected   = is_array( $selected ) ? $selected : (array) $selected;
+		$isSelected = in_array( $term->term_id, $selected ) || in_array( $term->slug, $selected, true );
 
-		$out .= sprintf(
-			"\t" . '<option class="cn-term-level-%1$d" style="padding-%2$s: %3$dpx !important;" value="%4$s"%5$s>%6$s%7$s%8$s</option>' . PHP_EOL,
-			$depth,
-			is_rtl() ? 'right' : 'left',
-			$pad,
-			$term->term_id,
-			$selected,
-			$args['enhanced'] ? '' : str_repeat( '&nbsp;', $depth * 3 ),
-			/** This filter is documented in includes/template/class.template-walker-term-select.php */
-			esc_html( apply_filters( 'cn_list_cats', $term->name, $term ) ),
-			// Category count to be appended to the category name.
-			$args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : ''
-		);
+		$option = Field\Option::create()->setValue( $term->term_id );
+
+		$option->addClass( "cn-term-level-{$depth}" );
+		$option->css( $padding, "{$pad}px !important" );
+		$option->setChecked( $isSelected );
+
+		$nbsp  = $args['enhanced'] ? '' : str_repeat( '&nbsp;', $depth * 3 );
+		$name  = esc_html( apply_filters( 'cn_list_cats', $term->name, $term ) );
+		$count = $args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : '';
+
+		$option->setText( $nbsp . $name . $count );
+
+		$out .= $option->getHTML();
 	}
 }

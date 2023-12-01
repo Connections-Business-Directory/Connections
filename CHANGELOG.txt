@@ -1,5 +1,20 @@
 == Changelog ==
 
+= 10.4.59 12/01/2023 =
+* NEW: Introduce `Request::isSingle()`.
+* TWEAK: Replace `cnEntry_Action` with `\Hook\Action\Admin_Bar::addEditEntry()`.
+* TWEAK: Refactor `\Form\Field\Option` to support the `class` and `style` attributes.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced::do_el()` to utilize `\Form\Field\Option`.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced` to ensure inherited method parameter names match.
+* TWEAK: Remove unused import.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* WPCS: Add method return type.
+* WPCS: It is recommended not to use reserved keyword "default" as function parameter name. Found: $default.
+* WPCS: Add missing parameter type declaration.
+* WPCS: Exclude a few WP VOP Go sniffs.
+* WPCS: Inline comments must end in full-stops, exclamation marks, or question marks.
+
 = 10.4.58 11/27/2023 =
 * TWEAK: Delete extra trailing period from inline code comment.
 * OTHER: Correct misspellings.

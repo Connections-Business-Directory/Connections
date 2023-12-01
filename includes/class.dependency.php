@@ -598,6 +598,7 @@ class cnDependency {
 
 			// Hooks.
 			'Connections_Directory\Hook\Action'                                 => 'includes/Hook/Action.php',
+			'Connections_Directory\Hook\Action\Admin_Bar'                       => 'includes/Hook/Action/Admin_Bar.php',
 			'Connections_Directory\Hook\Action\Admin\Log_Management'            => 'includes/Hook/Action/Admin/Log_Management.php',
 			'Connections_Directory\Hook\Action\Admin\Role_Capability'           => 'includes/Hook/Action/Admin/Role_Capability.php',
 			'Connections_Directory\Hook\Action\Admin\Template'                  => 'includes/Hook/Action/Admin/Template.php',

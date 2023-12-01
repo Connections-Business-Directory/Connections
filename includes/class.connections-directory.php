@@ -22,7 +22,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.58';
+	const VERSION = '10.4.59';
 
 	/**
 	 * Stores the instance of this class.
@@ -384,7 +384,7 @@ final class Connections_Directory {
 		add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'updateTermCount' ) );
 
 		// Add the "Edit Entry" menu items to the admin bar.
-		add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );
+		add_action( 'admin_bar_menu', array( Action\Admin_Bar::class, 'addEditEntry' ), 90 );
 
 		// Register the shortcode hooks.
 		cnShortcode::hooks();
@@ -486,10 +486,10 @@ final class Connections_Directory {
 		// add_action( 'init', array( Shortcode\Entry_Directory::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Entry::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Directory_View::class, 'add' ) );
-		// add_action( 'init', array( Shortcode\Search::class, 'add' ) );
+		add_action( 'init', array( Shortcode\Search::class, 'add' ) );
 		add_action( 'init', array( Shortcode\Upcoming_List::class, 'add' ) );
 
-		// Integrations
+		// Integrations.
 		add_action( 'plugins_loaded', array( Integration\Simple_History::class, 'init' ) );
 		// Priority 15 because Yoast SEO inits on priority 14 on the plugins_loaded action.
 		add_action( 'plugins_loaded', array( Integration\SEO\Yoast_SEO::class, 'init' ), 15 );

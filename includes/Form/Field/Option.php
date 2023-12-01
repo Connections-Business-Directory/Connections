@@ -1,16 +1,33 @@
 <?php
+/**
+ * Generate the HTML for a select option.
+ *
+ * @since      10.4
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\Form\Field\Option
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2023, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory\Form\Field;
 
 use Connections_Directory\Form\Field\Attribute\Checked;
+use Connections_Directory\Form\Field\Attribute\Classnames;
 use Connections_Directory\Form\Field\Attribute\Disabled;
+use Connections_Directory\Form\Field\Attribute\Prefix;
+use Connections_Directory\Form\Field\Attribute\Style;
 use Connections_Directory\Form\Field\Attribute\Value;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
+use Connections_Directory\Utility\_string;
 
 /**
- * Class Label
+ * Class Option
  *
  * @package Connections_Directory\Form\Field
  */
@@ -18,7 +35,10 @@ class Option {
 
 	use Attributes;
 	use Checked;
+	use Classnames;
 	use Disabled;
+	use Prefix;
+	use Style;
 	use Value;
 
 	/**
@@ -94,6 +114,12 @@ class Option {
 	protected function prepareAttributes() {
 
 		$attributes = array();
+		$prefix     = 0 < strlen( $this->getPrefix() ) ? $this->getPrefix() . '-' : '';
+
+		$classNames = _string::applyPrefix( $prefix, $this->class );
+
+		_array::set( $attributes, 'class', _escape::classNames( $classNames ) );
+		_array::set( $attributes, 'style', _escape::css( _html::stringifyCSSAttributes( $this->css ) ) );
 
 		if ( $this->isDisabled() ) {
 			_array::set( $attributes, 'disabled', 'disabled' );

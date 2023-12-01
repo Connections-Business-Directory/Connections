@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.0
-Stable tag: 10.4.58
+Stable tag: 10.4.59
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.59 12/01/2023 =
+* NEW: Introduce `Request::isSingle()`.
+* TWEAK: Replace `cnEntry_Action` with `\Hook\Action\Admin_Bar::addEditEntry()`.
+* TWEAK: Refactor `\Form\Field\Option` to support the `class` and `style` attributes.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced::do_el()` to utilize `\Form\Field\Option`.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced` to ensure inherited method parameter names match.
+* TWEAK: Remove unused import.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* WPCS: Add method return type.
+* WPCS: It is recommended not to use reserved keyword "default" as function parameter name. Found: $default.
+* WPCS: Add missing parameter type declaration.
+* WPCS: Exclude a few WP VOP Go sniffs.
+* WPCS: Inline comments must end in full-stops, exclamation marks, or question marks.
 
 = 10.4.58 11/27/2023 =
 * TWEAK: Delete extra trailing period from inline code comment.
@@ -587,5 +602,8 @@ It is recommended to back up before updating. Requires WordPress >= 5.8 and PHP 
 = 10.4.57 =
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
-= 10.4.28 =
+= 10.4.58 =
+It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.59 =
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.

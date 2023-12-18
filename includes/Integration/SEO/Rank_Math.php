@@ -385,9 +385,12 @@ final class Rank_Math {
 	 */
 	public static function robots( $robots ) {
 
-		$url = home_url( Request\Server_Request_URI::input()->value() );
+		// Get the settings for the base of each data type to be used in the URL.
+		$base = get_option( 'connections_permalink', array() );
+		$slug = _array::get( $base, 'category_base', 'cat' );
+		$url  = home_url( Request\Server_Request_URI::input()->value() );
 
-		if ( false !== strpos( $url, '/pg/' ) ) {
+		if ( false !== strpos( $url, '/pg/' ) || false !== strpos( $url, "/{$slug}/" ) ) {
 
 			$robots['index']  = 'noindex';
 			$robots['follow'] = 'follow';

@@ -380,7 +380,6 @@ final class Yoast_SEO {
 	 */
 	public static function transformURL( $url, $presentation ) {
 
-		/** @noinspection PhpUndefinedFieldInspection */
 		$url = cnSEO::maybeTransformPermalink( $url, $presentation->model->object_id );
 
 		return $url;

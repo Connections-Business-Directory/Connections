@@ -353,6 +353,8 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * - Ticket ID:565804
 	 * - Ticket ID:591582
 	 *
+	 * @since 10.4.57
+	 *
 	 * @param array $atts The `$atts` passed to {@see CN_Walker_Term_Select_List_Enhanced::render()}.
 	 *
 	 * @return string

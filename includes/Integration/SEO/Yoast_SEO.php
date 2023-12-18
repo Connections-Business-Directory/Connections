@@ -10,6 +10,7 @@ use cnEntry;
 use cnQuery;
 use cnSEO;
 use Connections_Directory\Integration\SEO\Yoast_SEO\Provider;
+use Connections_Directory\Request;
 use Connections_Directory\Sitemaps\Registry;
 use Connections_Directory\Utility\_array;
 use function Connections_Directory\Utility\_deprecated\_func as _deprecated_function;
@@ -127,6 +128,7 @@ final class Yoast_SEO {
 			add_filter( 'wpseo_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
 			add_filter( 'wpseo_metadesc', array( __CLASS__, 'transformDescription' ), 10, 2 );
 			add_filter( 'wpseo_canonical', array( __CLASS__, 'transformURL' ), 10, 2 );
+			add_filter( 'wpseo_robots_array', array( __CLASS__, 'robots' ) );
 
 			add_filter( 'wpseo_opengraph_title', array( __CLASS__, 'transformTitle' ), 10, 2 );
 			add_filter( 'wpseo_opengraph_desc', array( __CLASS__, 'transformDescription' ), 10, 2 );
@@ -383,6 +385,33 @@ final class Yoast_SEO {
 		$url = cnSEO::maybeTransformPermalink( $url, $presentation->model->object_id );
 
 		return $url;
+	}
+
+	/**
+	 * Callback for the `wpseo_robots_array` filter.
+	 *
+	 * Do not index paginated results, follow links.
+	 *
+	 * @param array $robots The meta robots directives to be echoed.
+	 *
+	 * @return array
+	 */
+	public static function robots( $robots ) {
+
+		// Get the settings for the base of each data type to be used in the URL.
+		$base = get_option( 'connections_permalink', array() );
+		$slug = _array::get( $base, 'category_base', 'cat' );
+		$url  = home_url( Request\Server_Request_URI::input()->value() );
+
+		if ( false !== strpos( $url, '/pg/' ) || false !== strpos( $url, "/{$slug}/" ) ) {
+
+			$robots['index']  = 'noindex';
+			$robots['follow'] = 'follow';
+
+			return $robots;
+		}
+
+		return $robots;
 	}
 
 	/**

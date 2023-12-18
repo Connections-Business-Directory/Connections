@@ -379,7 +379,7 @@ final class Rank_Math {
 	 *
 	 * Do not index paginated results, follow links.
 	 *
-	 * @param array $robots
+	 * @param array $robots The meta robots directives to be echoed.
 	 *
 	 * @return array
 	 */

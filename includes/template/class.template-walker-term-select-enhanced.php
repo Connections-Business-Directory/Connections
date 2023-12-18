@@ -375,7 +375,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				// Set the placeholder as the selected option when not filtering by category terms.
 				$selected = is_array( $selected ) ? $selected : (array) $selected;
 
-				if ( 0 == count( array_filter( $selected ) ) ) {
+				if ( 0 === count( array_filter( $selected ) ) ) {
 
 					$option->setChecked( true );
 				}

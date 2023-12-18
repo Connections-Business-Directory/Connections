@@ -393,7 +393,7 @@ final class Rank_Math {
 			$robots['follow'] = 'follow';
 
 			return $robots;
-		};
+		}
 
 		return $robots;
 	}

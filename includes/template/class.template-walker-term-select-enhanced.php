@@ -272,19 +272,11 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				$select .= "\t" . $placeholder;
 			}
 
-			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {
+			$selectAll = $walker->generateSelectAllOption( $atts );
 
-				/** This filter is documented in includes/template/class.template-walker-term-select.php */
-				$show_option_all = apply_filters( 'cn_list_cats', $atts['show_option_all'] );
+			if ( 0 < strlen( $selectAll ) ) {
 
-				/*
-				 * When doing a select all, set the show all option value as selected.
-				 *
-				 * NOTE: This is only done when the select is not being enhanced by a library such as Chosen or Select2.
-				 * In that case the placeholder option should be the default selected item.
-				 */
-				$selected = ! $atts['enhanced'] && ! isset( $selected ) && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
-				$select  .= "\t<option value='0'$selected>$show_option_all</option>" . PHP_EOL;
+				$select .= "\t{$selectAll}";
 			}
 
 			if ( $atts['show_option_none'] ) {

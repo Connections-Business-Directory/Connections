@@ -397,6 +397,47 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	}
 
 	/**
+	 * Generate the HTML for the 'Select All' option.
+	 *
+	 * When doing a select all, set the show all option value as selected.
+	 *
+	 * NOTE: This is only done when the select is not being enhanced by a library such as Chosen or Select2.
+	 *       In that case the placeholder option should be the default selected item.
+	 *
+	 * @since 10.4.60
+	 *
+	 * @param array $atts The `$atts` passed to {@see CN_Walker_Term_Select_List_Enhanced::render()}.
+	 *
+	 * @return string
+	 */
+	private function generateSelectAllOption( array $atts ): string {
+		// phpcs:disable Universal.WhiteSpace.PrecisionAlignment.Found
+
+		$html   = '';
+		$label  = _array::get( $atts, 'show_option_all', '' );
+		$render = _array::get( $atts, 'show_select_all', true );
+
+		/** This filter is documented in includes/template/class.template-walker-term-select.php */
+		$label = apply_filters( 'cn_list_cats', $label );
+
+		// If `show_option_all` is true AND `show_option_all` is not empty, generate the 'Select All' option.
+		if ( true === $render && ! empty( $label ) ) {
+
+			$isEnhanced = _array::get( $atts, 'enhanced', true );
+			$selected   = _array::get( $atts, 'selected', '0' );
+			$isChecked  = ! $isEnhanced && is_numeric( $selected ) && '0' === strval( $selected );
+			$html       = Field\Option::create()
+									  ->setValue( '0' )
+									  ->setChecked( $isChecked )
+									  ->setText( $label )
+									  ->getHTML();
+		}
+
+		return $html;
+		// phpcs:enable Universal.WhiteSpace.PrecisionAlignment.Found
+	}
+
+	/**
 	 * Sets @see CN_Walker_Term_Select_List_Chosen::close_group to true if grouping by parent category.
 	 *
 	 * @since 8.2.4

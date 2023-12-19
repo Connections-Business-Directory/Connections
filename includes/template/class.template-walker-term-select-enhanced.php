@@ -269,7 +269,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 			if ( 0 < strlen( $placeholder ) ) {
 
-				$select .= "\t" . $placeholder;
+				$select .= "\t{$placeholder}";
 			}
 
 			$selectAll = $walker->generateSelectAllOption( $atts );

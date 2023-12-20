@@ -402,7 +402,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * @return string
 	 */
 	private function generateSelectAllOption( array $atts ): string {
-		// phpcs:disable Universal.WhiteSpace.PrecisionAlignment.Found
 
 		$html   = '';
 		$label  = _array::get( $atts, 'show_option_all', '' );
@@ -425,7 +424,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 		}
 
 		return $html;
-		// phpcs:enable Universal.WhiteSpace.PrecisionAlignment.Found
 	}
 
 	/**
@@ -438,7 +436,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * @return string
 	 */
 	private function generateSelectNoneOption( array $atts ): string {
-		// phpcs:disable Universal.WhiteSpace.PrecisionAlignment.Found
 
 		$html   = '';
 		$label  = _array::get( $atts, 'show_option_none', '' );
@@ -459,7 +456,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 		}
 
 		return $html;
-		// phpcs:enable Universal.WhiteSpace.PrecisionAlignment.Found
 	}
 
 	/**

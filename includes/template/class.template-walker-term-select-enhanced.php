@@ -430,6 +430,40 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	}
 
 	/**
+	 * Generate the HTML for the 'Select None' option.
+	 *
+	 * @since 10.4.60
+	 *
+	 * @param array $atts The `$atts` passed to {@see CN_Walker_Term_Select_List_Enhanced::render()}.
+	 *
+	 * @return string
+	 */
+	private function generateSelectNoneOption( array $atts ): string {
+		// phpcs:disable Universal.WhiteSpace.PrecisionAlignment.Found
+
+		$html   = '';
+		$label  = _array::get( $atts, 'show_option_none', '' );
+		$render = 0 < strlen( $label );
+
+		if ( true === $render ) {
+
+			/** This filter is documented in includes/template/class.template-walker-term-select.php */
+			$label     = apply_filters( 'cn_list_cats', $label );
+			$selected  = _array::get( $atts, 'selected', 0 );
+			$value     = _array::get( $atts, 'option_none_value', -1 );
+			$isChecked = $selected === $value;
+			$html      = Field\Option::create()
+									 ->setValue( $value )
+									 ->setChecked( $isChecked )
+									 ->setText( $label )
+									 ->getHTML();
+		}
+
+		return $html;
+		// phpcs:enable Universal.WhiteSpace.PrecisionAlignment.Found
+	}
+
+	/**
 	 * Sets @see CN_Walker_Term_Select_List_Chosen::close_group to true if grouping by parent category.
 	 *
 	 * @since 8.2.4

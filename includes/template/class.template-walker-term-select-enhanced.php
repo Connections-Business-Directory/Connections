@@ -279,12 +279,11 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				$select .= "\t{$selectAll}";
 			}
 
-			if ( $atts['show_option_none'] ) {
+			$selectNone = $walker->generateSelectNoneOption( $atts );
 
-				/** This filter is documented in includes/template/class.template-walker-term-select.php */
-				$show_option_none = apply_filters( 'cn_list_cats', $atts['show_option_none'] );
-				$selected         = selected( $atts['option_none_value'], $atts['selected'], false );
-				$select          .= "\t<option value='" . esc_attr( $atts['option_none_value'] ) . "'$selected>$show_option_none</option>" . PHP_EOL;
+			if ( 0 < strlen( $selectNone ) ) {
+
+				$select .= "\t{$selectNone}";
 			}
 
 			if ( $atts['hierarchical'] ) {

@@ -278,7 +278,7 @@ class cnImage {
 
 					$param = explode( ',', $filter );
 
-					for ( $i = 0; $i < 4; $i ++ ) {
+					for ( $i = 0; $i < 4; $i++ ) {
 
 						if ( ! isset( $param[ $i ] ) ) {
 

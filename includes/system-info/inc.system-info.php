@@ -85,7 +85,7 @@ if ( function_exists( 'gd_info' ) ) {
 	$keys  = array_keys( $info );
 	$count = count( $keys );
 
-	for ( $i = 0; $i < $count; $i ++ ) {
+	for ( $i = 0; $i < $count; $i++ ) {
 
 		if ( is_bool( $info[ $keys[ $i ] ] ) ) {
 

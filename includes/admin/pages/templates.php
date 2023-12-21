@@ -167,8 +167,8 @@ function connectionsShowTemplatesPage() {
 					$table = array();
 					$rows  = ceil( count( $slugs ) / 3 );
 
-					for ( $row = 1; $row <= $rows; $row ++ ) {
-						for ( $col = 1; $col <= 3; $col ++ ) {
+					for ( $row = 1; $row <= $rows; $row++ ) {
+						for ( $col = 1; $col <= 3; $col++ ) {
 							$table[ $row ][ $col ] = array_shift( $slugs );
 						}
 					}

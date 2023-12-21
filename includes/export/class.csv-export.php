@@ -235,7 +235,7 @@ class cnCSV_Export {
 
 					echo $this->escapeAndQuote( $value ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo $i == $count ? '' : ',';
-					$i ++;
+					$i++;
 				}
 			}
 

@@ -873,7 +873,7 @@ class _collection implements Countable, IteratorAggregate, ArrayAccess, cnToArra
 				$new[] = $item;
 			}
 
-			$position ++;
+			$position++;
 		}
 
 		return new self( $new );

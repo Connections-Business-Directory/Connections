@@ -1053,7 +1053,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				foreach ( $results as $result ) {
 
 					$fields[ $i ] = $result;
-					$i ++;
+					$i++;
 				}
 			}
 		}

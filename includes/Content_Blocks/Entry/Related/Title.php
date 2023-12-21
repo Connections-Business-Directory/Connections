@@ -74,5 +74,4 @@ class Title extends Related {
 			}
 		);
 	}
-
 }

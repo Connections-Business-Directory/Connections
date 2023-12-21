@@ -116,5 +116,4 @@ class cnEmail_DefaultTemplates {
 
 		return $content;
 	}
-
 }

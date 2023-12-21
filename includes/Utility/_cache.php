@@ -503,5 +503,4 @@ class _cache {
 
 		return true;
 	}
-
 }

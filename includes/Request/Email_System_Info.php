@@ -129,5 +129,4 @@ final class Email_System_Info extends Input {
 
 		return true;
 	}
-
 }

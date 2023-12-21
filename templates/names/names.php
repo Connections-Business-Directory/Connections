@@ -82,7 +82,6 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 
 			$entry->getNameBlock( array( 'link' => true ) );
 		}
-
 	}
 
 	// Register the template.

@@ -392,5 +392,4 @@ abstract class CN_REST_Meta_Fields extends WP_REST_Meta_Fields {
 
 		return $schema;
 	}
-
 }

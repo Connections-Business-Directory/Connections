@@ -74,5 +74,4 @@ class County extends Related {
 			}
 		);
 	}
-
 }

@@ -71,7 +71,6 @@ if ( ! class_exists( 'CN_Block_Carousel_Template' ) ) {
 
 			$this->template = $template;
 		}
-
 	}
 
 	add_action( 'cn_register_template', array( 'CN_Block_Carousel_Template', 'register' ) );

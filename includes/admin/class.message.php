@@ -491,5 +491,4 @@ class cnMessage extends WP_Error {
 
 		update_user_meta( self::$id, self::$meta_key, $user_meta );
 	}
-
 }

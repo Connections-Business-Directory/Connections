@@ -16,5 +16,4 @@ class Hidden extends Text {
 	 * @var string
 	 */
 	protected $type = 'hidden';
-
 }

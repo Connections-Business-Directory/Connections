@@ -2189,7 +2189,6 @@ class cnImage {
 
 		return $image;
 	}
-
 }
 
 

@@ -407,5 +407,4 @@ class cnTemplate_Shortcode {
 			echo cnEntry_Shortcode::process( new cnEntry( $row ), $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
-
 }

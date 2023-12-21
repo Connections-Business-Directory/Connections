@@ -348,5 +348,4 @@ class cnEmail_Template {
 		<?php
 		return ob_get_clean();
 	}
-
 }

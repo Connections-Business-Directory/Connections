@@ -112,7 +112,6 @@ if ( ! class_exists( 'CN_Block_Team_Grid_Card_Clean_Template' ) ) {
 HERE;
 			return $style;
 		}
-
 	}
 
 	add_action( 'cn_register_template', array( 'CN_Block_Team_Grid_Card_Clean_Template', 'register' ) );

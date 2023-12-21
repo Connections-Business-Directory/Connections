@@ -1140,5 +1140,4 @@ class cnTemplate {
 
 		wp_enqueue_script( "cnt-{$this->slug}", $url, $required, $this->version, true );
 	}
-
 }

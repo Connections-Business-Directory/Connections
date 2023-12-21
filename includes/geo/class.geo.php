@@ -433,5 +433,4 @@ class cnGeo {
 
 		return apply_filters( 'cn_phone_codes', $codes );
 	}
-
 }

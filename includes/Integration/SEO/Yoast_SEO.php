@@ -512,5 +512,4 @@ final class Yoast_SEO {
 
 		return $url;
 	}
-
 }

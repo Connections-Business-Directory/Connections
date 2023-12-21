@@ -249,5 +249,4 @@ class Content_Blocks {
 
 		return $html;
 	}
-
 }

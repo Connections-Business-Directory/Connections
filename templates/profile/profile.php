@@ -285,7 +285,6 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 				require_once plugin_dir_path( __FILE__ ) . 'class.customizer.php';
 			}
 		}
-
 	}
 
 	// Register the template.

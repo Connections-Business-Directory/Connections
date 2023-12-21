@@ -74,5 +74,4 @@ class Organization extends Related {
 			}
 		);
 	}
-
 }

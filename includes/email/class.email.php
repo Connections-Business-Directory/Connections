@@ -622,5 +622,4 @@ class cnEmail {
 				break;
 		}
 	}
-
 }

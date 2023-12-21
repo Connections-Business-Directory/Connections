@@ -283,5 +283,4 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 
 		return $percentage;
 	}
-
 }

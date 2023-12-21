@@ -346,5 +346,4 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 			return new WP_Error( 'image_sharpen_error', $e->getMessage(), $this->file );
 		}
 	}
-
 }

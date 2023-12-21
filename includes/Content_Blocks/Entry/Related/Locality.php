@@ -74,5 +74,4 @@ class Locality extends Related {
 			}
 		);
 	}
-
 }

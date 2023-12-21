@@ -47,5 +47,4 @@ class Category extends Related {
 
 		$this->setProperties( $this->properties );
 	}
-
 }

@@ -148,7 +148,6 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
 			}
 		}
-
 	}
 
 	add_action( 'cn_register_template', array( 'CN_Dashboard_Recently_Added_Template', 'register' ) );

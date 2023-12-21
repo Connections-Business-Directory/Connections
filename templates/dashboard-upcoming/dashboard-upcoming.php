@@ -111,7 +111,6 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 
 			}
 		}
-
 	}
 
 	add_action( 'cn_register_template', array( 'CN_Dashboard_Upcoming_Template', 'register' ) );

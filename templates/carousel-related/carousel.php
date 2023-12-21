@@ -77,7 +77,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Related_Carousel' ) ) {
 
 			$this->template = $template;
 		}
-
 	}
 
 	add_action( 'cn_register_template', array( __NAMESPACE__ . '\Related_Carousel', 'register' ) );

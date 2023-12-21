@@ -726,5 +726,4 @@ class cnTemplateFactory {
 
 		return $template;
 	}
-
 }

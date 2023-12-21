@@ -210,5 +210,4 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		$out .= '</li>' . PHP_EOL;
 	}
-
 }

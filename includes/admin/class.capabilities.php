@@ -220,5 +220,4 @@ class cnRole extends WP_Roles {
 			}
 		}
 	}
-
 }

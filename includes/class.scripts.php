@@ -967,5 +967,4 @@ class cnScript {
 
 		return $paths;
 	}
-
 }

@@ -74,5 +74,4 @@ class District extends Related {
 			}
 		);
 	}
-
 }

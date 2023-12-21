@@ -564,5 +564,4 @@ final class _url {
 
 		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
-
 }

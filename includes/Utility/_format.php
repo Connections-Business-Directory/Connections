@@ -214,7 +214,7 @@ final class _format {
 			's' => 'second',
 		);
 
-		$pluralize = function( $count, $text ) {
+		$pluralize = function ( $count, $text ) {
 			return $count . ( 1 == $count ? " $text" : " ${text}s" );
 		};
 

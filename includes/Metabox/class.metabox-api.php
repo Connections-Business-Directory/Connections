@@ -307,7 +307,7 @@ class cnMetaboxAPI {
 
 					add_filter(
 						'cn_search_field_options',
-						function( $options ) use ( $field ) {
+						function ( $options ) use ( $field ) {
 
 							$options[ $field['id'] ] = maybe_unserialize( str_replace( "'", "\'", maybe_serialize( $field['name'] ) ) );
 							return $options;

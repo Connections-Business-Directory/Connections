@@ -2711,7 +2711,7 @@ class cnEntryMetabox {
 
 			array_walk(
 				$options,
-				function( &$key ) {
+				function ( &$key ) {
 					$key = "<option value=\"$key\">$key</option>";
 				}
 			);

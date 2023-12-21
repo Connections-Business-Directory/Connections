@@ -368,13 +368,13 @@ class _collection implements Countable, IteratorAggregate, ArrayAccess, cnToArra
 	 */
 	protected function operatorForWhere( $key, $operator, $value ) {
 
-		return function( $item ) use ( $key, $operator, $value ) {
+		return function ( $item ) use ( $key, $operator, $value ) {
 
 			$retrieved = _array::data_get( $item, $key );
 
 			$strings = array_filter(
 				array( $retrieved, $value ),
-				function( $value ) {
+				function ( $value ) {
 
 					return is_string( $value ) || ( is_object( $value ) && method_exists( $value, '__toString' ) );
 				}
@@ -433,7 +433,7 @@ class _collection implements Countable, IteratorAggregate, ArrayAccess, cnToArra
 	 */
 	public function whereIn( $key, $values, $strict = false ) {
 
-		$callback = function( $item ) use ( $key, $values, $strict ) {
+		$callback = function ( $item ) use ( $key, $values, $strict ) {
 
 			return in_array( _array::data_get( $item, $key ), $values, $strict );
 		};
@@ -759,12 +759,12 @@ class _collection implements Countable, IteratorAggregate, ArrayAccess, cnToArra
 		$callback = $this->valueRetriever( $callback );
 
 		return $this->filter(
-			function( $value ) {
+			function ( $value ) {
 
 				return ! is_null( $value );
 			}
 		)->reduce(
-			function( $result, $item ) use ( $callback ) {
+			function ( $result, $item ) use ( $callback ) {
 
 				$value = $callback( $item );
 
@@ -1127,7 +1127,7 @@ class _collection implements Countable, IteratorAggregate, ArrayAccess, cnToArra
 
 			usort(
 				$items,
-				function() {
+				function () {
 					return rand( - 1, 1 );
 				}
 			);
@@ -1446,7 +1446,7 @@ class _collection implements Countable, IteratorAggregate, ArrayAccess, cnToArra
 	public function toArray() {
 
 		return array_map(
-			function( $value ) {
+			function ( $value ) {
 
 				return $value instanceof cnToArray ? $value->toArray() : $value;
 			},

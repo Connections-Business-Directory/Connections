@@ -149,7 +149,7 @@ final class cnEntry_Addresses implements cnToArray {
 	private function getItemKeyByID( $id ) {
 
 		return $this->items->search(
-			function( $item ) use ( $id ) {
+			function ( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
 				return absint( $id ) === $item->getID();
 			}
@@ -176,7 +176,7 @@ final class cnEntry_Addresses implements cnToArray {
 		//$this->resetFilters();
 
 		$key = $this->items->search(
-			function( $item ) use ( $id ) {
+			function ( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
 				return absint( $id ) === $item->getID();
 			}
@@ -459,7 +459,7 @@ final class cnEntry_Addresses implements cnToArray {
 	public function getCollectionAsObjects( $limit = null ) {
 
 		return array_map(
-			function( $item ) {
+			function ( $item ) {
 				return (object) $item;
 			},
 			$this->getCollectionAsArray( $limit )
@@ -505,7 +505,7 @@ final class cnEntry_Addresses implements cnToArray {
 				 *     @type string $visibility The address visibility.
 				 * }
 				 */
-				$callback = function( $item ) {
+				$callback = function ( $item ) {
 					return apply_filters( 'cn_address', $item );
 				};
 				break;
@@ -523,7 +523,7 @@ final class cnEntry_Addresses implements cnToArray {
 				break;
 
 			case 'cn_set_address':
-				$callback = function( $item ) {
+				$callback = function ( $item ) {
 					return apply_filters( 'cn_set_address', $item );
 				};
 				break;
@@ -571,7 +571,7 @@ final class cnEntry_Addresses implements cnToArray {
 		//$this->resetFilters();
 
 		$this->items->transform(
-			function( $item ) use ( $id ) {
+			function ( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
 				return $id == $item->getID() ? $item->setPreferred( true ) : $item->setPreferred( false );
 			}
@@ -626,7 +626,7 @@ final class cnEntry_Addresses implements cnToArray {
 		if ( 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform(
-				function( $item ) {
+				function ( $item ) {
 					/** @var cnEntry_Collection_Item $item */
 					return $item->escapedForDisplay();
 				}
@@ -649,7 +649,7 @@ final class cnEntry_Addresses implements cnToArray {
 		if ( 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform(
-				function( $item ) {
+				function ( $item ) {
 					/** @var cnEntry_Collection_Item $item */
 					return $item->escapedForEdit();
 				}
@@ -672,7 +672,7 @@ final class cnEntry_Addresses implements cnToArray {
 		if ( 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform(
-				function( $item ) {
+				function ( $item ) {
 					/** @var cnEntry_Collection_Item $item */
 					return $item->sanitizedForSave();
 				}

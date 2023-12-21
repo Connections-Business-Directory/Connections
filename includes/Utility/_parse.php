@@ -62,7 +62,7 @@ final class _parse {
 		/*
 		 * Filter to discard key/value pairs when `$discard` is `true`.
 		 */
-		$filter = static function( $parameters, $defaults ) use ( $discard ) {
+		$filter = static function ( $parameters, $defaults ) use ( $discard ) {
 
 			// if ( $discard ) {
 			// 	$intersect  = array_intersect_key( $parameters, $defaults ); // Get data for which is in the valid fields.

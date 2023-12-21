@@ -117,12 +117,12 @@ function connectionsShowViewPage( $action = null ) {
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
 
-				$resetID = function( $item ) {
+				$resetID = function ( $item ) {
 					cnArray::set( $item, 'id', 0 );
 					return $item;
 				};
 
-				$resetUID = function( $item ) {
+				$resetUID = function ( $item ) {
 					cnArray::set( $item, 'uid', 0 );
 					return $item;
 				};

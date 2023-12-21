@@ -218,7 +218,7 @@ class cnTemplate {
 				// Add the action which will include the template file. The action is executed in cnTemplate_Part::cards().
 				add_action(
 					'cn_template-' . $this->slug,
-					function( $entry, $template, $atts ) use ( $templatePath ) {
+					function ( $entry, $template, $atts ) use ( $templatePath ) {
 
 						include $templatePath;
 					},

@@ -184,7 +184,7 @@ abstract class Input {
 
 		add_filter(
 			'Connections_Directory/Rewrite/Query_Vars',
-			function( $keys ) use ( $key ) {
+			function ( $keys ) use ( $key ) {
 
 				$keys[] = $key;
 

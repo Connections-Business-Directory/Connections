@@ -157,7 +157,7 @@ class Content_Blocks {
 				continue;
 			}
 
-			$filter = function( $blocks ) use ( $block ) {
+			$filter = function ( $blocks ) use ( $block ) {
 				$blocks[ $block->getID() ] = $block->get( 'name' );
 				return $blocks;
 			};

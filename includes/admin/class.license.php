@@ -395,7 +395,7 @@ HERERDOC;
 			'id'        => 'licenses',
 			'position'  => 10,
 			'title'     => '',
-			'callback'  => function() {
+			'callback'  => function () {
 				echo '<p>' , esc_html__(
 					'To receive automatic extension and template updates, enter and activate your site license.',
 					'connections'
@@ -410,7 +410,7 @@ HERERDOC;
 			'id'        => 'beta',
 			'position'  => 10,
 			'title'     => '',
-			'callback'  => function() {
+			'callback'  => function () {
 				echo '<p>' , esc_html__(
 					'By checking any of the checkboxes below you are opting in to receiving pre-release version updates. You can opt out at any time by unchecking the options below. Pre-release version updates, like regular updates do not install automatically so you will retain the opportunity to skip installing a pre-release version update.',
 					'connections'

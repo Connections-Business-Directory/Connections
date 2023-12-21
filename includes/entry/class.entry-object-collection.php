@@ -134,7 +134,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	protected function getItemKeyByID( $id ) {
 
 		return $this->items->search(
-			function( $item ) use ( $id ) {
+			function ( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
 				return absint( $id ) === $item->getID();
 			}
@@ -265,7 +265,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	public function getCollectionAsObjects( $limit = null ) {
 
 		return array_map(
-			function( $item ) {
+			function ( $item ) {
 				return (object) $item;
 			},
 			$this->getCollectionAsArray( $limit )
@@ -310,7 +310,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		//$this->resetFilters();
 
 		$this->items->transform(
-			function( $item ) use ( $id ) {
+			function ( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
 				return $id == $item->getID() ? $item->setPreferred( true ) : $item->setPreferred( false );
 			}
@@ -365,7 +365,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		if ( 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform(
-				function( $item ) {
+				function ( $item ) {
 					/** @var cnEntry_Collection_Item $item */
 					return $item->escapedForDisplay();
 				}
@@ -388,7 +388,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		if ( 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform(
-				function( $item ) {
+				function ( $item ) {
 					/** @var cnEntry_Collection_Item $item */
 					return $item->escapedForEdit();
 				}
@@ -411,7 +411,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		if ( 0 < $this->filtered->count() ) {
 
 			$this->filtered->transform(
-				function( $item ) {
+				function ( $item ) {
 					/** @var cnEntry_Collection_Item $item */
 					return $item->sanitizedForSave();
 				}

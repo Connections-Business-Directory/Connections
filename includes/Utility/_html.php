@@ -85,7 +85,7 @@ final class _html {
 
 		array_walk(
 			$css,
-			function( $value, $property ) use ( &$rules ) {
+			function ( $value, $property ) use ( &$rules ) {
 				$rules[] = "{$property}: {$value}";
 			}
 		);
@@ -109,7 +109,7 @@ final class _html {
 
 		array_walk(
 			$attributes,
-			function( &$value, $attribute ) {
+			function ( &$value, $attribute ) {
 
 				// String; do not trim `value` attribute.
 				if ( is_string( $value ) ) {

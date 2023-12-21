@@ -16,7 +16,7 @@ foreach ( $emailAddresses as $email ) {
 
 	$preferred = $email->preferred ? '*' : '';
 
-	echo '<span class="email"><strong>' , esc_html( $email->name ) , ':</strong> <a href="' , esc_url( "mailto:{$email->address}" ) , '">' , esc_html( $email->address ) , '</a>' , esc_html( $preferred ) , '</span>';
+	echo '<span class="email"><strong>', esc_html( $email->name ), ':</strong> <a href="', esc_url( "mailto:{$email->address}" ), '">', esc_html( $email->address ), '</a>', esc_html( $preferred ), '</span>';
 }
 
 echo '</div>';

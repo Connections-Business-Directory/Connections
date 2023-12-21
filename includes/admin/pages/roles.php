@@ -102,7 +102,7 @@ function connectionsShowRolesPage() {
 
 							echo '<div class="postbox">';
 
-							echo '<h3 class="hndle" style="cursor: auto;"><span>' , esc_html( $name ) , '</span></h3>';
+							echo '<h3 class="hndle" style="cursor: auto;"><span>', esc_html( $name ), '</span></h3>';
 
 							echo '<div class="inside">';
 

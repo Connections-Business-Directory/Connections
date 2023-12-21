@@ -208,7 +208,7 @@ class cnCSV_Export {
 		$headers = array_map( array( $this, 'escapeAndQuote' ), $this->getColumns() );
 
 		// `$headers` array is run through an escaping method for CSV data.
-		echo implode( ',', $headers ) , "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo implode( ',', $headers ), "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**

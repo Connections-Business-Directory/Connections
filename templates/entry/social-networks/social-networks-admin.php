@@ -14,7 +14,7 @@ foreach ( $networks as $network ) {
 
 	$preferred = $network->preferred ? '*' : '';
 
-	echo '<span class="social-network"><strong>' , esc_html( $network->name ) , ':</strong> <a target="_blank" href="' , esc_url( $network->url ) , '">' , esc_html( $network->url ) , '</a>', esc_html( $preferred ) , '</span>';
+	echo '<span class="social-network"><strong>', esc_html( $network->name ), ':</strong> <a target="_blank" href="', esc_url( $network->url ), '">', esc_html( $network->url ), '</a>', esc_html( $preferred ), '</span>';
 }
 
 echo '</div>';

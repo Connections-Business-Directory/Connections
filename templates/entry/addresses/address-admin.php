@@ -17,7 +17,7 @@ foreach ( $addresses as $address ) {
 	( $address->preferred ) ? $preferred = '*' : $preferred = '';
 
 	if ( ! empty( $address->name ) ) {
-		echo '<span style="display: block"><strong>', esc_html( "{$address->name}{$preferred}" ) , '</strong></span>';
+		echo '<span style="display: block"><strong>', esc_html( "{$address->name}{$preferred}" ), '</strong></span>';
 	}
 
 	if ( ! empty( $address->line_1 ) ) {

@@ -100,11 +100,11 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					echo '<span class="cn-entry-name"><a class="row-title" title="' , esc_attr( 'Edit ' . $entry->getName() ) , '" href="' , esc_url( $editTokenURL ) , '"> ' , esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">' , esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ) , '</span>';
+					echo '<span class="cn-entry-name"><a class="row-title" title="', esc_attr( 'Edit ' . $entry->getName() ), '" href="', esc_url( $editTokenURL ), '"> ', esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">', esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ), '</span>';
 
 				} else {
 
-					echo '<span class="cn-entry-name">' , esc_html( $entry->getName() ) , '</span> <span class="cn-list-date">' , esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ) , '</span>';
+					echo '<span class="cn-entry-name">', esc_html( $entry->getName() ), '</span> <span class="cn-list-date">', esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ), '</span>';
 				}
 
 			}

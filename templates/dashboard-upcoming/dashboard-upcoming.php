@@ -102,11 +102,11 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					echo '<span class="cn-entry-name"><a class="row-title" title="' , esc_attr( 'Edit ' . $entry->getName() ) , '" href="' , esc_url( $editTokenURL ) , '"> ' , esc_html( $entry->getName() ) . '</a></span> <span class="cn-upcoming-date">' , esc_html( $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) ) , '</span>';
+					echo '<span class="cn-entry-name"><a class="row-title" title="', esc_attr( 'Edit ' . $entry->getName() ), '" href="', esc_url( $editTokenURL ), '"> ', esc_html( $entry->getName() ) . '</a></span> <span class="cn-upcoming-date">', esc_html( $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) ), '</span>';
 
 				} else {
 
-					echo '<span class="cn-entry-name">' , esc_html( $entry->getName() ) , '</span> <span class="cn-upcoming-date">' , esc_html( $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) ) , '</span>';
+					echo '<span class="cn-entry-name">', esc_html( $entry->getName() ), '</span> <span class="cn-upcoming-date">', esc_html( $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ) ), '</span>';
 				}
 
 			}

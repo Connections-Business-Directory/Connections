@@ -16,7 +16,7 @@ foreach ( $networks as $messenger ) {
 
 	$preferred = $messenger->preferred ? '*' : '';
 
-	echo '<span class="im"><strong>' , esc_html( $messenger->name ) , ':</strong> ' , esc_html( "{$messenger->uid}{$preferred}" ) , '</span>';
+	echo '<span class="im"><strong>', esc_html( $messenger->name ), ':</strong> ', esc_html( "{$messenger->uid}{$preferred}" ), '</span>';
 }
 
 echo '</div>';

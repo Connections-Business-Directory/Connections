@@ -781,7 +781,7 @@ class cnEntryMetabox {
 			echo '</div>';
 		}
 
-		echo '<label for="original_image">' , esc_html__( 'Select Image', 'connections' ) , ':';
+		echo '<label for="original_image">', esc_html__( 'Select Image', 'connections' ), ':';
 		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
@@ -848,7 +848,7 @@ class cnEntryMetabox {
 			echo '</div>';
 		}
 
-		echo '<label for="original_logo">' , esc_html__( 'Select Logo', 'connections' ) , ':';
+		echo '<label for="original_logo">', esc_html__( 'Select Logo', 'connections' ), ':';
 		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
 
 		echo '<p class="suggested-dimensions">';
@@ -881,14 +881,14 @@ class cnEntryMetabox {
 		$country = $autofillCountry ? $defaultCountry : '';
 
 		// var_dump( array_fill_keys()$addressTypes );
-		echo '<div class="widgets-sortables ui-sortable" id="addresses">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="addresses">', PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="address-template" style="display: none;">' , PHP_EOL;
+		echo '<textarea id="address-template" style="display: none;">', PHP_EOL;
 
 			self::addressField( new cnAddress() );
 
-		echo '</textarea>' , PHP_EOL;
+		echo '</textarea>', PHP_EOL;
 		// --> End template <-- \\
 
 		$addresses = $entry->getAddresses( array(), false, false, 'edit' );
@@ -930,19 +930,19 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget address" id="' , esc_attr( "address-row-{$token}" ) , '">' , PHP_EOL;
+				echo '<div class="widget address" id="', esc_attr( "address-row-{$token}" ), '">', PHP_EOL;
 
 				self::addressField( $address, $token );
 
-				echo '</div>' , PHP_EOL;
+				echo '</div>', PHP_EOL;
 			}
 		}
 
-		echo '</div>' , PHP_EOL;
+		echo '</div>', PHP_EOL;
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , esc_html__( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">', esc_html__( 'Add Address', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -1311,14 +1311,14 @@ class cnEntryMetabox {
 		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-phone', 'repeatable' );
 		$count      = cnSettingsAPI::get( 'connections', 'fieldset-phone', 'count' );
 
-		echo '<div class="widgets-sortables ui-sortable" id="phone-numbers">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="phone-numbers">', PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="phone-template" style="display: none;">' , PHP_EOL;
+		echo '<textarea id="phone-template" style="display: none;">', PHP_EOL;
 
 			self::phoneField( new cnPhone() );
 
-		echo '</textarea>' , PHP_EOL;
+		echo '</textarea>', PHP_EOL;
 		// --> End template <-- \\
 
 		$phoneNumbers = $entry->getPhoneNumbers( array(), false, false, 'edit' );
@@ -1358,15 +1358,15 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget phone" id="' . esc_attr( "phone-row-{$token}" ) . '">' , PHP_EOL;
+				echo '<div class="widget phone" id="' . esc_attr( "phone-row-{$token}" ) . '">', PHP_EOL;
 
 					self::phoneField( $phone, $token );
 
-				echo '</div>' , PHP_EOL;
+				echo '</div>', PHP_EOL;
 			}
 		}
 
-		echo '</div>' , PHP_EOL;
+		echo '</div>', PHP_EOL;
 
 		if ( $repeatable ) {
 
@@ -1529,14 +1529,14 @@ class cnEntryMetabox {
 		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-email', 'repeatable' );
 		$count      = cnSettingsAPI::get( 'connections', 'fieldset-email', 'count' );
 
-		echo '<div class="widgets-sortables ui-sortable" id="email-addresses">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="email-addresses">', PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="email-template" style="display: none;">' , PHP_EOL;
+		echo '<textarea id="email-template" style="display: none;">', PHP_EOL;
 
 			self::emailField( new cnEmail_Address() );
 
-		echo '</textarea>' , PHP_EOL;
+		echo '</textarea>', PHP_EOL;
 		// --> End template <-- \\
 
 		$emailAddresses = $entry->getEmailAddresses( array(), false );
@@ -1575,19 +1575,19 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget email" id="' . esc_attr( "email-row-{$token}" ) . '">' , PHP_EOL;
+				echo '<div class="widget email" id="' . esc_attr( "email-row-{$token}" ) . '">', PHP_EOL;
 
 					self::emailField( $email, $token );
 
-				echo '</div>' , PHP_EOL;
+				echo '</div>', PHP_EOL;
 			}
 		}
 
-		echo '</div>' , PHP_EOL;
+		echo '</div>', PHP_EOL;
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , esc_html__( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">', esc_html__( 'Add Email Address', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -1746,14 +1746,14 @@ class cnEntryMetabox {
 		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'repeatable' );
 		$count      = cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'count' );
 
-		echo '<div class="widgets-sortables ui-sortable" id="im-ids">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="im-ids">', PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="im-template" style="display: none;">' , PHP_EOL;
+		echo '<textarea id="im-template" style="display: none;">', PHP_EOL;
 
 			self::messengerField( new cnMessenger() );
 
-		echo '</textarea>' , PHP_EOL;
+		echo '</textarea>', PHP_EOL;
 		// --> End template <-- \\
 
 		$imIDs = $entry->getIm( array(), false );
@@ -1792,19 +1792,19 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget im" id="' , esc_attr( "im-row-{$token}" ) , '">' , PHP_EOL;
+				echo '<div class="widget im" id="', esc_attr( "im-row-{$token}" ), '">', PHP_EOL;
 
 					self::messengerField( $network, $token );
 
-				echo '</div>' , PHP_EOL;
+				echo '</div>', PHP_EOL;
 			}
 		}
 
-		echo '</div>' , PHP_EOL;
+		echo '</div>', PHP_EOL;
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , esc_html__( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">', esc_html__( 'Add Messenger ID', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -1963,14 +1963,14 @@ class cnEntryMetabox {
 		$repeatable  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'repeatable' );
 		$count       = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'count' );
 
-		echo '<div class="widgets-sortables ui-sortable" id="social-media">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="social-media">', PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="social-template" style="display: none;">' , PHP_EOL;
+		echo '<textarea id="social-template" style="display: none;">', PHP_EOL;
 
 			self::socialField( new stdClass() );
 
-		echo '</textarea>' , PHP_EOL;
+		echo '</textarea>', PHP_EOL;
 		// --> End template <-- \\
 
 		$socialNetworks = $entry->getSocialMedia( array(), false );
@@ -2007,15 +2007,15 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget social-media" id="' . esc_attr( "social-row-{$token}" ) . '">' , PHP_EOL;
+				echo '<div class="widget social-media" id="' . esc_attr( "social-row-{$token}" ) . '">', PHP_EOL;
 
 					self::socialField( $network, $token );
 
-				echo '</div>' , PHP_EOL;
+				echo '</div>', PHP_EOL;
 			}
 		}
 
-		echo '</div>' , PHP_EOL;
+		echo '</div>', PHP_EOL;
 
 		if ( $repeatable ) {
 
@@ -2178,14 +2178,14 @@ class cnEntryMetabox {
 		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'repeatable' );
 		$count      = cnSettingsAPI::get( 'connections', 'fieldset-link', 'count' );
 
-		echo '<div class="widgets-sortables ui-sortable" id="links">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="links">', PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="link-template" style="display: none;">' , PHP_EOL;
+		echo '<textarea id="link-template" style="display: none;">', PHP_EOL;
 
 			self::linkField( new cnLink() );
 
-		echo '</textarea>' , PHP_EOL;
+		echo '</textarea>', PHP_EOL;
 		// --> End template <-- \\
 
 		$links = $entry->getLinks( array(), false, false, 'edit' );
@@ -2224,19 +2224,19 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget link" id="' . esc_attr( "link-row-{$token}" ) . '">' , PHP_EOL;
+				echo '<div class="widget link" id="' . esc_attr( "link-row-{$token}" ) . '">', PHP_EOL;
 
 				self::linkField( $link, $token );
 
-				echo '</div>' , PHP_EOL;
+				echo '</div>', PHP_EOL;
 			}
 		}
 
-		echo '</div>' , PHP_EOL;
+		echo '</div>', PHP_EOL;
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , esc_html__( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">', esc_html__( 'Add Link', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 
@@ -2481,14 +2481,14 @@ class cnEntryMetabox {
 		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-date', 'repeatable' );
 		$count      = cnSettingsAPI::get( 'connections', 'fieldset-date', 'count' );
 
-		echo '<div class="widgets-sortables ui-sortable" id="dates">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="dates">', PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="date-template" style="display: none;">' , PHP_EOL;
+		echo '<textarea id="date-template" style="display: none;">', PHP_EOL;
 
 			self::dateField( new stdClass() );
 
-		echo '</textarea>' , PHP_EOL;
+		echo '</textarea>', PHP_EOL;
 		// --> End template <-- \\
 
 		$dates = $entry->getDates( array(), false );
@@ -2525,19 +2525,19 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', _::getUUID() );
 
-				echo '<div class="widget date" id="' , esc_attr( "date-row-{$token}" ) , '">' , PHP_EOL;
+				echo '<div class="widget date" id="', esc_attr( "date-row-{$token}" ), '">', PHP_EOL;
 
 					self::dateField( $date, $token );
 
-				echo '</div>' , PHP_EOL;
+				echo '</div>', PHP_EOL;
 			}
 		}
 
-		echo '</div>' , PHP_EOL;
+		echo '</div>', PHP_EOL;
 
 		if ( $repeatable ) {
 
-			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , esc_html__( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">', esc_html__( 'Add Date', 'connections' ), '</a></p>', PHP_EOL;
 		}
 	}
 

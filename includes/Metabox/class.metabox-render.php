@@ -208,7 +208,7 @@ class cnMetabox_Render {
 
 						}
 						/* translators: Callback function name. */
-						echo '<p>' , esc_html( sprintf( __( 'Invalid callback: %s', 'connections' ), $callback ) ) , '</p>';
+						echo '<p>', esc_html( sprintf( __( 'Invalid callback: %s', 'connections' ), $callback ) ), '</p>';
 					}
 
 				echo '<div class="cn-clear"></div>';
@@ -234,7 +234,7 @@ class cnMetabox_Render {
 		$fields        = isset( $metabox['args']['fields'] ) && ! empty( $metabox['args']['fields'] ) ? $metabox['args']['fields'] : array();
 
 		// Use nonce for verification.
-		echo '<input type="hidden" name="wp_meta_box_nonce" value="' , esc_attr( wp_create_nonce( basename( __FILE__ ) ) ) , '" />';
+		echo '<input type="hidden" name="wp_meta_box_nonce" value="', esc_attr( wp_create_nonce( basename( __FILE__ ) ) ), '" />';
 
 		// If metabox sections have been registered, loop through them.
 		if ( ! empty( $sections ) ) {
@@ -402,7 +402,7 @@ class cnMetabox_Render {
 			$style = 0 < strlen( $css ) ? ' style="' . $css . '"' : '';
 
 			// The `$style` attribute tag is escaped above. If it is an empty string, no style tag is added to the `tr`.
-			echo '<tr class="' , _escape::classNames( $class ) , '" id="' , _escape::id( $id ) , '"' , $style , '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<tr class="', _escape::classNames( $class ), '" id="', _escape::id( $id ), '"', $style, '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			// For a label to be rendered the $field['name'] has to be supplied.
 			// Show the label if $field['show_label'] is TRUE, OR, if it is not supplied assume TRUE and show it anyway.
@@ -712,7 +712,7 @@ class cnMetabox_Render {
 			// Developer parameter, not user input.
 			echo empty( $field['after'] ) ? '' : $field['after']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-			echo '</td>' , '</tr>';
+			echo '</td>', '</tr>';
 		}
 	}
 

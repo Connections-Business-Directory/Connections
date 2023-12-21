@@ -261,7 +261,7 @@ class cnTemplate_Shortcode {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @param  array $m Regular expression match array
+	 * @param  array $m Regular expression match array.
 	 *
 	 * @return mixed False on failure.
 	 */

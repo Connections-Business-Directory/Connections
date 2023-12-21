@@ -215,6 +215,8 @@ class cnTemplate_Shortcode {
 	 * @return string The shortcode search regular expression
 	 */
 	public function regex( $tags = null ) {
+		// phpcs:disable Generic.WhiteSpace.LanguageConstructSpacing.IncorrectSingle
+		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound
 
 		$tagnames = is_null( $tags ) ? array_keys( $this->tags() ) : $tags;
 
@@ -251,6 +253,9 @@ class cnTemplate_Shortcode {
 			.     ')?'
 			. ')'
 			. '(\\]?)';                          // 6: Optional second closing bracket for escaping shortcodes: [[tag]]
+
+		// phpcs:enable Generic.WhiteSpace.LanguageConstructSpacing.IncorrectSingle
+		// phpcs:enable Squiz.Strings.ConcatenationSpacing.PaddingFound
 	}
 
 	/**

@@ -69,7 +69,7 @@ final class cnCoordinates {
 			);
 		}
 
-		return new static( $latitude, $longitude );
+		return new self( $latitude, $longitude );
 	}
 
 	/**

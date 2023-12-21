@@ -97,4 +97,3 @@ function init() {
 	 */
 	do_action( 'Connections_Directory/Taxonomy/Init', $taxonomies );
 }
-

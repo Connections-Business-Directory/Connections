@@ -233,7 +233,6 @@ class cnSettingsAPI {
 				// global $wp_settings_sections;print_r($wp_settings_sections);
 			}
 		}
-
 	}
 
 	/**
@@ -493,7 +492,6 @@ class cnSettingsAPI {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1884,7 +1882,6 @@ class cnSettingsAPI {
 			</p>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -2014,7 +2011,6 @@ class cnSettingsAPI {
 
 			update_option( $optionName, $result );
 		}
-
 	}
 
 	/**

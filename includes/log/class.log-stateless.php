@@ -85,7 +85,6 @@ class cnLog_Stateless extends WP_Error {
 			$error_data[ $code ] = $data;
 			$this->error_data    = $error_data;
 		}
-
 	}
 
 	/**

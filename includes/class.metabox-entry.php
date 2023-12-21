@@ -1589,7 +1589,6 @@ class cnEntryMetabox {
 
 			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , esc_html__( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
-
 	}
 
 	/**
@@ -2849,7 +2848,5 @@ class cnEntryMetabox {
 		}
 
 		echo '</div>';
-
 	}
-
 }

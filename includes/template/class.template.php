@@ -614,7 +614,6 @@ class cnTemplate {
 			}
 
 		}
-
 	}
 
 	/**

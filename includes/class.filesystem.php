@@ -153,7 +153,6 @@ class cnFileSystem {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**

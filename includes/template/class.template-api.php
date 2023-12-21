@@ -235,7 +235,6 @@ class cnTemplateFactory {
 				unset( self::$templates->{$type}->{$slug} );
 			}
 		}
-
 	}
 
 	/**
@@ -299,7 +298,6 @@ class cnTemplateFactory {
 			}
 
 		}
-
 	}
 
 	/**
@@ -361,7 +359,6 @@ class cnTemplateFactory {
 			}
 
 		}
-
 	}
 
 	/**

@@ -488,7 +488,6 @@ class Account extends WP_REST_Controller {
 
 			add_filter( 'authenticate', 'wp_authenticate_cookie', 30, 3 );
 		}
-
 	}
 
 	/**

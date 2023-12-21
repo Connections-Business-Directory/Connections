@@ -88,7 +88,6 @@ class Quicktag {
 
 			echo ' /* ]]> */</script>';
 		}
-
 	}
 
 	/**

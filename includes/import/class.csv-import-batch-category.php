@@ -160,7 +160,6 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 			}
 
 		}
-
 	}
 
 	/**
@@ -299,7 +298,6 @@ class cnCSV_Batch_Import_Term extends cnCSV_Batch_Import {
 
 			return false;
 		}
-
 	}
 
 	/**

@@ -50,7 +50,6 @@ class cnEmail_DefaultTemplates {
 			// Register the default templates.
 			add_action( 'plugins_loaded', array( __CLASS__, 'register' ) );
 		}
-
 	}
 
 	/**

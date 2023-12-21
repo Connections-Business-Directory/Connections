@@ -327,7 +327,6 @@ class cnSanitize {
 			}
 
 		}
-
 	}
 
 	/**

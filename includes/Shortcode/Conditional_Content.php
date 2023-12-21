@@ -246,7 +246,6 @@ class Conditional_Content {
 				echo $this->html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		);
-
 	}
 
 	/**

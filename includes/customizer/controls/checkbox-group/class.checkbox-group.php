@@ -86,7 +86,6 @@ class cnCustomizer_Control_Checkbox_Group extends WP_Customize_Control {
 		foreach ( $this->input_attrs as $attr => $value ) {
 			$this->json['inputAttrs'] .= $attr . '="' . esc_attr( $value ) . '" ';
 		}
-
 	}
 
 	/**

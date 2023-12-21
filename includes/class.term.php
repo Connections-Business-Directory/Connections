@@ -2400,7 +2400,6 @@ class cnTerm {
 
 			return $_term;
 		}
-
 	}
 
 	/**

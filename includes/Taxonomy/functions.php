@@ -271,7 +271,6 @@ function _padTermCounts( &$terms, $taxonomy ) {
 		}
 
 	}
-
 }
 
 /**

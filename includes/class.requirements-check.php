@@ -115,7 +115,6 @@ final class cnRequirements_Check {
 			add_action( 'load-toplevel_page_connections_dashboard', array( $this, 'wp_register_tested_notice' ) );
 			add_action( 'load-connections_page_connections_settings', array( $this, 'wp_register_tested_notice' ) );
 		}
-
 	}
 
 	/**

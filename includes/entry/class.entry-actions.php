@@ -359,7 +359,6 @@ class cnEntry_Action {
 
 			@unlink( $file->getPathname() );
 		}
-
 	}
 
 	/**
@@ -431,7 +430,6 @@ class cnEntry_Action {
 				@unlink( $path . $entry->getImageNameProfile() );
 			}
 		}
-
 	}
 
 	/**

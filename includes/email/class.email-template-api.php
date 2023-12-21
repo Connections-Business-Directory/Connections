@@ -146,7 +146,6 @@ class cnEmail_Template {
 	public static function get( $slug ) {
 
 		return isset( self::$templates->{ $slug } ) ? self::$templates->{ $slug } : false;
-
 	}
 
 	/**
@@ -209,7 +208,6 @@ class cnEmail_Template {
 					break;
 			}
 		}
-
 	}
 
 	/**

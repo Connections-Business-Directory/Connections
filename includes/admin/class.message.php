@@ -99,7 +99,6 @@ class cnMessage extends WP_Error {
 			self::display();
 
 		}
-
 	}
 
 	/**
@@ -215,7 +214,6 @@ class cnMessage extends WP_Error {
 		 * DB update message.
 		 */
 		$instance->add( 'db_update_required', __( 'Connections database requires updating.', 'connections' ) . ' <a class="button" href="admin.php?page=connections_manage">' . __( 'START', 'connections' ) . '</a>' );
-
 	}
 
 	/**

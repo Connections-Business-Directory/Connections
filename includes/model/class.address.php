@@ -451,7 +451,6 @@ class Address {
 	}
 
 	public function setBounds() {
-
 	}
 
 	/**

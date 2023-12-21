@@ -2137,7 +2137,6 @@ class cnEntry {
 			}
 
 		}
-
 	}
 
 	/**

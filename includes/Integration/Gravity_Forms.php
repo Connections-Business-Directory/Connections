@@ -93,6 +93,5 @@ final class Gravity_Forms {
 				/* Do nothing here */
 			}
 		}
-
 	}
 }

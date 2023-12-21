@@ -57,7 +57,6 @@ function addTerm() {
 
 		cnMessage::set( 'error', 'capability_categories' );
 	}
-
 }
 
 /**
@@ -118,7 +117,6 @@ function updateTerm() {
 
 		cnMessage::set( 'error', 'capability_categories' );
 	}
-
 }
 
 /**
@@ -227,5 +225,4 @@ function bulkTerm() {
 
 		cnMessage::set( 'error', 'capability_categories' );
 	}
-
 }

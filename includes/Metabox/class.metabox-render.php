@@ -101,7 +101,6 @@ class cnMetabox_Render {
 
 			cnMetaboxAPI::add( $metabox );
 		}
-
 	}
 
 	/**
@@ -216,7 +215,6 @@ class cnMetabox_Render {
 				echo '</div>';
 			echo '</div>';
 		}
-
 	}
 
 	/**

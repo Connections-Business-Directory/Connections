@@ -576,7 +576,6 @@ class cnScript {
 				break;
 			}
 		}
-
 	}
 
 	/**
@@ -625,7 +624,6 @@ class cnScript {
 			wp_register_script( 'jquery', '/wp-includes/js/jquery/jquery.js', array(), self::$corejQuery['jquery']->ver );
 
 		}
-
 	}
 
 	/**

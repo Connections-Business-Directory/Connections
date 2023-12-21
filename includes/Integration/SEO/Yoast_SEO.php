@@ -142,7 +142,6 @@ final class Yoast_SEO {
 
 			add_filter( 'cn_page_title_separator', array( __CLASS__, 'titleSeparator' ) );
 		}
-
 	}
 
 	/**

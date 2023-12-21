@@ -166,7 +166,6 @@ class cnEmail {
 	public function header( $header ) {
 
 		$this->header[] = $header;
-
 	}
 
 	/**
@@ -189,7 +188,6 @@ class cnEmail {
 			$this->type = 'text/plain';
 
 		}
-
 	}
 
 	/**
@@ -202,7 +200,6 @@ class cnEmail {
 	public function charSet( $charset ) {
 
 		$this->charset = $charset;
-
 	}
 
 	/**
@@ -220,7 +217,6 @@ class cnEmail {
 	public function attachments( $attachments ) {
 
 		$this->attachments = $attachments;
-
 	}
 
 	/**
@@ -244,7 +240,6 @@ class cnEmail {
 			$this->from['email'] = $email;
 
 		}
-
 	}
 
 	/**
@@ -263,7 +258,6 @@ class cnEmail {
 
 		$this->to[ $count ]['email'] = trim( $email );
 		$this->to[ $count ]['name']  = $name;
-
 	}
 
 	/**
@@ -282,7 +276,6 @@ class cnEmail {
 
 		$this->cc[ $count ]['email'] = trim( $email );
 		$this->cc[ $count ]['name']  = $name;
-
 	}
 
 	/**
@@ -301,7 +294,6 @@ class cnEmail {
 
 		$this->bcc[ $count ]['email'] = trim( $email );
 		$this->bcc[ $count ]['name']  = $name;
-
 	}
 
 	/**
@@ -314,7 +306,6 @@ class cnEmail {
 	public function subject( $subject ) {
 
 		$this->subject = $subject;
-
 	}
 
 	/**
@@ -327,7 +318,6 @@ class cnEmail {
 	public function message( $content ) {
 
 		$this->message = $content;
-
 	}
 
 	/**
@@ -631,7 +621,6 @@ class cnEmail {
 				$this->message = '';
 				break;
 		}
-
 	}
 
 }

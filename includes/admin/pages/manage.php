@@ -274,7 +274,6 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		default:
-
 			echo '<h1>Connections : ' , esc_html__( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , esc_html__( 'Add New', 'connections' ) , '</a></h1>';
 
 			/*

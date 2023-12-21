@@ -134,7 +134,7 @@ function connectionsShowRolesPage() {
 
 							echo '<span style="display: block;"><label for="' . esc_attr( "{$role}_reset_capabilities" ) . '">';
 							echo '<input type="checkbox" id="' . esc_attr( "{$role}_reset_capabilities" ) . '" name="' . esc_attr( "reset[{$role}]" ) . '" value="' . esc_attr( $name ) . '" /> ';
-							echo sprintf(
+							printf(
 								// translators: The Role name.
 								esc_html__( 'Reset %s Capabilities', 'connections' ),
 								esc_html( $name )

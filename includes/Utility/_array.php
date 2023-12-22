@@ -484,12 +484,12 @@ final class _array {
 					return $default;
 				}
 
-				$result = static::pluck( $target, $key );
+				$result = self::pluck( $target, $key );
 
-				return in_array( '*', $key ) ? static::collapse( $result ) : $result;
+				return in_array( '*', $key ) ? self::collapse( $result ) : $result;
 			}
 
-			if ( static::accessible( $target ) && static::exists( $target, $segment ) ) {
+			if ( self::accessible( $target ) && self::exists( $target, $segment ) ) {
 				$target = $target[ $segment ];
 			} elseif ( is_object( $target ) && isset( $target->{$segment} ) ) {
 				$target = $target->{$segment};

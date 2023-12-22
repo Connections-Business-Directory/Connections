@@ -67,7 +67,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Related_Carousel' ) ) {
 		}
 
 		/**
-		 * Setup the template.
+		 * Set up the template.
 		 *
 		 * @since 1.0
 		 *

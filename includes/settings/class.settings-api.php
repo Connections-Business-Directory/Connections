@@ -769,11 +769,7 @@ class cnSettingsAPI {
 									  ->addClass( 'checkbox' )
 									  ->setName( $name )
 									  ->maybeIsChecked( $value )
-									  ->addLabel(
-										  Field\Label::create()
-													 ->setFor( $name )
-													 ->text( $field['desc'] )
-									  )
+									  ->addLabel( Field\Label::create()->setFor( $name )->text( $field['desc'] ) )
 									  ->getHTML();
 				break;
 
@@ -918,9 +914,7 @@ class cnSettingsAPI {
 
 				$out .= Field\Text::create()
 								  ->setId( $name )
-								  ->addClass(
-									  in_array( $size, $sizes ) ? "{$size}-text" : 'regular-text'
-								  )
+								  ->addClass( in_array( $size, $sizes ) ? "{$size}-text" : 'regular-text' )
 								  ->setName( $name )
 								  ->setDefaultValue( _array::get( $field, 'default', '' ) )
 								  ->setValue( $value )
@@ -949,9 +943,7 @@ class cnSettingsAPI {
 
 				$out .= Field\Textarea::create()
 									  ->setId( $name )
-									  ->addClass(
-										  in_array( $size, $sizes ) ? "{$size}-text" : 'small-text'
-									  )
+									  ->addClass( in_array( $size, $sizes ) ? "{$size}-text" : 'small-text' )
 									  ->setName( $name )
 									  ->addAttribute( 'rows', 10 )
 									  ->addAttribute( 'cols', 50 )

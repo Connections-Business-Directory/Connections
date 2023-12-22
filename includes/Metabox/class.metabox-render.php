@@ -492,11 +492,7 @@ class cnMetabox_Render {
 								  ->setReadOnly( isset( $field['readonly'] ) && true === $field['readonly'] )
 								  ->setRequired( isset( $field['required'] ) && true === $field['required'] )
 								  ->maybeIsChecked( $value )
-								  ->addLabel(
-									  Field\Label::create()
-												 ->setFor( $field['id'] )
-												 ->text( $field['desc'] )
-								  )
+								  ->addLabel( Field\Label::create()->setFor( $field['id'] )->text( $field['desc'] ) )
 								  ->prepend( '<div' . $class . $id . $style . '>' )
 								  ->append( '</div>' )
 								  ->render();

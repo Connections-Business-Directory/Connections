@@ -13,7 +13,7 @@ add_action(
 	 * @param cnEntry_HTML $entry    The current Entry.
 	 * @param cnTemplate   $template The current template.
 	 */
-	function( $atts, $entry, $template ) {
+	function ( $atts, $entry, $template ) {
 		do_action_deprecated(
 			'cn_action_entry_before',
 			array( $atts, $entry ),
@@ -32,7 +32,7 @@ add_action(
 	 * @param cnEntry_HTML $entry    The current Entry.
 	 * @param cnTemplate   $template The current template.
 	 */
-	function( $atts, $entry, $template ) {
+	function ( $atts, $entry, $template ) {
 		do_action_deprecated(
 			'cn_action_entry_both',
 			array( $atts, $entry ),
@@ -52,7 +52,7 @@ add_action(
 	 * @param cnEntry_HTML $entry    The current Entry.
 	 * @param cnTemplate   $template The current template.
 	 */
-	function( $atts, $entry, $template ) {
+	function ( $atts, $entry, $template ) {
 		do_action_deprecated(
 			'cn_action_entry_both',
 			array( $atts, $entry ),
@@ -72,7 +72,7 @@ add_action(
 	 * @param cnEntry_HTML $entry    The current Entry.
 	 * @param cnTemplate   $template The current template.
 	 */
-	function( $atts, $entry, $template ) {
+	function ( $atts, $entry, $template ) {
 		do_action_deprecated(
 			'cn_action_entry_after',
 			array( $atts, $entry ),
@@ -91,7 +91,7 @@ add_action(
 	 * @param cnEntry_HTML $entry    The current Entry.
 	 * @param cnTemplate   $template The current template.
 	 */
-	function( $atts, $entry, $template ) {
+	function ( $atts, $entry, $template ) {
 		do_action_deprecated(
 			'cn_entry_actions-before',
 			array( $atts, $entry ),
@@ -111,7 +111,7 @@ add_action(
 	 * @param cnEntry_HTML $entry    The current Entry.
 	 * @param cnTemplate   $template The current template.
 	 */
-	function( $atts, $entry, $template ) {
+	function ( $atts, $entry, $template ) {
 		do_action_deprecated(
 			'cn_entry_actions',
 			array( $atts, $entry ),
@@ -130,7 +130,7 @@ add_action(
 	 * @param cnEntry_HTML $entry    The current Entry.
 	 * @param cnTemplate   $template The current template.
 	 */
-	function( $atts, $entry, $template ) {
+	function ( $atts, $entry, $template ) {
 		do_action_deprecated(
 			'cn_entry_actions-after',
 			array( $atts, $entry ),
@@ -144,7 +144,7 @@ add_action(
 
 add_action(
 	'cn_clean_entry_cache',
-	function() {
+	function () {
 		do_action_deprecated(
 			'cn_process_cache-entry',
 			array(),
@@ -163,7 +163,7 @@ add_action(
 	 * @param array   $terms
 	 * @param string  $action
 	 */
-	function( $entry, $terms, $action ) {
+	function ( $entry, $terms, $action ) {
 		do_action_deprecated(
 			'cn_process_taxonomy-category',
 			array( $action, $entry->getId() ),
@@ -184,7 +184,7 @@ add_action(
 	 * @param WP_REST_Response $response The response data.
 	 * @param WP_REST_Request  $request  The request sent to the API.
 	 */
-	static function( $entry, $response, $request ) {
+	static function ( $entry, $response, $request ) {
 		do_action_deprecated(
 			'rest_delete_cn_entry',
 			array( $entry, $response, $request ),

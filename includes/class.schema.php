@@ -788,5 +788,4 @@ class cnSchema {
 
 		return implode( ' ', $sql );
 	}
-
 }

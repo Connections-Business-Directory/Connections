@@ -135,7 +135,7 @@ final class _sanitize {
 
 			// Private callback for the "wp_kses_allowed_html" filter used to
 			// return allowed HTML for "Connections_Directory/Sanitize/HTML" context.
-			$callback = function( $tags, $context ) {
+			$callback = function ( $tags, $context ) {
 				global $allowedposttags;
 
 				if ( 'Connections_Directory/Sanitize/HTML' === $context ) {

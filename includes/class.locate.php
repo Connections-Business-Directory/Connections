@@ -301,5 +301,4 @@ class cnLocate {
 
 		return strtolower( sanitize_file_name( urldecode( $queryVar ) ) );
 	}
-
 }

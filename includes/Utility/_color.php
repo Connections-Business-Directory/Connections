@@ -310,12 +310,12 @@ final class _color {
 
 			$out = '#';
 
-			for ( $i = 0; $i < 3; $i ++ ) {
+			for ( $i = 0; $i < 3; $i++ ) {
 
 				$e[ $i ] = dechex( ( $e[ $i ] <= 0 ) ? 0 : ( ( $e[ $i ] >= 255 ) ? 255 : $e[ $i ] ) );
 			}
 
-			for ( $i = 0; $i < 3; $i ++ ) {
+			for ( $i = 0; $i < 3; $i++ ) {
 
 				$out .= ( ( strlen( $e[ $i ] ) < 2 ) ? '0' : '' ) . $e[ $i ];
 			}

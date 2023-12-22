@@ -5,7 +5,7 @@ Tags: business directory, directory plugin, member directory, listings, staff di
 Requires at least: 6.0
 Tested up to: 6.4
 Requires PHP: 7.0
-Stable tag: 10.4.59
+Stable tag: 10.4.60
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -248,6 +248,46 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 10.4.60 12/22/2023 =
+* NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generateSelectAllOption()`.
+* NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generateSelectNoneOption()`.
+* TWEAK: Adjust Rank Math robots meta, set noindex on term pages.
+* TWEAK: Utilize the `wpseo_robots_array` filter to improve Yoast SEO integration by setting `noindex` on the pg and term slug pages.
+* TWEAK: Use strict comparison.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced::render()` to utilize `generateSelectAllOption()`.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced::render()` to utilize `generateSelectNoneOption()`.
+* TWEAK: Simplify string concatenation.
+* TWEAK: Update max tested WP version.
+* OTHER: Correct misspelling.
+* DEV: Remove unnecessary trailing semi-colon.
+* DEV: Remove @noinspection tag.
+* DEV: phpDoc updates.
+* DEV: phpDoc corrections.
+* DEV: Remove WPCS exclusions.
+* DEV: Remove commented out unused code.
+* WPCS: Use the __DIR__ constant instead of calling dirname(__FILE__) (PHP >= 5.3).
+* WPCS: Update properties for `Universal.WhiteSpace.PrecisionAlignment`.
+* WPCS: Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfter.
+* WPCS: Universal.WhiteSpace.CommaSpacing.SpaceBefore.
+* WPCS: Generic.WhiteSpace.IncrementDecrementSpacing.SpaceAfterDecrement.
+* WPCS: Squiz.Commenting.FunctionComment.ParamCommentFullStop.
+* WPCS: Generic.WhiteSpace.LanguageConstructSpacing.IncorrectSingle and Squiz.Strings.ConcatenationSpacing.PaddingFound.
+* WPCS: Generic.WhiteSpace.IncrementDecrementSpacing.SpaceAfterIncrement.
+* WPCS: Universal.CodeAnalysis.StaticInFinalClass.NewInstance.
+* WPCS: Unnecessary "echo sprintf(...)" found. Use "printf(...)" instead.
+* WPCS: The DEFAULT body must start on the line following the statement.
+* WPCS: Universal.WhiteSpace.CommaSpacing.SpaceBefore.
+* WPCS: Expected 1 space before the array closer in a single line array.
+* WPCS: Expected 1 space after FUNCTION keyword; 0 found.
+* WPCS: Function closing brace must go on the next line following the body; found 1 blank lines before brace.
+* WPCS: Expected 1 blank line at end of file.
+* WPCS: The closing brace for the class must go on the next line after the body.
+* WPCS: Universal.WhiteSpace.CommaSpacing.SpaceBefore.
+* WPCS: Use "self" instead of "static" when using late static binding in a final OO construct.
+* WPCS: Opening statement of multi-line function call not indented correctly.
+* WPCS: The file-level docblock must follow the opening PHP tag in the file header.
+
 
 = 10.4.59 12/01/2023 =
 * NEW: Introduce `Request::isSingle()`.
@@ -529,30 +569,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add method return type.
 * DEV: phpDoc corrections.
 
-= 10.4.41 05/02/2023 =
-* NEW: Introduce the `\Shortcode\Entry_Directory` shortcode; the eventual replacement code for `cnShortcode_Connections::shortcode()`.
-* NEW: Introduce `\Shortcode\Directory_View` and use it as teh callback for the `[connections]` shortcode.
-* TWEAK: Remove the experimental `[cn_thumb]` and `[cn_thumbr]` shortcodes from the plugin, moving them to a separate plugin.
-* TWEAK: Remove experimental `[cn-mapblock]` shortcode.
-* TWEAK: Remove `cnShortcode::register()` and register shortcodes in `Connections_Directory::hooks()` on the `init` hook to consistent with current coding standards.
-* TWEAK: Change folder capitalization from `includes/shortcode` to `includes/Shortcode` to match current naming conventions.
-* TWEAK: Remove use of deprecated methods in `cnTemplate_Customizer::controlStrings()`.
-* TWEAK: Change `Entry::prepareAttributes()` from public to private.
-* TWEAK: Replace deprecated `cnShortcode_Connections::shortcode()` in `cnDashboardMetabox::recent()`.
-* BUG: Ensure `cnScript::maybeEnqueueStyle()` returns true when the `[cn-entry]` shortcode is used.
-* BUG: Pass the correct attributes in `cnTemplatePart::loadTemplateError()` when initiating `Upcoming_List`.
-* BUG: The `connectionsEntryList()` method (template tag) should call `cnShortcode_Connections::view()` not `cnShortcode_Connections::shortcode()`.
-* OTHER: Correct misspellings.
-* DEV: phpDoc corrections.
-* DEV: Correct inline comment.
-* DEV: Remove commented out debug code.
-* DEV: phpDoc updates.
-* DEV: Deprecate `cnShortcode_Connections::shortcode()`.
-
 == Upgrade Notice ==
-
-= 10.4.41 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.42 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
@@ -606,4 +623,7 @@ It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.59 =
+It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.60 =
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.

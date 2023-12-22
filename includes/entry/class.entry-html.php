@@ -443,7 +443,7 @@ class cnEntry_HTML extends cnEntry {
 
 				array_walk(
 					$atts['style'],
-					function( &$i, $property ) {
+					function ( &$i, $property ) {
 						$i = "$property: $i";
 					}
 				);
@@ -552,7 +552,7 @@ class cnEntry_HTML extends cnEntry {
 
 						array_walk(
 							$atts['style'],
-							function( &$i, $property ) {
+							function ( &$i, $property ) {
 								$i = "$property: $i";
 							}
 						);

@@ -189,7 +189,7 @@ class cnFormObjects {
 		_deprecated_function( __METHOD__, '9.15', '\Connections_Directory\Form\Field\Select::create()' );
 
 		$fieldInputs = array_map(
-			function( $key, $value ) {
+			function ( $key, $value ) {
 				return array(
 					'label' => $value,
 					'value' => $key,

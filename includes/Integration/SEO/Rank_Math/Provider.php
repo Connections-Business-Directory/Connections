@@ -89,7 +89,7 @@ final class Provider implements \RankMath\Sitemap\Providers\Provider {
 				// Sort the results by date, ascending.
 				usort(
 					$results,
-					function( $a, $b ) {
+					function ( $a, $b ) {
 
 						$t1 = strtotime( $a->ts );
 						$t2 = strtotime( $b->ts );

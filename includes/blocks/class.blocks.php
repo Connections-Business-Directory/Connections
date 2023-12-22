@@ -147,4 +147,3 @@ class Blocks {
 		return $categories;
 	}
 }
-

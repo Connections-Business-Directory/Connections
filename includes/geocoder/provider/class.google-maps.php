@@ -440,7 +440,6 @@ final class Google_Maps implements Provider {
 					$response->status
 				);
 		}
-
 	}
 
 	/**

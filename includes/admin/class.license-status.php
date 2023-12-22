@@ -241,7 +241,6 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				}
 
 			}
-
 		}
 
 		/**

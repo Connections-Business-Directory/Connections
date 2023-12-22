@@ -1,5 +1,44 @@
 == Changelog ==
 
+= 10.4.60 12/22/2023 =
+* NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generateSelectAllOption()`.
+* NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generateSelectNoneOption()`.
+* TWEAK: Adjust Rank Math robots meta, set noindex on term pages.
+* TWEAK: Utilize the `wpseo_robots_array` filter to improve Yoast SEO integration by setting `noindex` on the pg and term slug pages.
+* TWEAK: Use strict comparison.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced::render()` to utilize `generateSelectAllOption()`.
+* TWEAK: Refactor `CN_Walker_Term_Select_List_Enhanced::render()` to utilize `generateSelectNoneOption()`.
+* TWEAK: Simplify string concatenation.
+* TWEAK: Update max tested WP version.
+* OTHER: Correct misspelling.
+* DEV: Remove unnecessary trailing semi-colon.
+* DEV: Remove @noinspection tag.
+* DEV: phpDoc updates.
+* DEV: phpDoc corrections.
+* DEV: Remove WPCS exclusions.
+* DEV: Remove commented out unused code.
+* WPCS: Use the __DIR__ constant instead of calling dirname(__FILE__) (PHP >= 5.3).
+* WPCS: Update properties for `Universal.WhiteSpace.PrecisionAlignment`.
+* WPCS: Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfter.
+* WPCS: Universal.WhiteSpace.CommaSpacing.SpaceBefore.
+* WPCS: Generic.WhiteSpace.IncrementDecrementSpacing.SpaceAfterDecrement.
+* WPCS: Squiz.Commenting.FunctionComment.ParamCommentFullStop.
+* WPCS: Generic.WhiteSpace.LanguageConstructSpacing.IncorrectSingle and Squiz.Strings.ConcatenationSpacing.PaddingFound.
+* WPCS: Generic.WhiteSpace.IncrementDecrementSpacing.SpaceAfterIncrement.
+* WPCS: Universal.CodeAnalysis.StaticInFinalClass.NewInstance.
+* WPCS: Unnecessary "echo sprintf(...)" found. Use "printf(...)" instead.
+* WPCS: The DEFAULT body must start on the line following the statement.
+* WPCS: Universal.WhiteSpace.CommaSpacing.SpaceBefore.
+* WPCS: Expected 1 space before the array closer in a single line array.
+* WPCS: Expected 1 space after FUNCTION keyword; 0 found.
+* WPCS: Function closing brace must go on the next line following the body; found 1 blank lines before brace.
+* WPCS: Expected 1 blank line at end of file.
+* WPCS: The closing brace for the class must go on the next line after the body.
+* WPCS: Universal.WhiteSpace.CommaSpacing.SpaceBefore.
+* WPCS: Use "self" instead of "static" when using late static binding in a final OO construct.
+* WPCS: Opening statement of multi-line function call not indented correctly.
+* WPCS: The file-level docblock must follow the opening PHP tag in the file header.
+
 = 10.4.59 12/01/2023 =
 * NEW: Introduce `Request::isSingle()`.
 * TWEAK: Replace `cnEntry_Action` with `\Hook\Action\Admin_Bar::addEditEntry()`.

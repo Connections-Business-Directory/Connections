@@ -104,7 +104,6 @@ class cnAdminFunction {
 			 */
 			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ), 9 );
 		}
-
 	}
 
 	/**

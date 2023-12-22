@@ -16,5 +16,4 @@ class Submit extends Text {
 	 * @var string
 	 */
 	protected $type = 'submit';
-
 }

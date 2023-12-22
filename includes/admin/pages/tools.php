@@ -748,7 +748,6 @@ cnSystem_Info::display();
 
 		<?php
 	}
-
 }
 
 cnAdmin_Tools::instance();

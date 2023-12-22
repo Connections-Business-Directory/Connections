@@ -118,7 +118,7 @@ final class _validate {
 		 *
 		 * @return array $info The modified file data array.
 		 */
-		$callback = function( $info, $file, $filename, $mimes, $real_mime ) {
+		$callback = function ( $info, $file, $filename, $mimes, $real_mime ) {
 
 			// Get filetype data.
 			$wp_filetype     = wp_check_filetype( $filename, $mimes );

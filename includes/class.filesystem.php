@@ -153,7 +153,6 @@ class cnFileSystem {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
@@ -265,5 +264,4 @@ class cnFileSystem {
 			@rmdir( $path );
 		}
 	}
-
 }

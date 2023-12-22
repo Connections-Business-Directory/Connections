@@ -1852,7 +1852,6 @@ final class Taxonomy {
 			$this->attachTerms( $entry, $termIDs );
 		}
 	}
-
 }
 
 /**

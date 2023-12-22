@@ -187,5 +187,4 @@ final class Term extends Input {
 
 		return true;
 	}
-
 }

@@ -17,7 +17,7 @@ add_filter(
 	 *
 	 * @return array
 	 */
-	static function( $rules, $post ) {
+	static function ( $rules, $post ) {
 
 		return apply_filters_deprecated(
 			'cn_cpt_rewrite_rule-landing',
@@ -43,7 +43,7 @@ add_filter(
 	 *
 	 * @return array
 	 */
-	static function( $rules, $post ) {
+	static function ( $rules, $post ) {
 
 		return apply_filters_deprecated(
 			'cn_cpt_rewrite_rule-view',
@@ -65,7 +65,7 @@ add_filter(
 	 *
 	 * @return array
 	 */
-	static function( $actions ) {
+	static function ( $actions ) {
 
 		return apply_filters_deprecated(
 			'bulk_actions-connections_page_connections_categories',
@@ -84,7 +84,7 @@ add_filter(
 	 * @param array    $args       An array of get_terms() arguments.
 	 * @param string[] $taxonomies An array of taxonomy names.
 	 */
-	static function( $args, $taxonomies ) {
+	static function ( $args, $taxonomies ) {
 
 		return apply_filters_deprecated(
 			'cn_get_terms_args',
@@ -106,7 +106,7 @@ add_filter(
 	 * @param array    $args       An array of terms query arguments.
 	 * @param string[] $taxonomies An array of taxonomy names.
 	 */
-	static function( $exclusions, $args, $taxonomies ) {
+	static function ( $exclusions, $args, $taxonomies ) {
 
 		return apply_filters_deprecated(
 			'cn_term_exclusions',
@@ -128,7 +128,7 @@ add_filter(
 	 * @param array    $args       An array of term query arguments.
 	 * @param string[] $taxonomies An array of taxonomy names.
 	 */
-	static function( $selects, $args, $taxonomies ) {
+	static function ( $selects, $args, $taxonomies ) {
 
 		return apply_filters_deprecated(
 			'cn_get_terms_fields',
@@ -150,7 +150,7 @@ add_filter(
 	 * @param string[] $taxonomies An array of taxonomy names.
 	 * @param array    $args       An array of term query arguments.
 	 */
-	function( $clauses, $taxonomies, $args ) {
+	function ( $clauses, $taxonomies, $args ) {
 
 		$clauses['orderBy'] = &$clauses['orderby'];
 		_array::forget( $clauses, 'order' );
@@ -168,7 +168,7 @@ add_filter(
 
 add_filter(
 	'Connections_Directory/Metabox/Publish/Parameters',
-	static function( $atts ) {
+	static function ( $atts ) {
 
 		return apply_filters_deprecated(
 			'cn_admin_metabox_publish_atts',
@@ -181,7 +181,7 @@ add_filter(
 
 add_filter(
 	'Connections_Directory/Metabox/Publish/Parameters',
-	static function( $atts ) {
+	static function ( $atts ) {
 
 		return apply_filters_deprecated(
 			'cn_metabox_publish_atts',
@@ -194,7 +194,7 @@ add_filter(
 
 add_filter(
 	'Connections_Directory/Metabox/Page_Hooks',
-	static function( $pageHooks ) {
+	static function ( $pageHooks ) {
 
 		return apply_filters_deprecated(
 			'cn_admin_default_metabox_page_hooks',
@@ -207,7 +207,7 @@ add_filter(
 
 add_filter(
 	'Connections_Directory/Template/Partial/Search/Form_Action',
-	static function( $permalink, $atts ) {
+	static function ( $permalink, $atts ) {
 
 		/**
 		 * Filter the form action attribute.
@@ -235,7 +235,7 @@ add_filter(
 	 * @param cnEntry          $entry    Entry object.
 	 * @param WP_REST_Request  $request  Request object.
 	 */
-	static function( $response, $entry, $request ) {
+	static function ( $response, $entry, $request ) {
 
 		return apply_filters_deprecated(
 			'rest_prepare_cn_entry',

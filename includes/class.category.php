@@ -328,7 +328,6 @@ class cnCategory {
 			cnMessage::set( 'success', 'category_added' );
 			return true;
 		}
-
 	}
 
 	/**
@@ -366,7 +365,6 @@ class cnCategory {
 			cnMessage::set( 'success', 'category_updated' );
 			return true;
 		}
-
 	}
 
 	/**
@@ -396,7 +394,6 @@ class cnCategory {
 			cnMessage::set( 'success', 'category_deleted' );
 			return true;
 		}
-
 	}
 
 	/**

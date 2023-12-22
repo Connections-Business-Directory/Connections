@@ -269,30 +269,21 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 			if ( 0 < strlen( $placeholder ) ) {
 
-				$select .= "\t" . $placeholder;
+				$select .= "\t{$placeholder}";
 			}
 
-			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {
+			$selectAll = $walker->generateSelectAllOption( $atts );
 
-				/** This filter is documented in includes/template/class.template-walker-term-select.php */
-				$show_option_all = apply_filters( 'cn_list_cats', $atts['show_option_all'] );
+			if ( 0 < strlen( $selectAll ) ) {
 
-				/*
-				 * When doing a select all, set the show all option value as selected.
-				 *
-				 * NOTE: This is only done when the select is not being enhanced by a library such as Chosen or Select2.
-				 * In that case the placeholder option should be the default selected item.
-				 */
-				$selected = ! $atts['enhanced'] && ! isset( $selected ) && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
-				$select  .= "\t<option value='0'$selected>$show_option_all</option>" . PHP_EOL;
+				$select .= "\t{$selectAll}";
 			}
 
-			if ( $atts['show_option_none'] ) {
+			$selectNone = $walker->generateSelectNoneOption( $atts );
 
-				/** This filter is documented in includes/template/class.template-walker-term-select.php */
-				$show_option_none = apply_filters( 'cn_list_cats', $atts['show_option_none'] );
-				$selected         = selected( $atts['option_none_value'], $atts['selected'], false );
-				$select          .= "\t<option value='" . esc_attr( $atts['option_none_value'] ) . "'$selected>$show_option_none</option>" . PHP_EOL;
+			if ( 0 < strlen( $selectNone ) ) {
+
+				$select .= "\t{$selectNone}";
 			}
 
 			if ( $atts['hierarchical'] ) {
@@ -353,6 +344,8 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 * - Ticket ID:565804
 	 * - Ticket ID:591582
 	 *
+	 * @since 10.4.57
+	 *
 	 * @param array $atts The `$atts` passed to {@see CN_Walker_Term_Select_List_Enhanced::render()}.
 	 *
 	 * @return string
@@ -373,7 +366,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 				// Set the placeholder as the selected option when not filtering by category terms.
 				$selected = is_array( $selected ) ? $selected : (array) $selected;
 
-				if ( 0 == count( array_filter( $selected ) ) ) {
+				if ( 0 === count( array_filter( $selected ) ) ) {
 
 					$option->setChecked( true );
 				}
@@ -389,6 +382,77 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			$option->setText( $optionLabel );
 
 			$html = $option->getHTML();
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Generate the HTML for the 'Select All' option.
+	 *
+	 * When doing a select all, set the show all option value as selected.
+	 *
+	 * NOTE: This is only done when the select is not being enhanced by a library such as Chosen or Select2.
+	 *       In that case the placeholder option should be the default selected item.
+	 *
+	 * @since 10.4.60
+	 *
+	 * @param array $atts The `$atts` passed to {@see CN_Walker_Term_Select_List_Enhanced::render()}.
+	 *
+	 * @return string
+	 */
+	private function generateSelectAllOption( array $atts ): string {
+
+		$html   = '';
+		$label  = _array::get( $atts, 'show_option_all', '' );
+		$render = _array::get( $atts, 'show_select_all', true );
+
+		/** This filter is documented in includes/template/class.template-walker-term-select.php */
+		$label = apply_filters( 'cn_list_cats', $label );
+
+		// If `show_option_all` is true AND `show_option_all` is not empty, generate the 'Select All' option.
+		if ( true === $render && ! empty( $label ) ) {
+
+			$isEnhanced = _array::get( $atts, 'enhanced', true );
+			$selected   = _array::get( $atts, 'selected', '0' );
+			$isChecked  = ! $isEnhanced && is_numeric( $selected ) && '0' === strval( $selected );
+			$html       = Field\Option::create()
+									  ->setValue( '0' )
+									  ->setChecked( $isChecked )
+									  ->setText( $label )
+									  ->getHTML();
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Generate the HTML for the 'Select None' option.
+	 *
+	 * @since 10.4.60
+	 *
+	 * @param array $atts The `$atts` passed to {@see CN_Walker_Term_Select_List_Enhanced::render()}.
+	 *
+	 * @return string
+	 */
+	private function generateSelectNoneOption( array $atts ): string {
+
+		$html   = '';
+		$label  = _array::get( $atts, 'show_option_none', '' );
+		$render = 0 < strlen( $label );
+
+		if ( true === $render ) {
+
+			/** This filter is documented in includes/template/class.template-walker-term-select.php */
+			$label     = apply_filters( 'cn_list_cats', $label );
+			$selected  = _array::get( $atts, 'selected', 0 );
+			$value     = _array::get( $atts, 'option_none_value', -1 );
+			$isChecked = $selected === $value;
+			$html      = Field\Option::create()
+									 ->setValue( $value )
+									 ->setChecked( $isChecked )
+									 ->setText( $label )
+									 ->getHTML();
 		}
 
 		return $html;

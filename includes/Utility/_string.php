@@ -657,7 +657,7 @@ final class _string {
 
 							if ( $entity[1] + 1 - $entitiesLength <= $left ) {
 
-								$left --;
+								$left--;
 								$entitiesLength += mb_strlen( $entity[0] );
 
 							} else {

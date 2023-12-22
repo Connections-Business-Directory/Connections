@@ -94,6 +94,5 @@ class Meta extends Content_Block {
 				$entry
 			);
 		}
-
 	}
 }

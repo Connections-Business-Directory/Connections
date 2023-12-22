@@ -115,7 +115,7 @@ class Functions {
 		 *
 		 * This is to ensure a different `RAND()` seed value is used when querying related Entries.
 		 */
-		$seed = function( $seed, $atts ) {
+		$seed = function ( $seed, $atts ) {
 
 			/*
 			 * Make a has from the `cnRetrieve::entries()` $atts.
@@ -205,7 +205,7 @@ class Functions {
 		 *
 		 * This is to ensure a different `RAND()` seed value is used when querying related Entries.
 		 */
-		$seed = function( $seed, $atts ) {
+		$seed = function ( $seed, $atts ) {
 
 			/*
 			 * Make a has from the `cnRetrieve::entries()` $atts.

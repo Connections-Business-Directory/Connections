@@ -47,7 +47,6 @@ function addCategory() {
 
 		cnMessage::set( 'error', 'capability_categories' );
 	}
-
 }
 
 /**
@@ -90,7 +89,6 @@ function updateCategory() {
 
 		cnMessage::set( 'error', 'capability_categories' );
 	}
-
 }
 
 /**
@@ -126,7 +124,6 @@ function deleteCategory() {
 
 		cnMessage::set( 'error', 'capability_categories' );
 	}
-
 }
 
 /**
@@ -215,5 +212,4 @@ function processEntryCategory( $action, $id ) {
 
 		Connections_Directory()->term->setTermRelationships( $id, $default, 'category' );
 	}
-
 }

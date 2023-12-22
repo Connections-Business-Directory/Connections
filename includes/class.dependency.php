@@ -147,7 +147,6 @@ class cnDependency {
 
 			wp_die( esc_html( "The file attempting to be loaded at $file does not exist." ) );
 		}
-
 	}
 
 	/**

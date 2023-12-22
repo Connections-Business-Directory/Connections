@@ -50,7 +50,6 @@ final class Nominatim implements Provider {
 	public function __construct( $providerEndpoint = null ) {
 
 		$this->providerEndpoint = null === $providerEndpoint ? self::DEFAULT_PROVIDER_ENDPOINT : rtrim( $providerEndpoint, '/' );
-
 	}
 
 	/**

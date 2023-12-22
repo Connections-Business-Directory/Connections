@@ -309,7 +309,7 @@ final class _url {
 
 			} else {
 
-				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => false  ), get_permalink( $homeID ) );
+				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => false ), get_permalink( $homeID ) );
 			}
 
 		}
@@ -564,5 +564,4 @@ final class _url {
 
 		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
-
 }

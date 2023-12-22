@@ -156,7 +156,7 @@ class Tab {
 
 		if ( 0 < strlen( $options['desc'] ) ) {
 
-			$options['callback'] = function() use ( $options ) {
+			$options['callback'] = function () use ( $options ) {
 
 				echo _escape::html( $options['desc'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			};

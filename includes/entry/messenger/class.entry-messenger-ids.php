@@ -68,7 +68,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 		//$this->resetFilters();
 
 		$key = $this->items->search(
-			function( $item ) use ( $id ) {
+			function ( $item ) use ( $id ) {
 				/** @var cnEntry_Collection_Item $item */
 				return absint( $id ) === $item->getID();
 			}
@@ -312,7 +312,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 				 *     @type string $visibility The messenger ID visibility.
 				 * }
 				 */
-				$callback = function( $item ) {
+				$callback = function ( $item ) {
 					return apply_filters( 'cn_messenger_id', $item );
 				};
 				break;
@@ -330,7 +330,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 				break;
 
 			case 'cn_set_messenger_id':
-				$callback = function( $item ) {
+				$callback = function ( $item ) {
 					return apply_filters( 'cn_set_messenger_id', $item );
 				};
 				break;

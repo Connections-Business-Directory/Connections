@@ -74,5 +74,4 @@ class Region extends Related {
 			}
 		);
 	}
-
 }

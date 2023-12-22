@@ -11,7 +11,7 @@
  * Plugin Name:       Connections Business Directory
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
- * Version:           10.4.59
+ * Version:           10.4.60
  * Requires at least: 5.8
  * Requires PHP:      7.0
  * Author:            Steven A. Zahm
@@ -27,8 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require dirname( __FILE__ ) . '/includes/class.requirements-check.php';
-require dirname( __FILE__ ) . '/includes/class.text-domain.php';
+require __DIR__ . '/includes/class.requirements-check.php';
+require __DIR__ . '/includes/class.text-domain.php';
 
 /**
  * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
@@ -52,7 +52,7 @@ $check = new cnRequirements_Check(
 			),
 			'wp'  => array(
 				'min' => '5.8', // 4.7.12
-				'max' => '6.3',
+				'max' => '6.4',
 			),
 		),
 	)
@@ -60,7 +60,7 @@ $check = new cnRequirements_Check(
 
 if ( $check->passes() ) {
 
-	include dirname( __FILE__ ) . '/includes/class.connections-directory.php';
+	include __DIR__ . '/includes/class.connections-directory.php';
 
 	// Start Connections.
 	if ( class_exists( 'Connections_Directory' ) ) {

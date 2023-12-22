@@ -69,7 +69,7 @@ final class cnCoordinates {
 			);
 		}
 
-		return new static( $latitude, $longitude );
+		return new self( $latitude, $longitude );
 	}
 
 	/**
@@ -81,11 +81,11 @@ final class cnCoordinates {
 
 		if ( is_string( $value ) ) {
 
-			return static::fromString( $value );
+			return self::fromString( $value );
 
 		} elseif ( is_array( $value ) || $value instanceof \ArrayObject ) {
 
-			return static::fromArray( $value );
+			return self::fromArray( $value );
 		}
 
 		return new WP_Error( 'invalid_value', 'Unable to create Coordinates' );
@@ -100,7 +100,7 @@ final class cnCoordinates {
 
 		list( $latitude, $longitude ) = explode( ',', $value );
 
-		return static::create( $latitude, $longitude );
+		return self::create( $latitude, $longitude );
 	}
 
 	/**
@@ -120,7 +120,7 @@ final class cnCoordinates {
 
 			if ( isset( $value[ $key[0] ] ) && isset( $value[ $key[1] ] ) ) {
 
-				return static::create( $value[ $key[0] ], $value[ $key[1] ] );
+				return self::create( $value[ $key[0] ], $value[ $key[1] ] );
 			}
 		}
 

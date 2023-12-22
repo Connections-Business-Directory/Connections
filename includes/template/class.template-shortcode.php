@@ -215,6 +215,8 @@ class cnTemplate_Shortcode {
 	 * @return string The shortcode search regular expression
 	 */
 	public function regex( $tags = null ) {
+		// phpcs:disable Generic.WhiteSpace.LanguageConstructSpacing.IncorrectSingle
+		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound
 
 		$tagnames = is_null( $tags ) ? array_keys( $this->tags() ) : $tags;
 
@@ -251,6 +253,9 @@ class cnTemplate_Shortcode {
 			.     ')?'
 			. ')'
 			. '(\\]?)';                          // 6: Optional second closing bracket for escaping shortcodes: [[tag]]
+
+		// phpcs:enable Generic.WhiteSpace.LanguageConstructSpacing.IncorrectSingle
+		// phpcs:enable Squiz.Strings.ConcatenationSpacing.PaddingFound
 	}
 
 	/**
@@ -261,7 +266,7 @@ class cnTemplate_Shortcode {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @param  array $m Regular expression match array
+	 * @param  array $m Regular expression match array.
 	 *
 	 * @return mixed False on failure.
 	 */
@@ -402,5 +407,4 @@ class cnTemplate_Shortcode {
 			echo cnEntry_Shortcode::process( new cnEntry( $row ), $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
-
 }

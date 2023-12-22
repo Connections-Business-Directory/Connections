@@ -194,7 +194,6 @@ class cnRole extends WP_Roles {
 			// Ensure all roles can view public entries.
 			$instance->add_cap( $role, 'connections_view_public', true );
 		}
-
 	}
 
 	/**
@@ -221,5 +220,4 @@ class cnRole extends WP_Roles {
 			}
 		}
 	}
-
 }

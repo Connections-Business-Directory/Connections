@@ -278,7 +278,7 @@ class cnImage {
 
 					$param = explode( ',', $filter );
 
-					for ( $i = 0; $i < 4; $i ++ ) {
+					for ( $i = 0; $i < 4; $i++ ) {
 
 						if ( ! isset( $param[ $i ] ) ) {
 
@@ -2189,31 +2189,4 @@ class cnImage {
 
 		return $image;
 	}
-
 }
-
-
-/*add_action( 'plugins_loaded', 'cn_short_init', 99 );
-
-function cn_short_init() {
-
-	if ( isset( $_GET['src'] ) ) {
-
-		remove_all_actions( 'setup_theme' );
-		remove_all_actions( 'after_setup_theme' );
-		remove_all_actions( 'set_current_user' );
-		// remove_all_actions( 'init' );
-		remove_all_actions( 'widgets_init' );
-		remove_all_actions( 'register_sidebar' );
-		remove_all_actions( 'wp_default_scripts' );
-		remove_all_actions( 'wp_default_styles' );
-		remove_all_actions( 'admin_bar_init' );
-		remove_all_actions( 'add_admin_bar_menus' );
-		remove_all_actions( 'wp_loaded' );
-		remove_all_actions( 'parse_request' );
-		remove_all_actions( 'send_headers' );
-		// remove_all_actions( 'parse_query' );
-		// die();
-	}
-
-}*/

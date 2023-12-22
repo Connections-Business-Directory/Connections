@@ -2137,7 +2137,6 @@ class cnEntry {
 			}
 
 		}
-
 	}
 
 	/**
@@ -3716,5 +3715,4 @@ class cnEntry {
 		do_action( 'cn_deleted-entry', $this );
 		do_action( 'Connections_Directory/Entry/Deleted', $this );
 	}
-
 }

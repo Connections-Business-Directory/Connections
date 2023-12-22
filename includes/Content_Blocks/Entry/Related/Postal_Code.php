@@ -74,5 +74,4 @@ class Postal_Code extends Related {
 			}
 		);
 	}
-
 }

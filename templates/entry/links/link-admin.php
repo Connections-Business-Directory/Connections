@@ -15,7 +15,7 @@ foreach ( $links as $link ) {
 
 	$preferred = $link->preferred ? '*' : '';
 
-	echo '<span class="link"><strong>' , esc_html( $link->name ) , ':</strong> <a target="_blank" href="' , esc_url( $link->url ) , '">' , esc_html( $link->url ) , '</a>' , esc_html( $preferred ) , '</span>';
+	echo '<span class="link"><strong>', esc_html( $link->name ), ':</strong> <a target="_blank" href="', esc_url( $link->url ), '">', esc_html( $link->url ), '</a>', esc_html( $preferred ), '</span>';
 }
 
 echo '</div>';

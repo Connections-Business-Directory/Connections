@@ -633,7 +633,7 @@ class cnTemplatePart extends stdClass {
 
 		if ( ! $isSingle ) {
 
-			array_push( $class, ( ++ $rowCount % 2 ) ? 'cn-list-row-alternate' : 'cn-list-row' );
+			array_push( $class, ( ++$rowCount % 2 ) ? 'cn-list-row-alternate' : 'cn-list-row' );
 		}
 
 		/*

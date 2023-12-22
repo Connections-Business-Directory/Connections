@@ -643,7 +643,7 @@ class Carousel {
 
 		if ( ! empty( $styleTags ) ) {
 
-			echo implode( PHP_EOL, $styleTags ) , PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo implode( PHP_EOL, $styleTags ), PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 

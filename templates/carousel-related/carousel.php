@@ -1,10 +1,4 @@
 <?php
-
-namespace Connections_Directory\Template\Content_Block;
-
-use cnTemplate;
-use cnTemplateFactory;
-
 /**
  * @since      1.0
  * @subpackage Template : Carousel
@@ -24,6 +18,11 @@ use cnTemplateFactory;
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
+
+namespace Connections_Directory\Template\Content_Block;
+
+use cnTemplate;
+use cnTemplateFactory;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,7 +66,7 @@ if ( ! class_exists( __NAMESPACE__ . '\Related_Carousel' ) ) {
 		}
 
 		/**
-		 * Setup the template.
+		 * Set up the template.
 		 *
 		 * @since 1.0
 		 *
@@ -77,7 +76,6 @@ if ( ! class_exists( __NAMESPACE__ . '\Related_Carousel' ) ) {
 
 			$this->template = $template;
 		}
-
 	}
 
 	add_action( 'cn_register_template', array( __NAMESPACE__ . '\Related_Carousel', 'register' ) );

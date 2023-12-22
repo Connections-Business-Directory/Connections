@@ -99,7 +99,6 @@ class cnMessage extends WP_Error {
 			self::display();
 
 		}
-
 	}
 
 	/**
@@ -215,7 +214,6 @@ class cnMessage extends WP_Error {
 		 * DB update message.
 		 */
 		$instance->add( 'db_update_required', __( 'Connections database requires updating.', 'connections' ) . ' <a class="button" href="admin.php?page=connections_manage">' . __( 'START', 'connections' ) . '</a>' );
-
 	}
 
 	/**
@@ -285,25 +283,25 @@ class cnMessage extends WP_Error {
 		switch ( $type ) {
 
 			case 'error':
-				$lambda = function() use ( $message ) {
+				$lambda = function () use ( $message ) {
 					echo '<div id="message" class="error"><p><strong>' . esc_html__( 'ERROR', 'connections' ) . ': </strong>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 				break;
 
 			case 'success':
-				$lambda = function() use ( $message ) {
+				$lambda = function () use ( $message ) {
 					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'SUCCESS', 'connections' ) . ': </strong>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 				break;
 
 			case 'notice':
-				$lambda = function() use ( $message ) {
+				$lambda = function () use ( $message ) {
 					echo '<div id="message" class="updated fade"><p><strong>' . esc_html__( 'NOTICE', 'connections' ) . ': </strong>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 				break;
 
 			default:
-				$lambda = function() use ( $message ) {
+				$lambda = function () use ( $message ) {
 					echo '<div id="message" class="updated fade"><p>' . _escape::html( $message ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				};
 		}
@@ -493,5 +491,4 @@ class cnMessage extends WP_Error {
 
 		update_user_meta( self::$id, self::$meta_key, $user_meta );
 	}
-
 }

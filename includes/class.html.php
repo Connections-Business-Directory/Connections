@@ -377,7 +377,6 @@ class cnHTML {
 				}
 
 		}
-
 	}
 
 	/**

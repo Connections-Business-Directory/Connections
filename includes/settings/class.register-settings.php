@@ -110,7 +110,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_home_page',
 			'position'     => 5,
 			'title'        => __( 'Home', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Choose the page where your directory is located. This should be the page where you used the &#91;connections&#93; shortcode.',
 					'connections'
@@ -185,7 +185,7 @@ class cnRegisterSettings {
 			'id'        => 'connections_visibility',
 			'position'  => 40,
 			'title'     => __( 'Shortcode Visibility Overrides', 'connections' ),
-			'callback'  => function() {
+			'callback'  => function () {
 				esc_html_e(
 					'The &#91;connections&#93; shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.',
 					'connections'
@@ -237,7 +237,7 @@ class cnRegisterSettings {
 			'id'           => 'list_actions',
 			'position'     => 15,
 			'title'        => __( 'Result List Actions', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Enable or disable various actions that are displayed above the result list.',
 					'connections'
@@ -259,7 +259,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_display_list',
 			'position'     => 20,
 			'title'        => __( 'Result List', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'The following settings are applied when viewing the entry results list.',
 					'connections'
@@ -282,7 +282,7 @@ class cnRegisterSettings {
 			'id'           => 'entry_actions',
 			'position'     => 25,
 			'title'        => __( 'Entry Actions', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Enable or disable various actions that are shown above the single entry in the detail view.',
 					'connections'
@@ -304,7 +304,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_display_single',
 			'position'     => 30,
 			'title'        => __( 'Single Entry', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.',
 					'connections'
@@ -348,7 +348,7 @@ class cnRegisterSettings {
 			'id'           => 'fieldset-name',
 			'position'     => 20,
 			'title'        => __( 'Name Fieldset', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Changing the active name fields will not effect existing entries, they will continue to display the existing name as they were previously saved. You will not be able to edit the existing name field unless the field is enabled.',
 					'connections'
@@ -499,7 +499,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_image_thumbnail',
 			'position'     => 10,
 			'title'        => __( 'Thumbnail Image', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 80px; Height: 54px; Crop',
 					'connections'
@@ -521,7 +521,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_image_medium',
 			'position'     => 20,
 			'title'        => __( 'Medium Image', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop',
 					'connections'
@@ -543,7 +543,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_image_large',
 			'position'     => 30,
 			'title'        => __( 'Large Image', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop',
 					'connections'
@@ -565,7 +565,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_image_logo',
 			'position'     => 30,
 			'title'        => __( 'Logo', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Fill',
 					'connections'
@@ -590,7 +590,7 @@ class cnRegisterSettings {
 			'id'        => 'connections_search_instructions',
 			'position'  => 10,
 			'title'     => __( 'Search Instructions', 'connections' ),
-			'callback'  => function() {
+			'callback'  => function () {
 				esc_html_e(
 					'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the results of search on both the Manage admin page and the front end of the website.',
 					'connections'
@@ -661,7 +661,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_permalink',
 			'position'     => 10,
 			'title'        => __( 'Permalink', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.',
 					'connections'
@@ -683,7 +683,7 @@ class cnRegisterSettings {
 			'id'           => 'connections_link',
 			'position'     => 15,
 			'title'        => __( 'Links', 'connections' ),
-			'callback'     => function() {
+			'callback'     => function () {
 				esc_html_e(
 					'Enable certain entry data to become links.',
 					'connections'

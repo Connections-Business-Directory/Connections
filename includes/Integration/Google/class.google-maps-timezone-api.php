@@ -650,7 +650,6 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 						$response->status
 					);
 			}
-
 		}
 
 		/**

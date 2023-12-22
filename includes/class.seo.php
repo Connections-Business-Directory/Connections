@@ -946,5 +946,4 @@ class cnSEO {
 			remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
 	}
-
 }

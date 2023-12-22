@@ -237,7 +237,7 @@ class cnDashboardMetabox {
 				if ( is_wp_error( $rss ) ) {
 
 					/* translators: RSS newsfeed URL. */
-					echo '<p>' , sprintf( esc_html__( "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for updates.", 'connections' ), esc_url( $metabox['args']['feed'] ) ) , '</p>';
+					echo '<p>', sprintf( esc_html__( "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for updates.", 'connections' ), esc_url( $metabox['args']['feed'] ) ), '</p>';
 					echo '</div>'; // close out the rss-widget before returning.
 
 					return;

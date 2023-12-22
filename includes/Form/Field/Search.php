@@ -16,5 +16,4 @@ class Search extends Text {
 	 * @var string
 	 */
 	protected $type = 'search';
-
 }

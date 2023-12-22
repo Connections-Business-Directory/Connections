@@ -31,7 +31,7 @@ function connectionsShowViewPage( $action = null ) {
 	switch ( $action ) {
 
 		case 'add_entry':
-			echo '<h1>Connections : ' , esc_html__( 'Add Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ', esc_html__( 'Add Entry', 'connections' ), '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.
@@ -103,7 +103,7 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		case 'copy_entry':
-			echo '<h1>Connections : ' , esc_html__( 'Copy Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ', esc_html__( 'Copy Entry', 'connections' ), '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.
@@ -117,12 +117,12 @@ function connectionsShowViewPage( $action = null ) {
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
 
-				$resetID = function( $item ) {
+				$resetID = function ( $item ) {
 					cnArray::set( $item, 'id', 0 );
 					return $item;
 				};
 
-				$resetUID = function( $item ) {
+				$resetUID = function ( $item ) {
 					cnArray::set( $item, 'uid', 0 );
 					return $item;
 				};
@@ -197,7 +197,7 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		case 'edit_entry':
-			echo '<h1>Connections : ' , esc_html__( 'Edit Entry', 'connections' ) , '</h1>';
+			echo '<h1>Connections : ', esc_html__( 'Edit Entry', 'connections' ), '</h1>';
 
 			/*
 			 * Check whether the current user can edit entries.
@@ -274,8 +274,7 @@ function connectionsShowViewPage( $action = null ) {
 			break;
 
 		default:
-
-			echo '<h1>Connections : ' , esc_html__( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , esc_html__( 'Add New', 'connections' ) , '</a></h1>';
+			echo '<h1>Connections : ', esc_html__( 'Manage', 'connections' ), ' <a class="button add-new-h2" href="admin.php?page=connections_add">', esc_html__( 'Add New', 'connections' ), '</a></h1>';
 
 			/*
 			 * Check whether user can view the entry list
@@ -554,13 +553,13 @@ function connectionsShowViewPage( $action = null ) {
 
 								echo '<span class="page-navigation" id="page-input">';
 
-								echo '<a href="' . esc_url( $pageFilterURL['first_page'] ) . '" title="' . esc_attr__( 'Go to the first page.', 'connections' ) . '" class="first-page button' , esc_attr( $pageDisabled['first_page'] ) , '">&laquo;</a> ';
-								echo '<a href="' . esc_url( $pageFilterURL['previous_page'] ) . '" title="' . esc_attr__( 'Go to the previous page.', 'connections' ) . '" class="prev-page button' , esc_attr( $pageDisabled['previous_page'] ) , '">&lsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['first_page'] ) . '" title="' . esc_attr__( 'Go to the first page.', 'connections' ) . '" class="first-page button', esc_attr( $pageDisabled['first_page'] ), '">&laquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['previous_page'] ) . '" title="' . esc_attr__( 'Go to the previous page.', 'connections' ) . '" class="prev-page button', esc_attr( $pageDisabled['previous_page'] ), '">&lsaquo;</a> ';
 
 								echo '<span class="paging-input"><input type="text" size="2" value="' . esc_attr( $page['current'] ) . '" name="pg" title="' . esc_attr__( 'Current page', 'connections' ) . '" class="current-page"> ' . esc_html__( 'of', 'connections' ) . ' <span class="total-pages">' . absint( $pageCount ) . '</span></span> ';
 
-								echo '<a href="' . esc_url( $pageFilterURL['next_page'] ) . '" title="' . esc_attr__( 'Go to the next page.', 'connections' ) . '" class="next-page button' , esc_attr( $pageDisabled['next_page'] ) , '">&rsaquo;</a> ';
-								echo '<a href="' . esc_url( $pageFilterURL['last_page'] ) . '" title="' . esc_attr__( 'Go to the last page.', 'connections' ) . '" class="last-page button' , esc_attr( $pageDisabled['last_page'] ), '">&raquo;</a>';
+								echo '<a href="' . esc_url( $pageFilterURL['next_page'] ) . '" title="' . esc_attr__( 'Go to the next page.', 'connections' ) . '" class="next-page button', esc_attr( $pageDisabled['next_page'] ), '">&rsaquo;</a> ';
+								echo '<a href="' . esc_url( $pageFilterURL['last_page'] ) . '" title="' . esc_attr__( 'Go to the last page.', 'connections' ) . '" class="last-page button', esc_attr( $pageDisabled['last_page'] ), '">&raquo;</a>';
 
 								echo '</span>';
 							}
@@ -644,7 +643,7 @@ function connectionsShowViewPage( $action = null ) {
 							/*
 							 * Display the character filter control.
 							 */
-							echo '<span class="displaying-num">' , esc_html__( 'Filter by character:', 'connections' ) , '</span>';
+							echo '<span class="displaying-num">', esc_html__( 'Filter by character:', 'connections' ), '</span>';
 							cnTemplatePart::index(
 								array(
 									'status'     => $filters['status'],
@@ -710,7 +709,7 @@ function connectionsShowViewPage( $action = null ) {
 							break;
 					}
 
-					echo '<tr id="row-' , esc_attr( $entry->getId() ) , '" class="' . _escape::classNames( array( 'parent-row', $statusClass ) ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo '<tr id="row-', esc_attr( $entry->getId() ), '" class="' . _escape::classNames( array( 'parent-row', $statusClass ) ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . esc_attr( $entry->getId() ) . "' name='id[]'/></th> \n";
 					echo '<td>';
 					$entry->getImage(
@@ -835,7 +834,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					if ( is_array( $rowEditActions ) && ! empty( $rowEditActions ) ) {
 
-						echo implode( ' | ', $rowEditActions ) , '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo implode( ' | ', $rowEditActions ), '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if ( is_array( $rowActions ) && ! empty( $rowActions ) ) {
@@ -902,7 +901,7 @@ function connectionsShowViewPage( $action = null ) {
 					echo "</tr> \n";
 
 					echo '<tr class="' . _escape::classNames( array( "child-row-{$entry->getId()}", 'cn-entry-details' ) ) . '" id="' . esc_attr( "contact-{$entry->getId()}-detail" ) . '" style="display: none;">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo '<td colspan="2">&nbsp;</td>' , "\n";
+					echo '<td colspan="2">&nbsp;</td>', "\n";
 					// phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
 					// echo "<td >&nbsp;</td> \n";
 					echo '<td colspan="2">';
@@ -961,7 +960,7 @@ function connectionsShowViewPage( $action = null ) {
 
 					$entry->addresses->escapeForDisplay()->render( 'admin' );
 
-					echo '</td>' , "\n";
+					echo '</td>', "\n";
 
 					echo '<td>';
 

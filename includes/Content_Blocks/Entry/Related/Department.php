@@ -74,5 +74,4 @@ class Department extends Related {
 			}
 		);
 	}
-
 }

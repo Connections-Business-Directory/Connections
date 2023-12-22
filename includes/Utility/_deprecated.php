@@ -145,7 +145,6 @@ function _func( $function, $version, $replacement = '' ) {
 
 		_deprecated_function( esc_html( $function ), esc_html( $version ), esc_html( $replacement ) );
 	}
-
 }
 
 /**

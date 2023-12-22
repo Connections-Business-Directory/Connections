@@ -74,5 +74,4 @@ class Last_Name extends Related {
 			}
 		);
 	}
-
 }

@@ -276,7 +276,6 @@ final class mShot {
 	public function setTitle( $title ) {
 
 		$this->title = is_string( $title ) && 0 < strlen( $title ) ? cnSanitize::field( 'attribute', $title ) : '';
-
 	}
 
 	/**

@@ -1089,6 +1089,5 @@ final class cnLog {
 
 			echo '</dl>';
 		}
-
 	}
 }

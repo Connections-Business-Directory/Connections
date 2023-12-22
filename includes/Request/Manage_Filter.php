@@ -163,5 +163,4 @@ final class Manage_Filter extends Input {
 
 		return true;
 	}
-
 }

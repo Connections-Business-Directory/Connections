@@ -620,10 +620,10 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * @since 9.10
 	 *
-	 * @param cnEntry    $entry
-	 * @param cnTemplate $template
-	 * @param bool       $isSingle
-	 * @param int        $rowCount
+	 * @param cnEntry_HTML $entry
+	 * @param cnTemplate   $template
+	 * @param bool         $isSingle
+	 * @param int          $rowCount
 	 *
 	 * @return array
 	 */

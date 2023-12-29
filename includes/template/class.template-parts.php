@@ -2719,8 +2719,8 @@ class cnTemplatePart extends stdClass {
 
 			/*
 			 * Only show the descendants based on the following criteria:
-			 * 	- There are descendant categories.
-			 * 	- The descendant depth is < than the current $level
+			 *  - There are descendant categories.
+			 *  - The descendant depth is < than the current $level
 			 *
 			 * When descendant depth is set to 0, show all descendants.
 			 * When descendant depth is set to < $level, call the recursive function.
@@ -2980,8 +2980,8 @@ class cnTemplatePart extends stdClass {
 
 			/*
 			 * Only show the descendants based on the following criteria:
-			 * 	- There are descendant categories.
-			 * 	- The descendant depth is < than the current $level
+			 *  - There are descendant categories.
+			 *  - The descendant depth is < than the current $level
 			 *
 			 * When descendant depth is set to 0, show all descendants.
 			 * When descendant depth is set to < $level, call the recursive function.

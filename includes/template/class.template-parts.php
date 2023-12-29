@@ -1233,7 +1233,7 @@ class cnTemplatePart extends stdClass {
 			cnSEO::doFilterPermalink();
 		}
 
-		// Store the query vars
+		// Store the query vars.
 		$queryVars                    = array();
 		$queryVars['cn-s']            = Request\Entry_Search_Term::input()->value() ? esc_html( Request\Entry_Search_Term::input()->value() ) : false;
 		$queryVars['cn-char']         = 1 === mb_strlen( Request\Entry_Initial_Character::input()->value() ) ? esc_html( Request\Entry_Initial_Character::input()->value() ) : false;
@@ -1913,7 +1913,7 @@ class cnTemplatePart extends stdClass {
 
 		$out = '';
 
-		$translated = __( 'Page', 'connections' ); // Supply translatable string
+		$translated = __( 'Page', 'connections' ); // Supply translatable string.
 
 		$defaults = array(
 			'limit'              => 20,
@@ -1960,7 +1960,7 @@ class cnTemplatePart extends stdClass {
 			// Get the settings for the base of each data type to be used in the URL.
 			$base = get_option( 'connections_permalink' );
 
-			// Store the query vars
+			// Store the query vars.
 			if ( Request\Entry_Search_Term::input()->value() ) {
 				$queryVars['cn-s'] = urlencode( Request\Entry_Search_Term::input()->value() );
 			}
@@ -2014,7 +2014,7 @@ class cnTemplatePart extends stdClass {
 				$queryVars['page_id'] = cnQuery::getVar( 'page_id' );
 			}
 
-			// Current page
+			// Current page.
 			if ( cnQuery::getVar( 'cn-pg' ) ) {
 				$current = absint( cnQuery::getVar( 'cn-pg' ) );
 			}
@@ -2942,7 +2942,7 @@ class cnTemplatePart extends stdClass {
 			 */
 			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-				// Category slug
+				// Category slug.
 				$queryCategorySlug = cnQuery::getVar( 'cn-cat-slug' );
 				if ( ! empty( $queryCategorySlug ) ) {
 					// If the category slug is a descendant, use the last slug from the URL for the query.

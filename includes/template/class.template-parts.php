@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Request;
+use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
@@ -475,10 +476,10 @@ class cnTemplatePart extends stdClass {
 		do_action( 'cn_action_list_both', $atts, $results );
 
 		do_action( 'cn_action_list_before-' . $template->getSlug(), $atts, $results );
-		cnShortcode::addFilterRegistry( 'cn_action_list_before-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_action_list_before-' . $template->getSlug() );
 
 		do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
-		cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_action_list_both-' . $template->getSlug() );
 
 		$out .= ob_get_clean();
 
@@ -518,7 +519,7 @@ class cnTemplatePart extends stdClass {
 		$class = apply_filters( 'cn_list_body_class', array( 'cn-list-body' ) );
 
 		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
-		cnShortcode::addFilterRegistry( 'cn_list_body_class-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_list_body_class-' . $template->getSlug() );
 
 		array_walk( $class, 'sanitize_html_class' );
 
@@ -653,7 +654,7 @@ class cnTemplatePart extends stdClass {
 		$class = apply_filters( 'cn_list_row_class', $class, $entry );
 		$class = apply_filters( "cn_list_row_class-{$template->getSlug()}", $class, $entry );
 
-		cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_list_row_class-' . $template->getSlug() );
 
 		return $class;
 	}
@@ -749,10 +750,10 @@ class cnTemplatePart extends stdClass {
 			);
 
 			do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_before-' . $template->getSlug() );
 
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_both-' . $template->getSlug() );
 
 			printf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
@@ -768,10 +769,10 @@ class cnTemplatePart extends stdClass {
 
 			// After entry actions.
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_both-' . $template->getSlug() );
 
 			do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_after-' . $template->getSlug() );
 
 			/**
 			 * @param array        $atts     The shortcode attributes.
@@ -846,10 +847,10 @@ class cnTemplatePart extends stdClass {
 			ob_start();
 
 			do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
-			cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_list_both-' . $template->getSlug() );
 
 			do_action( 'cn_action_list_after-' . $template->getSlug(), $atts, $results );
-			cnShortcode::addFilterRegistry( 'cn_action_list_after-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_list_after-' . $template->getSlug() );
 
 			do_action( 'cn_action_list_both', $atts, $results );
 			do_action( 'cn_action_list_after', $atts, $results );

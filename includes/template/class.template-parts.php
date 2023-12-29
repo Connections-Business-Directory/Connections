@@ -70,9 +70,9 @@ class cnTemplatePart extends stdClass {
 	 * @param  string  $base         The base template name.
 	 * @param  string  $name         The template name.
 	 * @param  array   $params       An array of arguments that will be extract() if the template part is to be loaded.
-	 * @param  boolean $load         Whether or not to load the template.
+	 * @param  boolean $load         Whether to load the template.
 	 * @param  boolean $buffer
-	 * @param  boolean $require_once Whether or not to require() or require_once() the template part.
+	 * @param  boolean $require_once Whether to require() or require_once() the template part.
 	 *
 	 * @return string|bool The template part file path, if one is located.
 	 */
@@ -1148,7 +1148,7 @@ class cnTemplatePart extends stdClass {
 
 		$html = '';
 
-		// Check whether or not the category description should be displayed or not.
+		// Check whether the category description should be displayed or not.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) {
 
 			return $html;
@@ -1193,7 +1193,7 @@ class cnTemplatePart extends stdClass {
 	 */
 	public static function searchingMessage( $atts = array(), $results = array(), $template = null ) {
 
-		// Check whether or not the category description should be displayed or not.
+		// Check whether the category description should be displayed or not.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'search_message' ) ) {
 			return '';
 		}
@@ -1732,7 +1732,7 @@ class cnTemplatePart extends stdClass {
 	 * Accepted option for the $atts property are:
 	 *     name (string) The input name attribute.
 	 *     value (string) The input value attribute.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access public
 	 * @version 1.0
@@ -1890,7 +1890,7 @@ class cnTemplatePart extends stdClass {
 	 *                                      Default: empty
 	 *     @type string $after_page_number  A string to append after the page number.
 	 *                                      Default: empty
-	 *     @type bool   $return             Whether or not to return or echo the pagination control. Set to TRUE to return instead of echo.
+	 *     @type bool   $return             Whether to return or echo the pagination control. Set to TRUE to return instead of echo.
 	 *                                      Default: FALSE
 	 * }
 	 *
@@ -2157,7 +2157,7 @@ class cnTemplatePart extends stdClass {
 	 *                              Default: '/'
 	 *     @type bool   $force_home Default: FALSE
 	 *     @type int    $home_id    Default: The page set as the directory home page.
-	 *     @type bool   $return     Whether or not to return or echo the pagination control. Set to TRUE to return instead of echo.
+	 *     @type bool   $return     Whether to return or echo the pagination control. Set to TRUE to return instead of echo.
 	 *                              Default: FALSE
 	 * }
 	 *
@@ -2253,15 +2253,15 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *    type (string) The output type of the categories. Valid options are: select || multiselect || radio || checkbox
-	 *    group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
+	 *    group (bool) Whether to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 *    default (string) The default string to show as the first item in the list. Used for select && multiselect only.
-	 *    show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
+	 *    show_select_all (bool) Whether to show the "Select All" option. Used for select && multiselect only.
 	 *    select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
-	 *    show_empty (bool) Whether or not to display empty categories.
-	 *    show_count (bool) Whether or not to display the category count.
+	 *    show_empty (bool) Whether to display empty categories.
+	 *    show_count (bool) Whether to display the category count.
 	 *    depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *    parent_id (array) An array of root parent category IDs to limit the list to.
-	 *    return (bool) Whether or not to return or echo the result.
+	 *    return (bool) Whether to return or echo the result.
 	 *
 	 * NOTE: The $atts array is passed to a number of private methods to output the categories.
 	 *
@@ -2356,15 +2356,15 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string) The output type of the categories. Valid options are: select || multiselect
-	 *     group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
+	 *     group (bool) Whether to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 *     default (string) The default string to show as the first item in the list. Used for select && multiselect only.
-	 *     show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
+	 *     show_select_all (bool) Whether to show the "Select All" option. Used for select && multiselect only.
 	 *     select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *     parent_id (array) An array of root parent category IDs to limit the list to.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access  private
 	 * @version 1.0
@@ -2529,13 +2529,13 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string) The output type of the categories. Valid options are: select || multiselect
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *     parent_id (array) An array of root parent category IDs to limit the list to.
 	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 *     columns (int) The number of columns in the table.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2672,8 +2672,8 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string)
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *
 	 * @param object $category A category object.
 	 * @param int    $level    The current category level.
@@ -2741,13 +2741,13 @@ class cnTemplatePart extends stdClass {
 	 *  - An unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *     parent_id (array) An array of root parent category IDs to limit the list to.
 	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 *     columns (int) The number of columns in the table.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2879,8 +2879,8 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string)
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *
 	 * @param object $category A category object.
 	 * @param int    $level    The current category level.

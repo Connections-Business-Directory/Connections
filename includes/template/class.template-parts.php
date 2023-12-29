@@ -1833,16 +1833,10 @@ class cnTemplatePart extends stdClass {
 	/**
 	 * Retrieves the current character and outs a hidden form input.
 	 *
-	 * @access public
+	 * @internal
 	 * @since  0.7.4
-	 * @static
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   is_admin()
-	 * @uses   cnQuery::getVar()
-	 * @uses   esc_attr()
-	 *
-	 * @param  array
+	 * @param array $atts
 	 *
 	 * @return string
 	 */

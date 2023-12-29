@@ -2434,7 +2434,7 @@ class cnTemplatePart extends stdClass {
 	 * }
 	 * @param array $value An index array containing either the term ID/s or term slugs which are CHECKED.
 	 *
-	 * @return mixed
+	 * @return false|string
 	 */
 	private static function categoryRadioGroup( $atts, $value = array() ) {
 
@@ -2478,14 +2478,7 @@ class cnTemplatePart extends stdClass {
 	 * The private function called by cnTemplate::category that outputs a term checklist.
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *
-	 * @access  private
-	 * @since   8.2.4
-	 * @static
-	 *
-	 * @uses cnQuery::getVar()
-	 * @uses wp_parse_id_list()
-	 * @uses wp_parse_args()
-	 * @uses cnTemplatePart::walker()
+	 * @since 8.2.4
 	 *
 	 * @param array $atts  {
 	 *     Optional. An array of arguments @see CN_Walker_Term_Check_List::render().
@@ -2493,7 +2486,7 @@ class cnTemplatePart extends stdClass {
 	 * }
 	 * @param array $value An index array containing either the term ID/s or term slugs which are CHECKED.
 	 *
-	 * @return mixed
+	 * @return false|string
 	 */
 	private static function categoryChecklist( $atts, $value = array() ) {
 

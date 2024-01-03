@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Request;
+use Connections_Directory\Taxonomy\Term;
 use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
@@ -2177,8 +2178,9 @@ class cnTemplatePart extends stdClass {
 		$atts = cnSanitize::args( $atts, $defaults );
 
 		$html = '';
+		$term = cnCategory::getCurrent();
 
-		if ( $current = cnCategory::getCurrent() ) {
+		if ( $term instanceof Term ) {
 
 			$home = cnURL::permalink(
 				array(
@@ -2192,7 +2194,7 @@ class cnTemplatePart extends stdClass {
 			);
 
 			$breadcrumb = getTermParents(
-				$current->parent,
+				$term->parent,
 				'category',
 				array(
 					'link'       => $atts['link'],
@@ -2209,7 +2211,7 @@ class cnTemplatePart extends stdClass {
 
 			// $currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
 
-			$html = '<span class="cn-category-breadcrumb-home">' . $home . $atts['separator'] . '</span>' . $breadcrumb . '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $current->term_id ) . '">' . esc_html( $current->name ) . '</span>';
+			$html = '<span class="cn-category-breadcrumb-home">' . $home . $atts['separator'] . '</span>' . $breadcrumb . '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $term->term_id ) . '">' . esc_html( $term->name ) . '</span>';
 
 			$html = '<div class="cn-category-breadcrumb">' . $html . '</div>';
 		}

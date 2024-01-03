@@ -101,7 +101,7 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
-				<!--<element value="cn"/>-->
+				<!--<element value="cn"/> Two character prefixes are no longer permitted; ref: https://github.com/WordPress/WordPress-Coding-Standards/issues/1836 -->
 				<element value="cn_"/>
 				<element value="connections"/>
 				<element value="Connections_Directory"/>

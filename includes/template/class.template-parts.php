@@ -28,6 +28,9 @@ defined( 'ABSPATH' ) || exit;
  * Class cnTemplatePart
  *
  * @since 10.4.40 Extend with stdClass to remove "Creation of dynamic property" deprecation notices.
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnTemplatePart extends stdClass {
 

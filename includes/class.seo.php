@@ -663,6 +663,7 @@ class cnSEO {
 
 		$original = $title;
 		$pieces   = static::maybeTransformTitle( $title );
+		$pieces   = array_filter( $pieces, '\Connections_Directory\Utility\_::notEmpty' );
 
 		/**
 		 * Filter the parts of the page title.

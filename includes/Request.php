@@ -256,6 +256,17 @@ final class Request {
 	}
 
 	/**
+	 * Returns true when processing a WP-CLI request.
+	 *
+	 * @since 10.4.61
+	 *
+	 * @return bool
+	 */
+	public function isCLI(): bool {
+		return defined( 'WP_CLI' ) && WP_CLI;
+	}
+
+	/**
 	 * Returns true if the request is REST API request.
 	 *
 	 * @link https://wordpress.stackexchange.com/a/317041/59053

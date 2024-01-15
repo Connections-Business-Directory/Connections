@@ -148,7 +148,7 @@ function _func( $function, $version, $replacement = '' ) {
 }
 
 /**
- * Wrapper for deprecated hook so we can apply some extra logic.
+ * Wrapper for deprecated hook, so we can apply some extra logic.
  *
  * @since 10.3
  *

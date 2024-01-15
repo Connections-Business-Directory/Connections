@@ -166,7 +166,7 @@ function _hook( $hook, $version, $replacement = '', $message = '' ) {
 
 	$request = Request::get();
 
-	if ( $request->isAjax() || $request->isRest() ) {
+	if ( $request->isAjax() || $request->isCLI() || $request->isRest() ) {
 
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 

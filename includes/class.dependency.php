@@ -660,6 +660,10 @@ class cnDependency {
 			'Connections_Directory\API\REST\Route\Recently_Viewed' => 'includes/API/REST/Route/Recently_Viewed.php',
 			'Connections_Directory\API\REST\Route\Settings'        => 'includes/API/REST/Route/Settings.php',
 
+			// WP CLI.
+			'Connections_Directory\API\CLI\Command\Core'           => 'includes/API/CLI/Command/Core.php',
+			'Connections_Directory\API\CLI\Command\Tables'         => 'includes/API/CLI/Command/Tables.php',
+
 			// Third Party Libraries.
 			'Browser' => 'includes/Libraries/Browser.php',
 			// 'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

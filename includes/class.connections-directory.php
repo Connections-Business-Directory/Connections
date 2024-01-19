@@ -478,6 +478,12 @@ final class Connections_Directory {
 		add_action( 'rest_api_init', array( API\REST\Route\Settings::class, 'register' ) );
 		add_action( 'rest_api_init', array( CN_REST_Terms_Controller::class, 'register' ) );
 
+		// Init WP CLI commands.
+		if ( Request::get()->isCLI() ) {
+			add_action( 'init', array( API\CLI\Command\Core::class, 'register' ) );
+			add_action( 'init', array( API\CLI\Command\Tables::class, 'register' ) );
+		}
+
 		// Init the taxonomies. The `setup_theme` action is the action run closest after initializing of the $wp_rewrite global variable.
 		add_action( 'setup_theme', 'Connections_Directory\Taxonomy\init' );
 

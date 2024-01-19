@@ -10,6 +10,8 @@
  */
 
 use Connections_Directory\Request;
+use Connections_Directory\Taxonomy\Term;
+use Connections_Directory\Template\Hook_Transient;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
@@ -26,6 +28,9 @@ defined( 'ABSPATH' ) || exit;
  * Class cnTemplatePart
  *
  * @since 10.4.40 Extend with stdClass to remove "Creation of dynamic property" deprecation notices.
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.StartWithCapital
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
  */
 class cnTemplatePart extends stdClass {
 
@@ -70,9 +75,9 @@ class cnTemplatePart extends stdClass {
 	 * @param  string  $base         The base template name.
 	 * @param  string  $name         The template name.
 	 * @param  array   $params       An array of arguments that will be extract() if the template part is to be loaded.
-	 * @param  boolean $load         Whether or not to load the template.
+	 * @param  boolean $load         Whether to load the template.
 	 * @param  boolean $buffer
-	 * @param  boolean $require_once Whether or not to require() or require_once() the template part.
+	 * @param  boolean $require_once Whether to require() or require_once() the template part.
 	 *
 	 * @return string|bool The template part file path, if one is located.
 	 */
@@ -475,10 +480,10 @@ class cnTemplatePart extends stdClass {
 		do_action( 'cn_action_list_both', $atts, $results );
 
 		do_action( 'cn_action_list_before-' . $template->getSlug(), $atts, $results );
-		cnShortcode::addFilterRegistry( 'cn_action_list_before-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_action_list_before-' . $template->getSlug() );
 
 		do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
-		cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_action_list_both-' . $template->getSlug() );
 
 		$out .= ob_get_clean();
 
@@ -518,7 +523,7 @@ class cnTemplatePart extends stdClass {
 		$class = apply_filters( 'cn_list_body_class', array( 'cn-list-body' ) );
 
 		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
-		cnShortcode::addFilterRegistry( 'cn_list_body_class-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_list_body_class-' . $template->getSlug() );
 
 		array_walk( $class, 'sanitize_html_class' );
 
@@ -620,10 +625,10 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * @since 9.10
 	 *
-	 * @param cnEntry    $entry
-	 * @param cnTemplate $template
-	 * @param bool       $isSingle
-	 * @param int        $rowCount
+	 * @param cnEntry_HTML $entry
+	 * @param cnTemplate   $template
+	 * @param bool         $isSingle
+	 * @param int          $rowCount
 	 *
 	 * @return array
 	 */
@@ -653,7 +658,7 @@ class cnTemplatePart extends stdClass {
 		$class = apply_filters( 'cn_list_row_class', $class, $entry );
 		$class = apply_filters( "cn_list_row_class-{$template->getSlug()}", $class, $entry );
 
-		cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
+		Hook_Transient::instance()->add( 'cn_list_row_class-' . $template->getSlug() );
 
 		return $class;
 	}
@@ -749,10 +754,10 @@ class cnTemplatePart extends stdClass {
 			);
 
 			do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_before-' . $template->getSlug() );
 
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_both-' . $template->getSlug() );
 
 			printf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
@@ -768,10 +773,10 @@ class cnTemplatePart extends stdClass {
 
 			// After entry actions.
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_both-' . $template->getSlug() );
 
 			do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
-			cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_entry_after-' . $template->getSlug() );
 
 			/**
 			 * @param array        $atts     The shortcode attributes.
@@ -846,10 +851,10 @@ class cnTemplatePart extends stdClass {
 			ob_start();
 
 			do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
-			cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_list_both-' . $template->getSlug() );
 
 			do_action( 'cn_action_list_after-' . $template->getSlug(), $atts, $results );
-			cnShortcode::addFilterRegistry( 'cn_action_list_after-' . $template->getSlug() );
+			Hook_Transient::instance()->add( 'cn_action_list_after-' . $template->getSlug() );
 
 			do_action( 'cn_action_list_both', $atts, $results );
 			do_action( 'cn_action_list_after', $atts, $results );
@@ -1148,7 +1153,7 @@ class cnTemplatePart extends stdClass {
 
 		$html = '';
 
-		// Check whether or not the category description should be displayed or not.
+		// Check whether the category description should be displayed or not.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) {
 
 			return $html;
@@ -1193,7 +1198,7 @@ class cnTemplatePart extends stdClass {
 	 */
 	public static function searchingMessage( $atts = array(), $results = array(), $template = null ) {
 
-		// Check whether or not the category description should be displayed or not.
+		// Check whether the category description should be displayed or not.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'search_message' ) ) {
 			return '';
 		}
@@ -1233,7 +1238,7 @@ class cnTemplatePart extends stdClass {
 			cnSEO::doFilterPermalink();
 		}
 
-		// Store the query vars
+		// Store the query vars.
 		$queryVars                    = array();
 		$queryVars['cn-s']            = Request\Entry_Search_Term::input()->value() ? esc_html( Request\Entry_Search_Term::input()->value() ) : false;
 		$queryVars['cn-char']         = 1 === mb_strlen( Request\Entry_Initial_Character::input()->value() ) ? esc_html( Request\Entry_Initial_Character::input()->value() ) : false;
@@ -1732,7 +1737,7 @@ class cnTemplatePart extends stdClass {
 	 * Accepted option for the $atts property are:
 	 *     name (string) The input name attribute.
 	 *     value (string) The input value attribute.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access public
 	 * @version 1.0
@@ -1833,16 +1838,10 @@ class cnTemplatePart extends stdClass {
 	/**
 	 * Retrieves the current character and outs a hidden form input.
 	 *
-	 * @access public
+	 * @internal
 	 * @since  0.7.4
-	 * @static
 	 *
-	 * @uses   wp_parse_args()
-	 * @uses   is_admin()
-	 * @uses   cnQuery::getVar()
-	 * @uses   esc_attr()
-	 *
-	 * @param  array
+	 * @param array $atts
 	 *
 	 * @return string
 	 */
@@ -1896,7 +1895,7 @@ class cnTemplatePart extends stdClass {
 	 *                                      Default: empty
 	 *     @type string $after_page_number  A string to append after the page number.
 	 *                                      Default: empty
-	 *     @type bool   $return             Whether or not to return or echo the pagination control. Set to TRUE to return instead of echo.
+	 *     @type bool   $return             Whether to return or echo the pagination control. Set to TRUE to return instead of echo.
 	 *                                      Default: FALSE
 	 * }
 	 *
@@ -1919,7 +1918,7 @@ class cnTemplatePart extends stdClass {
 
 		$out = '';
 
-		$translated = __( 'Page', 'connections' ); // Supply translatable string
+		$translated = __( 'Page', 'connections' ); // Supply translatable string.
 
 		$defaults = array(
 			'limit'              => 20,
@@ -1966,7 +1965,7 @@ class cnTemplatePart extends stdClass {
 			// Get the settings for the base of each data type to be used in the URL.
 			$base = get_option( 'connections_permalink' );
 
-			// Store the query vars
+			// Store the query vars.
 			if ( Request\Entry_Search_Term::input()->value() ) {
 				$queryVars['cn-s'] = urlencode( Request\Entry_Search_Term::input()->value() );
 			}
@@ -2020,7 +2019,7 @@ class cnTemplatePart extends stdClass {
 				$queryVars['page_id'] = cnQuery::getVar( 'page_id' );
 			}
 
-			// Current page
+			// Current page.
 			if ( cnQuery::getVar( 'cn-pg' ) ) {
 				$current = absint( cnQuery::getVar( 'cn-pg' ) );
 			}
@@ -2163,7 +2162,7 @@ class cnTemplatePart extends stdClass {
 	 *                              Default: '/'
 	 *     @type bool   $force_home Default: FALSE
 	 *     @type int    $home_id    Default: The page set as the directory home page.
-	 *     @type bool   $return     Whether or not to return or echo the pagination control. Set to TRUE to return instead of echo.
+	 *     @type bool   $return     Whether to return or echo the pagination control. Set to TRUE to return instead of echo.
 	 *                              Default: FALSE
 	 * }
 	 *
@@ -2182,8 +2181,9 @@ class cnTemplatePart extends stdClass {
 		$atts = cnSanitize::args( $atts, $defaults );
 
 		$html = '';
+		$term = cnCategory::getCurrent();
 
-		if ( $current = cnCategory::getCurrent() ) {
+		if ( $term instanceof Term ) {
 
 			$home = cnURL::permalink(
 				array(
@@ -2197,7 +2197,7 @@ class cnTemplatePart extends stdClass {
 			);
 
 			$breadcrumb = getTermParents(
-				$current->parent,
+				$term->parent,
 				'category',
 				array(
 					'link'       => $atts['link'],
@@ -2214,7 +2214,7 @@ class cnTemplatePart extends stdClass {
 
 			// $currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
 
-			$html = '<span class="cn-category-breadcrumb-home">' . $home . $atts['separator'] . '</span>' . $breadcrumb . '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $current->term_id ) . '">' . esc_html( $current->name ) . '</span>';
+			$html = '<span class="cn-category-breadcrumb-home">' . $home . $atts['separator'] . '</span>' . $breadcrumb . '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $term->term_id ) . '">' . esc_html( $term->name ) . '</span>';
 
 			$html = '<div class="cn-category-breadcrumb">' . $html . '</div>';
 		}
@@ -2259,15 +2259,15 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *    type (string) The output type of the categories. Valid options are: select || multiselect || radio || checkbox
-	 *    group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
+	 *    group (bool) Whether to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 *    default (string) The default string to show as the first item in the list. Used for select && multiselect only.
-	 *    show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
+	 *    show_select_all (bool) Whether to show the "Select All" option. Used for select && multiselect only.
 	 *    select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
-	 *    show_empty (bool) Whether or not to display empty categories.
-	 *    show_count (bool) Whether or not to display the category count.
+	 *    show_empty (bool) Whether to display empty categories.
+	 *    show_count (bool) Whether to display the category count.
 	 *    depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *    parent_id (array) An array of root parent category IDs to limit the list to.
-	 *    return (bool) Whether or not to return or echo the result.
+	 *    return (bool) Whether to return or echo the result.
 	 *
 	 * NOTE: The $atts array is passed to a number of private methods to output the categories.
 	 *
@@ -2362,15 +2362,15 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string) The output type of the categories. Valid options are: select || multiselect
-	 *     group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
+	 *     group (bool) Whether to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 *     default (string) The default string to show as the first item in the list. Used for select && multiselect only.
-	 *     show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
+	 *     show_select_all (bool) Whether to show the "Select All" option. Used for select && multiselect only.
 	 *     select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *     parent_id (array) An array of root parent category IDs to limit the list to.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access  private
 	 * @version 1.0
@@ -2440,7 +2440,7 @@ class cnTemplatePart extends stdClass {
 	 * }
 	 * @param array $value An index array containing either the term ID/s or term slugs which are CHECKED.
 	 *
-	 * @return mixed
+	 * @return false|string
 	 */
 	private static function categoryRadioGroup( $atts, $value = array() ) {
 
@@ -2484,14 +2484,7 @@ class cnTemplatePart extends stdClass {
 	 * The private function called by cnTemplate::category that outputs a term checklist.
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *
-	 * @access  private
-	 * @since   8.2.4
-	 * @static
-	 *
-	 * @uses cnQuery::getVar()
-	 * @uses wp_parse_id_list()
-	 * @uses wp_parse_args()
-	 * @uses cnTemplatePart::walker()
+	 * @since 8.2.4
 	 *
 	 * @param array $atts  {
 	 *     Optional. An array of arguments @see CN_Walker_Term_Check_List::render().
@@ -2499,7 +2492,7 @@ class cnTemplatePart extends stdClass {
 	 * }
 	 * @param array $value An index array containing either the term ID/s or term slugs which are CHECKED.
 	 *
-	 * @return mixed
+	 * @return false|string
 	 */
 	private static function categoryChecklist( $atts, $value = array() ) {
 
@@ -2542,13 +2535,13 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string) The output type of the categories. Valid options are: select || multiselect
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *     parent_id (array) An array of root parent category IDs to limit the list to.
 	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 *     columns (int) The number of columns in the table.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2685,8 +2678,8 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string)
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *
 	 * @param object $category A category object.
 	 * @param int    $level    The current category level.
@@ -2725,8 +2718,8 @@ class cnTemplatePart extends stdClass {
 
 			/*
 			 * Only show the descendants based on the following criteria:
-			 * 	- There are descendant categories.
-			 * 	- The descendant depth is < than the current $level
+			 *  - There are descendant categories.
+			 *  - The descendant depth is < than the current $level
 			 *
 			 * When descendant depth is set to 0, show all descendants.
 			 * When descendant depth is set to < $level, call the recursive function.
@@ -2754,13 +2747,13 @@ class cnTemplatePart extends stdClass {
 	 *  - An unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *     depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *     parent_id (array) An array of root parent category IDs to limit the list to.
 	 *     layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 *     columns (int) The number of columns in the table.
-	 *     return (bool) Whether or not to return or echo the result.
+	 *     return (bool) Whether to return or echo the result.
 	 *
 	 * @access private
 	 * @version 1.0
@@ -2892,8 +2885,8 @@ class cnTemplatePart extends stdClass {
 	 *
 	 * Accepted option for the $atts property are:
 	 *     type (string)
-	 *     show_empty (bool) Whether or not to display empty categories.
-	 *     show_count (bool) Whether or not to display the category count.
+	 *     show_empty (bool) Whether to display empty categories.
+	 *     show_count (bool) Whether to display the category count.
 	 *
 	 * @param object $category A category object.
 	 * @param int    $level    The current category level.
@@ -2948,7 +2941,7 @@ class cnTemplatePart extends stdClass {
 			 */
 			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-				// Category slug
+				// Category slug.
 				$queryCategorySlug = cnQuery::getVar( 'cn-cat-slug' );
 				if ( ! empty( $queryCategorySlug ) ) {
 					// If the category slug is a descendant, use the last slug from the URL for the query.
@@ -2986,8 +2979,8 @@ class cnTemplatePart extends stdClass {
 
 			/*
 			 * Only show the descendants based on the following criteria:
-			 * 	- There are descendant categories.
-			 * 	- The descendant depth is < than the current $level
+			 *  - There are descendant categories.
+			 *  - The descendant depth is < than the current $level
 			 *
 			 * When descendant depth is set to 0, show all descendants.
 			 * When descendant depth is set to < $level, call the recursive function.

@@ -28,7 +28,10 @@ function _argument( $argument, $version, $message = '' ) {
 
 	if ( $request->isAjax() || $request->isRest() ) {
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		do_action( 'deprecated_argument_run', $argument, $message, $version );
+
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		error_log( "The {$argument} argument is deprecated since version {$version}. {$message}" );
 
 	} else {
@@ -105,7 +108,10 @@ function _file( $file, $version, $replacement = '', $message = '' ) {
 		$log_string  = "{$file} is deprecated since version {$version}.";
 		$log_string .= $replacement ? " Replace with {$replacement}." : ' No alternative available.';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		do_action( 'deprecated_file_included', $file, $replacement, $version, $message );
+
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		error_log( $log_string );
 
 	} else {
@@ -134,11 +140,13 @@ function _func( $function, $version, $replacement = '' ) {
 
 	if ( $request->isAjax() || $request->isRest() ) {
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		do_action( 'deprecated_function_run', $function, $replacement, $version );
 
 		$log_string  = "The {$function} function is deprecated since version {$version}.";
 		$log_string .= $replacement ? " Replace with {$replacement}." : '';
 
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		error_log( $log_string );
 
 	} else {
@@ -148,7 +156,7 @@ function _func( $function, $version, $replacement = '' ) {
 }
 
 /**
- * Wrapper for deprecated hook so we can apply some extra logic.
+ * Wrapper for deprecated hook, so we can apply some extra logic.
  *
  * @since 10.3
  *
@@ -166,14 +174,16 @@ function _hook( $hook, $version, $replacement = '', $message = '' ) {
 
 	$request = Request::get();
 
-	if ( $request->isAjax() || $request->isRest() ) {
+	if ( $request->isAjax() || $request->isCLI() || $request->isRest() ) {
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 
 		$message     = empty( $message ) ? '' : ' ' . $message;
 		$log_string  = "{$hook} is deprecated since version {$version}";
 		$log_string .= $replacement ? "! Use {$replacement} instead." : ' with no alternative available.';
 
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		error_log( $log_string . $message );
 
 	} else {

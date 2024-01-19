@@ -1,5 +1,13 @@
 ;jQuery(document).ready( function ($) {
 
+	/**
+	 * The WP Admin AJAX URL.
+	 *
+	 * @global
+	 * @type {string}
+	 */
+	let ajaxurl;
+
 	var CN_System_Tools = {
 
 		init: function() {
@@ -69,6 +77,32 @@
 				}
 			});
 
+			$('#cn-database-reset').ajaxForm({
+				type: 'post',
+				dataType: 'json',
+				url: ajaxurl,
+				beforeSubmit(arr, $form, options) {
+					$form.find('input[type="submit"]').attr('disabled', 'disabled');
+				},
+				success(response, status, jqXHR, $form) {
+					CN_System_Tools.ajaxSuccess(
+						'#cn-database-reset-response',
+						response.data.message,
+						status,
+						jqXHR
+					);
+					$form.find('input[type="submit"]').removeAttr('disabled');
+				},
+				error(XMLHttpRequest, status, error, $form) {
+					CN_System_Tools.ajaxError(
+						'#cn-database-reset-response',
+						XMLHttpRequest.responseJSON.data.message,
+						status,
+						error
+					);
+					$form.find('input[type="submit"]').removeAttr('disabled');
+				},
+			});
 		},
 
 		setupValidation: function() {

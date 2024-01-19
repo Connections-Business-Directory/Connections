@@ -198,6 +198,12 @@ class cnAdmin_Tools {
 				'capability' => 'manage_options',
 			),
 			array(
+				'id'         => 'reset',
+				'name'       => __( 'Reset', 'connections' ),
+				'callback'   => array( __CLASS__, 'reset' ),
+				'capability' => 'manage_options',
+			),
+			array(
 				'id'         => 'logs',
 				'name'       => __( 'Logs', 'connections' ),
 				'callback'   => array( __CLASS__, 'logs' ),
@@ -683,6 +689,47 @@ cnSystem_Info::display();
 		<?php
 		wp_enqueue_script( 'cn-system-info' );
 		do_action( 'cn_tools_import_export_settings_after' );
+	}
+
+	/**
+	 * Render the Reset tools.
+	 *
+	 * @since 10.4.61
+	 */
+	public static function reset() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		do_action( 'cn_tools_reset_before' );
+
+		?>
+		<div class="postbox">
+			<h3><span><?php esc_html_e( 'Reset Database', 'connections' ); ?></span></h3>
+			<div class="inside">
+				<div id="cn-database-reset-response"></div>
+				<p>
+					<?php
+					esc_html_e(
+						'Reset all Connections Business Directory tables in the WordPress database. This action can not be undone.',
+						'connections'
+					);
+					?>
+				</p>
+				<form id="cn-database-reset" method="post" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
+					<p>
+						<input type="text" name="database-reset-confirmation"> <?php esc_html_e( 'Type "reset" to confirm that you wish to reset the directory database tables.', 'connections' ); ?>
+					</p>
+					<input type="hidden" name="action" value="database-reset" />
+					<?php _nonce::field( 'database-reset' ); ?>
+					<?php submit_button( __( 'Reset Database', 'connections' ), 'secondary' ); ?>
+				</form>
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+		<?php
+		wp_enqueue_script( 'cn-system-info' );
+		do_action( 'cn_tools_reset_after' );
 	}
 
 	/**

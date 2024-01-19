@@ -1,5 +1,13 @@
 ;jQuery(document).ready( function ($) {
 
+	/**
+	 * The WP Admin AJAX URL.
+	 *
+	 * @global
+	 * @type {string}
+	 */
+	let ajaxurl;
+
 	var CN_System_Tools = {
 
 		init: function() {

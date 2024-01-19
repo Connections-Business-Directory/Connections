@@ -249,6 +249,23 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.61 01/19/2024 =
+* FEATURE: Introduce the WP-CLI commands `core version` and `tables <command>`.
+* FEATURE: Introduce the Database Reset Tool.
+* NEW: Introduce `\Request::isCLI()`.
+* TWEAK: Replace deprecated `cnShortcode::addFilterRegistry()` calls with `\Template\Hook_Transient::add()`.
+* TWEAK: Use instance of `Term` in `\cnTemplatePart::categoryBreadcrumb()`.
+* TWEAK: Route to the PHP error log, developer deprecated notices when running WP-CLI commands.
+* TWEAK: Add JSDoc for global variable to enable code completion.
+* BUG: Remove empty strings from the page title pieces to prevent leading/trailing page title separators from displaying.
+* OTHER: Correct misspellings.
+* DEV: phpDoc corrections.
+* DEV: Add comment to `phpcs.xml`.
+* WPCS: Inline comments must end in full-stops, exclamation marks, or question marks.
+* WPCS: Spaces must be used for mid-line alignment; tabs are not allowed.
+* WPCS: Disable `PEAR.NamingConventions.ValidClassName.StartWithCapital` and `WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound`.
+* WPCS: Ignore WPCS flags in `Utility\_deprecated`.
+
 = 10.4.60 12/22/2023 =
 * NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generateSelectAllOption()`.
 * NEW: Introduce `CN_Walker_Term_Select_List_Enhanced::generateSelectNoneOption()`.
@@ -554,25 +571,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Correct code formatting.
 * DEV: Fix phpDoc alignment.
 
-= 10.4.42 05/08/2023 =
-* NEW: Introduce `Shortcode\Get_HTML`.
-* TWEAK: Move `cnShortcode_Connections` to the deprecated folder.
-* TWEAK: The replacement property should be optional in `_deprecated::_file()`.
-* TWEAK: No need to register the `[cn-directory]` shortcode with WP since it is only used in the view controller.
-* TWEAK: Add the private tag property to `Entry_Directory` and pass it to the filters.
-* TWEAK: Utilize `\Shortcode\Entry_Directory` instead of the deprecated `cnShortcode_Connections::shortcode()` method when rendering the directory.
-* TWEAK: Refactor deprecated `cnShortcode_Connections::shortcode()` to call its replacement `Shortcode\Entry_Directory`.
-* TWEAK: Utilize `Shortcode\Get_HTML` in all shortcode objects to reduce code duplication.
-* TWEAK: Remove usage of deprecated `cnShortcode::clearFilterRegistry()`.
-* DEV: Add file header.
-* DEV: Optimize imports.
-* DEV: Add method return type.
-* DEV: phpDoc corrections.
-
 == Upgrade Notice ==
-
-= 10.4.42 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.43 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
@@ -626,4 +625,7 @@ It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.60 =
+It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.61 =
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.

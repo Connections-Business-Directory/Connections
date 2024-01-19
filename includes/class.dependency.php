@@ -605,6 +605,7 @@ class cnDependency {
 			'Connections_Directory\Hook\Action\Admin\Tools\Import_Entries'      => 'includes/Hook/Action/Admin/Tools/Import_Entries.php',
 			'Connections_Directory\Hook\Action\Admin\Tools\Remote_Request_Test' => 'includes/Hook/Action/Admin/Tools/Remote_Request_Test.php',
 			'Connections_Directory\Hook\Action\Ajax\Category_Metabox_Height'    => 'includes/Hook/Action/Ajax/Category_Metabox_Height.php',
+			'Connections_Directory\Hook\Action\Ajax\Database_Reset'             => 'includes/Hook/Action/Ajax/Database_Reset.php',
 			'Connections_Directory\Hook\Action\Ajax\Response'                   => 'includes/Hook/Action/Ajax/Response.php',
 			'Connections_Directory\Hook\Action\Ajax\Settings_Export_Import'     => 'includes/Hook/Action/Ajax/Settings_Export_Import.php',
 			'Connections_Directory\Hook\Action\Ajax\System_Information'         => 'includes/Hook/Action/Ajax/System_Information.php',

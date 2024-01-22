@@ -2031,11 +2031,9 @@ class cnSettingsAPI {
 	 * Reset all the settings to the registered default values
 	 * for a specific plugin that was registered using this API.
 	 *
-	 * @access public
-	 * @since  0.7.3.0
-	 * @static
+	 * @since 0.7.3.0
 	 *
-	 * @param  string $pluginID
+	 * @param string $pluginID
 	 */
 	public static function reset( $pluginID ) {
 
@@ -2051,11 +2049,9 @@ class cnSettingsAPI {
 	/**
 	 * Delete all the settings for a specific plugin that was registered using this API.
 	 *
-	 * @access public
-	 * @since  0.7.3.0
-	 * @static
+	 * @since 0.7.3.0
 	 *
-	 * @param  string $pluginID
+	 * @param string $pluginID
 	 */
 	public static function delete( $pluginID ) {
 

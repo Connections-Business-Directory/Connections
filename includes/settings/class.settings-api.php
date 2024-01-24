@@ -2008,13 +2008,12 @@ class cnSettingsAPI {
 	/**
 	 * Returns all the settings registered through this API.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
+	 * @since 10.4.62 Make method public.
 	 *
 	 * @return array
 	 */
-	private static function getAll() {
+	public static function getAll() {
 
 		$plugins  = array_keys( self::$registry );
 		$settings = array();

@@ -105,8 +105,7 @@
 			});
 		},
 
-		setupValidation: function() {
-
+		setupValidation: function () {
 			$.validator.setDefaults({
 				rules: {
 					email: {

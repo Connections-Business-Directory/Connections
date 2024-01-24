@@ -24,7 +24,7 @@ use WP_CLI_Command;
 use WP_CLI\Utils;
 
 /**
- * Perform basic database table operations.
+ * Perform database table operations.
  *
  * @package Connections_Directory\API\CLI\Command
  */

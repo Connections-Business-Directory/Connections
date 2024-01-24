@@ -105,7 +105,13 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 		 */
 		public static function registerAtts( $atts = array() ) {
 
-			$atts['status'] = 'all';
+			$options = array(
+				get_option( 'date_format', 'm/d/Y' ),
+				get_option( 'time_format', 'g:ia' ),
+			);
+
+			$atts['status']      = 'all';
+			$atts['date_format'] = implode( ' ', $options );
 
 			return $atts;
 		}
@@ -129,21 +135,24 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 		 *
 		 * @internal
 		 *
-		 * @param cnEntry_HTML $entry Current instance of the cnEntry object.
+		 * @param cnEntry_HTML $entry    Current instance of the cnEntry object.
+		 * @param cnTemplate   $template Instance of the cnTemplate object.
+		 * @param array        $atts     The shortcode attributes array.
 		 */
-		public static function card( $entry ) {
+		public static function card( $entry, $template, $atts ) {
 
 			if ( is_admin() ) {
 
+				$dateFormat   = "{$atts['date_format']} g:ia";
 				$editTokenURL = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					echo '<span class="cn-entry-name"><a class="row-title" title="', esc_attr( "Edit {$entry->getName()}" ), '" href="', esc_url( $editTokenURL ), '"> ', esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">', esc_html( $entry->getDateAdded( 'm/d/Y g:ia' ) ), '</span>';
+					echo '<span class="cn-entry-name"><a class="row-title" title="', esc_attr( "Edit {$entry->getName()}" ), '" href="', esc_url( $editTokenURL ), '"> ', esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">', esc_html( $entry->getDateAdded( $dateFormat ) ), '</span>';
 
 				} else {
 
-					echo '<span class="cn-entry-name">', esc_html( $entry->getName() ), '</span> <span class="cn-list-date">', esc_html( $entry->getDateAdded( 'm/d/Y g:ia' ) ), '</span>';
+					echo '<span class="cn-entry-name">', esc_html( $entry->getName() ), '</span> <span class="cn-list-date">', esc_html( $entry->getDateAdded( $dateFormat ) ), '</span>';
 				}
 
 			}

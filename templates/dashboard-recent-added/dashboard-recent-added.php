@@ -111,7 +111,7 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 		}
 
 		/**
-		 * Callback for the `'cn_list_atts-{$template->getSlug()}` filter.
+		 * Callback for the `cn_list_atts-{$template->getSlug()}` filter.
 		 *
 		 * @internal
 		 *

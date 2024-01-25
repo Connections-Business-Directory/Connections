@@ -663,6 +663,7 @@ class cnDependency {
 
 			// WP CLI.
 			'Connections_Directory\API\CLI\Command\Core'           => 'includes/API/CLI/Command/Core.php',
+			'Connections_Directory\API\CLI\Command\Settings'       => 'includes/API/CLI/Command/Settings.php',
 			'Connections_Directory\API\CLI\Command\Tables'         => 'includes/API/CLI/Command/Tables.php',
 
 			// Third Party Libraries.

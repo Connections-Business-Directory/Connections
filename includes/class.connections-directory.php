@@ -482,6 +482,7 @@ final class Connections_Directory {
 		// Init WP CLI commands.
 		if ( Request::get()->isCLI() ) {
 			add_action( 'init', array( API\CLI\Command\Core::class, 'register' ) );
+			add_action( 'init', array( API\CLI\Command\Settings::class, 'register' ) );
 			add_action( 'init', array( API\CLI\Command\Tables::class, 'register' ) );
 		}
 

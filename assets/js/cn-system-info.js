@@ -91,6 +91,9 @@
 						status,
 						jqXHR
 					);
+					$form
+						.find('input[name="database-reset-confirmation"]')
+						.val('');
 					$form.find('input[type="submit"]').removeAttr('disabled');
 				},
 				error(XMLHttpRequest, status, error, $form) {
@@ -100,6 +103,9 @@
 						status,
 						error
 					);
+					$form
+						.find('input[name="database-reset-confirmation"]')
+						.val('');
 					$form.find('input[type="submit"]').removeAttr('disabled');
 				},
 			});

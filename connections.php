@@ -48,7 +48,7 @@ $check = new cnRequirements_Check(
 		'requirements' => array(
 			'php' => array(
 				'min' => '7.0', // 5.6.20 -- The minimum PHP version that WordPress 5.2 requires.
-				'max' => '8.1', // 7.4
+				'max' => '8.3', // 7.4
 			),
 			'wp'  => array(
 				'min' => '5.8', // 4.7.12

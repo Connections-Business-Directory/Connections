@@ -246,6 +246,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.62 01/29/2024 =
+
+* FEATURE: Introduce the Settings Reset tool.
+* FEATURE: WP-CLI: Introduce `settings <command>`.
+* TWEAK: Ensure Dashboard Awaiting Moderation, Recently Added, and Recently Modified widgets use the site options for
+  the date and time format.
+* TWEAK: Make `cnSettingsAPI::getAll()` public.
+* TWEAK: Reset the confirmation text field in the Database Reset tool after both error and success.
+* TWEAK: Reset `cnEntry_HTML::getCategoryBlock()` to its default parameters after each entry render.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* ESLint: corrections.
+* WP-CLI: Add success messages to the `tables` commands.
+
 = 10.4.61 01/19/2024 =
 
 * FEATURE: Introduce the WP-CLI commands `core version` and `tables <command>`.
@@ -567,43 +581,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Correct placement of IDE `@noinspection` tag.
 * DEV: phpDoc corrections.
 * DEV: phpDoc updates.
-
-= 10.4.43 05/24/2023 =
-
-* NEW: Introduce `CN_REST_Entry_Controller::_sanitize()` and `CN_REST_Entry_Controller::_validate()`.
-* NEW: Introduce the `Connections_Directory/API/REST/Controller/Entry/Get_Items/Arguments` filter.
-* TWEAK: Remove unnecessary local variables.
-* TWEAK: Make `cnEntry_Action::copyImages()` public.
-* TWEAK: Assign local variable to object property and then return.
-* TWEAK: Tweak string concatenation.
-* TWEAK: Minor optimization to check for the existing entry slugs within similar slugs before creating an indexed
-  iteration of the slug.
-* TWEAK: If the supplied entry slug is the same as th existing entry slug, do not attempt to a unique slug.
-* TWEAK: Remove unnecessary parentheses.
-* TWEAK: Replace deprecated `cnArray::get()` with `_array::get()`.
-* TWEAK: Type cast is redundant.
-* TWEAK: Remove use of deprecated `cnOutput` object. Replaced with `cnEntry_HTML`.
-* TWEAK: Move REST controllers classes to the autoloader.
-* TWEAK: Move the REST register routes hook into `Connections_Directory::hooks()`.
-* TWEAK: Rename `cnAPI` to `\API\REST\Routes`.
-* TWEAK: Cache the result of `CN_REST_Entry_Controller::get_item_schema()`.
-* TWEAK: Replace deprecated `cnFormatting::toBoolean()` with `_format::toBoolean()`.
-* TWEAK: The value returned from `cnEntry::getStatus()` does not require sanitization each time it is called.
-* TWEAK: Improve validation in `cnEntry::setStatus()`.
-* TWEAK: Minor optimization in `cnEntry_Action::process()`. Call `$entry->getStatus()` only once instead of multiple
-  times.
-* TWEAK: Refactor `cnEntry_Action::copyImages()` to support whether to copy the image variations.
-* TWEAK: First pass at implementing update entry item via a REST API request.
-* TWEAK: Rename class `CN_REST_Entry_Controller` to `Connections_Directory\API\REST\Endpoint\Entry`.
-* TWEAK: Rename file `class.cn-rest-entry-controller.php` to `Entry.php`.
-* BUG: Ensure the directory homepage base URL is set when returning the REST API request results.
-* OTHER: Correct misspellings.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-* DEV: Remove unused commented out code.
-* DEV: When a multi-item array uses associative keys, each value should start on a new line.
-* DEV: Add method and return types.
-* DEV: Correct code formatting.
-* DEV: Fix phpDoc alignment.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

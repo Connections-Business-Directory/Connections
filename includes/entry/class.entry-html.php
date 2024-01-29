@@ -2468,7 +2468,12 @@ class cnEntry_HTML extends cnEntry {
 		$block->setProperties( $atts );
 		$block->set( 'render_container', false );
 
-		return $this->echoOrReturn( $atts['return'], $block->asHTML() );
+		$html = $block->asHTML();
+
+		// Restore default parameters.
+		$block->setProperties( $defaults );
+
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

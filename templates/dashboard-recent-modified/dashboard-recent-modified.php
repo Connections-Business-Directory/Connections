@@ -85,26 +85,73 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 					),
 				)
 			);
+
+			// Update the permitted shortcode attributes the user may use and override the template defaults as needed.
+			add_filter( 'cn_list_atts_permitted-' . $template->getSlug(), array( __CLASS__, 'registerAtts' ) );
+			add_filter( 'cn_list_atts-' . $template->getSlug(), array( __CLASS__, 'atts' ) );
+		}
+
+		/**
+		 * Callback for the `cn_list_atts_permitted-{$template->getSlug()}` filter.
+		 *
+		 * Initiate the permitted template shortcode options and load the default values.
+		 *
+		 * @internal
+		 * @since 0.8
+		 *
+		 * @param array $atts The shortcode $atts array.
+		 *
+		 * @return array
+		 */
+		public static function registerAtts( $atts = array() ) {
+
+			$options = array(
+				get_option( 'date_format', 'm/d/Y' ),
+				get_option( 'time_format', 'g:ia' ),
+			);
+
+			$atts['date_format'] = implode( ' ', $options );
+
+			return $atts;
+		}
+
+		/**
+		 * Callback for the `cn_list_atts-{$template->getSlug()}` filter.
+		 *
+		 * @internal
+		 *
+		 * @param array $atts The shortcode $atts array.
+		 *
+		 * @return array
+		 */
+		public static function atts( $atts ) {
+
+			return $atts;
 		}
 
 		/**
 		 * Callback to render the template.
 		 *
-		 * @param cnEntry_HTML $entry Current instance of the cnEntry object.
+		 * @internal
+		 *
+		 * @param cnEntry_HTML $entry    Current instance of the cnEntry object.
+		 * @param cnTemplate   $template Instance of the cnTemplate object.
+		 * @param array        $atts     The shortcode attributes array.
 		 */
-		public static function card( $entry ) {
+		public static function card( $entry, $template, $atts ) {
 
 			if ( is_admin() ) {
 
+				$dateFormat   = "{$atts['date_format']} g:ia";
 				$editTokenURL = _nonce::url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit', $entry->getId() );
 
 				if ( current_user_can( 'connections_edit_entry' ) ) {
 
-					echo '<span class="cn-entry-name"><a class="row-title" title="', esc_attr( 'Edit ' . $entry->getName() ), '" href="', esc_url( $editTokenURL ), '"> ', esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">', esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ), '</span>';
+					echo '<span class="cn-entry-name"><a class="row-title" title="', esc_attr( 'Edit ' . $entry->getName() ), '" href="', esc_url( $editTokenURL ), '"> ', esc_html( $entry->getName() ) . '</a></span> <span class="cn-list-date">', esc_html( $entry->getFormattedTimeStamp( $dateFormat ) ), '</span>';
 
 				} else {
 
-					echo '<span class="cn-entry-name">', esc_html( $entry->getName() ), '</span> <span class="cn-list-date">', esc_html( $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) ), '</span>';
+					echo '<span class="cn-entry-name">', esc_html( $entry->getName() ), '</span> <span class="cn-list-date">', esc_html( $entry->getFormattedTimeStamp( $dateFormat ) ), '</span>';
 				}
 
 			}

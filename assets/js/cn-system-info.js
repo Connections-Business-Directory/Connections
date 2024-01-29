@@ -91,6 +91,9 @@
 						status,
 						jqXHR
 					);
+					$form
+						.find('input[name="database-reset-confirmation"]')
+						.val('');
 					$form.find('input[type="submit"]').removeAttr('disabled');
 				},
 				error(XMLHttpRequest, status, error, $form) {
@@ -100,13 +103,50 @@
 						status,
 						error
 					);
+					$form
+						.find('input[name="database-reset-confirmation"]')
+						.val('');
+					$form.find('input[type="submit"]').removeAttr('disabled');
+				},
+			});
+
+			$('#cn-settings-reset').ajaxForm({
+				type: 'post',
+				dataType: 'json',
+				url: ajaxurl,
+				beforeSubmit(arr, $form, options) {
+					$form
+						.find('input[type="submit"]')
+						.attr('disabled', 'disabled');
+				},
+				success(response, status, jqXHR, $form) {
+					CN_System_Tools.ajaxSuccess(
+						'#cn-settings-reset-response',
+						response.data.message,
+						status,
+						jqXHR
+					);
+					$form
+						.find('input[name="settings-reset-confirmation"]')
+						.val('');
+					$form.find('input[name="submit"]').removeAttr('disabled');
+				},
+				error(XMLHttpRequest, status, error, $form) {
+					CN_System_Tools.ajaxError(
+						'#cn-settings-reset-response',
+						XMLHttpRequest.responseJSON.data.message,
+						status,
+						error
+					);
+					$form
+						.find('input[name="settings-reset-confirmation"]')
+						.val('');
 					$form.find('input[type="submit"]').removeAttr('disabled');
 				},
 			});
 		},
 
-		setupValidation: function() {
-
+		setupValidation: function () {
 			$.validator.setDefaults({
 				rules: {
 					email: {

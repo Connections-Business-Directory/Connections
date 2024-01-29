@@ -22,7 +22,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.61';
+	const VERSION = '10.4.62';
 
 	/**
 	 * Stores the instance of this class.
@@ -424,6 +424,7 @@ final class Connections_Directory {
 		add_action( 'admin_init', array( Action\Admin\Tools\Import_Categories::class, 'register' ) );
 		add_action( 'admin_init', array( Action\Ajax\Category_Metabox_Height::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\Database_Reset::class, 'register' ), 9 );
+		add_action( 'admin_init', array( Action\Ajax\Settings_Reset::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\System_Information::class, 'register' ), 9 );
 		add_action( 'admin_init', array( Action\Ajax\Settings_Export_Import::class, 'register' ), 9 );
 
@@ -482,6 +483,7 @@ final class Connections_Directory {
 		// Init WP CLI commands.
 		if ( Request::get()->isCLI() ) {
 			add_action( 'init', array( API\CLI\Command\Core::class, 'register' ) );
+			add_action( 'init', array( API\CLI\Command\Settings::class, 'register' ) );
 			add_action( 'init', array( API\CLI\Command\Tables::class, 'register' ) );
 		}
 

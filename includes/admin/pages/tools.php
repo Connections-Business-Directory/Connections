@@ -706,6 +706,28 @@ cnSystem_Info::display();
 
 		?>
 		<div class="postbox">
+			<h3><span><?php esc_html_e( 'Reset Settings', 'connections' ); ?></span></h3>
+			<div class="inside">
+				<div id="cn-settings-reset-response"></div>
+				<p>
+					<?php
+					esc_html_e(
+						'Reset settings to the default values. This action can not be undone.',
+						'connections'
+					);
+					?>
+				</p>
+				<form id="cn-settings-reset" method="post" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
+					<p>
+						<input type="text" name="settings-reset-confirmation"> <?php esc_html_e( 'Type "reset" to confirm that you wish to reset the settings the the default values.', 'connections' ); ?>
+					</p>
+					<input type="hidden" name="action" value="settings-reset" />
+					<?php _nonce::field( 'settings-reset' ); ?>
+					<?php submit_button( __( 'Reset Settings', 'connections' ), 'secondary' ); ?>
+				</form>
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+		<div class="postbox">
 			<h3><span><?php esc_html_e( 'Reset Database', 'connections' ); ?></span></h3>
 			<div class="inside">
 				<div id="cn-database-reset-response"></div>

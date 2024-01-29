@@ -2008,13 +2008,12 @@ class cnSettingsAPI {
 	/**
 	 * Returns all the settings registered through this API.
 	 *
-	 * @access private
-	 * @since  8.3
-	 * @static
+	 * @since 8.3
+	 * @since 10.4.62 Make method public.
 	 *
 	 * @return array
 	 */
-	private static function getAll() {
+	public static function getAll() {
 
 		$plugins  = array_keys( self::$registry );
 		$settings = array();
@@ -2031,11 +2030,9 @@ class cnSettingsAPI {
 	 * Reset all the settings to the registered default values
 	 * for a specific plugin that was registered using this API.
 	 *
-	 * @access public
-	 * @since  0.7.3.0
-	 * @static
+	 * @since 0.7.3.0
 	 *
-	 * @param  string $pluginID
+	 * @param string $pluginID
 	 */
 	public static function reset( $pluginID ) {
 
@@ -2051,11 +2048,9 @@ class cnSettingsAPI {
 	/**
 	 * Delete all the settings for a specific plugin that was registered using this API.
 	 *
-	 * @access public
-	 * @since  0.7.3.0
-	 * @static
+	 * @since 0.7.3.0
 	 *
-	 * @param  string $pluginID
+	 * @param string $pluginID
 	 */
 	public static function delete( $pluginID ) {
 

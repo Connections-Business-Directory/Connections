@@ -24,7 +24,7 @@ use WP_CLI_Command;
 use WP_CLI\Utils;
 
 /**
- * Perform basic database table operations.
+ * Perform database table operations.
  *
  * @package Connections_Directory\API\CLI\Command
  */
@@ -236,6 +236,8 @@ final class Tables extends WP_CLI_Command {
 				),
 			)
 		);
+
+		WP_CLI::success( 'Database tables created.' );
 	}
 
 	/**
@@ -362,7 +364,7 @@ final class Tables extends WP_CLI_Command {
 			)
 		);
 
-		WP_CLI::log( 'Renaming tables is completed.' );
+		WP_CLI::success( 'Renaming tables is completed.' );
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 

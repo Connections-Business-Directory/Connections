@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 10.4.62 01/29/2024 =
+* FEATURE: Introduce the Settings Reset tool.
+* FEATURE: WP-CLI: Introduce `settings <command>`.
+* TWEAK: Ensure Dashboard Awaiting Moderation, Recently Added, and Recently Modified widgets use the site options for the date and time format.
+* TWEAK: Make `cnSettingsAPI::getAll()` public.
+* TWEAK: Reset the confirmation text field in the Database Reset tool after both error and success.
+* TWEAK: Reset `cnEntry_HTML::getCategoryBlock()` to its default parameters after each entry render.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* ESLint: corrections.
+* WP-CLI: Add success messages to the `tables` commands.
+
 = 10.4.61 01/19/2024 =
 * FEATURE: Introduce the WP-CLI commands `core version` and `tables <command>`.
 * FEATURE: Introduce the Database Reset Tool.

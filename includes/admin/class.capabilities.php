@@ -151,7 +151,7 @@ class cnRole extends WP_Roles {
 		/**
 		 * These are the roles that will default to having full access
 		 * to all capabilities. This is to maintain plugin behavior that
-		 * exisited prior to adding role/capability support.
+		 * existed prior to adding role/capability support.
 		 */
 		$coreRoles = array( 'administrator', 'editor', 'author' );
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for registering and manageing the capabilities for Connections.
+ * Class for registering and managing the capabilities for Connections.
  *
  * @package     Connections
  * @subpackage  Roles

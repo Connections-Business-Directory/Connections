@@ -173,7 +173,7 @@ class cnRole extends WP_Roles {
 
 		foreach ( $roles as $role => $key ) {
 
-			// If the current role is one of the defined core roles, grant them all capabilities
+			// If the current role is one of the defined core roles, grant them all capabilities.
 			$grant = in_array( $role, $coreRoles ) ? true : false;
 
 			if ( in_array( $role, $coreRoles ) ) {

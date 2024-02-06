@@ -1,13 +1,16 @@
 <?php
 /**
- * Class for registering and manageing the capabilities for Connections.
+ * Class for registering and managing the capabilities for Connections.
  *
- * @package     Connections
- * @subpackage  Roles
- * @extends     WP_Roles
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.7.5
+ * @since 0.7.5
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\cnRole
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2024, Steven A. Zahm
+ * @link       https://connections-pro.com/
  */
 
 // Exit if accessed directly.
@@ -15,12 +18,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Class cnRole
+ */
 class cnRole extends WP_Roles {
 
 	/**
-	 * @access private
 	 * @since 0.7.5
-	 * @var (object) cnRole stores an instance of this class.
+	 *
+	 * @var static Instance of this object.
 	 */
 	private static $instance;
 
@@ -29,9 +35,9 @@ class cnRole extends WP_Roles {
 	 *
 	 * Insures that only one instance of cnRole exists at any one time.
 	 *
-	 * @access public
 	 * @since 0.7.5
-	 * @return object cnRole
+	 *
+	 * @return static
 	 */
 	public static function getInstance() {
 
@@ -114,10 +120,11 @@ class cnRole extends WP_Roles {
 	/**
 	 * Check whether a role has a capability or not.
 	 *
-	 * @access public
 	 * @since 0.7.5
-	 * @param  string $role The role name.
-	 * @param  string $cap  The capability.
+	 *
+	 * @param string $role The role name.
+	 * @param string $cap  The capability.
+	 *
 	 * @return bool
 	 */
 	public static function hasCapability( $role, $cap ) {
@@ -138,10 +145,9 @@ class cnRole extends WP_Roles {
 	 * Reset all user role capabilities back to their default.
 	 * If a roles has been supplied, that role will have its capabilities reset to its defaults.
 	 *
-	 * @access public
 	 * @since 0.7.5
+	 *
 	 * @param array $roles [optional]
-	 * @return void
 	 */
 	public static function reset( $roles = array() ) {
 
@@ -151,7 +157,7 @@ class cnRole extends WP_Roles {
 		/**
 		 * These are the roles that will default to having full access
 		 * to all capabilities. This is to maintain plugin behavior that
-		 * exisited prior to adding role/capability support.
+		 * existed prior to adding role/capability support.
 		 */
 		$coreRoles = array( 'administrator', 'editor', 'author' );
 
@@ -167,7 +173,7 @@ class cnRole extends WP_Roles {
 
 		foreach ( $roles as $role => $key ) {
 
-			// If the current role is one of the defined core roles, grant them all capabilities
+			// If the current role is one of the defined core roles, grant them all capabilities.
 			$grant = in_array( $role, $coreRoles ) ? true : false;
 
 			if ( in_array( $role, $coreRoles ) ) {
@@ -199,9 +205,7 @@ class cnRole extends WP_Roles {
 	/**
 	 * Purge all plugin capabilities.
 	 *
-	 * @access public
 	 * @since 0.7.5
-	 * @return void
 	 */
 	public static function purge() {
 

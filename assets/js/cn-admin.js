@@ -734,6 +734,23 @@ jQuery(document).ready( function($) {
 	});
 
 	/**
+	 * Have user confirm that activating this option, that their data will be deleted.
+	 */
+	$('input[id="connections_uninstall[maybe_uninstall]"]').on(
+		'click',
+		function () {
+			const $this = $(this);
+			const isChecked = $this.is(':checked');
+
+			if (isChecked) {
+				if (!confirm( 'If you decide to delete the plugin, all the directory data associated with it will also be deleted permanently. This action cannot be undone, so please make sure you have backed up your important data before deleting the plugin.' ) ) {
+					$this.prop('checked', false);
+				}
+			}
+		}
+	);
+
+	/**
 	 * @link http://stackoverflow.com/a/25651291
 	 * @param pBytes the size in bytes to be converted.
 	 * @param pUnits 'si'|'iec' si units means the order of magnitude is 10^3, iec uses 2^10

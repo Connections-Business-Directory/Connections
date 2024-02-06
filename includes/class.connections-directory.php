@@ -1,8 +1,10 @@
 <?php
 
+use Connections_Directory\Activate;
 use Connections_Directory\API;
 use Connections_Directory\Blocks;
 use Connections_Directory\Content_Blocks;
+use Connections_Directory\Deactivate;
 use Connections_Directory\Hook\Action;
 use Connections_Directory\Hook\Filter;
 use Connections_Directory\Integration;
@@ -22,7 +24,7 @@ final class Connections_Directory {
 	 *
 	 * @since 8.16
 	 */
-	const VERSION = '10.4.62';
+	const VERSION = '10.4.63';
 
 	/**
 	 * Stores the instance of this class.
@@ -252,8 +254,8 @@ final class Connections_Directory {
 			Content_Blocks::instance();
 
 			// Activation/Deactivation hooks.
-			register_activation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'activate' ) );
-			register_deactivation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
+			register_activation_hook( self::$basename, array( Activate::class, 'plugin' ) );
+			register_deactivation_hook( self::$basename, array( Deactivate::class, 'plugin' ) );
 
 			// @TODO: Create uninstall method to remove options and tables.
 			// register_uninstall_hook( dirname($file) . '/connections.php', array('connectionsLoad', 'uninstall') );
@@ -509,8 +511,12 @@ final class Connections_Directory {
 
 	/**
 	 * During activation this will initiate the options.
+	 *
+	 * @internal
+	 * @since unknown
+	 * @since 10.4.63 Make method public.
 	 */
-	private function initOptions() {
+	public function initOptions() {
 		$version = $this->options->getVersion();
 
 		switch ( true ) {
@@ -648,11 +654,6 @@ final class Connections_Directory {
 			$this->options->setDefaultTemplates();
 		}
 
-		// Class used for managing role capabilities.
-		if ( ! class_exists( 'cnRole' ) ) {
-			require_once CN_PATH . 'includes/admin/class.capabilities.php';
-		}
-
 		if ( true !== $this->options->getCapabilitiesSet() ) {
 
 			cnRole::reset();
@@ -679,91 +680,9 @@ final class Connections_Directory {
 		 */
 		update_option( 'connections_flush_rewrite', '1' );
 	}
-
-	/**
-	 * Called when activating Connections via the activation hook.
-	 */
-	public static function activate() {
-
-		/** @var $connections connectionsLoad */
-		global $connections;
-
-		require_once CN_PATH . 'includes/class.schema.php';
-
-		// Create the table structure.
-		cnSchema::create();
-
-		// Create the required directories and attempt to make them writable.
-		cnFileSystem::mkdirWritable( CN_CACHE_PATH );
-		cnFileSystem::mkdirWritable( CN_IMAGE_PATH );
-		// cnFileSystem::mkdirWritable( CN_CUSTOM_TEMPLATE_PATH );
-
-		// Add a blank index.php file.
-		cnFileSystem::mkIndex( CN_IMAGE_PATH );
-		// cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
-
-		// Add an .htaccess file, create it if one doesn't exist, and add the no indexes option.
-		// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when serving images.
-		// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
-
-		$connections->initOptions();
-
-		/*
-		 * Add the page rewrite rules.
-		 */
-		add_filter( 'root_rewrite_rules', array( 'cnRewrite', 'addRootRewriteRules' ) );
-		add_filter( 'page_rewrite_rules', array( 'cnRewrite', 'addPageRewriteRules' ) );
-
-		// Flush so they are rebuilt.
-		flush_rewrite_rules();
-	}
-
-	/**
-	 * Called when deactivating Connections via the deactivation hook.
-	 */
-	public static function deactivate() {
-
-		/*
-		 * Since we're adding the rewrite rules using a filter, make sure to remove the filter
-		 * before flushing, otherwise the rules will not be removed.
-		 */
-		remove_filter( 'root_rewrite_rules', array( 'cnRewrite', 'addRootRewriteRules' ) );
-		remove_filter( 'page_rewrite_rules', array( 'cnRewrite', 'addPageRewriteRules' ) );
-
-		// Flush so they are rebuilt.
-		flush_rewrite_rules();
-	}
 }
 
 /**
  * Back-compatible due to renaming class.
  */
 class_alias( 'Connections_Directory', 'connectionsLoad' );
-
-/**
- * The main function responsible for returning the Connections instance
- * to functions everywhere.
- *
- * Use this function like you would a global variable, except without needing
- * to declare the global.
- *
- * NOTE: Declaring an instance in the global @var $connections Connections_Directory to provide backward
- * compatibility with many internal methods, template and extensions that expect it.
- *
- * Example: <?php $instance = Connections_Directory(); ?>
- *
- * @access public
- * @since  0.7.9
- *
- * @global $connections
- *
- * @return Connections_Directory
- */
-function Connections_Directory() {
-
-	global $connections;
-
-	$connections = Connections_Directory::instance();
-
-	return $connections;
-}

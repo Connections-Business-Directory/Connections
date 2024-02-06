@@ -738,31 +738,3 @@ final class Connections_Directory {
  * Back-compatible due to renaming class.
  */
 class_alias( 'Connections_Directory', 'connectionsLoad' );
-
-/**
- * The main function responsible for returning the Connections instance
- * to functions everywhere.
- *
- * Use this function like you would a global variable, except without needing
- * to declare the global.
- *
- * NOTE: Declaring an instance in the global @var $connections Connections_Directory to provide backward
- * compatibility with many internal methods, template and extensions that expect it.
- *
- * Example: <?php $instance = Connections_Directory(); ?>
- *
- * @access public
- * @since  0.7.9
- *
- * @global $connections
- *
- * @return Connections_Directory
- */
-function Connections_Directory() {
-
-	global $connections;
-
-	$connections = Connections_Directory::instance();
-
-	return $connections;
-}

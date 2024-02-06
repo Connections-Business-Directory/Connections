@@ -65,6 +65,34 @@ if ( $check->passes() ) {
 	// Start Connections.
 	if ( class_exists( 'Connections_Directory' ) ) {
 
+		/**
+		 * The main function responsible for returning the Connections instance
+		 * to functions everywhere.
+		 *
+		 * Use this function like you would a global variable, except without needing
+		 * to declare the global.
+		 *
+		 * NOTE: Declaring an instance in the global @var $connections Connections_Directory to provide backward
+		 * compatibility with many internal methods, template and extensions that expect it.
+		 *
+		 * Example: <?php $instance = Connections_Directory(); ?>
+		 *
+		 * @access public
+		 * @since  0.7.9
+		 *
+		 * @global $connections
+		 *
+		 * @return Connections_Directory
+		 */
+		function Connections_Directory() {
+
+			global $connections;
+
+			$connections = Connections_Directory::instance();
+
+			return $connections;
+		}
+
 		Connections_Directory::instance( __FILE__ );
 
 		Connections_Directory\Utility\_deprecated\_doAction( 'cn_loaded', array(), '10.4.39', 'Connections_Directory/Loaded' );

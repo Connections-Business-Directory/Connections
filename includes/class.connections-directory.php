@@ -652,11 +652,6 @@ final class Connections_Directory {
 			$this->options->setDefaultTemplates();
 		}
 
-		// Class used for managing role capabilities.
-		if ( ! class_exists( 'cnRole' ) ) {
-			require_once CN_PATH . 'includes/admin/class.capabilities.php';
-		}
-
 		if ( true !== $this->options->getCapabilitiesSet() ) {
 
 			cnRole::reset();

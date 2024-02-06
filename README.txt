@@ -249,6 +249,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.63 02/06/2024 =
+* FEATURE: Introduce `core uninstall`.
+* TWEAK: Register the setting section and field for the "Uninstall" setting option. Trigger a browser prompt form confirmation.
+* TWEAK: Make `initOptions()` public.
+* TWEAK: Remove manual loading of the cnRole class as it is already included in the autoloader classmap.
+* TWEAK: Move the `Connections_Directory()` global function from the `Connections_Directory` class to the base plugin file.
+* TWEAK: Move the Activate/Deactivate hooks to their own class/file.
+* TWEAK: Refactor `uninstall.php` to delete the plugin data, options, and tables if the option is enabled in the settings.
+* BUG: Prevent date from being displayed twice in the Recently Added/Modified Dashboard admin widgets.
+* OTHER: Correct misspellings.
+* OTHER: Add missing trailing period.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+
 = 10.4.62 01/29/2024 =
 * FEATURE: Introduce the Settings Reset tool.
 * FEATURE: WP-CLI: Introduce `settings <command>`.
@@ -605,4 +619,7 @@ It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.62 =
+It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.63 =
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.

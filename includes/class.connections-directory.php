@@ -509,6 +509,9 @@ final class Connections_Directory {
 
 	/**
 	 * During activation this will initiate the options.
+	 *
+	 * @internal
+	 * @since unknown
 	 */
 	private function initOptions() {
 		$version = $this->options->getVersion();

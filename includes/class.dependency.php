@@ -203,6 +203,10 @@ class cnDependency {
 
 		return array(
 
+			// Activate and Deactivate utilities.
+			'Connections_Directory\Activate'   => 'includes/Activate.php',
+			'Connections_Directory\Deactivate' => 'includes/Deactivate.php',
+
 			// Legacy utilities.
 			'cnUtility'  => 'includes/Utility/class.utility.php',
 			'cnSanitize' => 'includes/Utility/class.sanitize.php',

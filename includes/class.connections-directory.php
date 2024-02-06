@@ -512,8 +512,9 @@ final class Connections_Directory {
 	 *
 	 * @internal
 	 * @since unknown
+	 * @since 10.4.63 Make method public.
 	 */
-	private function initOptions() {
+	public function initOptions() {
 		$version = $this->options->getVersion();
 
 		switch ( true ) {

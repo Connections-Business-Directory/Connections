@@ -10,6 +10,7 @@
  */
 
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_sanitize;
 use Connections_Directory\Utility\_string;
 use Connections_Directory\Utility\_validate;
 
@@ -754,6 +755,17 @@ class cnRegisterSettings {
 			'id'           => 'connections_debug',
 			'position'     => 30,
 			'title'        => __( 'Debug', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => true,
+			'schema'       => array( 'type' => 'object' ),
+		);
+
+		$sections[] = array(
+			'tab'          => 'advanced',
+			'id'           => 'connections_uninstall',
+			'position'     => 30,
+			'title'        => __( 'Uninstall', 'connections' ),
 			'callback'     => '',
 			'page_hook'    => $settings,
 			'show_in_rest' => true,
@@ -3972,6 +3984,29 @@ class cnRegisterSettings {
 			),
 		);
 
+		$fields[] = array(
+			'plugin_id'         => 'connections',
+			'id'                => 'maybe_uninstall',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'advanced',
+			'section'           => 'connections_uninstall',
+			'title'             => __( 'Remove Data on Uninstall', 'connections' ),
+			'desc'              => __( 'By selecting the box, all data and settings will be permanently erased upon deleting the plugin. It is important to note that this action is irreversible. As such, creating a site backup before proceeding is highly recommended.', 'connections' ),
+			'help'              => '',
+			'type'              => 'checkbox',
+			'default'           => 0,
+			// Only need to add this once on this tab, otherwise it would be run for each field.
+			'sanitize_callback' => array( __CLASS__, 'maybeUninstall' ),
+			'schema'            => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => false,
+				'exclusiveMaximum' => false,
+			),
+		);
+
 		return $fields;
 	}
 
@@ -4686,6 +4721,25 @@ class cnRegisterSettings {
 
 			$settings['base_region'] = current( array_keys( $regions ) );
 		}
+
+		return $settings;
+	}
+
+	/**
+	 * Callback for the `maybe_uninstall` setting option.
+	 *
+	 * @since 10.4.63
+	 *
+	 * @param array $settings The settings option values for the `maybe_uninstall` setting.
+	 *
+	 * @return array
+	 */
+	public static function maybeUninstall( $settings ) {
+
+		$value     = _array::get( $settings, 'maybe_uninstall', 0 );
+		$sanitized = _sanitize::integer( $value );
+
+		_array::set( $settings, 'maybe_uninstall', $sanitized );
 
 		return $settings;
 	}

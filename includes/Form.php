@@ -5,8 +5,8 @@
  * @since 10.4.46
  *
  * @category   WordPress\Plugin
- * @package    Connections Business Directory
- * @subpackage Connections\
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory
  * @author     Steven A. Zahm
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2023, Steven A. Zahm

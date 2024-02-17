@@ -119,6 +119,30 @@ class Select extends Field {
 	}
 
 	/**
+	 * Return the array of Option objects.
+	 *
+	 * @since 10.4.64
+	 *
+	 * @return Option[]
+	 */
+	public function getOptions(): array {
+
+		return $this->options;
+	}
+
+	/**
+	 * Whether option have been added to the select dropdown.
+	 *
+	 * @since 10.4.64
+	 *
+	 * @return bool
+	 */
+	public function hasOptions(): bool {
+
+		return 0 < count( $this->options );
+	}
+
+	/**
 	 * Create Options fields from an array.
 	 *
 	 * @since 10.4

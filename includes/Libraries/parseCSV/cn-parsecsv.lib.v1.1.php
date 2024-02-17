@@ -271,6 +271,8 @@ class CN_parseCSV extends parseCSV {
 	 * @link https://github.com/parsecsv/parsecsv-for-php/pull/40
 	 * @link https://github.com/parsecsv/parsecsv-for-php/pull/83
 	 *
+	 * @since 10.4.64 Change the variable $file initial value from `null` to an empty string.
+	 *
 	 * @access public
 	 *
 	 * @param  string $input
@@ -279,7 +281,7 @@ class CN_parseCSV extends parseCSV {
 	 */
 	public function load_data($input = null) {
 		$data = null;
-		$file = null;
+		$file = '';
 		if (is_null($input)) {
 			$file = $this->file;
 		} elseif (file_exists($input)) {

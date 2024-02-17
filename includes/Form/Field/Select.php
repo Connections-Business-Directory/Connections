@@ -268,7 +268,7 @@ class Select extends Field {
 	 *
 	 * @return string
 	 */
-	public function getFieldHTML() {
+	public function getFieldHTML(): string {
 
 		$this->prepareOptions();
 

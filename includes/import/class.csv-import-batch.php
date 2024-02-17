@@ -138,7 +138,7 @@ class cnCSV_Batch_Import {
 		 * Read only the first five lines of the file and parse for the CSV file headers.
 		 */
 		$file         = new SplFileObject( $this->file );
-		$fileIterator = new LimitIterator( $file, 0, 5 );
+		$fileIterator = new LimitIterator( $file, 0, 100 );
 		$data         = '';
 
 		foreach ( $fileIterator as $line ) {

@@ -273,7 +273,7 @@ class Select extends Field {
 		$this->prepareOptions();
 
 		$attributes = $this->prepareAttributes();
-		$options    = $this->walkOptions();
+		$options    = implode( '', $this->options );
 		$hidden     = '';
 
 		// If the select field is readonly, add a hidden field.
@@ -285,15 +285,5 @@ class Select extends Field {
 		}
 
 		return "<select {$attributes}>{$options}</select>{$hidden}";
-	}
-
-	/**
-	 * @since 10.4
-	 *
-	 * @return string
-	 */
-	private function walkOptions() {
-
-		return implode( '', $this->options );
 	}
 }

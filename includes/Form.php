@@ -738,7 +738,12 @@ abstract class Form {
 		$html .= '<form ' . $this->prepareAttributes() . '>';
 
 		// Render header.
-		$html .= '<div class="cbd-form__header">' . $this->getHeader() . '</div>';
+		$header = $this->getHeader();
+
+		if ( 0 < strlen( $header ) ) {
+
+			$html .= '<div class="cbd-form__header">' . $header . '</div>';
+		}
 
 		// Render fields.
 		if ( $this->fields ) {
@@ -854,7 +859,12 @@ abstract class Form {
 		}
 
 		// Render footer.
-		$html .= '<div class="cbd-form__footer">' . $this->getFooter() . '</div>';
+		$footer = $this->getFooter();
+
+		if ( 0 < strlen( $footer ) ) {
+
+			$html .= '<div class="cbd-form__footer">' . $footer . '</div>';
+		}
 
 		$html .= '</form>';
 

@@ -1120,6 +1120,7 @@ final class Taxonomy {
 				'choose_from_most_used'      => '',
 				'not_found'                  => __( 'No categories found.', 'connections' ),
 				'no_terms'                   => __( 'No categories', 'connections' ),
+				'filter_by_item'             => __( 'Filter by category', 'connections' ),
 				'items_list_navigation'      => __( 'Categories list navigation', 'connections' ),
 				'items_list'                 => __( 'Categories list', 'connections' ),
 				/* translators: Tab heading when selecting from the most used terms. */
@@ -1154,6 +1155,7 @@ final class Taxonomy {
 				'choose_from_most_used'      => __( 'Choose from the most used tags', 'connections' ),
 				'not_found'                  => __( 'No tags found.', 'connections' ),
 				'no_terms'                   => __( 'No tags', 'connections' ),
+				'filter_by_item'             => '',
 				'items_list_navigation'      => __( 'Tags list navigation', 'connections' ),
 				'items_list'                 => __( 'Tags list', 'connections' ),
 				/* translators: Tab heading when selecting from the most used terms. */
@@ -1900,6 +1902,7 @@ final class _Capabilities {}
  * @property string $choose_from_most_used
  * @property string $not_found
  * @property string $no_terms
+ * @property string $filter_by_item
  * @property string $items_list_navigation
  * @property string $items_list
  * @property string $most_used

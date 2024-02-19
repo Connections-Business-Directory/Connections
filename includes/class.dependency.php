@@ -405,6 +405,11 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
 
 			// Walkers.
+			'CN_Walker_Term_List'                              => 'includes/Walker/class.template-walker-term-list.php',
+			'CN_Walker_Term_Select_List'                       => 'includes/Walker/class.template-walker-term-select.php',
+			'CN_Walker_Term_Select_List_Enhanced'              => 'includes/Walker/class.template-walker-term-select-enhanced.php',
+			'CN_Walker_Term_Check_List'                        => 'includes/Walker/class.template-walker-term-checklist.php',
+			'CN_Walker_Term_Radio_Group'                       => 'includes/Walker/class.template-walker-term-radio-group.php',
 			'Connections_Directory\Walker\Term_Select_Options' => 'includes/Walker/Term_Select_Options.php',
 
 			// Entry Meta API.

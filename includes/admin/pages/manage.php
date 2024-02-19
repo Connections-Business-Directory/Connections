@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Connections_Directory\Form\Field;
 use Connections_Directory\Request;
+use Connections_Directory\Taxonomy;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_nonce;
@@ -389,18 +390,33 @@ function connectionsShowViewPage( $action = null ) {
 						<div class="alignleft actions">
 							<?php
 
-							cnTemplatePart::walker(
-								'term-select',
-								array(
-									'name'            => 'category',
-									'show_option_all' => esc_html__( 'Show All Categories', 'connections' ),
-									'hide_empty'      => false,
-									'hierarchical'    => true,
-									'show_count'      => false,
-									'orderby'         => 'name',
-									'selected'        => $filters['category'],
-								)
-							);
+							Field\Select_Term::create()
+											 ->setId( 'category' )
+											 ->addClass( 'postform' )
+											 ->setName( 'category' )
+											 ->setValue( $filters['category'] )
+											 ->setFieldOptions(
+												 array(
+													 'show_option_all' => esc_html__( 'Show All Categories', 'connections' ),
+													 'hide_empty'      => false,
+													 'hierarchical'    => true,
+													 'show_count'      => false,
+													 'orderby'         => 'name',
+													 'value_field'     => 'term_id',
+												 )
+											 )
+											 ->addLabel(
+												 Field\Label::create()
+															->setFor( 'category' )
+															->addClass( 'screen-reader-text' )
+															->text(
+																Taxonomy\Registry::get()
+																				 ->getTaxonomy( 'category' )
+																				 ->getLabels()->filter_by_item
+															),
+												 'before'
+											 )
+											 ->render();
 
 							Field\Select::create()
 										->setId( 'cn-entry_type' )

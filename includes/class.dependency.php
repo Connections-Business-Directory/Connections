@@ -359,6 +359,7 @@ class cnDependency {
 			'Connections_Directory\Form'                              => 'includes/Form.php',
 			'Connections_Directory\Form\Reset_Password'               => 'includes/Form/Reset_Password.php',
 			'Connections_Directory\Form\Request_Reset_Password'       => 'includes/Form/Request_Reset_Password.php',
+			'Connections_Directory\Form\Search'                       => 'includes/Form/Search.php',
 			'Connections_Directory\Form\User_Login'                   => 'includes/Form/User_Login.php',
 			'Connections_Directory\Form\User_Register'                => 'includes/Form/User_Register.php',
 			'Connections_Directory\Form\Interfaces\Field'             => 'includes/Form/Interfaces/Field.php',
@@ -398,10 +399,19 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Rich_Text'              => 'includes/Form/Field/Rich_Text.php',
 			'Connections_Directory\Form\Field\Search'                 => 'includes/Form/Field/Search.php',
 			'Connections_Directory\Form\Field\Select'                 => 'includes/Form/Field/Select.php',
+			'Connections_Directory\Form\Field\Select_Term'            => 'includes/Form/Field/Select_Term.php',
 			'Connections_Directory\Form\Field\Slider'                 => 'includes/Form/Field/Slider.php',
 			'Connections_Directory\Form\Field\Submit'                 => 'includes/Form/Field/Submit.php',
 			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
+
+			// Walkers.
+			'CN_Walker_Term_List'                              => 'includes/Walker/class.template-walker-term-list.php',
+			'CN_Walker_Term_Select_List'                       => 'includes/Walker/class.template-walker-term-select.php',
+			'CN_Walker_Term_Select_List_Enhanced'              => 'includes/Walker/class.template-walker-term-select-enhanced.php',
+			'CN_Walker_Term_Check_List'                        => 'includes/Walker/class.template-walker-term-checklist.php',
+			'CN_Walker_Term_Radio_Group'                       => 'includes/Walker/class.template-walker-term-radio-group.php',
+			'Connections_Directory\Walker\Term_Select_Options' => 'includes/Walker/Term_Select_Options.php',
 
 			// Entry Meta API.
 			'cnMeta'       => 'includes/class.meta.php',

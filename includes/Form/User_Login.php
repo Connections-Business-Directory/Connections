@@ -5,7 +5,7 @@
  * @since 10.4.46
  *
  * @category   WordPress\Plugin
- * @package    Connections Business Directory
+ * @package    Connections_Directory
  * @subpackage Connections_Directory\Form
  * @author     Steven A. Zahm
  * @license    GPL-2.0+

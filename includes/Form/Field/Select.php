@@ -1,10 +1,22 @@
 <?php
+/**
+ * Generate a select field.
+ *
+ * @since      10.4
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\Form\Field
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2024, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 declare( strict_types=1 );
 
 namespace Connections_Directory\Form\Field;
 
-use Connections_Directory\Form\Field;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_html;
@@ -15,7 +27,7 @@ use Connections_Directory\Utility\_string;
  *
  * @package Connections_Directory\Form\Field
  */
-class Select extends Field {
+class Select extends Input {
 
 	/**
 	 * The Select field default Option.
@@ -117,6 +129,30 @@ class Select extends Field {
 	public function addOption( $option ) {
 
 		$this->options[] = $option;
+	}
+
+	/**
+	 * Return the array of Option objects.
+	 *
+	 * @since 10.4.64
+	 *
+	 * @return Option[]
+	 */
+	public function getOptions(): array {
+
+		return $this->options;
+	}
+
+	/**
+	 * Whether option have been added to the select dropdown.
+	 *
+	 * @since 10.4.64
+	 *
+	 * @return bool
+	 */
+	public function hasOptions(): bool {
+
+		return 0 < count( $this->options );
 	}
 
 	/**
@@ -245,12 +281,12 @@ class Select extends Field {
 	 *
 	 * @return string
 	 */
-	public function getFieldHTML() {
+	public function getFieldHTML(): string {
 
 		$this->prepareOptions();
 
 		$attributes = $this->prepareAttributes();
-		$options    = $this->walkOptions();
+		$options    = implode( '', $this->options );
 		$hidden     = '';
 
 		// If the select field is readonly, add a hidden field.
@@ -262,15 +298,5 @@ class Select extends Field {
 		}
 
 		return "<select {$attributes}>{$options}</select>{$hidden}";
-	}
-
-	/**
-	 * @since 10.4
-	 *
-	 * @return string
-	 */
-	private function walkOptions() {
-
-		return implode( '', $this->options );
 	}
 }

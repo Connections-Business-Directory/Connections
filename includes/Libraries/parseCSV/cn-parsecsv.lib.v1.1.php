@@ -22,7 +22,7 @@ class CN_parseCSV extends parseCSV {
 	 * Override the core class to implement the header fix when using offset.
 	 *
 	 * There seems to be a bug when using the parseCSV offset option.
-	 *  - The previous row is used as the header names rather the the first row.
+	 *  - The previous row is used as the header names rather the first row.
 	 *
 	 * @link https://github.com/parsecsv/parsecsv-for-php/issues/42
 	 *
@@ -271,6 +271,8 @@ class CN_parseCSV extends parseCSV {
 	 * @link https://github.com/parsecsv/parsecsv-for-php/pull/40
 	 * @link https://github.com/parsecsv/parsecsv-for-php/pull/83
 	 *
+	 * @since 10.4.64 Change the variable $file initial value from `null` to an empty string.
+	 *
 	 * @access public
 	 *
 	 * @param  string $input
@@ -279,7 +281,7 @@ class CN_parseCSV extends parseCSV {
 	 */
 	public function load_data($input = null) {
 		$data = null;
-		$file = null;
+		$file = '';
 		if (is_null($input)) {
 			$file = $this->file;
 		} elseif (file_exists($input)) {

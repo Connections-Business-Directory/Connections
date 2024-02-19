@@ -56,9 +56,9 @@ abstract class Field implements Interfaces\Field {
 	/**
 	 * Field constructor.
 	 *
-	 * @param array $properties The field properties.
+	 * @param array $attributes The field properties.
 	 */
-	public function __construct( array $properties = array() ) {
+	public function __construct( array $attributes = array() ) {
 	}
 
 	/**

@@ -132,12 +132,13 @@ class cnCSV_Batch_Import {
 	public function getHeaders() {
 
 		$csv = new CN_parseCSV();
+		$csv->remove_bom = true;
 
 		/**
 		 * Read only the first five lines of the file and parse for the CSV file headers.
 		 */
 		$file         = new SplFileObject( $this->file );
-		$fileIterator = new LimitIterator( $file, 0, 5 );
+		$fileIterator = new LimitIterator( $file, 0, 100 );
 		$data         = '';
 
 		foreach ( $fileIterator as $line ) {
@@ -201,6 +202,7 @@ class cnCSV_Batch_Import {
 		$offset     = $this->limit * ( $this->step - 1 );
 
 		$csv = new CN_parseCSV();
+		$csv->remove_bom = true;
 
 		/**
 		 * Parse the and get the total row count.

@@ -1,6 +1,6 @@
 <?php
 /**
- * The password text form field.
+ * The email text form field.
  *
  * @since 10.4.49
  *

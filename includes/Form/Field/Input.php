@@ -22,39 +22,39 @@ abstract class Input extends Field {
 	 *
 	 * @since 10.4
 	 *
-	 * @param array $properties The field properties.
+	 * @param array $attributes The field properties.
 	 */
-	public function __construct( array $properties = array() ) {
+	public function __construct( array $attributes = array() ) {
 
-		parent::__construct( $properties );
+		parent::__construct( $attributes );
 
-		if ( ! empty( $properties ) ) {
+		if ( ! empty( $attributes ) ) {
 
-			$this->defineSchema( _array::get( $properties, 'schema', array() ) );
+			$this->defineSchema( _array::get( $attributes, 'schema', array() ) );
 
-			$this->setPrefix( _array::get( $properties, 'prefix', '' ) );
-			$this->addClass( _array::get( $properties, 'class', '' ) );
-			$this->setId( _array::get( $properties, 'id', '' ) );
-			$this->setName( _array::get( $properties, 'name', '' ) );
-			$this->css( _array::get( $properties, 'style', array() ) );
-			$this->addAttributes( _array::get( $properties, 'attributes', array() ) );
-			$this->addData( _array::get( $properties, 'data', array() ) );
-			$this->setDisabled( _array::get( $properties, 'disabled', false ) );
-			$this->setReadOnly( _array::get( $properties, 'readonly', false ) );
-			$this->setRequired( _array::get( $properties, 'required', false ) );
+			$this->setPrefix( _array::get( $attributes, 'prefix', '' ) );
+			$this->addClass( _array::get( $attributes, 'class', '' ) );
+			$this->setId( _array::get( $attributes, 'id', '' ) );
+			$this->setName( _array::get( $attributes, 'name', '' ) );
+			$this->css( _array::get( $attributes, 'style', array() ) );
+			$this->addAttributes( _array::get( $attributes, 'attributes', array() ) );
+			$this->addData( _array::get( $attributes, 'data', array() ) );
+			$this->setDisabled( _array::get( $attributes, 'disabled', false ) );
+			$this->setReadOnly( _array::get( $attributes, 'readonly', false ) );
+			$this->setRequired( _array::get( $attributes, 'required', false ) );
 
-			$this->setValue( _array::get( $properties, 'value', '' ) );
+			$this->setValue( _array::get( $attributes, 'value', '' ) );
 
 			$this->addLabel(
 				Field\Label::create()
 						   ->setFor( $this->getId() )
-						   ->text( _array::get( $properties, 'label', '' ) )
+						   ->text( _array::get( $attributes, 'label', '' ) )
 			);
 
-			$this->prepend( _array::get( $properties, 'prepend', '' ) );
-			$this->append( _array::get( $properties, 'append', '' ) );
+			$this->prepend( _array::get( $attributes, 'prepend', '' ) );
+			$this->append( _array::get( $attributes, 'append', '' ) );
 
-			$this->setDefaultValue( _array::get( $properties, 'default', '' ) );
+			$this->setDefaultValue( _array::get( $attributes, 'default', '' ) );
 		}
 	}
 }

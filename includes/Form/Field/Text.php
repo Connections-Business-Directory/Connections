@@ -40,13 +40,13 @@ class Text extends Input {
 	 *
 	 * @since 10.4.46
 	 *
-	 * @param array $properties The field properties.
+	 * @param array $attributes The field properties.
 	 */
-	public function __construct( array $properties = array() ) {
+	public function __construct( array $attributes = array() ) {
 
-		parent::__construct( $properties );
+		parent::__construct( $attributes );
 
-		$this->setAutocomplete( _array::get( $properties, 'autocomplete', '' ) );
+		$this->setAutocomplete( _array::get( $attributes, 'autocomplete', '' ) );
 	}
 
 	/**

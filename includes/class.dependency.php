@@ -398,10 +398,14 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Rich_Text'              => 'includes/Form/Field/Rich_Text.php',
 			'Connections_Directory\Form\Field\Search'                 => 'includes/Form/Field/Search.php',
 			'Connections_Directory\Form\Field\Select'                 => 'includes/Form/Field/Select.php',
+			'Connections_Directory\Form\Field\Select_Term'            => 'includes/Form/Field/Select_Term.php',
 			'Connections_Directory\Form\Field\Slider'                 => 'includes/Form/Field/Slider.php',
 			'Connections_Directory\Form\Field\Submit'                 => 'includes/Form/Field/Submit.php',
 			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
+
+			// Walkers.
+			'Connections_Directory\Walker\Term_Select_Options' => 'includes/Walker/Term_Select_Options.php',
 
 			// Entry Meta API.
 			'cnMeta'       => 'includes/class.meta.php',

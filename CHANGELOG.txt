@@ -1,5 +1,24 @@
 == Changelog ==
 
+= 10.4.64 02/19/2024 =
+* NEW: Introduce `Fields\Select_Term`.
+* NEW: Introduce `\Form\Field\Select::getOptions()` and `\Form\Field\Select::hasOptions`.
+* TWEAK: Remove BOM when importing a Category CSV file.
+* TWEAK: Change the variable `$file` initial value from `null` to an empty string.
+* TWEAK: Increase the number of lines of the CSV file that is utilized to automatically determine the CSV enclosure character.
+* TWEAK: Do not render form header and footer sections if they do not contain any content.
+* TWEAK: Remove unused import from `\Form\Field\Select`.
+* TWEAK: Remove unnecessary `\Form\Field\Select::walkOptions()`.
+* TWEAK: Add the `$filter_by_item` default string when registering a taxonomy.
+* TWEAK: `Field\Select` extend `Input` instead of `Field`.
+* TWEAK: Replace legacy `cnTemplatePart::walker('term-select')` with modern `Field\Select_Term`.
+* TWEAK: Move the loading of the term walkers to the autoloader and files into the `Walker` folder.
+* OTHER: Correct misspellings.
+* DEV: phpDoc corrections.
+* DEV: Add return type declaration to `\Form\Field\Select::getFieldHTML().`
+* DEV: Add phpDoc to `\Form\Field\Select`.
+* DEV: Rename variable.
+
 = 10.4.63 02/06/2024 =
 * FEATURE: Introduce `core uninstall`.
 * TWEAK: Register the setting section and field for the "Uninstall" setting option. Trigger a browser prompt form confirmation.

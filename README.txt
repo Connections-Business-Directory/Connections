@@ -249,6 +249,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 10.4.64 02/19/2024 =
+* NEW: Introduce `Fields\Select_Term`.
+* NEW: Introduce `\Form\Field\Select::getOptions()` and `\Form\Field\Select::hasOptions`.
+* TWEAK: Remove BOM when importing a Category CSV file.
+* TWEAK: Change the variable `$file` initial value from `null` to an empty string.
+* TWEAK: Increase the number of lines of the CSV file that is utilized to automatically determine the CSV enclosure character.
+* TWEAK: Do not render form header and footer sections if they do not contain any content.
+* TWEAK: Remove unused import from `\Form\Field\Select`.
+* TWEAK: Remove unnecessary `\Form\Field\Select::walkOptions()`.
+* TWEAK: Add the `$filter_by_item` default string when registering a taxonomy.
+* TWEAK: `Field\Select` extend `Input` instead of `Field`.
+* TWEAK: Replace legacy `cnTemplatePart::walker('term-select')` with modern `Field\Select_Term`.
+* TWEAK: Move the loading of the term walkers to the autoloader and files into the `Walker` folder.
+* OTHER: Correct misspellings.
+* DEV: phpDoc corrections.
+* DEV: Add return type declaration to `\Form\Field\Select::getFieldHTML().`
+* DEV: Add phpDoc to `\Form\Field\Select`.
+* DEV: Rename variable.
+
 = 10.4.63 02/06/2024 =
 * FEATURE: Introduce `core uninstall`.
 * TWEAK: Register the setting section and field for the "Uninstall" setting option. Trigger a browser prompt form confirmation.
@@ -534,38 +553,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc updates.
 * DEV: Add return type declaration.
 
-= 10.4.44 06/05/2023 =
-* NEW: Add the `exclude`, `include`, `offset`, `categories`, and `categories_exclude` parameters to `Entry::get_collection_params()`.
-* TWEAK: Remove instances of using parameter default value.
-* TWEAK: Remove unused and unnecessary parameter from `Entry::get_entries()`.
-* TWEAK: Add the format parameter to the email and social schema.
-* TWEAK: Deprecate the `id` parameter in favor of the `include` parameter. The `id` parameter will be used as the default parameter value if set.
-* TWEAK: Deprecate the `category_in` parameter in favor of the `tax_relation` parameter. The `category_in` (default `false`) will be used as the default parameter value if set.
-* TWEAK: Rename action from `Connections_Directory/API/REST/Entry/After_Update` to `Connections_Directory/API/REST/Controller/Entry/Update/After`.
-* TWEAK: Rename action `rest_delete_cn_entry` to `Connections_Directory/API/REST/Controller/Entry/Delete/After`.
-* TWEAK: Rename action from `rest_prepare_cn_entry` to `Connections_Directory/API/REST/Controller/Entry/Prepare_Item/Response`.
-* TWEAK: Add deprecated action/filter for renamed hooks.
-* TWEAK: Remove direct access check.
-* TWEAK: Remove deprecated use of `cnArray`.
-* TWEAK: Rename `class.settings.php` to `Settings.php`.
-* TWEAK: Permit the admin role to utilize an expanded range of HTML tags with term descriptions.
-* TWEAK: Rename the REST Settings API filters.
-* BUG: Correct the namespace name for the Settings REST API Route.
-* OTHER: Correct misspellings.
-* DEV: Remove unused commented out code.
-* DEV: Rename variable to make it more clear of its purpose.
-* DEV: Add a todo.
-* DEV: Remove use of unnecessary local variable.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: Move file phpDoc to file head.
-* DEV: Correct placement of IDE `@noinspection` tag.
-* DEV: phpDoc corrections.
-* DEV: phpDoc updates.
-
 == Upgrade Notice ==
-
-= 10.4.44 =
-It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.45 =
 It is recommended to back up before updating. Requires WordPress >= 5.6 and PHP >= 7.0 PHP version >= 7.4 is recommended.
@@ -622,4 +610,7 @@ It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP 
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
 
 = 10.4.63 =
+It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.
+
+= 10.4.64 =
 It is recommended to back up before updating. Requires WordPress >= 6.0 and PHP >= 7.0 PHP version >= 7.4 is recommended.

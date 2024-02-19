@@ -27,7 +27,7 @@ use Connections_Directory\Utility\_string;
  *
  * @package Connections_Directory\Form\Field
  */
-class Select extends Field {
+class Select extends Input {
 
 	/**
 	 * The Select field default Option.

@@ -1,4 +1,17 @@
 <?php
+/**
+ * Generate a checkbox group field.
+ *
+ * @since      10.4
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\Form\Field
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2024, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
 
 namespace Connections_Directory\Form\Field;
 
@@ -24,7 +37,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @since 10.4
 	 *
-	 * @param Checkbox $input
+	 * @param Checkbox $input A Checkbox field.
 	 *
 	 * @return static
 	 */
@@ -40,7 +53,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @since 10.4
 	 *
-	 * @param array $inputs
+	 * @param array $inputs An array to create Checkbox fields for the group.
 	 *
 	 * @return static
 	 */

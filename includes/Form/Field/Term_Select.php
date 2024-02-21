@@ -103,7 +103,7 @@ final class Term_Select extends Select {
 
 	/**
 	 * Field constructor.
-	 * 
+	 *
 	 * @since 10.4.64
 	 *
 	 * @param array $attributes The field attributes.
@@ -134,7 +134,7 @@ final class Term_Select extends Select {
 	 * Parse and prepare the attributes.
 	 *
 	 * @since 10.4.64
-	 * 
+	 *
 	 * @param array $attributes The attributes.
 	 *
 	 * @return array

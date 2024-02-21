@@ -43,7 +43,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @return static
 	 */
-	public function addInput( $input ) {
+	public function addInput( Checkbox $input ): self {
 
 		$this->inputs[] = $input;
 
@@ -59,7 +59,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @return static
 	 */
-	public function createInputsFromArray( $inputs ) {
+	public function createInputsFromArray( array $inputs ): self {
 
 		foreach ( $inputs as $properties ) {
 
@@ -106,7 +106,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @return string
 	 */
-	public function getFieldHTML() {
+	public function getFieldHTML(): string {
 
 		$tags = $this->getContainerTags();
 
@@ -125,7 +125,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @param string $tag The checkbox field HTML.
 	 */
-	private function walkInputs( $tag ) {
+	private function walkInputs( string $tag ): string {
 
 		$html = implode( "</{$tag}><{$tag} class=\"cn-checkbox-option\">", $this->inputs );
 

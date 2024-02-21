@@ -195,10 +195,13 @@ final class Select_Term extends Select {
 	 * Set the taxonomy term query parameters.
 	 *
 	 * @since 10.4.64
+	 * @since 10.4.65 Return self added.
 	 *
 	 * @param array $parameters The query parameters.
+	 *
+	 * @return self
 	 */
-	public function setQueryParameters( array $parameters = array() ) {
+	public function setQueryParameters( array $parameters = array() ): self {
 
 		$parameters = _parse::parameters( $parameters, $this->queryParameters, false );
 
@@ -206,6 +209,8 @@ final class Select_Term extends Select {
 		$parameters['hierarchical'] = _format::toBoolean( $parameters['hierarchical'] );
 
 		$this->queryParameters = $parameters;
+
+		return $this;
 	}
 
 	/**

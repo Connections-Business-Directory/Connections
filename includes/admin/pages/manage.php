@@ -390,7 +390,7 @@ function connectionsShowViewPage( $action = null ) {
 						<div class="alignleft actions">
 							<?php
 
-							Field\Select_Term::create()
+							Field\Term_Select::create()
 											 ->setId( 'category' )
 											 ->addClass( 'postform' )
 											 ->setName( 'category' )

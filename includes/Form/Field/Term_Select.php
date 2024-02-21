@@ -30,7 +30,7 @@ use Connections_Directory\Walker\Term_Select_Options;
  *
  * @package Connections_Directory\Form\Field
  */
-final class Select_Term extends Select {
+final class Term_Select extends Select {
 
 	/**
 	 * The default select attributes.

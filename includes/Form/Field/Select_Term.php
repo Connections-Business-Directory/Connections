@@ -265,6 +265,7 @@ final class Select_Term extends Select {
 		} else {
 			$depth = -1; // Flat.
 		}
+
 		$walker->walk( $terms, $depth, $this->fieldOptions );
 
 		foreach ( $walker->getOptions() as $option ) {

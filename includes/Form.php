@@ -763,6 +763,8 @@ abstract class Form {
 				 *
 				 * @param Field  $field   An instance of Field.
 				 * @param static $form    The current instance of Form.
+				 *
+				 * @var Field $field
 				 */
 				$field = apply_filters(
 					'Connections_Directory/Form/' . $this->getShortname() . '/Field',

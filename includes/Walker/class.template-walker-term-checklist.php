@@ -41,7 +41,7 @@ class CN_Walker_Term_Check_List extends Walker {
 	/**
 	 * Render a checklist of terms.
 	 *
-	 * This is the Connections equivalent of @see wp_terms_checklist() in WordPress core ..wp-admin/wp-includes/template.php
+	 * This is the Connections equivalent of @see wp_terms_checklist() in WordPress core ../wp-admin/wp-includes/template.php
 	 *
 	 * @access public
 	 * @since  8.2

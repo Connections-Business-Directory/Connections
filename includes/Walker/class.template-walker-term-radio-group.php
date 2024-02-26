@@ -182,13 +182,13 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 *
 	 * @since 8.2.4
 	 *
-	 * @param string $out    Passed by reference. Used to append additional content.
+	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 */
-	public function start_lvl( &$out, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
-		$out .= str_repeat( "\t", $depth ) . '<ul class="cn-' . esc_attr( $args['taxonomy'] ) . '-children">' . PHP_EOL;
+		$output .= str_repeat( "\t", $depth ) . '<ul class="cn-' . esc_attr( $args['taxonomy'] ) . '-children">' . PHP_EOL;
 	}
 
 	/**
@@ -196,13 +196,13 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 *
 	 * @since 8.2.4
 	 *
-	 * @param string $out    Passed by reference. Used to append additional content.
+	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 */
-	public function end_lvl( &$out, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
-		$out .= str_repeat( "\t", $depth ) . '</ul>' . PHP_EOL;
+		$output .= str_repeat( "\t", $depth ) . '</ul>' . PHP_EOL;
 	}
 
 	/**
@@ -210,13 +210,13 @@ class CN_Walker_Term_Radio_Group extends Walker {
 	 *
 	 * @since 8.2.4
 	 *
-	 * @param string $out    Passed by reference. Used to append additional content.
+	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $term   The current term object.
 	 * @param int    $depth  Depth of the term in reference to parent. Default 0.
 	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Radio_Group::render().
 	 * @param int    $id     ID of the current term.
 	 */
-	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
 
 		$type = esc_attr( $this->tree_type );
 		$name = esc_attr( $args['name'] );
@@ -224,20 +224,20 @@ class CN_Walker_Term_Radio_Group extends Walker {
 		// Set the option SELECTED attribute if the category is one of the currently selected categories.
 		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], true ) ? ' CHECKED ' : '';
 
-		$out .= str_repeat( "\t", $depth );
+		$output .= str_repeat( "\t", $depth );
 
-		$out .= "<li id='cn-{$type}-{$term->term_id}'>" . '<label><input value="' . $term->term_id . '" type="radio" name="' . $name . '" id="cn-in-' . $type . '-' . $term->term_id . '"' .
-				$selected .
-				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
-				esc_html( $term->name );
+		$output .= "<li id='cn-{$type}-{$term->term_id}'>" . '<label><input value="' . $term->term_id . '" type="radio" name="' . $name . '" id="cn-in-' . $type . '-' . $term->term_id . '"' .
+				   $selected .
+				   disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
+				   esc_html( $term->name );
 
 		if ( $args['show_count'] ) {
 
-			$out .= '&nbsp;(' . number_format_i18n( $term->count ) . ')';
+			$output .= '&nbsp;(' . number_format_i18n( $term->count ) . ')';
 		}
 
-		$out .= '</label>';
+		$output .= '</label>';
 
-		$out .= '</li>' . PHP_EOL;
+		$output .= '</li>' . PHP_EOL;
 	}
 }

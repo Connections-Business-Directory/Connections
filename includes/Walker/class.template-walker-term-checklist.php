@@ -146,13 +146,13 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *
 	 * @since 8.2
 	 *
-	 * @param string $out    Passed by reference. Used to append additional content.
+	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render().
 	 */
-	public function start_lvl( &$out, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
-		$out .= str_repeat( "\t", $depth ) . '<ul class="children cn-cat-children">' . PHP_EOL;
+		$output .= str_repeat( "\t", $depth ) . '<ul class="children cn-cat-children">' . PHP_EOL;
 	}
 
 	/**
@@ -160,13 +160,13 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *
 	 * @since 8.2
 	 *
-	 * @param string $out    Passed by reference. Used to append additional content.
+	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of terms. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render().
 	 */
-	public function end_lvl( &$out, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
-		$out .= str_repeat( "\t", $depth ) . '</ul>' . PHP_EOL;
+		$output .= str_repeat( "\t", $depth ) . '</ul>' . PHP_EOL;
 	}
 
 	/**
@@ -174,25 +174,25 @@ class CN_Walker_Term_Check_List extends Walker {
 	 *
 	 * @since 8.2
 	 *
-	 * @param string $out    Passed by reference. Used to append additional content.
+	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $term   The current term object.
 	 * @param int    $depth  Depth of the term in reference to parent. Default 0.
 	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Check_List::render().
 	 * @param int    $id     ID of the current term.
 	 */
-	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
 
 		$type = esc_attr( $this->tree_type );
 		$name = esc_attr( $args['name'] );
 
-		$out .= PHP_EOL . "<li id='{$type}-{$term->term_id}'>" . '<label class="selectit"><input value="' . $term->term_id . '" type="checkbox" name="' . $name . '[]" id="cn-in-' . $type . '-' . $term->term_id . '"' .
-				checked( in_array( $term->term_id, $args['selected'] ), true, false ) .
-				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
-				esc_html( $term->name ) . '</label>';
+		$output .= PHP_EOL . "<li id='{$type}-{$term->term_id}'>" . '<label class="selectit"><input value="' . $term->term_id . '" type="checkbox" name="' . $name . '[]" id="cn-in-' . $type . '-' . $term->term_id . '"' .
+				   checked( in_array( $term->term_id, $args['selected'] ), true, false ) .
+				   disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
+				   esc_html( $term->name ) . '</label>';
 
 		if ( $args['show_count'] ) {
 
-			$out .= '&nbsp;&nbsp;(' . number_format_i18n( $term->count ) . ')';
+			$output .= '&nbsp;&nbsp;(' . number_format_i18n( $term->count ) . ')';
 		}
 	}
 

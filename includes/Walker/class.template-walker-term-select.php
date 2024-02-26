@@ -206,31 +206,31 @@ class CN_Walker_Term_Select_List extends Walker {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $out   Passed by reference. Used to append additional content.
-	 * @param object $term  Category data object.
-	 * @param int    $depth Depth of category in reference to parent. Default 0.
-	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render().
-	 * @param int    $id    ID of the current category.
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $term   Category data object.
+	 * @param int    $depth  Depth of category in reference to parent. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_Select_List::render().
+	 * @param int    $id     ID of the current category.
 	 */
-	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
 
 		$pad = str_repeat( '&nbsp;', $depth * 3 );
 
 		/** This filter is documented in includes/template/class.template-walker-term-select.php */
 		$name = apply_filters( 'cn_list_cats', $term->name, $term );
 
-		$out .= "\t<option class=\"level-{$depth}\" value=\"{$term->term_id}\"";
+		$output .= "\t<option class=\"level-{$depth}\" value=\"{$term->term_id}\"";
 
-		$out .= selected( $term->term_id, $args['selected'], false );
+		$output .= selected( $term->term_id, $args['selected'], false );
 
-		$out .= '>';
-		$out .= $pad . $name;
+		$output .= '>';
+		$output .= $pad . $name;
 
 		if ( $args['show_count'] ) {
 
-			$out .= '&nbsp;&nbsp;(' . number_format_i18n( $term->count ) . ')';
+			$output .= '&nbsp;&nbsp;(' . number_format_i18n( $term->count ) . ')';
 		}
 
-		$out .= '</option>' . PHP_EOL;
+		$output .= '</option>' . PHP_EOL;
 	}
 }

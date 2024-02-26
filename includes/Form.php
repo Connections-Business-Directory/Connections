@@ -816,7 +816,11 @@ abstract class Form {
 					);
 
 					$field->addClass( $fieldClassNames );
-					$field->label->addClass( 'cbd-field--label' );
+
+					if ( $field->label instanceof Field\Label ) {
+
+						$field->label->addClass( 'cbd-field--label' );
+					}
 
 					$html .= $field->getHTML();
 

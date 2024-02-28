@@ -231,6 +231,13 @@ class Select extends Input {
 		// If the select is NOT an enhanced Select field; prepend the default option to the top of the options array.
 		} elseif ( $this->hasDefaultOption() && ! $this->isEnhanced() ) {
 
+			/*
+			 * @todo Default option attributes.
+			 * The default option should have the `disabled selected hidden` attributes set.
+			 * The `selected` attribute should be set only when the select value has not been set
+			 * to prevent multiple options from having the `selected` attribute.
+			 */
+
 			array_unshift( $this->options, $this->defaultOption );
 		}
 

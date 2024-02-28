@@ -30,46 +30,32 @@ use Connections_Directory\Walker\Term_Select_Options;
  *
  * @package Connections_Directory\Form\Field
  */
-final class Select_Term extends Select {
-
-	/**
-	 * The default select attributes.
-	 *
-	 * @since 10.4.64
-	 *
-	 * @var array
-	 */
-	protected $attributes = array(
-		'name'             => '',
-		'id'               => '',
-		'class'            => '',
-		'tab_index'        => 0,
-		'required'         => false,
-		'aria_describedby' => '',
-	);
+final class Term_Select extends Select {
 
 	/**
 	 * The select option fields attributes.
 	 *
+	 * @see self::setFieldOptions()
+	 *
 	 * @since 10.4.64
 	 *
-	 * @var array
+	 * @var array{
+	 *     depth: int,
+	 *     hide_if_empty: bool,
+	 *     show_option_all: string,
+	 *     show_option_none: string,
+	 *     option_none_value: int,
+	 *     show_count: bool,
+	 *     value_field: string
+	 * }
 	 */
 	protected $fieldOptions = array(
-		// Text to display for showing all terms.
-		'show_option_all'   => '',
-		// Text to display for showing no categories.
-		'show_option_none'  => '',
-		// Value to use when no category is selected.
-		'option_none_value' => -1,
-		// Whether to include post counts. Accepts 0, 1, or their bool equivalents.
-		'show_count'        => false,
-		// Whether to traverse the taxonomy hierarchy. Accepts 0, 1, or their bool equivalents.
-		'hierarchical'      => false,
-		// Maximum depth.
 		'depth'             => 0,
-		// Do not generate HTML if no terms are returned when doing the term query.
 		'hide_if_empty'     => true,
+		'show_option_all'   => '',
+		'show_option_none'  => '',
+		'option_none_value' => -1,
+		'show_count'        => false,
 		// Term field that should be used to populate the 'value' attribute of the option elements.
 		// Accepts any valid term field: 'term_id', 'name', 'slug', 'term_group', 'term_taxonomy_id', 'taxonomy', 'description', 'parent', 'count'.
 		// Default 'term_id'.
@@ -98,11 +84,14 @@ final class Select_Term extends Select {
 		'hide_empty'   => false,
 		'child_of'     => 0,
 		'exclude'      => '', // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+		// Whether to traverse the taxonomy hierarchy. Accepts 0, 1, or their bool equivalents.
 		'hierarchical' => false,
 	);
 
 	/**
 	 * Field constructor.
+	 *
+	 * @since 10.4.64
 	 *
 	 * @param array $attributes The field attributes.
 	 */
@@ -113,23 +102,23 @@ final class Select_Term extends Select {
 		$taxonomy = Taxonomy\Registry::get()->getTaxonomy( $this->taxonomy );
 
 		if ( $taxonomy instanceof Taxonomy ) {
-			$this->attributes['name']              = $taxonomy->getQueryVar();
+
+			$attributes['name'] = $taxonomy->getQueryVar();
+
 			$this->fieldOptions['show_option_all'] = $taxonomy->getLabels()->all_items;
-			$this->fieldOptions['hierarchical']    = $taxonomy->isHierarchical();
 			$this->fieldOptions['value_field']     = 'slug';
 			$this->queryParameters['hierarchical'] = $taxonomy->isHierarchical();
 		}
 
-		$this->setFieldOptions();
-		$this->setQueryParameters();
+		$attributes = $this->parseAttributes( $attributes );
 
-		$this->attributes = $this->parseAttributes( $attributes );
-
-		parent::__construct( $this->attributes );
+		parent::__construct( $attributes );
 	}
 
 	/**
-	 * Parse and prepare the attributes.
+	 * Parse and prepare the field attributes.
+	 *
+	 * @since 10.4.64
 	 *
 	 * @param array $attributes The attributes.
 	 *
@@ -137,7 +126,14 @@ final class Select_Term extends Select {
 	 */
 	protected function parseAttributes( array $attributes ): array {
 
-		$attributes = _parse::parameters( $attributes, $this->attributes );
+		$attributes = _parse::parameters(
+			$attributes,
+			array(
+				'tab_index'        => 0,
+				'aria_describedby' => '',
+			),
+			false
+		);
 
 		$attributes['tab_index'] = _sanitize::integer( $attributes['tab_index'] );
 
@@ -162,7 +158,35 @@ final class Select_Term extends Select {
 	 *
 	 * @since 10.4.64
 	 *
-	 * @param array $options The option field options.
+	 * @phpcs:ignore Squiz.Commenting.FunctionComment.MissingParamName
+	 *
+	 * @param array{
+	 *      depth: int,
+	 *      hide_if_empty: bool,
+	 *      show_option_all: string,
+	 *      show_option_none: string,
+	 *      option_none_value: int,
+	 *      show_count: bool,
+	 *      value_field: string
+	 *  } $options {
+	 *      Optional. An array of arguments.
+	 *
+	 *      @type int    $depth             Controls how many levels in the hierarchy of terms that are to be included.
+	 *                                      Default: `0`
+	 *                                      Accepts: `0` — All terms and child terms.
+	 *                                      `-1` = All terms displayed flat, not showing the parent/child relationships.
+	 *                                      `1`  = Show only top level/root parent categories.
+	 *                                      `n`  = Value of n (int) specifies the depth (or level) to descend in displaying the terms.
+	 *      @type bool   $hide_if_empty     Do not generate HTML if no terms are returned when doing the term query.
+	 *      @type string $show_option_all   Text to display for showing all terms.
+	 *      @type string $show_option_none  Text to display for showing no categories.
+	 *      @type int    $option_none_value Value to use when no category is selected.
+	 *      @type bool   $show_count        Whether to display the term count.
+	 *                                      Default: `false`
+	 *      @type string $value_field       Term field that should be used to populate the 'value' attribute of the option elements.
+	 *                                      Accepts: Valid term field: 'term_id', 'name', 'slug', 'term_group', 'term_taxonomy_id', 'taxonomy',
+	 *                                      'description', 'parent', 'count'. Default: `term_id`
+	 * }
 	 *
 	 * @return self
 	 */
@@ -171,7 +195,6 @@ final class Select_Term extends Select {
 		$options = _parse::parameters( $options, $this->fieldOptions, false );
 
 		$options['show_count']    = _format::toBoolean( $options['show_count'] );
-		$options['hierarchical']  = _format::toBoolean( $options['hierarchical'] );
 		$options['hide_if_empty'] = _format::toBoolean( $options['hide_if_empty'] );
 
 		$this->fieldOptions = $options;
@@ -194,11 +217,16 @@ final class Select_Term extends Select {
 	/**
 	 * Set the taxonomy term query parameters.
 	 *
+	 * @see cnTerm::getTaxonomyTerms()
+	 *
 	 * @since 10.4.64
+	 * @since 10.4.65 Return self added.
 	 *
 	 * @param array $parameters The query parameters.
+	 *
+	 * @return self
 	 */
-	public function setQueryParameters( array $parameters = array() ) {
+	public function setQueryParameters( array $parameters = array() ): self {
 
 		$parameters = _parse::parameters( $parameters, $this->queryParameters, false );
 
@@ -206,6 +234,8 @@ final class Select_Term extends Select {
 		$parameters['hierarchical'] = _format::toBoolean( $parameters['hierarchical'] );
 
 		$this->queryParameters = $parameters;
+
+		return $this;
 	}
 
 	/**
@@ -223,7 +253,9 @@ final class Select_Term extends Select {
 
 			$parameters['pad_counts'] = $this->fieldOptions['pad_counts'];
 
-		} elseif ( ! isset( $this->fieldOptions['pad_counts'] ) && $this->fieldOptions['show_count'] && $this->fieldOptions['hierarchical'] ) {
+		} elseif ( ! isset( $this->fieldOptions['pad_counts'] )
+				   && $this->fieldOptions['show_count']
+				   && $this->queryParameters['hierarchical'] ) {
 
 			$parameters['pad_counts'] = true;
 		}
@@ -260,11 +292,12 @@ final class Select_Term extends Select {
 
 		$walker = new Term_Select_Options();
 
-		if ( $this->fieldOptions['hierarchical'] ) {
+		if ( $this->queryParameters['hierarchical'] ) {
 			$depth = $this->fieldOptions['depth'];  // Walk the full depth.
 		} else {
 			$depth = -1; // Flat.
 		}
+
 		$walker->walk( $terms, $depth, $this->fieldOptions );
 
 		foreach ( $walker->getOptions() as $option ) {

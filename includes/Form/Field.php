@@ -149,7 +149,7 @@ abstract class Field implements Interfaces\Field {
 				break;
 
 			case 'implicit/after':
-				$html = preg_replace( '/<label([^>]+?)?[\/ ]*>/', "<label>{$field}", $label, 1 );
+				$html = preg_replace( '/<label([^>]+?)?[\/ ]*>/', "<label$1>{$field}", $label, 1 );
 				break;
 		}
 

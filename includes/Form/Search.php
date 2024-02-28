@@ -22,6 +22,7 @@ use cnSettingsAPI;
 use cnShortcode;
 use Connections_Directory\Form;
 use Connections_Directory\Request;
+use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
 use Connections_Directory\Utility\_format;
 use Connections_Directory\Utility\_parse;
@@ -211,39 +212,93 @@ final class Search extends Form {
 	 */
 	protected function fields( array $parameters ): array {
 
+		$fields = array();
+
+		foreach ( $this->taxonomyTermFields() as $taxonomyTermField ) {
+
+			$fields[] = $taxonomyTermField;
+		}
+
+		$fields[] = $this->keywordField();
+
+		return $fields;
+	}
+
+	/**
+	 * The keyword search field.
+	 *
+	 * @since 10.4.65
+	 *
+	 * @return Field\Search
+	 */
+	private function keywordField(): Field\Search {
+
 		$term = Request\Entry_Search_Term::input()->value();
 
-		return array(
-			Field\Search::create()
-						->setName( 'cn-s' )
-						->setValue( $term )
-						->addAttribute( 'placeholder', esc_attr_x( 'Search&hellip;', 'placeholder', 'connections' ) )
-						->addLabel(
-							Field\Label::create()
-									   ->text( '<span class="screen-reader-text">' . esc_html_x( 'Search for:', 'label', 'connections' ) . '</span>' ),
-							'implicit'
-						),
-			Field\Select_Term::create()
-							 ->setName( 'cn-cat' )
-							 ->setFieldOptions(
-								 array(
-									 'hide_if_empty' => false,
-									 'show_count'    => true,
-									 'value_field'   => 'term_id',
-								 )
-							 ),
-			// Field\Select_Term::create(
-			// 	array(
-			// 		'taxonomy' => 'payrate',
-			// 	)
-			// )
-			// 				 ->setFieldOptions(
-			// 					 array(
-			// 						 'hide_if_empty' => false,
-			// 						 'show_count'    => true,
-			// 					 )
-			// 				 ),
-		);
+		return Field\Search::create()
+						   ->setName( 'cn-s' )
+						   ->setValue( $term )
+						   ->addAttribute( 'placeholder', esc_attr_x( 'Search&hellip;', 'placeholder', 'connections' ) )
+						   ->addLabel(
+							   Field\Label::create()
+										  ->text(
+											  '<span class="screen-reader-text">' . esc_html_x(
+												  'Search for:',
+												  'label',
+												  'connections'
+											  ) . '</span>'
+										  ),
+							   'implicit'
+						   );
+	}
+
+	/**
+	 * The taxonomy term select fields.
+	 *
+	 * @since 10.4.65
+	 *
+	 * @return Field[]
+	 */
+	private function taxonomyTermFields(): array {
+
+		$fields     = array();
+		$taxonomies = Registry::get()->getTaxonomies();
+
+		foreach ( $taxonomies as $taxonomy ) {
+
+			if ( ! $taxonomy->isPublicQueryable() ) {
+				continue;
+			}
+
+			if ( 'category' === $taxonomy->getSlug() ) {
+
+				$fields[] = Field\Term_Select::create()
+											 ->setName( 'cn-cat' )
+											 ->setFieldOptions(
+												 array(
+													 'hide_if_empty' => false,
+													 'show_count'    => true,
+													 'value_field'   => 'term_id',
+												 )
+											 );
+
+			} else {
+
+				$fields[] = Field\Term_Select::create(
+					array(
+						'taxonomy' => $taxonomy->getSlug(),
+					)
+				)
+											 ->setFieldOptions(
+												 array(
+													 'hide_if_empty' => false,
+													 'show_count'    => true,
+												 )
+											 );
+			}
+		}
+
+		return $fields;
 	}
 
 	/**

@@ -1,5 +1,23 @@
 == Changelog ==
 
+= 10.4.65 02/28/2024 =
+* NEW: Introduce `Field\Term_Checkbox_Group`.
+* TWEAK: Make `\Form\Field\Select_Term::setQueryParameters()` chainable.
+* TWEAK: Declare strict types in `\Form\Field\Checkbox_Group`.
+* TWEAK: Add parameter and return types to `\Form\Field\Checkbox_Group`.
+* TWEAK: Rename `\Form\Field\Select_Term` to `\Form\Field\Term_Select`.
+* TWEAK: Remove unnecessary variable.
+* TWEAK: In `\Form\Field\Input` create `Label` object only when the `label` attribute is not empty.
+* TWEAK: Apply the Form field label only if the attribute is an instance of `\Form\Field\Label`.
+* TWEAK: Rename object parameters to match the parameter name of the overridden class method.
+* TWEAK: Refactor `Field\Term_Select` to match `Field\Term_Checkbox_Group` for consistency.
+* TWEAK: Update `\Form\Search\` to include taxonomy term select dropdown fields.
+* TWEAK: Move logic from `\cnRetrieve::parseRequest()` to `\Request::parse()` for the `cn-cat` and `cn-cat-slug` query variables.
+* BUG: Ensure `label` attributes are preserved when applying the field label position.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* DEV: Add phpDoc to `\Form\Field\Checkbox_Group`.
+
 = 10.4.64 02/19/2024 =
 * NEW: Introduce `Fields\Select_Term`.
 * NEW: Introduce `\Form\Field\Select::getOptions()` and `\Form\Field\Select::hasOptions`.

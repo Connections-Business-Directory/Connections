@@ -45,11 +45,16 @@ abstract class Input extends Field {
 
 			$this->setValue( _array::get( $attributes, 'value', '' ) );
 
-			$this->addLabel(
-				Field\Label::create()
-						   ->setFor( $this->getId() )
-						   ->text( _array::get( $attributes, 'label', '' ) )
-			);
+			$label = _array::get( $attributes, 'label', '' );
+
+			if ( 0 < strlen( $label ) ) {
+
+				$this->addLabel(
+					Field\Label::create()
+							   ->setFor( $this->getId() )
+							   ->text( $label )
+				);
+			}
 
 			$this->prepend( _array::get( $attributes, 'prepend', '' ) );
 			$this->append( _array::get( $attributes, 'append', '' ) );

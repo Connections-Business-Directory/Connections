@@ -1,4 +1,19 @@
 <?php
+/**
+ * Generate a checkbox group field.
+ *
+ * @since      10.4
+ *
+ * @category   WordPress\Plugin
+ * @package    Connections_Directory
+ * @subpackage Connections_Directory\Form\Field
+ * @author     Steven A. Zahm
+ * @license    GPL-2.0+
+ * @copyright  Copyright (c) 2024, Steven A. Zahm
+ * @link       https://connections-pro.com/
+ */
+
+declare( strict_types=1 );
 
 namespace Connections_Directory\Form\Field;
 
@@ -24,11 +39,11 @@ class Checkbox_Group extends Group {
 	 *
 	 * @since 10.4
 	 *
-	 * @param Checkbox $input
+	 * @param Checkbox $input A Checkbox field.
 	 *
 	 * @return static
 	 */
-	public function addInput( $input ) {
+	public function addInput( Checkbox $input ): self {
 
 		$this->inputs[] = $input;
 
@@ -40,11 +55,11 @@ class Checkbox_Group extends Group {
 	 *
 	 * @since 10.4
 	 *
-	 * @param array $inputs
+	 * @param array $inputs An array to create Checkbox fields for the group.
 	 *
 	 * @return static
 	 */
-	public function createInputsFromArray( $inputs ) {
+	public function createInputsFromArray( array $inputs ): self {
 
 		foreach ( $inputs as $properties ) {
 
@@ -91,7 +106,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @return string
 	 */
-	public function getFieldHTML() {
+	public function getFieldHTML(): string {
 
 		$tags = $this->getContainerTags();
 
@@ -110,7 +125,7 @@ class Checkbox_Group extends Group {
 	 *
 	 * @param string $tag The checkbox field HTML.
 	 */
-	private function walkInputs( $tag ) {
+	private function walkInputs( string $tag ): string {
 
 		$html = implode( "</{$tag}><{$tag} class=\"cn-checkbox-option\">", $this->inputs );
 

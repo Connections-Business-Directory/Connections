@@ -93,11 +93,9 @@ class Term_Select_Options extends Walker {
 			$count = '&nbsp;&nbsp;(' . number_format_i18n( $term->count ) . ')';
 		}
 
-		$option = Field\Option::create()
-							  ->addClass( "level-{$depth}" )
-							  ->setValue( $term->{$value_field} )
-							  ->setText( $pad . $name . $count );
-
-		$this->options[] = $option;
+		$this->options[] = Field\Option::create()
+									   ->addClass( "level-{$depth}" )
+									   ->setValue( $term->{$value_field} )
+									   ->setText( $pad . $name . $count );
 	}
 }

@@ -736,10 +736,7 @@ class cnRetrieve {
 			switch ( $queryKey ) {
 
 				case 'cn-cat':
-					if ( ! empty( $queryVar ) ) {
-
-						$atts['category'] = $queryVar;
-					}
+					$atts['category'] = $queryVar;
 					break;
 
 				case 'cn-cat-in':
@@ -747,7 +744,7 @@ class cnRetrieve {
 					break;
 
 				case 'cn-cat-slug':
-					$atts['category_slug__in'] = wp_basename( $queryVar );
+					$atts['category_slug__in'] = $queryVar;
 					break;
 
 				case 'cn-tag':

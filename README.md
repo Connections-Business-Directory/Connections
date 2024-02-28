@@ -246,6 +246,26 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.65 02/28/2024 =
+
+* NEW: Introduce `Field\Term_Checkbox_Group`.
+* TWEAK: Make `\Form\Field\Select_Term::setQueryParameters()` chainable.
+* TWEAK: Declare strict types in `\Form\Field\Checkbox_Group`.
+* TWEAK: Add parameter and return types to `\Form\Field\Checkbox_Group`.
+* TWEAK: Rename `\Form\Field\Select_Term` to `\Form\Field\Term_Select`.
+* TWEAK: Remove unnecessary variable.
+* TWEAK: In `\Form\Field\Input` create `Label` object only when the `label` attribute is not empty.
+* TWEAK: Apply the Form field label only if the attribute is an instance of `\Form\Field\Label`.
+* TWEAK: Rename object parameters to match the parameter name of the overridden class method.
+* TWEAK: Refactor `Field\Term_Select` to match `Field\Term_Checkbox_Group` for consistency.
+* TWEAK: Update `\Form\Search\` to include taxonomy term select dropdown fields.
+* TWEAK: Move logic from `\cnRetrieve::parseRequest()` to `\Request::parse()` for the `cn-cat` and `cn-cat-slug` query
+  variables.
+* BUG: Ensure `label` attributes are preserved when applying the field label position.
+* DEV: phpDoc corrections.
+* DEV: phpDoc updates.
+* DEV: Add phpDoc to `\Form\Field\Checkbox_Group`.
+
 = 10.4.64 02/19/2024 =
 
 * NEW: Introduce `Fields\Select_Term`.
@@ -573,18 +593,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add dev @todo.
 * DEV: Add commented out code required for testing CSV exports.
 * DEV: Array alignment.
-
-= 10.4.45 06/08/2023 =
-
-* TWEAK: Remove unnecessary direct access check.
-* TWEAK: Add the `detailed` query argument schema to the Countries collection parameters.
-* TWEAK: Add `code` query argument schema to the Countries collections endpoint parameters.
-* TWEAK: Remove deprecated use of `cnArray`.
-* TWEAK: Rename class `CN_REST_Countries_Controller` to `Connections_Directory\API\REST\Endpoint\Countries`.
-* TWEAK: Rename file `class.cn-rest-countries-controller.php` to `Countries.php`.
-* TWEAK: Refactor how REST Routes and Endpoints are registered to optimize loading using a trait to reduce code
-  duplication.
-* DEV: phpDoc updates.
-* DEV: Add return type declaration.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

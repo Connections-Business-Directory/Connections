@@ -20,6 +20,7 @@ use Connections_Directory\Request\Entry_Initial_Character;
 use Connections_Directory\Request\Entry_Search_Term;
 use Connections_Directory\Taxonomy\Registry;
 use Connections_Directory\Utility\_array;
+use Connections_Directory\Utility\_sanitize;
 use WP;
 
 /**
@@ -150,8 +151,16 @@ final class Request {
 
 			switch ( $key ) {
 
+				case 'cn-cat':
+					$value = ! empty( $value ) ? _sanitize::integer( $value ) : '';
+					break;
+
 				case 'cn-cat-in':
-					$value = array_filter( wp_parse_list( $value ) );
+					$value = array_filter( wp_parse_id_list( $value ) );
+					break;
+
+				case 'cn-cat-slug':
+					$value = ! empty( $value ) ? wp_basename( $value ) : '';
 					break;
 
 				case 'cn-country':

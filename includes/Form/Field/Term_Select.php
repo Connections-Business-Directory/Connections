@@ -131,7 +131,7 @@ final class Term_Select extends Select {
 	}
 
 	/**
-	 * Parse and prepare the attributes.
+	 * Parse and prepare the field attributes.
 	 *
 	 * @since 10.4.64
 	 *
@@ -197,6 +197,8 @@ final class Term_Select extends Select {
 
 	/**
 	 * Set the taxonomy term query parameters.
+	 *
+	 * @see cnTerm::getTaxonomyTerms()
 	 *
 	 * @since 10.4.64
 	 * @since 10.4.65 Return self added.

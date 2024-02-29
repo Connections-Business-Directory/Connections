@@ -402,6 +402,7 @@ class cnDependency {
 			'Connections_Directory\Form\Field\Slider'                 => 'includes/Form/Field/Slider.php',
 			'Connections_Directory\Form\Field\Submit'                 => 'includes/Form/Field/Submit.php',
 			'Connections_Directory\Form\Field\Term_Checkbox_Group'    => 'includes/Form/Field/Term_Checkbox_Group.php',
+			'Connections_Directory\Form\Field\Term_Radio_Group'       => 'includes/Form/Field/Term_Radio_Group.php',
 			'Connections_Directory\Form\Field\Term_Select'            => 'includes/Form/Field/Term_Select.php',
 			'Connections_Directory\Form\Field\Text'                   => 'includes/Form/Field/Text.php',
 			'Connections_Directory\Form\Field\Textarea'               => 'includes/Form/Field/Textarea.php',
@@ -413,6 +414,7 @@ class cnDependency {
 			'CN_Walker_Term_Check_List'                               => 'includes/Walker/class.template-walker-term-checklist.php',
 			'CN_Walker_Term_Radio_Group'                              => 'includes/Walker/class.template-walker-term-radio-group.php',
 			'Connections_Directory\Walker\Term_Checkbox_Group_Inputs' => 'includes/Walker/Term_Checkbox_Group_Inputs.php',
+			'Connections_Directory\Walker\Term_Radio_Group_Inputs'    => 'includes/Walker/Term_Radio_Group_Inputs.php',
 			'Connections_Directory\Walker\Term_Select_Options'        => 'includes/Walker/Term_Select_Options.php',
 
 			// Entry Meta API.

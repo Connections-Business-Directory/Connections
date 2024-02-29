@@ -233,23 +233,15 @@ final class Search extends Form {
 	 */
 	private function keywordField(): Field\Search {
 
-		$term = Request\Entry_Search_Term::input()->value();
+		$label       = '<span class="screen-reader-text">' . _x( 'Search for:', 'label', 'connections' ) . '</span>';
+		$placeholder = _x( 'Search&hellip;', 'placeholder', 'connections' );
+		$term        = Request\Entry_Search_Term::input()->value();
 
 		return Field\Search::create()
 						   ->setName( 'cn-s' )
 						   ->setValue( $term )
-						   ->addAttribute( 'placeholder', esc_attr_x( 'Search&hellip;', 'placeholder', 'connections' ) )
-						   ->addLabel(
-							   Field\Label::create()
-										  ->text(
-											  '<span class="screen-reader-text">' . esc_html_x(
-												  'Search for:',
-												  'label',
-												  'connections'
-											  ) . '</span>'
-										  ),
-							   'implicit'
-						   );
+						   ->addAttribute( 'placeholder', $placeholder )
+						   ->addLabel( Field\Label::create()->text( $label ), 'implicit' );
 	}
 
 	/**

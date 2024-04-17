@@ -429,6 +429,7 @@ final class _ {
 	 * Convert a value within one range to a value within another range, maintaining ratio.
 	 *
 	 * Converted Python script from:
+	 *
 	 * @link http://stackoverflow.com/a/15537393
 	 *
 	 * @since 8.1

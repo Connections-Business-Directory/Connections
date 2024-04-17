@@ -162,6 +162,29 @@ final class _ {
 	}
 
 	/**
+	 * Whether the echo the supplied value.
+	 * 
+	 * NOTE: Ensure content is escaped!
+	 *
+	 * @since 10.4.66
+	 *
+	 * @param mixed $value     The value to echo.
+	 * @param bool  $maybeEcho Whether to echo the value.
+	 *
+	 * @return mixed
+	 */
+	public static function maybeEcho( $value, bool $maybeEcho ) {
+
+		if ( $maybeEcho ) {
+
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $value;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Clean up an array, comma- or space-separated list of IDs.
 	 *
 	 * @since 8.2.9

@@ -8,6 +8,9 @@ use cnLink;
 use cnOutput;
 use cnPhone;
 use cnSanitize;
+use cnString;
+use cnTemplatePart;
+use Connections_Directory\Utility\_;
 use Connections_Directory\Utility\_string;
 
 /**
@@ -362,6 +365,100 @@ class Functions {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Echo or return the HTML for the entry primary email address or
+	 * the first email address attached to the entry if no primary has been defined.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @param cnEntry $entry     An instance of the Entry object.
+	 * @param bool    $maybeEcho Whether to echo the HTML.
+	 *
+	 * @return string
+	 */
+	public static function email( cnEntry $entry, bool $maybeEcho = true ): string {
+
+		$email = self::getEmail( $entry );
+
+		if ( ! $email instanceof cnEmail_Address ) {
+
+			return '';
+		}
+
+		$html = cnTemplatePart::get(
+			'entry' . DIRECTORY_SEPARATOR . 'email-addresses' . DIRECTORY_SEPARATOR . 'email',
+			'hcard',
+			array(
+				'atts'           => array(
+					'format'    => '%address%',
+					'title'     => '',
+					'size'      => 32,
+					'separator' => ':',
+				),
+				'entry'          => $entry,
+				'emailAddresses' => array( $email ),
+			),
+			true,
+			true,
+			false
+		);
+
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
+
+			$html = cnString::replaceWhatWith( $html, ' ' );
+
+			return _::maybeEcho( $html, $maybeEcho );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Echo or return the HTML for the entry primary phone number or
+	 * the first phone number attached to the entry if no primary has been defined.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @param cnEntry $entry     An instance of the Entry object.
+	 * @param bool    $maybeEcho Whether to echo the HTML.
+	 *
+	 * @return string
+	 */
+	public static function phone( cnEntry $entry, bool $maybeEcho = true ): string {
+
+		$phone = self::getPhone( $entry );
+
+		if ( ! $phone instanceof cnPhone ) {
+
+			return '';
+		}
+
+		$html = cnTemplatePart::get(
+			'entry' . DIRECTORY_SEPARATOR . 'phone-numbers' . DIRECTORY_SEPARATOR . 'phone',
+			'hcard',
+			array(
+				'atts'         => array(
+					'format'    => '%number%',
+					'separator' => ':',
+				),
+				'entry'        => $entry,
+				'phoneNumbers' => array( $phone ),
+			),
+			true,
+			true,
+			false
+		);
+
+		if ( is_string( $html ) && 0 < strlen( $html ) ) {
+
+			$html = cnString::replaceWhatWith( $html, ' ' );
+
+			return _::maybeEcho( $html, $maybeEcho );
+		}
+
+		return '';
 	}
 
 	// function popular() {}

@@ -163,7 +163,7 @@ final class _ {
 
 	/**
 	 * Whether the echo the supplied value.
-	 * 
+	 *
 	 * NOTE: Ensure content is escaped!
 	 *
 	 * @since 10.4.66

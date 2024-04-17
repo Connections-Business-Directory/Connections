@@ -334,11 +334,11 @@ final class _ {
 			return $value;
 		}
 
-		//// A JSON encoded string will start and end with either a square bracket of curly bracket.
-		//if ( ( $value[0] === '[' && $value[ strlen( $value ) - 1 ] === ']' ) || ( $value[0] === '{' && $value[ strlen( $value ) - 1 ] === '}' ) ) {
+		// A JSON encoded string will start and end with either a square bracket of curly bracket.
+		// if ( ( $value[0] === '[' && $value[ strlen( $value ) - 1 ] === ']' ) || ( $value[0] === '{' && $value[ strlen( $value ) - 1 ] === '}' ) ) {
 		//
-		//	$value = json_decode( $value, $array );
-		//}
+		// $value = json_decode( $value, $array );
+		// }
 
 		$result = self::decodeJSON( $value, $array );
 

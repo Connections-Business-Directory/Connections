@@ -215,7 +215,7 @@ final class _format {
 		);
 
 		$pluralize = function ( $count, $text ) {
-			return $count . ( 1 == $count ? " $text" : " ${text}s" );
+			return $count . ( 1 == $count ? " $text" : " {$text}s" );
 		};
 
 		foreach ( $properties as $period => $string ) {

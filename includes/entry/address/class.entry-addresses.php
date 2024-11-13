@@ -805,7 +805,7 @@ final class cnEntry_Addresses implements cnToArray {
 
 			/*
 			 * Set saving as true to force the query of all entries filtered per supplied attributes.
-			 * This will reflect who it function when the table manager and query classes are implemented.
+			 * This will reflect how it functions when the table manager and query classes are implemented.
 			 */
 			$data = $instance->retrieve->addresses( $options, true );
 		}

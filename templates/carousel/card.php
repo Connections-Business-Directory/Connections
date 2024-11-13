@@ -6,6 +6,8 @@
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
+use Connections_Directory\Utility\_escape;
+
 ?>
 <div class="slick-slider-slide">
 	<div class="slick-slide-grid">
@@ -23,8 +25,28 @@
 					'lazyload' => false,
 				)
 			);
+
+			if ( $atts['enablePermalink'] ) {
+
+				$name = \Connections_Directory\Utility\_url::permalink(
+					array(
+						// 'type'       => $atts['target'],
+						'slug'       => $entry->getSlug(),
+						'title'      => $entry->getName( $atts ),
+						'text'       => $entry->getName(),
+						'home_id'    => $entry->directoryHome['page_id'],
+						'force_home' => $entry->directoryHome['force_home'],
+						'return'     => true,
+					)
+				);
+
+			} else {
+
+				$name = $entry->getName();
+			}
+
 			?>
-			<h3><?php echo esc_html( $entry->getName() ); ?></h3>
+			<h3><?php _escape::html( $name, true ); ?></h3>
 			<?php
 
 			if ( $atts['displayTitle'] ) {

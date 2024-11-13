@@ -2384,7 +2384,12 @@ class cnEntry_HTML extends cnEntry {
 		 * @since 8.5.19
 		 */
 		$excerpt = apply_filters( 'cn_output_excerpt', $excerpt, $this );
-		$html    = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
+		$html    = '';
+
+		if ( 0 < strlen( $excerpt ) ) {
+
+			$html = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
+		}
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -2714,7 +2719,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 *
+	 * @todo Delete this!!!
 	 *
 	 * @access private
 	 * @since unknown

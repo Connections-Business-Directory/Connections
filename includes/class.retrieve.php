@@ -2563,11 +2563,53 @@ class cnRetrieve {
 	}
 
 	/**
+	 * Retrieve all country names attached to directory entries.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @return array
+	 */
+	public static function countries(): array {
+
+		global $wpdb;
+
+		$sql = 'SELECT `country` FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE `country` <> "" GROUP BY `country` ORDER BY `country` ASC';
+
+		$result = $wpdb->get_col( $sql );
+
+		return array_filter( $result );
+	}
+
+	/**
+	 * Retrieve all region (state/province) names attached to directory entries.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @param string $inCountry
+	 *
+	 * @return array
+	 */
+	public static function regions( string $inCountry = '' ): array {
+
+		global $wpdb;
+
+		$where = 0 < strlen( $inCountry ) ? $wpdb->prepare( ' WHERE `country` = %s', $inCountry ) : '';
+
+		$sql = 'SELECT DISTINCT `state` from ' . CN_ENTRY_ADDRESS_TABLE . $where . ' ORDER BY `state`';
+
+		// NOTE: Ensure `$sql` is fully prepared!
+		$result = $wpdb->get_col( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+		return array_filter( $result );
+	}
+
+	/**
 	 * Return an array of entry ID/s found with the supplied search terms.
 	 *
 	 * @todo Return exact matches when searching by name for both the individual and organization entry types.
 	 * @todo Add option to return exact matches only, to name for both the individual and organization entry types.
-	 * @todo Allow the fields for each table to be defined as a comma delimited list, convert an array and validate against of list of valid table fields.
+	 * @todo Allow the fields for each table to be defined as a comma delimited list, convert an array and validate
+	 *       against of list of valid table fields.
 	 * @todo Add a filter to allow the search fields to be changed.
 	 *
 	 * Resources used:
@@ -3304,7 +3346,8 @@ class cnRetrieve {
 	/**
 	 * Remove the entries from the list where the date added was not recorded.
 	 *
-	 * This is more or less a hack to remove the entries from the list where the date added was not recorded which would be entries added before 0.7.1.1.
+	 * This is more or less a hack to remove the entries from the list where the date added was not recorded which would be entries added
+	 * before 0.7.1.1.
 	 *
 	 * @internal
 	 * @since 0.7.1.6

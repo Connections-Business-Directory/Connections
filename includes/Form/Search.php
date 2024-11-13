@@ -202,7 +202,7 @@ final class Search extends Form {
 	}
 
 	/**
-	 * The user login form fields.
+	 * The search form fields.
 	 *
 	 * @since 10.4.64
 	 *
@@ -219,6 +219,8 @@ final class Search extends Form {
 			$fields[] = $taxonomyTermField;
 		}
 
+		$fields[] = $this->countryField();
+		$fields[] = $this->regionField();
 		$fields[] = $this->keywordField();
 
 		return $fields;
@@ -233,23 +235,15 @@ final class Search extends Form {
 	 */
 	private function keywordField(): Field\Search {
 
-		$term = Request\Entry_Search_Term::input()->value();
+		$label       = '<span class="screen-reader-text">' . _x( 'Search for:', 'label', 'connections' ) . '</span>';
+		$placeholder = _x( 'Search&hellip;', 'placeholder', 'connections' );
+		$term        = Request\Entry_Search_Term::input()->value();
 
 		return Field\Search::create()
 						   ->setName( 'cn-s' )
 						   ->setValue( $term )
-						   ->addAttribute( 'placeholder', esc_attr_x( 'Search&hellip;', 'placeholder', 'connections' ) )
-						   ->addLabel(
-							   Field\Label::create()
-										  ->text(
-											  '<span class="screen-reader-text">' . esc_html_x(
-												  'Search for:',
-												  'label',
-												  'connections'
-											  ) . '</span>'
-										  ),
-							   'implicit'
-						   );
+						   ->addAttribute( 'placeholder', $placeholder )
+						   ->addLabel( Field\Label::create()->text( $label ), 'implicit' );
 	}
 
 	/**
@@ -299,6 +293,59 @@ final class Search extends Form {
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * The country dropdown select field.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @return Field\Select
+	 */
+	protected function countryField(): Field\Select {
+
+		$countries = array();
+		$results   = \cnRetrieve::countries();
+
+		// $keys      = array_map( 'urlencode', $result );
+		// $countries = array_combine( $keys, $result );
+
+		foreach ( $results as $country ) {
+
+			$countries[] = array(
+				'label' => $country,
+				'value' => urlencode( $country ),
+			);
+		}
+
+		return Field\Select::create()
+						   ->setName( 'cn-country' )
+						   ->createOptionsFromArray( $countries );
+	}
+
+	/**
+	 * The region (state/province) dropdown select field.
+	 *
+	 * @since 10.66
+	 *
+	 * @return Field\Select
+	 */
+	protected function regionField(): Field\Select {
+
+		$regions = array();
+		$results = \cnRetrieve::regions();
+
+		foreach ( $results as $region ) {
+
+			$regions[] = array(
+				'label' => $region,
+				'value' => urlencode( $region ),
+			);
+		}
+
+		return Field\Select::create()
+						   ->setName( 'cn-region' )
+						   ->createOptionsFromArray( $regions );
 	}
 
 	/**

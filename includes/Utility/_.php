@@ -162,6 +162,29 @@ final class _ {
 	}
 
 	/**
+	 * Whether the echo the supplied value.
+	 *
+	 * NOTE: Ensure content is escaped!
+	 *
+	 * @since 10.4.66
+	 *
+	 * @param mixed $value     The value to echo.
+	 * @param bool  $maybeEcho Whether to echo the value.
+	 *
+	 * @return mixed
+	 */
+	public static function maybeEcho( $value, bool $maybeEcho ) {
+
+		if ( $maybeEcho ) {
+
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $value;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Clean up an array, comma- or space-separated list of IDs.
 	 *
 	 * @since 8.2.9
@@ -311,11 +334,11 @@ final class _ {
 			return $value;
 		}
 
-		//// A JSON encoded string will start and end with either a square bracket of curly bracket.
-		//if ( ( $value[0] === '[' && $value[ strlen( $value ) - 1 ] === ']' ) || ( $value[0] === '{' && $value[ strlen( $value ) - 1 ] === '}' ) ) {
+		// A JSON encoded string will start and end with either a square bracket of curly bracket.
+		// if ( ( $value[0] === '[' && $value[ strlen( $value ) - 1 ] === ']' ) || ( $value[0] === '{' && $value[ strlen( $value ) - 1 ] === '}' ) ) {
 		//
-		//	$value = json_decode( $value, $array );
-		//}
+		// $value = json_decode( $value, $array );
+		// }
 
 		$result = self::decodeJSON( $value, $array );
 
@@ -406,6 +429,7 @@ final class _ {
 	 * Convert a value within one range to a value within another range, maintaining ratio.
 	 *
 	 * Converted Python script from:
+	 *
 	 * @link http://stackoverflow.com/a/15537393
 	 *
 	 * @since 8.1

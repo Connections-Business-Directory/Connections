@@ -2608,7 +2608,7 @@ class cnRetrieve {
 	 *
 	 * @todo Return exact matches when searching by name for both the individual and organization entry types.
 	 * @todo Add option to return exact matches only, to name for both the individual and organization entry types.
-	 * @todo Allow the fields for each table to be defined as a comma delimited list, convert an array and validate 
+	 * @todo Allow the fields for each table to be defined as a comma delimited list, convert an array and validate
 	 *       against of list of valid table fields.
 	 * @todo Add a filter to allow the search fields to be changed.
 	 *
@@ -3346,7 +3346,8 @@ class cnRetrieve {
 	/**
 	 * Remove the entries from the list where the date added was not recorded.
 	 *
-	 * This is more or less a hack to remove the entries from the list where the date added was not recorded which would be entries added before 0.7.1.1.
+	 * This is more or less a hack to remove the entries from the list where the date added was not recorded which would be entries added
+	 * before 0.7.1.1.
 	 *
 	 * @internal
 	 * @since 0.7.1.6

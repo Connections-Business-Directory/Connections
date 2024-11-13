@@ -319,7 +319,7 @@ final class _date {
 	}
 
 	/**
-	 * PHP 5.2 does not have a version of @see DateTime::createFromFormat(), this is a mostly PHP 5.2 compatible version.
+	 * PHP 5.2 does not have a version of {@see DateTime::createFromFormat()}, this is a mostly PHP 5.2 compatible version.
 	 *
 	 * @link http://bordoni.me/date_parse_from_format-php-5-2/
 	 *
@@ -333,6 +333,15 @@ final class _date {
 	 * @return false|DateTime  Instance of DateTime, false on failure.
 	 */
 	public static function createFromFormat( $format, $date ) {
+
+		$formatted = DateTime::createFromFormat( $format, $date );
+
+		if ( $formatted instanceof DateTime ) {
+
+			return $formatted;
+		}
+
+		return false;
 
 		$keys  = self::$keys;
 		$pos   = strpos( $format, '!' );

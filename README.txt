@@ -1,7 +1,7 @@
 === Connections Business Directory ===
 Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
-Tags: business directory, member directory,staff directory, chamber of commerce, church directory, company directory
+Tags: business directory, member directory,staff directory, chamber of commerce, church directory
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.0

@@ -219,6 +219,8 @@ final class Search extends Form {
 			$fields[] = $taxonomyTermField;
 		}
 
+		$fields[] = $this->countryField();
+		$fields[] = $this->regionField();
 		$fields[] = $this->keywordField();
 
 		return $fields;
@@ -291,6 +293,59 @@ final class Search extends Form {
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * The country dropdown select field.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @return Field\Select
+	 */
+	protected function countryField(): Field\Select {
+
+		$countries = array();
+		$results   = \cnRetrieve::countries();
+
+		// $keys      = array_map( 'urlencode', $result );
+		// $countries = array_combine( $keys, $result );
+
+		foreach ( $results as $country ) {
+
+			$countries[] = array(
+				'label' => $country,
+				'value' => urlencode( $country ),
+			);
+		}
+
+		return Field\Select::create()
+						   ->setName( 'cn-country' )
+						   ->createOptionsFromArray( $countries );
+	}
+
+	/**
+	 * The region (state/province) dropdown select field.
+	 *
+	 * @since 10.66
+	 *
+	 * @return Field\Select
+	 */
+	protected function regionField(): Field\Select {
+
+		$regions = array();
+		$results = \cnRetrieve::regions();
+
+		foreach ( $results as $region ) {
+
+			$regions[] = array(
+				'label' => $region,
+				'value' => urlencode( $region ),
+			);
+		}
+
+		return Field\Select::create()
+						   ->setName( 'cn-region' )
+						   ->createOptionsFromArray( $regions );
 	}
 
 	/**

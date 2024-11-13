@@ -2719,7 +2719,7 @@ class cnEntry_HTML extends cnEntry {
 	}
 
 	/**
-	 *
+	 * @todo Delete this!!!
 	 *
 	 * @access private
 	 * @since unknown

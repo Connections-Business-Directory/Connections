@@ -2563,6 +2563,47 @@ class cnRetrieve {
 	}
 
 	/**
+	 * Retrieve all country names attached to directory entries.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @return array
+	 */
+	public static function countries(): array {
+
+		global $wpdb;
+
+		$sql = 'SELECT `country` FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE `country` <> "" GROUP BY `country` ORDER BY `country` ASC';
+
+		$result = $wpdb->get_col( $sql );
+
+		return array_filter( $result );
+	}
+
+	/**
+	 * Retrieve all region (state/province) names attached to directory entries.
+	 *
+	 * @since 10.4.66
+	 *
+	 * @param string $inCountry
+	 *
+	 * @return array
+	 */
+	public static function regions( string $inCountry = '' ): array {
+
+		global $wpdb;
+
+		$where = 0 < strlen( $inCountry ) ? $wpdb->prepare( ' WHERE `country` = %s', $inCountry ) : '';
+
+		$sql = 'SELECT DISTINCT `state` from ' . CN_ENTRY_ADDRESS_TABLE . $where . ' ORDER BY `state`';
+
+		// NOTE: Ensure `$sql` is fully prepared!
+		$result = $wpdb->get_col( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+		return array_filter( $result );
+	}
+
+	/**
 	 * Return an array of entry ID/s found with the supplied search terms.
 	 *
 	 * @todo Return exact matches when searching by name for both the individual and organization entry types.

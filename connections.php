@@ -52,7 +52,7 @@ $check = new cnRequirements_Check(
 			),
 			'wp'  => array(
 				'min' => '5.8', // 4.7.12
-				'max' => '6.5',
+				'max' => '6.7',
 			),
 		),
 	)

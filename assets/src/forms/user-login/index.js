@@ -81,7 +81,10 @@ forms.forEach((form, index, array) => {
 						}
 
 						if (typeof success.redirect === 'string') {
-							window.location.replace(success.redirect);
+							// let time = new Date().getTime();
+							// document.head.innerHTML += '<meta name="304workaround" content="' + time + '">';
+							// window.location.replace(success.redirect);
+							window.location.replace(success.redirect + '?nocache=' + new Date().getTime());
 						} else if (
 							typeof success.reload === 'boolean' &&
 							true === success.reload

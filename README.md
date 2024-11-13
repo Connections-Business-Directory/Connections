@@ -246,6 +246,32 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 10.4.66 11/13/2024 =
+
+* FEATURE: Update the Carousel Block to include an option to link to the Directory Entry Profile.
+* NEW: Introduce `Field\Term_Radio_Group`.
+* NEW: Introduce `\Entry\Functions::email()` and `\Entry\Functions::phone()`.
+* NEW: Introduce `\Utility\_::maybeEcho()`.
+* NEW: Introduce `cnRetrieve::countries()` and `cnRetrieve::regions()`.
+* NEW: Add the search by country and regions (state) to the advanced search fields.
+* TWEAK: Slight refactor of `\Form\Search::keywordField`.
+* TWEAK: Add `nocache` to login URL.
+* TWEAK: Utilize native PHP `DateTime::createFromFormat()` instead of the backward support polyfill.
+* TWEAK: Add `_wpnonce` to the user login form.
+* BUG: Do not render the excerpt `div` if there is no excerpt text.
+* BUG: Using ${var} in strings is deprecated, use {$var} instead.
+* OTHER: Correct misspellings.
+* OTHER: Bump Tested up to in README.TXT.
+* OTHER: Limit README.txt tags to 5.
+* OTHER: Reflow @todo.
+* OTHER: Add `@todo`.
+* OTHER: Correct phpDoc typo.
+* OTHER: phpDoc corrections.
+* I18N: Update Italian translation.
+* WPCS: Remove trailing space.
+* WPCS: Correct inline code comment.
+* WPCS: There must be exactly one blank line before the tags in a doc comment.
+
 = 10.4.65 02/28/2024 =
 
 * NEW: Introduce `Field\Term_Checkbox_Group`.
@@ -541,57 +567,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc corrections.
 * DEV: Update .eslintrc.
 * DEV: Update the `dist` files.
-
-= 10.4.46 07/07/2023 =
-
-* NEW: Introduce the Password form field.
-* NEW: Introduce the Button form element.
-* NEW: Introduce the Schema trait for form fields.
-* NEW: Introduce `Label::setLabelPosition()`.
-* NEW: Introduce `Attributes::addAttributes()`.
-* NEW: Introduce `Label::getText()`.
-* NEW: Introduce `Form` base class.
-* NEW: Introduce the Entry Moderate REST API Route.
-* NEW: Introduce the User Account REST API route with the login endpoint and a login form utilizing the Form/Fields API
-  for form generation and field schema validation during the REST request.
-* NEW: Introduce `_::getClassShortName()`.
-* NEW: Introduce `_::callstack()`.
-* TWEAK: Remove unnecessary direct access check.
-* TWEAK: Remove deprecated use of `cnArray`.
-* TWEAK: Qualifier can be replaced with an import.
-* TWEAK: Remove error log function call. Should not be in production code.
-* TWEAK: Rename class `CN_REST_Autocomplete_Controller` to `Connections_Directory\API\REST\Endpoint\Autocomplete`.
-* TWEAK: Rename file `class.cn-rest-autocomplete-controller.php` to `Autocomplete.php`.
-* TWEAK: Move REST API related files into the `API/REST` folder and update the namespace to match.
-* TWEAK: Update hook names to match namespace.
-* TWEAK: Capitalize the `api` folder name.
-* TWEAK: Remove unused `api` property from `Connections_Directory`.
-* TWEAK: Change the `$label` property in the Label trait to public, so the methods for the `Field_Label` form field are
-  accessible.
-* TWEAK: Add return type declaration to `Label::getLabelHTML()`.
-* TWEAK: Add declare strict types to `Label`.
-* TWEAK: Add declare strict types to `Field`.
-* TWEAK: Add declare strict types to `Input`.
-* TWEAK: Add declare strict types to `Attributes`.
-* TWEAK: Add declare strict types to `Label`.
-* TWEAK: Add declare strict types to `Select`.
-* TWEAK: Add declare strict types to `Text`.
-* TWEAK: Add declare strict types to `Autocomplete`.
-* TWEAK: Add the `Schema` trait to the `Input` form field.
-* TWEAK: Remove the `AutoComplete` attribute from the `Select` form field.
-* TWEAK: Add the `Autocomplete` attribute to the `Text` form field.
-* TWEAK: Add constructor to the `Text` form field.
-* TWEAK: Refactor the `Input` form field to initiate its properties using the constructor instead fgo the create method.
-* TWEAK: Refactor `Field` constructor and create method to require the properties parameter.
-* TWEAK: Remove unused variable.
-* DEV: phpDoc updates.
-* DEV: Inline comments must end in full-stops, exclamation marks, or question marks.
-* DEV: Removed unused commented out code.
-* DEV: Add function return type.
-* DEV: Add parameter type declaration.
-* DEV: Remove unused import.
-* DEV: Add dev @todo.
-* DEV: Add commented out code required for testing CSV exports.
-* DEV: Array alignment.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

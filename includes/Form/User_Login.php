@@ -135,6 +135,11 @@ final class User_Login extends Form {
 			$field->setValue( _token::create( 'user/login' ) );
 		}
 
+		if ( '_wpnonce' === $field->getName() ) {
+
+			$field->setValue( wp_create_nonce( 'wp_rest' ) );
+		}
+
 		return $field;
 	}
 
@@ -235,6 +240,21 @@ final class User_Login extends Form {
 			Field\Hidden::create(
 				array(
 					'name'   => '_cnonce',
+					'value'  => '',
+					/*
+					 * NOTE: The schema does not validate the token;
+					 * it only ensures that the value matches the expected pattern.
+					 * The token must still be validated.
+					 */
+					'schema' => array(
+						'type'    => 'string',
+						'pattern' => '^[a-fA-F0-9]{10}$',
+					),
+				)
+			),
+			Field\Hidden::create(
+				array(
+					'name'   => '_wpnonce',
 					'value'  => '',
 					/*
 					 * NOTE: The schema does not validate the token;

@@ -60,6 +60,7 @@ import {
 	EntryEmail,
 	EntrySocialNetworks,
 	EntryExcerpt,
+	PageSelect,
 } from "@Connections-Directory/components";
 
 import { isNumber } from "@Connections-Directory/components/utility";
@@ -607,6 +608,10 @@ class Carousel extends Component {
 
 		const excerptWordLimit = this.getAttribute( 'excerptWordLimit', '' );
 
+		const enablePermalink = this.getAttribute('enablePermalink', false);
+		const forceHome = this.getAttribute('forceHome', false);
+		const homePage = this.getAttribute('homePage', '');
+
 		const inspectorControls = (
 			<Fragment>
 				<InspectorControls>
@@ -873,6 +878,49 @@ class Carousel extends Component {
 							/>
 						</div>
 
+					</PanelBody>
+
+					<PanelBody
+						title={__('Permalink', 'connections')}
+						initialOpen={false}
+					>
+						<ToggleControl
+							label={__(
+								'Enable entry permalinks?',
+								'connections'
+							)}
+							checked={!!enablePermalink}
+							onChange={() =>
+								this.setAttributes({
+									enablePermalink: !enablePermalink,
+								})
+							}
+						/>
+
+						<PageSelect
+							// postType={'post'}
+							label={__('Directory Home Page', 'connections')}
+							noOptionLabel={__('Current Page', 'connections')}
+							value={homePage}
+							onChange={(value) =>
+								this.setAttributes({ homePage: value })
+							}
+							disabled={!!forceHome}
+						/>
+
+						<ToggleControl
+							label={__(
+								'Force directory permalinks to resolve to the Global Directory Homes page?',
+								'connections'
+							)}
+							checked={!!forceHome}
+							onChange={() =>
+								this.setAttributes({
+									forceHome: !forceHome,
+									homePage: '',
+								})
+							}
+						/>
 					</PanelBody>
 
 					<PanelBody

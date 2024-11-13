@@ -59,6 +59,18 @@ export default registerBlockType(
 				type:    'string',
 				default: '10',
 			},
+			enablePermalink: {
+				type: 'boolean',
+				default: false,
+			}
+			,forceHome: {
+				type: 'boolean',
+				default: false,
+			},
+			homePage: {
+				type: 'integer',
+				default: 0,
+			},
 			imageBorderColor:  {
 				default: '#BABABA',
 			},

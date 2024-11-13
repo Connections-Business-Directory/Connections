@@ -3,6 +3,7 @@ namespace Connections_Directory\Blocks;
 
 use cnArray;
 use cnScript;
+use cnShortcode;
 use cnTemplate as Template;
 use Connections_Directory\Utility\_escape;
 use Connections_Directory\Utility\_sanitize;
@@ -465,6 +466,36 @@ class Carousel {
 				}
 			}
 
+			/*
+			 * Sanitize the permalink.
+			 */
+			if ( array_key_exists( 'enablePermalink', $block ) ) {
+
+				$carousel['enablePermalink'] = rest_sanitize_boolean( $block['enablePermalink'] );
+
+			} else {
+
+				$carousel['enablePermalink'] = false;
+			}
+
+			if ( array_key_exists( 'homePage', $block ) ) {
+
+				$carousel['homePage'] = absint( $block['homePage'] );
+
+			} else {
+
+				$carousel['homePage'] = cnShortcode::getHomeID();
+			}
+
+			if ( array_key_exists( 'forceHome', $block ) ) {
+
+				$carousel['forceHome'] = rest_sanitize_boolean( $block['forceHome'] );
+
+			} else {
+
+				$carousel['forceHome'] = false;
+			}
+
 			array_push( $sanitized, $carousel );
 		}
 
@@ -776,6 +807,9 @@ class Carousel {
 			'imageType'        => 'photo',
 			'imageCropMode'    => 1,
 			'excerptWordLimit' => 55,
+			'enablePermalink'  => false,
+			'forceHome'        => false,
+			'homePage'         => cnShortcode::getHomeID(),
 		);
 
 		$attributes = wp_parse_args( $attributes, $defaults );
@@ -796,7 +830,15 @@ class Carousel {
 
 		foreach ( $items as $data ) {
 
-			$entry = new \cnOutput( $data );
+			$entry = new \cnEntry_HTML( $data );
+
+			// Set up the Entry homepage.
+			$entry->directoryHome(
+				array(
+					'page_id'    => $attributes['homePage'],
+					'force_home' => $attributes['forceHome'],
+				)
+			);
 
 			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $attributes );
 		}

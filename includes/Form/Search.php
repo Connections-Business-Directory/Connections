@@ -202,7 +202,7 @@ final class Search extends Form {
 	}
 
 	/**
-	 * The user login form fields.
+	 * The search form fields.
 	 *
 	 * @since 10.4.64
 	 *

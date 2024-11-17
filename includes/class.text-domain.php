@@ -132,10 +132,10 @@ class cnText_Domain {
 		// Plugin folder name.
 		$folder = 0 < strlen( $this->basename ) ? dirname( $this->basename ) : $domain;
 
-		// Set filter for plugin's languages directory
+		// Set filter for plugin's languages directory.
 		$relativePath = apply_filters( "cn_{$domain}_languages_directory", "{$folder}/languages/" );
 
-		// Traditional WordPress plugin locale filter
+		// Traditional WordPress plugin locale filter.
 		$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
 		$file   = sprintf( '%1$s-%2$s.mo', $domain, $locale );
 

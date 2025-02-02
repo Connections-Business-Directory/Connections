@@ -599,7 +599,7 @@ class cnEntry_Action {
 				break;
 		}
 
-		$slug = rawurldecode( $entry->getSlug() );
+		$slug = $entry->getFilesafeSlug();
 
 		/**
 		 * Allow the entry object to be modified before being inserted into the database.

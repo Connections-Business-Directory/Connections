@@ -788,10 +788,36 @@ class cnEntry {
 	 * Returns $slug.
 	 *
 	 * @see cnEntry::$slug
+	 *
+	 * @return string
 	 */
 	public function getSlug() {
 
 		return empty( $this->slug ) ? $this->getUniqueSlug() : $this->slug;
+	}
+
+	/**
+	 * The entry slug is saved in the db URL encoded, so it needs to be decoded.
+	 *
+	 * @since 10.2.67
+	 *
+	 * @return string
+	 */
+	public function getDecodedSlug() {
+
+		return rawurldecode( $this->getSlug() );
+	}
+
+	/**
+	 * Get a file save version of the entry slug, suitable for folder names.
+	 *
+	 * @since 10.2.67
+	 *
+	 * @return string
+	 */
+	public function getFilesafeSlug() {
+
+		return sanitize_file_name( $this->getDecodedSlug() );
 	}
 
 	/**
@@ -2836,8 +2862,7 @@ class cnEntry {
 			return '';
 		}
 
-		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
-		$slug = rawurldecode( $this->getSlug() );
+		$slug = $this->getFilesafeSlug();
 
 		switch ( $type ) {
 
@@ -2884,8 +2909,7 @@ class cnEntry {
 			return '';
 		}
 
-		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
-		$slug = rawurldecode( $this->getSlug() );
+		$slug = $this->getFilesafeSlug();
 
 		switch ( $type ) {
 
@@ -2960,8 +2984,7 @@ class cnEntry {
 			return $meta;
 		}
 
-		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
-		$slug = rawurldecode( $this->getSlug() );
+		$slug = $this->getFilesafeSlug();
 
 		if ( 'custom' == $atts['size'] ) {
 
@@ -3627,8 +3650,7 @@ class cnEntry {
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
-		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
-		$slug = rawurldecode( $this->getSlug() );
+		$slug = $this->getFilesafeSlug();
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
 		// If this check is not done all the images in the CN_IMAGE_DIR_NAME will be deleted

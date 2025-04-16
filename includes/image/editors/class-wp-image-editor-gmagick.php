@@ -127,7 +127,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 	 * @param int $quality Compression Quality. Range: [1,100]
 	 * @return boolean|WP_Error
 	 */
-	public function set_quality( $quality = null ) {
+	public function set_quality( $quality = null, $dims = array() ) {
 		$quality_result = parent::set_quality( $quality );
 
 		if ( is_wp_error( $quality_result ) ) {

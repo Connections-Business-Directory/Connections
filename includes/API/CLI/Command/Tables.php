@@ -43,8 +43,11 @@ final class Tables extends WP_CLI_Command {
 			require_once CN_PATH . 'includes/class.schema.php';
 		}
 
+		$args = WP_CLI::get_runner()->arguments;
+		$args = is_array( $args ) ? $args : (array) $args;
+
 		// Create a string from the current WP_CLI command.
-		$currentCommand = implode( ' ', WP_CLI::get_runner()->arguments );
+		$currentCommand = implode( ' ', $args );
 
 		// When running the commands to create the database tables, remove the filter that registers the settings.
 		// This is to prevent table does not exist errors when setting default taxonomy terms (ie. "Uncategorized").
